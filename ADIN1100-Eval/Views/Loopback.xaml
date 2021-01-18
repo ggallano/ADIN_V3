@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="ADIN1300_Eval.Views.Loopback"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik='http://schemas.telerik.com/2008/xaml/presentation'
+             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+             xmlns:converter="clr-namespace:ADIN1300_Eval.Themes.Converters"
+             xmlns:local="clr-namespace:ADIN1300_Eval.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="600">
+    <UserControl.Resources>
+        <converter:LocalLoopbackParametersConverter x:Key="localLoopbackParametersConverter" />
+    </UserControl.Resources>
+    <Border BorderBrush="#FFCBD8E8"	BorderThickness="1">
+        <GroupBox Header='Configuration' >
+            <StackPanel>
+                <WrapPanel HorizontalAlignment='Left' Margin='10'  Orientation='Horizontal' ItemHeight='50' ItemWidth='180'>
+
+                    <telerik:RadRadioButton Content='None' Margin='10,10,10,10' CornerRadius='15' ToolTip='Disable Loopback Mode' Command="{Binding LocalLoopbackCommand}" IsChecked='True' x:Name="OFF">
+                        <telerik:RadRadioButton.CommandParameter>
+                            <MultiBinding Converter="{StaticResource localLoopbackParametersConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="OFF" Path="Name" />
+                                    <Binding ElementName="chkSuppressRX" Path="IsChecked" />
+                                    <Binding ElementName="chkSuppressTX" Path="IsChecked" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </telerik:RadRadioButton.CommandParameter>
+                    </telerik:RadRadioButton>
+
+
+                    <!--<telerik:RadRadioButton Content='MII' Margin='10,10,10,10' CornerRadius='15' ToolTip='Loops the data received on the MAC Interface TXD pins back to the RXD pins' Command="{Binding LocalLoopbackCommand}" x:Name="MII">
+                        <telerik:RadRadioButton.CommandParameter>
+                            <MultiBinding Converter="{StaticResource localLoopbackParametersConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="MII" Path="Name" />
+                                    <Binding ElementName="chkSuppressRX" Path="IsChecked" />
+                                    <Binding ElementName="chkSuppressTX" Path="IsChecked" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </telerik:RadRadioButton.CommandParameter>
+                    </telerik:RadRadioButton>-->
+
+
+                    <telerik:RadRadioButton x:Name='Digital' Content='All Digital' Margin='10,10,10,10' CornerRadius='15' ToolTip='' Command="{Binding LocalLoopbackCommand}"  >
+                        <telerik:RadRadioButton.CommandParameter>
+                            <MultiBinding Converter="{StaticResource localLoopbackParametersConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="Digital" Path="Name" />
+                                    <Binding ElementName="chkSuppressRX" Path="IsChecked" />
+                                    <Binding ElementName="chkSuppressTX" Path="IsChecked" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </telerik:RadRadioButton.CommandParameter>
+                    </telerik:RadRadioButton>
+
+                    <telerik:RadRadioButton Content='Line Driver' Margin='10,10,10,10' CornerRadius='15' ToolTip='This provides similar capabilities to the External Cable loopback without the need to create any wire shorts – simply unplug the cable.' Command="{Binding LocalLoopbackCommand}"  x:Name="LineDriver">
+                        <telerik:RadRadioButton.CommandParameter>
+                            <MultiBinding Converter="{StaticResource localLoopbackParametersConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="LineDriver" Path="Name" />
+                                    <Binding ElementName="chkSuppressRX" Path="IsChecked" />
+                                    <Binding ElementName="chkSuppressTX" Path="IsChecked" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </telerik:RadRadioButton.CommandParameter>
+                    </telerik:RadRadioButton>
+
+
+                    <telerik:RadRadioButton Content='External Cable' Margin='10,10,10,10' CornerRadius='15' ToolTip='External Cable loopback verifies the whole analog and digital path including the external components and cable.' Command="{Binding LocalLoopbackCommand}"  x:Name="ExtCable">
+                        <telerik:RadRadioButton.CommandParameter>
+                            <MultiBinding Converter="{StaticResource localLoopbackParametersConverter}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="ExtCable" Path="Name" />
+                                    <Binding ElementName="chkSuppressRX" Path="IsChecked" />
+                                    <Binding ElementName="chkSuppressTX" Path="IsChecked" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </telerik:RadRadioButton.CommandParameter>
+                    </telerik:RadRadioButton>
+
+
+                    <telerik:RadRadioButton Content='Remote' Margin='10,10,10,10' CornerRadius='15' ToolTip='This requires a link up with a remote PHY. Loops the data received from the remote PHY back to the remote PHY using all of the digital and analog circuitry' Command="{Binding RemoteLoopbackCommand}"  CommandParameter="Remote"/>
+
+                    <StackPanel>
+                        <!--RX suppression is avaiable for all-->
+                        <CheckBox x:Name='chkSuppressRX' Content='R/X Suppression' />
+
+                        <!--TX supppression is only relevant for digital loopback mode-->
+                        <CheckBox x:Name='chkSuppressTX' Content='T/X Suppression' />
+                    </StackPanel>
+                </WrapPanel>
+                <!--Display the loopback block diagram from the datasheet for user information purposes -->
+                <Image Grid.Row='0' x:Name='RegImage' Source='/ADIN1300-Eval;component/Images/loopback.png' VerticalAlignment='Top' Stretch='UniformToFill' HorizontalAlignment='Center' />
+            </StackPanel>
+
+        </GroupBox>
+    </Border>
+</UserControl>

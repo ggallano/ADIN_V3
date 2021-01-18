@@ -1,0 +1,368 @@
+﻿<UserControl x:Class="ADIN1300_Eval.Views.DeviceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+             xmlns:converter="clr-namespace:ADIN1300_Eval.Themes.Converters"
+             xmlns:telerik='http://schemas.telerik.com/2008/xaml/presentation'
+             xmlns:local="clr-namespace:ADIN1300_Eval.Views"
+             xmlns:global="clr-namespace:System.Globalization;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <FrameworkElement x:Name='Bubba' x:Key='ProxyElement' DataContext="{Binding}"></FrameworkElement>
+            <BooleanToVisibilityConverter x:Key="boolvis"/>
+            <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converter:BooleanToVisibilityConverter x:Key="ReverseBooleanToVisibilityConverter" IsInversed="True"/>
+            <converter:StringMessageToBrushConverter x:Key="StringMessageToBrushConverter"/>
+            <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            <telerik:Windows8Colors x:Key="Windows8Colors" />
+            <SolidColorBrush x:Key="AccentBrush" Color="{Binding Path=Palette.AccentColor, Source={StaticResource Windows8Colors}}"></SolidColorBrush>
+            <Style x:Key="Label" TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontFamily" Value="Segoe UI Light" />
+                <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+                <Setter Property="Width" Value="70" />
+                <Setter Property="TextAlignment" Value="Right" />
+                <Setter Property="Margin" Value="0,-5,0,0" />
+            </Style>
+
+            <Style x:Key="PowerButtonStyle" TargetType="Button">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <Image Source='/ADIN1300-Eval;component/Images/icons/iconfinder_power_1055002.png' />
+                                <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="LinkButtonStyle" TargetType="Button">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <Image Source='/ADIN1300-Eval;component/Images/icons/iconfinder_Chn_link_locked_share_1886531.png' />
+                                <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="NegotiateButtonStyle" TargetType="Button">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <Image Source='/ADIN1300-Eval;component/Images/icons/iconfinder_law_iconsArtboard_1_copy_10_2393038.png' />
+                                <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <DataTemplate x:Key="DeviceListTemplate">
+                <StackPanel Orientation = "Horizontal">
+                    <Image Source='/ADIN1300-Eval;component/Images/icons/Applications-Industrial-Automation-Ethernet-Icon.png' Width='32' Height='32'/>
+                    <Label Content="{Binding ID, Mode=TwoWay}"/>
+                </StackPanel>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <ScrollViewer  Width='190' VerticalScrollBarVisibility="Auto" DockPanel.Dock='Left'>
+            <StackPanel>
+                <Image  Source='/ADIN1300-Eval;component/Images/ADI-Logo-AWP-Tagline-RGB-Solid.png' />
+                <TextBlock HorizontalAlignment='Left' VerticalAlignment='Stretch' FontWeight='Bold' FontSize='18' Margin='16,0,0,10'><Run Text='Select Local'/></TextBlock>
+                <ListBox x:Name='DongleList' Height='81' Margin='16,0,0,0' Width='154' HorizontalAlignment='Left' ScrollViewer.HorizontalScrollBarVisibility='Auto' ScrollViewer.VerticalScrollBarVisibility='Auto' ItemsSource='{Binding Devices}' ItemTemplate="{StaticResource DeviceListTemplate}" SelectionChanged='DongleList_SelectionChanged' SelectedItem='{Binding SelectedDevice, 
+            diag:PresentationTraceSources.TraceLevel=High}'>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="Focusable" Value='{Binding IsPresent, 
+            diag:PresentationTraceSources.TraceLevel=High}'/>
+                            <Setter Property="Visibility" Value='{Binding IsPresent,Converter={StaticResource BooleanToVisibilityConverter}, 
+            diag:PresentationTraceSources.TraceLevel=High}'/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+                <telerik:RadToggleButton Content="{Binding SoftwarePowerDownButtonText}" Margin='20,10,20,10' x:Name='PwrDown' Height='30' ToolTip='Put PHY in Software Power Down.' CornerRadius='15' Command="{Binding SoftwarePowerDownCommand}" />
+                <!--<telerik:RadToggleButton x:Name='EnableLinking' CornerRadius='15' Height='30' Margin='20,5,20,10' ToolTip='Enable Linking' Content="{Binding EnableLinkingButtonText}" Command="{Binding EnableLinkingCommand}">
+                </telerik:RadToggleButton>-->
+                <telerik:RadButton x:Name='EnableNegotiate' CornerRadius='15' Height='30' Margin='20,5,20,10' ToolTip='Enable Auto Negotiation.' Content="{Binding EnableAutoNegotiationText}" Command="{Binding EnableAutoNegotiationCommand}" Visibility='Collapsed'>
+                </telerik:RadButton>
+                <telerik:RadButton x:Name='Restart' CornerRadius='15' Height='30' Margin='20,5,20,10' ToolTip='Auto-Neg Restart.' Content='Auto-Neg Restart' Command="{Binding RestartAutoNegotiationCommand}">
+                </telerik:RadButton>
+                <telerik:RadSplitButton Height='30' Margin='20,5,20,10' ToolTip='Perform various register actions.'
+                        Content="{Binding Path=SelectedItem.Content, ElementName=RegisterActionsList}" Command="{Binding RegisterActionCommand}" CommandParameter="{Binding Path=SelectedItem.Content, ElementName=RegisterActionsList}">
+                    <telerik:RadSplitButton.DropDownContent>
+                        <ListBox x:Name="RegisterActionsList" SelectionMode="Single">
+                            <ListBoxItem IsSelected='True' ToolTip='Dump registers to log window.' Content="Export Registers" />
+                            <ListBoxItem ToolTip='Save registers to file.' Content="Save Registers" />
+                            <ListBoxItem ToolTip='Load registers from file.' Content="Load Registers" />
+                        </ListBox>
+                    </telerik:RadSplitButton.DropDownContent>
+                </telerik:RadSplitButton>
+                <telerik:RadSplitButton Visibility="{Binding DataContext.TenSPEDevice,Converter={StaticResource ReverseBooleanToVisibilityConverter},Source={StaticResource ProxyElement}}" Height='30' Margin='20,5,20,10' ToolTip='Perform various resets.'
+                        Content="{Binding Path=SelectedItem.Content, ElementName=FindActions2}" Command="{Binding SoftwareResetCommand}" CommandParameter="{Binding Path=SelectedItem.Content, ElementName=FindActions2}">
+                    <telerik:RadSplitButton.DropDownContent>
+                        <ListBox x:Name="FindActions2" SelectionMode="Single">
+                            <ListBoxItem IsSelected='True' ToolTip='Sub-System Software Reset with Pin Configuration' Content="Reset: SubSys (Pin)" />
+                            <ListBoxItem ToolTip='Sub-System Software Reset' Content="Reset: SubSys" />
+                            <ListBoxItem ToolTip='PHY Core Software Reset' Content="Reset: PHY" />
+                        </ListBox>
+                    </telerik:RadSplitButton.DropDownContent>
+                </telerik:RadSplitButton>
+                <telerik:RadSplitButton Visibility="{Binding DataContext.TenSPEDevice,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}" Height='30' Margin='20,5,20,10' ToolTip='Perform various resets.'
+                        Content="{Binding Path=SelectedItem.Content, ElementName=FindActions4}" Command="{Binding SoftwareResetCommand}" CommandParameter="{Binding Path=SelectedItem.Content, ElementName=FindActions4}">
+                    <telerik:RadSplitButton.DropDownContent>
+                        <ListBox x:Name="FindActions4" SelectionMode="Single">
+                            <ListBoxItem IsSelected='True' ToolTip='Sub-System Software Reset' Content="Reset: SubSys" />
+                            <ListBoxItem IsSelected='True' ToolTip='Software Reset' Content="Reset: PHY" />
+                        </ListBox>
+                    </telerik:RadSplitButton.DropDownContent>
+                </telerik:RadSplitButton>
+
+            </StackPanel>
+        </ScrollViewer>
+
+
+        <Grid>
+            <TabControl x:Name='tabControl'  HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Margin='10'>
+                <TabItem Header='Link Properties'>
+                    <Grid>
+                        <Grid x:Name="LayoutRoot" HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="5*" MinWidth='480' />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="5*" />
+                            </Grid.ColumnDefinitions>
+                            <ContentControl Visibility="Collapsed"
+             Content="{StaticResource ProxyElement}"/>
+                            <Border Grid.Column='0' x:Name="LinkProperty" BorderBrush="#FFCBD8E8"	BorderThickness="1">
+                                <telerik:RadPropertyGrid x:Name="LinkProperties" telerik:StyleManager.Theme="Windows8" Item="{Binding 
+            diag:PresentationTraceSources.TraceLevel=High}" NestedPropertiesVisibility="Visible" AutoGeneratePropertyDefinitions='False' IsGrouped='True' SortAndGroupButtonsVisibility='Collapsed' >
+                                    <telerik:RadPropertyGrid.PropertyDefinitions>
+                                        <!-- 1. Speed Mode - Select between "Forced" or "Advertised -->
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.EthSpeedSelection,Source={StaticResource ProxyElement}}" Description="Force a fixed speed OR negotiate from a number of advertised options." DisplayName="Speed Mode" GroupName="Speed Mode" OrderIndex='0' Visibility="{Binding DataContext.TenSPEDevice,Converter={StaticResource ReverseBooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+
+                                        <!--Advertised Speeds-->
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.Advertise1000FD,Source={StaticResource ProxyElement}}" Description="Advertise 1000BASE-T FD when auto-negotiating a link speed." DisplayName="Advertise 1000BASE-T FD" GroupName="Auto-Negotiation Advertised Speeds" OrderIndex='100' Visibility="{Binding DataContext.Negotiate1GSpeeds,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.Advertise1000HD,Source={StaticResource ProxyElement}}" Description="Advertise 1000BASE-T HD when auto-negotiating a link speed." DisplayName="Advertise 1000BASE-T HD" GroupName="Auto-Negotiation Advertised Speeds" OrderIndex='101' Visibility="{Binding DataContext.Negotiate1GSpeeds,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.AdvertiseEEE1000,Source={StaticResource ProxyElement}}" Description="Advertise EEE 1000BASE-T when auto-negotiating a link speed." DisplayName="Advertise EEE 1000BASE-T" GroupName="EEE Advertisement" OrderIndex='102' Visibility="{Binding DataContext.ShowAdvertiseEEE1000,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.Advertise100FD,Source={StaticResource ProxyElement}}" Description="Advertise 100BASE-TX FD when auto-negotiating a link speed." DisplayName="Advertise 100BASE-TX FD" GroupName="Auto-Negotiation Advertised Speeds" OrderIndex='103' Visibility="{Binding DataContext.NegotiationSpeedsShown,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.Advertise100HD,Source={StaticResource ProxyElement}}" Description="Advertise 100BASE-TX HD when auto-negotiating a link speed." DisplayName="Advertise 100BASE-TX HD" GroupName="Auto-Negotiation Advertised Speeds" OrderIndex='104' Visibility="{Binding DataContext.NegotiationSpeedsShown,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.AdvertiseEEE100,Source={StaticResource ProxyElement}}" Description="Advertise EEE 100BASE-TX when auto-negotiating a link speed." DisplayName="Advertise EEE 100BASE-TX" GroupName="EEE Advertisement" OrderIndex='105' Visibility="{Binding DataContext.ShowAdvertiseEEE100,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+
+
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.Advertise10FD,Source={StaticResource ProxyElement}}" Description="Advertise 10BASE-T FD when auto-negotiating a link speed." DisplayName="Advertise 10BASE-T FD" GroupName="Auto-Negotiation Advertised Speeds" OrderIndex='106' Visibility="{Binding DataContext.NegotiationSpeedsShown,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.Advertise10HD,Source={StaticResource ProxyElement}}" Description="Advertise 10BASE-T HD when auto-negotiating a link speed." DisplayName="Advertise 10BASE-T HD" GroupName="Auto-Negotiation Advertised Speeds" OrderIndex='107' Visibility="{Binding DataContext.NegotiationSpeedsShown,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+
+
+                                        <!--Forced Speeds-->
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Fixed.ForcedSpeedProxy,Source={StaticResource ProxyElement}}" Description="Select forced speed." DisplayName="Forced Speed" GroupName="Forced Speeds" OrderIndex='200' Visibility="{Binding DataContext.ForcedSpeedsShown,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+
+                                        <!--Downspeed-->
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.DownSpeed10Enabled,Source={StaticResource ProxyElement}}" Description="Downspeed to 10BASE-T HD after the specified number of failed attempts at a higher speed." DisplayName="10BASE-T HD" GroupName="Downspeed" OrderIndex='999' Visibility="{Binding DataContext.ShowDownspeed10,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.DownSpeed100Enabled,Source={StaticResource ProxyElement}}" Description="Downspeed to 100BASE-T HD after the specified number of failed attempts at a higher speed." DisplayName="100BASE-TX HD" GroupName="Downspeed" OrderIndex='999' Visibility="{Binding DataContext.ShowDownspeed100,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.DownSpeedRetries,Source={StaticResource ProxyElement}}" Description="Number of retrys the PHY should attempt to bring up a link at the advertised speed before advertising a lower speed." DisplayName="Downspeed Retries" GroupName="Downspeed" OrderIndex='999' Visibility="{Binding DataContext.ShowDownspeedRetires,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
+                                            <telerik:PropertyDefinition.EditorTemplate>
+                                                <DataTemplate>
+                                                    <telerik:RadNumericUpDown Value="{Binding DataContext.DeviceSettings.Negotiate.DownSpeedRetries,Source={StaticResource ProxyElement}, Mode=TwoWay}" Minimum="0" Maximum="7" SmallChange="1"  NumberDecimalDigits="0" IsEditable="False" AutoReverse="True"/>
+                                                </DataTemplate>
+                                            </telerik:PropertyDefinition.EditorTemplate>
+                                        </telerik:PropertyDefinition>
+
+                                        <!--MDIX-->
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.MdixMode,Source={StaticResource ProxyElement}}" Description="XXXX" Visibility="{Binding DataContext.TenSPEDevice,Converter={StaticResource ReverseBooleanToVisibilityConverter},Source={StaticResource ProxyElement}}" DisplayName="Auto MDIX Mode" GroupName='MDIX' OrderIndex='999'></telerik:PropertyDefinition>
+
+                                        <!--Energy-Detect Power Down Mode-->
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.EPDMode,Source={StaticResource ProxyElement}}" Visibility="{Binding DataContext.TenSPEDevice,Converter={StaticResource ReverseBooleanToVisibilityConverter},Source={StaticResource ProxyElement}}" Description="Select the Energy-Detect Power Down Mode" DisplayName="Energy-Detect Power Down Mode" GroupName='Energy Detect PowerDown Mode' OrderIndex='999'></telerik:PropertyDefinition>
+
+                                        <!--Master/Slave-->
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Fixed.FixedMasterSlave,Source={StaticResource ProxyElement}}" Description="FixedMasterSlave" DisplayName="Force Master or Slave" GroupName="Master/Slave" OrderIndex='999' Visibility="{Binding DataContext.MasterSlaveFixedShown,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.PreferMasterSlave,Source={StaticResource ProxyElement}}" Description="PreferMasterSlave" DisplayName="Master or Slave Configuration" GroupName="Master/Slave" OrderIndex='999' Visibility="{Binding DataContext.MasterSlavePreferenceShown,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.NegotiateMasterSlave,Source={StaticResource ProxyElement}}" Description="Prefer to be master or slave during negotiation." DisplayName="Master or Slave Preference" GroupName="Auto-negotiation Master/Slave Advertisement" OrderIndex='1000' Visibility="{Binding DataContext.TenSPEDevice,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+                                        <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.PkPkVoltage,Source={StaticResource ProxyElement}}" Description="Specify the peak to peak voltage of the signal." DisplayName="Tx Level" GroupName="Auto-negotiation Tx Level Advertisement" OrderIndex='1001' Visibility="{Binding DataContext.TenSPEDevice,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
+                                    </telerik:RadPropertyGrid.PropertyDefinitions>
+
+
+                                </telerik:RadPropertyGrid>
+                            </Border>
+                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
+                            <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <local:LinkStatus/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Register Access">
+                    <local:RegisterListView/>
+                </TabItem>
+                <TabItem Header='Clock Pin Control' Visibility="{Binding DataContext.ClockPinControlPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
+                    <Grid>
+                        <Grid x:Name="LayoutRoot2" HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <ContentControl Visibility="Collapsed"
+             Content="{StaticResource ProxyElement}"/>
+                            <Border Grid.Column='0' x:Name="LinkProperty2" BorderBrush="#FFCBD8E8"	BorderThickness="1">
+                                <GroupBox Header='GP_CLK Pin Control' >
+                                    <StackPanel>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Stretch" Margin='10' >Control the clock output on the GPCLK pin.</TextBlock>
+                                        <WrapPanel HorizontalAlignment='Left' Margin='10'  Orientation='Horizontal' ItemHeight='50' ItemWidth='180'>
+
+                                            <telerik:RadRadioButton Content='None' Margin='10,10,10,10' CornerRadius='15' ToolTip='Remove any clock output at the GP_CLK pin' Command="{Binding GP_CLKPinCommand}" CommandParameter="OFF" IsChecked='True'/>
+                                            <telerik:RadRadioButton Content='125 MHz PHY Recovered' Margin='10,10,10,10' CornerRadius='15' ToolTip='The 125 MHz PHY recovered clock (or PLL clock) is driven at the GP_CLK pin' Command="{Binding GP_CLKPinCommand}" CommandParameter="RecoveredReceiver125MHz" />
+
+                                            <telerik:RadRadioButton Content='125 MHz PHY Free Running' Margin='10,10,10,10' CornerRadius='15' ToolTip='The 125 MHz PHY free running clock is driven at the GP_CLK pin' Command="{Binding GP_CLKPinCommand}" CommandParameter="GeClkFree125"/>
+                                            <telerik:RadRadioButton Content='Recovered HeartBeat' Margin='10,10,10,10' CornerRadius='15' ToolTip='Causes the sub-system to request the chip to drive the digital recovered heartbeat clock at the GP_CLK pin' Command="{Binding GP_CLKPinCommand}" CommandParameter="GeClkHrtRcvr"/>
+                                            <telerik:RadRadioButton Content='Free Running HeartBeat' Margin='10,10,10,10' CornerRadius='15' ToolTip='Causes the sub-system to request the chip to drive the digital free-running heartbeat clock at the GP_CLK pin.' Command="{Binding GP_CLKPinCommand}" CommandParameter="GeClkHrtFree"/>
+                                            <telerik:RadRadioButton Content='25 MHz Reference' Margin='10,10,10,10' CornerRadius='15' ToolTip='The 25 MHz reference clock from the crystal oscillator is driven at the GP_CLK pin (having been processed through the digital block, so will not be as clean as the equivalent clock available at the CLK25_REF pin).' Command="{Binding GP_CLKPinCommand}" CommandParameter="Digital25MHz"/>
+                                        </WrapPanel>
+                                    </StackPanel>
+
+                                </GroupBox>
+                            </Border>
+
+                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
+                            <Border Grid.Column='2' BorderBrush="#FFCBD8E8"	BorderThickness="1">
+                                <GroupBox Header='CLK25_REF Pin Control' Visibility="{Binding DataContext.Clk25RefPinPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
+                                    <StackPanel>
+                                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource Title_H1}" HorizontalAlignment="Stretch" Margin='10' >Control the clock output on the CLK25_REF pin.</TextBlock>
+                                        <WrapPanel HorizontalAlignment='Left' Margin='10'  Orientation='Horizontal' ItemHeight='50' ItemWidth='180'>
+
+                                            <telerik:RadRadioButton Content='None' Margin='10,10,10,10' CornerRadius='15' ToolTip='Remove any clock output at the GP_CLK pin' Command="{Binding CLK25_REFPinCommand}" IsChecked='True' CommandParameter="False"/>
+                                            <telerik:RadRadioButton Content='25 MHz Reference' Margin='10,10,10,10' CornerRadius='15' ToolTip='The 25 MHz reference clock from the crystal oscillator is driven at the CLK25_REF pin' Command="{Binding CLK25_REFPinCommand}" CommandParameter="True"/>
+
+
+                                        </WrapPanel>
+
+                                    </StackPanel>
+
+                                </GroupBox>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header='Loopback' Visibility="{Binding DataContext.LoopbackPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
+                    <Grid>
+                        <Grid HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <ContentControl Visibility="Collapsed"
+             Content="{StaticResource ProxyElement}"/>
+                            <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <local:Loopback/>
+                            </Grid>
+                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
+
+                            <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <local:LinkStatus/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header='Test Modes' Visibility="{Binding DataContext.TestModesPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
+                    <Grid>
+                        <Grid HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <ContentControl Visibility="Collapsed"
+             Content="{StaticResource ProxyElement}"/>
+                            <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <local:Testmodes/>
+                            </Grid>
+                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
+
+                            <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <local:LinkStatus/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header='FrameGenerator/Checker' Visibility="{Binding DataContext.FrameCheckerPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}" >
+                    <Grid>
+                        <Grid HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <ContentControl Visibility="Collapsed"
+             Content="{StaticResource ProxyElement}"/>
+                            <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <local:Framechecker/>
+                            </Grid>
+                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
+
+                            <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <local:FrameStatus/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header='Cable Diagnostics' Visibility="{Binding DataContext.CableDiagnosticsPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
+                    <Grid>
+                        <Grid HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <ContentControl Visibility="Collapsed"
+             Content="{StaticResource ProxyElement}"/>
+                            <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <local:CableDiagnotics/>
+                            </Grid>
+                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
+
+                            <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <local:CableDiagnosticsStatus/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </DockPanel>
+</UserControl>

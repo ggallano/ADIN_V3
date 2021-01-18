@@ -1,0 +1,16 @@
+﻿<Application x:Class="ADIN1300_Eval.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ADIN1300_Eval"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <system:String x:Key="Telerik.Windows.Controls.Key">Analog Devices ADIN1300-Eval</system:String>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Brushes/NewWhiteTheme.xaml"/>
+                <ResourceDictionary Source="Themes/CustomControlStyles/GridSplitterStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
