@@ -690,12 +690,12 @@ namespace TargetInterface
                 }
 
                 /* Dump these if they exist, they are not interesting */
-//                listproperty = "Negotiate";
- //               if (value.PropertiesChangedList.Contains(listproperty))
-//{
-//                    value.PropertiesChangedList.Remove(listproperty);
- //               }
- 
+                //                listproperty = "Negotiate";
+                //               if (value.PropertiesChangedList.Contains(listproperty))
+                //{
+                //                    value.PropertiesChangedList.Remove(listproperty);
+                //               }
+
                 listproperty = "Fixed";
                 if (value.PropertiesChangedList.Contains(listproperty))
                 {
@@ -1721,13 +1721,13 @@ namespace TargetInterface
                 if (this.ReadYodaRg("SPEPhy", "AN_ADV_MST") == 1)
                 {
                     if (this.ReadYodaRg("SPEPhy", "AN_ADV_FORCE_MS") == 1)
-                   {
-                       this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Forced_Master;
-                   }
-                   else
-                   {
-                       this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Prefer_Master;
-                   }
+                    {
+                        this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Forced_Master;
+                    }
+                    else
+                    {
+                        this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Prefer_Master;
+                    }
                 }
                 else
                 {
@@ -1770,18 +1770,19 @@ namespace TargetInterface
             // Enables forced mode functionality
             switch (negotiateMasterSlave)
             {
-//                case MasterSlaveNegotiate.Negotiate:
-                    // Allow it to negotiate
-                    // this.WriteYodaRg("SPEPhy", "CFG_MST", 0);
-//                    this.WriteYodaRg("SPEPhy", "AN_EN", 1);
+                //                case MasterSlaveNegotiate.Negotiate:
+                // Allow it to negotiate
+                // this.WriteYodaRg("SPEPhy", "CFG_MST", 0);
+                //                    this.WriteYodaRg("SPEPhy", "AN_EN", 1);
 
-                    // this.WriteYodaRg("SPEPhy", "AN_FRC_MODE_EN", 0);
-                    //break;
+                // this.WriteYodaRg("SPEPhy", "AN_FRC_MODE_EN", 0);
+                //break;
 #if MASTER_SLAVE_NEGOTIATE
                 case MasterSlaveNegotiate.Prefer_Master:
                     // Configure loc as forced Master
                     this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 1);
                     this.WriteYodaRg("SPEPhy", "AN_ADV_MST", 1);
+                    this.WriteYodaRg("SPEPhy", "AN_ADV_FORCE_MS", 0);
                     this.WriteYodaRg("SPEPhy", "AN_EN", 1);
                     this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 0);
                     //this.WriteYodaRg("SPEPhy", "AN_EN", 0);
@@ -1792,6 +1793,7 @@ namespace TargetInterface
                     // Configure rem as forced Slave"
                     this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 1);
                     this.WriteYodaRg("SPEPhy", "AN_ADV_MST", 0);
+                    this.WriteYodaRg("SPEPhy", "AN_ADV_FORCE_MS", 0);
                     this.WriteYodaRg("SPEPhy", "AN_EN", 1);
                     this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 0);
                     // this.WriteYodaRg("SPEPhy", "AN_FRC_MODE_EN", 1);
@@ -1819,7 +1821,7 @@ namespace TargetInterface
 #endif
                 default:
                     // Allow it to negotiate
-                   // this.WriteYodaRg("SPEPhy", "CFG_MST", 0);
+                    // this.WriteYodaRg("SPEPhy", "CFG_MST", 0);
                     this.WriteYodaRg("SPEPhy", "AN_EN", 1);
 
                     // this.WriteYodaRg("SPEPhy", "AN_FRC_MODE_EN", 0);
@@ -2184,7 +2186,7 @@ namespace TargetInterface
 
             TargetInfoItem connectedDevice = new TargetInfoItem(this.deviceSettingsUp.DetectedDevice.ItemName);
             connectedDevice.IsAvailable = true;
-          //  string voltageCap = (tenSpE2p4VoltCapable == true) ? "2.4V Capable" : "1V Capable";
+            //  string voltageCap = (tenSpE2p4VoltCapable == true) ? "2.4V Capable" : "1V Capable";
             connectedDevice.ItemContent = deviceType.ToString() + "   \n" + "PHY Addr:" + this.deviceConnection.GetMDIOAddress().ToString();
             //TargetInfoItem tenSpe2p4DevCapable = new TargetInfoItem("");
             //if (this.tenSpE2p4VoltCapable == true)
@@ -2895,39 +2897,50 @@ namespace TargetInterface
                 // 2'd1: Configuration fault
                 // 2'd2: Success, PHY is configured as SLAVE
                 // 2'd3: Success, PHY is configured as MASTER
-                uint ancompleted = this.ReadYodaRg("SPEPhy", "AN_COMPLETE");
-                if (ancompleted == 1)
-                {
-                    anStatus.ItemContent = "Completed";
-                }
 
                 switch (this.ReadYodaRg("SPEPhy", "AN_MS_CONFIG_RSLTN"))
                 {
-                  //  default:
+                    //  default:
                     case 0x0:
- //                           anStatus.ItemContent = "Not run";
+                        //anStatus.ItemContent = "Not run";
                         break;
                     case 0x1:
-                            anStatus.ItemContent = "Configuration fault";
+                        anStatus.ItemContent = "Configuration fault";
                         break;
                     case 0x2:
-                            masterSlaveStatus.ItemContent = "Slave";
+                        masterSlaveStatus.ItemContent = "Slave";
 
-                        //dani 20Ap                        if (this.ReadYodaRg("SPEPhy", "AN_EN") == 1)
-                        //                        {
-                        //                            masterSlaveStatus.ItemContent += " (Negotiated)";
-                        //                        }
+                        //dani 20Ap
+                        //if (this.ReadYodaRg("SPEPhy", "AN_EN") == 1)
+                        //{
+                        //    masterSlaveStatus.ItemContent += " (Negotiated)";
+                        //}
 
                         break;
                     case 0x3:
-                            masterSlaveStatus.ItemContent = "Master";
-                           // anStatus.ItemContent = "AN GOOD";
-                        //dani 20Apr                       if (this.ReadYodaRg("SPEPhy", "AN_EN") == 1)
+                        masterSlaveStatus.ItemContent = "Master";
+                        // anStatus.ItemContent = "AN GOOD";
+                        //dani 20Apr
+                        //if (this.ReadYodaRg("SPEPhy", "AN_EN") == 1)
                         //{
-                        //                           masterSlaveStatus.ItemContent += " (Negotiated)";
-                        //                      }
+                        //    masterSlaveStatus.ItemContent += " (Negotiated)";
+                        //}
 
                         break;
+                }
+
+                uint forcedMasterSlave = this.ReadYodaRg("SPEPhy", "AN_ADV_FORCE_MS");
+                if (forcedMasterSlave == 1)
+                {
+                    anStatus.ItemContent = "Disabled";
+                }
+                else
+                {
+                    uint ancompleted = this.ReadYodaRg("SPEPhy", "AN_COMPLETE");
+                    if (ancompleted == 1)
+                    {
+                        anStatus.ItemContent = "Completed";
+                    }
                 }
 
                 uint hi_req = this.ReadYodaRg("SPEPhy", "AN_ADV_B10L_TX_LVL_HI_REQ");
@@ -3427,7 +3440,7 @@ namespace TargetInterface
                 //}
                 //else
                 //{
-                    frameGeneratorStatus.ItemContent = "Not Enabled";
+                frameGeneratorStatus.ItemContent = "Not Enabled";
                 //}
             }
             else
@@ -4084,8 +4097,8 @@ namespace TargetInterface
             this.ReadYodaRg("SPEPhy", "CRSM_STAT");
             this.Sleep(0.1);
 
- //           this.Info("  Apply base settings for UNH-IOL testing");
- //           this.ApplyIOLBaseSettings();
+            //           this.Info("  Apply base settings for UNH-IOL testing");
+            //           this.ApplyIOLBaseSettings();
 
             this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 1");
             this.WriteYodaRg("SPEPhy", "AN_EN", 0);
@@ -4460,7 +4473,7 @@ namespace TargetInterface
                     this.deviceConnection.ModifyMDIOAddress(0); //we didn't found any
                 }
 
-               // this.TenSpe2p4VCapableCheck();
+                // this.TenSpe2p4VCapableCheck();
             }
         }
 
