@@ -75,7 +75,7 @@ namespace TargetInterface
             this.deviceConnection = null;
 
             this.UpdatefromRegisterJSON(DeviceType.ADIN1300); // Assume ADIN1300 until we connect and find out differently
-            this.UpdateFromScriptJSON();
+            //this.UpdateFromScriptJSON();
         }
 
         public ObservableCollection<RegisterDetails> Registers { get; set; }
@@ -741,18 +741,28 @@ namespace TargetInterface
             return this.deviceConnection.DeviceDescription == DeviceConnection.DeviceDescriptionEVALADIN11xx;
         }
 
-        private void UpdateFromScriptJSON()
+        /// <summary>
+        /// retrieves and updates the scripts.
+        /// </summary>
+        public void UpdateFromScriptJSON()
         {
             this.Scripts = new ObservableCollection<string>();
             string[] dirs = Directory.GetFiles(".", "*_scripts.json");
             foreach (string requiredjsonfile in dirs)
             {
-                this.Info(string.Format("Loading scripts from {0}", requiredjsonfile));
-                this.jsonParser.ParseScriptData(requiredjsonfile);
-
-                foreach (var script in this.jsonParser.Scripts.Scripts)
+                this.Info(string.Format("Loading scripts from {0}", Path.GetFileName(requiredjsonfile)));
+                try
                 {
-                    this.Scripts.Add(script.Name);
+                    this.jsonParser.ParseScriptData(requiredjsonfile);
+
+                    foreach (var script in this.jsonParser.Scripts.Scripts)
+                    {
+                        this.Scripts.Add(script.Name);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    this.Error(ex.Message);
                 }
             }
         }

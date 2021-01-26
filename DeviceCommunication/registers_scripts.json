@@ -5,7 +5,7 @@
       "RegisterAccesses": [
         {
           "RegisterAddress": 459264,
-          "Value": 0
+          "Value": 50
         },
         {
           "RegisterAddress" : 459264,
