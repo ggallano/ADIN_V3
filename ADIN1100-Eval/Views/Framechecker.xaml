@@ -45,16 +45,14 @@
         <StackPanel>
             <StackPanel HorizontalAlignment='Stretch' Margin='10' >
 
-                <GroupBox Header='1. Enable Remote Loopback in Link Partner'>
+                <!--<GroupBox Header='1. Enable Remote Loopback in Link Partner'>
                     <StackPanel>
                         <TextBlock TextWrapping='Wrap' Text="Loopback can be conveniently enabled on a remote device to loopback frames for the frame checker to check." Margin="2 2 8 2"    />
-                        <telerik:RadButton Content="Remote Loopback" Margin='10,5,10,10' CornerRadius='15' ToolTip='Loops the data received from the remote PHY back to the remote PHY using all of the digital and analog circuitry.'  Command="{Binding RemoteLoopbackCommand}" x:Name="RemoteLoopback"/>
-
+                        <telerik:RadButton Content="Remote Loopback" Margin='10,5,10,10' CornerRadius='15' ToolTip='Loops the data received from the remote PHY back to the remote PHY using all of the digital and analog circuitry.'  Command="{Binding RemoteLoopbackCommand}" x:Name="RemoteLoopback"/>-->
                         <!--<telerik:RadToggleButton Content='Remote' Margin='10,10,10,10' CornerRadius='15' ToolTip='Loops the data received from the remote PHY back to the remote PHY using all of the digital and analog circuitry' Command="{Binding RemoteLoopbackCommand}"  CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}"/>-->
-
-                    </StackPanel>
-                </GroupBox>
-                <GroupBox Header='2. Frame Generator in Local PHY'>
+                    <!--</StackPanel>
+                </GroupBox>-->
+                <GroupBox Header='1. Frame Generator in Local PHY'>
                     <StackPanel>
                         <CheckBox Margin="2 2 8 2"    IsEnabled='{Binding FrameGenRunning,Converter={StaticResource InverseBooleanConverter}}'   ToolTip='Enable this to send a continuous stream of frames. Alternative is to send a burst of frames of a certain length.' x:Name='chkContinuous'>Continuous Mode until terminated.</CheckBox>
                         <TextBlock Text="Number of Frames in Burst" Margin="2 2 8 2"    FontWeight="SemiBold" Visibility='{Binding ElementName=chkContinuous, Path=IsChecked,Converter={StaticResource ReverseBooleanToVisibilityConverter}}'/>
