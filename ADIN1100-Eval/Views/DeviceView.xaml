@@ -266,30 +266,6 @@
                         </Grid>
                     </Grid>
                 </TabItem>
-                <TabItem Header='Loopback' Visibility="{Binding DataContext.LoopbackPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
-                    <Grid>
-                        <Grid HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="5" />
-                                <ColumnDefinition Width="3*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <ContentControl Visibility="Collapsed"
-             Content="{StaticResource ProxyElement}"/>
-                            <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                                <local:Loopback/>
-                            </Grid>
-                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
-
-                            <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                                <local:LinkStatus/>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </TabItem>
                 <TabItem Header='Test Modes' Visibility="{Binding DataContext.TestModesPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
                     <Grid>
                         <Grid HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
@@ -305,6 +281,30 @@
              Content="{StaticResource ProxyElement}"/>
                             <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                                 <local:Testmodes/>
+                            </Grid>
+                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
+
+                            <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <local:LinkStatus/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header='Loopback' Visibility="{Binding DataContext.LoopbackPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
+                    <Grid>
+                        <Grid HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <ContentControl Visibility="Collapsed"
+             Content="{StaticResource ProxyElement}"/>
+                            <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <local:Loopback/>
                             </Grid>
                             <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
 
