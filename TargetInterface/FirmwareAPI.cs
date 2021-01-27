@@ -892,16 +892,30 @@ namespace TargetInterface
 
                         if (regacc.MMap != null && regacc.Name != string.Empty)
                         {
-                            uint value = this.getValue(regacc.Value);
-                            this.WriteYodaRg(regacc.MMap, regacc.Name, value);
+                            try
+                            {
+                                uint value = this.getValue(regacc.Value);
+                                this.WriteYodaRg(regacc.MMap, regacc.Name, value);
+                            }
+                            catch (Exception ex)
+                            {
+                                this.Error($"{ex.Message} MemoryMap:{regacc.MMap}, RegisterName:{regacc.Name}, Value:{regacc.Value}");
+                            }
                         }
                         else
                         {
-                            string resultString = string.Empty;
-                            uint value = this.getValue(regacc.Value);
-                            uint address = this.getAddress(regacc.RegisterAddress);
-                            this.VerboseInfo(string.Format("Writing address 0x{0:X} with 0x{1:X}", address, value));
-                            this.deviceConnection.WriteMDIORegister(address, value);
+                            try
+                            {
+                                string resultString = string.Empty;
+                                uint value = this.getValue(regacc.Value);
+                                uint address = this.getAddress(regacc.RegisterAddress);
+                                this.VerboseInfo(string.Format("Writing address 0x{0:X} with 0x{1:X}", address, value));
+                                this.deviceConnection.WriteMDIORegister(address, value);
+                            }
+                            catch (Exception ex)
+                            {
+                                this.Error($"{ex.Message} RegisterAddress:{regacc.RegisterAddress}, Value:{regacc.Value}");
+                            }
                         }
                     }
                 }

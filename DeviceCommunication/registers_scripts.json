@@ -4,7 +4,7 @@
       "Name": "Reset Auto-Negotiation",
       "RegisterAccesses": [
         {
-          "RegisterAddress": "0d459264",
+          "RegisterAddress": "0x70200",
           "Value": "0d0"
         },
         {
