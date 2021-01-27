@@ -92,7 +92,7 @@
                     </StackPanel>
                 </WrapPanel>
                 <!--Display the loopback block diagram from the datasheet for user information purposes -->
-                <Image Grid.Row='0' x:Name='RegImage' Source='/ADIN1300-Eval;component/Images/loopback.png' VerticalAlignment='Top' Stretch='UniformToFill' HorizontalAlignment='Center' />
+                <Image Grid.Row='0' x:Name='RegImage' Source='../Images/loopback.png' VerticalAlignment='Top' Stretch='UniformToFill' HorizontalAlignment='Center' />
             </StackPanel>
 
         </GroupBox>
