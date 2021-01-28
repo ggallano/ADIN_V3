@@ -1523,7 +1523,8 @@ namespace ADIN1300_Eval.ViewModel
                 {
                     try
                     {
-                        this.selectedDevice.FwAPI.RunScript((string)obj);
+                        //this.selectedDevice.FwAPI.RunScript((string)obj);
+                        this.selectedDevice.FwAPI.RunScript(SelectedScript1);
                     }
                     catch (FTDIException exc)
                     {

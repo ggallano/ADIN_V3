@@ -65,7 +65,11 @@
                         <ColumnDefinition Width="25*"/>
                         <ColumnDefinition Width="25*"/>
                     </Grid.ColumnDefinitions>
-                    <telerik:RadSplitButton x:Name="ScriptButton1" Grid.Row="0" Grid.Column="1" ToolTip='Select and click to load a script.' Command="{Binding DeviceViewModel.RunScriptCommand}" CommandParameter='{Binding DeviceViewModel.SelectedScript1}'
+                    <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="10">
+                        <telerik:RadComboBox Margin="0" Width="150" ItemsSource="{Binding DeviceViewModel.Scripts}" SelectedValue="{Binding DeviceViewModel.SelectedScript1}"/>
+                        <telerik:RadButton Margin="10,0,0,0" Width="60" Content="Apply" Command="{Binding DeviceViewModel.RunScriptCommand}"/>
+                    </StackPanel>
+                        <!--<telerik:RadSplitButton x:Name="ScriptButton1" Grid.Row="0" Grid.Column="1" ToolTip='Select and click to load a script.' Command="{Binding DeviceViewModel.RunScriptCommand}" CommandParameter='{Binding DeviceViewModel.SelectedScript1}'
 			                           HorizontalContentAlignment="Stretch" Margin='10,10,10,10'
 			                           Content="{Binding DeviceViewModel.SelectedScript1}"
 			                           DropDownContent="{Binding DeviceViewModel.Scripts}">
@@ -85,7 +89,7 @@
                                 </telerik:RadListBox>
                             </DataTemplate>
                         </telerik:RadSplitButton.DropDownContentTemplate>
-                    </telerik:RadSplitButton>
+                    </telerik:RadSplitButton>--> 
 
                    <!-- <telerik:RadSplitButton x:Name="ScriptButton2" Grid.Row="0" Grid.Column="2" ToolTip='Select and click to load a script.' Command="{Binding DeviceViewModel.RunScriptCommand}" CommandParameter='{Binding DeviceViewModel.SelectedScript2}'
 			                           HorizontalContentAlignment="Stretch" Margin='10,10,10,10'
