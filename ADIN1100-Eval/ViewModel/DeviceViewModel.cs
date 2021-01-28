@@ -2437,7 +2437,7 @@ namespace ADIN1300_Eval.ViewModel
                 message = "The following Evaluation boards are present : ";
                 foreach (var item in DeviceConnection.DeviceSerialNumbers)
                 {
-                    message += string.Format("{0} ", item);
+                    message += string.Format("{0}  ", item);
                 }
 
                 this.Info(message);

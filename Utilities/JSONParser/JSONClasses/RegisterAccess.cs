@@ -54,6 +54,6 @@ namespace Utilities.JSONParser.JSONClasses
         /// Gets or sets a value indicating the access value
         /// </summary>
         [DataMember(Name = "Value")]
-        public uint Value { get; set; }
+        public string Value { get; set; }
     }
 }
