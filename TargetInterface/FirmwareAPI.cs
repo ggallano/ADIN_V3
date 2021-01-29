@@ -77,7 +77,6 @@ namespace TargetInterface
             this.deviceConnection = null;
 
             this.UpdatefromRegisterJSON(DeviceType.ADIN1300); // Assume ADIN1300 until we connect and find out differently
-            //this.UpdateFromScriptJSON();
         }
 
         public ObservableCollection<RegisterDetails> Registers { get; set; }
@@ -1902,6 +1901,7 @@ namespace TargetInterface
                     // Configure loc as forced Master
                     this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 1);
                     this.WriteYodaRg("SPEPhy", "AN_ADV_MST", 1);
+                    this.WriteYodaRg("SPEPhy", "AN_ADV_FORCE_MS", 0);
                     this.WriteYodaRg("SPEPhy", "AN_EN", 1);
                     this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 0);
                     //this.WriteYodaRg("SPEPhy", "AN_EN", 0);
@@ -1912,6 +1912,7 @@ namespace TargetInterface
                     // Configure rem as forced Slave"
                     this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 1);
                     this.WriteYodaRg("SPEPhy", "AN_ADV_MST", 0);
+                    this.WriteYodaRg("SPEPhy", "AN_ADV_FORCE_MS", 0);
                     this.WriteYodaRg("SPEPhy", "AN_EN", 1);
                     this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 0);
                     // this.WriteYodaRg("SPEPhy", "AN_FRC_MODE_EN", 1);
@@ -3015,17 +3016,12 @@ namespace TargetInterface
                 // 2'd1: Configuration fault
                 // 2'd2: Success, PHY is configured as SLAVE
                 // 2'd3: Success, PHY is configured as MASTER
-                uint ancompleted = this.ReadYodaRg("SPEPhy", "AN_COMPLETE");
-                if (ancompleted == 1)
-                {
-                    anStatus.ItemContent = "Completed";
-                }
 
                 switch (this.ReadYodaRg("SPEPhy", "AN_MS_CONFIG_RSLTN"))
                 {
                     //  default:
                     case 0x0:
-                        //                           anStatus.ItemContent = "Not run";
+                        //anStatus.ItemContent = "Not run";
                         break;
                     case 0x1:
                         anStatus.ItemContent = "Configuration fault";
@@ -3033,21 +3029,37 @@ namespace TargetInterface
                     case 0x2:
                         masterSlaveStatus.ItemContent = "Slave";
 
-                        //dani 20Ap                        if (this.ReadYodaRg("SPEPhy", "AN_EN") == 1)
-                        //                        {
-                        //                            masterSlaveStatus.ItemContent += " (Negotiated)";
-                        //                        }
+                        //dani 20Ap
+                        //if (this.ReadYodaRg("SPEPhy", "AN_EN") == 1)
+                        //{
+                        //    masterSlaveStatus.ItemContent += " (Negotiated)";
+                        //}
 
                         break;
                     case 0x3:
                         masterSlaveStatus.ItemContent = "Master";
                         // anStatus.ItemContent = "AN GOOD";
-                        //dani 20Apr                       if (this.ReadYodaRg("SPEPhy", "AN_EN") == 1)
+                        //dani 20Apr
+                        //if (this.ReadYodaRg("SPEPhy", "AN_EN") == 1)
                         //{
-                        //                           masterSlaveStatus.ItemContent += " (Negotiated)";
-                        //                      }
+                        //    masterSlaveStatus.ItemContent += " (Negotiated)";
+                        //}
 
                         break;
+                }
+
+                uint forcedMasterSlave = this.ReadYodaRg("SPEPhy", "AN_ADV_FORCE_MS");
+                if (forcedMasterSlave == 1)
+                {
+                    anStatus.ItemContent = "Disabled";
+                }
+                else
+                {
+                    uint ancompleted = this.ReadYodaRg("SPEPhy", "AN_COMPLETE");
+                    if (ancompleted == 1)
+                    {
+                        anStatus.ItemContent = "Completed";
+                    }
                 }
 
                 uint hi_req = this.ReadYodaRg("SPEPhy", "AN_ADV_B10L_TX_LVL_HI_REQ");
