@@ -20,6 +20,8 @@ namespace ADIN1300_Eval.ViewModel
     using static TargetInterface.FirmwareAPI;
     using Utilities.JSONParser.JSONClasses;
     using System.Windows.Media;
+    using Utilities.JSONParser;
+    using System.IO;
 
     /// <summary>
     /// Device View Model
@@ -57,7 +59,9 @@ namespace ADIN1300_Eval.ViewModel
 
         private RegisterDetails selectedRegister;
 
-        private string selectedScript1 = "Please Choose";
+        private JSONParserEngine jsonParser = new JSONParserEngine();
+
+        private ScriptJSONStructure selectedScript1;
 
         private string selectedScript2 = "Please Choose";
 
@@ -102,7 +106,7 @@ namespace ADIN1300_Eval.ViewModel
 
             this.InitializedWorkerPhyStatus();
             this.InitializedWorkerRefreshRegisters();
-            
+
             this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Normal mode", "PHY is in normal operation", true));
             this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 1 Jitter", "PHY repeatedly transmit the data symbol sequence (+1, -1).", true));
             this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 2 Droop", "PHY transmit ten '+ 1' symbols followed by ten ' - 1' symbols.", true));
@@ -370,36 +374,10 @@ namespace ADIN1300_Eval.ViewModel
             }
         }
 
-        public ObservableCollection<string> Scripts
-        {
-            get
-            {
-                if (this.SelectedDevice == null || this.SelectedDevice.FwAPI.Scripts == null)
-                {
-                    return null;
-                }
-
-                try
-                {
-                    return this.SelectedDevice.FwAPI.Scripts;
-                }
-                catch (FTDIException exc)
-                {
-                    this.Error(exc.Message);
-                    return null;
-                }
-                catch (ApplicationException exc)
-                {
-                    this.Error(exc.Message);
-                    return null;
-                }
-                catch (Exception exc)
-                {
-                    this.Error(exc.Message);
-                    return null;
-                }
-            }
-        }
+        /// <summary>
+        /// Gets or sets the list of Scripts available
+        /// </summary>
+        public ObservableCollection<ScriptJSONStructure> Scripts { get; set; }
 
         /// <summary>
         /// Gets or sets selected register in the register window
@@ -423,7 +401,7 @@ namespace ADIN1300_Eval.ViewModel
         /// <summary>
         /// Gets or sets selected script 1
         /// </summary>
-        public string SelectedScript1
+        public ScriptJSONStructure SelectedScript1
         {
             get
             {
@@ -1523,7 +1501,8 @@ namespace ADIN1300_Eval.ViewModel
                 {
                     try
                     {
-                        this.selectedDevice.FwAPI.RunScript((string)obj);
+                        //this.selectedDevice.FwAPI.RunScript((string)obj);
+                        this.selectedDevice.FwAPI.RunScript(this.SelectedScript1);
                     }
                     catch (FTDIException exc)
                     {
@@ -2437,7 +2416,7 @@ namespace ADIN1300_Eval.ViewModel
                 message = "The following Evaluation boards are present : ";
                 foreach (var item in DeviceConnection.DeviceSerialNumbers)
                 {
-                    message += string.Format("{0} ", item);
+                    message += string.Format("{0}  ", item);
                 }
 
                 this.Info(message);
@@ -2507,6 +2486,20 @@ namespace ADIN1300_Eval.ViewModel
                         this.Error(exc.Message);
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// retrieves the user scripts
+        /// </summary>
+        public void UpdateFromScriptJSON()
+        {
+            this.Scripts = new ObservableCollection<ScriptJSONStructure>();
+            string[] dirs = Directory.GetFiles(".", "*_scripts.json");
+            foreach (string requiredjsonfile in dirs)
+            {
+                this.Info(string.Format("Loading scripts from {0}", Path.GetFileName(requiredjsonfile)));
+                this.Scripts.Add(this.jsonParser.ParseScriptData(requiredjsonfile));
             }
         }
     }

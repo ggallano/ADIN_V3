@@ -40,7 +40,7 @@ namespace ADIN1300_Eval
 
         private void Script1_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            ((MainWindowViewModel)this.DataContext).DeviceViewModel.SelectedScript1 = (string)((RadListBox)sender).SelectedValue;
+            //((MainWindowViewModel)this.DataContext).DeviceViewModel.SelectedScript1 = (string)((RadListBox)sender).SelectedValue;
         }
 
         private void Script2_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

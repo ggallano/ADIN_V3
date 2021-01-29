@@ -21,6 +21,8 @@ namespace TargetInterface
     using Utilities.JSONParser.JSONClasses;
     using System.Xml;
     using System.IO;
+    using System.Text.RegularExpressions;
+    using System.Globalization;
 
     /// <summary>
     /// Handles the communication between PC and the device firmware API
@@ -75,7 +77,7 @@ namespace TargetInterface
             this.deviceConnection = null;
 
             this.UpdatefromRegisterJSON(DeviceType.ADIN1300); // Assume ADIN1300 until we connect and find out differently
-            this.UpdateFromScriptJSON();
+            //this.UpdateFromScriptJSON();
         }
 
         public ObservableCollection<RegisterDetails> Registers { get; set; }
@@ -690,12 +692,12 @@ namespace TargetInterface
                 }
 
                 /* Dump these if they exist, they are not interesting */
-//                listproperty = "Negotiate";
- //               if (value.PropertiesChangedList.Contains(listproperty))
-//{
-//                    value.PropertiesChangedList.Remove(listproperty);
- //               }
- 
+                //                listproperty = "Negotiate";
+                //               if (value.PropertiesChangedList.Contains(listproperty))
+                //{
+                //                    value.PropertiesChangedList.Remove(listproperty);
+                //               }
+
                 listproperty = "Fixed";
                 if (value.PropertiesChangedList.Contains(listproperty))
                 {
@@ -739,22 +741,6 @@ namespace TargetInterface
         private bool TenSPEDevice()
         {
             return this.deviceConnection.DeviceDescription == DeviceConnection.DeviceDescriptionEVALADIN11xx;
-        }
-
-        private void UpdateFromScriptJSON()
-        {
-            this.Scripts = new ObservableCollection<string>();
-            string[] dirs = Directory.GetFiles(".", "*_scripts.json");
-            foreach (string requiredjsonfile in dirs)
-            {
-                this.Info(string.Format("Loading scripts from {0}", requiredjsonfile));
-                this.jsonParser.ParseScriptData(requiredjsonfile);
-
-                foreach (var script in this.jsonParser.Scripts.Scripts)
-                {
-                    this.Scripts.Add(script.Name);
-                }
-            }
         }
 
         private void UpdatefromRegisterJSON(DeviceType deviceType)
@@ -855,49 +841,183 @@ namespace TargetInterface
         /// </summary>
         /// <param name="scripttorun">Name of the script to run</param>
         /// <returns>Contents of register</returns>
-        public uint RunScript(string scripttorun)
+        public uint RunScript(ScriptJSONStructure scripttorun)
         {
             bool ok = false;
-            this.VerboseInfo("Running script : " + scripttorun);
-            this.UpdateFromScriptJSON();
+            this.VerboseInfo("Running script : " + scripttorun.Script.Name);
 
-            foreach (var script in this.jsonParser.Scripts.Scripts)
+            foreach (var regacc in scripttorun.Script.RegisterAccesses)
             {
-                if (script.Name == scripttorun)
+                if (regacc.Description != null && regacc.Description != string.Empty)
                 {
-                    ok = true;
-                    if (script.Description != null && script.Description != string.Empty)
+                    this.Info(regacc.Description);
+                }
+
+                if (regacc.MMap != null && regacc.Name != string.Empty)
+                {
+                    try
                     {
-                        this.Info(script.Description);
+                        uint value = this.getValue(regacc.Value);
+                        this.WriteYodaRg(regacc.MMap, regacc.Name, value);
                     }
-
-                    foreach (var regacc in script.RegisterAccesses)
+                    catch (Exception ex)
                     {
-                        if (regacc.Description != null && regacc.Description != string.Empty)
-                        {
-                            this.Info(regacc.Description);
-                        }
-
-                        if (regacc.MMap != null && regacc.Name != string.Empty)
-                        {
-                            this.WriteYodaRg(regacc.MMap, regacc.Name, regacc.Value);
-                        }
-                        else
-                        {
-                            uint Address = uint.Parse(regacc.RegisterAddress);
-                            this.VerboseInfo(string.Format("Writing address 0x{0:X} with 0x{1:X}", Address, regacc.Value));
-                            this.deviceConnection.WriteMDIORegister(Address, regacc.Value);
-                        }
+                        this.Error($"{ex.Message} MemoryMap:{regacc.MMap}, RegisterName:{regacc.Name}, Value:{regacc.Value}");
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        string resultString = string.Empty;
+                        uint value = this.getValue(regacc.Value);
+                        uint address = this.getAddress(regacc.RegisterAddress);
+                        this.VerboseInfo(string.Format("Writing address 0x{0:X} with 0x{1:X}", address, value));
+                        this.deviceConnection.WriteMDIORegister(address, value);
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Error($"{ex.Message} RegisterAddress:{regacc.RegisterAddress}, Value:{regacc.Value}");
                     }
                 }
             }
 
-            if (!ok)
+            return 0x0;
+        }
+
+        /// <summary>
+        /// gets the address in the script
+        /// </summary>
+        /// <param name="inputValue">input address value</param>
+        /// <returns>returns the address value</returns>
+        private uint getAddress(string inputValue)
+        {
+            uint value = 0;
+            string resultString = string.Empty;
+
+            if (this.getPrefix(inputValue, out resultString))
             {
-                throw new ArgumentException("Script \"" + scripttorun + "\" is not defined.");
+                if ((resultString.Substring(1) == "x")
+                 || (resultString.Substring(1) == "X"))
+                {
+                    value = this.getHexValue(inputValue);
+                }
+                else
+                {
+                    value = this.getDecimalValue(inputValue);
+                }
+            }
+            else
+            {
+                throw new Exception("Invalid Syntax.");
             }
 
-            return 0x0;
+            return value;
+        }
+
+        /// <summary>
+        /// gets the value from script
+        /// </summary>
+        /// <param name="inputValue">value input</param>
+        /// <returns>returns uint value</returns>
+        private uint getValue(string inputValue)
+        {
+            uint value = 0;
+            string resultString = string.Empty;
+
+            if (this.getPrefix(inputValue, out resultString))
+            {
+                if ((resultString.Substring(1) == "x")
+                 || (resultString.Substring(1) == "X"))
+                {
+                    value = this.getHexValue(inputValue);
+                }
+                else
+                {
+                    value = this.getDecimalValue(inputValue);
+                }
+            }
+            else
+            {
+                throw new Exception("Invalid Syntax.");
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// gets the prefix value
+        /// </summary>
+        /// <param name="value">input string value</param>
+        /// <param name="stringResult">string result</param>
+        /// <returns>returns if the prefix is valid or invalid</returns>
+        private bool getPrefix(string value, out string stringResult)
+        {
+            string pattern = @"^0[xXdD]";
+            Regex rg = new Regex(pattern);
+
+            var result = rg.Match(value);
+
+            if (result.Success)
+            {
+                stringResult = result.Value;
+                return true;
+            }
+            else
+            {
+                stringResult = string.Empty;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// gets the Decimal value
+        /// </summary>
+        /// <param name="value">input string value</param>
+        /// <returns>returns decimal value</returns>
+        private uint getDecimalValue(string value)
+        {
+            string pattern = @"(?<=0[xXdD])\d*";
+            Regex rg = new Regex(pattern);
+
+            var readValue = rg.Match(value);
+            uint resultValue = 0;
+
+            var parseResult = uint.TryParse(readValue.Value, out resultValue);
+
+            if (parseResult)
+            {
+                return resultValue;
+            }
+            else
+            {
+                throw new Exception("Invalid value.");
+            }
+        }
+
+        /// <summary>
+        /// gets the Hex value
+        /// </summary>
+        /// <param name="value">input string value</param>
+        /// <returns>returns hex value</returns>
+        private uint getHexValue(string value)
+        {
+            string pattern = @"(?<=0[xXdD])[0-9a-zA-Z]+";
+            Regex rg = new Regex(pattern);
+
+            var readValue = rg.Match(value);
+            uint resultValue = 0;
+
+            var parseResult = uint.TryParse(readValue.Value, NumberStyles.HexNumber, CultureInfo.CurrentCulture, out resultValue);
+
+            if (parseResult)
+            {
+                return resultValue;
+            }
+            else
+            {
+                throw new Exception("Invalid value.");
+            }
         }
 
         /// <summary>
@@ -1721,13 +1841,13 @@ namespace TargetInterface
                 if (this.ReadYodaRg("SPEPhy", "AN_ADV_MST") == 1)
                 {
                     if (this.ReadYodaRg("SPEPhy", "AN_ADV_FORCE_MS") == 1)
-                   {
-                       this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Forced_Master;
-                   }
-                   else
-                   {
-                       this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Prefer_Master;
-                   }
+                    {
+                        this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Forced_Master;
+                    }
+                    else
+                    {
+                        this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Prefer_Master;
+                    }
                 }
                 else
                 {
@@ -1770,13 +1890,13 @@ namespace TargetInterface
             // Enables forced mode functionality
             switch (negotiateMasterSlave)
             {
-//                case MasterSlaveNegotiate.Negotiate:
-                    // Allow it to negotiate
-                    // this.WriteYodaRg("SPEPhy", "CFG_MST", 0);
-//                    this.WriteYodaRg("SPEPhy", "AN_EN", 1);
+                //                case MasterSlaveNegotiate.Negotiate:
+                // Allow it to negotiate
+                // this.WriteYodaRg("SPEPhy", "CFG_MST", 0);
+                //                    this.WriteYodaRg("SPEPhy", "AN_EN", 1);
 
-                    // this.WriteYodaRg("SPEPhy", "AN_FRC_MODE_EN", 0);
-                    //break;
+                // this.WriteYodaRg("SPEPhy", "AN_FRC_MODE_EN", 0);
+                //break;
 #if MASTER_SLAVE_NEGOTIATE
                 case MasterSlaveNegotiate.Prefer_Master:
                     // Configure loc as forced Master
@@ -1819,7 +1939,7 @@ namespace TargetInterface
 #endif
                 default:
                     // Allow it to negotiate
-                   // this.WriteYodaRg("SPEPhy", "CFG_MST", 0);
+                    // this.WriteYodaRg("SPEPhy", "CFG_MST", 0);
                     this.WriteYodaRg("SPEPhy", "AN_EN", 1);
 
                     // this.WriteYodaRg("SPEPhy", "AN_FRC_MODE_EN", 0);
@@ -2184,7 +2304,7 @@ namespace TargetInterface
 
             TargetInfoItem connectedDevice = new TargetInfoItem(this.deviceSettingsUp.DetectedDevice.ItemName);
             connectedDevice.IsAvailable = true;
-          //  string voltageCap = (tenSpE2p4VoltCapable == true) ? "2.4V Capable" : "1V Capable";
+            //  string voltageCap = (tenSpE2p4VoltCapable == true) ? "2.4V Capable" : "1V Capable";
             connectedDevice.ItemContent = deviceType.ToString() + "   \n" + "PHY Addr:" + this.deviceConnection.GetMDIOAddress().ToString();
             //TargetInfoItem tenSpe2p4DevCapable = new TargetInfoItem("");
             //if (this.tenSpE2p4VoltCapable == true)
@@ -2903,15 +3023,15 @@ namespace TargetInterface
 
                 switch (this.ReadYodaRg("SPEPhy", "AN_MS_CONFIG_RSLTN"))
                 {
-                  //  default:
+                    //  default:
                     case 0x0:
- //                           anStatus.ItemContent = "Not run";
+                        //                           anStatus.ItemContent = "Not run";
                         break;
                     case 0x1:
-                            anStatus.ItemContent = "Configuration fault";
+                        anStatus.ItemContent = "Configuration fault";
                         break;
                     case 0x2:
-                            masterSlaveStatus.ItemContent = "Slave";
+                        masterSlaveStatus.ItemContent = "Slave";
 
                         //dani 20Ap                        if (this.ReadYodaRg("SPEPhy", "AN_EN") == 1)
                         //                        {
@@ -2920,8 +3040,8 @@ namespace TargetInterface
 
                         break;
                     case 0x3:
-                            masterSlaveStatus.ItemContent = "Master";
-                           // anStatus.ItemContent = "AN GOOD";
+                        masterSlaveStatus.ItemContent = "Master";
+                        // anStatus.ItemContent = "AN GOOD";
                         //dani 20Apr                       if (this.ReadYodaRg("SPEPhy", "AN_EN") == 1)
                         //{
                         //                           masterSlaveStatus.ItemContent += " (Negotiated)";
@@ -3427,7 +3547,7 @@ namespace TargetInterface
                 //}
                 //else
                 //{
-                    frameGeneratorStatus.ItemContent = "Not Enabled";
+                frameGeneratorStatus.ItemContent = "Not Enabled";
                 //}
             }
             else
@@ -4084,8 +4204,8 @@ namespace TargetInterface
             this.ReadYodaRg("SPEPhy", "CRSM_STAT");
             this.Sleep(0.1);
 
- //           this.Info("  Apply base settings for UNH-IOL testing");
- //           this.ApplyIOLBaseSettings();
+            //           this.Info("  Apply base settings for UNH-IOL testing");
+            //           this.ApplyIOLBaseSettings();
 
             this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 1");
             this.WriteYodaRg("SPEPhy", "AN_EN", 0);
@@ -4460,7 +4580,7 @@ namespace TargetInterface
                     this.deviceConnection.ModifyMDIOAddress(0); //we didn't found any
                 }
 
-               // this.TenSpe2p4VCapableCheck();
+                // this.TenSpe2p4VCapableCheck();
             }
         }
 
