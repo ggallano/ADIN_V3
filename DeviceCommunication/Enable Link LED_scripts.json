@@ -1,0 +1,25 @@
+{
+  "Script":
+	{
+      "Name": "Enable Link LED",
+      "RegisterAccesses": [
+        {
+          "MemoryMap" : "SPEPhy",
+          "RegisterName": "LED_OFF_N4MS",
+          "Value": "0d54"
+        },
+
+        {
+          "MemoryMap" : "SPEPhy",
+          "RegisterName": "LED_ON_N4MS",
+          "Value": "0d54"
+        },
+
+        {
+          "MemoryMap" : "SPEPhy",
+          "RegisterName": "LED_CNTRL",
+          "Value": "0d1"
+        },
+      ]
+    }
+}

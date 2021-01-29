@@ -35,7 +35,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Grid>
-                                <Image Source='/ADIN1300-Eval;component/Images/icons/iconfinder_power_1055002.png' />
+                                <Image Source='../Images/icons/iconfinder_power_1055002.png' />
                                 <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"/>
                             </Grid>
@@ -48,7 +48,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Grid>
-                                <Image Source='/ADIN1300-Eval;component/Images/icons/iconfinder_Chn_link_locked_share_1886531.png' />
+                                <Image Source='../Images/icons/iconfinder_Chn_link_locked_share_1886531.png' />
                                 <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"/>
                             </Grid>
@@ -61,7 +61,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Grid>
-                                <Image Source='/ADIN1300-Eval;component/Images/icons/iconfinder_law_iconsArtboard_1_copy_10_2393038.png' />
+                                <Image Source='../Images/icons/iconfinder_law_iconsArtboard_1_copy_10_2393038.png' />
                                 <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"/>
                             </Grid>
@@ -72,7 +72,7 @@
 
             <DataTemplate x:Key="DeviceListTemplate">
                 <StackPanel Orientation = "Horizontal">
-                    <Image Source='/ADIN1300-Eval;component/Images/icons/Applications-Industrial-Automation-Ethernet-Icon.png' Width='32' Height='32'/>
+                    <Image Source='../Images/icons/Applications-Industrial-Automation-Ethernet-Icon.png' Width='32' Height='32'/>
                     <Label Content="{Binding ID, Mode=TwoWay}"/>
                 </StackPanel>
             </DataTemplate>
@@ -82,7 +82,7 @@
     <DockPanel>
         <ScrollViewer  Width='190' VerticalScrollBarVisibility="Auto" DockPanel.Dock='Left'>
             <StackPanel>
-                <Image  Source='/ADIN1300-Eval;component/Images/ADI-Logo-AWP-Tagline-RGB-Solid.png' />
+                <Image  Source='../Images/ADI-Logo-AWP-Tagline-RGB-Solid.png' />
                 <TextBlock HorizontalAlignment='Left' VerticalAlignment='Stretch' FontWeight='Bold' FontSize='18' Margin='16,0,0,10'><Run Text='Select Local'/></TextBlock>
                 <ListBox x:Name='DongleList' Height='81' Margin='16,0,0,0' Width='154' HorizontalAlignment='Left' ScrollViewer.HorizontalScrollBarVisibility='Auto' ScrollViewer.VerticalScrollBarVisibility='Auto' ItemsSource='{Binding Devices}' ItemTemplate="{StaticResource DeviceListTemplate}" SelectionChanged='DongleList_SelectionChanged' SelectedItem='{Binding SelectedDevice, 
             diag:PresentationTraceSources.TraceLevel=High}'>
