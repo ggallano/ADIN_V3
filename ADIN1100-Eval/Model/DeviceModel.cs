@@ -40,7 +40,7 @@ namespace ADIN1300_Eval.Model
 
             this.fwAPI = new FirmwareAPI();
             this.fwAPI.PropertyChanged += this.FWAPI_PropertyChanged;
-            this.fwAPI.UpdateFromScriptJSON();
+            //this.fwAPI.UpdateFromScriptJSON();
 
             this.fwAPI.AttachDevice(this.deviceConnection);
             this.isPresent = true;

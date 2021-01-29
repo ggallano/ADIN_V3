@@ -743,32 +743,6 @@ namespace TargetInterface
             return this.deviceConnection.DeviceDescription == DeviceConnection.DeviceDescriptionEVALADIN11xx;
         }
 
-        /// <summary>
-        /// retrieves and updates the scripts.
-        /// </summary>
-        public void UpdateFromScriptJSON()
-        {
-            this.Scripts = new ObservableCollection<string>();
-            string[] dirs = Directory.GetFiles(".", "*_scripts.json");
-            foreach (string requiredjsonfile in dirs)
-            {
-                this.Info(string.Format("Loading scripts from {0}", Path.GetFileName(requiredjsonfile)));
-                try
-                {
-                    this.jsonParser.ParseScriptData(requiredjsonfile);
-
-                    foreach (var script in this.jsonParser.Scripts.Scripts)
-                    {
-                        this.Scripts.Add(script.Name);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    this.Error(ex.Message);
-                }
-            }
-        }
-
         private void UpdatefromRegisterJSON(DeviceType deviceType)
         {
             string requiredjsonfile = "registers_adin1300.json";
@@ -867,68 +841,55 @@ namespace TargetInterface
         /// </summary>
         /// <param name="scripttorun">Name of the script to run</param>
         /// <returns>Contents of register</returns>
-        public uint RunScript(string scripttorun)
+        public uint RunScript(ScriptJSONStructure scripttorun)
         {
             bool ok = false;
-            this.VerboseInfo("Running script : " + scripttorun);
-            this.UpdateFromScriptJSON();
+            this.VerboseInfo("Running script : " + scripttorun.Script.Name);
 
-            foreach (var script in this.jsonParser.Scripts.Scripts)
+            foreach (var regacc in scripttorun.Script.RegisterAccesses)
             {
-                if (script.Name == scripttorun)
+                if (regacc.Description != null && regacc.Description != string.Empty)
                 {
-                    ok = true;
-                    if (script.Description != null && script.Description != string.Empty)
+                    this.Info(regacc.Description);
+                }
+
+                if (regacc.MMap != null && regacc.Name != string.Empty)
+                {
+                    try
                     {
-                        this.Info(script.Description);
+                        uint value = this.getValue(regacc.Value);
+                        this.WriteYodaRg(regacc.MMap, regacc.Name, value);
                     }
-
-                    foreach (var regacc in script.RegisterAccesses)
+                    catch (Exception ex)
                     {
-                        if (regacc.Description != null && regacc.Description != string.Empty)
-                        {
-                            this.Info(regacc.Description);
-                        }
-
-                        if (regacc.MMap != null && regacc.Name != string.Empty)
-                        {
-                            try
-                            {
-                                uint value = this.getValue(regacc.Value);
-                                this.WriteYodaRg(regacc.MMap, regacc.Name, value);
-                            }
-                            catch (Exception ex)
-                            {
-                                this.Error($"{ex.Message} MemoryMap:{regacc.MMap}, RegisterName:{regacc.Name}, Value:{regacc.Value}");
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                string resultString = string.Empty;
-                                uint value = this.getValue(regacc.Value);
-                                uint address = this.getAddress(regacc.RegisterAddress);
-                                this.VerboseInfo(string.Format("Writing address 0x{0:X} with 0x{1:X}", address, value));
-                                this.deviceConnection.WriteMDIORegister(address, value);
-                            }
-                            catch (Exception ex)
-                            {
-                                this.Error($"{ex.Message} RegisterAddress:{regacc.RegisterAddress}, Value:{regacc.Value}");
-                            }
-                        }
+                        this.Error($"{ex.Message} MemoryMap:{regacc.MMap}, RegisterName:{regacc.Name}, Value:{regacc.Value}");
                     }
                 }
-            }
-
-            if (!ok)
-            {
-                throw new ArgumentException("Script \"" + scripttorun + "\" is not defined.");
+                else
+                {
+                    try
+                    {
+                        string resultString = string.Empty;
+                        uint value = this.getValue(regacc.Value);
+                        uint address = this.getAddress(regacc.RegisterAddress);
+                        this.VerboseInfo(string.Format("Writing address 0x{0:X} with 0x{1:X}", address, value));
+                        this.deviceConnection.WriteMDIORegister(address, value);
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Error($"{ex.Message} RegisterAddress:{regacc.RegisterAddress}, Value:{regacc.Value}");
+                    }
+                }
             }
 
             return 0x0;
         }
 
+        /// <summary>
+        /// gets the address in the script
+        /// </summary>
+        /// <param name="inputValue">input address value</param>
+        /// <returns>returns the address value</returns>
         private uint getAddress(string inputValue)
         {
             uint value = 0;
