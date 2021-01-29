@@ -21,6 +21,8 @@ namespace TargetInterface
     using Utilities.JSONParser.JSONClasses;
     using System.Xml;
     using System.IO;
+    using System.Text.RegularExpressions;
+    using System.Globalization;
 
     /// <summary>
     /// Handles the communication between PC and the device firmware API
@@ -75,7 +77,6 @@ namespace TargetInterface
             this.deviceConnection = null;
 
             this.UpdatefromRegisterJSON(DeviceType.ADIN1300); // Assume ADIN1300 until we connect and find out differently
-            this.UpdateFromScriptJSON();
         }
 
         public ObservableCollection<RegisterDetails> Registers { get; set; }
@@ -741,22 +742,6 @@ namespace TargetInterface
             return this.deviceConnection.DeviceDescription == DeviceConnection.DeviceDescriptionEVALADIN11xx;
         }
 
-        private void UpdateFromScriptJSON()
-        {
-            this.Scripts = new ObservableCollection<string>();
-            string[] dirs = Directory.GetFiles(".", "*_scripts.json");
-            foreach (string requiredjsonfile in dirs)
-            {
-                this.Info(string.Format("Loading scripts from {0}", requiredjsonfile));
-                this.jsonParser.ParseScriptData(requiredjsonfile);
-
-                foreach (var script in this.jsonParser.Scripts.Scripts)
-                {
-                    this.Scripts.Add(script.Name);
-                }
-            }
-        }
-
         private void UpdatefromRegisterJSON(DeviceType deviceType)
         {
             string requiredjsonfile = "registers_adin1300.json";
@@ -855,49 +840,183 @@ namespace TargetInterface
         /// </summary>
         /// <param name="scripttorun">Name of the script to run</param>
         /// <returns>Contents of register</returns>
-        public uint RunScript(string scripttorun)
+        public uint RunScript(ScriptJSONStructure scripttorun)
         {
             bool ok = false;
-            this.VerboseInfo("Running script : " + scripttorun);
-            this.UpdateFromScriptJSON();
+            this.VerboseInfo("Running script : " + scripttorun.Script.Name);
 
-            foreach (var script in this.jsonParser.Scripts.Scripts)
+            foreach (var regacc in scripttorun.Script.RegisterAccesses)
             {
-                if (script.Name == scripttorun)
+                if (regacc.Description != null && regacc.Description != string.Empty)
                 {
-                    ok = true;
-                    if (script.Description != null && script.Description != string.Empty)
+                    this.Info(regacc.Description);
+                }
+
+                if (regacc.MMap != null && regacc.Name != string.Empty)
+                {
+                    try
                     {
-                        this.Info(script.Description);
+                        uint value = this.getValue(regacc.Value);
+                        this.WriteYodaRg(regacc.MMap, regacc.Name, value);
                     }
-
-                    foreach (var regacc in script.RegisterAccesses)
+                    catch (Exception ex)
                     {
-                        if (regacc.Description != null && regacc.Description != string.Empty)
-                        {
-                            this.Info(regacc.Description);
-                        }
-
-                        if (regacc.MMap != null && regacc.Name != string.Empty)
-                        {
-                            this.WriteYodaRg(regacc.MMap, regacc.Name, regacc.Value);
-                        }
-                        else
-                        {
-                            uint Address = uint.Parse(regacc.RegisterAddress);
-                            this.VerboseInfo(string.Format("Writing address 0x{0:X} with 0x{1:X}", Address, regacc.Value));
-                            this.deviceConnection.WriteMDIORegister(Address, regacc.Value);
-                        }
+                        this.Error($"{ex.Message} MemoryMap:{regacc.MMap}, RegisterName:{regacc.Name}, Value:{regacc.Value}");
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        string resultString = string.Empty;
+                        uint value = this.getValue(regacc.Value);
+                        uint address = this.getAddress(regacc.RegisterAddress);
+                        this.VerboseInfo(string.Format("Writing address 0x{0:X} with 0x{1:X}", address, value));
+                        this.deviceConnection.WriteMDIORegister(address, value);
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Error($"{ex.Message} RegisterAddress:{regacc.RegisterAddress}, Value:{regacc.Value}");
                     }
                 }
             }
 
-            if (!ok)
+            return 0x0;
+        }
+
+        /// <summary>
+        /// gets the address in the script
+        /// </summary>
+        /// <param name="inputValue">input address value</param>
+        /// <returns>returns the address value</returns>
+        private uint getAddress(string inputValue)
+        {
+            uint value = 0;
+            string resultString = string.Empty;
+
+            if (this.getPrefix(inputValue, out resultString))
             {
-                throw new ArgumentException("Script \"" + scripttorun + "\" is not defined.");
+                if ((resultString.Substring(1) == "x")
+                 || (resultString.Substring(1) == "X"))
+                {
+                    value = this.getHexValue(inputValue);
+                }
+                else
+                {
+                    value = this.getDecimalValue(inputValue);
+                }
+            }
+            else
+            {
+                throw new Exception("Invalid Syntax.");
             }
 
-            return 0x0;
+            return value;
+        }
+
+        /// <summary>
+        /// gets the value from script
+        /// </summary>
+        /// <param name="inputValue">value input</param>
+        /// <returns>returns uint value</returns>
+        private uint getValue(string inputValue)
+        {
+            uint value = 0;
+            string resultString = string.Empty;
+
+            if (this.getPrefix(inputValue, out resultString))
+            {
+                if ((resultString.Substring(1) == "x")
+                 || (resultString.Substring(1) == "X"))
+                {
+                    value = this.getHexValue(inputValue);
+                }
+                else
+                {
+                    value = this.getDecimalValue(inputValue);
+                }
+            }
+            else
+            {
+                throw new Exception("Invalid Syntax.");
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// gets the prefix value
+        /// </summary>
+        /// <param name="value">input string value</param>
+        /// <param name="stringResult">string result</param>
+        /// <returns>returns if the prefix is valid or invalid</returns>
+        private bool getPrefix(string value, out string stringResult)
+        {
+            string pattern = @"^0[xXdD]";
+            Regex rg = new Regex(pattern);
+
+            var result = rg.Match(value);
+
+            if (result.Success)
+            {
+                stringResult = result.Value;
+                return true;
+            }
+            else
+            {
+                stringResult = string.Empty;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// gets the Decimal value
+        /// </summary>
+        /// <param name="value">input string value</param>
+        /// <returns>returns decimal value</returns>
+        private uint getDecimalValue(string value)
+        {
+            string pattern = @"(?<=0[xXdD])\d*";
+            Regex rg = new Regex(pattern);
+
+            var readValue = rg.Match(value);
+            uint resultValue = 0;
+
+            var parseResult = uint.TryParse(readValue.Value, out resultValue);
+
+            if (parseResult)
+            {
+                return resultValue;
+            }
+            else
+            {
+                throw new Exception("Invalid value.");
+            }
+        }
+
+        /// <summary>
+        /// gets the Hex value
+        /// </summary>
+        /// <param name="value">input string value</param>
+        /// <returns>returns hex value</returns>
+        private uint getHexValue(string value)
+        {
+            string pattern = @"(?<=0[xXdD])[0-9a-zA-Z]+";
+            Regex rg = new Regex(pattern);
+
+            var readValue = rg.Match(value);
+            uint resultValue = 0;
+
+            var parseResult = uint.TryParse(readValue.Value, NumberStyles.HexNumber, CultureInfo.CurrentCulture, out resultValue);
+
+            if (parseResult)
+            {
+                return resultValue;
+            }
+            else
+            {
+                throw new Exception("Invalid value.");
+            }
         }
 
         /// <summary>
