@@ -2499,7 +2499,14 @@ namespace ADIN1300_Eval.ViewModel
             foreach (string requiredjsonfile in dirs)
             {
                 this.Info(string.Format("Loading scripts from {0}", Path.GetFileName(requiredjsonfile)));
-                this.Scripts.Add(this.jsonParser.ParseScriptData(requiredjsonfile));
+                try
+                {
+                    this.Scripts.Add(this.jsonParser.ParseScriptData(requiredjsonfile));
+                }
+                catch (Exception ex)
+                {
+                    this.Error($"Error Script[{Path.GetFileName(requiredjsonfile)}]\n {ex.Message}");
+                }
             }
         }
     }
