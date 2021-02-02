@@ -343,6 +343,29 @@ namespace ADIN1100_Eval.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets link foreground color
+        /// </summary>
+        public Brush ForegroundColor
+        {
+            get
+            {
+                switch (this.deviceSettings.PhyState)
+                {
+                    case EthPhyState.Powerdown:
+                        return new SolidColorBrush(Colors.Black);
+                    case EthPhyState.Standby:
+                        return new SolidColorBrush(Colors.Blue);
+                    case EthPhyState.LinkDown:
+                        return new SolidColorBrush(Colors.Orange);
+                    case EthPhyState.LinkUp:
+                        return new SolidColorBrush(Colors.Green);
+                    default:
+                        return new SolidColorBrush(Colors.Red);
+                }
+            }
+        }
+
         public ObservableCollection<RegisterDetails> Registers
         {
             get
@@ -1040,6 +1063,7 @@ namespace ADIN1100_Eval.ViewModel
                     break;
                 case "PhyState":
                     this.RaisePropertyChanged("LinkButtonColor");
+                    this.RaisePropertyChanged("ForegroundColor");
                     break;
                 case "LocalAdvSpeeds":
                     {

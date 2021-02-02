@@ -29,59 +29,59 @@
     </UserControl.Resources>
     <Border BorderThickness="0">
         <StackPanel>
-        <TextBlock Style="{StaticResource Title_H1}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center">Device Status</TextBlock>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin='-1,0,1,0'>
-            <Grid Margin="10">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="40*" />
-                    <RowDefinition Height="60*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                    <WrapPanel HorizontalAlignment='Stretch'>
-                        <Grid Margin='0,0,10,0'>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120" MinWidth='70'/>
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource Title_H1}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center">Device Status</TextBlock>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin='-1,0,1,0'>
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="40*" />
+                        <RowDefinition Height="60*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <WrapPanel HorizontalAlignment='Stretch'>
+                            <Grid Margin='0,0,10,0'>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120" MinWidth='70'/>
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Width="70">Status:</TextBlock>
+                                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Width="70">Status:</TextBlock>
 
-                            <StackPanel Grid.Row="0" Grid.Column="1" Orientation='Horizontal'>
-                                <Ellipse Width='20' Height='20' Fill="{Binding LinkButtonColor}" Margin='0,0,2,0' Visibility='Visible'/>
-                                <TextBlock  Style="{StaticResource Label}" Text="{Binding DeviceSettings.PhyState}" Width="Auto" />
-                            </StackPanel>
+                                <StackPanel Grid.Row="0" Grid.Column="1" Orientation='Horizontal'>
+                                    <!--<Ellipse Width='20' Height='20' Fill="{Binding LinkButtonColor}" Margin='0,0,2,0' Visibility='Visible'/>-->
+                                    <TextBlock  Style="{StaticResource Label}" Text="{Binding DeviceSettings.PhyState}" Width="Auto" Foreground="{Binding ForegroundColor}"/>
+                                </StackPanel>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}">Speed:</TextBlock>
-                            <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" Text="{Binding LinkSpeed}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-
-
-                            <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.FrameCheckerStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.FrameCheckerStatus.ItemName}"/>
-                            <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.FrameCheckerStatus.ItemContent}" Visibility="{Binding DeviceSettings.FrameCheckerStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}">Speed:</TextBlock>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" Text="{Binding LinkSpeed}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
 
-                            <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.FrameGeneratorStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.FrameGeneratorStatus.ItemName}"/>
-                            <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.FrameGeneratorStatus.ItemContent}" Visibility="{Binding DeviceSettings.FrameGeneratorStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.FrameCheckerStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.FrameCheckerStatus.ItemName}"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.FrameCheckerStatus.ItemContent}" Visibility="{Binding DeviceSettings.FrameCheckerStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                            <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.PairMeanSquareErrorStats.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.PairMeanSquareErrorStats.ItemName}"/>
-                            <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.PairMeanSquareErrorStats.ItemContent}" Visibility="{Binding DeviceSettings.Link.PairMeanSquareErrorStats.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                        </Grid>
 
-                    </WrapPanel>
-                </StackPanel>
-            </Grid>
-        </ScrollViewer>
+                                <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.FrameGeneratorStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.FrameGeneratorStatus.ItemName}"/>
+                                <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.FrameGeneratorStatus.ItemContent}" Visibility="{Binding DeviceSettings.FrameGeneratorStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.PairMeanSquareErrorStats.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.PairMeanSquareErrorStats.ItemName}"/>
+                                <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.PairMeanSquareErrorStats.ItemContent}" Visibility="{Binding DeviceSettings.Link.PairMeanSquareErrorStats.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            </Grid>
+
+                        </WrapPanel>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
         </StackPanel>
     </Border>
 </UserControl>

@@ -23,7 +23,7 @@
                 <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
                 <Setter Property="Width" Value="70" />
                 <Setter Property="TextAlignment" Value="Right" />
-                <Setter Property="Margin" Value="0,-5,0,0" />
+                <Setter Property="Margin" Value="0,-5,0,0"/>
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -60,7 +60,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Width="100">Board Name:</TextBlock>
-                                <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource Label}"  Width="Auto" HorizontalAlignment="Left" Text="{Binding BoardID}" />
+                                <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding BoardID}" />
 
                                 <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.DetectedDevice.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.DetectedDevice.ItemName}"/>
                                 <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.DetectedDevice.ItemContent}" Visibility="{Binding DeviceSettings.DetectedDevice.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
@@ -68,8 +68,8 @@
                                 <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Width="70">Status:</TextBlock>
 
                                 <StackPanel Grid.Row="2" Grid.Column="1" Orientation='Horizontal'>
-                                    <Ellipse Width='20' Height='20' Fill="{Binding LinkButtonColor}" Margin='0,0,2,0' Visibility='Visible'/>
-                                    <TextBlock  Style="{StaticResource Label}" Text="{Binding DeviceSettings.PhyState}" Width="Auto" />
+                                    <!--<Ellipse Width='20' Height='20' Fill="{Binding LinkButtonColor}" Margin='0,0,2,0' Visibility='Visible'/>-->
+                                    <TextBlock Style="{StaticResource Label}" Text="{Binding DeviceSettings.PhyState}" Width="Auto" Foreground="{Binding ForegroundColor}"/>
                                 </StackPanel>
 
                                 <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}">Advertised Speed:</TextBlock>
