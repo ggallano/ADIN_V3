@@ -4,7 +4,7 @@
 //     This software is proprietary and confidential to Analog Devices, Inc. and its licensors.
 // </copyright>
 //-----------------------------------------------------------------------
-namespace ADIN1300_Eval.ViewModel
+namespace ADIN1100_Eval.ViewModel
 {
     using Commands;
     using Microsoft.Win32;

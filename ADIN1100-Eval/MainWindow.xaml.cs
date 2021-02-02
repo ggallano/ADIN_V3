@@ -3,10 +3,10 @@
 //     This software is proprietary and confidential to Analog Devices, Inc. and its licensors.
 // </copyright>
 
-namespace ADIN1300_Eval
+namespace ADIN1100_Eval
 {
     using System.Windows;
-    using ADIN1300_Eval.ViewModel;
+    using ADIN1100_Eval.ViewModel;
     using Telerik.Windows.Controls;
 
     /// <summary>

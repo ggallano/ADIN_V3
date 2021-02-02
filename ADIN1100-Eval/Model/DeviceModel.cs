@@ -3,7 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices, Inc. and its licensors.
 // </copyright>
 
-namespace ADIN1300_Eval.Model
+namespace ADIN1100_Eval.Model
 {
     using System;
     using System.ComponentModel;

@@ -26,7 +26,7 @@ namespace TargetInterface
 
         private TargetInfoItem frameGeneratorStatus = new TargetInfoItem("Generator");
 
-        private TargetInfoItem detectedDevice = new TargetInfoItem("Device:");
+        private TargetInfoItem detectedDevice = new TargetInfoItem("Device Type:");
 
         private EthPhyState phyState = EthPhyState.Powerdown;
 

@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace ADIN1300_Eval.Themes.Converters
+namespace ADIN1100_Eval.Themes.Converters
 {
     using System;
     using System.Windows.Data;

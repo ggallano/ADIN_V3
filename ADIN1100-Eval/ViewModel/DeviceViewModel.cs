@@ -3,7 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices, Inc. and its licensors.
 // </copyright>
 
-namespace ADIN1300_Eval.ViewModel
+namespace ADIN1100_Eval.ViewModel
 {
     using System;
     using System.Collections.ObjectModel;
@@ -2505,7 +2505,7 @@ namespace ADIN1300_Eval.ViewModel
                 }
                 catch (Exception ex)
                 {
-                    this.Error($"Error Script[{Path.GetFileName(requiredjsonfile)}]\n {ex.Message}");
+                    this.Error($"Error Script [{Path.GetFileName(requiredjsonfile)}]\n {ex.Message}");
                 }
             }
         }

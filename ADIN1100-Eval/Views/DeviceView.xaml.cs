@@ -3,7 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices, Inc. and its licensors.
 // </copyright>
 
-namespace ADIN1300_Eval.Views
+namespace ADIN1100_Eval.Views
 {
     using System;
     using System.Collections.Generic;

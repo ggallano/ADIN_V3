@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ADIN1100_Eval.Views
 {
     /// <summary>
-    /// Interaction logic for FrameStatus.xaml
+    /// Interaction logic for UpdatedLinkStatus.xaml
     /// </summary>
-    public partial class FrameStatus : UserControl
+    public partial class UpdatedLinkStatus : UserControl
     {
-        public FrameStatus()
+        public UpdatedLinkStatus()
         {
             InitializeComponent();
         }

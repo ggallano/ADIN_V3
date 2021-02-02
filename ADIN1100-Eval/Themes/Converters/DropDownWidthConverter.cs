@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
-namespace ADIN1300_Eval.Themes.Converters
+namespace ADIN1100_Eval.Themes.Converters
 {
     public class DropDownWidthConverter : IValueConverter
     {

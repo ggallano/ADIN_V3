@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="ADIN1100_Eval.Views.UpdatedLinkStatus"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ADIN1100_Eval.Views"
+             xmlns:converter="clr-namespace:ADIN1100_Eval.Themes.Converters"
+             xmlns:telerik='http://schemas.telerik.com/2008/xaml/presentation'
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="boolvis"/>
+            <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converter:BooleanToVisibilityConverter x:Key="ReverseBooleanToVisibilityConverter" IsInversed="True"/>
+            <telerik:Windows8Colors x:Key="Windows8Colors" />
+            <SolidColorBrush x:Key="AccentBrush" Color="{Binding Path=Palette.AccentColor, Source={StaticResource Windows8Colors}}"></SolidColorBrush>
+            <Style x:Key="Label" TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontFamily" Value="Segoe UI Light" />
+                <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+                <Setter Property="Width" Value="70" />
+                <Setter Property="TextAlignment" Value="Right" />
+                <!--<Setter Property="Margin" Value="20,0,0,0" />-->
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+            <Label>Device Status</Label>
+        </Border>
+
+        <StackPanel  Grid.Row="1" Grid.Column="0">
+            <TextBlock Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Width="100">Board Name:</TextBlock>
+            <TextBlock Style="{StaticResource Label}"  Width="Auto" HorizontalAlignment="Left" Margin="20,0,0,0" Text="{Binding BoardID}" />
+        </StackPanel>
+
+        <StackPanel  Grid.Row="1" Grid.Column="1">
+            <TextBlock Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.DetectedDevice.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.DetectedDevice.ItemName}"/>
+            <TextBlock Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Margin="20,0,0,0" Text="{Binding DeviceSettings.DetectedDevice.ItemContent}" Visibility="{Binding DeviceSettings.DetectedDevice.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </StackPanel>
+
+        <StackPanel  Grid.Row="2" Grid.Column="0" Orientation="Vertical">
+            <TextBlock Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Width="70">Link Status:</TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
+                <Ellipse Width='20' Height='20' Fill="{Binding LinkButtonColor}" Visibility='Visible'/>
+                <TextBlock Style="{StaticResource Label}" Margin="10,0,0,0"  Text="{Binding DeviceSettings.PhyState}" Width="Auto" />
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel  Grid.Row="2" Grid.Column="1">
+            <TextBlock Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}">Speed Advertised:</TextBlock>
+            <TextBlock Style="{StaticResource Label}" Width="Auto" Margin="20,0,0,0" Text="{Binding LinkSpeed}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </StackPanel>
+
+        <StackPanel  Grid.Row="3" Grid.Column="0">
+            <TextBlock Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.AnStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.AnStatus.ItemName}"/>
+            <TextBlock Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.AnStatus.ItemContent}" Visibility="{Binding DeviceSettings.Link.AnStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

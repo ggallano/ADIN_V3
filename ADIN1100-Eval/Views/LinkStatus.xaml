@@ -1,14 +1,14 @@
-﻿<UserControl x:Class="ADIN1300_Eval.Views.LinkStatus"
+﻿<UserControl x:Class="ADIN1100_Eval.Views.LinkStatus"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:converter="clr-namespace:ADIN1300_Eval.Themes.Converters"
+             xmlns:converter="clr-namespace:ADIN1100_Eval.Themes.Converters"
              xmlns:telerik='http://schemas.telerik.com/2008/xaml/presentation'
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
-             xmlns:local="clr-namespace:ADIN1300_Eval.Views"
+             xmlns:local="clr-namespace:ADIN1100_Eval.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="700" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="boolvis"/>
@@ -28,7 +28,9 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Border BorderThickness="0">
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <TextBlock Style="{StaticResource Title_H1}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center">Device Status</TextBlock>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
             <Grid Margin="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -54,10 +56,10 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="8*"/>
-                                <ColumnDefinition Width="8*"/>
+                                <ColumnDefinition Width="9*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Width="100">Board:</TextBlock>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Width="100">Board Name:</TextBlock>
                             <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource Label}"  Width="Auto" HorizontalAlignment="Left" Text="{Binding BoardID}" />
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.DetectedDevice.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.DetectedDevice.ItemName}"/>
@@ -79,7 +81,7 @@
                                 <TextBlock  Style="{StaticResource Label}" Text="{Binding DeviceSettings.PhyState}" Width="Auto" />
                             </StackPanel>
 
-                            <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}">Speed:</TextBlock>
+                                <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}">Advertised Speed:</TextBlock>
                             <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" Text="{Binding LinkSpeed}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                             <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding LinkModeVisible,Converter={StaticResource BooleanToVisibilityConverter}}">Mode:</TextBlock>
@@ -123,5 +125,6 @@
                 </StackPanel>
             </Grid>
         </ScrollViewer>
+        </StackPanel>
     </Border>
 </UserControl>

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ADIN1300_Eval.Properties
+namespace ADIN1100_Eval.Properties
 {
 
 
