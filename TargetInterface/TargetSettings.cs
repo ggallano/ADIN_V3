@@ -22,9 +22,9 @@ namespace TargetInterface
     {
         private List<string> cableDiagnosticsStatus = new List<string>() { "Please run cable diagnostics for updated status." };
 
-        private TargetInfoItem frameCheckerStatus = new TargetInfoItem("Checker");
+        private TargetInfoItem frameCheckerStatus = new TargetInfoItem("Checker:");
 
-        private TargetInfoItem frameGeneratorStatus = new TargetInfoItem("Generator");
+        private TargetInfoItem frameGeneratorStatus = new TargetInfoItem("Generator:");
 
         private TargetInfoItem detectedDevice = new TargetInfoItem("Device Type:");
 

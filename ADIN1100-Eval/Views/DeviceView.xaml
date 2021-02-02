@@ -285,7 +285,7 @@
                             <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
 
                             <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                                <local:UpdatedLinkStatus/>
+                                <local:LinkStatus/>
                             </Grid>
                         </Grid>
                     </Grid>

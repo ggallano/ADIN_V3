@@ -28,6 +28,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Border BorderThickness="0">
+        <StackPanel>
+        <TextBlock Style="{StaticResource Title_H1}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center">Device Status</TextBlock>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Margin='-1,0,1,0'>
             <Grid Margin="10">
                 <Grid.RowDefinitions>
@@ -50,23 +52,14 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="8*" MinWidth='70'/>
+                                <ColumnDefinition Width="120" MinWidth='70'/>
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Width="70">Status:</TextBlock>
 
                             <StackPanel Grid.Row="0" Grid.Column="1" Orientation='Horizontal'>
-                                <Grid >
-                                    <Rectangle Width='37' Height='20' Fill="{Binding LinkButtonColor, 
-            diag:PresentationTraceSources.TraceLevel=High}" Visibility='Visible'>
-                                    </Rectangle>
-                                    <Rectangle 
-               Width="54"
-               Visibility="Visible" Margin='0,1,0,0'/>
-
-                                </Grid>
-
+                                <Ellipse Width='20' Height='20' Fill="{Binding LinkButtonColor}" Margin='0,0,2,0' Visibility='Visible'/>
                                 <TextBlock  Style="{StaticResource Label}" Text="{Binding DeviceSettings.PhyState}" Width="Auto" />
                             </StackPanel>
 
@@ -89,6 +82,7 @@
                 </StackPanel>
             </Grid>
         </ScrollViewer>
+        </StackPanel>
     </Border>
 </UserControl>
 
