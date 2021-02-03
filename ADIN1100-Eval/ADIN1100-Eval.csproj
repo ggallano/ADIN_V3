@@ -158,6 +158,9 @@
     <Compile Include="Views\Testmodes.xaml.cs">
       <DependentUpon>Testmodes.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UpdatedLinkStatus.xaml.cs">
+      <DependentUpon>UpdatedLinkStatus.xaml</DependentUpon>
+    </Compile>
     <Page Include="AboutWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -219,6 +222,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Testmodes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UpdatedLinkStatus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

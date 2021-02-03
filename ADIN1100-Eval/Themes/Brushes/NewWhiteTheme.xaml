@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:ADIN1300_Eval.Themes.Brushes" 
+                    xmlns:local="clr-namespace:ADIN1100_Eval.Themes.Brushes" 
                     xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
     <!-- Colors -->
     <Color x:Key="DarkBlueColor">#FF054A8F</Color>

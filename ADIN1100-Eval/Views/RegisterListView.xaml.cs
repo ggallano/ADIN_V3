@@ -3,7 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices, Inc. and its licensors.
 // </copyright>
 
-namespace ADIN1300_Eval.Views
+namespace ADIN1100_Eval.Views
 {
     using System;
     using System.Globalization;
@@ -35,7 +35,7 @@ namespace ADIN1300_Eval.Views
                 if (e.AddedItems[0] is RegisterDetails)
                 {
                     RegisterDetails details = (RegisterDetails)e.AddedItems[0];
-                    System.Uri imguri = new Uri(string.Format("/ADIN1300-Eval;component/Images/Yoda/{0}", details.Image), UriKind.Relative);
+                    System.Uri imguri = new Uri(string.Format("../Images/Yoda/{0}", details.Image), UriKind.Relative);
                     BitmapImage ni = new BitmapImage(imguri);
                     this.RegImage.Source = ni;
                 }
@@ -192,7 +192,7 @@ namespace ADIN1300_Eval.Views
                 if (reglist.Count > 0)
                 {
                     RegisterDetails details = reglist[0];
-                    System.Uri imguri = new Uri(string.Format("/ADIN1300-Eval;component/Images/Yoda/{0}", details.Image), UriKind.Relative);
+                    System.Uri imguri = new Uri(string.Format("../Images/Yoda/{0}", details.Image), UriKind.Relative);
                     BitmapImage ni = new BitmapImage(imguri);
                     this.RegImage.Source = ni;
                 }

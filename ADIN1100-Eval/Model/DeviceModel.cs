@@ -3,7 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices, Inc. and its licensors.
 // </copyright>
 
-namespace ADIN1300_Eval.Model
+namespace ADIN1100_Eval.Model
 {
     using System;
     using System.ComponentModel;
@@ -34,11 +34,13 @@ namespace ADIN1300_Eval.Model
         {
             this.PropertyChanged += propertyChange;
             this.id = id;
-            this.deviceConnection = new DeviceConnection(this.id);
-            this.fwAPI = new FirmwareAPI();
 
-            this.fwAPI.PropertyChanged += this.FWAPI_PropertyChanged;
+            this.deviceConnection = new DeviceConnection(this.id);
             this.deviceConnection.PropertyChanged += this.Feedback_PropertyChanged;
+
+            this.fwAPI = new FirmwareAPI();
+            this.fwAPI.PropertyChanged += this.FWAPI_PropertyChanged;
+            //this.fwAPI.UpdateFromScriptJSON();
 
             this.fwAPI.AttachDevice(this.deviceConnection);
             this.isPresent = true;

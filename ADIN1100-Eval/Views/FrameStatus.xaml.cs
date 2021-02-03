@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ADIN1300_Eval.Views
+namespace ADIN1100_Eval.Views
 {
     /// <summary>
     /// Interaction logic for FrameStatus.xaml

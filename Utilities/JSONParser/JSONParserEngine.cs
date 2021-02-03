@@ -39,9 +39,9 @@ namespace Utilities.JSONParser
         /// Calls the function that parses the scripts JSON file
         /// </summary>
         /// <param name="jsonFileName">Name of file to parse</param>
-        public void ParseScriptData(string jsonFileName)
+        public ScriptJSONStructure ParseScriptData(string jsonFileName)
         {
-            this.ParseScriptsFile(jsonFileName);
+            return this.ParseScriptsFile(jsonFileName);
         }
 
         /// <summary>
@@ -95,12 +95,12 @@ namespace Utilities.JSONParser
         /// Parsing the JSON files into the respective classes
         /// </summary>
         /// <param name="jsonFileName">Name of JSON file to parse</param>
-        private void ParseScriptsFile(string jsonFileName)
+        private ScriptJSONStructure ParseScriptsFile(string jsonFileName)
         {
             string configFilesPath = string.Empty;
             Stream jsonStream = File.OpenRead(Path.Combine(configFilesPath, jsonFileName));
             DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(ScriptJSONStructure));
-            this.Scripts = (ScriptJSONStructure)serializer.ReadObject(jsonStream);
+            return (ScriptJSONStructure)serializer.ReadObject(jsonStream);
         }
     }
 }

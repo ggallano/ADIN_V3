@@ -1,12 +1,12 @@
-﻿<UserControl x:Class="ADIN1300_Eval.Views.DeviceView"
+﻿<UserControl x:Class="ADIN1100_Eval.Views.DeviceView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
-             xmlns:converter="clr-namespace:ADIN1300_Eval.Themes.Converters"
+             xmlns:converter="clr-namespace:ADIN1100_Eval.Themes.Converters"
              xmlns:telerik='http://schemas.telerik.com/2008/xaml/presentation'
-             xmlns:local="clr-namespace:ADIN1300_Eval.Views"
+             xmlns:local="clr-namespace:ADIN1100_Eval.Views"
              xmlns:global="clr-namespace:System.Globalization;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
@@ -35,7 +35,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Grid>
-                                <Image Source='/ADIN1300-Eval;component/Images/icons/iconfinder_power_1055002.png' />
+                                <Image Source='../Images/icons/iconfinder_power_1055002.png' />
                                 <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"/>
                             </Grid>
@@ -48,7 +48,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Grid>
-                                <Image Source='/ADIN1300-Eval;component/Images/icons/iconfinder_Chn_link_locked_share_1886531.png' />
+                                <Image Source='../Images/icons/iconfinder_Chn_link_locked_share_1886531.png' />
                                 <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"/>
                             </Grid>
@@ -61,7 +61,7 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
                             <Grid>
-                                <Image Source='/ADIN1300-Eval;component/Images/icons/iconfinder_law_iconsArtboard_1_copy_10_2393038.png' />
+                                <Image Source='../Images/icons/iconfinder_law_iconsArtboard_1_copy_10_2393038.png' />
                                 <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"/>
                             </Grid>
@@ -72,7 +72,7 @@
 
             <DataTemplate x:Key="DeviceListTemplate">
                 <StackPanel Orientation = "Horizontal">
-                    <Image Source='/ADIN1300-Eval;component/Images/icons/Applications-Industrial-Automation-Ethernet-Icon.png' Width='32' Height='32'/>
+                    <Image Source='../Images/icons/Applications-Industrial-Automation-Ethernet-Icon.png' Width='32' Height='32'/>
                     <Label Content="{Binding ID, Mode=TwoWay}"/>
                 </StackPanel>
             </DataTemplate>
@@ -82,7 +82,7 @@
     <DockPanel>
         <ScrollViewer  Width='190' VerticalScrollBarVisibility="Auto" DockPanel.Dock='Left'>
             <StackPanel>
-                <Image  Source='/ADIN1300-Eval;component/Images/ADI-Logo-AWP-Tagline-RGB-Solid.png' />
+                <Image  Source='../Images/ADI-Logo-AWP-Tagline-RGB-Solid.png' />
                 <TextBlock HorizontalAlignment='Left' VerticalAlignment='Stretch' FontWeight='Bold' FontSize='18' Margin='16,0,0,10'><Run Text='Select Local'/></TextBlock>
                 <ListBox x:Name='DongleList' Height='81' Margin='16,0,0,0' Width='154' HorizontalAlignment='Left' ScrollViewer.HorizontalScrollBarVisibility='Auto' ScrollViewer.VerticalScrollBarVisibility='Auto' ItemsSource='{Binding Devices}' ItemTemplate="{StaticResource DeviceListTemplate}" SelectionChanged='DongleList_SelectionChanged' SelectedItem='{Binding SelectedDevice, 
             diag:PresentationTraceSources.TraceLevel=High}'>
@@ -266,30 +266,6 @@
                         </Grid>
                     </Grid>
                 </TabItem>
-                <TabItem Header='Loopback' Visibility="{Binding DataContext.LoopbackPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
-                    <Grid>
-                        <Grid HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="5" />
-                                <ColumnDefinition Width="3*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <ContentControl Visibility="Collapsed"
-             Content="{StaticResource ProxyElement}"/>
-                            <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                                <local:Loopback/>
-                            </Grid>
-                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
-
-                            <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                                <local:LinkStatus/>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </TabItem>
                 <TabItem Header='Test Modes' Visibility="{Binding DataContext.TestModesPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
                     <Grid>
                         <Grid HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
@@ -305,6 +281,30 @@
              Content="{StaticResource ProxyElement}"/>
                             <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                                 <local:Testmodes/>
+                            </Grid>
+                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
+
+                            <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <local:LinkStatus/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header='Loopback' Visibility="{Binding DataContext.LoopbackPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
+                    <Grid>
+                        <Grid HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <ContentControl Visibility="Collapsed"
+             Content="{StaticResource ProxyElement}"/>
+                            <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <local:Loopback/>
                             </Grid>
                             <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
 

@@ -1,12 +1,12 @@
-﻿<UserControl x:Class="ADIN1300_Eval.Views.RegisterListView"
+﻿<UserControl x:Class="ADIN1100_Eval.Views.RegisterListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:CustomControlStyles="clr-namespace:ADIN1300_Eval.Themes.CustomControlStyles"
-             xmlns:converter="clr-namespace:ADIN1300_Eval.Themes.Converters"
-             xmlns:local="clr-namespace:ADIN1300_Eval.Views"
-             xmlns:viewmodel="clr-namespace:ADIN1300_Eval.ViewModel"
+             xmlns:CustomControlStyles="clr-namespace:ADIN1100_Eval.Themes.CustomControlStyles"
+             xmlns:converter="clr-namespace:ADIN1100_Eval.Themes.Converters"
+             xmlns:local="clr-namespace:ADIN1100_Eval.Views"
+             xmlns:viewmodel="clr-namespace:ADIN1100_Eval.ViewModel"
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
              mc:Ignorable="d" 
@@ -47,7 +47,7 @@
                     <TextBlock  Grid.Row='0' FontWeight='Bold'>Hardware default register values shown</TextBlock>
 
                     <ScrollViewer Grid.Row='1'>
-                        <Image  x:Name='RegImage' Source='/ADIN1300-Eval;component/Images/Yoda/adin1300/8d9dcea82993c8caa385a03588d06d4a.png' VerticalAlignment='Top' HorizontalAlignment='Center' Stretch='None' />
+                        <Image  x:Name='RegImage' Source='../Images/Yoda/adin1100/099dde65723743503791a6cfc6b8c52312d849d1.png' VerticalAlignment='Top' HorizontalAlignment='Center' Stretch='None' />
 
                     </ScrollViewer>
                     <GridSplitter Grid.Row="2" ShowsPreview="False" Style="{StaticResource HorizontalGridSplitter}"/>

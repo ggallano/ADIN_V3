@@ -3,7 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices, Inc. and its licensors.
 // </copyright>
 
-namespace ADIN1300_Eval
+namespace ADIN1100_Eval
 {
     using System.ComponentModel;
     using DeviceCommunication;
@@ -28,6 +28,7 @@ namespace ADIN1300_Eval
             this.feedbackViewModel = new FeedbackViewModel();
             this.deviceViewModel = new DeviceViewModel();
             this.deviceViewModel.PropertyChanged += this.Feedback_PropertyChanged;
+            this.deviceViewModel.UpdateFromScriptJSON();
         }
 
         /// <summary>

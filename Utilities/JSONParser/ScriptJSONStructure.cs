@@ -18,7 +18,7 @@ namespace Utilities.JSONParser
         /// <summary>
         /// Gets or sets the scripts
         /// </summary>
-        [DataMember(Name = "Scripts")]
-        public ScriptDetails[] Scripts { get; set; }
+        [DataMember(Name = "Script")]
+        public ScriptDetails Script { get; set; }
     }
 }

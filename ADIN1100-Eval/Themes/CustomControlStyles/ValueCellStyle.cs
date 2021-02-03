@@ -3,7 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices, Inc. and its licensors.
 // </copyright>
 
-namespace ADIN1300_Eval.Themes.CustomControlStyles
+namespace ADIN1100_Eval.Themes.CustomControlStyles
 {
     using System.Windows;
     using System.Windows.Controls;

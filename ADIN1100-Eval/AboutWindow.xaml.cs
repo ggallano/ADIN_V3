@@ -5,7 +5,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace ADIN1300_Eval
+namespace ADIN1100_Eval
 {
     using System.Windows;
 
