@@ -764,7 +764,7 @@ namespace TargetInterface
             }
 
             this.Info(string.Format("Loading registers from {0}", requiredjsonfile));
-            this.jsonParser.ParseJSONData(requiredjsonfile);
+            this.jsonParser.ParseJSONData(Path.Combine(@"registers", requiredjsonfile));
 
             // Transfer of jsonParser.RegisterFieldMapping.Registers to Register
             Array.Sort(this.jsonParser.RegisterFieldMapping.Registers, delegate (RegisterDetails x, RegisterDetails y) { return x.Address.CompareTo(y.Address); });
