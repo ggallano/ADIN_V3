@@ -2519,7 +2519,7 @@ namespace ADIN1100_Eval.ViewModel
         public void UpdateFromScriptJSON()
         {
             this.Scripts = new ObservableCollection<ScriptJSONStructure>();
-            string[] dirs = Directory.GetFiles(@".\scripts", "*_scripts.json");
+            string[] dirs = Directory.GetFiles(@".\scripts");
             foreach (string requiredjsonfile in dirs)
             {
                 this.Info(string.Format("Loading scripts from {0}", Path.GetFileName(requiredjsonfile)));
