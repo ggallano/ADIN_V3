@@ -11,6 +11,7 @@ namespace ADIN1100_Eval.Themes.Converters
     using System.Text;
     using System.Threading.Tasks;
     using System.Windows.Data;
+    using Telerik.Windows.Controls;
     using static TargetInterface.FirmwareAPI;
 
     /// <summary>
@@ -24,13 +25,21 @@ namespace ADIN1100_Eval.Themes.Converters
 
             if (values.Length == 3)
             {
-                if (values[0] is string)
+                RadComboBoxItem selectedLoopback = values[0] as RadComboBoxItem;
+                if (selectedLoopback != null)
                 {
-                    LoopBackMode gePhyLb_sel;
-                    if (Enum.TryParse((string)values[0], out gePhyLb_sel))
+                    if (selectedLoopback.Name is string)
                     {
-                        parameters.gePhyLb_selt = gePhyLb_sel;
+                        LoopBackMode gePhyLb_sel;
+                        if (Enum.TryParse(selectedLoopback.Name, out gePhyLb_sel))
+                        {
+                            parameters.gePhyLb_selt = gePhyLb_sel;
+                        }
                     }
+                }
+                else
+                {
+                    return parameter = null;
                 }
 
                 if (values[1] is bool)
