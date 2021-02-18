@@ -118,6 +118,7 @@
     <Compile Include="Themes\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Themes\Converters\DropDownWidthConverter.cs" />
     <Compile Include="Themes\Converters\FrameCheckerParametersConverter.cs" />
+    <Compile Include="Themes\Converters\ImageConverter.cs" />
     <Compile Include="Themes\Converters\InverseBooleanConverter.cs" />
     <Compile Include="Themes\Converters\LocalLoopbackParametersConverter.cs" />
     <Compile Include="Themes\Converters\RegisterParametersConverter.cs" />
@@ -250,7 +251,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="Images\icons\Applications-Industrial-Automation-Ethernet-Icon.png" />
-    <Resource Include="Images\ADI-Logo-AWP-Tag-KO.png" />
     <Resource Include="Images\ADI-Logo-AWP-Tag.gif" />
     <Resource Include="Images\ADI-Logo-AWP-Tagline-RGB-Solid.png" />
     <Resource Include="applications_industrial_automation_ethernet_icon_oN6_icon.ico" />
@@ -472,6 +472,7 @@
     <Resource Include="Images\Yoda\adin1100\ea411b5fd7c45f115bdf767605744a87a86eed79.png" />
     <Resource Include="Images\Yoda\adin1100\f08bfcb514f8b2df6edbe0958070e5a2cfad038d.png" />
     <Resource Include="Images\Yoda\adin1100\fabdaf625dd2e556ce84d8773580e05f639585ca.png" />
+    <Resource Include="Images\ADI-Logo-AWP-Tag-KO.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
