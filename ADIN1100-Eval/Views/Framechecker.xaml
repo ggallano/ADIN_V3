@@ -56,12 +56,12 @@
                     <StackPanel>
                         <CheckBox Margin="2 2 8 2"    IsEnabled='{Binding FrameGenRunning,Converter={StaticResource InverseBooleanConverter}}'   ToolTip='Enable this to send a continuous stream of frames. Alternative is to send a burst of frames of a certain length.' x:Name='chkContinuous'>Continuous Mode until terminated.</CheckBox>
                         <TextBlock Text="Number of Frames in Burst" Margin="2 2 8 2"    FontWeight="SemiBold" Visibility='{Binding ElementName=chkContinuous, Path=IsChecked,Converter={StaticResource ReverseBooleanToVisibilityConverter}}'/>
-                        <telerik:RadSlider IsEnabled='{Binding FrameGenRunning,Converter={StaticResource InverseBooleanConverter}}'  x:Name='SliderFrameNumber' Value="64001" Minimum="100" SmallChange="100" Maximum="65535" TickFrequency='100' IsSnapToTickEnabled='True' Visibility='{Binding ElementName=chkContinuous, Path=IsChecked,Converter={StaticResource ReverseBooleanToVisibilityConverter}}'/>
-                        <TextBlock Text='{Binding ElementName=SliderFrameNumber, Path=Value}' Visibility='{Binding ElementName=chkContinuous, Path=IsChecked,Converter={StaticResource ReverseBooleanToVisibilityConverter}}'></TextBlock>
+                        <telerik:RadSlider IsEnabled='{Binding FrameGenRunning,Converter={StaticResource InverseBooleanConverter}}'  x:Name='SliderFrameNumber' Value="64001" Minimum="1" SmallChange="100" Maximum="65535" TickFrequency='100' IsSnapToTickEnabled='True' Visibility='{Binding ElementName=chkContinuous, Path=IsChecked,Converter={StaticResource ReverseBooleanToVisibilityConverter}}'/>
+                        <!--<TextBlock Text='{Binding ElementName=SliderFrameNumber, Path=Value}' Visibility='{Binding ElementName=chkContinuous, Path=IsChecked,Converter={StaticResource ReverseBooleanToVisibilityConverter}}'/>-->
+                        <TextBox Text="{Binding ElementName=SliderFrameNumber, Path=Value, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked,Converter={StaticResource ReverseBooleanToVisibilityConverter}}" BorderThickness="0.5" Background="Transparent" Width="50" HorizontalAlignment="Left" HorizontalContentAlignment="Center"/>
 
                         <TextBlock Text="Frame Length" Margin="2 2 8 2"    FontWeight="SemiBold" />
                         <telerik:RadSlider IsEnabled='{Binding FrameGenRunning,Converter={StaticResource InverseBooleanConverter}}' x:Name='SliderFrameLength' Value="1250" Minimum="100" SmallChange="100" Maximum="65500" TickFrequency='100' IsSnapToTickEnabled='True'/>
-
                         <TextBlock Text='{Binding ElementName=SliderFrameLength, Path=Value}'></TextBlock>
 
                         <TextBlock Text="Frame Content" Margin="2 2 8 2"    FontWeight="SemiBold" />
