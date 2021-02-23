@@ -931,14 +931,27 @@ namespace TargetInterface
                 {
                     value = this.getHexValue(inputValue);
                 }
-                else
+                else if ((resultString.Substring(1) == "d")
+                      || (resultString.Substring(1) == "D"))
                 {
                     value = this.getDecimalValue(inputValue);
+                }
+                else
+                {
+                    value = uint.Parse(resultString);
                 }
             }
             else
             {
-                throw new Exception("Invalid Syntax.");
+                uint resultParse = 0;
+                if (uint.TryParse(resultString, out resultParse))
+                {
+                    value = resultParse;
+                }
+                else
+                {
+                    throw new Exception("Invalid Syntax.");
+                }
             }
 
             return value;
@@ -964,7 +977,7 @@ namespace TargetInterface
             }
             else
             {
-                stringResult = string.Empty;
+                stringResult = value;
                 return false;
             }
         }
