@@ -473,11 +473,12 @@
     <Resource Include="Images\Yoda\adin1100\f08bfcb514f8b2df6edbe0958070e5a2cfad038d.png" />
     <Resource Include="Images\Yoda\adin1100\fabdaf625dd2e556ce84d8773580e05f639585ca.png" />
     <Resource Include="Images\ADI-Logo-AWP-Tag-KO.png" />
-    <Resource Include="Images\loopback\DigitalLoopback.png" />
-    <Resource Include="Images\loopback\DriverLoopback.png" />
     <Resource Include="Images\loopback\ExternalLoopback.png" />
     <Resource Include="Images\loopback\NoLoopback.png" />
-    <Resource Include="Images\loopback\RemoteLoopback.png" />
+    <Resource Include="Images\loopback\MACLoopback.png" />
+    <Resource Include="Images\loopback\MACRemoteLoopback.png" />
+    <Resource Include="Images\loopback\PCSLoopback.png" />
+    <Resource Include="Images\loopback\PMALoopback.png" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
