@@ -151,19 +151,29 @@ namespace TargetInterface
         public enum LoopBackMode
         {
             /// <summary>
-            /// Digital
+            /// Digital / PCS
             /// </summary>
             Digital,
 
             /// <summary>
-            /// LineDriver
+            /// LineDriver / PMA
             /// </summary>
             LineDriver,
 
             /// <summary>
-            /// ExtCable
+            /// ExtCable / ExtMII/RMII
             /// </summary>
             ExtCable,
+
+            /// <summary>
+            /// MAC I/F Remote
+            /// </summary>
+            MacRemote,
+
+            /// <summary>
+            /// MAC I/F
+            /// </summary>
+            MAC,
 
             /// <summary>
             /// OFF
@@ -2318,17 +2328,7 @@ namespace TargetInterface
 
             TargetInfoItem connectedDevice = new TargetInfoItem(this.deviceSettingsUp.DetectedDevice.ItemName);
             connectedDevice.IsAvailable = true;
-            //  string voltageCap = (tenSpE2p4VoltCapable == true) ? "2.4V Capable" : "1V Capable";
             connectedDevice.ItemContent = deviceType.ToString() + "   \n" + "PHY Addr:" + this.deviceConnection.GetMDIOAddress().ToString();
-            //TargetInfoItem tenSpe2p4DevCapable = new TargetInfoItem("");
-            //if (this.tenSpE2p4VoltCapable == true)
-            //{
-            //    tenSpe2p4DevCapable.ItemContent = "2.4V Capable";
-            //}
-            //else
-            //{
-            //    tenSpe2p4DevCapable.ItemContent = "1V Capable";
-            //}
 
             this.deviceSettingsUp.DetectedDevice = connectedDevice;
 
