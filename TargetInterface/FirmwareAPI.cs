@@ -1236,9 +1236,9 @@ namespace TargetInterface
 
             if (this.TenSPEDevice())
             {
-                bool inSwPowerDown = this.ReadYodaRg("SPEPhy", "CRSM_SFT_PD") == 1;
+                bool inSwPowerDown = this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD") == 1;
 
-                this.deviceSettingsUp.Link.LinkEstablished = this.ReadYodaRg("SPEPhy", "AN_LINK_STATUS") == 1;
+                this.deviceSettingsUp.Link.LinkEstablished = this.ReadYodaRg("IndirectAccessAddressMap", "AN_LINK_STATUS") == 1;
                 if (inSwPowerDown)
                 {
                     this.deviceSettingsUp.PhyState = EthPhyState.Powerdown;
@@ -1271,7 +1271,7 @@ namespace TargetInterface
                 this.deviceSettingsUp.Link.ResolvedHCD = EthernetSpeeds.SPEED_10BASE_T_1L;//dani 20april SPEED_10BASE_T_FD; // 10SPE uses a fixed speed
                 this.deviceSettingsUp.Link.FrameGenRunning = false;
                 this.deviceSettingsUp.Link.FrameGenRunning = false;
-                if (this.ReadYodaRg("SPEPhy", "AN_ADV_B10L_TX_LVL_HI_ABL") == 1)
+                if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL") == 1)
                 {
                     this.deviceSettingsUp.Negotiate.PkPkVoltage = SignalPeakToPeakVoltage.Capable2p4Volts_Requested2p4Volts;//CapableTwoPointFourVolts_RequestedTwoPointFourVolts;
                 }
@@ -1770,20 +1770,20 @@ namespace TargetInterface
             if (pkpkVoltage == SignalPeakToPeakVoltage.Capable2p4Volts_Requested2p4Volts)//CapableTwoPointFourVolts_RequestedTwoPointFourVolts)
             {
                 // Configuring for high voltage transmit levels 2.4VPkpk
-                this.WriteYodaRg("SPEPhy", "AN_ADV_B10L_TX_LVL_HI_ABL", 1);
-                this.WriteYodaRg("SPEPhy", "AN_ADV_B10L_TX_LVL_HI_REQ", 1);
+                this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL", 1);
+                this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ", 1);
             }
             else if (pkpkVoltage == SignalPeakToPeakVoltage.Capable2p4Volts_Requested1Volt)//CapableTwoPointFourVolts_RequestedOneVolt)
             {
                 // Configuring for high voltage transmit levels 2.4VPkpk
-                this.WriteYodaRg("SPEPhy", "AN_ADV_B10L_TX_LVL_HI_ABL", 1);
-                this.WriteYodaRg("SPEPhy", "AN_ADV_B10L_TX_LVL_HI_REQ", 0);
+                this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL", 1);
+                this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ", 0);
             }
 
             else
             {
                 // Configuring for low voltage transmit levels 1.0VPk-pk AnAdvB10lTxLvlHiAbl
-                this.WriteYodaRg("SPEPhy", "AN_ADV_B10L_TX_LVL_HI_ABL", 0);
+                this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL", 0);
             }
 
             // Renegotiate immediately
@@ -1793,10 +1793,10 @@ namespace TargetInterface
         private void RefreshNegotiateMasterSlaveSetting()
         {
 #if MASTER_SLAVE_NEGOTIATE
-            if (this.ReadYodaRg("SPEPhy", "AN_EN") == 1)
+            if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_EN") == 1)
             {
                 ////////dani 20April  this.deviceSettingsUp.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Negotiate;
-                //////  uint masterSlave = this.ReadYodaRg("SPEPhy", "AN_MS_CONFIG_RSLTN");
+                //////  uint masterSlave = this.ReadYodaRg("IndirectAccessAddressMap", "AN_MS_CONFIG_RSLTN");
                 //////  switch (masterSlave)
                 //////  {
                 //////      case 0:
@@ -1831,7 +1831,7 @@ namespace TargetInterface
                 //////          break;
                 //////      case 2:
                 //////          {
-                //////              if (this.ReadYodaRg("SPEPhy", "AN_ADV_FORCE_MS") == 1)
+                //////              if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_FORCE_MS") == 1)
                 //////              {
                 //////                  this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Forced_Slave;
                 //////              }
@@ -1844,7 +1844,7 @@ namespace TargetInterface
                 //////          break;
                 //////      case 3:
                 //////          {
-                //////              if (this.ReadYodaRg("SPEPhy", "AN_ADV_FORCE_MS") == 1)
+                //////              if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_FORCE_MS") == 1)
                 //////              {
                 //////                  this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Forced_Master;
                 //////              }
@@ -1859,10 +1859,10 @@ namespace TargetInterface
                 //// }
                 ////else
                 ////{
-                ////    uint masterSlave = this.ReadYodaRg("SPEPhy", "AN_MS_CONFIG_RSLTN");	AN_ADV_MST
-                if (this.ReadYodaRg("SPEPhy", "AN_ADV_MST") == 1)
+                ////    uint masterSlave = this.ReadYodaRg("IndirectAccessAddressMap", "AN_MS_CONFIG_RSLTN");	AN_ADV_MST
+                if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_MST") == 1)
                 {
-                    if (this.ReadYodaRg("SPEPhy", "AN_ADV_FORCE_MS") == 1)
+                    if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_FORCE_MS") == 1)
                     {
                         this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Forced_Master;
                     }
@@ -1873,7 +1873,7 @@ namespace TargetInterface
                 }
                 else
                 {
-                    if (this.ReadYodaRg("SPEPhy", "AN_ADV_FORCE_MS") == 1)
+                    if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_FORCE_MS") == 1)
                     {
                         this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Forced_Slave;
                     }
@@ -1914,59 +1914,59 @@ namespace TargetInterface
             {
                 //                case MasterSlaveNegotiate.Negotiate:
                 // Allow it to negotiate
-                // this.WriteYodaRg("SPEPhy", "CFG_MST", 0);
-                //                    this.WriteYodaRg("SPEPhy", "AN_EN", 1);
+                // this.WriteYodaRg("IndirectAccessAddressMap", "CFG_MST", 0);
+                //                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
 
-                // this.WriteYodaRg("SPEPhy", "AN_FRC_MODE_EN", 0);
+                // this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
                 //break;
 #if MASTER_SLAVE_NEGOTIATE
                 case MasterSlaveNegotiate.Prefer_Master:
                     // Configure loc as forced Master
-                    this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 1);
-                    this.WriteYodaRg("SPEPhy", "AN_ADV_MST", 1);
-                    this.WriteYodaRg("SPEPhy", "AN_ADV_FORCE_MS", 0);
-                    this.WriteYodaRg("SPEPhy", "AN_EN", 1);
-                    this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 0);
-                    //this.WriteYodaRg("SPEPhy", "AN_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_MST", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_FORCE_MS", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
+                    //this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
 
-                    //  this.WriteYodaRg("SPEPhy", "AN_FRC_MODE_EN", 1);
+                    //  this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 1);
                     break;
                 case MasterSlaveNegotiate.Prefer_Slave:
                     // Configure rem as forced Slave"
-                    this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 1);
-                    this.WriteYodaRg("SPEPhy", "AN_ADV_MST", 0);
-                    this.WriteYodaRg("SPEPhy", "AN_ADV_FORCE_MS", 0);
-                    this.WriteYodaRg("SPEPhy", "AN_EN", 1);
-                    this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 0);
-                    // this.WriteYodaRg("SPEPhy", "AN_FRC_MODE_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_MST", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_FORCE_MS", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
+                    // this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 1);
                     break;
                 case MasterSlaveNegotiate.Forced_Master:
                     // Configure loc as forced Master
-                    this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 1);
-                    this.WriteYodaRg("SPEPhy", "AN_ADV_MST", 1);
-                    this.WriteYodaRg("SPEPhy", "AN_ADV_FORCE_MS", 1);
-                    this.WriteYodaRg("SPEPhy", "AN_EN", 1);
-                    this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 0);
-                    //this.WriteYodaRg("SPEPhy", "AN_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_MST", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_FORCE_MS", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
+                    //this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
 
-                    //  this.WriteYodaRg("SPEPhy", "AN_FRC_MODE_EN", 1);
+                    //  this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 1);
                     break;
                 case MasterSlaveNegotiate.Forced_Slave:
                     // Configure rem as forced Slave"
-                    this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 1);
-                    this.WriteYodaRg("SPEPhy", "AN_ADV_MST", 0);
-                    this.WriteYodaRg("SPEPhy", "AN_ADV_FORCE_MS", 1);
-                    this.WriteYodaRg("SPEPhy", "AN_EN", 1);
-                    this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 0);
-                    // this.WriteYodaRg("SPEPhy", "AN_FRC_MODE_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_MST", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_FORCE_MS", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
+                    // this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 1);
                     break;
 #endif
                 default:
                     // Allow it to negotiate
-                    // this.WriteYodaRg("SPEPhy", "CFG_MST", 0);
-                    this.WriteYodaRg("SPEPhy", "AN_EN", 1);
+                    // this.WriteYodaRg("IndirectAccessAddressMap", "CFG_MST", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
 
-                    // this.WriteYodaRg("SPEPhy", "AN_FRC_MODE_EN", 0);
+                    // this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
                     break;
             }
         }
@@ -2285,7 +2285,7 @@ namespace TargetInterface
 
             if (this.TenSPEDevice())
             {
-                modelNum = this.ReadYodaRg("SPEPhy", "MMD1_MODEL_NUM");
+                modelNum = this.ReadYodaRg("IndirectAccessAddressMap", "MMD1_MODEL_NUM");
             }
             else
             {
@@ -2309,7 +2309,7 @@ namespace TargetInterface
                 default:
                     {
                         this.ScanMDIOHwAddress();
-                        modelNum = this.ReadYodaRg("SPEPhy", "MMD1_MODEL_NUM");
+                        modelNum = this.ReadYodaRg("IndirectAccessAddressMap", "MMD1_MODEL_NUM");
                         //uint gePkg = this.ReadYodaRg("GESubSys", "GePkg");
                         //if (gePkg == 3)
                         //{
@@ -2743,7 +2743,7 @@ namespace TargetInterface
             {
                 if (this.TenSPEDevice())
                 {
-                    this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
                 }
                 else
                 {
@@ -2756,7 +2756,7 @@ namespace TargetInterface
             {
                 if (this.TenSPEDevice())
                 {
-                    this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
                 }
                 else
                 {
@@ -2781,10 +2781,10 @@ namespace TargetInterface
                         this.Error("TODO_10SPE : What registers are needed to do this reset : " + resettype);
                         break;
                     case "Reset: SubSys":
-                        this.WriteYodaRg("SPEPhy", "CRSM_PHY_SUBSYS_RST", 1);
+                        this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_PHY_SUBSYS_RST", 1);
                         break;
                     case "Reset: PHY":
-                        this.WriteYodaRg("SPEPhy", "CRSM_SFT_RST", 1);
+                        this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_RST", 1);
                         //Fixed this.Error("TODO_10SPE : What registers are needed to do this reset : " + resettype);
                         break;
                 }
@@ -2966,7 +2966,7 @@ namespace TargetInterface
         {
             if (this.TenSPEDevice())
             {
-                this.WriteYodaRg("SPEPhy", "AN_RESTART", 1);
+                this.WriteYodaRg("IndirectAccessAddressMap", "AN_RESTART", 1);
             }
             else
             {
@@ -3030,7 +3030,7 @@ namespace TargetInterface
                 // 2'd2: Success, PHY is configured as SLAVE
                 // 2'd3: Success, PHY is configured as MASTER
 
-                switch (this.ReadYodaRg("SPEPhy", "AN_MS_CONFIG_RSLTN"))
+                switch (this.ReadYodaRg("IndirectAccessAddressMap", "AN_MS_CONFIG_RSLTN"))
                 {
                     //  default:
                     case 0x0:
@@ -3043,7 +3043,7 @@ namespace TargetInterface
                         masterSlaveStatus.ItemContent = "Slave";
 
                         //dani 20Ap
-                        //if (this.ReadYodaRg("SPEPhy", "AN_EN") == 1)
+                        //if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_EN") == 1)
                         //{
                         //    masterSlaveStatus.ItemContent += " (Negotiated)";
                         //}
@@ -3053,7 +3053,7 @@ namespace TargetInterface
                         masterSlaveStatus.ItemContent = "Master";
                         // anStatus.ItemContent = "AN GOOD";
                         //dani 20Apr
-                        //if (this.ReadYodaRg("SPEPhy", "AN_EN") == 1)
+                        //if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_EN") == 1)
                         //{
                         //    masterSlaveStatus.ItemContent += " (Negotiated)";
                         //}
@@ -3061,25 +3061,25 @@ namespace TargetInterface
                         break;
                 }
 
-                uint forcedMasterSlave = this.ReadYodaRg("SPEPhy", "AN_ADV_FORCE_MS");
+                uint forcedMasterSlave = this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_FORCE_MS");
                 if (forcedMasterSlave == 1)
                 {
                     anStatus.ItemContent = "Disabled";
                 }
                 else
                 {
-                    uint ancompleted = this.ReadYodaRg("SPEPhy", "AN_COMPLETE");
+                    uint ancompleted = this.ReadYodaRg("IndirectAccessAddressMap", "AN_COMPLETE");
                     if (ancompleted == 1)
                     {
                         anStatus.ItemContent = "Completed";
                     }
                 }
 
-                uint hi_req = this.ReadYodaRg("SPEPhy", "AN_ADV_B10L_TX_LVL_HI_REQ");
-                uint hi_abl = this.ReadYodaRg("SPEPhy", "AN_ADV_B10L_TX_LVL_HI_ABL");
+                uint hi_req = this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ");
+                uint hi_abl = this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL");
 
-                uint lp_hi_req = this.ReadYodaRg("SPEPhy", "AN_LP_ADV_B10L_TX_LVL_HI_REQ");
-                uint lp_hi_abl = this.ReadYodaRg("SPEPhy", "AN_LP_ADV_B10L_TX_LVL_HI_ABL");
+                uint lp_hi_req = this.ReadYodaRg("IndirectAccessAddressMap", "AN_LP_ADV_B10L_TX_LVL_HI_REQ");
+                uint lp_hi_abl = this.ReadYodaRg("IndirectAccessAddressMap", "AN_LP_ADV_B10L_TX_LVL_HI_ABL");
 
                 if ((hi_abl != 1) || (lp_hi_abl != 1))
                 {
@@ -3347,20 +3347,20 @@ namespace TargetInterface
         {
             if (this.TenSPEDevice())
             {
-                uint fgEn_st = this.ReadYodaRg("SPEPhy", "FG_EN");
+                uint fgEn_st = this.ReadYodaRg("IndirectAccessAddressMap", "FG_EN");
 
                 if (fgEn_st == 1)
                 {
                     // Already running, therefore just terminate it and return
                     this.Info(" Frame Generator operation terminated.");
-                    this.WriteYodaRg("SPEPhy", "FG_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "FG_EN", 0);
                 }
                 else
                 {
-                    this.WriteYodaRg("SPEPhy", "CRSM_FRM_GEN_DIAG_CLK_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_FRM_GEN_DIAG_CLK_EN", 1);
                     if (frameLen <= 0xFFFF)
                     {
-                        this.WriteYodaRg("SPEPhy", "FG_FRM_LEN", frameLen);
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FG_FRM_LEN", frameLen);
                         this.Info(string.Format("    Frame Length set to {0:d}", frameLen));
                     }
                     else
@@ -3370,43 +3370,43 @@ namespace TargetInterface
 
                     if (continuous)
                     {
-                        this.WriteYodaRg("SPEPhy", "FG_CONT_MODE_EN", 0x1);
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FG_CONT_MODE_EN", 0x1);
                         this.Info("Frames will be sent continuously until terminated.");
                     }
                     else
                     {
                         uint numFramesH = numFrames / 65536;
                         uint numFramesL = numFrames - (numFramesH * 65536);
-                        this.WriteYodaRg("SPEPhy", "FG_NFRM_L", numFramesL);
-                        this.WriteYodaRg("SPEPhy", "FG_NFRM_H", numFramesH);
-                        this.WriteYodaRg("SPEPhy", "FG_CONT_MODE_EN", 0x0);
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FG_NFRM_L", numFramesL);
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FG_NFRM_H", numFramesH);
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FG_CONT_MODE_EN", 0x0);
 
                         this.Info(string.Format("    Num Frames set to {0:d}", numFrames));
                     }
 
                     if (frameType == FrameType.Random)
                     {
-                        this.WriteYodaRg("SPEPhy", "FG_CNTRL", 1);
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FG_CNTRL", 1);
                         this.Info("    Frame Type configured as random");
                     }
                     else if (frameType == FrameType.All0s)
                     {
-                        this.WriteYodaRg("SPEPhy", "FG_CNTRL", 2);
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FG_CNTRL", 2);
                         this.Info("    Frame Type configured as all zeros");
                     }
                     else if (frameType == FrameType.All1s)
                     {
-                        this.WriteYodaRg("SPEPhy", "FG_CNTRL", 3);
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FG_CNTRL", 3);
                         this.Info("    Frame Type configured as all ones");
                     }
                     else if (frameType == FrameType.Alt10s)
                     {
-                        this.WriteYodaRg("SPEPhy", "FG_CNTRL", 4);
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FG_CNTRL", 4);
                         this.Info("    Frame Type configured as alternating 1 0");
                     }
                     else if (frameType == FrameType.Decrement)
                     {
-                        this.WriteYodaRg("SPEPhy", "FG_CNTRL", 5);
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FG_CNTRL", 5);
                         this.Info("    Frame Type configured as decrementing byte");
                     }
                     else
@@ -3414,7 +3414,7 @@ namespace TargetInterface
                         this.Info("    Frame Type Not Configured - Use one of  Random / A000s / A111s / Alt10 / Decrement");
                     }
 
-                    this.WriteYodaRg("SPEPhy", "FG_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "FG_EN", 1);
                     this.Info(string.Format(" - Started transmission of {0:d} frames - ", numFrames));
                 }
             }
@@ -3542,7 +3542,7 @@ namespace TargetInterface
 
             if (this.TenSPEDevice())
             {
-                mmap = "SPEPhy";
+                mmap = "IndirectAccessAddressMap";
                 FgEn = "FG_EN";
                 FcTxSel = "FC_TX_SEL";
                 FgContModeEn = "FG_CONT_MODE_EN";
@@ -3619,7 +3619,7 @@ namespace TargetInterface
 
             if (this.TenSPEDevice())
             {
-                mmap = "SPEPhy";
+                mmap = "IndirectAccessAddressMap";
                 FcEn = "FC_EN";
                 FcTxSel = "FC_TX_SEL";
                 RxErrCnt = "RX_ERR_CNT";
@@ -3940,13 +3940,13 @@ namespace TargetInterface
                 if (enable == true)
                 {
                     this.Info("    enable remote loopback");
-                    this.WriteYodaRg("SPEPhy", "MAC_IF_REM_LB_EN", 0x1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_EN", 0x1);
                     this.localLpbk = true;
                 }
                 else
                 {
                     this.Info("    disable remote loopback");
-                    this.WriteYodaRg("SPEPhy", "MAC_IF_REM_LB_EN", 0x0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_EN", 0x0);
                     this.localLpbk = false;
                 }
             }
@@ -4200,18 +4200,18 @@ namespace TargetInterface
         {
             this.Info("  10SPE Phy software reset");
 
-            this.WriteYodaRg("SPEPhy", "CRSM_SFT_RST", 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_RST", 1);
             this.Sleep(0.1);
             this.Info("  10SPE PHY enters software reset, stays in software powerdown");
-            this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 1);
-            this.ReadYodaRg("SPEPhy", "CRSM_STAT");
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+            this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
             this.Sleep(0.1);
             //           this.Info("  Apply base settings for UNH-IOL testing");
             //           this.ApplyIOLBaseSettings();
 
             this.Info("   exit software powerdown, configure for 10BASE-T1L normal mode");
-            this.WriteYodaRg("SPEPhy", "B10L_TX_TEST_MODE", 0);
-            this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 0);
+            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_TEST_MODE", 0);
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
             this.Info("  Device configured for 10BASE-T1Ls normal operation");
         }
 
@@ -4222,21 +4222,21 @@ namespace TargetInterface
         {
             this.Info("  10SPE Phy software reset");
 
-            this.WriteYodaRg("SPEPhy", "CRSM_SFT_RST", 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_RST", 1);
             this.Sleep(0.1);
             this.Info("  10SPE PHY enters software reset, stays in software powerdown");
-            this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 1);
-            this.ReadYodaRg("SPEPhy", "CRSM_STAT");
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+            this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
             this.Sleep(0.1);
 
             //           this.Info("  Apply base settings for UNH-IOL testing");
             //           this.ApplyIOLBaseSettings();
 
             this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 1");
-            this.WriteYodaRg("SPEPhy", "AN_EN", 0);
+            this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
             this.WriteValueInRegisterAddress(0x078000, 1);
-            this.WriteYodaRg("SPEPhy", "B10L_TX_TEST_MODE", 1);
-            this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 0);
+            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_TEST_MODE", 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
             this.Info("  Device configured for 10BASE-T1Ls test mode 1 measurement");
         }
 
@@ -4247,21 +4247,21 @@ namespace TargetInterface
         {
             this.Info("  10SPE Phy software reset");
 
-            this.WriteYodaRg("SPEPhy", "CRSM_SFT_RST", 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_RST", 1);
             this.Sleep(0.1);
             this.Info("  10SPE PHY enters software reset, stays in software powerdown");
-            this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 1);
-            this.ReadYodaRg("SPEPhy", "CRSM_STAT");
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+            this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
             this.Sleep(0.1);
 
             //           this.Info("  Apply base settings for UNH-IOL testing");
             //           this.ApplyIOLBaseSettings();
 
             this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 2");
-            this.WriteYodaRg("SPEPhy", "AN_EN", 0);
+            this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
             this.WriteValueInRegisterAddress(0x078000, 1);
-            this.WriteYodaRg("SPEPhy", "B10L_TX_TEST_MODE", 2);
-            this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 0);
+            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_TEST_MODE", 2);
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
             this.Info("  Device configured for 10BASE-T1Ls test mode 2 measurement");
         }
 
@@ -4270,21 +4270,21 @@ namespace TargetInterface
         /// </summary>
         public void SetupT1L_TestMode3()
         {
-            this.WriteYodaRg("SPEPhy", "CRSM_SFT_RST", 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_RST", 1);
             this.Sleep(0.1);
             this.Info("  10SPE PHY enters software reset, stays in software powerdown");
-            this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 1);
-            this.ReadYodaRg("SPEPhy", "CRSM_STAT");
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+            this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
             this.Sleep(0.1);
 
             //           this.Info("  Apply base settings for UNH-IOL testing");
             //           this.ApplyIOLBaseSettings();
 
             this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 3");
-            this.WriteYodaRg("SPEPhy", "AN_EN", 0);
+            this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
             this.WriteValueInRegisterAddress(0x078000, 1);
-            this.WriteYodaRg("SPEPhy", "B10L_TX_TEST_MODE", 3);
-            this.WriteYodaRg("SPEPhy", "CRSM_SFT_PD", 0);
+            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_TEST_MODE", 3);
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
             this.Info("  Device configured for 10BASE-T1Ls test mode 3 measurement");
         }
 
