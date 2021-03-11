@@ -3688,6 +3688,24 @@ namespace TargetInterface
         }
 
         /// <summary>
+        /// Configures the PHY Lopback Modes
+        /// </summary>
+        /// <param name="gePhyLb_sel">Parameter Description 1</param>
+        /// <param name="isolateRx_st">Parameter Description 2</param>
+        /// <param name="lbTxSup_st">Parameter Description 3</param>
+        public void PhyLoopbackConfig(LoopBackMode phyLb_sel = LoopBackMode.Digital, bool isolateRx_st = true, bool lbTxSup_st = true)
+        {
+            if(this.TenSPEDevice())
+            {
+                this.SPEPhyLoopbackConfig(phyLb_sel, isolateRx_st, lbTxSup_st);
+            }
+            else
+            {
+                this.GePhyLoopbackConfig(phyLb_sel, isolateRx_st, lbTxSup_st);
+            }
+        }
+
+        /// <summary>
         /// Configure the GE PHY Loopback.
         /// </summary>
         /// <param name="gePhyLb_sel">Parameter Description 1</param>
@@ -3768,6 +3786,110 @@ namespace TargetInterface
             {
                 this.WriteYodaRg("GEPhy", "IsolateRx", 0);
                 this.Info("      - Rx data forwarded to MAC IF");
+            }
+        }
+
+        /// <summary>
+        /// Configure the SPE PHY Loopback.
+        /// </summary>
+        /// <param name="gePhyLb_sel">Parameter Description 1</param>
+        /// <param name="isolateRx_st">Parameter Description 2</param>
+        /// <param name="lbTxSup_st">Parameter Description 3</param>
+        public void SPEPhyLoopbackConfig(LoopBackMode spePhyLb_sel = LoopBackMode.Digital, bool isolateRx_st = true, bool lbTxSup_st = true)
+        {
+            switch (spePhyLb_sel)
+            {
+                // PCS
+                case LoopBackMode.Digital:
+                    this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "RMII_TXD_CHK_EN", 0);
+
+                    this.Info("    SPE PHY Loopback configured as PCS loopback");
+                    break;
+
+                // PMA
+                case LoopBackMode.LineDriver:
+                    this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "RMII_TXD_CHK_EN", 0);
+
+                    this.Info("    SPE PHY Loopback configured as PMA loopback");
+                    break;
+
+                // ExtMII,RMII
+                case LoopBackMode.ExtCable:
+                    this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "RMII_TXD_CHK_EN", 1);
+
+                    this.Info("    SPE PHY Loopback configured as External MII/RMII loopback");
+                    break;
+
+                // MAC IF Remote
+                case LoopBackMode.MacRemote:
+                    this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "RMII_TXD_CHK_EN", 0);
+
+                    // Rx Suppression
+                    if (isolateRx_st)
+                    {
+                        this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_RX_SUP_EN", 1);
+                        this.Info("    SPE PHY Loopback configured as MAC Interface Remote loopback - Rx suppressed");
+                    }
+                    else
+                    {
+                        this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_RX_SUP_EN", 0);
+                        this.Info("    SPE PHY Loopback configured as MAC Interface Remote loopback - Rx not suppressed");
+                    }
+
+                    break;
+
+                // MAC IF
+                case LoopBackMode.MAC:
+                    this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "RMII_TXD_CHK_EN", 0);
+
+                    // Tx Suppression
+                    if (lbTxSup_st)
+                    {
+                        this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_TX_SUP_EN", 1);
+                        this.Info("    SPE PHY Loopback configured as MAC Interface loopback - Tx suppressed");
+                    }
+                    else
+                    {
+                        this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_TX_SUP_EN", 0);
+                        this.Info("    SPE PHY Loopback configured as MAC Interface loopback - Tx not suppressed");
+                    }
+
+                    break;
+
+                // OFF
+                case LoopBackMode.OFF:
+                    this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "RMII_TXD_CHK_EN", 0);
+
+                    this.Info("    SPE PHY Loopback disabled");
+                    break;
+
+                default:
+                    this.Info("    SPE PHY Loopback NOT configured - use one of PMA / PCS / MAC Interface / MAC Interface Remote / External MII/RMII");
+                    break;
             }
         }
 
