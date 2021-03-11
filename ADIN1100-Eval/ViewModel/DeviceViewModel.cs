@@ -2301,7 +2301,7 @@ namespace ADIN1100_Eval.ViewModel
                     {
                         try
                         {
-                            this.selectedDevice.FwAPI.GePhyLoopbackConfig(
+                            this.selectedDevice.FwAPI.PhyLoopbackConfig(
                                 localLoopbackParameters.gePhyLb_selt,
                                 localLoopbackParameters.isolateRx_st,
                                 localLoopbackParameters.lbTxSup_st);
