@@ -26,17 +26,20 @@ namespace ADIN1100_Eval.Themes.Converters
                     case "None":
                         fileName = "NoLoopback";
                         break;
-                    case "Digital":
-                        fileName = "DigitalLoopback";
+                    case "PMA":
+                        fileName = "PMALoopback";
                         break;
-                    case "Line Driver":
-                        fileName = "DriverLoopback";
+                    case "PCS":
+                        fileName = "PCSLoopback";
                         break;
-                    case "External Cable":
+                    case "MAC I/F":
+                        fileName = "MACLoopback";
+                        break;
+                    case "MAC I/F Remote":
+                        fileName = "MACRemoteLoopback";
+                        break;
+                    case "External MII/RMII":
                         fileName = "ExternalLoopback";
-                        break;
-                    case "Remote":
-                        fileName = "RemoteLoopback";
                         break;
                     default:
                         fileName = "NoLoopback";
