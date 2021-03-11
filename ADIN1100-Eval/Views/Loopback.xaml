@@ -84,11 +84,11 @@
 
                     <telerik:RadComboBox x:Name="cboLoopback" SelectedIndex="0" Height="23" VerticalAlignment="Top" Margin="0,0,10,0" Command="{Binding LocalLoopbackCommand}" >
                         <telerik:RadComboBoxItem Content="None" x:Name="OFF"/>
-                        <!--<telerik:RadComboBoxItem Content="MII" x:Name="MII"/>-->
-                        <telerik:RadComboBoxItem Content="Digital" x:Name="Digital"/>
-                        <telerik:RadComboBoxItem Content="Line Driver" x:Name="LineDriver"/>
-                        <telerik:RadComboBoxItem Content="External Cable" x:Name="ExtCable"/>
-                        <telerik:RadComboBoxItem Content="Remote"/>
+                        <telerik:RadComboBoxItem Content="MAC I/F Remote" x:Name="MacRemote"/>
+                        <telerik:RadComboBoxItem Content="MAC I/F" x:Name="MAC"/>
+                        <telerik:RadComboBoxItem Content="PCS" x:Name="Digital"/>
+                        <telerik:RadComboBoxItem Content="PMA" x:Name="LineDriver"/>
+                        <telerik:RadComboBoxItem Content="External MII/RMII" x:Name="ExtCable"/>
                         <telerik:RadComboBox.CommandParameter>
                             <MultiBinding Converter="{StaticResource localLoopbackParametersConverter}">
                                 <MultiBinding.Bindings>

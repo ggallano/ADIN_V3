@@ -437,11 +437,12 @@
     <Resource Include="Images\Yoda\adin1200\3d6f13a9416451207614e240b110fe34.png" />
     <Resource Include="Images\Yoda\adin1300\3d6f13a9416451207614e240b110fe34.png" />
     <Resource Include="Images\ADI-Logo-AWP-Tag-KO.png" />
-    <Resource Include="Images\loopback\DigitalLoopback.png" />
-    <Resource Include="Images\loopback\DriverLoopback.png" />
     <Resource Include="Images\loopback\ExternalLoopback.png" />
     <Resource Include="Images\loopback\NoLoopback.png" />
-    <Resource Include="Images\loopback\RemoteLoopback.png" />
+    <Resource Include="Images\loopback\MACLoopback.png" />
+    <Resource Include="Images\loopback\MACRemoteLoopback.png" />
+    <Resource Include="Images\loopback\PCSLoopback.png" />
+    <Resource Include="Images\loopback\PMALoopback.png" />
     <Resource Include="Images\Yoda\adin1100\099a3b427d7b6dde5e4d1215d0d60ec16961cf3a.png" />
     <Resource Include="Images\Yoda\adin1100\10e29332421672b932ed7ea68c32155d658f9d4f.png" />
     <Resource Include="Images\Yoda\adin1100\1608a32e2769748ab7bba654156eb6f9b894d848.png" />
