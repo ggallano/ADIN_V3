@@ -101,6 +101,8 @@ namespace ADIN1100_Eval.ViewModel
             this.CLK25_REFPinCommand = new BindingCommand(this.DoCLK25_REFPin, this.CanDoCLK25_REFPin);
             this.RemoteLoopbackCommand = new BindingCommand(this.DoRemoteLoopback, this.CanDoRemoteLoopback);
             this.LocalLoopbackCommand = new BindingCommand(this.DoLocalLoopback, this.CanDoLocalLoopback);
+            this.RxSuppressionCommand = new BindingCommand(this.DoRxSuppression);
+            this.TxSuppressionCommand = new BindingCommand(this.DoTxSuppression);
             this.deviceSettings.ClearPropertiesChangedList();
             this.deviceSettings.PropertyChanged += this.DeviceSettings_PropertyChanged;
 
@@ -215,6 +217,16 @@ namespace ADIN1100_Eval.ViewModel
         /// Gets or sets the function to be called when performing a local loopback
         /// </summary>
         public BindingCommand LocalLoopbackCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Rx Supression in loopback
+        /// </summary>
+        public BindingCommand RxSuppressionCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Tx Supression in loopback
+        /// </summary>
+        public BindingCommand TxSuppressionCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the function to be called when performing an output to the CLK25_REF pin
@@ -2331,6 +2343,20 @@ namespace ADIN1100_Eval.ViewModel
         private bool CanDoLocalLoopback(object arg)
         {
             return this.DeviceConnected;
+        }
+
+        private void DoTxSuppression(object obj)
+        {
+            bool isSuppress = (bool)obj;
+
+            this.selectedDevice.FwAPI.SPEPhyLoopbackTxSuppression(isSuppress);
+        }
+
+        private void DoRxSuppression(object obj)
+        {
+            bool isSuppress = (bool)obj;
+
+            this.selectedDevice.FwAPI.SPEPhyLoopbackRxSuppression(isSuppress);
         }
 
         /// <summary>

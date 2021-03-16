@@ -103,9 +103,11 @@
                     <StackPanel>
                         <!--RX suppression is avaiable for all-->
                         <CheckBox x:Name='chkSuppressRX' Content='R/X Suppression' />
+                        <!--<CheckBox x:Name='chkSuppressRX' Content='R/X Suppression' Command="{Binding RxSuppressionCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>-->
 
                         <!--TX supppression is only relevant for digital loopback mode-->
                         <CheckBox x:Name='chkSuppressTX' Content='T/X Suppression' />
+                        <!--<CheckBox x:Name='chkSuppressTX' Content='T/X Suppression' Command="{Binding TxSuppressionCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>-->
                     </StackPanel>
                 </WrapPanel>
                 <!--Display the loopback block diagram from the datasheet for user information purposes -->

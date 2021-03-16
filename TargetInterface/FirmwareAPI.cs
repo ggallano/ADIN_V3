@@ -3603,7 +3603,7 @@ namespace TargetInterface
         /// <param name="gePhyLb_sel">Parameter Description 1</param>
         /// <param name="isolateRx_st">Parameter Description 2</param>
         /// <param name="lbTxSup_st">Parameter Description 3</param>
-        public void GePhyLoopbackConfig(LoopBackMode gePhyLb_sel = LoopBackMode.Digital, bool isolateRx_st = true, bool lbTxSup_st = true)
+        private void GePhyLoopbackConfig(LoopBackMode gePhyLb_sel = LoopBackMode.Digital, bool isolateRx_st = true, bool lbTxSup_st = true)
         {
             //if (gePhyLb_sel == LoopBackMode.MII)
             //{
@@ -3687,7 +3687,7 @@ namespace TargetInterface
         /// <param name="gePhyLb_sel">Parameter Description 1</param>
         /// <param name="isolateRx_st">Parameter Description 2</param>
         /// <param name="lbTxSup_st">Parameter Description 3</param>
-        public void SPEPhyLoopbackConfig(LoopBackMode spePhyLb_sel = LoopBackMode.Digital, bool isolateRx_st = true, bool lbTxSup_st = true)
+        private void SPEPhyLoopbackConfig(LoopBackMode spePhyLb_sel = LoopBackMode.Digital, bool isolateRx_st = true, bool lbTxSup_st = true)
         {
             switch (spePhyLb_sel)
             {
@@ -3782,6 +3782,42 @@ namespace TargetInterface
                 default:
                     this.Info("    SPE PHY Loopback NOT configured - use one of PMA / PCS / MAC Interface / MAC Interface Remote / External MII/RMII");
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Loopback Tx Supression
+        /// </summary>
+        /// <param name="lbTxSup_st">Tx Supression</param>
+        public void SPEPhyLoopbackTxSuppression(bool lbTxSup_st)
+        {
+            if (lbTxSup_st)
+            {
+                this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_TX_SUP_EN", 1);
+                this.Info("    SPE PHY Loopback configured - Tx suppressed");
+            }
+            else
+            {
+                this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_TX_SUP_EN", 0);
+                this.Info("    SPE PHY Loopback configured - Tx not suppressed");
+            }
+        }
+
+        /// <summary>
+        /// Loopback Rx Supression
+        /// </summary>
+        /// <param name="isolateRx_st">Rx Supression</param>
+        public void SPEPhyLoopbackRxSuppression(bool isolateRx_st)
+        {
+            if (isolateRx_st)
+            {
+                this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_RX_SUP_EN", 1);
+                this.Info("    SPE PHY Loopback configured - Rx suppressed");
+            }
+            else
+            {
+                this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_RX_SUP_EN", 0);
+                this.Info("    SPE PHY Loopback configured - Rx not suppressed");
             }
         }
 
