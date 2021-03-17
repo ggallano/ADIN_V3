@@ -131,7 +131,7 @@ namespace ADIN1100_Eval.ViewModel
             this.testmodeitemsADIN1300.Add(new TestModeItem("1000BASE-T Test mode 3", "Transmit jitter test in SLAVE mode", false));
             this.testmodeitemsADIN1300.Add(new TestModeItem("1000BASE-T Test mode 4", "Transmitter distortion test", false));
             this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T Link Pulse", "10BASE-T forced mode in loopback with Tx suppression disabled, for link pulse measurements.", false));
-            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX Random Frames", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of random payloads.",  true));
+            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX Random Frames", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of random payloads.", true));
             this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 0xFF Frames", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of 0xFF payloads", true));
             this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 0x00 Frames", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of 0x00 payloads", true));
 
@@ -1060,7 +1060,7 @@ namespace ADIN1100_Eval.ViewModel
                 case "EthSpeedSelection":
                     {
                         this.RaisePropertyChanged("NegotiateSpeeds");
-						this.RaisePropertyChanged("Negotiate1GSpeeds");
+                        this.RaisePropertyChanged("Negotiate1GSpeeds");
                         this.RaisePropertyChanged("ShowDownspeed10");
                         this.RaisePropertyChanged("ShowDownspeed100");
                         this.RaisePropertyChanged("ShowDownspeedRetires");
@@ -2349,14 +2349,20 @@ namespace ADIN1100_Eval.ViewModel
         {
             bool isSuppress = (bool)obj;
 
-            this.selectedDevice.FwAPI.SPEPhyLoopbackTxSuppression(isSuppress);
+            lock (this)
+            {
+                this.selectedDevice.FwAPI.SPEPhyLoopbackTxSuppression(isSuppress);
+            }
         }
 
         private void DoRxSuppression(object obj)
         {
             bool isSuppress = (bool)obj;
 
-            this.selectedDevice.FwAPI.SPEPhyLoopbackRxSuppression(isSuppress);
+            lock (this)
+            {
+                this.selectedDevice.FwAPI.SPEPhyLoopbackRxSuppression(isSuppress);
+            }
         }
 
         /// <summary>

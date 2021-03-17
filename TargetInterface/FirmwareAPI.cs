@@ -3733,16 +3733,16 @@ namespace TargetInterface
                     this.WriteYodaRg("IndirectAccessAddressMap", "RMII_TXD_CHK_EN", 0);
 
                     // Rx Suppression
-                    if (isolateRx_st)
-                    {
-                        this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_RX_SUP_EN", 1);
-                        this.Info("    SPE PHY Loopback configured as MAC Interface Remote loopback - Rx suppressed");
-                    }
-                    else
-                    {
-                        this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_RX_SUP_EN", 0);
-                        this.Info("    SPE PHY Loopback configured as MAC Interface Remote loopback - Rx not suppressed");
-                    }
+                    //if (isolateRx_st)
+                    //{
+                    //    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_RX_SUP_EN", 1);
+                    //    this.Info("    SPE PHY Loopback configured as MAC Interface Remote loopback - Rx suppressed");
+                    //}
+                    //else
+                    //{
+                    //    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_RX_SUP_EN", 0);
+                    //    this.Info("    SPE PHY Loopback configured as MAC Interface Remote loopback - Rx not suppressed");
+                    //}
 
                     break;
 
@@ -3755,16 +3755,16 @@ namespace TargetInterface
                     this.WriteYodaRg("IndirectAccessAddressMap", "RMII_TXD_CHK_EN", 0);
 
                     // Tx Suppression
-                    if (lbTxSup_st)
-                    {
-                        this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_TX_SUP_EN", 1);
-                        this.Info("    SPE PHY Loopback configured as MAC Interface loopback - Tx suppressed");
-                    }
-                    else
-                    {
-                        this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_TX_SUP_EN", 0);
-                        this.Info("    SPE PHY Loopback configured as MAC Interface loopback - Tx not suppressed");
-                    }
+                    //if (lbTxSup_st)
+                    //{
+                    //    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_TX_SUP_EN", 1);
+                    //    this.Info("    SPE PHY Loopback configured as MAC Interface loopback - Tx suppressed");
+                    //}
+                    //else
+                    //{
+                    //    this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_TX_SUP_EN", 0);
+                    //    this.Info("    SPE PHY Loopback configured as MAC Interface loopback - Tx not suppressed");
+                    //}
 
                     break;
 
