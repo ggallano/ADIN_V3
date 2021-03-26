@@ -514,6 +514,14 @@ namespace TargetInterface
                 this.PropertiesChangedList.Remove(listproperty);
             }
 
+            listproperty = "MseValue";
+            if (status.PropertiesChangedList.Contains(listproperty))
+            {
+                status.PropertiesChangedList.Remove(listproperty);
+                this.Link.MseValue = status.Link.MseValue;
+                this.PropertiesChangedList.Remove(listproperty);
+            }
+
             listproperty = "CableVoltage";
             if (status.PropertiesChangedList.Contains(listproperty))
             {
