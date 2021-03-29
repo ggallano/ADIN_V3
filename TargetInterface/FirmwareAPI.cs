@@ -2921,6 +2921,11 @@ namespace TargetInterface
                 // 2'd1: Configuration fault
                 // 2'd2: Success, PHY is configured as SLAVE
                 // 2'd3: Success, PHY is configured as MASTER
+                uint ancompleted = this.ReadYodaRg("IndirectAccessAddressMap", "AN_COMPLETE");
+                if (ancompleted == 1)
+                {
+                    anStatus.ItemContent = "Completed";
+                }
 
                 switch (this.ReadYodaRg("IndirectAccessAddressMap", "AN_MS_CONFIG_RSLTN"))
                 {
@@ -2933,7 +2938,6 @@ namespace TargetInterface
                         break;
                     case 0x2:
                         masterSlaveStatus.ItemContent = "Slave";
-
                         //dani 20Ap
                         //if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_EN") == 1)
                         //{
@@ -2951,20 +2955,6 @@ namespace TargetInterface
                         //}
 
                         break;
-                }
-
-                uint forcedMasterSlave = this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_FORCE_MS");
-                if (forcedMasterSlave == 1)
-                {
-                    anStatus.ItemContent = "Disabled";
-                }
-                else
-                {
-                    uint ancompleted = this.ReadYodaRg("IndirectAccessAddressMap", "AN_COMPLETE");
-                    if (ancompleted == 1)
-                    {
-                        anStatus.ItemContent = "Completed";
-                    }
                 }
 
                 uint hi_req = this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ");
@@ -2987,7 +2977,6 @@ namespace TargetInterface
                 else
                 {
                     // Both can manage HI, and one or both are requesting it
-
                     cableVoltage.ItemContent = "2.4 Vpk-pk";
                 }
             }
