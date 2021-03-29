@@ -2921,40 +2921,45 @@ namespace TargetInterface
                 // 2'd1: Configuration fault
                 // 2'd2: Success, PHY is configured as SLAVE
                 // 2'd3: Success, PHY is configured as MASTER
-                uint ancompleted = this.ReadYodaRg("IndirectAccessAddressMap", "AN_COMPLETE");
-                if (ancompleted == 1)
+                //uint ancompleted = this.ReadYodaRg("IndirectAccessAddressMap", "AN_COMPLETE");
+                //if (ancompleted == 1)
+                //{
+                //    anStatus.ItemContent = "Completed";
+                //}
+
+                // Auto negotiation is enabled
+                if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_EN") == 1)
                 {
-                    anStatus.ItemContent = "Completed";
+                    anStatus.ItemContent = "Enabled";
+                    switch (this.ReadYodaRg("IndirectAccessAddressMap", "AN_MS_CONFIG_RSLTN"))
+                    {
+                        //  default:
+                        case 0x0:
+                            //anStatus.ItemContent = "Not run";
+                            break;
+                        case 0x1:
+                            anStatus.ItemContent = "Configuration fault";
+                            break;
+                        case 0x2:
+                            masterSlaveStatus.ItemContent = "Slave";
+                            break;
+                        case 0x3:
+                            masterSlaveStatus.ItemContent = "Master";
+                            break;
+                    }
                 }
-
-                switch (this.ReadYodaRg("IndirectAccessAddressMap", "AN_MS_CONFIG_RSLTN"))
+                // Auto negotiation is disabled
+                else
                 {
-                    //  default:
-                    case 0x0:
-                        //anStatus.ItemContent = "Not run";
-                        break;
-                    case 0x1:
-                        anStatus.ItemContent = "Configuration fault";
-                        break;
-                    case 0x2:
-                        masterSlaveStatus.ItemContent = "Slave";
-                        //dani 20Ap
-                        //if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_EN") == 1)
-                        //{
-                        //    masterSlaveStatus.ItemContent += " (Negotiated)";
-                        //}
-
-                        break;
-                    case 0x3:
+                    anStatus.ItemContent = "Disabled";
+                    if (this.ReadYodaRg("IndirectAccessAddressMap", "CFG_MST") == 1)
+                    {
                         masterSlaveStatus.ItemContent = "Master";
-                        // anStatus.ItemContent = "AN GOOD";
-                        //dani 20Apr
-                        //if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_EN") == 1)
-                        //{
-                        //    masterSlaveStatus.ItemContent += " (Negotiated)";
-                        //}
-
-                        break;
+                    }
+                    else
+                    {
+                        masterSlaveStatus.ItemContent = "Slave";
+                    }
                 }
 
                 uint hi_req = this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ");
