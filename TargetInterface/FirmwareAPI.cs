@@ -2906,10 +2906,12 @@ namespace TargetInterface
             TargetInfoItem masterSlaveStatus = new TargetInfoItem(this.deviceSettingsUp.Link.MasterSlaveStatus.ItemName);
             TargetInfoItem cableVoltage = new TargetInfoItem(this.deviceSettingsUp.Link.CableVoltage.ItemName);
             TargetInfoItem anStatus = new TargetInfoItem(this.deviceSettingsUp.Link.AnStatus.ItemName);
+            TargetInfoItem mseValue = new TargetInfoItem(this.deviceSettingsUp.Link.MseValue.ItemName);
 
             masterSlaveStatus.IsAvailable = this.TenSPEDevice() && this.deviceSettingsUp.PhyState == EthPhyState.LinkUp;
             cableVoltage.IsAvailable = this.TenSPEDevice() && this.deviceSettingsUp.PhyState == EthPhyState.LinkUp;
             anStatus.IsAvailable = this.TenSPEDevice();// && this.deviceSettingsUp.PhyState == EthPhyState.LinkUp; // this is the condition for the visibility in the UI
+            mseValue.IsAvailable = this.TenSPEDevice();
 
             if (this.TenSPEDevice())
             {
@@ -2984,11 +2986,29 @@ namespace TargetInterface
                     // Both can manage HI, and one or both are requesting it
                     cableVoltage.ItemContent = "2.4 Vpk-pk";
                 }
+
+                // MSE VAlue Reading
+                if (this.deviceSettingsUp.PhyState == EthPhyState.LinkUp)
+                {
+                    // Formula:
+                    // where mse is the value from the register, and sym_pwr_exp is a constant 0.64423.
+                    // mse_db = 10 * log10((mse / 218) / sym_pwr_exp)
+                    double mse = this.ReadYodaRg("IndirectAccessAddressMap", "MSE_VAL");
+                    double sym_pwr_exp = 0.64423;
+                    double mse_db = 10 * Math.Log10((mse / Math.Pow(2, 18)) / sym_pwr_exp);
+
+                    mseValue.ItemContent = mse_db.ToString("0.00dB");
+                }
+                else if (this.deviceSettingsUp.PhyState == EthPhyState.LinkDown)
+                {
+                    mseValue.ItemContent = "N/A";
+                }
             }
 
             this.deviceSettingsUp.Link.CableVoltage = cableVoltage;
             this.deviceSettingsUp.Link.MasterSlaveStatus = masterSlaveStatus;
             this.deviceSettingsUp.Link.AnStatus = anStatus;
+            this.deviceSettingsUp.Link.MseValue = mseValue;
         }
 
         /// <summary>

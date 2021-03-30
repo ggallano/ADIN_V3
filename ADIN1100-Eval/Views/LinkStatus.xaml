@@ -54,6 +54,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="120"/>
@@ -91,9 +92,11 @@
                                 <TextBlock Grid.Row="8" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.MasterSlaveStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.MasterSlaveStatus.ItemName}"/>
                                 <TextBlock Grid.Row="8" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.MasterSlaveStatus.ItemContent}" Visibility="{Binding DeviceSettings.Link.MasterSlaveStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-
                                 <TextBlock Grid.Row="9" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.CableVoltage.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.CableVoltage.ItemName}"/>
                                 <TextBlock Grid.Row="9" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.CableVoltage.ItemContent}" Visibility="{Binding DeviceSettings.Link.CableVoltage.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                <TextBlock Grid.Row="10" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.MseValue.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.MseValue.ItemName}"/>
+                                <TextBlock Grid.Row="10" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.MseValue.ItemContent}" Visibility="{Binding DeviceSettings.Link.MseValue.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                             </Grid>
                             <Grid>
