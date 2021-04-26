@@ -35,7 +35,7 @@ logger.info("Reading Yoda files.")
 with open("MdioMap_SPEPhy_Apps_S2.sp1", "r") as yda6:
     YodaHelper.process_yoda_files([yda6])
 logger.info("Yoda file processing done.")
-#                                                                                                                                                            /MdioMap_IndirectAccessAddressMap/resources/images/MdioMap_IndirectAccessAddressMap/
+#                                                                                                                                                             /MdioMap_IndirectAccessAddressMap/resources/images/MdioMap_IndirectAccessAddressMap/
 #                                                                                                H:/temp/10SPE/design/html2/ADIN1100/resources/images/ADIN1100
-#                                                                                                H:/temp/10SPE/design/html2/ADIN1100/resources/images/ADIN1100MdioMap_IndirectAccessAddressMap/resources/images/
+#                                                                                                H:/temp/10SPE/design/html2/ADIN1100/resources/images/ADIN1100/MdioMap_IndirectAccessAddressMap/resources/images/
 YodaHelper.export_json_file("../DeviceCommunication/registers/registers_adin1100.json","adin1100",src_img="H:/temp/10SPE/design/html2/ADIN1100/resources/images/ADIN1100/",img_dst="adin1100")
