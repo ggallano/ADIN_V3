@@ -4658,7 +4658,7 @@ namespace TargetInterface
                 {
                     this.deviceConnection.ModifyMDIOAddress(i);
                     dev_ID = this.deviceConnection.ReadMDIORegister(0x1e0003);
-                    if (dev_ID == 0xbc80)
+                    if ((dev_ID == 0xbc80) || (dev_ID == 0xbc81))
                     {
                         break;
                     }

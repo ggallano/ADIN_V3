@@ -4,21 +4,21 @@
       "Name": "Enable Link LED",
       "RegisterAccesses": [
         {
-          "MemoryMap" : "SPEPhy",
-          "RegisterName": "LED_OFF_N4MS",
+          "MemoryMap" : "IndirectAccessAddressMap",
+          "RegisterName": "LED0_OFF_N4MS",
           "Value": "0d54"
         },
 
         {
-          "MemoryMap" : "SPEPhy",
-          "RegisterName": "LED_ON_N4MS",
+          "MemoryMap" : "IndirectAccessAddressMap",
+          "RegisterName": "LED0_ON_N4MS",
           "Value": "0d54"
         },
 
         {
-          "MemoryMap" : "SPEPhy",
+          "MemoryMap" : "IndirectAccessAddressMap",
           "RegisterName": "LED_CNTRL",
-          "Value": "0d1"
+          "Value": "0d128"
         },
       ]
     }
