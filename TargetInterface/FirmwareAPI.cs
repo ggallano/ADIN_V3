@@ -2906,10 +2906,12 @@ namespace TargetInterface
             TargetInfoItem masterSlaveStatus = new TargetInfoItem(this.deviceSettingsUp.Link.MasterSlaveStatus.ItemName);
             TargetInfoItem cableVoltage = new TargetInfoItem(this.deviceSettingsUp.Link.CableVoltage.ItemName);
             TargetInfoItem anStatus = new TargetInfoItem(this.deviceSettingsUp.Link.AnStatus.ItemName);
+            TargetInfoItem mseValue = new TargetInfoItem(this.deviceSettingsUp.Link.MseValue.ItemName);
 
             masterSlaveStatus.IsAvailable = this.TenSPEDevice() && this.deviceSettingsUp.PhyState == EthPhyState.LinkUp;
             cableVoltage.IsAvailable = this.TenSPEDevice() && this.deviceSettingsUp.PhyState == EthPhyState.LinkUp;
             anStatus.IsAvailable = this.TenSPEDevice();// && this.deviceSettingsUp.PhyState == EthPhyState.LinkUp; // this is the condition for the visibility in the UI
+            mseValue.IsAvailable = this.TenSPEDevice();
 
             if (this.TenSPEDevice())
             {
@@ -2921,49 +2923,44 @@ namespace TargetInterface
                 // 2'd1: Configuration fault
                 // 2'd2: Success, PHY is configured as SLAVE
                 // 2'd3: Success, PHY is configured as MASTER
+                //uint ancompleted = this.ReadYodaRg("IndirectAccessAddressMap", "AN_COMPLETE");
+                //if (ancompleted == 1)
+                //{
+                //    anStatus.ItemContent = "Completed";
+                //}
 
-                switch (this.ReadYodaRg("IndirectAccessAddressMap", "AN_MS_CONFIG_RSLTN"))
+                // Auto negotiation is enabled
+                if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_EN") == 1)
                 {
-                    //  default:
-                    case 0x0:
-                        //anStatus.ItemContent = "Not run";
-                        break;
-                    case 0x1:
-                        anStatus.ItemContent = "Configuration fault";
-                        break;
-                    case 0x2:
-                        masterSlaveStatus.ItemContent = "Slave";
-
-                        //dani 20Ap
-                        //if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_EN") == 1)
-                        //{
-                        //    masterSlaveStatus.ItemContent += " (Negotiated)";
-                        //}
-
-                        break;
-                    case 0x3:
-                        masterSlaveStatus.ItemContent = "Master";
-                        // anStatus.ItemContent = "AN GOOD";
-                        //dani 20Apr
-                        //if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_EN") == 1)
-                        //{
-                        //    masterSlaveStatus.ItemContent += " (Negotiated)";
-                        //}
-
-                        break;
+                    anStatus.ItemContent = "Enabled";
+                    switch (this.ReadYodaRg("IndirectAccessAddressMap", "AN_MS_CONFIG_RSLTN"))
+                    {
+                        //  default:
+                        case 0x0:
+                            //anStatus.ItemContent = "Not run";
+                            break;
+                        case 0x1:
+                            anStatus.ItemContent = "Configuration fault";
+                            break;
+                        case 0x2:
+                            masterSlaveStatus.ItemContent = "Slave";
+                            break;
+                        case 0x3:
+                            masterSlaveStatus.ItemContent = "Master";
+                            break;
+                    }
                 }
-
-                uint forcedMasterSlave = this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_FORCE_MS");
-                if (forcedMasterSlave == 1)
-                {
-                    anStatus.ItemContent = "Disabled";
-                }
+                // Auto negotiation is disabled
                 else
                 {
-                    uint ancompleted = this.ReadYodaRg("IndirectAccessAddressMap", "AN_COMPLETE");
-                    if (ancompleted == 1)
+                    anStatus.ItemContent = "Disabled";
+                    if (this.ReadYodaRg("IndirectAccessAddressMap", "CFG_MST") == 1)
                     {
-                        anStatus.ItemContent = "Completed";
+                        masterSlaveStatus.ItemContent = "Master";
+                    }
+                    else
+                    {
+                        masterSlaveStatus.ItemContent = "Slave";
                     }
                 }
 
@@ -2987,14 +2984,31 @@ namespace TargetInterface
                 else
                 {
                     // Both can manage HI, and one or both are requesting it
-
                     cableVoltage.ItemContent = "2.4 Vpk-pk";
+                }
+
+                // MSE VAlue Reading
+                if (this.deviceSettingsUp.PhyState == EthPhyState.LinkUp)
+                {
+                    // Formula:
+                    // where mse is the value from the register, and sym_pwr_exp is a constant 0.64423.
+                    // mse_db = 10 * log10((mse / 218) / sym_pwr_exp)
+                    double mse = this.ReadYodaRg("IndirectAccessAddressMap", "MSE_VAL");
+                    double sym_pwr_exp = 0.64423;
+                    double mse_db = 10 * Math.Log10((mse / Math.Pow(2, 18)) / sym_pwr_exp);
+
+                    mseValue.ItemContent = mse_db.ToString("0.00dB");
+                }
+                else if (this.deviceSettingsUp.PhyState == EthPhyState.LinkDown)
+                {
+                    mseValue.ItemContent = "N/A";
                 }
             }
 
             this.deviceSettingsUp.Link.CableVoltage = cableVoltage;
             this.deviceSettingsUp.Link.MasterSlaveStatus = masterSlaveStatus;
             this.deviceSettingsUp.Link.AnStatus = anStatus;
+            this.deviceSettingsUp.Link.MseValue = mseValue;
         }
 
         /// <summary>

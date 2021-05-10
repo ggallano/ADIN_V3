@@ -42,6 +42,8 @@ namespace TargetInterface
 
         private TargetInfoItem cableVoltage = new TargetInfoItem("Tx Level:");//old VableVoltage
 
+        private TargetInfoItem mseValue = new TargetInfoItem("MSE:");
+
         /// <summary>
         /// Gets or sets a value indicating whether the frame generator is running or not
         /// </summary>
@@ -55,6 +57,27 @@ namespace TargetInterface
             set
             {
                 this.HandledChangedProperty("FrameGenRunning", ref this.frameGenRunning, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the MSE Value
+        /// </summary>
+        public TargetInfoItem MseValue
+        {
+            get
+            {
+                return this.mseValue;
+            }
+
+            set
+            {
+                if (!this.mseValue.Equals(value))
+                {
+                    string propertyName = "MseValue";
+                    this.mseValue = value;
+                    this.RaisePropertyChanged(propertyName);
+                }
             }
         }
 
