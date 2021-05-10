@@ -107,7 +107,7 @@ def export_json_file(filename,directory,src_img, img_dst):
 
     
     print("*** del del del ***")
-    folder_path = "../ADIN1300-Eval/Images/Yoda/%s/" % img_dst
+    folder_path = "../ADIN1100-Eval/Images/Yoda/%s/" % img_dst
     for file_name in listdir(folder_path):
         if file_name.endswith('.png'):
             logging.info("Removing '%s'" % file_name)
@@ -119,8 +119,10 @@ def export_json_file(filename,directory,src_img, img_dst):
                 for Register in RegisterMap.Registers.Register:
                     print(Register.Name)
                     if str(Register.Visibility) != "Private":
-                        src = "%sMdioMap_%s/resources/images/MdioMap_%s/%s.png" % (src_img,RegisterMap.Name,RegisterMap.Name,str(Register.UID))
-                        dst = "../ADIN1300-Eval/Images/Yoda/%s/%s.png" % (img_dst,str(Register.UID))
+                        #src = "%sMdioMap_%s/resources/images/MdioMap_%s/%s.png" % (src_img,RegisterMap.Name,RegisterMap.Name,str(Register.UID))
+                        src = "H:/temp/10SPE/design/html2/ADIN1100/resources/images/ADIN1100/%s.png" % str(Register.UID)
+                        # H:/temp/10SPE/design/html2/ADIN1100/resources/images/ADIN1100
+                        dst = "../ADIN1100-Eval/Images/Yoda/%s/%s.png" % (img_dst,str(Register.UID))
                         logging.info("%s -> %s" % (src,dst))
                         copyfile(src, dst)
 

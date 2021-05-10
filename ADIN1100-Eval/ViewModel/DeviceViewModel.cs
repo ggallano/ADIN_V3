@@ -101,6 +101,8 @@ namespace ADIN1100_Eval.ViewModel
             this.CLK25_REFPinCommand = new BindingCommand(this.DoCLK25_REFPin, this.CanDoCLK25_REFPin);
             this.RemoteLoopbackCommand = new BindingCommand(this.DoRemoteLoopback, this.CanDoRemoteLoopback);
             this.LocalLoopbackCommand = new BindingCommand(this.DoLocalLoopback, this.CanDoLocalLoopback);
+            this.RxSuppressionCommand = new BindingCommand(this.DoRxSuppression);
+            this.TxSuppressionCommand = new BindingCommand(this.DoTxSuppression);
             this.deviceSettings.ClearPropertiesChangedList();
             this.deviceSettings.PropertyChanged += this.DeviceSettings_PropertyChanged;
 
@@ -129,7 +131,7 @@ namespace ADIN1100_Eval.ViewModel
             this.testmodeitemsADIN1300.Add(new TestModeItem("1000BASE-T Test mode 3", "Transmit jitter test in SLAVE mode", false));
             this.testmodeitemsADIN1300.Add(new TestModeItem("1000BASE-T Test mode 4", "Transmitter distortion test", false));
             this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T Link Pulse", "10BASE-T forced mode in loopback with Tx suppression disabled, for link pulse measurements.", false));
-            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX Random Frames", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of random payloads.",  true));
+            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX Random Frames", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of random payloads.", true));
             this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 0xFF Frames", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of 0xFF payloads", true));
             this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 0x00 Frames", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of 0x00 payloads", true));
 
@@ -215,6 +217,16 @@ namespace ADIN1100_Eval.ViewModel
         /// Gets or sets the function to be called when performing a local loopback
         /// </summary>
         public BindingCommand LocalLoopbackCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Rx Supression in loopback
+        /// </summary>
+        public BindingCommand RxSuppressionCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Tx Supression in loopback
+        /// </summary>
+        public BindingCommand TxSuppressionCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the function to be called when performing an output to the CLK25_REF pin
@@ -1048,7 +1060,7 @@ namespace ADIN1100_Eval.ViewModel
                 case "EthSpeedSelection":
                     {
                         this.RaisePropertyChanged("NegotiateSpeeds");
-						this.RaisePropertyChanged("Negotiate1GSpeeds");
+                        this.RaisePropertyChanged("Negotiate1GSpeeds");
                         this.RaisePropertyChanged("ShowDownspeed10");
                         this.RaisePropertyChanged("ShowDownspeed100");
                         this.RaisePropertyChanged("ShowDownspeedRetires");
@@ -2301,7 +2313,7 @@ namespace ADIN1100_Eval.ViewModel
                     {
                         try
                         {
-                            this.selectedDevice.FwAPI.GePhyLoopbackConfig(
+                            this.selectedDevice.FwAPI.PhyLoopbackConfig(
                                 localLoopbackParameters.gePhyLb_selt,
                                 localLoopbackParameters.isolateRx_st,
                                 localLoopbackParameters.lbTxSup_st);
@@ -2331,6 +2343,26 @@ namespace ADIN1100_Eval.ViewModel
         private bool CanDoLocalLoopback(object arg)
         {
             return this.DeviceConnected;
+        }
+
+        private void DoTxSuppression(object obj)
+        {
+            bool isSuppress = (bool)obj;
+
+            lock (this)
+            {
+                this.selectedDevice.FwAPI.SPEPhyLoopbackTxSuppression(isSuppress);
+            }
+        }
+
+        private void DoRxSuppression(object obj)
+        {
+            bool isSuppress = (bool)obj;
+
+            lock (this)
+            {
+                this.selectedDevice.FwAPI.SPEPhyLoopbackRxSuppression(isSuppress);
+            }
         }
 
         /// <summary>
@@ -2519,7 +2551,7 @@ namespace ADIN1100_Eval.ViewModel
         public void UpdateFromScriptJSON()
         {
             this.Scripts = new ObservableCollection<ScriptJSONStructure>();
-            string[] dirs = Directory.GetFiles(".", "*_scripts.json");
+            string[] dirs = Directory.GetFiles(@".\scripts");
             foreach (string requiredjsonfile in dirs)
             {
                 this.Info(string.Format("Loading scripts from {0}", Path.GetFileName(requiredjsonfile)));
