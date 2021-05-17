@@ -83,21 +83,11 @@
                             <ComboBoxItem ToolTip='Alternating 1s and 0s'>Alt 10s</ComboBoxItem>
 
                         </ComboBox>
-                        <!--<StackPanel Orientation="Horizontal">
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="Source MAC Address" Margin="2 3 8 2" FontWeight="SemiBold"/>
-                                <local:MACAddress Width="200"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Vertical" Margin="80,0,0,0">
-                                <TextBlock Text="Destination MAC Address" Margin="2 3 8 2" FontWeight="SemiBold"/>
-                                <local:MACAddress Width="200"/>
-                            </StackPanel>
-                        </StackPanel>-->
                         <TextBlock Text="Source MAC Address" Margin="2 3 8 2" FontWeight="SemiBold"/>
-                        <local:MACAddress x:Name="SrcMacAddress"/>
+                        <local:MACAddress x:Name="SrcMacAddress" Address="{Binding SourceMacAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <TextBlock Text="Destination MAC Address" Margin="2 3 8 2" FontWeight="SemiBold"/>
-                        <local:MACAddress x:Name="DestMacAddress"/>
+                        <local:MACAddress x:Name="DestMacAddress" Address="{Binding DestMacAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         
                         <CheckBox Name='chkEnableChecker' Content='Enable Checker' IsChecked='True' Margin="2 2 8 2"    Visibility='Collapsed'  />
                         <telerik:RadButton Content="Clear Results" Margin='10,10,10,10' CornerRadius='15' ToolTip='Reset all frame checker settings to defaults.'  Command="{Binding ResetFrameCheckerCommand}" x:Name="ResetSettings">

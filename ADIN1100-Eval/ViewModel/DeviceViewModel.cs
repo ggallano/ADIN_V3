@@ -233,6 +233,45 @@ namespace ADIN1100_Eval.ViewModel
         /// </summary>
         public BindingCommand CLK25_REFPinCommand { get; set; }
 
+        private string sourceMacAddress;
+
+        public string SourceMacAddress
+        {
+            get
+            {
+                return this.sourceMacAddress;
+            }
+
+            set
+            {
+                if (this.sourceMacAddress != value)
+                {
+                    this.sourceMacAddress = value;
+                    this.RaisePropertyChanged("SourceMacAddress");
+                }
+            }
+        }
+
+        private string destMacAddress;
+
+        public string DestMacAddress
+        {
+            get
+            {
+                return destMacAddress;
+            }
+
+            set
+            {
+                if (this.destMacAddress != value)
+                {
+                    destMacAddress = value;
+                    this.RaisePropertyChanged("DestMacAddress");
+                }
+
+            }
+        }
+
         /// <summary>
         /// Gets or sets the value to write to the register in the manual register window
         /// </summary>
