@@ -153,6 +153,9 @@
     <Compile Include="Views\Loopback.xaml.cs">
       <DependentUpon>Loopback.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MACAddress.xaml.cs">
+      <DependentUpon>MACAddress.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RegisterListView.xaml.cs">
       <DependentUpon>RegisterListView.xaml</DependentUpon>
     </Compile>
@@ -215,6 +218,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Loopback.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MACAddress.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

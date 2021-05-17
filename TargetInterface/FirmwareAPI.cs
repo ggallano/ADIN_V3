@@ -2384,10 +2384,28 @@ namespace TargetInterface
                 fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN.Start = 1;
                 fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN.Width = 1;
 
+                RegisterDetails registerDetailsFgDa5Emi = new RegisterDetails();
+                registerDetailsFgDa5Emi.Address = 0x1f8032;
+                registerDetailsFgDa5Emi.Name = "FgDa5Emi";
+                FieldDetails fieldDetailsFgDa5Emi = new FieldDetails();
+                fieldDetailsFgDa5Emi.Start = 0;
+                fieldDetailsFgDa5Emi.Width = 8;
+
+                RegisterDetails registerDetailsFgSa = new RegisterDetails();
+                registerDetailsFgDa5Emi.Address = 0x1f8033;
+                registerDetailsFgDa5Emi.Name = "FgSa";
+                FieldDetails fieldDetailsFgSa = new FieldDetails();
+                fieldDetailsFgDa5Emi.Start = 0;
+                fieldDetailsFgDa5Emi.Width = 8;
+
                 switch (name)
                 {
                     case "CRSM_FRM_GEN_DIAG_CLK_EN":
                         return new RegisterInfo(registerDetailCRSM_FRM_GEN_DIAG_CLK_EN, fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN);
+                    case "FgDa5Emi":
+                        return new RegisterInfo(registerDetailsFgDa5Emi, fieldDetailsFgDa5Emi);
+                    case "FgSa":
+                        return new RegisterInfo(registerDetailsFgSa, fieldDetailsFgSa);
                     default:
                         throw new ArgumentException(string.Format("Information on register or field \"{0:s}\" is not available", name), name);
                 }
