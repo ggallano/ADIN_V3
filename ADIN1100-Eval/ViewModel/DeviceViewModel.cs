@@ -22,6 +22,7 @@ namespace ADIN1100_Eval.ViewModel
     using System.Windows.Media;
     using Utilities.JSONParser;
     using System.IO;
+    using TargetInterface.Parameters;
 
     /// <summary>
     /// Device View Model
@@ -232,45 +233,6 @@ namespace ADIN1100_Eval.ViewModel
         /// Gets or sets the function to be called when performing an output to the CLK25_REF pin
         /// </summary>
         public BindingCommand CLK25_REFPinCommand { get; set; }
-
-        private string sourceMacAddress;
-
-        public string SourceMacAddress
-        {
-            get
-            {
-                return this.sourceMacAddress;
-            }
-
-            set
-            {
-                if (this.sourceMacAddress != value)
-                {
-                    this.sourceMacAddress = value;
-                    this.RaisePropertyChanged("SourceMacAddress");
-                }
-            }
-        }
-
-        private string destMacAddress;
-
-        public string DestMacAddress
-        {
-            get
-            {
-                return destMacAddress;
-            }
-
-            set
-            {
-                if (this.destMacAddress != value)
-                {
-                    destMacAddress = value;
-                    this.RaisePropertyChanged("DestMacAddress");
-                }
-
-            }
-        }
 
         /// <summary>
         /// Gets or sets the value to write to the register in the manual register window
@@ -1732,11 +1694,7 @@ namespace ADIN1100_Eval.ViewModel
                                     frameCheckerParameters.FrameLength);
                             }
 
-                            this.selectedDevice.FwAPI.SendData(
-                                frameCheckerParameters.FrameNumber,
-                                frameCheckerParameters.FrameLength,
-                                frameCheckerParameters.FrameContent,
-                                frameCheckerParameters.EnableContinuous);
+                            this.selectedDevice.FwAPI.SendData(frameCheckerParameters);
                         }
                         catch (FTDIException exc)
                         {

@@ -11,6 +11,7 @@ namespace ADIN1100_Eval.Themes.Converters
     using System.Text;
     using System.Threading.Tasks;
     using System.Windows.Data;
+    using TargetInterface.Parameters;
     using static TargetInterface.FirmwareAPI;
 
     /// <summary>
@@ -54,6 +55,21 @@ namespace ADIN1100_Eval.Themes.Converters
                 if (values[4] is bool)
                 {
                     parameters.EnableContinuous = (bool)values[4];
+                }
+
+                if (values[5] is bool)
+                {
+                    parameters.EnableMacAddress = (bool)values[5];
+                }
+
+                if (values[6] is string)
+                {
+                    parameters.SourceMacAddress = (string)values[6];
+                }
+
+                if (values[7] is string)
+                {
+                    parameters.DestMacAddress = (string)values[7];
                 }
             }
 

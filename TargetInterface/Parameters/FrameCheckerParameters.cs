@@ -3,14 +3,9 @@
 //     This software is proprietary and confidential to Analog Devices, Inc. and its licensors.
 // </copyright>
 
-namespace ADIN1100_Eval
+namespace TargetInterface.Parameters
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using static TargetInterface.FirmwareAPI;
+    using static FirmwareAPI;
 
     /// <summary>
     /// Parameter container for GePhyLoopbackConfig
@@ -57,6 +52,33 @@ namespace ADIN1100_Eval
         /// Gets or sets enable continuous
         /// </summary>
         public bool EnableContinuous
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// gets or sets enable MAC Address
+        /// </summary>
+        public bool EnableMacAddress
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// gets or sets destination MAC Address
+        /// </summary>
+        public string DestMacAddress
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// gets or sets source MAC Address
+        /// </summary>
+        public string SourceMacAddress
         {
             get;
             set;

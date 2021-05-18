@@ -23,6 +23,7 @@ namespace TargetInterface
     using System.IO;
     using System.Text.RegularExpressions;
     using System.Globalization;
+    using Parameters;
 
     /// <summary>
     /// Handles the communication between PC and the device firmware API
@@ -3263,12 +3264,14 @@ namespace TargetInterface
         /// <summary>
         /// Send data using the Frame Generator
         /// </summary>
-        /// <param name="numFrames">Parameter Description 1</param>
-        /// <param name="frameLen">Parameter Description 2</param>
-        /// <param name="frameType">Parameter Description 3</param>
-        /// <param name="continuous">Continous mode enabled</param>
-        public void SendData(uint numFrames, uint frameLen, FrameType frameType, bool continuous)
+        /// <param name="frameCheckerParameters">settings for frame generator</param>
+        public void SendData(FrameCheckerParameters frameCheckerParameters)
         {
+            uint numFrames = frameCheckerParameters.FrameNumber;
+            uint frameLen = frameCheckerParameters.FrameLength;
+            FrameType frameType = frameCheckerParameters.FrameContent;
+            bool continuous = frameCheckerParameters.EnableContinuous;
+
             if (this.TenSPEDevice())
             {
                 uint fgEn_st = this.ReadYodaRg("IndirectAccessAddressMap", "FG_EN");
