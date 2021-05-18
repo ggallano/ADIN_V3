@@ -23,7 +23,7 @@ namespace ADIN1100_Eval.Themes.Converters
         {
             FrameCheckerParameters parameters = new FrameCheckerParameters();
 
-            if (values.Length == 5)
+            if (values.Length == 8)
             {
                 if (values[0] is double)
                 {
@@ -64,12 +64,26 @@ namespace ADIN1100_Eval.Themes.Converters
 
                 if (values[6] is string)
                 {
-                    parameters.SourceMacAddress = (string)values[6];
+                    // MAC Address
+                    var tempString = (string)values[6];
+
+                    // Splitting MAC Address
+                    var octets = tempString.Split(':');
+
+                    // Getting the 5th Octet of the MAC Address
+                    parameters.SourceMacAddress = octets[4];
                 }
 
                 if (values[7] is string)
                 {
-                    parameters.DestMacAddress = (string)values[7];
+                    // MAC Address
+                    var tempString = (string)values[7];
+
+                    // Splitting MAC Address
+                    var octets = tempString.Split(':');
+
+                    // Getting the 5th Octet of the MAC Address
+                    parameters.DestMacAddress = octets[4];
                 }
             }
 
