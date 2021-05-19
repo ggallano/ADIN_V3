@@ -20,7 +20,7 @@ namespace ADIN1100_Eval.Model
     {
         private bool isPresent = false;
         private string boardName;
-        private string id;
+        private string serialNumber;
         private bool lpbkmode;//loopback
         private DeviceConnection deviceConnection;
 
@@ -29,14 +29,16 @@ namespace ADIN1100_Eval.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceModel"/> class.
         /// </summary>
-        /// <param name="id">Device id</param>
+        /// <param name="serialNumber">Device id</param>
         /// <param name="propertyChange">Property change handler to set immediately</param>
-        public DeviceModel(string id, PropertyChangedEventHandler propertyChange)
+        public DeviceModel(string serialNumber, string boardName, PropertyChangedEventHandler propertyChange)
         {
             this.PropertyChanged += propertyChange;
-            this.id = id;
+            this.serialNumber = serialNumber;
 
-            this.deviceConnection = new DeviceConnection(this.id);
+            this.boardName = boardName;
+
+            this.deviceConnection = new DeviceConnection(this.serialNumber);
             this.deviceConnection.PropertyChanged += this.Feedback_PropertyChanged;
 
             this.fwAPI = new FirmwareAPI();
@@ -81,14 +83,14 @@ namespace ADIN1100_Eval.Model
         {
             get
             {
-                return boardName;
+                return this.boardName;
             }
 
             set
             {
                 if (this.boardName != value)
                 {
-                    boardName = value;
+                    this.boardName = value;
                     this.RaisePropertyChanged("BoardName");
                 }
             }
@@ -98,19 +100,19 @@ namespace ADIN1100_Eval.Model
         /// <summary>
         /// Gets or sets iD of the connected device
         /// </summary>
-        public string ID
+        public string SerialNumber
         {
             get
             {
-                return this.id;
+                return this.serialNumber;
             }
 
             set
             {
-                if (this.id != value)
+                if (this.serialNumber != value)
                 {
-                    this.id = value;
-                    this.RaisePropertyChanged("ID");
+                    this.serialNumber = value;
+                    this.RaisePropertyChanged("SerialNumber");
                 }
             }
         }
@@ -138,7 +140,7 @@ namespace ADIN1100_Eval.Model
         /// <inheritdoc/>
         public override string ToString()
         {
-            return this.id;
+            return this.serialNumber;
         }
 
         /// <summary>
@@ -154,7 +156,7 @@ namespace ADIN1100_Eval.Model
                     {
                         /* This is just some text...pass it up along the hierarchy */
                         FeedbackPropertyChange feedback = (FeedbackPropertyChange)sender;
-                        feedback.FeedbackOfActions.FeedbackMessage = this.ID + " " + feedback.FeedbackOfActions.FeedbackMessage;
+                        feedback.FeedbackOfActions.FeedbackMessage = this.SerialNumber + " " + feedback.FeedbackOfActions.FeedbackMessage;
                         this.FeedbackOfActions = feedback.FeedbackOfActions;
                         break;
                     }
@@ -174,7 +176,7 @@ namespace ADIN1100_Eval.Model
                     {
                         /* This is just some text...pass it up along the hierarchy */
                         FeedbackPropertyChange feedback = (FeedbackPropertyChange)sender;
-                        feedback.FeedbackOfActions.FeedbackMessage = this.ID + " " + feedback.FeedbackOfActions.FeedbackMessage;
+                        feedback.FeedbackOfActions.FeedbackMessage = this.SerialNumber + " " + feedback.FeedbackOfActions.FeedbackMessage;
                         this.FeedbackOfActions = feedback.FeedbackOfActions;
                         break;
                     }

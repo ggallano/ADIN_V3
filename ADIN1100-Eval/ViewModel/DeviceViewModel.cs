@@ -838,7 +838,7 @@ namespace ADIN1100_Eval.ViewModel
             {
                 if (this.DeviceConnected)
                 {
-                    return this.selectedDevice.ID;
+                    return this.selectedDevice.SerialNumber;
                 }
                 else
                 {
@@ -1087,7 +1087,7 @@ namespace ADIN1100_Eval.ViewModel
 
                         if (this.selectedDevice != null)
                         {
-                            message = this.selectedDevice.ID + " " + message;
+                            message = this.selectedDevice.SerialNumber + " " + message;
                         }
 
                         this.Info(message);
@@ -1129,7 +1129,7 @@ namespace ADIN1100_Eval.ViewModel
 
                         if (this.selectedDevice != null)
                         {
-                            message = this.selectedDevice.ID + " " + message;
+                            message = this.selectedDevice.SerialNumber + " " + message;
                         }
 
                         this.Info(message);
@@ -1142,7 +1142,7 @@ namespace ADIN1100_Eval.ViewModel
 
                         if (this.selectedDevice != null)
                         {
-                            message = this.selectedDevice.ID + " " + message;
+                            message = this.selectedDevice.SerialNumber + " " + message;
                         }
 
                         this.Info(message);
@@ -1157,7 +1157,7 @@ namespace ADIN1100_Eval.ViewModel
 
                     if (this.selectedDevice != null)
                     {
-                        message = this.selectedDevice.ID + " " + message;
+                        message = this.selectedDevice.SerialNumber + " " + message;
                     }
 
                     this.Info(message);
@@ -1167,7 +1167,7 @@ namespace ADIN1100_Eval.ViewModel
 
                     if (this.selectedDevice != null)
                     {
-                        message = this.selectedDevice.ID + " " + message;
+                        message = this.selectedDevice.SerialNumber + " " + message;
                     }
 
                     this.Info(message);
@@ -1178,7 +1178,7 @@ namespace ADIN1100_Eval.ViewModel
 
                     if (this.selectedDevice != null)
                     {
-                        message = this.selectedDevice.ID + " " + message;
+                        message = this.selectedDevice.SerialNumber + " " + message;
                     }
 
                     this.Info(message);
@@ -1188,7 +1188,7 @@ namespace ADIN1100_Eval.ViewModel
 
                     if (this.selectedDevice != null)
                     {
-                        message = this.selectedDevice.ID + " " + message;
+                        message = this.selectedDevice.SerialNumber + " " + message;
                     }
 
                     this.Info(message);
@@ -1485,7 +1485,7 @@ namespace ADIN1100_Eval.ViewModel
 
                                     foreach (var device in this.devices)
                                     {
-                                        if (device.ID == item.SerialNumber.ToString())
+                                        if (device.SerialNumber == item.SerialNumber.ToString())
                                         {
                                             newDevice = false;
                                             break;
@@ -1494,7 +1494,7 @@ namespace ADIN1100_Eval.ViewModel
 
                                     if (newDevice)
                                     {
-                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), this.Feedback_PropertyChanged));
+                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged));
                                     }
                                 }
 
@@ -1510,7 +1510,7 @@ namespace ADIN1100_Eval.ViewModel
                                             this.SelectedDevice = this.devices[index];
 
                                             // No device selected but we have some devices to talk to
-                                            this.Info("Auto-selecting device : " + this.SelectedDevice.ID);
+                                            this.Info("Auto-selecting device : " + this.SelectedDevice.SerialNumber);
                                             break;
                                         }
                                         index--;
@@ -2415,7 +2415,7 @@ namespace ADIN1100_Eval.ViewModel
             /* Have we removed any of the devices that we have seen before? */
             foreach (var device in this.devices)
             {
-                device.IsPresent = DeviceConnection.DeviceSerialNumbers.Exists(x => x.SerialNumber.ToString() == device.ID);
+                device.IsPresent = DeviceConnection.DeviceSerialNumbers.Exists(x => x.SerialNumber.ToString() == device.SerialNumber);
             }
 
             if (this.SelectedDevice != null)
