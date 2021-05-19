@@ -55,6 +55,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="120"/>
@@ -65,38 +66,39 @@
 
                                 <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.DetectedDevice.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.DetectedDevice.ItemName}"/>
                                 <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.DetectedDevice.ItemContent}" Visibility="{Binding DeviceSettings.DetectedDevice.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                
+                                <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}">Phy Address:</TextBlock>
+                                <TextBlock Grid.Row="2" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" Text="{Binding DeviceSettings.PhyAddress.ItemContent}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                                <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Width="70">Status:</TextBlock>
-
-                                <StackPanel Grid.Row="2" Grid.Column="1" Orientation='Horizontal'>
+                                <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Width="70">Status:</TextBlock>
+                                <StackPanel Grid.Row="3" Grid.Column="1" Orientation='Horizontal'>
                                     <!--<Ellipse Width='20' Height='20' Fill="{Binding LinkButtonColor}" Margin='0,0,2,0' Visibility='Visible'/>-->
                                     <TextBlock Style="{StaticResource Label}" Text="{Binding DeviceSettings.PhyState}" Width="Auto" Foreground="{Binding ForegroundColor}"/>
                                 </StackPanel>
 
-                                <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}">Advertised Speed:</TextBlock>
-                                <TextBlock Grid.Row="3" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" Text="{Binding LinkSpeed}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}">Advertised Speed:</TextBlock>
+                                <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" Text="{Binding LinkSpeed}" HorizontalAlignment="Left" Visibility="{Binding LinkEstablished,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                                <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding LinkModeVisible,Converter={StaticResource BooleanToVisibilityConverter}}">Mode:</TextBlock>
-                                <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding Mode}" Visibility="{Binding LinkModeVisible,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding LinkModeVisible,Converter={StaticResource BooleanToVisibilityConverter}}">Mode:</TextBlock>
+                                <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding Mode}" Visibility="{Binding LinkModeVisible,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                                <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.CableLength.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.CableLength.ItemName}"/>
-                                <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.CableLength.ItemContent}" Visibility="{Binding DeviceSettings.Link.CableLength.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <TextBlock Grid.Row="6" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.CableLength.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.CableLength.ItemName}"/>
+                                <TextBlock Grid.Row="6" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.CableLength.ItemContent}" Visibility="{Binding DeviceSettings.Link.CableLength.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
+                                <TextBlock Grid.Row="7" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.PairMeanSquareError.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.PairMeanSquareError.ItemName}"/>
+                                <TextBlock Grid.Row="7" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.PairMeanSquareError.ItemContent}" Visibility="{Binding DeviceSettings.Link.PairMeanSquareError.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                                <TextBlock Grid.Row="6" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.PairMeanSquareError.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.PairMeanSquareError.ItemName}"/>
-                                <TextBlock Grid.Row="6" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.PairMeanSquareError.ItemContent}" Visibility="{Binding DeviceSettings.Link.PairMeanSquareError.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <TextBlock Grid.Row="8" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.AnStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.AnStatus.ItemName}"/>
+                                <TextBlock Grid.Row="8" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.AnStatus.ItemContent}" Visibility="{Binding DeviceSettings.Link.AnStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                                <TextBlock Grid.Row="7" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.AnStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.AnStatus.ItemName}"/>
-                                <TextBlock Grid.Row="7" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.AnStatus.ItemContent}" Visibility="{Binding DeviceSettings.Link.AnStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <TextBlock Grid.Row="9" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.MasterSlaveStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.MasterSlaveStatus.ItemName}"/>
+                                <TextBlock Grid.Row="9" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.MasterSlaveStatus.ItemContent}" Visibility="{Binding DeviceSettings.Link.MasterSlaveStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                                <TextBlock Grid.Row="8" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.MasterSlaveStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.MasterSlaveStatus.ItemName}"/>
-                                <TextBlock Grid.Row="8" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.MasterSlaveStatus.ItemContent}" Visibility="{Binding DeviceSettings.Link.MasterSlaveStatus.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <TextBlock Grid.Row="10" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.CableVoltage.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.CableVoltage.ItemName}"/>
+                                <TextBlock Grid.Row="10" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.CableVoltage.ItemContent}" Visibility="{Binding DeviceSettings.Link.CableVoltage.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                                <TextBlock Grid.Row="9" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.CableVoltage.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.CableVoltage.ItemName}"/>
-                                <TextBlock Grid.Row="9" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.CableVoltage.ItemContent}" Visibility="{Binding DeviceSettings.Link.CableVoltage.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
-
-                                <TextBlock Grid.Row="10" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.MseValue.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.MseValue.ItemName}"/>
-                                <TextBlock Grid.Row="10" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.MseValue.ItemContent}" Visibility="{Binding DeviceSettings.Link.MseValue.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                <TextBlock Grid.Row="11" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.MseValue.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.MseValue.ItemName}"/>
+                                <TextBlock Grid.Row="11" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.MseValue.ItemContent}" Visibility="{Binding DeviceSettings.Link.MseValue.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                             </Grid>
                             <Grid>
@@ -111,7 +113,7 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="2" Visibility="{Binding NegotiateSpeeds,Converter={StaticResource BooleanToVisibilityConverter}}">
-                                    <TextBlock Style="{StaticResource Title_H1}"><Run Text='Remote'/></TextBlock>
+                                    <TextBlock Style="{StaticResource Title_H1}"><Run Text='Remote' /></TextBlock>
                                     <telerik:RadListBox Width="110" Height="183" ItemsSource="{Binding DeviceSettings.Negotiate.RemoteAdvSpeedsStrings}"/>
                                 </StackPanel>
                             </Grid>

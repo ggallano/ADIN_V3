@@ -28,6 +28,8 @@ namespace TargetInterface
 
         private TargetInfoItem detectedDevice = new TargetInfoItem("Device Type:");
 
+        private TargetInfoItem phyAddress = new TargetInfoItem("Phy Address:");
+
         private EthPhyState phyState = EthPhyState.Powerdown;
 
         private NegotiationTargetSettings negotiate = new NegotiationTargetSettings();
@@ -53,6 +55,28 @@ namespace TargetInterface
             this.Fixed.PropertyChanged += this.FixedTargetSettings_PropertyChanged;
             this.Link.PropertyChanged += this.LinkTargetSettings_PropertyChanged;
             this.FlagAllPropertiesChanged();
+        }
+
+        
+        /// <summary>
+        /// gets or sets Phy Address
+        /// </summary>
+        public TargetInfoItem PhyAddress
+        {
+            get
+            {
+                return this.phyAddress;
+            }
+
+            set
+            {
+                if (!this.phyAddress.Equals(value))
+                {
+                    string propertyName = "PhyAddress";
+                    this.phyAddress = value;
+                    this.NotifyPropertyChange(propertyName);
+                }
+            }
         }
 
         /// <summary>
@@ -497,8 +521,8 @@ namespace TargetInterface
                 this.Link.PairMeanSquareError = status.Link.PairMeanSquareError;
                 this.PropertiesChangedList.Remove(listproperty);
             }
-			
-			listproperty = "MasterSlaveStatus";
+
+            listproperty = "MasterSlaveStatus";
             if (status.PropertiesChangedList.Contains(listproperty))
             {
                 status.PropertiesChangedList.Remove(listproperty);
@@ -562,6 +586,14 @@ namespace TargetInterface
                 this.PropertiesChangedList.Remove(listproperty);
             }
 
+            listproperty = "PhyAddress";
+            if (status.propertiesChangedList.Contains(listproperty))
+            {
+                status.PropertiesChangedList.Remove(listproperty);
+                this.PhyAddress = status.PhyAddress;
+                this.PropertiesChangedList.Remove(listproperty);
+            }
+
             listproperty = "FrameCheckerStatus";
             if (status.PropertiesChangedList.Contains(listproperty))
             {
@@ -609,7 +641,7 @@ namespace TargetInterface
                 this.Negotiate.NegotiateMasterSlave = status.Negotiate.NegotiateMasterSlave;
                 this.PropertiesChangedList.Remove(listproperty);
             }
-			
+
             /* Local and remote advertised settings */
             listproperty = "LocalAdvSpeeds";
             if (status.PropertiesChangedList.Contains(listproperty))
@@ -652,7 +684,7 @@ namespace TargetInterface
                 this.PropertiesChangedList.Remove(listproperty);
             }
 
-			listproperty = "FixedMasterSlave";
+            listproperty = "FixedMasterSlave";
             if (status.PropertiesChangedList.Contains(listproperty))
             {
                 status.PropertiesChangedList.Remove(listproperty);
