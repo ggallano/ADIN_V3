@@ -19,6 +19,7 @@ namespace ADIN1100_Eval.Model
     public class DeviceModel : FeedbackPropertyChange
     {
         private bool isPresent = false;
+        private string boardName;
         private string id;
         private bool lpbkmode;//loopback
         private DeviceConnection deviceConnection;
@@ -72,6 +73,27 @@ namespace ADIN1100_Eval.Model
                 return this.fwAPI;
             }
         }
+
+        /// <summary>
+        /// gets or sets the board name
+        /// </summary>
+        public string BoardName
+        {
+            get
+            {
+                return boardName;
+            }
+
+            set
+            {
+                if (this.boardName != value)
+                {
+                    boardName = value;
+                    this.RaisePropertyChanged("BoardName");
+                }
+            }
+        }
+
 
         /// <summary>
         /// Gets or sets iD of the connected device

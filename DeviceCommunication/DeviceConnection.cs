@@ -46,7 +46,7 @@ namespace DeviceCommunication
         /// <summary>
         /// Stores the list of serial numbers of connected MDIO dongles
         /// </summary>
-        private static List<string> deviceSerialNumbers = new List<string>();
+        private static List<FTDI.FT_DEVICE_INFO_NODE> deviceSerialNumbers = new List<FTDI.FT_DEVICE_INFO_NODE>();
 
         /// <summary>
         /// Flag to indicate if this is an initial scan
@@ -126,7 +126,7 @@ namespace DeviceCommunication
             this.mdioAddress = 0x0;
             if (deviceSerialNumbers.Count > 0)
             {
-                this.deviceID = deviceSerialNumbers[0];
+                this.deviceID = deviceSerialNumbers[0].SerialNumber.ToString();
             }
             else
             {
@@ -142,7 +142,7 @@ namespace DeviceCommunication
         /// <summary>
         /// Gets the list of Serial ports available
         /// </summary>
-        public static List<string> DeviceSerialNumbers
+        public static List<FTDI.FT_DEVICE_INFO_NODE> DeviceSerialNumbers
         {
             get
             {
@@ -218,7 +218,7 @@ namespace DeviceCommunication
             uint ftdiRetryCount = 10;
             FTDI.FT_STATUS ftStatus = FTDI.FT_STATUS.FT_OK;
             FTDI ftdiDevice = new FTDI();
-            List<string> deviceSerialNumbers = new List<string>();
+            List<FTDI.FT_DEVICE_INFO_NODE> deviceSerialNumbers = new List<FTDI.FT_DEVICE_INFO_NODE>();
             FTDI.FT_DEVICE_INFO_NODE[] ftdiDeviceList;
 
             // Determine the number of FTDI devices connected to the machine
@@ -296,12 +296,12 @@ namespace DeviceCommunication
                             {
                                 if ((ftdiDeviceList[i].Description == DeviceDescription1) || (ftdiDeviceList[i].Description == DeviceDescription2) || (ftdiDeviceList[i].Description == DeviceDescriptionEVALADIN11xx))
                                 {
-                                    deviceSerialNumbers.Add(ftdiDeviceList[i].SerialNumber.ToString());
+                                    deviceSerialNumbers.Add(ftdiDeviceList[i]);
                                 }
                             }
                         }
 
-                        deviceSerialNumbers.Sort();
+                        //deviceSerialNumbers.Sort();
                     }
                     else
                     {
@@ -321,7 +321,7 @@ namespace DeviceCommunication
             {
                 for (int i = 0; i < deviceSerialNumbers.Count; i++)
                 {
-                    if (deviceSerialNumbers[i] != DeviceConnection.deviceSerialNumbers[i])
+                    if (deviceSerialNumbers[i].SerialNumber != DeviceConnection.deviceSerialNumbers[i].SerialNumber)
                     {
                         differences = true;
                         break;

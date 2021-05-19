@@ -61,8 +61,8 @@
                                     <ColumnDefinition Width="120"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Width="100">Board Name:</TextBlock>
-                                <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding BoardID}" />
+                                <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Width="100">Serial Number:</TextBlock>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSerialNumber}" />
 
                                 <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.DetectedDevice.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.DetectedDevice.ItemName}"/>
                                 <TextBlock Grid.Row="1" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.DetectedDevice.ItemContent}" Visibility="{Binding DeviceSettings.DetectedDevice.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>

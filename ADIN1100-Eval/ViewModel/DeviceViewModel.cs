@@ -832,7 +832,7 @@ namespace ADIN1100_Eval.ViewModel
         /// <summary>
         /// Gets a value indicating whether speed negotiation is active
         /// </summary>
-        public string BoardID
+        public string DeviceSerialNumber
         {
             get
             {
@@ -1485,7 +1485,7 @@ namespace ADIN1100_Eval.ViewModel
 
                                     foreach (var device in this.devices)
                                     {
-                                        if (device.ID == item)
+                                        if (device.ID == item.SerialNumber.ToString())
                                         {
                                             newDevice = false;
                                             break;
@@ -1494,7 +1494,7 @@ namespace ADIN1100_Eval.ViewModel
 
                                     if (newDevice)
                                     {
-                                        this.devices.Add(new DeviceModel(item, this.Feedback_PropertyChanged));
+                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), this.Feedback_PropertyChanged));
                                     }
                                 }
 
@@ -2415,7 +2415,7 @@ namespace ADIN1100_Eval.ViewModel
             /* Have we removed any of the devices that we have seen before? */
             foreach (var device in this.devices)
             {
-                device.IsPresent = DeviceConnection.DeviceSerialNumbers.Contains(device.ID);
+                device.IsPresent = DeviceConnection.DeviceSerialNumbers.Exists(x => x.SerialNumber.ToString() == device.ID);
             }
 
             if (this.SelectedDevice != null)
@@ -2472,7 +2472,7 @@ namespace ADIN1100_Eval.ViewModel
                 message = "The following Evaluation boards are present : ";
                 foreach (var item in DeviceConnection.DeviceSerialNumbers)
                 {
-                    message += string.Format("{0}  ", item);
+                    message += string.Format("{0}  ", item.SerialNumber);
                 }
 
                 this.Info(message);
