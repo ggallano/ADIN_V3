@@ -613,7 +613,8 @@ namespace ADIN1100_Eval.ViewModel
                 }
 
                 this.RaisePropertyChanged("SelectedDevice");
-                this.RaisePropertyChanged("BoardID");
+                this.RaisePropertyChanged("DeviceName");
+                this.RaisePropertyChanged("DeviceSerialNumber");
                 this.RaisePropertyChanged("Registers");
                 this.RaisePropertyChanged("Scripts");
             }
@@ -826,6 +827,24 @@ namespace ADIN1100_Eval.ViewModel
             get
             {
                 return this.deviceSettings.EthSpeedSelection.ToString();
+            }
+        }
+
+        /// <summary>
+        /// gets DeviceName
+        /// </summary>
+        public string DeviceName
+        {
+            get
+            {
+                if (this.DeviceConnected)
+                {
+                    return this.selectedDevice.BoardName;
+                }
+                else
+                {
+                    return "N/A";
+                }
             }
         }
 
