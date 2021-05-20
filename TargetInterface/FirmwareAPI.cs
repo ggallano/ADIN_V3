@@ -2311,17 +2311,6 @@ namespace TargetInterface
                     {
                         this.ScanMDIOHwAddress();
                         modelNum = this.ReadYodaRg("IndirectAccessAddressMap", "MMD1_MODEL_NUM");
-                        //uint gePkg = this.ReadYodaRg("GESubSys", "GePkg");
-                        //if (gePkg == 3)
-                        //{
-                        //    deviceType = DeviceType.ADIN1300;
-                        //    this.one1GCapabable = true;
-                        //}
-                        //else
-                        //{
-                        //    deviceType = DeviceType.ADIN1301;
-                        //    this.one1GCapabable = true;
-                        //}
                     }
 
                     break;
@@ -2329,9 +2318,13 @@ namespace TargetInterface
 
             TargetInfoItem connectedDevice = new TargetInfoItem(this.deviceSettingsUp.DetectedDevice.ItemName);
             connectedDevice.IsAvailable = true;
-            connectedDevice.ItemContent = deviceType.ToString() + "   \n" + "PHY Addr:" + this.deviceConnection.GetMDIOAddress().ToString();
-
+            connectedDevice.ItemContent = deviceType.ToString();
             this.deviceSettingsUp.DetectedDevice = connectedDevice;
+
+            TargetInfoItem phyAddress = new TargetInfoItem(this.deviceSettingsUp.DetectedDevice.ItemName);
+            phyAddress.IsAvailable = true;
+            phyAddress.ItemContent = this.deviceConnection.GetMDIOAddress().ToString();
+            this.deviceSettingsUp.PhyAddress = phyAddress;
 
             if (this.deviceSettingsUp.ConnectedDeviceType != deviceType)
             {
