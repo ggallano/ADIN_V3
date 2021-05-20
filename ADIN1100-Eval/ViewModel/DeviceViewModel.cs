@@ -2134,8 +2134,8 @@ namespace ADIN1100_Eval.ViewModel
                             else
                             {
                                 regVal = this.SelectedDevice.FwAPI.ReadValueInRegisterAddress(registerParameters.RegisterAddress);
-                                message = $"Read Register Address: 0x{registerParameters.RegisterAddress.ToString("X")}, Read Register Value: {regVal.ToString("X")}";
-                                this.ReadRegisterValue = regVal.ToString("X");
+                                message = $"Read Register Address: 0x{registerParameters.RegisterAddress.ToString("X")}, Read Register Value: {regVal.ToString("X4")}";
+                                this.ReadRegisterValue = regVal.ToString("X4");
                                 this.VerboseInfo(message);
                             }
                         }
