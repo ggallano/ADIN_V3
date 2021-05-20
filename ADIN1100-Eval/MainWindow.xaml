@@ -9,7 +9,7 @@
         xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
         xmlns:telerik='http://schemas.telerik.com/2008/xaml/presentation' x:Class="ADIN1100_Eval.MainWindow"
         mc:Ignorable="d" 
-        Title="Explore your Ethernet PHY!" Height="768" Width="1024" WindowStartupLocation='CenterScreen' Icon='Images/icons/Applications-Industrial-Automation-Ethernet-Icon.png' >
+        Title="Explore your Ethernet PHY!" Height="768" Width="1080" WindowStartupLocation='CenterScreen' Icon='Images/icons/Applications-Industrial-Automation-Ethernet-Icon.png' >
     <Window.Resources>
         <ResourceDictionary>
             <converter:RegisterValueConverter x:Key="RegisterValueConverter"/>

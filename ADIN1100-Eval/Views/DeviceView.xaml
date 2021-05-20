@@ -73,7 +73,7 @@
             <DataTemplate x:Key="DeviceListTemplate">
                 <StackPanel Orientation = "Horizontal">
                     <Image Source='../Images/icons/Applications-Industrial-Automation-Ethernet-Icon.png' Width='32' Height='32'/>
-                    <Label Content="{Binding ID, Mode=TwoWay}"/>
+                    <Label Content="{Binding SerialNumber, Mode=TwoWay}"/>
                 </StackPanel>
             </DataTemplate>
         </ResourceDictionary>
