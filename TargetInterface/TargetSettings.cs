@@ -168,6 +168,15 @@ namespace TargetInterface
             }
         }
 
+        private DeviceRevision deviceRevision;
+
+        public DeviceRevision DeviceRevision
+        {
+            get { return deviceRevision; }
+            set { deviceRevision = value; }
+        }
+
+
         /// <summary>
         /// Gets or sets Phy state
         /// </summary>

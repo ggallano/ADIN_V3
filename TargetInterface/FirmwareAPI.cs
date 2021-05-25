@@ -77,7 +77,7 @@ namespace TargetInterface
             this.jsonParser = new JSONParserEngine();
             this.deviceConnection = null;
 
-            this.UpdatefromRegisterJSON(DeviceType.ADIN1300); // Assume ADIN1300 until we connect and find out differently
+            this.UpdatefromRegisterJSON(DeviceType.ADIN1100); // Assume ADIN1300 until we connect and find out differently
         }
 
         public ObservableCollection<RegisterDetails> Registers { get; set; }
@@ -108,6 +108,12 @@ namespace TargetInterface
             /// ADIN1100 (10SPE)
             /// </summary>
             ADIN1100,
+        }
+
+        public enum DeviceRevision
+        {
+            Revision0 = 0,
+            Revision1
         }
 
         /// <summary>
@@ -753,13 +759,23 @@ namespace TargetInterface
             return this.deviceConnection.DeviceDescription == DeviceConnection.DeviceDescriptionEVALADIN11xx;
         }
 
+        private uint revNumber = 0;
+
         private void UpdatefromRegisterJSON(DeviceType deviceType)
         {
-            string requiredjsonfile = "registers_adin1300.json";
+            string requiredjsonfile = "registers_adin1100_S1.json";
             switch (deviceType)
             {
                 case DeviceType.ADIN1100:
-                    requiredjsonfile = "registers_adin1100.json";
+                    //revNumber = this.ReadYodaRg("IndirectAccessAddressMap", "MMD1_REV_NUM");
+                    if (revNumber == 0)
+                    {
+                        requiredjsonfile = "registers_adin1100_S1.json";
+                    }
+                    else
+                    {
+                        requiredjsonfile = "registers_adin1100_S2.json";
+                    }
                     break;
                 case DeviceType.ADIN1200:
                     requiredjsonfile = "registers_adin1200.json";
@@ -2283,10 +2299,12 @@ namespace TargetInterface
         private void RefreshConnectedDevice()//dani
         {
             uint modelNum;
+            uint revNum = 0;
 
             if (this.TenSPEDevice())
             {
                 modelNum = this.ReadYodaRg("IndirectAccessAddressMap", "MMD1_MODEL_NUM");
+                revNum = this.ReadYodaRg("IndirectAccessAddressMap", "MMD1_REV_NUM");
             }
             else
             {
@@ -2316,6 +2334,19 @@ namespace TargetInterface
                     break;
             }
 
+            DeviceRevision deviceRev = DeviceRevision.Revision1;
+
+            if (revNum == 0)
+            {
+                deviceRev = DeviceRevision.Revision0;
+                this.revNumber = revNum;
+            }
+            else
+            {
+                deviceRev = DeviceRevision.Revision1;
+                this.revNumber = revNum;
+            }
+
             TargetInfoItem connectedDevice = new TargetInfoItem(this.deviceSettingsUp.DetectedDevice.ItemName);
             connectedDevice.IsAvailable = true;
             connectedDevice.ItemContent = deviceType.ToString();
@@ -2326,10 +2357,11 @@ namespace TargetInterface
             phyAddress.ItemContent = this.deviceConnection.GetMDIOAddress().ToString();
             this.deviceSettingsUp.PhyAddress = phyAddress;
 
-            if (this.deviceSettingsUp.ConnectedDeviceType != deviceType)
+            if (this.deviceSettingsUp.ConnectedDeviceType != deviceType || this.deviceSettingsUp.DeviceRevision != deviceRev)
             {
                 this.UpdatefromRegisterJSON(deviceType);
                 this.deviceSettingsUp.ConnectedDeviceType = deviceType;
+                this.deviceSettingsUp.DeviceRevision = deviceRev;
             }
         }
 
