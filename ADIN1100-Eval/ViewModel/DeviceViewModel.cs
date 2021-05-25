@@ -22,6 +22,7 @@ namespace ADIN1100_Eval.ViewModel
     using System.Windows.Media;
     using Utilities.JSONParser;
     using System.IO;
+    using TargetInterface.Parameters;
 
     /// <summary>
     /// Device View Model
@@ -1708,15 +1709,10 @@ namespace ADIN1100_Eval.ViewModel
                         {
                             if (frameCheckerParameters.EnableChecker)
                             {
-                                this.selectedDevice.FwAPI.FrameCheckerConfig(FrameChecker.RxSide,
-                                    frameCheckerParameters.FrameLength);
+                                this.selectedDevice.FwAPI.FrameCheckerConfig(FrameChecker.RxSide, frameCheckerParameters.FrameLength);
                             }
 
-                            this.selectedDevice.FwAPI.SendData(
-                                frameCheckerParameters.FrameNumber,
-                                frameCheckerParameters.FrameLength,
-                                frameCheckerParameters.FrameContent,
-                                frameCheckerParameters.EnableContinuous);
+                            this.selectedDevice.FwAPI.SendData(frameCheckerParameters);
                         }
                         catch (FTDIException exc)
                         {

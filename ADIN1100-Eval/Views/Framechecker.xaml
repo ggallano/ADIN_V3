@@ -84,6 +84,13 @@
 
                         </ComboBox>
 
+                        <CheckBox Margin="2 10 8 2" x:Name="chkEnableMacAddress" Click="chkEnableMacAddress_Click">Change MAC Address</CheckBox>
+                        <TextBlock Text="Source MAC Address" Margin="2 3 8 2" FontWeight="SemiBold"/>
+                        <local:MACAddress x:Name="txtSrcMacAddress"/>
+
+                        <TextBlock Text="Destination MAC Address" Margin="2 3 8 2" FontWeight="SemiBold"/>
+                        <local:MACAddress x:Name="txtDestMacAddress"/>
+                        
                         <CheckBox Name='chkEnableChecker' Content='Enable Checker' IsChecked='True' Margin="2 2 8 2"    Visibility='Collapsed'  />
                         <telerik:RadButton Content="Clear Results" Margin='10,10,10,10' CornerRadius='15' ToolTip='Reset all frame checker settings to defaults.'  Command="{Binding ResetFrameCheckerCommand}" x:Name="ResetSettings">
                         </telerik:RadButton>
@@ -96,20 +103,16 @@
                                         <Binding ElementName="chkEnableChecker" Path="IsChecked" />
                                         <Binding ElementName="FrameContent" Path="Text" />
                                         <Binding ElementName="chkContinuous" Path="IsChecked" />
+                                        <Binding ElementName="chkEnableMacAddress" Path="IsChecked"/>
+                                        <Binding ElementName="txtSrcMacAddress" Path="Address"/>
+                                        <Binding ElementName="txtDestMacAddress" Path="Address"/>
                                     </MultiBinding.Bindings>
                                 </MultiBinding>
                             </telerik:RadButton.CommandParameter>
                         </telerik:RadButton>
                     </StackPanel>
-
                 </GroupBox>
-
-
-
-
-
             </StackPanel>
-
         </StackPanel>
     </ScrollViewer>
 </UserControl>

@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="FirmwareAPI.cs" />
     <Compile Include="FixedTargetSettings.cs" />
+    <Compile Include="Parameters\FrameCheckerParameters.cs" />
     <Compile Include="LinkTargetSettings.cs" />
     <Compile Include="NegotiationTargetSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
