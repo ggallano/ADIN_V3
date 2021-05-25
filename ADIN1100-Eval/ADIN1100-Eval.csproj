@@ -39,6 +39,10 @@
     <ApplicationIcon>applications_industrial_automation_ethernet_icon_oN6_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FTD2XX_NET, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DeviceCommunication\FTDI\FTD2XX_NET.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -110,7 +114,6 @@
     <Compile Include="AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FrameCheckerParameters.cs" />
     <Compile Include="LocalLoopbackParameters.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="RegisterParameters.cs" />
@@ -152,6 +155,9 @@
     </Compile>
     <Compile Include="Views\Loopback.xaml.cs">
       <DependentUpon>Loopback.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MACAddress.xaml.cs">
+      <DependentUpon>MACAddress.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RegisterListView.xaml.cs">
       <DependentUpon>RegisterListView.xaml</DependentUpon>
@@ -215,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Loopback.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MACAddress.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

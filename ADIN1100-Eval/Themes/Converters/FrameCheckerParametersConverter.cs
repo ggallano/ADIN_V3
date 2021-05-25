@@ -11,6 +11,7 @@ namespace ADIN1100_Eval.Themes.Converters
     using System.Text;
     using System.Threading.Tasks;
     using System.Windows.Data;
+    using TargetInterface.Parameters;
     using static TargetInterface.FirmwareAPI;
 
     /// <summary>
@@ -22,7 +23,7 @@ namespace ADIN1100_Eval.Themes.Converters
         {
             FrameCheckerParameters parameters = new FrameCheckerParameters();
 
-            if (values.Length == 5)
+            if (values.Length == 8)
             {
                 if (values[0] is double)
                 {
@@ -54,6 +55,35 @@ namespace ADIN1100_Eval.Themes.Converters
                 if (values[4] is bool)
                 {
                     parameters.EnableContinuous = (bool)values[4];
+                }
+
+                if (values[5] is bool)
+                {
+                    parameters.EnableMacAddress = (bool)values[5];
+                }
+
+                if (values[6] is string)
+                {
+                    // MAC Address
+                    var tempString = (string)values[6];
+
+                    // Splitting MAC Address
+                    var octets = tempString.Split(':');
+
+                    // Getting the 5th Octet of the MAC Address
+                    parameters.SourceMacAddress = octets[5];
+                }
+
+                if (values[7] is string)
+                {
+                    // MAC Address
+                    var tempString = (string)values[7];
+
+                    // Splitting MAC Address
+                    var octets = tempString.Split(':');
+
+                    // Getting the 5th Octet of the MAC Address
+                    parameters.DestMacAddress = octets[5];
                 }
             }
 

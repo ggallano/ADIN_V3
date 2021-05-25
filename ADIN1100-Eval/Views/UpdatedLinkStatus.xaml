@@ -44,7 +44,7 @@
 
         <StackPanel  Grid.Row="1" Grid.Column="0">
             <TextBlock Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Width="100">Board Name:</TextBlock>
-            <TextBlock Style="{StaticResource Label}"  Width="Auto" HorizontalAlignment="Left" Margin="20,0,0,0" Text="{Binding BoardID}" />
+            <TextBlock Style="{StaticResource Label}"  Width="Auto" HorizontalAlignment="Left" Margin="20,0,0,0" Text="{Binding DeviceName}" />
         </StackPanel>
 
         <StackPanel  Grid.Row="1" Grid.Column="1">

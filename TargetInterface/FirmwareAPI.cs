@@ -23,6 +23,7 @@ namespace TargetInterface
     using System.IO;
     using System.Text.RegularExpressions;
     using System.Globalization;
+    using Parameters;
 
     /// <summary>
     /// Handles the communication between PC and the device firmware API
@@ -2310,17 +2311,6 @@ namespace TargetInterface
                     {
                         this.ScanMDIOHwAddress();
                         modelNum = this.ReadYodaRg("IndirectAccessAddressMap", "MMD1_MODEL_NUM");
-                        //uint gePkg = this.ReadYodaRg("GESubSys", "GePkg");
-                        //if (gePkg == 3)
-                        //{
-                        //    deviceType = DeviceType.ADIN1300;
-                        //    this.one1GCapabable = true;
-                        //}
-                        //else
-                        //{
-                        //    deviceType = DeviceType.ADIN1301;
-                        //    this.one1GCapabable = true;
-                        //}
                     }
 
                     break;
@@ -2328,9 +2318,13 @@ namespace TargetInterface
 
             TargetInfoItem connectedDevice = new TargetInfoItem(this.deviceSettingsUp.DetectedDevice.ItemName);
             connectedDevice.IsAvailable = true;
-            connectedDevice.ItemContent = deviceType.ToString() + "   \n" + "PHY Addr:" + this.deviceConnection.GetMDIOAddress().ToString();
-
+            connectedDevice.ItemContent = deviceType.ToString();
             this.deviceSettingsUp.DetectedDevice = connectedDevice;
+
+            TargetInfoItem phyAddress = new TargetInfoItem(this.deviceSettingsUp.DetectedDevice.ItemName);
+            phyAddress.IsAvailable = true;
+            phyAddress.ItemContent = this.deviceConnection.GetMDIOAddress().ToString();
+            this.deviceSettingsUp.PhyAddress = phyAddress;
 
             if (this.deviceSettingsUp.ConnectedDeviceType != deviceType)
             {
@@ -2384,10 +2378,28 @@ namespace TargetInterface
                 fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN.Start = 1;
                 fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN.Width = 1;
 
+                RegisterDetails registerDetailsFgDa5Emi = new RegisterDetails();
+                registerDetailsFgDa5Emi.Address = 0x1f8032;
+                registerDetailsFgDa5Emi.Name = "FgDa5Emi";
+                FieldDetails fieldDetailsFgDa5Emi = new FieldDetails();
+                fieldDetailsFgDa5Emi.Start = 0;
+                fieldDetailsFgDa5Emi.Width = 8;
+
+                RegisterDetails registerDetailsFgSa = new RegisterDetails();
+                registerDetailsFgSa.Address = 0x1f8033;
+                registerDetailsFgSa.Name = "FgSa";
+                FieldDetails fieldDetailsFgSa = new FieldDetails();
+                fieldDetailsFgSa.Start = 0;
+                fieldDetailsFgSa.Width = 8;
+
                 switch (name)
                 {
                     case "CRSM_FRM_GEN_DIAG_CLK_EN":
                         return new RegisterInfo(registerDetailCRSM_FRM_GEN_DIAG_CLK_EN, fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN);
+                    case "FgDa5Emi":
+                        return new RegisterInfo(registerDetailsFgDa5Emi, fieldDetailsFgDa5Emi);
+                    case "FgSa":
+                        return new RegisterInfo(registerDetailsFgSa, fieldDetailsFgSa);
                     default:
                         throw new ArgumentException(string.Format("Information on register or field \"{0:s}\" is not available", name), name);
                 }
@@ -3245,12 +3257,17 @@ namespace TargetInterface
         /// <summary>
         /// Send data using the Frame Generator
         /// </summary>
-        /// <param name="numFrames">Parameter Description 1</param>
-        /// <param name="frameLen">Parameter Description 2</param>
-        /// <param name="frameType">Parameter Description 3</param>
-        /// <param name="continuous">Continous mode enabled</param>
-        public void SendData(uint numFrames, uint frameLen, FrameType frameType, bool continuous)
+        /// <param name="frameCheckerParameters">settings for frame generator</param>
+        public void SendData(FrameCheckerParameters frameCheckerParameters)
         {
+            uint numFrames = frameCheckerParameters.FrameNumber;
+            uint frameLen = frameCheckerParameters.FrameLength;
+            FrameType frameType = frameCheckerParameters.FrameContent;
+            bool continuous = frameCheckerParameters.EnableContinuous;
+            bool IsChangeMacAddress = frameCheckerParameters.EnableMacAddress;
+            uint srcMAC = Convert.ToUInt32(frameCheckerParameters.SourceMacAddress, 16);
+            uint destMAC = Convert.ToUInt32(frameCheckerParameters.DestMacAddress, 16);
+
             if (this.TenSPEDevice())
             {
                 uint fgEn_st = this.ReadYodaRg("IndirectAccessAddressMap", "FG_EN");
@@ -3322,6 +3339,27 @@ namespace TargetInterface
 
                     this.WriteYodaRg("IndirectAccessAddressMap", "FG_EN", 1);
                     this.Info(string.Format(" - Started transmission of {0:d} frames - ", numFrames));
+
+                    if (IsChangeMacAddress)
+                    {
+                        // Source MAC Address
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FgSa", srcMAC);
+                        this.Info(string.Format("    Source MAC Address set to 0x{0:X}", srcMAC));
+
+                        // Destination MAC Address
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FgDa5Emi", destMAC);
+                        this.Info(string.Format("    Destination MAC Address set to 0x{0:X}", destMAC));
+                    }
+                    else
+                    {
+                        // Source MAC Address
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FgSa", 0xE1);
+                        this.Info("    Source MAC Address set to 0xE1");
+
+                        // Destination MAC Address
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FgDa5Emi", 0x01);
+                        this.Info("    Source MAC Address set to 0x01");
+                    }
                 }
             }
             else
