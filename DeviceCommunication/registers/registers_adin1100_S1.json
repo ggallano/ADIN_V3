@@ -8,7 +8,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "Vendor Specific MMD 1 Device Identifier High Register",
             "Visibility": "Public",
-            "Image": "adin1100/f08bfcb514f8b2df6edbe0958070e5a2cfad038d.png",
+            "Image": "adin1100S1/f08bfcb514f8b2df6edbe0958070e5a2cfad038d.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
@@ -34,7 +34,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "Vendor Specific MMD 1 Device Identifier Low Register",
             "Visibility": "Public",
-            "Image": "adin1100/cadfd3aeb36d9d492794e14a8b4fec66cf3722d0.png",
+            "Image": "adin1100S1/cadfd3aeb36d9d492794e14a8b4fec66cf3722d0.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
@@ -84,7 +84,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "CRSM Interrupt Status Register",
             "Visibility": "Mixed",
-            "Image": "adin1100/d96bfe28fbdc3f31c4e37618cb4cfbe7ab87a148.png",
+            "Image": "adin1100S1/d96bfe28fbdc3f31c4e37618cb4cfbe7ab87a148.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
@@ -278,7 +278,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "PHY Sub-system Interrupt Status Register",
             "Visibility": "Mixed",
-            "Image": "adin1100/2a6ce19434dd513b0fffb1e1bec01b0460426f2d.png",
+            "Image": "adin1100S1/2a6ce19434dd513b0fffb1e1bec01b0460426f2d.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
@@ -484,7 +484,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "CRSM Interrupt Mask Register",
             "Visibility": "Mixed",
-            "Image": "adin1100/65d08565824c718158a57646bb8509234293d225.png",
+            "Image": "adin1100S1/65d08565824c718158a57646bb8509234293d225.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -678,7 +678,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "PHY Sub-system Interrupt Mask Register",
             "Visibility": "Mixed",
-            "Image": "adin1100/bd8b1bc086fc71cd97055350295a1aa0537837ad.png",
+            "Image": "adin1100S1/bd8b1bc086fc71cd97055350295a1aa0537837ad.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -884,7 +884,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "MAC Interface Loopbacks Configuration Register",
             "Visibility": "Public",
-            "Image": "adin1100/c9c6e6fbcf30b80bbd8ae599481f0ed4e4b929c6.png",
+            "Image": "adin1100S1/c9c6e6fbcf30b80bbd8ae599481f0ed4e4b929c6.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -958,7 +958,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "CRSM Software Reset Register",
             "Visibility": "Public",
-            "Image": "adin1100/ea411b5fd7c45f115bdf767605744a87a86eed79.png",
+            "Image": "adin1100S1/ea411b5fd7c45f115bdf767605744a87a86eed79.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -996,7 +996,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "CRSM Software Power-Down Control Register",
             "Visibility": "Mixed",
-            "Image": "adin1100/b2018e7230ef800ce7fd4116baf2bae072e485bf.png",
+            "Image": "adin1100S1/b2018e7230ef800ce7fd4116baf2bae072e485bf.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -1070,7 +1070,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "CRSM PHY Subsystem Reset Register",
             "Visibility": "Public",
-            "Image": "adin1100/af5f8b4df710210ff07ddde6eb8340c88247fa0f.png",
+            "Image": "adin1100S1/af5f8b4df710210ff07ddde6eb8340c88247fa0f.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -1108,7 +1108,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "CRSM PHY MAC Interface Reset Register",
             "Visibility": "Public",
-            "Image": "adin1100/1e2d2e65ff0e59c99c4ae30fae10eb29a859fe7b.png",
+            "Image": "adin1100S1/1e2d2e65ff0e59c99c4ae30fae10eb29a859fe7b.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -1146,7 +1146,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "CRSM Status Register",
             "Visibility": "Mixed",
-            "Image": "adin1100/7d681956c6d405a92fc0950459c80d495471f53f.png",
+            "Image": "adin1100S1/7d681956c6d405a92fc0950459c80d495471f53f.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
@@ -1256,7 +1256,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "LED Blink Time Control Register",
             "Visibility": "Public",
-            "Image": "adin1100/31e67fcd8d2d245e4a4926df3fc1c703c2af35bb.png",
+            "Image": "adin1100S1/31e67fcd8d2d245e4a4926df3fc1c703c2af35bb.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -1294,7 +1294,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "LED Control Register",
             "Visibility": "Public",
-            "Image": "adin1100/c283a1998e07fc736228b735024033b705ccec1e.png",
+            "Image": "adin1100S1/c283a1998e07fc736228b735024033b705ccec1e.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -1332,7 +1332,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "10BASE-T1L PMA Control Register",
             "Visibility": "Mixed",
-            "Image": "adin1100/fabdaf625dd2e556ce84d8773580e05f639585ca.png",
+            "Image": "adin1100S1/fabdaf625dd2e556ce84d8773580e05f639585ca.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -1442,7 +1442,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "10BASE-T1L PMA Status Register",
             "Visibility": "Mixed",
-            "Image": "adin1100/2867f02295a2fadbdfbc2a2b65c3495fae36ca2b.png",
+            "Image": "adin1100S1/2867f02295a2fadbdfbc2a2b65c3495fae36ca2b.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
@@ -1564,7 +1564,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "10BASE-T1L Test Mode Control Register",
             "Visibility": "Public",
-            "Image": "adin1100/85dcbbfa421c75ef9bfe8e1b1da038ac8e5e0ec4.png",
+            "Image": "adin1100S1/85dcbbfa421c75ef9bfe8e1b1da038ac8e5e0ec4.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -1602,7 +1602,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "10BASE-T1L PCS Control Register",
             "Visibility": "Mixed",
-            "Image": "adin1100/762daf0c801feca345a7213706ea97a7723065cb.png",
+            "Image": "adin1100S1/762daf0c801feca345a7213706ea97a7723065cb.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -1652,7 +1652,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 Autonegotiation Next Page Transmit [47:32] Register",
             "Visibility": "Public",
-            "Image": "adin1100/e6083ba37164c92ce937fcd2913cc46a532f0164.png",
+            "Image": "adin1100S1/e6083ba37164c92ce937fcd2913cc46a532f0164.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -1678,7 +1678,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 Autonegotiation Link Partner Next Page Ability [15:0] Register",
             "Visibility": "Public",
-            "Image": "adin1100/795eefe81e5cb0bcb8a2c46899a8c9b51bb57d42.png",
+            "Image": "adin1100S1/795eefe81e5cb0bcb8a2c46899a8c9b51bb57d42.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
@@ -1764,7 +1764,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 Autonegotiation Link Partner Next Page Ability [31:16] Register",
             "Visibility": "Public",
-            "Image": "adin1100/6dfa0a7358769e24c46968319be2da32e04dba61.png",
+            "Image": "adin1100S1/6dfa0a7358769e24c46968319be2da32e04dba61.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
@@ -1790,7 +1790,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 Autonegotiation Link Partner Next Page Ability [47:32] Register",
             "Visibility": "Public",
-            "Image": "adin1100/2d4662df9d1f3856fa7c3a3c13aecec8580d3cb5.png",
+            "Image": "adin1100S1/2d4662df9d1f3856fa7c3a3c13aecec8580d3cb5.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
@@ -1816,7 +1816,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 PMA/PMD Extended Ability Register",
             "Visibility": "Public",
-            "Image": "adin1100/4b5424290b5e9b332ae03124c4dbc3507383cc10.png",
+            "Image": "adin1100S1/4b5424290b5e9b332ae03124c4dbc3507383cc10.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
@@ -1890,7 +1890,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 PMA/PMD Control Register",
             "Visibility": "Mixed",
-            "Image": "adin1100/d168e8ffb01419b70244efa03957904bc0f06b26.png",
+            "Image": "adin1100S1/d168e8ffb01419b70244efa03957904bc0f06b26.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -1952,7 +1952,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "10BASE-T1L PMA Link Status Register",
             "Visibility": "Mixed",
-            "Image": "adin1100/099dde65723743503791a6cfc6b8c52312d849d1.png",
+            "Image": "adin1100S1/099dde65723743503791a6cfc6b8c52312d849d1.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
@@ -2134,7 +2134,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 Autonegotiation Control Register",
             "Visibility": "Public",
-            "Image": "adin1100/b6d1e770ef3c38d3b0b4bf05df3da974da69f5fd.png",
+            "Image": "adin1100S1/b6d1e770ef3c38d3b0b4bf05df3da974da69f5fd.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -2208,7 +2208,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 Autonegotiation Status Register",
             "Visibility": "Public",
-            "Image": "adin1100/e2c6651a270089eeee00e23ad4199305ff57a5e1.png",
+            "Image": "adin1100S1/e2c6651a270089eeee00e23ad4199305ff57a5e1.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
@@ -2306,7 +2306,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 Autonegotiation Advertisement [15:0] Register",
             "Visibility": "Public",
-            "Image": "adin1100/8c3c4e1a70191219ad50a8c6a20db3f30bc1b88f.png",
+            "Image": "adin1100S1/8c3c4e1a70191219ad50a8c6a20db3f30bc1b88f.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -2404,7 +2404,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 Autonegotiation Advertisement [31:16] Register",
             "Visibility": "Public",
-            "Image": "adin1100/384499b9bce3014d3dfef78e71e8272f1835b505.png",
+            "Image": "adin1100S1/384499b9bce3014d3dfef78e71e8272f1835b505.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -2478,7 +2478,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 Autonegotiation Advertisement [47:32] Register",
             "Visibility": "Mixed",
-            "Image": "adin1100/d8fc32f2fdbeefe7d8ae49ab3569e1c006e01107.png",
+            "Image": "adin1100S1/d8fc32f2fdbeefe7d8ae49ab3569e1c006e01107.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -2552,7 +2552,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 Autonegotiation Link Partner Base Page Ability [15:0] Register",
             "Visibility": "Public",
-            "Image": "adin1100/37d65f70eb6702693517fcaf581f500b79131316.png",
+            "Image": "adin1100S1/37d65f70eb6702693517fcaf581f500b79131316.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
@@ -2650,7 +2650,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 Autonegotiation Link Partner Base Page Ability [31:16] Register",
             "Visibility": "Public",
-            "Image": "adin1100/a9bc794692968a537d0b4ae435cbbe50ba98a83e.png",
+            "Image": "adin1100S1/a9bc794692968a537d0b4ae435cbbe50ba98a83e.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
@@ -2760,7 +2760,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 Autonegotiation Link Partner Base Page Ability [47:32] Register",
             "Visibility": "Public",
-            "Image": "adin1100/bcc74e0046247def0465b54d98c14152245ffc64.png",
+            "Image": "adin1100S1/bcc74e0046247def0465b54d98c14152245ffc64.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
@@ -2846,7 +2846,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 Autonegotiation Next Page Transmit [15:0] Register",
             "Visibility": "Public",
-            "Image": "adin1100/8460f0ecdbf814d3430b9c15640517b6d7229c71.png",
+            "Image": "adin1100S1/8460f0ecdbf814d3430b9c15640517b6d7229c71.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -2932,7 +2932,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "BASE-T1 Autonegotiation Next Page Transmit [31:16] Register",
             "Visibility": "Public",
-            "Image": "adin1100/52a0ec8d692886e1d45f7e253d1fbbaded29db4b.png",
+            "Image": "adin1100S1/52a0ec8d692886e1d45f7e253d1fbbaded29db4b.png",
             "Access": "R/W",
             "Group": "Global",
             "BitFields": [
@@ -2958,7 +2958,7 @@
             "MMap": "IndirectAccessAddressMap",
             "Documentation": "Extra Autonegotiation Status Register",
             "Visibility": "Public",
-            "Image": "adin1100/d807aa1a6f4988b17a3dc36493c3173903d7c0df.png",
+            "Image": "adin1100S1/d807aa1a6f4988b17a3dc36493c3173903d7c0df.png",
             "Access": "R",
             "Group": "Global",
             "BitFields": [
