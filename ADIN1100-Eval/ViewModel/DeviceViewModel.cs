@@ -1709,8 +1709,7 @@ namespace ADIN1100_Eval.ViewModel
                         {
                             if (frameCheckerParameters.EnableChecker)
                             {
-                                this.selectedDevice.FwAPI.FrameCheckerConfig(FrameChecker.RxSide,
-                                    frameCheckerParameters.FrameLength);
+                                this.selectedDevice.FwAPI.FrameCheckerConfig(FrameChecker.RxSide, frameCheckerParameters.FrameLength);
                             }
 
                             this.selectedDevice.FwAPI.SendData(frameCheckerParameters);

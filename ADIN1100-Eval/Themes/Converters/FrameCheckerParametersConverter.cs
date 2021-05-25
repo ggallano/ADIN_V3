@@ -71,7 +71,7 @@ namespace ADIN1100_Eval.Themes.Converters
                     var octets = tempString.Split(':');
 
                     // Getting the 5th Octet of the MAC Address
-                    parameters.SourceMacAddress = octets[4];
+                    parameters.SourceMacAddress = octets[5];
                 }
 
                 if (values[7] is string)
@@ -83,7 +83,7 @@ namespace ADIN1100_Eval.Themes.Converters
                     var octets = tempString.Split(':');
 
                     // Getting the 5th Octet of the MAC Address
-                    parameters.DestMacAddress = octets[4];
+                    parameters.DestMacAddress = octets[5];
                 }
             }
 
