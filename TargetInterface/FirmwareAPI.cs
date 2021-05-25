@@ -49,6 +49,9 @@ namespace TargetInterface
         private uint mseD_Max = 0x0;
 
         private bool localLpbk = false;
+
+        private DeviceRevision revNumber;
+
         /// <summary>
         /// A table of bit name which match to local advertised link speeds
         /// </summary>
@@ -110,9 +113,19 @@ namespace TargetInterface
             ADIN1100,
         }
 
+        /// <summary>
+        /// Identifies which revision
+        /// </summary>
         public enum DeviceRevision
         {
+            /// <summary>
+            /// Silicon 1
+            /// </summary>
             Revision0 = 0,
+
+            /// <summary>
+            /// Silicon 2
+            /// </summary>
             Revision1
         }
 
@@ -759,16 +772,13 @@ namespace TargetInterface
             return this.deviceConnection.DeviceDescription == DeviceConnection.DeviceDescriptionEVALADIN11xx;
         }
 
-        private uint revNumber = 0;
-
         private void UpdatefromRegisterJSON(DeviceType deviceType)
         {
             string requiredjsonfile = "registers_adin1100_S1.json";
             switch (deviceType)
             {
                 case DeviceType.ADIN1100:
-                    //revNumber = this.ReadYodaRg("IndirectAccessAddressMap", "MMD1_REV_NUM");
-                    if (revNumber == 0)
+                    if (revNumber == DeviceRevision.Revision0)
                     {
                         requiredjsonfile = "registers_adin1100_S1.json";
                     }
@@ -2339,12 +2349,12 @@ namespace TargetInterface
             if (revNum == 0)
             {
                 deviceRev = DeviceRevision.Revision0;
-                this.revNumber = revNum;
+                this.revNumber = deviceRev;
             }
             else
             {
                 deviceRev = DeviceRevision.Revision1;
-                this.revNumber = revNum;
+                this.revNumber = deviceRev;
             }
 
             TargetInfoItem connectedDevice = new TargetInfoItem(this.deviceSettingsUp.DetectedDevice.ItemName);
@@ -2399,42 +2409,164 @@ namespace TargetInterface
                 }
             }
 
+            // There are a few registers that we don't want to expose in the JSON file
+            // Brian Murray says these frame generator ones will be added eventually
+            RegisterDetails registerDetailCRSM_FRM_GEN_DIAG_CLK_EN = new RegisterDetails();
+            registerDetailCRSM_FRM_GEN_DIAG_CLK_EN.Address = 0x1e882c;
+            registerDetailCRSM_FRM_GEN_DIAG_CLK_EN.Name = "CRSM_FRM_GEN_DIAG_CLK_EN";
+            FieldDetails fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN = new FieldDetails();
+            fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN.Start = 1;
+            fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN.Width = 1;
+
             if (this.TenSPEDevice()) //dani frame
             {
-                // There are a few registers that we don't want to expose in the JSON file
-                // Brian Murray says these frame generator ones will be added eventually
-                RegisterDetails registerDetailCRSM_FRM_GEN_DIAG_CLK_EN = new RegisterDetails();
-                registerDetailCRSM_FRM_GEN_DIAG_CLK_EN.Address = 0x1e882c;
-                registerDetailCRSM_FRM_GEN_DIAG_CLK_EN.Name = "CRSM_FRM_GEN_DIAG_CLK_EN";
-                FieldDetails fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN = new FieldDetails();
-                fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN.Start = 1;
-                fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN.Width = 1;
-
-                RegisterDetails registerDetailsFgDa5Emi = new RegisterDetails();
-                registerDetailsFgDa5Emi.Address = 0x1f8032;
-                registerDetailsFgDa5Emi.Name = "FgDa5Emi";
-                FieldDetails fieldDetailsFgDa5Emi = new FieldDetails();
-                fieldDetailsFgDa5Emi.Start = 0;
-                fieldDetailsFgDa5Emi.Width = 8;
-
-                RegisterDetails registerDetailsFgSa = new RegisterDetails();
-                registerDetailsFgSa.Address = 0x1f8033;
-                registerDetailsFgSa.Name = "FgSa";
-                FieldDetails fieldDetailsFgSa = new FieldDetails();
-                fieldDetailsFgSa.Start = 0;
-                fieldDetailsFgSa.Width = 8;
-
-                switch (name)
+                if (revNumber == DeviceRevision.Revision1)
                 {
-                    case "CRSM_FRM_GEN_DIAG_CLK_EN":
-                        return new RegisterInfo(registerDetailCRSM_FRM_GEN_DIAG_CLK_EN, fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN);
-                    case "FgDa5Emi":
-                        return new RegisterInfo(registerDetailsFgDa5Emi, fieldDetailsFgDa5Emi);
-                    case "FgSa":
-                        return new RegisterInfo(registerDetailsFgSa, fieldDetailsFgSa);
-                    default:
-                        throw new ArgumentException(string.Format("Information on register or field \"{0:s}\" is not available", name), name);
+                    RegisterDetails registerDetailsFgDa5Emi = new RegisterDetails();
+                    registerDetailsFgDa5Emi.Address = 0x1f8032;
+                    registerDetailsFgDa5Emi.Name = "FgDa5Emi";
+                    FieldDetails fieldDetailsFgDa5Emi = new FieldDetails();
+                    fieldDetailsFgDa5Emi.Start = 0;
+                    fieldDetailsFgDa5Emi.Width = 8;
+
+                    RegisterDetails registerDetailsFgSa = new RegisterDetails();
+                    registerDetailsFgSa.Address = 0x1f8033;
+                    registerDetailsFgSa.Name = "FgSa";
+                    FieldDetails fieldDetailsFgSa = new FieldDetails();
+                    fieldDetailsFgSa.Start = 0;
+                    fieldDetailsFgSa.Width = 8;
+
+                    switch (name)
+                    {
+                        case "CRSM_FRM_GEN_DIAG_CLK_EN":
+                            return new RegisterInfo(registerDetailCRSM_FRM_GEN_DIAG_CLK_EN, fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN);
+                        case "FgDa5Emi":
+                            return new RegisterInfo(registerDetailsFgDa5Emi, fieldDetailsFgDa5Emi);
+                        case "FgSa":
+                            return new RegisterInfo(registerDetailsFgSa, fieldDetailsFgSa);
+                        default:
+                            throw new ArgumentException(string.Format("Information on register or field \"{0:s}\" is not available", name), name);
+                    }
                 }
+                else
+                {
+                    RegisterDetails registerDetailFG_FRM_LEN = new RegisterDetails();
+                    registerDetailFG_FRM_LEN.Address = 0x1E801A;
+                    registerDetailFG_FRM_LEN.Name = "FG_FRM_LEN";
+                    FieldDetails fieldDetailFG_FRM_LEN = new FieldDetails();
+                    fieldDetailFG_FRM_LEN.Start = 0;
+                    fieldDetailFG_FRM_LEN.Width = 16;
+
+                    RegisterDetails registerDetailFG_NFRM_L = new RegisterDetails();
+                    registerDetailFG_NFRM_L.Address = 0x1E801D;
+                    registerDetailFG_NFRM_L.Name = "FG_NFRM_L";
+                    FieldDetails fieldDetailFG_NFRM_L = new FieldDetails();
+                    fieldDetailFG_NFRM_L.Start = 0;
+                    fieldDetailFG_NFRM_L.Width = 16;
+
+                    RegisterDetails registerDetailFG_NFRM_H = new RegisterDetails();
+                    registerDetailFG_NFRM_H.Address = 0x1E801C;
+                    registerDetailFG_NFRM_H.Name = "FG_NFRM_H";
+                    FieldDetails fieldDetailFG_NFRM_H = new FieldDetails();
+                    fieldDetailFG_NFRM_H.Start = 0;
+                    fieldDetailFG_NFRM_H.Width = 16;
+
+                    RegisterDetails registerDetailFG_CONT_MODE_EN = new RegisterDetails();
+                    registerDetailFG_CONT_MODE_EN.Address = 0x1E8017;
+                    registerDetailFG_CONT_MODE_EN.Name = "FG_CONT_MODE_EN";
+                    FieldDetails fieldDetailFG_CONT_MODE_EN = new FieldDetails();
+                    fieldDetailFG_CONT_MODE_EN.Start = 0;
+                    fieldDetailFG_CONT_MODE_EN.Width = 1;
+
+                    RegisterDetails registerDetailFG_CNTRL = new RegisterDetails();
+                    registerDetailFG_CNTRL.Address = 0x1E8016;
+                    registerDetailFG_CNTRL.Name = "FG_CNTRL";
+                    FieldDetails fieldDetailFG_CNTRL = new FieldDetails();
+                    fieldDetailFG_CNTRL.Start = 0;
+                    fieldDetailFG_CNTRL.Width = 3;
+
+                    RegisterDetails registerDetailFG_EN = new RegisterDetails();
+                    registerDetailFG_EN.Address = 0x1E8015;
+                    registerDetailFG_EN.Name = "FG_EN";
+                    FieldDetails fieldDetailFG_EN = new FieldDetails();
+                    fieldDetailFG_EN.Start = 0;
+                    fieldDetailFG_EN.Width = 1;
+
+                    RegisterDetails registerDetailFC_TX_SEL = new RegisterDetails();
+                    registerDetailFC_TX_SEL.Address = 0x1E8005;
+                    registerDetailFC_TX_SEL.Name = "FC_TX_SEL";
+                    FieldDetails fieldDetailFC_TX_SEL = new FieldDetails();
+                    fieldDetailFC_TX_SEL.Start = 0;
+                    fieldDetailFC_TX_SEL.Width = 1;
+
+                    RegisterDetails registerDetailFG_DONE = new RegisterDetails();
+                    registerDetailFG_DONE.Address = 0x1E801E;
+                    registerDetailFG_DONE.Name = "FG_DONE";
+                    FieldDetails fieldDetailFG_DONE = new FieldDetails();
+                    fieldDetailFG_DONE.Start = 0;
+                    fieldDetailFG_DONE.Width = 1;
+
+                    RegisterDetails registerDetailFC_EN = new RegisterDetails();
+                    registerDetailFC_EN.Address = 0x1E8001;
+                    registerDetailFC_EN.Name = "FC_EN";
+                    FieldDetails fieldDetailFC_EN = new FieldDetails();
+                    fieldDetailFC_EN.Start = 0;
+                    fieldDetailFC_EN.Width = 1;
+
+                    RegisterDetails registerDetailRX_ERR_CNT = new RegisterDetails();
+                    registerDetailRX_ERR_CNT.Address = 0x1E8008;
+                    registerDetailRX_ERR_CNT.Name = "RX_ERR_CNT";
+                    FieldDetails fieldDetailRX_ERR_CNT = new FieldDetails();
+                    fieldDetailRX_ERR_CNT.Start = 0;
+                    fieldDetailRX_ERR_CNT.Width = 16;
+
+                    RegisterDetails registerDetailFC_FRM_CNT_L = new RegisterDetails();
+                    registerDetailFC_FRM_CNT_L.Address = 0x1E800A;
+                    registerDetailFC_FRM_CNT_L.Name = "FC_FRM_CNT_L";
+                    FieldDetails fieldDetailFC_FRM_CNT_L = new FieldDetails();
+                    fieldDetailFC_FRM_CNT_L.Start = 0;
+                    fieldDetailFC_FRM_CNT_L.Width = 16;
+
+                    RegisterDetails registerDetailFC_FRM_CNT_H = new RegisterDetails();
+                    registerDetailFC_FRM_CNT_H.Address = 0x1E8009;
+                    registerDetailFC_FRM_CNT_H.Name = "FC_FRM_CNT_H";
+                    FieldDetails fieldDetailFC_FRM_CNT_H = new FieldDetails();
+                    fieldDetailFC_FRM_CNT_H.Start = 0;
+                    fieldDetailFC_FRM_CNT_H.Width = 16;
+
+                    switch (name)
+                    {
+                        case "FC_TX_SEL":
+                            return new RegisterInfo(registerDetailFC_TX_SEL, fieldDetailFC_TX_SEL);
+                        case "FG_DONE":
+                            return new RegisterInfo(registerDetailFG_DONE, fieldDetailFG_DONE);
+                        case "FC_EN":
+                            return new RegisterInfo(registerDetailFC_EN, fieldDetailFC_EN);
+                        case "RX_ERR_CNT":
+                            return new RegisterInfo(registerDetailRX_ERR_CNT, fieldDetailRX_ERR_CNT);
+                        case "FC_FRM_CNT_L":
+                            return new RegisterInfo(registerDetailFC_FRM_CNT_L, fieldDetailFC_FRM_CNT_L);
+                        case "FC_FRM_CNT_H":
+                            return new RegisterInfo(registerDetailFC_FRM_CNT_H, fieldDetailFC_FRM_CNT_H);
+                        case "CRSM_FRM_GEN_DIAG_CLK_EN":
+                            return new RegisterInfo(registerDetailCRSM_FRM_GEN_DIAG_CLK_EN, fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN);
+                        case "FG_FRM_LEN":
+                            return new RegisterInfo(registerDetailFG_FRM_LEN, fieldDetailFG_FRM_LEN);
+                        case "FG_NFRM_L":
+                            return new RegisterInfo(registerDetailFG_NFRM_L, fieldDetailFG_NFRM_L);
+                        case "FG_NFRM_H":
+                            return new RegisterInfo(registerDetailFG_NFRM_H, fieldDetailFG_NFRM_H);
+                        case "FG_CONT_MODE_EN":
+                            return new RegisterInfo(registerDetailFG_CONT_MODE_EN, fieldDetailFG_CONT_MODE_EN);
+                        case "FG_CNTRL":
+                            return new RegisterInfo(registerDetailFG_CNTRL, fieldDetailFG_CNTRL);
+                        case "FG_EN":
+                            return new RegisterInfo(registerDetailFG_EN, fieldDetailFG_EN);
+                        default:
+                            throw new ArgumentException(string.Format("Information on register or field \"{0:s}\" is not available", name), name);
+                    }
+                }
+
             }
             else
             {
@@ -3032,18 +3164,25 @@ namespace TargetInterface
                 }
 
                 // MSE VAlue Reading
-                if (this.deviceSettingsUp.PhyState == EthPhyState.LinkUp)
+                if (this.revNumber == DeviceRevision.Revision1)
                 {
-                    // Formula:
-                    // where mse is the value from the register, and sym_pwr_exp is a constant 0.64423.
-                    // mse_db = 10 * log10((mse / 218) / sym_pwr_exp)
-                    double mse = this.ReadYodaRg("IndirectAccessAddressMap", "MSE_VAL");
-                    double sym_pwr_exp = 0.64423;
-                    double mse_db = 10 * Math.Log10((mse / Math.Pow(2, 18)) / sym_pwr_exp);
+                    if (this.deviceSettingsUp.PhyState == EthPhyState.LinkUp)
+                    {
+                        // Formula:
+                        // where mse is the value from the register, and sym_pwr_exp is a constant 0.64423.
+                        // mse_db = 10 * log10((mse / 218) / sym_pwr_exp)
+                        double mse = this.ReadYodaRg("IndirectAccessAddressMap", "MSE_VAL");
+                        double sym_pwr_exp = 0.64423;
+                        double mse_db = 10 * Math.Log10((mse / Math.Pow(2, 18)) / sym_pwr_exp);
 
-                    mseValue.ItemContent = mse_db.ToString("0.00dB");
+                        mseValue.ItemContent = mse_db.ToString("0.00dB");
+                    }
+                    else if (this.deviceSettingsUp.PhyState == EthPhyState.LinkDown)
+                    {
+                        mseValue.ItemContent = "N/A";
+                    }
                 }
-                else if (this.deviceSettingsUp.PhyState == EthPhyState.LinkDown)
+                else
                 {
                     mseValue.ItemContent = "N/A";
                 }
@@ -3671,7 +3810,7 @@ namespace TargetInterface
         /// <param name="lbTxSup_st">Parameter Description 3</param>
         public void PhyLoopbackConfig(LoopBackMode phyLb_sel = LoopBackMode.Digital, bool isolateRx_st = true, bool lbTxSup_st = true)
         {
-            if(this.TenSPEDevice())
+            if (this.TenSPEDevice())
             {
                 this.SPEPhyLoopbackConfig(phyLb_sel, isolateRx_st, lbTxSup_st);
             }
