@@ -3511,25 +3511,33 @@ namespace TargetInterface
                     this.WriteYodaRg("IndirectAccessAddressMap", "FG_EN", 1);
                     this.Info(string.Format(" - Started transmission of {0:d} frames - ", numFrames));
 
-                    if (IsChangeMacAddress)
+                    if (this.revNumber == DeviceRevision.Revision0)
                     {
-                        // Source MAC Address
-                        this.WriteYodaRg("IndirectAccessAddressMap", "FgSa", srcMAC);
-                        this.Info(string.Format("    Source MAC Address set to 0x{0:X}", srcMAC));
-
-                        // Destination MAC Address
-                        this.WriteYodaRg("IndirectAccessAddressMap", "FgDa5Emi", destMAC);
-                        this.Info(string.Format("    Destination MAC Address set to 0x{0:X}", destMAC));
+                        this.Info("    Writing Source MAC Address did not performed");
+                        this.Info("    Writing Destination MAC Address did not performed");
                     }
                     else
                     {
-                        // Source MAC Address
-                        this.WriteYodaRg("IndirectAccessAddressMap", "FgSa", 0xE1);
-                        this.Info("    Source MAC Address set to 0xE1");
+                        if (IsChangeMacAddress)
+                        {
+                            // Source MAC Address
+                            this.WriteYodaRg("IndirectAccessAddressMap", "FgSa", srcMAC);
+                            this.Info(string.Format("    Source MAC Address set to 0x{0:X}", srcMAC));
 
-                        // Destination MAC Address
-                        this.WriteYodaRg("IndirectAccessAddressMap", "FgDa5Emi", 0x01);
-                        this.Info("    Source MAC Address set to 0x01");
+                            // Destination MAC Address
+                            this.WriteYodaRg("IndirectAccessAddressMap", "FgDa5Emi", destMAC);
+                            this.Info(string.Format("    Destination MAC Address set to 0x{0:X}", destMAC));
+                        }
+                        else
+                        {
+                            // Source MAC Address
+                            this.WriteYodaRg("IndirectAccessAddressMap", "FgSa", 0xE1);
+                            this.Info("    Source MAC Address set to 0xE1");
+
+                            // Destination MAC Address
+                            this.WriteYodaRg("IndirectAccessAddressMap", "FgDa5Emi", 0x01);
+                            this.Info("    Source MAC Address set to 0x01");
+                        }
                     }
                 }
             }
