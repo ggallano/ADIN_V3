@@ -2411,160 +2411,156 @@ namespace TargetInterface
 
             // There are a few registers that we don't want to expose in the JSON file
             // Brian Murray says these frame generator ones will be added eventually
-            RegisterDetails registerDetailCRSM_FRM_GEN_DIAG_CLK_EN = new RegisterDetails();
-            registerDetailCRSM_FRM_GEN_DIAG_CLK_EN.Address = 0x1e882c;
-            registerDetailCRSM_FRM_GEN_DIAG_CLK_EN.Name = "CRSM_FRM_GEN_DIAG_CLK_EN";
-            FieldDetails fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN = new FieldDetails();
-            fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN.Start = 1;
-            fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN.Width = 1;
+            RegisterDetails registerDetailCRSM_FRM_GEN_DIAG_CLK_EN = new RegisterDetails() { Name = "CRSM_FRM_GEN_DIAG_CLK_EN", Address = 0x1E882C };
+            FieldDetails fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN = new FieldDetails() { Start = 1, Width = 1 };
 
-            if (this.TenSPEDevice()) //dani frame
+            RegisterDetails registerDetailsFgDa5Emi = new RegisterDetails() { Name = "FgDa5Emi" };
+            FieldDetails fieldDetailsFgDa5Emi = new FieldDetails();
+
+            RegisterDetails registerDetailsFgSa = new RegisterDetails() { Name = "FgSa" };
+            FieldDetails fieldDetailsFgSa = new FieldDetails();
+
+            RegisterDetails registerDetailFG_FRM_LEN = new RegisterDetails() { Name = "FG_FRM_LEN" };
+            FieldDetails fieldDetailFG_FRM_LEN = new FieldDetails();
+
+            RegisterDetails registerDetailFG_NFRM_L = new RegisterDetails() { Name = "FG_NFRM_L" };
+            FieldDetails fieldDetailFG_NFRM_L = new FieldDetails();
+
+            RegisterDetails registerDetailFG_NFRM_H = new RegisterDetails() { Name = "FG_NFRM_H" };
+            FieldDetails fieldDetailFG_NFRM_H = new FieldDetails();
+
+            RegisterDetails registerDetailFG_CONT_MODE_EN = new RegisterDetails() { Name = "FG_CONT_MODE_EN" };
+            FieldDetails fieldDetailFG_CONT_MODE_EN = new FieldDetails();
+
+            RegisterDetails registerDetailFG_CNTRL = new RegisterDetails() { Name = "FG_CNTRL" };
+            FieldDetails fieldDetailFG_CNTRL = new FieldDetails();
+
+            RegisterDetails registerDetailFG_EN = new RegisterDetails() { Name = "FG_EN" };
+            FieldDetails fieldDetailFG_EN = new FieldDetails();
+
+            RegisterDetails registerDetailFC_TX_SEL = new RegisterDetails() { Name = "FC_TX_SEL" };
+            FieldDetails fieldDetailFC_TX_SEL = new FieldDetails();
+
+            RegisterDetails registerDetailFG_DONE = new RegisterDetails() { Name = "FG_DONE" };
+            FieldDetails fieldDetailFG_DONE = new FieldDetails();
+
+            RegisterDetails registerDetailFC_EN = new RegisterDetails() { Name = "FC_EN" };
+            FieldDetails fieldDetailFC_EN = new FieldDetails();
+
+            RegisterDetails registerDetailRX_ERR_CNT = new RegisterDetails() { Name = "RX_ERR_CNT" };
+            FieldDetails fieldDetailRX_ERR_CNT = new FieldDetails();
+
+            RegisterDetails registerDetailFC_FRM_CNT_L = new RegisterDetails() { Name = "FC_FRM_CNT_L" };
+            FieldDetails fieldDetailFC_FRM_CNT_L = new FieldDetails();
+
+            RegisterDetails registerDetailFC_FRM_CNT_H = new RegisterDetails() { Name = "FC_FRM_CNT_H" };
+            FieldDetails fieldDetailFC_FRM_CNT_H = new FieldDetails();
+
+            if (this.TenSPEDevice())
             {
-                if (revNumber == DeviceRevision.Revision1)
+                if (this.revNumber == DeviceRevision.Revision1)
                 {
-                    RegisterDetails registerDetailsFgDa5Emi = new RegisterDetails();
-                    registerDetailsFgDa5Emi.Address = 0x1f8032;
-                    registerDetailsFgDa5Emi.Name = "FgDa5Emi";
-                    FieldDetails fieldDetailsFgDa5Emi = new FieldDetails();
+                    registerDetailsFgDa5Emi.Address = 0x1F8032;
                     fieldDetailsFgDa5Emi.Start = 0;
                     fieldDetailsFgDa5Emi.Width = 8;
 
-                    RegisterDetails registerDetailsFgSa = new RegisterDetails();
-                    registerDetailsFgSa.Address = 0x1f8033;
-                    registerDetailsFgSa.Name = "FgSa";
-                    FieldDetails fieldDetailsFgSa = new FieldDetails();
+                    registerDetailsFgSa.Address = 0x1F8033;
                     fieldDetailsFgSa.Start = 0;
                     fieldDetailsFgSa.Width = 8;
-
-                    switch (name)
-                    {
-                        case "CRSM_FRM_GEN_DIAG_CLK_EN":
-                            return new RegisterInfo(registerDetailCRSM_FRM_GEN_DIAG_CLK_EN, fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN);
-                        case "FgDa5Emi":
-                            return new RegisterInfo(registerDetailsFgDa5Emi, fieldDetailsFgDa5Emi);
-                        case "FgSa":
-                            return new RegisterInfo(registerDetailsFgSa, fieldDetailsFgSa);
-                        default:
-                            throw new ArgumentException(string.Format("Information on register or field \"{0:s}\" is not available", name), name);
-                    }
                 }
                 else
                 {
-                    RegisterDetails registerDetailFG_FRM_LEN = new RegisterDetails();
                     registerDetailFG_FRM_LEN.Address = 0x1E801A;
-                    registerDetailFG_FRM_LEN.Name = "FG_FRM_LEN";
-                    FieldDetails fieldDetailFG_FRM_LEN = new FieldDetails();
                     fieldDetailFG_FRM_LEN.Start = 0;
                     fieldDetailFG_FRM_LEN.Width = 16;
 
-                    RegisterDetails registerDetailFG_NFRM_L = new RegisterDetails();
                     registerDetailFG_NFRM_L.Address = 0x1E801D;
-                    registerDetailFG_NFRM_L.Name = "FG_NFRM_L";
-                    FieldDetails fieldDetailFG_NFRM_L = new FieldDetails();
                     fieldDetailFG_NFRM_L.Start = 0;
                     fieldDetailFG_NFRM_L.Width = 16;
 
-                    RegisterDetails registerDetailFG_NFRM_H = new RegisterDetails();
                     registerDetailFG_NFRM_H.Address = 0x1E801C;
-                    registerDetailFG_NFRM_H.Name = "FG_NFRM_H";
-                    FieldDetails fieldDetailFG_NFRM_H = new FieldDetails();
                     fieldDetailFG_NFRM_H.Start = 0;
                     fieldDetailFG_NFRM_H.Width = 16;
 
-                    RegisterDetails registerDetailFG_CONT_MODE_EN = new RegisterDetails();
                     registerDetailFG_CONT_MODE_EN.Address = 0x1E8017;
-                    registerDetailFG_CONT_MODE_EN.Name = "FG_CONT_MODE_EN";
-                    FieldDetails fieldDetailFG_CONT_MODE_EN = new FieldDetails();
                     fieldDetailFG_CONT_MODE_EN.Start = 0;
                     fieldDetailFG_CONT_MODE_EN.Width = 1;
 
-                    RegisterDetails registerDetailFG_CNTRL = new RegisterDetails();
                     registerDetailFG_CNTRL.Address = 0x1E8016;
-                    registerDetailFG_CNTRL.Name = "FG_CNTRL";
-                    FieldDetails fieldDetailFG_CNTRL = new FieldDetails();
                     fieldDetailFG_CNTRL.Start = 0;
                     fieldDetailFG_CNTRL.Width = 3;
 
-                    RegisterDetails registerDetailFG_EN = new RegisterDetails();
                     registerDetailFG_EN.Address = 0x1E8015;
-                    registerDetailFG_EN.Name = "FG_EN";
-                    FieldDetails fieldDetailFG_EN = new FieldDetails();
                     fieldDetailFG_EN.Start = 0;
                     fieldDetailFG_EN.Width = 1;
 
-                    RegisterDetails registerDetailFC_TX_SEL = new RegisterDetails();
                     registerDetailFC_TX_SEL.Address = 0x1E8005;
-                    registerDetailFC_TX_SEL.Name = "FC_TX_SEL";
-                    FieldDetails fieldDetailFC_TX_SEL = new FieldDetails();
                     fieldDetailFC_TX_SEL.Start = 0;
                     fieldDetailFC_TX_SEL.Width = 1;
 
-                    RegisterDetails registerDetailFG_DONE = new RegisterDetails();
                     registerDetailFG_DONE.Address = 0x1E801E;
-                    registerDetailFG_DONE.Name = "FG_DONE";
-                    FieldDetails fieldDetailFG_DONE = new FieldDetails();
                     fieldDetailFG_DONE.Start = 0;
                     fieldDetailFG_DONE.Width = 1;
 
-                    RegisterDetails registerDetailFC_EN = new RegisterDetails();
                     registerDetailFC_EN.Address = 0x1E8001;
-                    registerDetailFC_EN.Name = "FC_EN";
-                    FieldDetails fieldDetailFC_EN = new FieldDetails();
                     fieldDetailFC_EN.Start = 0;
                     fieldDetailFC_EN.Width = 1;
 
-                    RegisterDetails registerDetailRX_ERR_CNT = new RegisterDetails();
                     registerDetailRX_ERR_CNT.Address = 0x1E8008;
-                    registerDetailRX_ERR_CNT.Name = "RX_ERR_CNT";
-                    FieldDetails fieldDetailRX_ERR_CNT = new FieldDetails();
                     fieldDetailRX_ERR_CNT.Start = 0;
                     fieldDetailRX_ERR_CNT.Width = 16;
 
-                    RegisterDetails registerDetailFC_FRM_CNT_L = new RegisterDetails();
                     registerDetailFC_FRM_CNT_L.Address = 0x1E800A;
-                    registerDetailFC_FRM_CNT_L.Name = "FC_FRM_CNT_L";
-                    FieldDetails fieldDetailFC_FRM_CNT_L = new FieldDetails();
                     fieldDetailFC_FRM_CNT_L.Start = 0;
                     fieldDetailFC_FRM_CNT_L.Width = 16;
 
-                    RegisterDetails registerDetailFC_FRM_CNT_H = new RegisterDetails();
                     registerDetailFC_FRM_CNT_H.Address = 0x1E8009;
-                    registerDetailFC_FRM_CNT_H.Name = "FC_FRM_CNT_H";
-                    FieldDetails fieldDetailFC_FRM_CNT_H = new FieldDetails();
                     fieldDetailFC_FRM_CNT_H.Start = 0;
                     fieldDetailFC_FRM_CNT_H.Width = 16;
 
-                    switch (name)
-                    {
-                        case "FC_TX_SEL":
-                            return new RegisterInfo(registerDetailFC_TX_SEL, fieldDetailFC_TX_SEL);
-                        case "FG_DONE":
-                            return new RegisterInfo(registerDetailFG_DONE, fieldDetailFG_DONE);
-                        case "FC_EN":
-                            return new RegisterInfo(registerDetailFC_EN, fieldDetailFC_EN);
-                        case "RX_ERR_CNT":
-                            return new RegisterInfo(registerDetailRX_ERR_CNT, fieldDetailRX_ERR_CNT);
-                        case "FC_FRM_CNT_L":
-                            return new RegisterInfo(registerDetailFC_FRM_CNT_L, fieldDetailFC_FRM_CNT_L);
-                        case "FC_FRM_CNT_H":
-                            return new RegisterInfo(registerDetailFC_FRM_CNT_H, fieldDetailFC_FRM_CNT_H);
-                        case "CRSM_FRM_GEN_DIAG_CLK_EN":
-                            return new RegisterInfo(registerDetailCRSM_FRM_GEN_DIAG_CLK_EN, fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN);
-                        case "FG_FRM_LEN":
-                            return new RegisterInfo(registerDetailFG_FRM_LEN, fieldDetailFG_FRM_LEN);
-                        case "FG_NFRM_L":
-                            return new RegisterInfo(registerDetailFG_NFRM_L, fieldDetailFG_NFRM_L);
-                        case "FG_NFRM_H":
-                            return new RegisterInfo(registerDetailFG_NFRM_H, fieldDetailFG_NFRM_H);
-                        case "FG_CONT_MODE_EN":
-                            return new RegisterInfo(registerDetailFG_CONT_MODE_EN, fieldDetailFG_CONT_MODE_EN);
-                        case "FG_CNTRL":
-                            return new RegisterInfo(registerDetailFG_CNTRL, fieldDetailFG_CNTRL);
-                        case "FG_EN":
-                            return new RegisterInfo(registerDetailFG_EN, fieldDetailFG_EN);
-                        default:
-                            throw new ArgumentException(string.Format("Information on register or field \"{0:s}\" is not available", name), name);
-                    }
+                    registerDetailsFgDa5Emi.Address = 0x1E8028;
+                    fieldDetailsFgDa5Emi.Start = 0;
+                    fieldDetailsFgDa5Emi.Width = 8;
+
+                    registerDetailsFgSa.Address = 0x1E8029;
+                    fieldDetailsFgSa.Start = 0;
+                    fieldDetailsFgSa.Width = 8;
+                }
+
+                switch (name)
+                {
+                    case "FC_TX_SEL":
+                        return new RegisterInfo(registerDetailFC_TX_SEL, fieldDetailFC_TX_SEL);
+                    case "FG_DONE":
+                        return new RegisterInfo(registerDetailFG_DONE, fieldDetailFG_DONE);
+                    case "FC_EN":
+                        return new RegisterInfo(registerDetailFC_EN, fieldDetailFC_EN);
+                    case "RX_ERR_CNT":
+                        return new RegisterInfo(registerDetailRX_ERR_CNT, fieldDetailRX_ERR_CNT);
+                    case "FC_FRM_CNT_L":
+                        return new RegisterInfo(registerDetailFC_FRM_CNT_L, fieldDetailFC_FRM_CNT_L);
+                    case "FC_FRM_CNT_H":
+                        return new RegisterInfo(registerDetailFC_FRM_CNT_H, fieldDetailFC_FRM_CNT_H);
+                    case "CRSM_FRM_GEN_DIAG_CLK_EN":
+                        return new RegisterInfo(registerDetailCRSM_FRM_GEN_DIAG_CLK_EN, fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN);
+                    case "FG_FRM_LEN":
+                        return new RegisterInfo(registerDetailFG_FRM_LEN, fieldDetailFG_FRM_LEN);
+                    case "FG_NFRM_L":
+                        return new RegisterInfo(registerDetailFG_NFRM_L, fieldDetailFG_NFRM_L);
+                    case "FG_NFRM_H":
+                        return new RegisterInfo(registerDetailFG_NFRM_H, fieldDetailFG_NFRM_H);
+                    case "FG_CONT_MODE_EN":
+                        return new RegisterInfo(registerDetailFG_CONT_MODE_EN, fieldDetailFG_CONT_MODE_EN);
+                    case "FG_CNTRL":
+                        return new RegisterInfo(registerDetailFG_CNTRL, fieldDetailFG_CNTRL);
+                    case "FG_EN":
+                        return new RegisterInfo(registerDetailFG_EN, fieldDetailFG_EN);
+                    case "FgDa5Emi":
+                        return new RegisterInfo(registerDetailsFgDa5Emi, fieldDetailsFgDa5Emi);
+                    case "FgSa":
+                        return new RegisterInfo(registerDetailsFgSa, fieldDetailsFgSa);
+                    default:
+                        throw new ArgumentException(string.Format("Information on register or field \"{0:s}\" is not available", name), name);
                 }
 
             }
@@ -3511,33 +3507,25 @@ namespace TargetInterface
                     this.WriteYodaRg("IndirectAccessAddressMap", "FG_EN", 1);
                     this.Info(string.Format(" - Started transmission of {0:d} frames - ", numFrames));
 
-                    if (this.revNumber == DeviceRevision.Revision0)
+                    if (IsChangeMacAddress)
                     {
-                        this.Info("    Writing Source MAC Address did not performed");
-                        this.Info("    Writing Destination MAC Address did not performed");
+                        // Source MAC Address
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FgSa", srcMAC);
+                        this.Info(string.Format("    Source MAC Address set to 0x{0:X}", srcMAC));
+
+                        // Destination MAC Address
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FgDa5Emi", destMAC);
+                        this.Info(string.Format("    Destination MAC Address set to 0x{0:X}", destMAC));
                     }
                     else
                     {
-                        if (IsChangeMacAddress)
-                        {
-                            // Source MAC Address
-                            this.WriteYodaRg("IndirectAccessAddressMap", "FgSa", srcMAC);
-                            this.Info(string.Format("    Source MAC Address set to 0x{0:X}", srcMAC));
+                        // Source MAC Address
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FgSa", 0xE1);
+                        this.Info("    Source MAC Address set to 0xE1");
 
-                            // Destination MAC Address
-                            this.WriteYodaRg("IndirectAccessAddressMap", "FgDa5Emi", destMAC);
-                            this.Info(string.Format("    Destination MAC Address set to 0x{0:X}", destMAC));
-                        }
-                        else
-                        {
-                            // Source MAC Address
-                            this.WriteYodaRg("IndirectAccessAddressMap", "FgSa", 0xE1);
-                            this.Info("    Source MAC Address set to 0xE1");
-
-                            // Destination MAC Address
-                            this.WriteYodaRg("IndirectAccessAddressMap", "FgDa5Emi", 0x01);
-                            this.Info("    Source MAC Address set to 0x01");
-                        }
+                        // Destination MAC Address
+                        this.WriteYodaRg("IndirectAccessAddressMap", "FgDa5Emi", 0x01);
+                        this.Info("    Source MAC Address set to 0x01");
                     }
                 }
             }
