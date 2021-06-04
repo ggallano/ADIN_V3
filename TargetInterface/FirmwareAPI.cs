@@ -2310,6 +2310,7 @@ namespace TargetInterface
         {
             uint modelNum;
             uint revNum = 0;
+            string deviceTypeName = string.Empty;
 
             if (this.TenSPEDevice())
             {
@@ -2350,16 +2351,18 @@ namespace TargetInterface
             {
                 deviceRev = DeviceRevision.Revision0;
                 this.revNumber = deviceRev;
+                deviceTypeName = deviceType.ToString() + "-U1";
             }
             else
             {
                 deviceRev = DeviceRevision.Revision1;
                 this.revNumber = deviceRev;
+                deviceTypeName = deviceType.ToString();
             }
 
             TargetInfoItem connectedDevice = new TargetInfoItem(this.deviceSettingsUp.DetectedDevice.ItemName);
             connectedDevice.IsAvailable = true;
-            connectedDevice.ItemContent = deviceType.ToString();
+            connectedDevice.ItemContent = deviceTypeName;
             this.deviceSettingsUp.DetectedDevice = connectedDevice;
 
             TargetInfoItem phyAddress = new TargetInfoItem(this.deviceSettingsUp.DetectedDevice.ItemName);
