@@ -9,10 +9,10 @@
 !define OLD_APP_NAME "ADIN1100 Evaluation"
 !define APP_NAME "Analog Devices Ethernet PHY Evaluation"
 !define COMP_NAME "Analog Devices Inc.,"
-!define VERSION "01.08.00.00"#incompatible version.versionfeature.bugfix.
+!define VERSION "01.08.01.00"#incompatible version.versionfeature.bugfix.
 !define COPYRIGHT "Analog Devices Inc. � 2020"
 !define DESCRIPTION "Application"
-!define INSTALLER_NAME "Analog Devices Ethernet PHY Installer_v1800.exe"#to add v1200-dev for internal.
+!define INSTALLER_NAME "Analog Devices Ethernet PHY Installer_v1810.exe"#to add v1200-dev for internal.
 !define MAIN_APP_EXE "ADIN1100-Eval.exe"
 !define INSTALL_TYPE "SetShellVarContext current"
 !define REG_ROOT "HKCU"
