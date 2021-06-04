@@ -74,6 +74,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
+    <None Include="registers\registers_adin1100_S1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="scripts\Enable Link LED_scripts.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -86,7 +89,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="registers\registers_adin1100.json">
+    <None Include="registers\registers_adin1100_S2.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="registers\registers_adin1200.json">
