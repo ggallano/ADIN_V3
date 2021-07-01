@@ -43,6 +43,14 @@ namespace TargetInterface
         }
 
         /// <summary>
+        /// Gets a value indicating the register name
+        /// </summary>
+        public string RegisterName
+        {
+            get { return this.registerDetails.Name; }
+        }
+
+        /// <summary>
         /// Gets a value indicating the address
         /// </summary>
         public uint Address
