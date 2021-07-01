@@ -2740,13 +2740,13 @@ namespace TargetInterface
 
             if (registerInfo.IsSubField)
             {
-                this.VerboseInfo(string.Format("BitField \"{1:s}\" = {2:d}", mMap, name, value));
+                this.VerboseInfo(string.Format($"Register: {registerInfo.RegisterName}, Bitfield: {name:s} = {value:d}"));
                 regContent = this.deviceConnection.ReadMDIORegister(registerInfo.Address);
                 regContent = registerInfo.InsertFieldValue(regContent, value);
             }
             else
             {
-                this.VerboseInfo(string.Format("Register \"{1:s}\" = {2:d}", mMap, name, value));
+                this.VerboseInfo(string.Format($"Register {name:s} = {value:d}"));
             }
 
             this.deviceConnection.WriteMDIORegister(registerInfo.Address, regContent);
