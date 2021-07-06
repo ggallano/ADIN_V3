@@ -2417,10 +2417,10 @@ namespace TargetInterface
             RegisterDetails registerDetailCRSM_FRM_GEN_DIAG_CLK_EN = new RegisterDetails() { Name = "CRSM_FRM_GEN_DIAG_CLK_EN", Address = 0x1E882C };
             FieldDetails fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN = new FieldDetails() { Start = 1, Width = 1 };
 
-            RegisterDetails registerDetailsFgDa5Emi = new RegisterDetails() { Name = "FgDa5Emi" };
+            RegisterDetails registerDetailFgDa5Emi = new RegisterDetails() { Name = "FgDa5Emi" };
             FieldDetails fieldDetailsFgDa5Emi = new FieldDetails();
 
-            RegisterDetails registerDetailsFgSa = new RegisterDetails() { Name = "FgSa" };
+            RegisterDetails registerDetailFgSa = new RegisterDetails() { Name = "FgSa" };
             FieldDetails fieldDetailsFgSa = new FieldDetails();
 
             RegisterDetails registerDetailFG_FRM_LEN = new RegisterDetails() { Name = "FG_FRM_LEN" };
@@ -2459,15 +2459,18 @@ namespace TargetInterface
             RegisterDetails registerDetailFC_FRM_CNT_H = new RegisterDetails() { Name = "FC_FRM_CNT_H" };
             FieldDetails fieldDetailFC_FRM_CNT_H = new FieldDetails();
 
+            RegisterDetails registerDetailRMII_TXD_CHK_EN = new RegisterDetails() { Name = "RMII_CFG" };
+            FieldDetails fieldDetailRMII_TXD_CHK_EN = new FieldDetails() { Name = "RMII_TXD_CHK_EN"};
+
             if (this.TenSPEDevice())
             {
                 if (this.revNumber == DeviceRevision.Revision1)
                 {
-                    registerDetailsFgDa5Emi.Address = 0x1F8032;
+                    registerDetailFgDa5Emi.Address = 0x1F8032;
                     fieldDetailsFgDa5Emi.Start = 0;
                     fieldDetailsFgDa5Emi.Width = 8;
 
-                    registerDetailsFgSa.Address = 0x1F8033;
+                    registerDetailFgSa.Address = 0x1F8033;
                     fieldDetailsFgSa.Start = 0;
                     fieldDetailsFgSa.Width = 8;
                 }
@@ -2521,13 +2524,17 @@ namespace TargetInterface
                     fieldDetailFC_FRM_CNT_H.Start = 0;
                     fieldDetailFC_FRM_CNT_H.Width = 16;
 
-                    registerDetailsFgDa5Emi.Address = 0x1E8028;
+                    registerDetailFgDa5Emi.Address = 0x1E8028;
                     fieldDetailsFgDa5Emi.Start = 0;
                     fieldDetailsFgDa5Emi.Width = 8;
 
-                    registerDetailsFgSa.Address = 0x1E8029;
+                    registerDetailFgSa.Address = 0x1E8029;
                     fieldDetailsFgSa.Start = 0;
                     fieldDetailsFgSa.Width = 8;
+
+                    registerDetailRMII_TXD_CHK_EN.Address = 0x1E8038;
+                    fieldDetailRMII_TXD_CHK_EN.Start = 0;
+                    fieldDetailRMII_TXD_CHK_EN.Width = 1;
                 }
 
                 switch (name)
@@ -2559,9 +2566,11 @@ namespace TargetInterface
                     case "FG_EN":
                         return new RegisterInfo(registerDetailFG_EN, fieldDetailFG_EN);
                     case "FgDa5Emi":
-                        return new RegisterInfo(registerDetailsFgDa5Emi, fieldDetailsFgDa5Emi);
+                        return new RegisterInfo(registerDetailFgDa5Emi, fieldDetailsFgDa5Emi);
                     case "FgSa":
-                        return new RegisterInfo(registerDetailsFgSa, fieldDetailsFgSa);
+                        return new RegisterInfo(registerDetailFgSa, fieldDetailsFgSa);
+                    case "RMII_TXD_CHK_EN":
+                        return new RegisterInfo(registerDetailRMII_TXD_CHK_EN, fieldDetailRMII_TXD_CHK_EN);
                     default:
                         throw new ArgumentException(string.Format("Information on register or field \"{0:s}\" is not available", name), name);
                 }
