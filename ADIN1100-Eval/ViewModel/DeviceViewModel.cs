@@ -33,52 +33,35 @@ namespace ADIN1100_Eval.ViewModel
         /// Stores the lock object for synchronization variables between UI and worker thread
         /// </summary>
         private static object syncThreadVarLock = new object();
-
         private bool workerinvalidateRequerySuggested = false;
-
         private bool newDevicesAdded = false;
-
         private uint testModeFrameLength = 1500;
-
         private BackgroundWorker workerPhyStatus;
-
         private BackgroundWorker workerRefreshRegisters;
-
         private DeviceModel selectedDevice;
-
         private TestModeItem selectedTestModeItem;
-
         private TargetSettings deviceSettings = new TargetSettings();
-
         private ObservableCollection<DeviceModel> devices = new ObservableCollection<DeviceModel>();
-
         private ObservableCollection<TestModeItem> testmodeitemsADIN1200 = new ObservableCollection<TestModeItem>();
-
         private ObservableCollection<TestModeItem> testmodeitemsADIN1300 = new ObservableCollection<TestModeItem>();
-
         private ObservableCollection<TestModeItem> testmodeitemsADIN1100 = new ObservableCollection<TestModeItem>();
-
         private RegisterDetails selectedRegister;
-
         private JSONParserEngine jsonParser = new JSONParserEngine();
-
         private ScriptJSONStructure selectedScript1;
-
         private string selectedScript2 = "Please Choose";
-
         private string selectedScript3 = "Please Choose";
-
         private string selectedScript4 = "Please Choose";
-
         private FieldDetails selectedField;
-
         private string writeRegisterAddress;
-
         private string writeRegisterValue;
-
         private string readRegisterAddress;
-
         private string readRegisterValue;
+        private int frameBurst;
+        private int frameLength;
+        private int selectedIndexFrameContent;
+        private bool enableMacAddress;
+        private string srcMacAddress;
+        private string destMacAddress;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceViewModel"/> class.
@@ -624,6 +607,7 @@ namespace ADIN1100_Eval.ViewModel
                 this.RaisePropertyChanged("SrcMacAddress");
                 this.RaisePropertyChanged("DestMacAddress");
                 this.RaisePropertyChanged("EnableMacAddress");
+                this.RaisePropertyChanged("EnableContinuousMode");
             }
         }
 
@@ -654,62 +638,77 @@ namespace ADIN1100_Eval.ViewModel
             }
         }
 
-        private int frameBurst;
+        private bool enableContinuousMode;
 
+        /// <summary>
+        /// gets or sets the Continuous Mode for Frame Generator/Checker
+        /// </summary>
+        public bool EnableContinuousMode
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.enableContinuousMode;
+                else
+                    return this.selectedDevice.FrameGenerator.IsContinuousMode;
+            }
+
+            set
+            {
+                this.enableContinuousMode = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.FrameGenerator.IsContinuousMode = value;
+                this.RaisePropertyChanged("EnableContinuousMode");
+            }
+        }
+
+        /// <summary>
+        /// gets or sets the Frame Burst for Frame Generator/Checker
+        /// </summary>
         public int FrameBurst
         {
             get
             {
                 if (this.selectedDevice == null)
-                {
                     return this.frameBurst;
-                }
                 else
-                {
                     return this.selectedDevice.FrameGenerator.FramesBurst;
-                }
             }
 
             set
             {
                 this.frameBurst = value;
                 if (this.selectedDevice != null)
-                {
                     this.selectedDevice.FrameGenerator.FramesBurst = value;
-                }
                 this.RaisePropertyChanged("FrameBurst");
             }
         }
 
-        private int frameLength;
-
+        /// <summary>
+        /// gets or sets the Frame Length for Frame Generator/Checker
+        /// </summary>
         public int FrameLength
         {
             get
             {
                 if (this.selectedDevice == null)
-                {
                     return this.frameLength;
-                }
                 else
-                {
                     return this.selectedDevice.FrameGenerator.FrameLength;
-                }
             }
 
             set
             {
                 this.frameLength = value;
                 if (this.selectedDevice != null)
-                {
                     this.selectedDevice.FrameGenerator.FrameLength = value;
-                }
                 this.RaisePropertyChanged("FrameLength");
             }
         }
 
-        private int selectedIndexFrameContent;
-
+        /// <summary>
+        /// gets or sets the Frame Content for Frame Generator/Checker
+        /// </summary>
         public int SelectedIndexFrameContent
         {
             get
@@ -730,31 +729,31 @@ namespace ADIN1100_Eval.ViewModel
             }
         }
 
-        private bool enableMacAddress;
-
+        /// <summary>
+        /// gets or sets the enable MAC Address for Frame Generator/Checker
+        /// </summary>
         public bool EnableMacAddress
         {
             get
             {
                 if (this.selectedDevice == null)
-                    return enableMacAddress;
+                    return this.enableMacAddress;
                 else
                     return this.selectedDevice.FrameGenerator.MacAddressEnable;
             }
 
             set
             {
-                enableMacAddress = value;
+                this.enableMacAddress = value;
                 if (this.selectedDevice != null)
-                {
                     this.selectedDevice.FrameGenerator.MacAddressEnable = value;
-                }
                 this.RaisePropertyChanged("EnableMacAddress");
             }
         }
 
-        private string srcMacAddress;
-
+        /// <summary>
+        /// gets or sets the source MAC Address for Frame Generator/Checker
+        /// </summary>
         public string SrcMacAddress
         {
             get
@@ -775,21 +774,22 @@ namespace ADIN1100_Eval.ViewModel
             }
         }
 
-        private string destMacAddress;
-
+        /// <summary>
+        /// gets or sets the destination MAC Address for Frame Generator/Checker
+        /// </summary>
         public string DestMacAddress
         {
             get
             {
                 if (this.selectedDevice == null)
-                    return destMacAddress;
+                    return this.destMacAddress;
                 else
                     return this.selectedDevice.FrameGenerator.DestinationMacAddress;
             }
 
             set
             {
-                destMacAddress = value;
+                this.destMacAddress = value;
                 if (this.selectedDevice != null)
                     this.selectedDevice.FrameGenerator.DestinationMacAddress = value;
                 this.RaisePropertyChanged("DestMacAddress");

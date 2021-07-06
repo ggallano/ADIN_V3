@@ -54,7 +54,7 @@
                 </GroupBox>-->
                 <GroupBox Header='1. Frame Generator in Local PHY'>
                     <StackPanel Margin="5,0">
-                        <CheckBox Margin="2 2 8 2" IsEnabled='{Binding FrameGenRunning,Converter={StaticResource InverseBooleanConverter}}'   ToolTip='Enable this to send a continuous stream of frames. Alternative is to send a burst of frames of a certain length.' x:Name='chkContinuous'>Continuous Mode until terminated.</CheckBox>
+                        <CheckBox Margin="2 2 8 2" IsEnabled='{Binding FrameGenRunning,Converter={StaticResource InverseBooleanConverter}}'   ToolTip='Enable this to send a continuous stream of frames. Alternative is to send a burst of frames of a certain length.' x:Name='chkContinuous' IsChecked="{Binding EnableContinuousMode}">Continuous Mode until terminated.</CheckBox>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -84,12 +84,12 @@
 
                         </ComboBox>
 
-                        <CheckBox Margin="2 10 8 2" x:Name="chkEnableMacAddress" IsChecked="{Binding EnableMacAddress}" Click="chkEnableMacAddress_Click">Change MAC Address</CheckBox>
+                        <CheckBox Margin="2 10 8 2" x:Name="chkEnableMacAddress" IsChecked="{Binding EnableMacAddress}">Change MAC Address</CheckBox>
                         <TextBlock Text="Source MAC Address" Margin="2 3 8 2" FontWeight="SemiBold"/>
-                        <local:MACAddress x:Name="txtSrcMacAddress" Address="{Binding SrcMacAddress}"/>
+                        <local:MACAddress x:Name="txtSrcMacAddress" Address="{Binding SrcMacAddress}" IsEnabled="{Binding ElementName=chkEnableMacAddress, Path=IsChecked, UpdateSourceTrigger=PropertyChanged}"/>
 
                         <TextBlock Text="Destination MAC Address" Margin="2 3 8 2" FontWeight="SemiBold"/>
-                        <local:MACAddress x:Name="txtDestMacAddress" Address="{Binding DestMacAddress}"/>
+                        <local:MACAddress x:Name="txtDestMacAddress" Address="{Binding DestMacAddress}" IsEnabled="{Binding ElementName=chkEnableMacAddress, Path=IsChecked, UpdateSourceTrigger=PropertyChanged}"/>
                         
                         <CheckBox Name='chkEnableChecker' Content='Enable Checker' IsChecked='True' Margin="2 2 8 2"    Visibility='Collapsed'  />
                         <telerik:RadButton Content="Clear Results" Margin='10,10,10,10' CornerRadius='15' ToolTip='Reset all frame checker settings to defaults.'  Command="{Binding ResetFrameCheckerCommand}" x:Name="ResetSettings">
