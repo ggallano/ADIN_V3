@@ -23,7 +23,7 @@ namespace ADIN1100_Eval.Model
         private string serialNumber;
         private bool lpbkmode;//loopback
         private DeviceConnection deviceConnection;
-
+        private FrameGeneratorChecker frameGenerator;
         private FirmwareAPI fwAPI;
 
         /// <summary>
@@ -65,6 +65,23 @@ namespace ADIN1100_Eval.Model
                 }
             }
         }
+
+        /// <summary>
+        /// Gets or sets the FrameGenerator
+        /// </summary>
+        public FrameGeneratorChecker FrameGenerator
+        {
+            get
+            {
+                return this.frameGenerator;
+            }
+
+            set
+            {
+                this.frameGenerator = value;
+            }
+        }
+
         /// <summary>
         /// Gets access to the firmware API
         /// </summary>

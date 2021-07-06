@@ -67,11 +67,14 @@ namespace ADIN1100_Eval.Themes.Converters
                     // MAC Address
                     var tempString = (string)values[6];
 
-                    // Splitting MAC Address
-                    var octets = tempString.Split(':');
+                    if (tempString != "")
+                    {
+                        // Splitting MAC Address
+                        var octets = tempString.Split(':');
 
-                    // Getting the 5th Octet of the MAC Address
-                    parameters.SourceMacAddress = octets[5];
+                        // Getting the 5th Octet of the MAC Address
+                        parameters.SourceMacAddress = octets[5];
+                    }
                 }
 
                 if (values[7] is string)

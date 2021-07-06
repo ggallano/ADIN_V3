@@ -54,7 +54,7 @@
                 </GroupBox>-->
                 <GroupBox Header='1. Frame Generator in Local PHY'>
                     <StackPanel Margin="5,0">
-                        <CheckBox Margin="2 2 8 2"    IsEnabled='{Binding FrameGenRunning,Converter={StaticResource InverseBooleanConverter}}'   ToolTip='Enable this to send a continuous stream of frames. Alternative is to send a burst of frames of a certain length.' x:Name='chkContinuous'>Continuous Mode until terminated.</CheckBox>
+                        <CheckBox Margin="2 2 8 2" IsEnabled='{Binding FrameGenRunning,Converter={StaticResource InverseBooleanConverter}}'   ToolTip='Enable this to send a continuous stream of frames. Alternative is to send a burst of frames of a certain length.' x:Name='chkContinuous'>Continuous Mode until terminated.</CheckBox>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -63,7 +63,7 @@
                             <TextBlock Grid.Column="0" Text="Number of Frames in Burst" Margin="2,2,8,2" FontWeight="SemiBold" Visibility='{Binding ElementName=chkContinuous, Path=IsChecked,Converter={StaticResource ReverseBooleanToVisibilityConverter}}'/>
                             <TextBox Grid.Column="1" Text="{Binding ElementName=SliderFrameNumber, Path=Value, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked,Converter={StaticResource ReverseBooleanToVisibilityConverter}}" BorderThickness="0.5" Background="Transparent" Width="50" HorizontalAlignment="Right" HorizontalContentAlignment="Center"/>
                         </Grid>
-                        <telerik:RadSlider IsEnabled='{Binding FrameGenRunning,Converter={StaticResource InverseBooleanConverter}}'  x:Name="SliderFrameNumber" Value="64001" Maximum="65535" TickFrequency="50" IsSnapToTickEnabled="True" Visibility='{Binding ElementName=chkContinuous, Path=IsChecked,Converter={StaticResource ReverseBooleanToVisibilityConverter}}'/>
+                        <telerik:RadSlider IsEnabled='{Binding FrameGenRunning,Converter={StaticResource InverseBooleanConverter}}'  x:Name="SliderFrameNumber" Value="{Binding FrameBurst}" Maximum="65535" TickFrequency="50" IsSnapToTickEnabled="True" Visibility='{Binding ElementName=chkContinuous, Path=IsChecked,Converter={StaticResource ReverseBooleanToVisibilityConverter}}'/>
 
                         <Grid Margin="0,5,0,0">
                             <Grid.ColumnDefinitions>
@@ -73,10 +73,10 @@
                             <TextBlock Grid.Column="0" Text="Frame Length" Margin="2 2 8 2"    FontWeight="SemiBold" />
                             <TextBox Grid.Column="1" HorizontalAlignment="Right" Text="{Binding ElementName=SliderFrameLength, Path=Value, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0.5" Background="Transparent" Width="50" HorizontalContentAlignment="Center"/>
                         </Grid>
-                        <telerik:RadSlider IsEnabled='{Binding FrameGenRunning,Converter={StaticResource InverseBooleanConverter}}' x:Name="SliderFrameLength" Value="1250" Maximum="65500" TickFrequency="50" IsSnapToTickEnabled="True"/>
+                        <telerik:RadSlider IsEnabled='{Binding FrameGenRunning,Converter={StaticResource InverseBooleanConverter}}' x:Name="SliderFrameLength" Value="{Binding FrameLength}" Maximum="65500" TickFrequency="50" IsSnapToTickEnabled="True"/>
 
                         <TextBlock Text="Frame Content" Margin="2 2 8 2"    FontWeight="SemiBold" />
-                        <ComboBox Name='FrameContent' IsEnabled='{Binding FrameGenRunning,Converter={StaticResource InverseBooleanConverter}}'>
+                        <ComboBox Name='FrameContent' IsEnabled='{Binding FrameGenRunning,Converter={StaticResource InverseBooleanConverter}}' SelectedIndex="{Binding SelectedIndexFrameContent}">
                             <ComboBoxItem ToolTip='Frame content of random data' IsSelected='True'>Random</ComboBoxItem>
                             <ComboBoxItem ToolTip='Frame content of all zeros'>All 0s</ComboBoxItem>
                             <ComboBoxItem ToolTip='Frame content of all ones'>All 1s</ComboBoxItem>
@@ -84,12 +84,12 @@
 
                         </ComboBox>
 
-                        <CheckBox Margin="2 10 8 2" x:Name="chkEnableMacAddress" Click="chkEnableMacAddress_Click">Change MAC Address</CheckBox>
+                        <CheckBox Margin="2 10 8 2" x:Name="chkEnableMacAddress" IsChecked="{Binding EnableMacAddress}" Click="chkEnableMacAddress_Click">Change MAC Address</CheckBox>
                         <TextBlock Text="Source MAC Address" Margin="2 3 8 2" FontWeight="SemiBold"/>
-                        <local:MACAddress x:Name="txtSrcMacAddress"/>
+                        <local:MACAddress x:Name="txtSrcMacAddress" Address="{Binding SrcMacAddress}"/>
 
                         <TextBlock Text="Destination MAC Address" Margin="2 3 8 2" FontWeight="SemiBold"/>
-                        <local:MACAddress x:Name="txtDestMacAddress"/>
+                        <local:MACAddress x:Name="txtDestMacAddress" Address="{Binding DestMacAddress}"/>
                         
                         <CheckBox Name='chkEnableChecker' Content='Enable Checker' IsChecked='True' Margin="2 2 8 2"    Visibility='Collapsed'  />
                         <telerik:RadButton Content="Clear Results" Margin='10,10,10,10' CornerRadius='15' ToolTip='Reset all frame checker settings to defaults.'  Command="{Binding ResetFrameCheckerCommand}" x:Name="ResetSettings">

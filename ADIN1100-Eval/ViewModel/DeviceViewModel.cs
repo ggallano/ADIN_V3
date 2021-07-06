@@ -618,6 +618,12 @@ namespace ADIN1100_Eval.ViewModel
                 this.RaisePropertyChanged("DeviceSerialNumber");
                 this.RaisePropertyChanged("Registers");
                 this.RaisePropertyChanged("Scripts");
+                this.RaisePropertyChanged("FrameBurst");
+                this.RaisePropertyChanged("FrameLength");
+                this.RaisePropertyChanged("SelectedIndexFrameContent");
+                this.RaisePropertyChanged("SrcMacAddress");
+                this.RaisePropertyChanged("DestMacAddress");
+                this.RaisePropertyChanged("EnableMacAddress");
             }
         }
 
@@ -645,6 +651,148 @@ namespace ADIN1100_Eval.ViewModel
             get
             {
                 return this.deviceSettings.Link.FrameGenRunning;
+            }
+        }
+
+        private int frameBurst;
+
+        public int FrameBurst
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                {
+                    return this.frameBurst;
+                }
+                else
+                {
+                    return this.selectedDevice.FrameGenerator.FramesBurst;
+                }
+            }
+
+            set
+            {
+                this.frameBurst = value;
+                if (this.selectedDevice != null)
+                {
+                    this.selectedDevice.FrameGenerator.FramesBurst = value;
+                }
+                this.RaisePropertyChanged("FrameBurst");
+            }
+        }
+
+        private int frameLength;
+
+        public int FrameLength
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                {
+                    return this.frameLength;
+                }
+                else
+                {
+                    return this.selectedDevice.FrameGenerator.FrameLength;
+                }
+            }
+
+            set
+            {
+                this.frameLength = value;
+                if (this.selectedDevice != null)
+                {
+                    this.selectedDevice.FrameGenerator.FrameLength = value;
+                }
+                this.RaisePropertyChanged("FrameLength");
+            }
+        }
+
+        private int selectedIndexFrameContent;
+
+        public int SelectedIndexFrameContent
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.selectedIndexFrameContent;
+                else
+                    return this.selectedDevice.FrameGenerator.FrameContent;
+            }
+
+            set
+            {
+                this.selectedIndexFrameContent = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.FrameGenerator.FrameContent = value;
+
+                this.RaisePropertyChanged("SelectedIndexFrameContent");
+            }
+        }
+
+        private bool enableMacAddress;
+
+        public bool EnableMacAddress
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return enableMacAddress;
+                else
+                    return this.selectedDevice.FrameGenerator.MacAddressEnable;
+            }
+
+            set
+            {
+                enableMacAddress = value;
+                if (this.selectedDevice != null)
+                {
+                    this.selectedDevice.FrameGenerator.MacAddressEnable = value;
+                }
+                this.RaisePropertyChanged("EnableMacAddress");
+            }
+        }
+
+        private string srcMacAddress;
+
+        public string SrcMacAddress
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.srcMacAddress;
+                else
+                    return this.selectedDevice.FrameGenerator.SourceMacAddress;
+            }
+
+            set
+            {
+                this.srcMacAddress = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.FrameGenerator.SourceMacAddress = value;
+
+                this.RaisePropertyChanged("SrcMacAddress");
+            }
+        }
+
+        private string destMacAddress;
+
+        public string DestMacAddress
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return destMacAddress;
+                else
+                    return this.selectedDevice.FrameGenerator.DestinationMacAddress;
+            }
+
+            set
+            {
+                destMacAddress = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.FrameGenerator.DestinationMacAddress = value;
+                this.RaisePropertyChanged("DestMacAddress");
             }
         }
 
@@ -1514,7 +1662,7 @@ namespace ADIN1100_Eval.ViewModel
 
                                     if (newDevice)
                                     {
-                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged));
+                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged) { FrameGenerator = new FrameGeneratorChecker() { FramesBurst = 64001, FrameLength = 1250, FrameContent = 0, SourceMacAddress = ":::::", DestinationMacAddress = ":::::" } });
                                     }
                                 }
 

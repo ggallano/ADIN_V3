@@ -114,6 +114,7 @@
     <Compile Include="AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FrameGeneratorChecker.cs" />
     <Compile Include="LocalLoopbackParameters.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="RegisterParameters.cs" />
