@@ -58,6 +58,8 @@ namespace ADIN1100_Eval.ViewModel
 
         private ObservableCollection<TestModeItem> testmodeitemsADIN1100 = new ObservableCollection<TestModeItem>();
 
+        private ObservableCollection<LoopbackItem> loopbackItemsADIN1100 = new ObservableCollection<LoopbackItem>();
+
         private RegisterDetails selectedRegister;
 
         private JSONParserEngine jsonParser = new JSONParserEngine();
@@ -142,6 +144,15 @@ namespace ADIN1100_Eval.ViewModel
             this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 10 MHz DIM 0", "Transmit 10MHz square wave on dimension 1", false));
 
             this.selectedTestModeItem = this.testmodeitemsADIN1100[0];
+
+            // Loopback Items
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "None", Name = "OFF" });
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "MAC I/F Remote", Name = "MacRemote" });
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "MAC I/F", Name = "MAC" });
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "PCS", Name = "Digital" });
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "PMA", Name = "LineDriver" });
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "External MII/RMII", Name = "ExtCable" });
+            this.LoopbackItems = this.loopbackItemsADIN1100;
         }
 
         /// <summary>
@@ -551,6 +562,37 @@ namespace ADIN1100_Eval.ViewModel
             }
         }
 
+        public ObservableCollection<LoopbackItem> LoopbackItems { get; set; }
+
+        private LoopbackItem selectedLoopbackItem;
+
+        public LoopbackItem SelectedLoopbackItem
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                {
+                    return this.selectedLoopbackItem;
+                }
+                else
+                {
+                    return this.selectedDevice.LoopbackItem;
+                }
+            }
+
+            set
+            {
+                this.selectedLoopbackItem = value;
+                if (this.selectedDevice != null)
+                {
+                    this.selectedDevice.LoopbackItem = value;
+                }
+
+                this.RaisePropertyChanged("SelectedLoopbackItem");
+            }
+        }
+
+
         /// <summary>
         /// Gets or sets selected device
         /// </summary>
@@ -618,6 +660,7 @@ namespace ADIN1100_Eval.ViewModel
                 this.RaisePropertyChanged("DeviceSerialNumber");
                 this.RaisePropertyChanged("Registers");
                 this.RaisePropertyChanged("Scripts");
+                this.RaisePropertyChanged("SelectedLoopbackItem");
             }
         }
 
@@ -1514,7 +1557,7 @@ namespace ADIN1100_Eval.ViewModel
 
                                     if (newDevice)
                                     {
-                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged));
+                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged) { LoopbackItem = this.LoopbackItems[0] });
                                     }
                                 }
 

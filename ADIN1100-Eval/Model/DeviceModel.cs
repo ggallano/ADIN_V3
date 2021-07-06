@@ -22,6 +22,7 @@ namespace ADIN1100_Eval.Model
         private string boardName;
         private string serialNumber;
         private bool lpbkmode;//loopback
+        private LoopbackItem loopbackItem;
         private DeviceConnection deviceConnection;
 
         private FirmwareAPI fwAPI;
@@ -48,7 +49,24 @@ namespace ADIN1100_Eval.Model
             this.fwAPI.AttachDevice(this.deviceConnection);
             this.isPresent = true;
         }
- 
+
+        /// <summary>
+        /// Gets or sets the loopback item
+        /// </summary>
+        public LoopbackItem LoopbackItem
+        {
+            get
+            {
+                return this.loopbackItem;
+            }
+
+            set
+            {
+                this.loopbackItem = value;
+                this.RaisePropertyChanged("LoopbackItem");
+            }
+        }
+
         public bool InLoopback
         {
             get
