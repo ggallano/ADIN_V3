@@ -22,8 +22,8 @@ namespace ADIN1100_Eval.Model
         private string boardName;
         private string serialNumber;
         private bool lpbkmode;//loopback
+        private TestModeItem testModeItem;
         private DeviceConnection deviceConnection;
-
         private FirmwareAPI fwAPI;
 
         /// <summary>
@@ -48,7 +48,27 @@ namespace ADIN1100_Eval.Model
             this.fwAPI.AttachDevice(this.deviceConnection);
             this.isPresent = true;
         }
- 
+
+        /// <summary>
+        /// Gets or sets the Test Mode Item
+        /// </summary>
+        public TestModeItem TestModeItem
+        {
+            get
+            {
+                return this.testModeItem;
+            }
+
+            set
+            {
+                this.testModeItem = value;
+                this.RaisePropertyChanged("TestModeItem");
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the 
+        /// </summary>
         public bool InLoopback
         {
             get
