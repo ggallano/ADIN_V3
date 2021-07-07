@@ -2460,7 +2460,7 @@ namespace TargetInterface
             FieldDetails fieldDetailFC_FRM_CNT_H = new FieldDetails();
 
             RegisterDetails registerDetailRMII_TXD_CHK_EN = new RegisterDetails() { Name = "RMII_CFG" };
-            FieldDetails fieldDetailRMII_TXD_CHK_EN = new FieldDetails() { Name = "RMII_TXD_CHK_EN"};
+            FieldDetails fieldDetailRMII_TXD_CHK_EN = new FieldDetails() { Name = "RMII_TXD_CHK_EN" };
 
             if (this.TenSPEDevice())
             {
@@ -3148,27 +3148,50 @@ namespace TargetInterface
                     }
                 }
 
-                uint hi_req = this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ");
-                uint hi_abl = this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL");
-
-                uint lp_hi_req = this.ReadYodaRg("IndirectAccessAddressMap", "AN_LP_ADV_B10L_TX_LVL_HI_REQ");
-                uint lp_hi_abl = this.ReadYodaRg("IndirectAccessAddressMap", "AN_LP_ADV_B10L_TX_LVL_HI_ABL");
-
-                if ((hi_abl != 1) || (lp_hi_abl != 1))
+                // Tx Level
+                if (this.revNumber == DeviceRevision.Revision1)
                 {
-                    /* One or both sides cannot do HI, therfore must be low*/
-                    cableVoltage.ItemContent = "1.0 Vpk-pk";
+                    uint txLevel = this.ReadYodaRg("IndirectAccessAddressMap", "AN_TX_LVL_RSLTN");
+
+                    switch (this.ReadYodaRg("IndirectAccessAddressMap", "AN_TX_LVL_RSLTN"))
+                    {
+                        case 0:
+                            cableVoltage.ItemContent = "N/A";
+                            break;
+                        case 2:
+                            cableVoltage.ItemContent = "1.0 Vpk-pk";
+                            break;
+                        case 3:
+                            cableVoltage.ItemContent = "2.4 Vpk-pk";
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 else
+                {
+                    uint hi_req = this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ");
+                    uint hi_abl = this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL");
+
+                    uint lp_hi_req = this.ReadYodaRg("IndirectAccessAddressMap", "AN_LP_ADV_B10L_TX_LVL_HI_REQ");
+                    uint lp_hi_abl = this.ReadYodaRg("IndirectAccessAddressMap", "AN_LP_ADV_B10L_TX_LVL_HI_ABL");
+
+                    if ((hi_abl != 1) || (lp_hi_abl != 1))
+                    {
+                        /* One or both sides cannot do HI, therfore must be low*/
+                        cableVoltage.ItemContent = "1.0 Vpk-pk";
+                    }
+                    else
                     if ((hi_req == 0) && (lp_hi_req == 0x0))
-                {
-                    // Both can manage HI, but neither are requesting it
-                    cableVoltage.ItemContent = "1.0 Vpk-pk";
-                }
-                else
-                {
-                    // Both can manage HI, and one or both are requesting it
-                    cableVoltage.ItemContent = "2.4 Vpk-pk";
+                    {
+                        // Both can manage HI, but neither are requesting it
+                        cableVoltage.ItemContent = "1.0 Vpk-pk";
+                    }
+                    else
+                    {
+                        // Both can manage HI, and one or both are requesting it
+                        cableVoltage.ItemContent = "2.4 Vpk-pk";
+                    }
                 }
 
                 // MSE VAlue Reading
