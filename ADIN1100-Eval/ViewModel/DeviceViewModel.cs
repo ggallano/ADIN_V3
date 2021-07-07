@@ -540,12 +540,23 @@ namespace ADIN1100_Eval.ViewModel
         {
             get
             {
-                return this.selectedTestModeItem;
+                if (this.selectedDevice == null)
+                {
+                    return this.selectedTestModeItem;
+                }
+                else
+                {
+                    return this.selectedDevice.TestModeItem;
+                }
             }
 
             set
             {
                 this.selectedTestModeItem = value;
+                if (this.selectedDevice != null)
+                {
+                    this.selectedDevice.TestModeItem = value;
+                }
 
                 this.RaisePropertyChanged("SelectedTestModeItem");
             }
@@ -618,6 +629,7 @@ namespace ADIN1100_Eval.ViewModel
                 this.RaisePropertyChanged("DeviceSerialNumber");
                 this.RaisePropertyChanged("Registers");
                 this.RaisePropertyChanged("Scripts");
+                this.RaisePropertyChanged("SelectedTestModeItem");
             }
         }
 
@@ -1514,7 +1526,7 @@ namespace ADIN1100_Eval.ViewModel
 
                                     if (newDevice)
                                     {
-                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged));
+                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged) { TestModeItem = this.selectedTestModeItem });
                                     }
                                 }
 
