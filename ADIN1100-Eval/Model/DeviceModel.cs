@@ -21,9 +21,7 @@ namespace ADIN1100_Eval.Model
         private bool isPresent = false;
         private string boardName;
         private string serialNumber;
-        private bool lpbkmode;//loopback
-        private LoopbackItem loopbackItem;
-        private TestModeItem testModeItem;
+        private bool lpbkmode;
         private DeviceConnection deviceConnection;
         private FirmwareAPI fwAPI;
 
@@ -53,36 +51,16 @@ namespace ADIN1100_Eval.Model
         /// <summary>
         /// Gets or sets the loopback item
         /// </summary>
-        public LoopbackItem LoopbackItem
-        {
-            get
-            {
-                return this.loopbackItem;
-            }
+        public Loopback Loopback { get; set; }
 
-            set
-            {
-                this.loopbackItem = value;
-                this.RaisePropertyChanged("LoopbackItem");
-            }
-        }
-
-		/// <summary>
+        /// <summary>
         /// Gets or sets the Test Mode Item
         /// </summary>
-        public TestModeItem TestModeItem
-        {
-            get
-            {
-                return this.testModeItem;
-            }
+        public TestModeItem TestModeItem { get; set; }
 
-            set
-            {
-                this.testModeItem = value;
-                this.RaisePropertyChanged("TestModeItem");
-            }
-        }
+        /// <summary>
+        /// gets or sets the Inloopback
+        /// </summary>
         public bool InLoopback
         {
             get
@@ -99,6 +77,7 @@ namespace ADIN1100_Eval.Model
                 }
             }
         }
+
         /// <summary>
         /// Gets access to the firmware API
         /// </summary>

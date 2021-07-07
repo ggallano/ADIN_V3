@@ -82,6 +82,12 @@ namespace ADIN1100_Eval.ViewModel
 
         private string readRegisterValue;
 
+        private LoopbackItem selectedLoopbackItem;
+
+        private bool txSuppression;
+
+        private bool rxSuppression;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceViewModel"/> class.
         /// </summary>
@@ -573,36 +579,77 @@ namespace ADIN1100_Eval.ViewModel
             }
         }
 
+        /// <summary>
+        /// gets or sets the collection of loopback items
+        /// </summary>
         public ObservableCollection<LoopbackItem> LoopbackItems { get; set; }
 
-        private LoopbackItem selectedLoopbackItem;
-
+        /// <summary>
+        /// gets or sets the selected loopback item for Loopback
+        /// </summary>
         public LoopbackItem SelectedLoopbackItem
         {
             get
             {
                 if (this.selectedDevice == null)
-                {
                     return this.selectedLoopbackItem;
-                }
                 else
-                {
-                    return this.selectedDevice.LoopbackItem;
-                }
+                    return this.selectedDevice.Loopback.LoopbackItem;
             }
 
             set
             {
                 this.selectedLoopbackItem = value;
                 if (this.selectedDevice != null)
-                {
-                    this.selectedDevice.LoopbackItem = value;
-                }
+                    this.selectedDevice.Loopback.LoopbackItem = value;
 
                 this.RaisePropertyChanged("SelectedLoopbackItem");
             }
         }
 
+        /// <summary>
+        /// gets or sets the TxSuppression
+        /// </summary>
+        public bool TxSuppression
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.txSuppression;
+                else
+                    return this.selectedDevice.Loopback.TxSupression;
+            }
+
+            set
+            {
+                this.txSuppression = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.Loopback.TxSupression = value;
+                this.RaisePropertyChanged("TxSuppression");
+            }
+        }
+
+        /// <summary>
+        /// gets or sets the RxSuppression
+        /// </summary>
+        public bool RxSuppression
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.rxSuppression;
+                else
+                    return this.selectedDevice.Loopback.RxSuspression;
+            }
+
+            set
+            {
+                this.rxSuppression = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.Loopback.RxSuspression = value;
+                this.RaisePropertyChanged("RxSuppression");
+            }
+        }
 
         /// <summary>
         /// Gets or sets selected device
@@ -671,8 +718,10 @@ namespace ADIN1100_Eval.ViewModel
                 this.RaisePropertyChanged("DeviceSerialNumber");
                 this.RaisePropertyChanged("Registers");
                 this.RaisePropertyChanged("Scripts");
-                this.RaisePropertyChanged("SelectedLoopbackItem");
                 this.RaisePropertyChanged("SelectedTestModeItem");
+                this.RaisePropertyChanged("SelectedLoopbackItem");
+                this.RaisePropertyChanged("TxSuppression");
+                this.RaisePropertyChanged("RxSuppression");
             }
         }
 
@@ -1568,7 +1617,12 @@ namespace ADIN1100_Eval.ViewModel
                                     }
 
                                     if (newDevice)
-                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged) { LoopbackItem = this.LoopbackItems[0], TestModeItem = this.selectedTestModeItem });
+                                    {
+                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged)
+                                        {
+                                            TestModeItem = this.selectedTestModeItem,
+                                            Loopback = new Loopback() { LoopbackItem = this.LoopbackItems[0] }
+                                        });
                                     }
                                 }
 
