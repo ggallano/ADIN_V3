@@ -57,7 +57,6 @@ namespace TargetInterface
             this.FlagAllPropertiesChanged();
         }
 
-        
         /// <summary>
         /// gets or sets Phy Address
         /// </summary>
