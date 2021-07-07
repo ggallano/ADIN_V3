@@ -1662,7 +1662,10 @@ namespace ADIN1100_Eval.ViewModel
 
                                     if (newDevice)
                                     {
-                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged) { FrameGenerator = new FrameGeneratorChecker() { FramesBurst = 64001, FrameLength = 1250, FrameContent = 0, SourceMacAddress = ":::::", DestinationMacAddress = ":::::" } });
+                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged)
+                                        {
+                                            FrameGenerator = new FrameGeneratorChecker() { FramesBurst = 64001, FrameLength = 1250, FrameContent = 0, SourceMacAddress = ":::::", DestinationMacAddress = ":::::" }
+                                        });
                                     }
                                 }
 
