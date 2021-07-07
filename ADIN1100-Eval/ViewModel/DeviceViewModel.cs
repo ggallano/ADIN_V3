@@ -45,9 +45,7 @@ namespace ADIN1100_Eval.ViewModel
         private ObservableCollection<TestModeItem> testmodeitemsADIN1200 = new ObservableCollection<TestModeItem>();
         private ObservableCollection<TestModeItem> testmodeitemsADIN1300 = new ObservableCollection<TestModeItem>();
         private ObservableCollection<TestModeItem> testmodeitemsADIN1100 = new ObservableCollection<TestModeItem>();
-
         private ObservableCollection<LoopbackItem> loopbackItemsADIN1100 = new ObservableCollection<LoopbackItem>();
-
         private RegisterDetails selectedRegister;
         private JSONParserEngine jsonParser = new JSONParserEngine();
         private ScriptJSONStructure selectedScript1;
@@ -65,11 +63,8 @@ namespace ADIN1100_Eval.ViewModel
         private bool enableMacAddress;
         private string srcMacAddress;
         private string destMacAddress;
-
         private LoopbackItem selectedLoopbackItem;
-
         private bool txSuppression;
-
         private bool rxSuppression;
 
         /// <summary>
@@ -1769,7 +1764,7 @@ namespace ADIN1100_Eval.ViewModel
                                     {
                                         this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged)
                                         {
-                                            FrameGenerator = new FrameGeneratorChecker() { FramesBurst = 64001, FrameLength = 1250, FrameContent = 0, SourceMacAddress = ":::::", DestinationMacAddress = ":::::" }
+                                            FrameGenerator = new FrameGeneratorChecker() { FramesBurst = 64001, FrameLength = 1250, FrameContent = 0, SourceMacAddress = ":::::", DestinationMacAddress = ":::::" },
                                             TestModeItem = this.selectedTestModeItem,
                                             Loopback = new Loopback() { LoopbackItem = this.LoopbackItems[0] }
                                         });

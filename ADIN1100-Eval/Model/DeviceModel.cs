@@ -23,7 +23,6 @@ namespace ADIN1100_Eval.Model
         private string serialNumber;
         private bool lpbkmode;
         private DeviceConnection deviceConnection;
-        private FrameGeneratorChecker frameGenerator;
         private FirmwareAPI fwAPI;
 
         /// <summary>
@@ -60,6 +59,11 @@ namespace ADIN1100_Eval.Model
         public TestModeItem TestModeItem { get; set; }
 
         /// <summary>
+        /// Gets or sets the FrameGenerator
+        /// </summary>
+        public FrameGeneratorChecker FrameGenerator { get; set; }
+
+        /// <summary>
         /// gets or sets the Inloopback
         /// </summary>
         public bool InLoopback
@@ -76,22 +80,6 @@ namespace ADIN1100_Eval.Model
                     this.lpbkmode = value;
                     this.RaisePropertyChanged("LoopBack");//do I need this
                 }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the FrameGenerator
-        /// </summary>
-        public FrameGeneratorChecker FrameGenerator
-        {
-            get
-            {
-                return this.frameGenerator;
-            }
-
-            set
-            {
-                this.frameGenerator = value;
             }
         }
 
