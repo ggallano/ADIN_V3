@@ -21,7 +21,7 @@ namespace ADIN1100_Eval.Model
         private bool isPresent = false;
         private string boardName;
         private string serialNumber;
-        private bool lpbkmode;//loopback
+        private bool lpbkmode;
         private DeviceConnection deviceConnection;
         private FrameGeneratorChecker frameGenerator;
         private FirmwareAPI fwAPI;
@@ -48,7 +48,20 @@ namespace ADIN1100_Eval.Model
             this.fwAPI.AttachDevice(this.deviceConnection);
             this.isPresent = true;
         }
- 
+
+        /// <summary>
+        /// Gets or sets the loopback item
+        /// </summary>
+        public Loopback Loopback { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Test Mode Item
+        /// </summary>
+        public TestModeItem TestModeItem { get; set; }
+
+        /// <summary>
+        /// gets or sets the Inloopback
+        /// </summary>
         public bool InLoopback
         {
             get

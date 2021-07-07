@@ -45,6 +45,9 @@ namespace ADIN1100_Eval.ViewModel
         private ObservableCollection<TestModeItem> testmodeitemsADIN1200 = new ObservableCollection<TestModeItem>();
         private ObservableCollection<TestModeItem> testmodeitemsADIN1300 = new ObservableCollection<TestModeItem>();
         private ObservableCollection<TestModeItem> testmodeitemsADIN1100 = new ObservableCollection<TestModeItem>();
+
+        private ObservableCollection<LoopbackItem> loopbackItemsADIN1100 = new ObservableCollection<LoopbackItem>();
+
         private RegisterDetails selectedRegister;
         private JSONParserEngine jsonParser = new JSONParserEngine();
         private ScriptJSONStructure selectedScript1;
@@ -62,6 +65,12 @@ namespace ADIN1100_Eval.ViewModel
         private bool enableMacAddress;
         private string srcMacAddress;
         private string destMacAddress;
+
+        private LoopbackItem selectedLoopbackItem;
+
+        private bool txSuppression;
+
+        private bool rxSuppression;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceViewModel"/> class.
@@ -125,6 +134,15 @@ namespace ADIN1100_Eval.ViewModel
             this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 10 MHz DIM 0", "Transmit 10MHz square wave on dimension 1", false));
 
             this.selectedTestModeItem = this.testmodeitemsADIN1100[0];
+
+            // Loopback Items
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "None", Name = "OFF" });
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "MAC I/F Remote", Name = "MacRemote" });
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "MAC I/F", Name = "MAC" });
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "PCS", Name = "Digital" });
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "PMA", Name = "LineDriver" });
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "External MII/RMII", Name = "ExtCable" });
+            this.LoopbackItems = this.loopbackItemsADIN1100;
         }
 
         /// <summary>
@@ -523,14 +541,97 @@ namespace ADIN1100_Eval.ViewModel
         {
             get
             {
-                return this.selectedTestModeItem;
+                if (this.selectedDevice == null)
+                {
+                    return this.selectedTestModeItem;
+                }
+                else
+                {
+                    return this.selectedDevice.TestModeItem;
+                }
             }
 
             set
             {
                 this.selectedTestModeItem = value;
+                if (this.selectedDevice != null)
+                {
+                    this.selectedDevice.TestModeItem = value;
+                }
 
                 this.RaisePropertyChanged("SelectedTestModeItem");
+            }
+        }
+
+        /// <summary>
+        /// gets or sets the collection of loopback items
+        /// </summary>
+        public ObservableCollection<LoopbackItem> LoopbackItems { get; set; }
+
+        /// <summary>
+        /// gets or sets the selected loopback item for Loopback
+        /// </summary>
+        public LoopbackItem SelectedLoopbackItem
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.selectedLoopbackItem;
+                else
+                    return this.selectedDevice.Loopback.LoopbackItem;
+            }
+
+            set
+            {
+                this.selectedLoopbackItem = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.Loopback.LoopbackItem = value;
+
+                this.RaisePropertyChanged("SelectedLoopbackItem");
+            }
+        }
+
+        /// <summary>
+        /// gets or sets the TxSuppression
+        /// </summary>
+        public bool TxSuppression
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.txSuppression;
+                else
+                    return this.selectedDevice.Loopback.TxSupression;
+            }
+
+            set
+            {
+                this.txSuppression = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.Loopback.TxSupression = value;
+                this.RaisePropertyChanged("TxSuppression");
+            }
+        }
+
+        /// <summary>
+        /// gets or sets the RxSuppression
+        /// </summary>
+        public bool RxSuppression
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.rxSuppression;
+                else
+                    return this.selectedDevice.Loopback.RxSuspression;
+            }
+
+            set
+            {
+                this.rxSuppression = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.Loopback.RxSuspression = value;
+                this.RaisePropertyChanged("RxSuppression");
             }
         }
 
@@ -608,6 +709,10 @@ namespace ADIN1100_Eval.ViewModel
                 this.RaisePropertyChanged("DestMacAddress");
                 this.RaisePropertyChanged("EnableMacAddress");
                 this.RaisePropertyChanged("EnableContinuousMode");
+                this.RaisePropertyChanged("SelectedTestModeItem");
+                this.RaisePropertyChanged("SelectedLoopbackItem");
+                this.RaisePropertyChanged("TxSuppression");
+                this.RaisePropertyChanged("RxSuppression");
             }
         }
 
@@ -1665,6 +1770,8 @@ namespace ADIN1100_Eval.ViewModel
                                         this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged)
                                         {
                                             FrameGenerator = new FrameGeneratorChecker() { FramesBurst = 64001, FrameLength = 1250, FrameContent = 0, SourceMacAddress = ":::::", DestinationMacAddress = ":::::" }
+                                            TestModeItem = this.selectedTestModeItem,
+                                            Loopback = new Loopback() { LoopbackItem = this.LoopbackItems[0] }
                                         });
                                     }
                                 }
