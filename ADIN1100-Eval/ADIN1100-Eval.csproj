@@ -115,6 +115,8 @@
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="LocalLoopbackParameters.cs" />
+    <Compile Include="Loopback.cs" />
+    <Compile Include="LoopbackItem.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="RegisterParameters.cs" />
     <Compile Include="TestModeItem.cs" />
