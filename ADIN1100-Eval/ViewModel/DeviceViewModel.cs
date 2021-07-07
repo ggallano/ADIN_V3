@@ -33,52 +33,39 @@ namespace ADIN1100_Eval.ViewModel
         /// Stores the lock object for synchronization variables between UI and worker thread
         /// </summary>
         private static object syncThreadVarLock = new object();
-
         private bool workerinvalidateRequerySuggested = false;
-
         private bool newDevicesAdded = false;
-
         private uint testModeFrameLength = 1500;
-
         private BackgroundWorker workerPhyStatus;
-
         private BackgroundWorker workerRefreshRegisters;
-
         private DeviceModel selectedDevice;
-
         private TestModeItem selectedTestModeItem;
-
         private TargetSettings deviceSettings = new TargetSettings();
-
         private ObservableCollection<DeviceModel> devices = new ObservableCollection<DeviceModel>();
-
         private ObservableCollection<TestModeItem> testmodeitemsADIN1200 = new ObservableCollection<TestModeItem>();
-
         private ObservableCollection<TestModeItem> testmodeitemsADIN1300 = new ObservableCollection<TestModeItem>();
-
         private ObservableCollection<TestModeItem> testmodeitemsADIN1100 = new ObservableCollection<TestModeItem>();
-
+        private ObservableCollection<LoopbackItem> loopbackItemsADIN1100 = new ObservableCollection<LoopbackItem>();
         private RegisterDetails selectedRegister;
-
         private JSONParserEngine jsonParser = new JSONParserEngine();
-
         private ScriptJSONStructure selectedScript1;
-
         private string selectedScript2 = "Please Choose";
-
         private string selectedScript3 = "Please Choose";
-
         private string selectedScript4 = "Please Choose";
-
         private FieldDetails selectedField;
-
         private string writeRegisterAddress;
-
         private string writeRegisterValue;
-
         private string readRegisterAddress;
-
         private string readRegisterValue;
+        private int frameBurst;
+        private int frameLength;
+        private int selectedIndexFrameContent;
+        private bool enableMacAddress;
+        private string srcMacAddress;
+        private string destMacAddress;
+        private LoopbackItem selectedLoopbackItem;
+        private bool txSuppression;
+        private bool rxSuppression;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceViewModel"/> class.
@@ -142,6 +129,15 @@ namespace ADIN1100_Eval.ViewModel
             this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 10 MHz DIM 0", "Transmit 10MHz square wave on dimension 1", false));
 
             this.selectedTestModeItem = this.testmodeitemsADIN1100[0];
+
+            // Loopback Items
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "None", Name = "OFF" });
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "MAC I/F Remote", Name = "MacRemote" });
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "MAC I/F", Name = "MAC" });
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "PCS", Name = "Digital" });
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "PMA", Name = "LineDriver" });
+            this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "External MII/RMII", Name = "ExtCable" });
+            this.LoopbackItems = this.loopbackItemsADIN1100;
         }
 
         /// <summary>
@@ -540,14 +536,97 @@ namespace ADIN1100_Eval.ViewModel
         {
             get
             {
-                return this.selectedTestModeItem;
+                if (this.selectedDevice == null)
+                {
+                    return this.selectedTestModeItem;
+                }
+                else
+                {
+                    return this.selectedDevice.TestModeItem;
+                }
             }
 
             set
             {
                 this.selectedTestModeItem = value;
+                if (this.selectedDevice != null)
+                {
+                    this.selectedDevice.TestModeItem = value;
+                }
 
                 this.RaisePropertyChanged("SelectedTestModeItem");
+            }
+        }
+
+        /// <summary>
+        /// gets or sets the collection of loopback items
+        /// </summary>
+        public ObservableCollection<LoopbackItem> LoopbackItems { get; set; }
+
+        /// <summary>
+        /// gets or sets the selected loopback item for Loopback
+        /// </summary>
+        public LoopbackItem SelectedLoopbackItem
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.selectedLoopbackItem;
+                else
+                    return this.selectedDevice.Loopback.LoopbackItem;
+            }
+
+            set
+            {
+                this.selectedLoopbackItem = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.Loopback.LoopbackItem = value;
+
+                this.RaisePropertyChanged("SelectedLoopbackItem");
+            }
+        }
+
+        /// <summary>
+        /// gets or sets the TxSuppression
+        /// </summary>
+        public bool TxSuppression
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.txSuppression;
+                else
+                    return this.selectedDevice.Loopback.TxSupression;
+            }
+
+            set
+            {
+                this.txSuppression = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.Loopback.TxSupression = value;
+                this.RaisePropertyChanged("TxSuppression");
+            }
+        }
+
+        /// <summary>
+        /// gets or sets the RxSuppression
+        /// </summary>
+        public bool RxSuppression
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.rxSuppression;
+                else
+                    return this.selectedDevice.Loopback.RxSuspression;
+            }
+
+            set
+            {
+                this.rxSuppression = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.Loopback.RxSuspression = value;
+                this.RaisePropertyChanged("RxSuppression");
             }
         }
 
@@ -618,6 +697,17 @@ namespace ADIN1100_Eval.ViewModel
                 this.RaisePropertyChanged("DeviceSerialNumber");
                 this.RaisePropertyChanged("Registers");
                 this.RaisePropertyChanged("Scripts");
+                this.RaisePropertyChanged("FrameBurst");
+                this.RaisePropertyChanged("FrameLength");
+                this.RaisePropertyChanged("SelectedIndexFrameContent");
+                this.RaisePropertyChanged("SrcMacAddress");
+                this.RaisePropertyChanged("DestMacAddress");
+                this.RaisePropertyChanged("EnableMacAddress");
+                this.RaisePropertyChanged("EnableContinuousMode");
+                this.RaisePropertyChanged("SelectedTestModeItem");
+                this.RaisePropertyChanged("SelectedLoopbackItem");
+                this.RaisePropertyChanged("TxSuppression");
+                this.RaisePropertyChanged("RxSuppression");
             }
         }
 
@@ -645,6 +735,164 @@ namespace ADIN1100_Eval.ViewModel
             get
             {
                 return this.deviceSettings.Link.FrameGenRunning;
+            }
+        }
+
+        private bool enableContinuousMode;
+
+        /// <summary>
+        /// gets or sets the Continuous Mode for Frame Generator/Checker
+        /// </summary>
+        public bool EnableContinuousMode
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.enableContinuousMode;
+                else
+                    return this.selectedDevice.FrameGenerator.IsContinuousMode;
+            }
+
+            set
+            {
+                this.enableContinuousMode = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.FrameGenerator.IsContinuousMode = value;
+                this.RaisePropertyChanged("EnableContinuousMode");
+            }
+        }
+
+        /// <summary>
+        /// gets or sets the Frame Burst for Frame Generator/Checker
+        /// </summary>
+        public int FrameBurst
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.frameBurst;
+                else
+                    return this.selectedDevice.FrameGenerator.FramesBurst;
+            }
+
+            set
+            {
+                this.frameBurst = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.FrameGenerator.FramesBurst = value;
+                this.RaisePropertyChanged("FrameBurst");
+            }
+        }
+
+        /// <summary>
+        /// gets or sets the Frame Length for Frame Generator/Checker
+        /// </summary>
+        public int FrameLength
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.frameLength;
+                else
+                    return this.selectedDevice.FrameGenerator.FrameLength;
+            }
+
+            set
+            {
+                this.frameLength = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.FrameGenerator.FrameLength = value;
+                this.RaisePropertyChanged("FrameLength");
+            }
+        }
+
+        /// <summary>
+        /// gets or sets the Frame Content for Frame Generator/Checker
+        /// </summary>
+        public int SelectedIndexFrameContent
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.selectedIndexFrameContent;
+                else
+                    return this.selectedDevice.FrameGenerator.FrameContent;
+            }
+
+            set
+            {
+                this.selectedIndexFrameContent = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.FrameGenerator.FrameContent = value;
+
+                this.RaisePropertyChanged("SelectedIndexFrameContent");
+            }
+        }
+
+        /// <summary>
+        /// gets or sets the enable MAC Address for Frame Generator/Checker
+        /// </summary>
+        public bool EnableMacAddress
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.enableMacAddress;
+                else
+                    return this.selectedDevice.FrameGenerator.MacAddressEnable;
+            }
+
+            set
+            {
+                this.enableMacAddress = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.FrameGenerator.MacAddressEnable = value;
+                this.RaisePropertyChanged("EnableMacAddress");
+            }
+        }
+
+        /// <summary>
+        /// gets or sets the source MAC Address for Frame Generator/Checker
+        /// </summary>
+        public string SrcMacAddress
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.srcMacAddress;
+                else
+                    return this.selectedDevice.FrameGenerator.SourceMacAddress;
+            }
+
+            set
+            {
+                this.srcMacAddress = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.FrameGenerator.SourceMacAddress = value;
+
+                this.RaisePropertyChanged("SrcMacAddress");
+            }
+        }
+
+        /// <summary>
+        /// gets or sets the destination MAC Address for Frame Generator/Checker
+        /// </summary>
+        public string DestMacAddress
+        {
+            get
+            {
+                if (this.selectedDevice == null)
+                    return this.destMacAddress;
+                else
+                    return this.selectedDevice.FrameGenerator.DestinationMacAddress;
+            }
+
+            set
+            {
+                this.destMacAddress = value;
+                if (this.selectedDevice != null)
+                    this.selectedDevice.FrameGenerator.DestinationMacAddress = value;
+                this.RaisePropertyChanged("DestMacAddress");
             }
         }
 
@@ -1514,7 +1762,12 @@ namespace ADIN1100_Eval.ViewModel
 
                                     if (newDevice)
                                     {
-                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged));
+                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged)
+                                        {
+                                            FrameGenerator = new FrameGeneratorChecker() { FramesBurst = 64001, FrameLength = 1250, FrameContent = 0, SourceMacAddress = ":::::", DestinationMacAddress = ":::::" },
+                                            TestModeItem = this.selectedTestModeItem,
+                                            Loopback = new Loopback() { LoopbackItem = this.LoopbackItems[0] }
+                                        });
                                     }
                                 }
 
