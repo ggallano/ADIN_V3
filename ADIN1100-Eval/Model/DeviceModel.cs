@@ -59,6 +59,11 @@ namespace ADIN1100_Eval.Model
         public TestModeItem TestModeItem { get; set; }
 
         /// <summary>
+        /// Gets or sets the FrameGenerator
+        /// </summary>
+        public FrameGeneratorChecker FrameGenerator { get; set; }
+
+        /// <summary>
         /// gets or sets the Inloopback
         /// </summary>
         public bool InLoopback
