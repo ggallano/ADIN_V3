@@ -101,6 +101,7 @@ namespace ADIN1100_Eval.ViewModel
             this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 1 Jitter", "PHY repeatedly transmit the data symbol sequence (+1, -1).", true));
             this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 2 Droop", "PHY transmit ten '+ 1' symbols followed by ten ' - 1' symbols.", true));
             this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 3 Idle", "PHY transmit as in non-test operation and in the MASTER data mode with data set to normal Inter-Frame idle signals.", true));
+            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Silent Mode", "PHY is in silent operation", true));
 
             this.testmodeitemsADIN1200.Add(new TestModeItem("100BASE-TX VOD", "100BASE-TX VOD measurements.", false));
             this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T Link Pulse", "10BASE-T forced mode in loopback with Tx suppression disabled, for link pulse measurements.", false));
@@ -1868,6 +1869,9 @@ namespace ADIN1100_Eval.ViewModel
                                     break;
                                 case "10BASE-T1L Test mode 3 Idle":
                                     this.selectedDevice.FwAPI.SetupT1L_TestMode3();
+                                    break;
+                                case "10BASE-T1L Silent Mode":
+                                    this.selectedDevice.FwAPI.SetupT1L_TestSilentMode();
                                     break;
                             }
                         }

@@ -4596,6 +4596,30 @@ namespace TargetInterface
         }
 
         /// <summary>
+        /// Setup for 10BASE-T1L test mode silent measurement
+        /// </summary>
+        public void SetupT1L_TestSilentMode()
+        {
+            //mdiowr_cl45 0,1E8812,1    // CRSM_SFT_PD_CNTRL |= BITM_CRSM_SFT_PD // Enter software powerdown    DONE
+            //mdiord_cl45 0,1E8818      // delay 10ms or keep reading CRSM_STAT until CRSM_SFT_PD_RDY==1        DONE
+            //mdiord_cl45 0,1E8818      // (CRSM_STAT should read 0x0007)                                       DONE
+            //mdiowr_cl45 0,070200,0    // AN_CONTROL &= (~BITM_AN_CONTROL_AN_EN) // Disable Autonegotiation    DONE
+            //mdiowr_cl45 0,078000,1    // AN_FRC_MODE_EN |= BITM_AN_FRC_MODE_EN_AN_FRC_MODE_EN // Forced       DONE
+            //mdiowr_cl45 0,0108F6,5000 // B10L_PMA_CNTRL |= BITM_B10L_TX_DIS_MODE_EN // Tx Silent Mode         DONE
+            //mdiowr_cl45 0,1E8812,0    // CRSM_SFT_PD_CNTRL &= (~BITM_CRSM_SFT_PD) Leave software powerdown    DONE
+
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+            this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
+            this.Sleep(0.1);
+            this.Info("   exit software powerdown, configure for 10BASE-T1L test mode silent");
+            this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
+            this.WriteValueInRegisterAddress(0x078000, 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_LVL_HI", 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_DIS_MODE_EN", 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
+        }
+
+        /// <summary>
         /// Setup for 1000BASE-T test mode 1 measurements.
         /// </summary>
         public void SetupB1000TestMode1()
