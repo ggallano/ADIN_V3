@@ -769,7 +769,7 @@ namespace TargetInterface
 
         private bool TenSPEDevice()
         {
-            return this.deviceConnection.DeviceDescription == DeviceConnection.DeviceDescriptionEVALADIN11xx;
+            return this.deviceConnection.DeviceDescription == DeviceConnection.DeviceEvalBoardDescription10SPEList.Find(desc => desc == this.deviceConnection.DeviceDescription);
         }
 
         private void UpdatefromRegisterJSON(DeviceType deviceType)
@@ -1506,9 +1506,10 @@ namespace TargetInterface
         public void Open()
         {
             this.deviceConnection.Open();
-            //dani
             // Decide if an immediate switch of the loaded yoda file might make sense now
-            if ((this.deviceConnection.IsDevRecognised() != true) && (this.deviceConnection.DeviceDescription == DeviceConnection.DeviceDescriptionEVALADIN11xx) && (this.deviceSettingsUp.ConnectedDeviceType != DeviceType.ADIN1100))
+            if ((this.deviceConnection.IsDevRecognised() != true)
+             && DeviceConnection.DeviceEvalBoardDescription10SPEList.Exists(desc => desc == this.deviceConnection.DeviceDescription)
+             && (this.deviceSettingsUp.ConnectedDeviceType == DeviceType.ADIN1100))
             {
                 // Assume ADIN1100 until we connect and find out differently
                 this.deviceSettingsUp.ConnectedDeviceType = DeviceType.ADIN1100;
@@ -1516,20 +1517,22 @@ namespace TargetInterface
                 this.ScanMDIOHwAddress();
                 this.deviceConnection.IsDevRecognised(true);
             }
-            else
-            if ((this.deviceConnection.IsDevRecognised() != true) && (this.deviceConnection.DeviceDescription != DeviceConnection.DeviceDescriptionEVALADIN11xx) && (this.deviceSettingsUp.ConnectedDeviceType == DeviceType.ADIN1100))
+            else if ((this.deviceConnection.IsDevRecognised() != true)
+                  && DeviceConnection.DeviceEvalBoardDescriptionMDIODongleList.Exists(desc => desc == this.deviceConnection.DeviceDescription)
+                  && (this.deviceSettingsUp.ConnectedDeviceType == DeviceType.ADIN1300))
             {
                 // Assume ADIN1300 until we connect and find out differently
-                this.deviceSettingsUp.ConnectedDeviceType = DeviceType.ADIN1100;
+                this.deviceSettingsUp.ConnectedDeviceType = DeviceType.ADIN1300;
                 this.UpdatefromRegisterJSON(this.deviceSettingsUp.ConnectedDeviceType);
                 this.ScanMDIOHwAddress();
                 this.deviceConnection.IsDevRecognised(true);
             }
-
-            if ((this.deviceConnection.IsDevRecognised() != true) && (this.deviceConnection.DeviceDescription == DeviceConnection.DeviceDescriptionEVALADIN11xx) && (this.deviceSettingsUp.ConnectedDeviceType == DeviceType.ADIN1100))
+            else if ((this.deviceConnection.IsDevRecognised() != true)
+                  && DeviceConnection.DeviceEvalBoardDescriptionMDIODongleList.Exists(desc => desc == this.deviceConnection.DeviceDescription)
+                  && (this.deviceSettingsUp.ConnectedDeviceType == DeviceType.ADIN1200))
             {
-                // Assume ADIN1300 until we connect and find out differently
-                this.deviceSettingsUp.ConnectedDeviceType = DeviceType.ADIN1100;
+                // Assume ADIN1200 until we connect and find out differently
+                this.deviceSettingsUp.ConnectedDeviceType = DeviceType.ADIN1300;
                 this.UpdatefromRegisterJSON(this.deviceSettingsUp.ConnectedDeviceType);
                 this.ScanMDIOHwAddress();
                 this.deviceConnection.IsDevRecognised(true);

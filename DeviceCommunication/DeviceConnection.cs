@@ -29,19 +29,23 @@ namespace DeviceCommunication
     public class DeviceConnection : FeedbackPropertyChange
     {
         /// <summary>
-        /// The device description that identifies the 10SPE board
+        /// Lists of 10SPE Boards
         /// </summary>
-        public const string DeviceDescriptionEVALADIN11xx = "EVAL-ADIN1100FMCZ";//"EVAL-10SPE";
+        public static List<string> DeviceEvalBoardDescription10SPEList = new List<string>()
+        {
+            "EVAL-ADIN1100FMCZ",
+            "EVAL-ADIN1100EBZ",
+            "DEMO-ADIN1100-DIZ",
+        };
 
         /// <summary>
-        /// The device description that identifies our MDIO dongle
+        /// Lists of MDIO dongles
         /// </summary>
-        private const string DeviceDescription1 = "ADIN1300 MDIO DONGLE";
-
-        /// <summary>
-        /// The device description that identifies our MDIO dongle
-        /// </summary>
-        private const string DeviceDescription2 = "ADIN1200 MDIO DONGLE";
+        public static List<string> DeviceEvalBoardDescriptionMDIODongleList = new List<string>()
+        {
+            "ADIN1300 MDIO DONGLE",
+            "ADIN1200 MDIO DONGLE",
+        };
 
         /// <summary>
         /// Stores the list of serial numbers of connected MDIO dongles
@@ -71,7 +75,7 @@ namespace DeviceCommunication
         /// <summary>
         /// The device description
         /// </summary>
-        private string deviceDescription = "ADIN1300 MDIO DONGLE";
+        private string deviceDescription = DeviceEvalBoardDescriptionMDIODongleList[0];
 
         /// <summary>
         /// FTDI Dev
@@ -100,19 +104,19 @@ namespace DeviceCommunication
                     }
                 }
             }
-            if (this.Claus45Addressing())
-            {
-                uint dev_ID = 0;
-                for (uint i = 0; i < 7; i++)
-                {
-                    this.mdioAddress = i;
-                    dev_ID = this.ReadMDIORegister(0x1e0003);
-                    if (dev_ID == 0xbc80)
-                    {
-                        break;
-                    }
-                }
-            }
+            //if (this.Claus45Addressing())
+            //{
+            //    uint dev_ID = 0;
+            //    for (uint i = 0; i < 7; i++)
+            //    {
+            //        this.mdioAddress = i;
+            //        dev_ID = this.ReadMDIORegister(0x1e0003);
+            //        if (dev_ID == 0xbc80)
+            //        {
+            //            break;
+            //        }
+            //    }
+            //}
             this.ftdiDevice = new FTDI();
             this.deviceID = deviceID;
         }
@@ -167,7 +171,7 @@ namespace DeviceCommunication
         /// <returns>bool</returns>
         public bool Claus45Addressing()
         {
-            return this.DeviceDescription == DeviceConnection.DeviceDescriptionEVALADIN11xx;
+            return this.DeviceDescription == DeviceConnection.DeviceEvalBoardDescription10SPEList.Find(desc => desc == this.DeviceDescription);
         }
 
         /// <summary>
@@ -294,7 +298,9 @@ namespace DeviceCommunication
                              */
                             if ((ftdiDeviceList[i] != null) && (ftdiDeviceList[i].Description != null))
                             {
-                                if ((ftdiDeviceList[i].Description == DeviceDescription1) || (ftdiDeviceList[i].Description == DeviceDescription2) || (ftdiDeviceList[i].Description == DeviceDescriptionEVALADIN11xx))
+                                //if ((ftdiDeviceList[i].Description == DeviceDescription1) || (ftdiDeviceList[i].Description == DeviceDescription2) || (ftdiDeviceList[i].Description == DeviceDescriptionEVALADIN11xx))
+                                if (DeviceEvalBoardDescriptionMDIODongleList.Exists(desc => desc == ftdiDeviceList[i].Description)
+                                 || DeviceEvalBoardDescription10SPEList.Exists(desc => desc == ftdiDeviceList[i].Description))
                                 {
                                     deviceSerialNumbers.Add(ftdiDeviceList[i]);
                                 }
