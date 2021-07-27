@@ -135,8 +135,14 @@
     <Compile Include="ViewModel\Commands\BindingCommand.cs" />
     <Compile Include="ViewModel\DeviceViewModel.cs" />
     <Compile Include="ViewModel\FeedbackViewModel.cs" />
+    <Compile Include="Views\CableDiagnosticsADIN1100.xaml.cs">
+      <DependentUpon>CableDiagnosticsADIN1100.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CableDiagnosticsStatus.xaml.cs">
       <DependentUpon>CableDiagnosticsStatus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CableDiagnosticsStatusADIN1100.xaml.cs">
+      <DependentUpon>CableDiagnosticsStatusADIN1100.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CableDiagnotics.xaml.cs">
       <DependentUpon>CableDiagnotics.xaml</DependentUpon>
@@ -195,7 +201,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CableDiagnosticsADIN1100.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CableDiagnosticsStatus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CableDiagnosticsStatusADIN1100.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -146,11 +146,10 @@
                                 <ColumnDefinition Width="8" />
                                 <ColumnDefinition Width="5*" />
                             </Grid.ColumnDefinitions>
-                            <ContentControl Visibility="Collapsed"
-             Content="{StaticResource ProxyElement}"/>
+                            <ContentControl Visibility="Collapsed" Content="{StaticResource ProxyElement}"/>
                             <Border Grid.Column='0' x:Name="LinkProperty" BorderBrush="#FFCBD8E8"	BorderThickness="1">
-                                <telerik:RadPropertyGrid x:Name="LinkProperties" telerik:StyleManager.Theme="Windows8" Item="{Binding 
-            diag:PresentationTraceSources.TraceLevel=High}" NestedPropertiesVisibility="Visible" AutoGeneratePropertyDefinitions='False' IsGrouped='True' SortAndGroupButtonsVisibility='Collapsed' >
+                                <telerik:RadPropertyGrid x:Name="LinkProperties" telerik:StyleManager.Theme="Windows8" 
+                                                         Item="{Binding diag:PresentationTraceSources.TraceLevel=High}" NestedPropertiesVisibility="Visible" AutoGeneratePropertyDefinitions='False' IsGrouped='True' SortAndGroupButtonsVisibility='Collapsed' SearchBoxVisibility="Collapsed">
                                     <telerik:RadPropertyGrid.PropertyDefinitions>
                                         <!-- 1. Speed Mode - Select between "Forced" or "Advertised -->
                                         <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.EthSpeedSelection,Source={StaticResource ProxyElement}}" Description="Force a fixed speed OR negotiate from a number of advertised options." DisplayName="Speed Mode" GroupName="Speed Mode" OrderIndex='0' Visibility="{Binding DataContext.TenSPEDevice,Converter={StaticResource ReverseBooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
@@ -349,15 +348,13 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
-                            <ContentControl Visibility="Collapsed"
-             Content="{StaticResource ProxyElement}"/>
+                            <ContentControl Visibility="Collapsed" Content="{StaticResource ProxyElement}"/>
                             <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                                <local:CableDiagnotics/>
+                                <local:CableDiagnosticsADIN1100/>
                             </Grid>
                             <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
-
                             <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                                <local:CableDiagnosticsStatus/>
+                                <local:CableDiagnosticsStatusADIN1100/>
                             </Grid>
                         </Grid>
                     </Grid>
