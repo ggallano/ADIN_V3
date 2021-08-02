@@ -72,6 +72,9 @@
 
     <Color x:Key="RedColor1">#FFA91B0D</Color>
 
+    <!--ADI Logo-->
+    <Color x:Key="ADIBlue">#0067B9</Color>
+
     <!-- Graph plot colors -->
     <Color x:Key="BottomPane.Graph.Plot0">#FF1DC647</Color>
     <Color x:Key="BottomPane.Graph.Plot1">#FF1382DE</Color>
@@ -283,6 +286,9 @@
 
     <!-- Main Window-->
     <SolidColorBrush x:Key="brushWatermarkForeground" Color="{StaticResource WhiteColor}" />
+
+    <!--ADI Logo-->
+    <SolidColorBrush x:Key="ADILogo.Foreground" Color="{StaticResource ADIBlue}"/>
 
     <Style x:Key="Title_H1" TargetType="TextBlock">
         <Setter Property="Foreground" Value="#FF606060" />

@@ -20,7 +20,7 @@
                                  AutoGeneratePropertyDefinitions="False" IsGrouped="True"
                                  SortAndGroupButtonsVisibility="Collapsed" SearchBoxVisibility="Collapsed" DescriptionPanelVisibility="Collapsed"  >
             <telerik:RadPropertyGrid.PropertyDefinitions>
-                <telerik:PropertyDefinition DisplayName="Fault" GroupName="Fault Detection" OrderIndex="0">
+                <!--<telerik:PropertyDefinition DisplayName="Fault" GroupName="Fault Detection" OrderIndex="0">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -32,8 +32,8 @@
                             </StackPanel>
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition DisplayName="Calibrations" GroupName="Device" OrderIndex="1">
+                </telerik:PropertyDefinition>-->
+                <!--<telerik:PropertyDefinition DisplayName="Calibrations" GroupName="Device" OrderIndex="1">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -50,7 +50,7 @@
                             </StackPanel>
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
+                </telerik:PropertyDefinition>-->
                 <telerik:PropertyDefinition DisplayName="Cable Type" GroupName="Cable" OrderIndex="3">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>

@@ -91,6 +91,10 @@ namespace ADIN1100_Eval.ViewModel
             this.LocalLoopbackCommand = new BindingCommand(this.DoLocalLoopback, this.CanDoLocalLoopback);
             this.RxSuppressionCommand = new BindingCommand(this.DoRxSuppression);
             this.TxSuppressionCommand = new BindingCommand(this.DoTxSuppression);
+            this.RunFaultDetectionCommand = new BindingCommand(this.DoFaultDetection);
+            this.ResetFaultDetectorCommand = new BindingCommand(this.DoResetFaultDetection);
+            this.FaultDetectionCalibrateCommand = new BindingCommand(this.DoFaultDetectionCalibrate);
+
             this.deviceSettings.ClearPropertiesChangedList();
             this.deviceSettings.PropertyChanged += this.DeviceSettings_PropertyChanged;
 
@@ -229,6 +233,21 @@ namespace ADIN1100_Eval.ViewModel
         /// Gets or sets the function to be called when performing an output to the CLK25_REF pin
         /// </summary>
         public BindingCommand CLK25_REFPinCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Fault Detector Command
+        /// </summary>
+        public BindingCommand RunFaultDetectionCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Reset Fault Detector Command
+        /// </summary>
+        public BindingCommand ResetFaultDetectorCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Calibrations
+        /// </summary>
+        public BindingCommand FaultDetectionCalibrateCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the value to write to the register in the manual register window
@@ -1943,6 +1962,79 @@ namespace ADIN1100_Eval.ViewModel
         private bool CanDoExecuteTest(object arg)
         {
             return this.DeviceConnected;
+        }
+
+        /// <summary>
+        /// Executes Fault Detection
+        /// </summary>
+        /// <param name="obj"></param>
+        private void DoFaultDetection(object obj)
+        {
+            lock (this)
+            {
+                if (this.selectedDevice != null)
+                {
+                    try
+                    {
+                        this.selectedDevice.FwAPI.ExecuteFaultDetection();
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Error(ex.Message);
+                    }
+                }
+            }
+        }
+
+        private void DoFaultDetectionCalibrate(object obj)
+        {
+            lock (this)
+            {
+                if (this.selectedDevice != null)
+                {
+                    try
+                    {
+                        var type = (Calibrate)Enum.Parse(typeof(Calibrate), obj.ToString());
+                        switch (type)
+                        {
+                            case Calibrate.NVP:
+                                this.selectedDevice.FwAPI.FaultDetectionCalibration(Calibrate.NVP);
+                                break;
+                            case Calibrate.Offset:
+                                this.selectedDevice.FwAPI.FaultDetectionCalibration(Calibrate.Offset);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Error(ex.Message);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Executes the Reset Fault Detection
+        /// </summary>
+        /// <param name="obj"></param>
+        private void DoResetFaultDetection(object obj)
+        {
+            lock (this)
+            {
+                if (this.selectedDevice != null)
+                {
+                    try
+                    {
+                        this.selectedDevice.FwAPI.ResetFaultDetection();
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Error(ex.Message);
+                    }
+                }
+            }
         }
 
         /// <summary>

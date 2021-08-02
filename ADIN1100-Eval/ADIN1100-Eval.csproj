@@ -123,6 +123,7 @@
     <Compile Include="TestModeItem.cs" />
     <Compile Include="Themes\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Themes\Converters\DropDownWidthConverter.cs" />
+    <Compile Include="Themes\Converters\FaultDetectionParameterConverter.cs" />
     <Compile Include="Themes\Converters\FrameCheckerParametersConverter.cs" />
     <Compile Include="Themes\Converters\ImageConverter.cs" />
     <Compile Include="Themes\Converters\InverseBooleanConverter.cs" />
@@ -135,6 +136,9 @@
     <Compile Include="ViewModel\Commands\BindingCommand.cs" />
     <Compile Include="ViewModel\DeviceViewModel.cs" />
     <Compile Include="ViewModel\FeedbackViewModel.cs" />
+    <Compile Include="Views\ADILogoView.xaml.cs">
+      <DependentUpon>ADILogoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CableDiagnosticImageControl.xaml.cs">
       <DependentUpon>CableDiagnosticImageControl.xaml</DependentUpon>
     </Compile>
@@ -153,6 +157,12 @@
     <Compile Include="Views\DeviceView.xaml.cs">
       <DependentUpon>DeviceView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FaultDetectorSettingsView.xaml.cs">
+      <DependentUpon>FaultDetectorSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FaultDetectorView.xaml.cs">
+      <DependentUpon>FaultDetectorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Framechecker.xaml.cs">
       <DependentUpon>Framechecker.xaml</DependentUpon>
     </Compile>
@@ -168,7 +178,7 @@
     <Compile Include="Views\Loopback.xaml.cs">
       <DependentUpon>Loopback.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MACAddress.xaml.cs">
+    <Compile Include="Views\MACAddress.xaml.cs">
       <DependentUpon>MACAddress.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RegisterListView.xaml.cs">
@@ -204,6 +214,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ADILogoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CableDiagnosticImageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -228,6 +242,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\FaultDetectorSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FaultDetectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Framechecker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -248,9 +270,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MACAddress.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\MACAddress.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\RegisterListView.xaml">
       <Generator>MSBuild:Compile</Generator>

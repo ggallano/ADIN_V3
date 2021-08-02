@@ -377,6 +377,15 @@ namespace TargetInterface
         }
 
         /// <summary>
+        /// Calibration types
+        /// </summary>
+        public enum Calibrate
+        {
+            NVP,
+            Offset,
+        }
+
+        /// <summary>
         /// Available Forced Speeds
         /// </summary>
         public enum AutoMdixMode
@@ -4888,6 +4897,7 @@ namespace TargetInterface
             this.WriteYodaRg("GEPhy", "SftPd", 0);
             this.Info("  Device configured for 10BASE-T test mode transmission (10 MHz)");
         }
+
         /// <summary>
         /// Scans for PHY HW MDIO address
         /// </summary>
@@ -4913,6 +4923,53 @@ namespace TargetInterface
                 }
 
                 // this.TenSpe2p4VCapableCheck();
+            }
+        }
+
+        /// <summary>
+        /// Executes the Fault Detection
+        /// </summary>
+        public void ExecuteFaultDetection()
+        {
+            if (this.TenSPEDevice())
+            {
+                throw new Exception("Fault Detection is not implemented.");
+            }
+            else
+            {
+                throw new Exception("Fault Detection is not supported.");
+            }
+        }
+
+        /// <summary>
+        /// Executes the reset values for Fault Detection
+        /// </summary>
+        public void ResetFaultDetection()
+        {
+            if (this.TenSPEDevice())
+            {
+                throw new Exception("Reset Fault Detection is not implemented.");
+            }
+            else
+            {
+                throw new Exception("Reset Fault Detection is not supported");
+            }
+        }
+
+        /// <summary>
+        /// Executes the Calibration for Fault Detection
+        /// </summary>
+        /// <param name="calibriteType"></param>
+        public void FaultDetectionCalibration(Calibrate calibriteType)
+        {
+            switch (calibriteType)
+            {
+                case Calibrate.NVP:
+                    throw new Exception("NVP Calibration is not implemented.");
+                case Calibrate.Offset:
+                    throw new Exception("Offset Calibration is not implemented.");
+                default:
+                    break;
             }
         }
 

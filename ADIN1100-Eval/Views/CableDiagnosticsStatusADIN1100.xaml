@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ADIN1100_Eval.Views"
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="400">
     <UserControl.Resources>
         <telerik:Windows8Colors x:Key="Windows8Colors" />
         <SolidColorBrush x:Key="AccentBrush" Color="{Binding Path=Palette.AccentColor, Source={StaticResource Windows8Colors}}"/>
@@ -21,8 +21,8 @@
         </Style>
     </UserControl.Resources>
     <Border BorderThickness="0">
-        <StackPanel Orientation="Vertical" Margin="10">
-            <TextBlock Style="{StaticResource Title_H1}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center">Device Status</TextBlock>
+        <StackPanel Orientation="Vertical" Margin="10" HorizontalAlignment="Center">
+            <!--<TextBlock Style="{StaticResource Title_H1}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center">Device Status</TextBlock>-->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -34,18 +34,18 @@
                 </Grid.ColumnDefinitions>
 
                 <!--Row 0-->
-                <TextBlock Grid.Row="0" Grid.Column="0" 
+                <!--<TextBlock Grid.Row="0" Grid.Column="0" 
                            Style="{StaticResource Title_H1}" HorizontalAlignment="Left">Fault:</TextBlock>
                 <TextBlock Grid.Row="0" Grid.Column="1" 
                            Style="{StaticResource Label}" Foreground="Red" Width="Auto" 
-                           Text="Open/Short" HorizontalAlignment="Left"/>
+                           Text="Open/Short" HorizontalAlignment="Left"/>-->
 
                 <!--Row 1-->
-                <TextBlock Grid.Row="1" Grid.Column="0" 
+                <!--<TextBlock Grid.Row="1" Grid.Column="0" 
                            Style="{StaticResource Title_H1}" HorizontalAlignment="Left">Distance to Fault:</TextBlock>
                 <TextBlock Grid.Row="1" Grid.Column="1" 
                            Style="{StaticResource Label}" Width="Auto" 
-                           Text="100.5" HorizontalAlignment="Left"/>
+                           Text="100.5" HorizontalAlignment="Left"/>-->
             </Grid>
             <Grid Margin="0 -50">
                 <local:CableDiagnosticImageControl/>
