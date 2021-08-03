@@ -377,6 +377,15 @@ namespace TargetInterface
         }
 
         /// <summary>
+        /// Calibration types
+        /// </summary>
+        public enum Calibrate
+        {
+            NVP,
+            Offset,
+        }
+
+        /// <summary>
         /// Available Forced Speeds
         /// </summary>
         public enum AutoMdixMode
@@ -4596,6 +4605,22 @@ namespace TargetInterface
         }
 
         /// <summary>
+        /// Setup for 10BASE-T1L test mode silent measurement
+        /// </summary>
+        public void SetupT1L_TestSilentMode()
+        {
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+            this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
+            this.Sleep(0.1);
+            this.Info("   exit software powerdown, configure for 10BASE-T1L test mode silent");
+            this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
+            this.WriteValueInRegisterAddress(0x078000, 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_LVL_HI", 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_DIS_MODE_EN", 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
+        }
+
+        /// <summary>
         /// Setup for 1000BASE-T test mode 1 measurements.
         /// </summary>
         public void SetupB1000TestMode1()
@@ -4888,6 +4913,7 @@ namespace TargetInterface
             this.WriteYodaRg("GEPhy", "SftPd", 0);
             this.Info("  Device configured for 10BASE-T test mode transmission (10 MHz)");
         }
+
         /// <summary>
         /// Scans for PHY HW MDIO address
         /// </summary>
@@ -4913,6 +4939,53 @@ namespace TargetInterface
                 }
 
                 // this.TenSpe2p4VCapableCheck();
+            }
+        }
+
+        /// <summary>
+        /// Executes the Fault Detection
+        /// </summary>
+        public void ExecuteFaultDetection()
+        {
+            if (this.TenSPEDevice())
+            {
+                throw new Exception("Fault Detection is not implemented.");
+            }
+            else
+            {
+                throw new Exception("Fault Detection is not supported.");
+            }
+        }
+
+        /// <summary>
+        /// Executes the reset values for Fault Detection
+        /// </summary>
+        public void ResetFaultDetection()
+        {
+            if (this.TenSPEDevice())
+            {
+                throw new Exception("Reset Fault Detection is not implemented.");
+            }
+            else
+            {
+                throw new Exception("Reset Fault Detection is not supported");
+            }
+        }
+
+        /// <summary>
+        /// Executes the Calibration for Fault Detection
+        /// </summary>
+        /// <param name="calibriteType"></param>
+        public void FaultDetectionCalibration(Calibrate calibriteType)
+        {
+            switch (calibriteType)
+            {
+                case Calibrate.NVP:
+                    throw new Exception("NVP Calibration is not implemented.");
+                case Calibrate.Offset:
+                    throw new Exception("Offset Calibration is not implemented.");
+                default:
+                    break;
             }
         }
 
