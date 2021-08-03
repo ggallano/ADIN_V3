@@ -1033,7 +1033,7 @@ namespace ADIN1100_Eval.ViewModel
         {
             get
             {
-                return this.deviceSettings.ConnectedDeviceType == DeviceType.ADIN1100;
+                return this.deviceSettings.ConnectedDeviceType != DeviceType.ADIN1100;
             }
         }
 
