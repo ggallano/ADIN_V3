@@ -4605,6 +4605,22 @@ namespace TargetInterface
         }
 
         /// <summary>
+        /// Setup for 10BASE-T1L test mode silent measurement
+        /// </summary>
+        public void SetupT1L_TestSilentMode()
+        {
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+            this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
+            this.Sleep(0.1);
+            this.Info("   exit software powerdown, configure for 10BASE-T1L test mode silent");
+            this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
+            this.WriteValueInRegisterAddress(0x078000, 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_LVL_HI", 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_DIS_MODE_EN", 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
+        }
+
+        /// <summary>
         /// Setup for 1000BASE-T test mode 1 measurements.
         /// </summary>
         public void SetupB1000TestMode1()
