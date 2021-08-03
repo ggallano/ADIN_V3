@@ -88,7 +88,13 @@
                             <ColumnDefinition Width="3*" MinWidth='380' />
                         </Grid.ColumnDefinitions>
                         <Grid>
-                            <telerik:RadGridView x:Name='gvRegisters' Grid.Column='0' ItemsSource="{Binding Registers}" SelectedItem="{Binding SelectedRegister}" RowDetailsTemplate="{StaticResource RowDetailsTemplate}" AutoGenerateColumns="False" RowIndicatorVisibility="Collapsed" Width="Auto" ScrollViewer.CanContentScroll='True' SelectionChanged='RadGridView_RegisterSelectionChanged' BeginningEdit='RadGridView_BeginningEdit' CellEditEnded='RadGridView_CellEditEnded' CellValidating='RadGridView_CellValidating'  ShowGroupPanel='True' PreparedCellForEdit='RadGridView_PreparedCellForEdit' DataLoading="gvRegisters_DataLoading" >
+                            <telerik:RadGridView x:Name='gvRegisters' Grid.Column='0' ItemsSource="{Binding Registers}" 
+                                                 SelectedItem="{Binding SelectedRegister}" RowDetailsTemplate="{StaticResource RowDetailsTemplate}" 
+                                                 AutoGenerateColumns="False" RowIndicatorVisibility="Collapsed" 
+                                                 Width="Auto" ScrollViewer.CanContentScroll='True' 
+                                                 SelectionChanged='RadGridView_RegisterSelectionChanged' BeginningEdit='RadGridView_BeginningEdit' 
+                                                 CellEditEnded='RadGridView_CellEditEnded' CellValidating='RadGridView_CellValidating' 
+                                                 ShowGroupPanel='False' PreparedCellForEdit='RadGridView_PreparedCellForEdit' DataLoading="gvRegisters_DataLoading">
                                 <telerik:StyleManager.Theme>
                                     <telerik:Windows8Theme/>
                                 </telerik:StyleManager.Theme>
@@ -96,8 +102,7 @@
                                     <telerik:GridViewToggleRowDetailsColumn/>
                                     <telerik:GridViewDataColumn x:Name='colAddress' Header="Address" DataMemberBinding="{Binding Path=Address,StringFormat={}0x{0:X6}}" IsReadOnly='True'/>
                                     <telerik:GridViewDataColumn x:Name='colName' Header="Name" DataMemberBinding="{Binding Name}" IsReadOnly='True'/>
-                                    <telerik:GridViewDataColumn x:Name='colValue' Header="Value" DataMemberBinding="{Binding Path=Value,Mode=TwoWay,  
-   Converter={StaticResource RegisterValueConverter}, ConverterParameter=16}" IsSortable='True' IsFilterable='True' CellStyleSelector="{StaticResource valueCellStyle}"/>
+                                    <telerik:GridViewDataColumn x:Name='colValue' Header="Value" DataMemberBinding="{Binding Path=Value,Mode=TwoWay, Converter={StaticResource RegisterValueConverter}, ConverterParameter=16}" IsSortable='True' IsFilterable='True' CellStyleSelector="{StaticResource valueCellStyle}"/>
                                     <telerik:GridViewDataColumn DataMemberBinding="{Binding Access}" IsReadOnly='True'/>
                                     <telerik:GridViewDataColumn DataMemberBinding="{Binding Group}" IsReadOnly='True'/>
 
