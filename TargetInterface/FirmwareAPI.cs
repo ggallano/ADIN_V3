@@ -3959,44 +3959,72 @@ namespace TargetInterface
             {
                 // PCS
                 case LoopBackMode.Digital:
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+                    this.Sleep(0.1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 1);
+
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 1);
                     this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "RMII_TXD_CHK_EN", 0);
 
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
+
                     this.Info("    SPE PHY Loopback configured as PCS loopback");
                     break;
 
                 // PMA
                 case LoopBackMode.LineDriver:
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+                    this.Sleep(0.1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 1);
+
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 1);
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "RMII_TXD_CHK_EN", 0);
 
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
+
                     this.Info("    SPE PHY Loopback configured as PMA loopback");
                     break;
 
                 // ExtMII,RMII
                 case LoopBackMode.ExtCable:
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+                    this.Sleep(0.1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
+
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "RMII_TXD_CHK_EN", 1);
 
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
+
                     this.Info("    SPE PHY Loopback configured as External MII/RMII loopback");
                     break;
 
                 // MAC IF Remote
                 case LoopBackMode.MacRemote:
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+                    this.Sleep(0.1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
+
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_EN", 1);
                     this.WriteYodaRg("IndirectAccessAddressMap", "RMII_TXD_CHK_EN", 0);
+
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
 
                     // Rx Suppression
                     //if (isolateRx_st)
@@ -4014,11 +4042,18 @@ namespace TargetInterface
 
                 // MAC IF
                 case LoopBackMode.MAC:
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+                    this.Sleep(0.1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
+
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_EN", 1);
                     this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_REM_LB_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "RMII_TXD_CHK_EN", 0);
+
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
 
                     // Tx Suppression
                     //if (lbTxSup_st)
@@ -4036,6 +4071,10 @@ namespace TargetInterface
 
                 // OFF
                 case LoopBackMode.OFF:
+                    this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
+
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "MAC_IF_LB_EN", 0);
