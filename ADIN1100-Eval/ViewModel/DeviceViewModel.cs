@@ -102,10 +102,10 @@ namespace ADIN1100_Eval.ViewModel
             this.InitializedWorkerRefreshRegisters();
 
             this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Normal mode", "PHY is in normal operation", true));
-            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 1 Jitter", "PHY repeatedly transmit the data symbol sequence (+1, -1).", true));
-            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 2 Droop", "PHY transmit ten '+ 1' symbols followed by ten ' - 1' symbols.", true));
-            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 3 Idle", "PHY transmit as in non-test operation and in the MASTER data mode with data set to normal Inter-Frame idle signals.", true));
-            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Silent Mode", "PHY is in silent operation", true));
+            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 1: Tx output voltage, Tx clock frequency and jitter.", "PHY repeatedly transmit the data symbol sequence (+1, -1).", true));
+            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 2: Tx output droop", "PHY transmit ten '+ 1' symbols followed by ten ' - 1' symbols.", true));
+            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 3: Power Spectral Density (PSD) and power level", "PHY transmit as in non-test operation and in the MASTER data mode with data set to normal Inter-Frame idle signals.", true));
+            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Silent Mode: MDI Return Loss", "PHY's receive and transmit paths remain as in normal operation but PHY transmits 0 symbols continuously.", true));
 
             this.testmodeitemsADIN1200.Add(new TestModeItem("100BASE-TX VOD", "100BASE-TX VOD measurements.", false));
             this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T Link Pulse", "10BASE-T forced mode in loopback with Tx suppression disabled, for link pulse measurements.", false));
