@@ -89,7 +89,7 @@
                         <!--<telerik:RadComboBoxItem Content="PCS" x:Name="Digital"/>-->
                         <!--<telerik:RadComboBoxItem Content="PMA" x:Name="LineDriver"/>-->
                         <!--<telerik:RadComboBoxItem Content="External MII/RMII" x:Name="ExtCable"/>-->
-                        <!--<telerik:RadComboBox.CommandParameter>
+                        <telerik:RadComboBox.CommandParameter>
                             <MultiBinding Converter="{StaticResource localLoopbackParametersConverter}">
                                 <MultiBinding.Bindings>
                                     <Binding ElementName="cboLoopback" Path="SelectedItem" />
@@ -97,7 +97,7 @@
                                     <Binding ElementName="chkSuppressTX" Path="IsChecked" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
-                        </telerik:RadComboBox.CommandParameter>-->
+                        </telerik:RadComboBox.CommandParameter>
                     </telerik:RadComboBox>
                     
                     <StackPanel>
