@@ -2685,10 +2685,11 @@ namespace ADIN1100_Eval.ViewModel
             {
                 if (obj is LocalLoopbackParameters)
                 {
-                    LocalLoopbackParameters localLoopbackParameters = (LocalLoopbackParameters)obj;
+                    LocalLoopbackParameters localLoopbackParameters = new LocalLoopbackParameters(); ;
                     localLoopbackParameters.gePhyLb_selt = (LoopBackMode)Enum.Parse(typeof(LoopBackMode), this.SelectedLoopbackItem.Name);
                     localLoopbackParameters.isolateRx_st = this.RxSuppression;
                     localLoopbackParameters.lbTxSup_st = this.TxSuppression;
+
                     if (this.selectedDevice != null)
                     {
                         try
