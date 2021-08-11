@@ -16,7 +16,10 @@
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.ColumnSpan="2" Text="{Binding TestName}" />
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="2">
+                    <TextBlock Text="{Binding TestName}"/>
+                    <TextBlock Text="{Binding TestName1}" FontWeight="Bold"/>
+                </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal">
                     <TextBlock Foreground="#003366" Grid.Column="1" Text="{Binding TestDescription}" />
                 </StackPanel>
@@ -25,7 +28,10 @@
 
         <DataTemplate x:Key="ComboBoxSimpleTemplate">
             <Grid>
-                <TextBlock Text="{Binding TestName}" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding TestName}" />
+                    <TextBlock Text="{Binding TestName1}" FontWeight="Bold"/>
+                </StackPanel>
             </Grid>
         </DataTemplate>
 
@@ -39,28 +45,28 @@
         <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" IsHidden="True"/>
         <converter:BooleanToVisibilityConverter x:Key="ReverseBooleanToVisibilityConverter" IsInversed="True"/>
     </UserControl.Resources>
- 
-        <StackPanel>
-            <StackPanel HorizontalAlignment='Stretch' Margin='10' >
 
-                    <TextBlock Text='{Binding SelectedTestModeItem.TestDescription}' HorizontalAlignment='Left' TextWrapping='Wrap' Height='40'/>
+    <StackPanel>
+        <StackPanel HorizontalAlignment='Stretch' Margin='10' >
 
-                <TextBlock Text="Select Test Mode" Margin="2 8 2 2" FontWeight="SemiBold" />
-                <telerik:RadComboBox x:Name='comboTestNames' Grid.Column="1" VerticalAlignment="Center" telerik:TextSearch.TextPath="Name"
+            <TextBlock Text='{Binding SelectedTestModeItem.TestDescription}' HorizontalAlignment='Left' TextWrapping='Wrap' Height='40'/>
+
+            <TextBlock Text="Select Test Mode" Margin="2 8 2 2" FontWeight="SemiBold" />
+            <telerik:RadComboBox x:Name='comboTestNames' Grid.Column="1" VerticalAlignment="Center" telerik:TextSearch.TextPath="Name"
 				ItemsSource="{Binding TestModeItems}" ItemTemplate="{StaticResource ComboBoxCustomTemplateTestmodeitems}"
                                      SelectedItem='{Binding SelectedTestModeItem}'
                                      SelectionBoxTemplate="{StaticResource ComboBoxSimpleTemplate}"
 				SelectedIndex="0" />
-                <StackPanel Visibility="{Binding SelectedTestModeItem.RequiresFrameLength,Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Visibility="{Binding SelectedTestModeItem.RequiresFrameLength,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <!--    <TextBlock Text="Frame Length" Margin="2 8 2 2" FontWeight="SemiBold" />
                 <telerik:RadSlider x:Name='SliderFrameLength' Value="{Binding TestModeFrameLength}" Minimum="64" SmallChange="1" Maximum="1530" TickFrequency='1' IsSnapToTickEnabled='True' />-->
                 <TextBlock Text='{Binding ElementName=SliderFrameLength, Path=Value}'></TextBlock>
-                </StackPanel>
-
-                <telerik:RadButton Content='Apply Mode' Margin='10,10,10,10' CornerRadius='15' ToolTip='Execute selected test' Command="{Binding ExecuteTestCommand}" x:Name="ExecuteTest">
-                </telerik:RadButton>
             </StackPanel>
 
+            <telerik:RadButton Content='Apply Mode' Margin='10,10,10,10' CornerRadius='15' ToolTip='Execute selected test' Command="{Binding ExecuteTestCommand}" x:Name="ExecuteTest">
+            </telerik:RadButton>
         </StackPanel>
+
+    </StackPanel>
 
 </UserControl>

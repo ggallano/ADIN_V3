@@ -24,9 +24,10 @@ namespace ADIN1100_Eval
         /// <param name="testName">Test Name</param>
         /// <param name="TestDescription">Test Description</param>
         /// <param name="requiresFrameLength">Whether a frame length is needed</param>
-        public TestModeItem(string testName, string TestDescription, bool requiresFrameLength)
+        public TestModeItem(string testName, string testName1, string TestDescription, bool requiresFrameLength)
         {
             this.TestName = testName;
+            this.TestName1 = testName1;
             this.TestDescription = TestDescription;
             this.RequiresFrameLength = requiresFrameLength;
         }
@@ -35,6 +36,15 @@ namespace ADIN1100_Eval
         /// Gets or sets test Name
         /// </summary>
         public string TestName
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets test Name
+        /// </summary>
+        public string TestName1
         {
             get;
             set;
