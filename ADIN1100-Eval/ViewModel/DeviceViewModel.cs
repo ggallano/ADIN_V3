@@ -2268,6 +2268,19 @@ namespace ADIN1100_Eval.ViewModel
                     try
                     {
                         this.selectedDevice.FwAPI.SoftwareReset(resettype);
+                        if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1100)
+                        {
+                            this.SelectedTestModeItem = this.testmodeitemsADIN1100[0];
+                            this.SelectedLoopbackItem = this.loopbackItemsADIN1100[0];
+                        }
+                        else if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1200)
+                        {
+                            this.SelectedTestModeItem = this.testmodeitemsADIN1200[0];
+                        }
+                        else
+                        {
+                            this.SelectedTestModeItem = this.testmodeitemsADIN1300[0];
+                        }
                     }
                     catch (FTDIException exc)
                     {
@@ -2672,7 +2685,11 @@ namespace ADIN1100_Eval.ViewModel
             {
                 if (obj is LocalLoopbackParameters)
                 {
-                    LocalLoopbackParameters localLoopbackParameters = (LocalLoopbackParameters)obj;
+                    LocalLoopbackParameters localLoopbackParameters = new LocalLoopbackParameters(); ;
+                    localLoopbackParameters.gePhyLb_selt = (LoopBackMode)Enum.Parse(typeof(LoopBackMode), this.SelectedLoopbackItem.Name);
+                    localLoopbackParameters.isolateRx_st = this.RxSuppression;
+                    localLoopbackParameters.lbTxSup_st = this.TxSuppression;
+
                     if (this.selectedDevice != null)
                     {
                         try
