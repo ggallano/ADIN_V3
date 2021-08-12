@@ -2427,7 +2427,7 @@ namespace TargetInterface
             // There are a few registers that we don't want to expose in the JSON file
             // Brian Murray says these frame generator ones will be added eventually
             RegisterDetails registerDetailCRSM_FRM_GEN_DIAG_CLK_EN = new RegisterDetails() { Name = "CRSM_FRM_GEN_DIAG_CLK_EN", Address = 0x1E882C };
-            FieldDetails fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN = new FieldDetails() { Start = 1, Width = 1 };
+            FieldDetails fieldDetailsCRSM_FRM_GEN_DIAG_CLK_EN = new FieldDetails() { Start = 1, Width = 1 };
 
             RegisterDetails registerDetailFgDa5Emi = new RegisterDetails() { Name = "FgDa5Emi" };
             FieldDetails fieldDetailsFgDa5Emi = new FieldDetails();
@@ -2474,8 +2474,15 @@ namespace TargetInterface
             RegisterDetails registerDetailRMII_TXD_CHK_EN = new RegisterDetails() { Name = "RMII_CFG" };
             FieldDetails fieldDetailRMII_TXD_CHK_EN = new FieldDetails() { Name = "RMII_TXD_CHK_EN" };
 
+            RegisterDetails registerDetailAN_FRC_MODE_EN = new RegisterDetails() { Name = "AN_FRC_MODE_EN" };
+            FieldDetails fieldDetailsAN_FRC_MODE_EN = new FieldDetails();
+
             if (this.TenSPEDevice())
             {
+                registerDetailAN_FRC_MODE_EN.Address = 0x078000;
+                fieldDetailsAN_FRC_MODE_EN.Start = 0;
+                fieldDetailsAN_FRC_MODE_EN.Width = 1;
+
                 if (this.revNumber == DeviceRevision.Revision1)
                 {
                     registerDetailFgDa5Emi.Address = 0x1F8032;
@@ -2564,7 +2571,7 @@ namespace TargetInterface
                     case "FC_FRM_CNT_H":
                         return new RegisterInfo(registerDetailFC_FRM_CNT_H, fieldDetailFC_FRM_CNT_H);
                     case "CRSM_FRM_GEN_DIAG_CLK_EN":
-                        return new RegisterInfo(registerDetailCRSM_FRM_GEN_DIAG_CLK_EN, fieldDetailCRSM_FRM_GEN_DIAG_CLK_EN);
+                        return new RegisterInfo(registerDetailCRSM_FRM_GEN_DIAG_CLK_EN, fieldDetailsCRSM_FRM_GEN_DIAG_CLK_EN);
                     case "FG_FRM_LEN":
                         return new RegisterInfo(registerDetailFG_FRM_LEN, fieldDetailFG_FRM_LEN);
                     case "FG_NFRM_L":
@@ -2583,6 +2590,8 @@ namespace TargetInterface
                         return new RegisterInfo(registerDetailFgSa, fieldDetailsFgSa);
                     case "RMII_TXD_CHK_EN":
                         return new RegisterInfo(registerDetailRMII_TXD_CHK_EN, fieldDetailRMII_TXD_CHK_EN);
+                    case "AN_FRC_MODE_EN":
+                        return new RegisterInfo(registerDetailAN_FRC_MODE_EN, fieldDetailsAN_FRC_MODE_EN);
                     default:
                         throw new ArgumentException(string.Format("Information on register or field \"{0:s}\" is not available", name), name);
                 }
@@ -3962,8 +3971,8 @@ namespace TargetInterface
                     this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
                     this.Sleep(0.1);
                     this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
-                    //this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 1);
-                    this.WriteValueInRegisterAddress(0x078000, 1); //AN_FRC_MODE_EN
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 1);
+                    //this.WriteValueInRegisterAddress(0x078000, 1); //AN_FRC_MODE_EN
 
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 1);
@@ -3981,8 +3990,8 @@ namespace TargetInterface
                     this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
                     this.Sleep(0.1);
                     this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
-                    //this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 1);
-                    this.WriteValueInRegisterAddress(0x078000, 1); //AN_FRC_MODE_EN
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 1);
+                    //this.WriteValueInRegisterAddress(0x078000, 1); //AN_FRC_MODE_EN
 
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 1);
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
@@ -4000,8 +4009,8 @@ namespace TargetInterface
                     this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
                     this.Sleep(0.1);
                     this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
-                    //this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
-                    this.WriteValueInRegisterAddress(0x078000, 0); //AN_FRC_MODE_EN
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
+                    //this.WriteValueInRegisterAddress(0x078000, 0); //AN_FRC_MODE_EN
 
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
@@ -4019,8 +4028,8 @@ namespace TargetInterface
                     this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
                     this.Sleep(0.1);
                     this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
-                    //this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
-                    this.WriteValueInRegisterAddress(0x078000, 0); //AN_FRC_MODE_EN
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
+                    //this.WriteValueInRegisterAddress(0x078000, 0); //AN_FRC_MODE_EN
 
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
@@ -4038,8 +4047,8 @@ namespace TargetInterface
                     this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
                     this.Sleep(0.1);
                     this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
-                    //this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
-                    this.WriteValueInRegisterAddress(0x078000, 0); //AN_FRC_MODE_EN
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
+                    //this.WriteValueInRegisterAddress(0x078000, 0); //AN_FRC_MODE_EN
 
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
@@ -4055,8 +4064,8 @@ namespace TargetInterface
                 case LoopBackMode.OFF:
                     this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
                     this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
-                    //this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
-                    this.WriteValueInRegisterAddress(0x078000, 0); //AN_FRC_MODE_EN
+                    this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
+                    //this.WriteValueInRegisterAddress(0x078000, 0); //AN_FRC_MODE_EN
 
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PMA_LOC_EN", 0);
                     this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
