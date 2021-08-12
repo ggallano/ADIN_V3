@@ -11,14 +11,14 @@
              d:DesignHeight="400" d:DesignWidth="600">
     <UserControl.Resources>
         <DataTemplate x:Key="ComboBoxCustomTemplateTestmodeitems">
-            <Grid Margin="0 3">
+            <Grid Margin="0 0">
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="2">
-                    <TextBlock Text="{Binding TestName}"/>
-                    <TextBlock Text="{Binding TestName1}" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding BaseTestName}"/>
+                    <TextBlock Text="{Binding TestName}" FontWeight="Bold"/>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Horizontal">
                     <TextBlock Foreground="#003366" Grid.Column="1" Text="{Binding TestDescription}" />
@@ -29,8 +29,8 @@
         <DataTemplate x:Key="ComboBoxSimpleTemplate">
             <Grid>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding TestName}" />
-                    <TextBlock Text="{Binding TestName1}" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding BaseTestName}" />
+                    <TextBlock Text="{Binding TestName}" FontWeight="Bold"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>

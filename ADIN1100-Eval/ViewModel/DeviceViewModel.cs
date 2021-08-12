@@ -1874,29 +1874,29 @@ namespace ADIN1100_Eval.ViewModel
                         if (this.TenSPEDevice)
                         {
                             //DB Fix this.Error("TODO_10SPE : What registers are needed to do this test : " + this.selectedTestModeItem.TestName);
-                            switch (this.selectedTestModeItem.TestName)
+                            switch (this.selectedTestModeItem.TestModeName)
                             {
 
                                 case "10BASE-T1L Normal mode":
                                     this.selectedDevice.FwAPI.SetupT1L_NormalMode();
                                     break;
-                                case "10BASE-T1L Test mode 1 Jitter":
+                                case "10BASE-T1L Test mode 1: Tx output voltage, Tx clock frequency and jitter.":
                                     this.selectedDevice.FwAPI.SetupT1L_TestMode1();
                                     break;
-                                case "10BASE-T1L Test mode 2 Droop":
+                                case "10BASE-T1L Test mode 2: Tx output droop":
                                     this.selectedDevice.FwAPI.SetupT1L_TestMode2();
                                     break;
-                                case "10BASE-T1L Test mode 3 Idle":
+                                case "10BASE-T1L Test mode 3: Power Spectral Density (PSD) and power level":
                                     this.selectedDevice.FwAPI.SetupT1L_TestMode3();
                                     break;
-                                case "10BASE-T1L Silent Mode":
+                                case "10BASE-T1L Silent Mode: MDI Return Loss":
                                     this.selectedDevice.FwAPI.SetupT1L_TestSilentMode();
                                     break;
                             }
                         }
                         else
                         {
-                            switch (this.selectedTestModeItem.TestName)
+                            switch (this.selectedTestModeItem.TestModeName)
                             {
                                 case "100BASE-TX VOD":
                                     this.selectedDevice.FwAPI.SetupB100VOD();

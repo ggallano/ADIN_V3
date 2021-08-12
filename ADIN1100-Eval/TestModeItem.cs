@@ -21,13 +21,13 @@ namespace ADIN1100_Eval
         /// <summary>
         /// Initializes a new instance of the <see cref="TestModeItem"/> class.
         /// </summary>
-        /// <param name="testName">Test Name</param>
+        /// <param name="baseTestName">Test Name</param>
         /// <param name="TestDescription">Test Description</param>
         /// <param name="requiresFrameLength">Whether a frame length is needed</param>
-        public TestModeItem(string testName, string testName1, string TestDescription, bool requiresFrameLength)
+        public TestModeItem(string baseTestName, string testName, string TestDescription, bool requiresFrameLength)
         {
+            this.BaseTestName = baseTestName;
             this.TestName = testName;
-            this.TestName1 = testName1;
             this.TestDescription = TestDescription;
             this.RequiresFrameLength = requiresFrameLength;
         }
@@ -35,7 +35,7 @@ namespace ADIN1100_Eval
         /// <summary>
         /// Gets or sets test Name
         /// </summary>
-        public string TestName
+        public string BaseTestName
         {
             get;
             set;
@@ -44,7 +44,7 @@ namespace ADIN1100_Eval
         /// <summary>
         /// Gets or sets test Name
         /// </summary>
-        public string TestName1
+        public string TestName
         {
             get;
             set;
@@ -67,5 +67,10 @@ namespace ADIN1100_Eval
             get;
             set;
         }
+
+        /// <summary>
+        /// returns the combination string of BaseTestName and TestName
+        /// </summary>
+        public string TestModeName => BaseTestName + TestName;
     }
 }
