@@ -101,37 +101,37 @@ namespace ADIN1100_Eval.ViewModel
             this.InitializedWorkerPhyStatus();
             this.InitializedWorkerRefreshRegisters();
 
-            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Normal mode", "PHY is in normal operation", true));
-            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 1 Jitter", "PHY repeatedly transmit the data symbol sequence (+1, -1).", true));
-            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 2 Droop", "PHY transmit ten '+ 1' symbols followed by ten ' - 1' symbols.", true));
-            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 3 Idle", "PHY transmit as in non-test operation and in the MASTER data mode with data set to normal Inter-Frame idle signals.", true));
-            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Silent Mode", "PHY is in silent operation", true));
+            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Normal mode", "", "PHY is in normal operation", true));
+            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 1: ", "Tx output voltage, Tx clock frequency and jitter.", "PHY repeatedly transmit the data symbol sequence (+1, -1).", true));
+            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 2: ", "Tx output droop", "PHY transmit ten '+ 1' symbols followed by ten ' - 1' symbols.", true));
+            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Test mode 3: ", "Power Spectral Density (PSD) and power level", "PHY transmit as in non-test operation and in the MASTER data mode with data set to normal Inter-Frame idle signals.", true));
+            this.testmodeitemsADIN1100.Add(new TestModeItem("10BASE-T1L Silent Mode: ", "MDI Return Loss", "PHY's receive and transmit paths remain as in normal operation but PHY transmits 0 symbols continuously.", true));
 
-            this.testmodeitemsADIN1200.Add(new TestModeItem("100BASE-TX VOD", "100BASE-TX VOD measurements.", false));
-            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T Link Pulse", "10BASE-T forced mode in loopback with Tx suppression disabled, for link pulse measurements.", false));
-            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T TX Random Frames", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of random payloads.", true));
-            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T TX 0xFF Frames", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of 0xFF payloads", true));
-            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T TX 0x00 Frames", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of 0x00 payloads", true));
+            this.testmodeitemsADIN1200.Add(new TestModeItem("100BASE-TX VOD", "", "100BASE-TX VOD measurements.", false));
+            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T Link Pulse", "", "10BASE-T forced mode in loopback with Tx suppression disabled, for link pulse measurements.", false));
+            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T TX Random Frames", "", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of random payloads.", true));
+            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T TX 0xFF Frames", "", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of 0xFF payloads", true));
+            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T TX 0x00 Frames", "", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of 0x00 payloads", true));
 
-            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T TX 5 MHz DIM 1", "Transmit 5MHz square wave on dimension 1", false));
-            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T TX 10 MHz DIM 1", "Transmit 10MHz square wave on dimension 1", false));
-            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T TX 5 MHz DIM 0", "Transmit 5MHz square wave on dimension 0", false));
-            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T TX 10 MHz DIM 0", "Transmit 10MHz square wave on dimension 1", false));
+            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T TX 5 MHz DIM 1", "", "Transmit 5MHz square wave on dimension 1", false));
+            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T TX 10 MHz DIM 1", "", "Transmit 10MHz square wave on dimension 1", false));
+            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T TX 5 MHz DIM 0", "", "Transmit 5MHz square wave on dimension 0", false));
+            this.testmodeitemsADIN1200.Add(new TestModeItem("10BASE-T TX 10 MHz DIM 0", "", "Transmit 10MHz square wave on dimension 1", false));
 
-            this.testmodeitemsADIN1300.Add(new TestModeItem("100BASE-TX VOD", "100BASE-TX VOD measurements.", false));
-            this.testmodeitemsADIN1300.Add(new TestModeItem("1000BASE-T Test mode 1", "Transmit waveform test", false));
-            this.testmodeitemsADIN1300.Add(new TestModeItem("1000BASE-T Test mode 2", "Transmit jitter test in MASTER mode", false));
-            this.testmodeitemsADIN1300.Add(new TestModeItem("1000BASE-T Test mode 3", "Transmit jitter test in SLAVE mode", false));
-            this.testmodeitemsADIN1300.Add(new TestModeItem("1000BASE-T Test mode 4", "Transmitter distortion test", false));
-            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T Link Pulse", "10BASE-T forced mode in loopback with Tx suppression disabled, for link pulse measurements.", false));
-            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX Random Frames", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of random payloads.", true));
-            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 0xFF Frames", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of 0xFF payloads", true));
-            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 0x00 Frames", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of 0x00 payloads", true));
+            this.testmodeitemsADIN1300.Add(new TestModeItem("100BASE-TX VOD", "", "100BASE-TX VOD measurements.", false));
+            this.testmodeitemsADIN1300.Add(new TestModeItem("1000BASE-T Test mode 1", "", "Transmit waveform test", false));
+            this.testmodeitemsADIN1300.Add(new TestModeItem("1000BASE-T Test mode 2", "", "Transmit jitter test in MASTER mode", false));
+            this.testmodeitemsADIN1300.Add(new TestModeItem("1000BASE-T Test mode 3", "", "Transmit jitter test in SLAVE mode", false));
+            this.testmodeitemsADIN1300.Add(new TestModeItem("1000BASE-T Test mode 4", "", "Transmitter distortion test", false));
+            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T Link Pulse", "", "10BASE-T forced mode in loopback with Tx suppression disabled, for link pulse measurements.", false));
+            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX Random Frames", "", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of random payloads.", true));
+            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 0xFF Frames", "", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of 0xFF payloads", true));
+            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 0x00 Frames", "", "10BASE-T forced mode in loopback with Tx suppression disabled,with TX of 0x00 payloads", true));
 
-            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 5 MHz DIM 1", "Transmit 5MHz square wave on dimension 1", false));
-            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 10 MHz DIM 1", "Transmit 10MHz square wave on dimension 1", false));
-            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 5 MHz DIM 0", "Transmit 5MHz square wave on dimension 0", false));
-            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 10 MHz DIM 0", "Transmit 10MHz square wave on dimension 1", false));
+            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 5 MHz DIM 1", "", "Transmit 5MHz square wave on dimension 1", false));
+            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 10 MHz DIM 1", "", "Transmit 10MHz square wave on dimension 1", false));
+            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 5 MHz DIM 0", "", "Transmit 5MHz square wave on dimension 0", false));
+            this.testmodeitemsADIN1300.Add(new TestModeItem("10BASE-T TX 10 MHz DIM 0", "", "Transmit 10MHz square wave on dimension 1", false));
 
             this.selectedTestModeItem = this.testmodeitemsADIN1100[0];
 
@@ -1874,29 +1874,29 @@ namespace ADIN1100_Eval.ViewModel
                         if (this.TenSPEDevice)
                         {
                             //DB Fix this.Error("TODO_10SPE : What registers are needed to do this test : " + this.selectedTestModeItem.TestName);
-                            switch (this.selectedTestModeItem.TestName)
+                            switch (this.selectedTestModeItem.TestModeName)
                             {
 
                                 case "10BASE-T1L Normal mode":
                                     this.selectedDevice.FwAPI.SetupT1L_NormalMode();
                                     break;
-                                case "10BASE-T1L Test mode 1 Jitter":
+                                case "10BASE-T1L Test mode 1: Tx output voltage, Tx clock frequency and jitter.":
                                     this.selectedDevice.FwAPI.SetupT1L_TestMode1();
                                     break;
-                                case "10BASE-T1L Test mode 2 Droop":
+                                case "10BASE-T1L Test mode 2: Tx output droop":
                                     this.selectedDevice.FwAPI.SetupT1L_TestMode2();
                                     break;
-                                case "10BASE-T1L Test mode 3 Idle":
+                                case "10BASE-T1L Test mode 3: Power Spectral Density (PSD) and power level":
                                     this.selectedDevice.FwAPI.SetupT1L_TestMode3();
                                     break;
-                                case "10BASE-T1L Silent Mode":
+                                case "10BASE-T1L Silent Mode: MDI Return Loss":
                                     this.selectedDevice.FwAPI.SetupT1L_TestSilentMode();
                                     break;
                             }
                         }
                         else
                         {
-                            switch (this.selectedTestModeItem.TestName)
+                            switch (this.selectedTestModeItem.TestModeName)
                             {
                                 case "100BASE-TX VOD":
                                     this.selectedDevice.FwAPI.SetupB100VOD();
@@ -2268,6 +2268,19 @@ namespace ADIN1100_Eval.ViewModel
                     try
                     {
                         this.selectedDevice.FwAPI.SoftwareReset(resettype);
+                        if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1100)
+                        {
+                            this.SelectedTestModeItem = this.testmodeitemsADIN1100[0];
+                            this.SelectedLoopbackItem = this.loopbackItemsADIN1100[0];
+                        }
+                        else if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1200)
+                        {
+                            this.SelectedTestModeItem = this.testmodeitemsADIN1200[0];
+                        }
+                        else
+                        {
+                            this.SelectedTestModeItem = this.testmodeitemsADIN1300[0];
+                        }
                     }
                     catch (FTDIException exc)
                     {
@@ -2672,7 +2685,11 @@ namespace ADIN1100_Eval.ViewModel
             {
                 if (obj is LocalLoopbackParameters)
                 {
-                    LocalLoopbackParameters localLoopbackParameters = (LocalLoopbackParameters)obj;
+                    LocalLoopbackParameters localLoopbackParameters = new LocalLoopbackParameters(); ;
+                    localLoopbackParameters.gePhyLb_selt = (LoopBackMode)Enum.Parse(typeof(LoopBackMode), this.SelectedLoopbackItem.Name);
+                    localLoopbackParameters.isolateRx_st = this.RxSuppression;
+                    localLoopbackParameters.lbTxSup_st = this.TxSuppression;
+
                     if (this.selectedDevice != null)
                     {
                         try
