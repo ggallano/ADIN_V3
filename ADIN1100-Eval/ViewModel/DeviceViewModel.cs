@@ -598,11 +598,17 @@ namespace ADIN1100_Eval.ViewModel
 
             set
             {
-                this.selectedLoopbackItem = value;
-                if (this.selectedDevice != null)
-                    this.selectedDevice.Loopback.LoopbackItem = value;
+                if (this.SelectedLoopbackItem != value)
+                {
+                    this.selectedLoopbackItem = value;
+                    if (this.selectedDevice != null)
+                    {
+                        this.selectedDevice.Loopback.LoopbackItem = value;
+                        this.DoLocalLoopback(null);
+                    }
 
-                this.RaisePropertyChanged("SelectedLoopbackItem");
+                    this.RaisePropertyChanged("SelectedLoopbackItem");
+                }
             }
         }
 
@@ -2683,7 +2689,7 @@ namespace ADIN1100_Eval.ViewModel
         {
             lock (this)
             {
-                if (obj is LocalLoopbackParameters)
+                //if (obj is LocalLoopbackParameters)
                 {
                     LocalLoopbackParameters localLoopbackParameters = new LocalLoopbackParameters(); ;
                     localLoopbackParameters.gePhyLb_selt = (LoopBackMode)Enum.Parse(typeof(LoopBackMode), this.SelectedLoopbackItem.Name);

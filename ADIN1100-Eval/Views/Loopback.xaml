@@ -82,14 +82,14 @@
 
                     <!--<telerik:RadRadioButton Content='Remote' Margin='10,10,10,10' CornerRadius='15' ToolTip='This requires a link up with a remote PHY. Loops the data received from the remote PHY back to the remote PHY using all of the digital and analog circuitry' Command="{Binding RemoteLoopbackCommand}"  CommandParameter="Remote"/>-->
 
-                    <telerik:RadComboBox x:Name="cboLoopback" SelectedIndex="0" Height="23" VerticalAlignment="Top" Margin="0,0,10,0" Command="{Binding LocalLoopbackCommand}" SelectedItem="{Binding SelectedLoopbackItem}" ItemsSource="{Binding LoopbackItems}">
+                    <telerik:RadComboBox x:Name="cboLoopback" SelectedIndex="0" Height="23" VerticalAlignment="Top" Margin="0,0,10,0" SelectedItem="{Binding SelectedLoopbackItem}" ItemsSource="{Binding LoopbackItems}">
                         <!--<telerik:RadComboBoxItem Content="None" x:Name="OFF"/>-->
                         <!--<telerik:RadComboBoxItem Content="MAC I/F Remote" x:Name="MacRemote"/>-->
                         <!--<telerik:RadComboBoxItem Content="MAC I/F" x:Name="MAC"/>-->
                         <!--<telerik:RadComboBoxItem Content="PCS" x:Name="Digital"/>-->
                         <!--<telerik:RadComboBoxItem Content="PMA" x:Name="LineDriver"/>-->
                         <!--<telerik:RadComboBoxItem Content="External MII/RMII" x:Name="ExtCable"/>-->
-                        <telerik:RadComboBox.CommandParameter>
+                        <!--<telerik:RadComboBox.CommandParameter>
                             <MultiBinding Converter="{StaticResource localLoopbackParametersConverter}">
                                 <MultiBinding.Bindings>
                                     <Binding ElementName="cboLoopback" Path="SelectedItem" />
@@ -97,7 +97,7 @@
                                     <Binding ElementName="chkSuppressTX" Path="IsChecked" />
                                 </MultiBinding.Bindings>
                             </MultiBinding>
-                        </telerik:RadComboBox.CommandParameter>
+                        </telerik:RadComboBox.CommandParameter>-->
                     </telerik:RadComboBox>
                     
                     <StackPanel>
