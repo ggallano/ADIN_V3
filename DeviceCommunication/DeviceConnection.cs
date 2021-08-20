@@ -15,6 +15,7 @@ namespace DeviceCommunication
     using FTD2XX_NET;
     using Utilities.Feedback;
     using System.Collections.Specialized;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// Serial Port Delegate
@@ -463,7 +464,11 @@ namespace DeviceCommunication
                 }
             }
 
-            if (!uint.TryParse(readData, System.Globalization.NumberStyles.HexNumber, null, out regContent))
+            Regex rg = new Regex("ERROR:");
+            Match matchedReadData = rg.Match(readData);
+
+            if (!uint.TryParse(readData, System.Globalization.NumberStyles.HexNumber, null, out regContent)
+                && !readData.Contains(matchedReadData.ToString()))
             {
                 throw new ApplicationException("invalid response");
             }
@@ -552,12 +557,12 @@ namespace DeviceCommunication
                 /* Packet transmission is underway? Capture the byte */
                 commandresponse.Add(serialchunk[0]);
 
-                if (serialchunk[0] == '\n')
+                if (serialchunk[0] == '\n' || serialchunk[0] == '\r')
                 {
                     complete = true;
                 }
 
-                if (commandresponse.Count > 30)
+                if (commandresponse.Count > 100)
                 {
                     throw new ApplicationException("Lost communication with Evaluation board.");
                 }

@@ -4040,6 +4040,7 @@ namespace TargetInterface
 
                     this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
 
+                    this.Info("    SPE PHY Loopback configured as MAC Interface Remote loopback");
                     break;
 
                 // MAC IF
@@ -4058,6 +4059,7 @@ namespace TargetInterface
 
                     this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
 
+                    this.Info("    SPE PHY Loopback configured as MAC Interface loopback");
                     break;
 
                 // OFF
