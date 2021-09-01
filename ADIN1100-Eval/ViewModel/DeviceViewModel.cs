@@ -1895,7 +1895,7 @@ namespace ADIN1100_Eval.ViewModel
                                 case "10BASE-T1L Test mode 3: Power Spectral Density (PSD) and power level":
                                     this.selectedDevice.FwAPI.SetupT1L_TestMode3();
                                     break;
-                                case "10BASE-T1L Silent Mode: MDI Return Loss":
+                                case "10BASE-T1L Transmit Disable: MDI Return Loss":
                                     this.selectedDevice.FwAPI.SetupT1L_TestSilentMode();
                                     break;
                             }
