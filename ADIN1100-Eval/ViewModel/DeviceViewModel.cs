@@ -23,6 +23,8 @@ namespace ADIN1100_Eval.ViewModel
     using Utilities.JSONParser;
     using System.IO;
     using TargetInterface.Parameters;
+    using System.Text.RegularExpressions;
+    using Utilities;
 
     /// <summary>
     /// Device View Model
@@ -1788,12 +1790,16 @@ namespace ADIN1100_Eval.ViewModel
 
                                     if (newDevice)
                                     {
-                                        this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged)
+                                        Match matchedBoardName = BoardNameParser.GetBoardNameType(item.Description);
+                                        if ((DeviceType)Enum.Parse(typeof(DeviceType), matchedBoardName.Value) == DeviceType.ADIN1100)
                                         {
-                                            FrameGenerator = new FrameGeneratorChecker() { FramesBurst = 64001, FrameLength = 1250, FrameContent = 0, SourceMacAddress = ":::::", DestinationMacAddress = ":::::" },
-                                            TestModeItem = this.selectedTestModeItem,
-                                            Loopback = new Loopback() { LoopbackItem = this.LoopbackItems[0] }
-                                        });
+                                            this.devices.Add(new DeviceModel(item.SerialNumber.ToString(), item.Description, this.Feedback_PropertyChanged)
+                                            {
+                                                FrameGenerator = new FrameGeneratorChecker() { FramesBurst = 64001, FrameLength = 1250, FrameContent = 0, SourceMacAddress = ":::::", DestinationMacAddress = ":::::" },
+                                                TestModeItem = this.selectedTestModeItem,
+                                                Loopback = new Loopback() { LoopbackItem = this.LoopbackItems[0] }
+                                            });
+                                        }
                                     }
                                 }
 
@@ -2859,7 +2865,11 @@ namespace ADIN1100_Eval.ViewModel
                 message = "The following Evaluation boards are present : ";
                 foreach (var item in DeviceConnection.DeviceSerialNumbers)
                 {
-                    message += string.Format("{0}  ", item.SerialNumber);
+                    Match matchedBoardName = BoardNameParser.GetBoardNameType(item.Description);
+                    if ((DeviceType)Enum.Parse(typeof(DeviceType), matchedBoardName.Value) == DeviceType.ADIN1100)
+                    {
+                        message += string.Format("{0}  ", item.SerialNumber);
+                    }
                 }
 
                 this.Info(message);
