@@ -4,12 +4,12 @@
 !include "MUI2.nsh"
 !include "MUI_EXTRAPAGES.nsh"
 
-!define LICENSE_RTF_NAME "2019-01-22-ADINGUI Click Thru SLA.rtf"
+!define LICENSE_RTF_NAME "2019-01-22-ADINGUI Click Thru SLA.pdf"
 !define LICENSE_RTF "..\Licensing\${LICENSE_RTF_NAME}"
 !define OLD_APP_NAME "ADIN1100 Evaluation"
 !define APP_NAME "Analog Devices Ethernet PHY Evaluation"
 !define COMP_NAME "Analog Devices Inc.,"
-!define VERSION "01.08.03.01"#incompatible version.versionfeature.bugfix.
+!define VERSION "01.08.03.04"#incompatible version.versionfeature.bugfix.
 !define COPYRIGHT "Analog Devices Inc. � 2021"
 !define DESCRIPTION "Application"
 !define INSTALLER_NAME "Analog Devices Ethernet PHY Installer_v1834.exe"#to add v1200-dev for internal.
