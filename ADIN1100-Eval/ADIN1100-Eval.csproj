@@ -154,6 +154,12 @@
     <Compile Include="Views\CableDiagnotics.xaml.cs">
       <DependentUpon>CableDiagnotics.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CalibrateCableDialog.xaml.cs">
+      <DependentUpon>CalibrateCableDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CalibrateOffsetDialog.xaml.cs">
+      <DependentUpon>CalibrateOffsetDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DeviceView.xaml.cs">
       <DependentUpon>DeviceView.xaml</DependentUpon>
     </Compile>
@@ -237,6 +243,14 @@
     <Page Include="Views\CableDiagnotics.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CalibrateCableDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CalibrateOffsetDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DeviceView.xaml">
       <SubType>Designer</SubType>

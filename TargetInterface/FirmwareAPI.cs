@@ -24,6 +24,7 @@ namespace TargetInterface
     using System.Text.RegularExpressions;
     using System.Globalization;
     using Parameters;
+    using CableDiagnostics;
 
     /// <summary>
     /// Handles the communication between PC and the device firmware API
@@ -383,6 +384,16 @@ namespace TargetInterface
         {
             NVP,
             Offset,
+            Manual
+        }
+
+        /// <summary>
+        /// Calibration modes.
+        /// </summary>
+        public enum CalibrationMode
+        {
+            AutoRange,
+            Optimized
         }
 
         /// <summary>
@@ -4980,11 +4991,11 @@ namespace TargetInterface
         /// <summary>
         /// Executes the Fault Detection
         /// </summary>
-        public void ExecuteFaultDetection()
+        public float ExecuteFaultDetection(CalibrateOffset calibrateOffsetValue, CalibrateCable calibrateCableValue, CalibrationMode mode)
         {
             if (this.TenSPEDevice())
             {
-                throw new Exception("Fault Detection is not implemented.");
+                return this.deviceConnection.RunFaultDetector(calibrateCableValue.NVP, calibrateOffsetValue.Offset, (int)mode);
             }
             else
             {
@@ -5011,17 +5022,27 @@ namespace TargetInterface
         /// Executes the Calibration for Fault Detection
         /// </summary>
         /// <param name="calibriteType"></param>
-        public void FaultDetectionCalibration(Calibrate calibriteType)
+        /// <param name="cableLength"></param>
+        /// <param name="nvp"></param>
+        /// <param name="calibrationMode"></param>
+        /// <returns></returns>
+        public float[] FaultDetectionCalibration(Calibrate calibriteType, float cableLength = 0.0f, float nvp = 0.0f, CalibrationMode calibrationMode = CalibrationMode.AutoRange)
         {
+            float[] output = null;
+
             switch (calibriteType)
             {
                 case Calibrate.NVP:
-                    throw new Exception("NVP Calibration is not implemented.");
+                    output = this.deviceConnection.CalibrateCable(cableLength, (int)calibrationMode);
+                    break;
                 case Calibrate.Offset:
-                    throw new Exception("Offset Calibration is not implemented.");
+                    output = this.deviceConnection.CalibrateOffset(nvp, (int)calibrationMode);
+                    break;
                 default:
                     break;
             }
+
+            return output;
         }
 
         ///// <summary>

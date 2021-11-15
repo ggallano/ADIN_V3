@@ -59,6 +59,11 @@ namespace DeviceCommunication
         private static bool initialScan = true;
 
         /// <summary>
+        /// Check whether the device can lock or not.
+        /// </summary>
+        private readonly object deviceConLock = new object();
+
+        /// <summary>
         /// The serial number of the connected device
         /// </summary>
         private string deviceID;
@@ -418,7 +423,99 @@ namespace DeviceCommunication
                 this.ftdiDevice.Close();
             }
         }
- 
+
+        /// <summary>
+        /// runs the fault detector for ADIN1100.
+        /// </summary>
+        public float RunFaultDetector(float nvp, float offset, int calibrationMode)
+        {
+            string readData;
+            float detectionResult = 0.0f;
+
+            this.Purge();
+            // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
+            this.SendData($"runfaultdetect {nvp},{offset},{calibrationMode}\n");
+
+            /* ...and get the response */
+            readData = this.ReadCommandResponse();
+
+            Regex rg = new Regex("ERROR:");
+            Match matchedReadData = rg.Match(readData);
+
+            if (!float.TryParse(readData, System.Globalization.NumberStyles.Float, null, out detectionResult)
+                && !readData.Contains(matchedReadData.ToString()))
+            {
+                throw new ApplicationException("invalid response");
+            }
+
+            return detectionResult;
+        }
+
+        /// <summary>
+        /// calibrates the cable.
+        /// </summary>
+        /// <param name="cableLength">cable length.</param>
+        /// <param name="coeff0">coeff0.</param>
+        /// <param name="coeff1">coeff1.</param>
+        public float[] CalibrateCable(float cableLength, int calibrationMode)
+        {
+            string readData;
+            float[] calibrationResult;
+            float readDataResult;
+
+            this.Purge();
+            // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
+            this.SendData($"runnvpcal {cableLength},{calibrationMode}\n");
+            /* ...and get the response */
+            readData = this.ReadCommandResponse();
+
+            Regex rg = new Regex("ERROR:");
+            Match matchedReadData = rg.Match(readData);
+
+            if (!float.TryParse(readData, System.Globalization.NumberStyles.Float, null, out readDataResult)
+                && !readData.Contains(matchedReadData.ToString()))
+            {
+                throw new ApplicationException("invalid response");
+            }
+
+            calibrationResult = new float[3];
+            calibrationResult[0] = readDataResult;
+            //calibrationResult[1] = 20.5f;
+            //calibrationResult[2] = 40.3f;
+
+            return calibrationResult;
+        }
+
+        /// <summary>
+        /// calibrates the offset.
+        /// </summary>
+        public float[] CalibrateOffset(float nvp, int calibrationMode)
+        {
+            string readData;
+            float[] calibrationResult;
+            float readDataResult;
+
+            this.Purge();
+            // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
+            this.SendData($"runoffsetcal {nvp},{calibrationMode}\n");
+            /* ...and get the response */
+            readData = this.ReadCommandResponse();
+
+            Regex rg = new Regex("ERROR:");
+            Match matchedReadData = rg.Match(readData);
+
+            if (!float.TryParse(readData, System.Globalization.NumberStyles.Float, null, out readDataResult)
+                && !readData.Contains(matchedReadData.ToString()))
+            {
+                throw new ApplicationException("invalid response");
+            }
+
+            calibrationResult = new float[1];
+            calibrationResult[0] = readDataResult;
+
+            return calibrationResult;
+        }
+
         /// <summary>
         /// Read an MDIO Register
         /// </summary>

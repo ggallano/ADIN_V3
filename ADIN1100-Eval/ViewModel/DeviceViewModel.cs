@@ -23,6 +23,9 @@ namespace ADIN1100_Eval.ViewModel
     using Utilities.JSONParser;
     using System.IO;
     using TargetInterface.Parameters;
+    using TargetInterface.CableDiagnostics;
+    using Microsoft.Win32;
+    using System.Text;
 
     /// <summary>
     /// Device View Model
@@ -94,6 +97,8 @@ namespace ADIN1100_Eval.ViewModel
             this.RunFaultDetectionCommand = new BindingCommand(this.DoFaultDetection);
             this.ResetFaultDetectorCommand = new BindingCommand(this.DoResetFaultDetection);
             this.FaultDetectionCalibrateCommand = new BindingCommand(this.DoFaultDetectionCalibrate);
+            this.CalibrateSaveCommand = new BindingCommand(this.DoCalibrateSave);
+            this.CalibrateLoadCommand = new BindingCommand(this.DoCalibrateLoad);
 
             this.deviceSettings.ClearPropertiesChangedList();
             this.deviceSettings.PropertyChanged += this.DeviceSettings_PropertyChanged;
@@ -143,6 +148,9 @@ namespace ADIN1100_Eval.ViewModel
             this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "PMA", Name = "LineDriver" });
             this.loopbackItemsADIN1100.Add(new LoopbackItem() { Content = "External MII/RMII", Name = "ExtCable" });
             this.LoopbackItems = this.loopbackItemsADIN1100;
+
+            // Calibration.
+            this.FaultState = "Open\\Short";
         }
 
         /// <summary>
@@ -249,6 +257,16 @@ namespace ADIN1100_Eval.ViewModel
         /// Gets or sets the Calibrations
         /// </summary>
         public BindingCommand FaultDetectionCalibrateCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Calibrations to save.
+        /// </summary>
+        public BindingCommand CalibrateSaveCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Calibrations to load.
+        /// </summary>
+        public BindingCommand CalibrateLoadCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the value to write to the register in the manual register window
@@ -1039,7 +1057,7 @@ namespace ADIN1100_Eval.ViewModel
         {
             get
             {
-                return this.deviceSettings.ConnectedDeviceType != DeviceType.ADIN1100;
+                return this.deviceSettings.ConnectedDeviceType == DeviceType.ADIN1100;
             }
         }
 
@@ -1308,6 +1326,94 @@ namespace ADIN1100_Eval.ViewModel
                 {
                     return "Enable Linking";
                 }
+            }
+        }
+
+        private CalibrateCable calibrateCableValue = new CalibrateCable();
+        /// <summary>
+        /// Gets or sets the calibrate NVP value.
+        /// </summary>
+        public CalibrateCable CalibrateCableValue
+        {
+            get
+            {
+                return calibrateCableValue;
+            }
+
+            set
+            {
+                calibrateCableValue = value;
+                if (this.SelectedDevice != null)
+                {
+                    this.SelectedDevice.Cable = value;
+                }
+
+                this.RaisePropertyChanged(nameof(CalibrateCableValue));
+            }
+        }
+
+        /// <summary>
+        /// Fault state.
+        /// </summary>
+        private string faultState;
+        /// <summary>
+        /// Gets or sets the fault state.
+        /// </summary>
+        public string FaultState
+        {
+            get
+            {
+                return this.faultState;
+            }
+
+            set
+            {
+                this.faultState = value;
+                this.RaisePropertyChanged(nameof(FaultState));
+            }
+        }
+
+        /// <summary>
+        /// Distance to fault.
+        /// </summary>
+        private float distToFault;
+        /// <summary>
+        /// Gets or sets the istance to fault.
+        /// </summary>
+        public float DistToFault
+        {
+            get
+            {
+                return this.distToFault;
+            }
+
+            set
+            {
+                this.distToFault = value;
+                this.RaisePropertyChanged(nameof(DistToFault));
+            }
+        }
+
+        private CalibrateOffset calibrateOffsetValue = new CalibrateOffset();
+        /// <summary>
+        /// Gets or sets the calibrate offset value.
+        /// </summary>
+        public CalibrateOffset CalibrateOffsetValue
+        {
+            get
+            {
+                return calibrateOffsetValue;
+            }
+
+            set
+            {
+                calibrateOffsetValue = value;
+                if (this.SelectedDevice != null)
+                {
+                    this.SelectedDevice.Offset = value;
+                }
+
+                this.RaisePropertyChanged(nameof(CalibrateOffsetValue));
             }
         }
 
@@ -1986,7 +2092,8 @@ namespace ADIN1100_Eval.ViewModel
                 {
                     try
                     {
-                        this.selectedDevice.FwAPI.ExecuteFaultDetection();
+
+                        this.DistToFault = this.selectedDevice.FwAPI.ExecuteFaultDetection(this.calibrateOffsetValue, this.calibrateCableValue, CalibrationMode.AutoRange);
                     }
                     catch (Exception ex)
                     {
@@ -1996,8 +2103,14 @@ namespace ADIN1100_Eval.ViewModel
             }
         }
 
+        /// <summary>
+        /// Executes faule detection calibration.
+        /// </summary>
+        /// <param name="obj"></param>
         private void DoFaultDetectionCalibrate(object obj)
         {
+            string message;
+
             lock (this)
             {
                 if (this.selectedDevice != null)
@@ -2008,10 +2121,57 @@ namespace ADIN1100_Eval.ViewModel
                         switch (type)
                         {
                             case Calibrate.NVP:
-                                this.selectedDevice.FwAPI.FaultDetectionCalibration(Calibrate.NVP);
+                                message = "Please connect cable at MDI connector and enter the cable \nlength to perform offset calibration.";
+
+                                Views.CalibrateCableDialog cableDialog = new Views.CalibrateCableDialog();
+                                cableDialog.txtCableLength.Text = "0.0";
+                                cableDialog.Owner = Application.Current.MainWindow;
+                                cableDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                                cableDialog.ContentMessage = message;
+
+                                if (cableDialog.ShowDialog() == true)
+                                {
+                                    float cableLengthInput = 0.0f;
+                                    float.TryParse(cableDialog.txtCableLength.Text, out cableLengthInput);
+
+                                    calibrateCableValue.NVP = float.Parse(cableDialog.txtCableLength.Text);
+                                    float[] value = this.selectedDevice.FwAPI.FaultDetectionCalibration(Calibrate.NVP, cableLength: cableLengthInput, calibrationMode: CalibrationMode.AutoRange);
+                                    this.RaisePropertyChanged(nameof(this.CalibrateCableValue));
+
+                                    this.CalibrateCableValue = new CalibrateCable()
+                                    {
+                                        NVP = value[0],
+                                        Coeff0 = value[1],
+                                        Coeffi = value[2],
+                                    };
+                                }
+                                else
+                                {
+                                    this.VerboseInfo("Calibration NVP cancelled.");
+                                }
                                 break;
                             case Calibrate.Offset:
-                                this.selectedDevice.FwAPI.FaultDetectionCalibration(Calibrate.Offset);
+                                message = "Please disconnect cable from MDI connector and \nclick OK to perform offset calibration.";
+
+                                Views.CalibrateOffsetDialog offsetDialog = new Views.CalibrateOffsetDialog();
+                                offsetDialog.Owner = Application.Current.MainWindow;
+                                offsetDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                                offsetDialog.ContentMessage = message;
+
+                                if (offsetDialog.ShowDialog() == true)
+                                {
+                                    float[] value = this.selectedDevice.FwAPI.FaultDetectionCalibration(Calibrate.Offset, nvp: 0.0f);
+                                    this.RaisePropertyChanged(nameof(this.CalibrateOffsetValue));
+
+                                    this.CalibrateOffsetValue = new CalibrateOffset()
+                                    {
+                                        Offset = value[0]
+                                    };
+                                }
+                                else
+                                {
+                                    this.VerboseInfo("Calibration offset cancelled.");
+                                }
                                 break;
                             default:
                                 break;
@@ -2023,6 +2183,160 @@ namespace ADIN1100_Eval.ViewModel
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Executes saving of calibration data.
+        /// </summary>
+        /// <param name="obj"></param>
+        private void DoCalibrateSave(object obj)
+        {
+            lock (this)
+            {
+                if (this.selectedDevice != null)
+                {
+                    try
+                    {
+                        var type = (Calibrate)Enum.Parse(typeof(Calibrate), obj.ToString());
+                        SaveFileDialog saveFileDialog = new SaveFileDialog();
+                        StringBuilder content = new StringBuilder();
+
+                        switch (type)
+                        {
+                            case Calibrate.NVP:
+                                saveFileDialog.Filter = "Calibrate Cable file (*.ccf)|*.ccf";
+                                if (saveFileDialog.ShowDialog() == true)
+                                {
+                                    //this.viewModel.Error(new NotImplementedException().Message);
+                                    content.Append($"{this.CalibrateCableValue.NVP},");
+                                    content.Append($"{this.CalibrateCableValue.Coeff0},");
+                                    content.Append($"{this.CalibrateCableValue.Coeffi},");
+                                    this.WriteContent(saveFileDialog.FileName, content);
+                                }
+
+                                break;
+                            case Calibrate.Offset:
+                                saveFileDialog.Filter = "Calibrate Offset file (*.cof)|*.cof";
+                                if (saveFileDialog.ShowDialog() == true)
+                                {
+                                    //this.viewModel.Error(new NotImplementedException().Message);
+                                    content.Append($"{this.CalibrateOffsetValue.Offset},");
+                                    this.WriteContent(saveFileDialog.FileName, content);
+                                }
+
+                                break;
+                            default:
+                                this.Error(new NotSupportedException().Message);
+                                break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Error(ex.Message);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Save content data to file.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="content"></param>
+        private void WriteContent(string fileName, StringBuilder content)
+        {
+            try
+            {
+                using (StreamWriter wr = new StreamWriter(fileName))
+                {
+                    wr.Write(content);
+                }
+
+                this.Info($"{Path.GetFileName(fileName)} is successfully saved.");
+            }
+            catch (Exception ex)
+            {
+                this.Error(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Executes loading of calibration data.
+        /// </summary>
+        /// <param name="obj"></param>
+        private void DoCalibrateLoad(object obj)
+        {
+            lock (this)
+            {
+                if (this.selectedDevice != null)
+                {
+                    try
+                    {
+                        var type = (Calibrate)Enum.Parse(typeof(Calibrate), obj.ToString());
+                        OpenFileDialog openFileDialog = new OpenFileDialog();
+                        string[] values = null;
+
+                        switch (type)
+                        {
+                            case Calibrate.NVP:
+                                openFileDialog.Filter = "Calibrate Cable file (*.ccf)|*.ccf";
+                                if (openFileDialog.ShowDialog() == true)
+                                {
+                                    //this.viewModel.Error(new NotImplementedException().Message);
+                                    values = this.ReadContent(openFileDialog.FileName);
+                                    this.CalibrateCableValue = new CalibrateCable()
+                                    {
+                                        NVP = float.Parse(values[0]),
+                                        Coeff0 = float.Parse(values[1]),
+                                        Coeffi = float.Parse(values[2]),
+                                        FileName = Path.GetFileName(openFileDialog.FileName),
+                                    };
+                                }
+
+                                break;
+                            case Calibrate.Offset:
+                                openFileDialog.Filter = "Calibrate Offset file (*.cof)|*.cof";
+                                if (openFileDialog.ShowDialog() == true)
+                                {
+                                    //this.viewModel.Error(new NotImplementedException().Message);
+                                    values = this.ReadContent(openFileDialog.FileName);
+                                    this.CalibrateOffsetValue = new CalibrateOffset()
+                                    {
+                                        Offset = float.Parse(values[0]),
+                                        FileName = Path.GetFileName(openFileDialog.FileName),
+                                    };
+                                }
+
+                                break;
+                            default:
+                                this.Error(new NotSupportedException().Message);
+                                break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Error(ex.Message);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reads the content of a file.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        private string[] ReadContent(string fileName)
+        {
+            string[] values = null;
+
+            using (StreamReader sr = new StreamReader(fileName))
+            {
+                string content = sr.ReadToEnd();
+                values = content.Split(',');
+            }
+
+            return values;
         }
 
         /// <summary>

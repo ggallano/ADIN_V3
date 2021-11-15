@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CableDiagnostics\CalibrateCable.cs" />
+    <Compile Include="CableDiagnostics\CalibrateOffset.cs" />
     <Compile Include="FirmwareAPI.cs" />
     <Compile Include="FixedTargetSettings.cs" />
     <Compile Include="Parameters\FaultDetectionParameters.cs" />
