@@ -728,10 +728,15 @@ namespace ADIN1100_Eval.ViewModel
                             {
                                 float nvpResult = 0.0f;
                                 int cableOffsetResult = 0;
+                                int faultTypeResult = 0;
+                                float coeff0Result = 0.0f;
+                                float coeffiResult = 0.0f;
                                 CalibrationMode modeResult = 0;
 
-                                this.selectedDevice.FwAPI.ResetFaultDetection(out nvpResult, out cableOffsetResult, out modeResult);
+                                this.selectedDevice.FwAPI.ResetFaultDetection(out nvpResult, out cableOffsetResult,out faultTypeResult, out coeff0Result, out coeffiResult, out modeResult);
                                 this.CalibrateOffsetValue.Offset = cableOffsetResult;
+                                this.CalibrateCableValue.Coeff0 = coeff0Result;
+                                this.CalibrateCableValue.Coeffi = coeffiResult;
                                 this.CalibrateCableValue.NVP = nvpResult;
                             }
                             catch (Exception exc)
@@ -2442,10 +2447,15 @@ namespace ADIN1100_Eval.ViewModel
                     {
                         float nvpResult = 0.0f;
                         int cableOffsetResult = 0;
+                        int faultTypeResult = 0;
+                        float coeff0Result = 0.0f;
+                        float coeffiResult = 0.0f;
                         CalibrationMode modeResult = 0;
 
-                        this.selectedDevice.FwAPI.ResetFaultDetection(out nvpResult, out cableOffsetResult, out modeResult);
+                        this.selectedDevice.FwAPI.ResetFaultDetection(out nvpResult, out cableOffsetResult, out faultTypeResult, out coeff0Result, out coeffiResult, out modeResult);
                         this.CalibrateOffsetValue.Offset = cableOffsetResult;
+                        this.CalibrateCableValue.Coeff0 = coeff0Result;
+                        this.CalibrateCableValue.Coeffi = coeffiResult;
                         this.CalibrateCableValue.NVP = nvpResult;
 
                         this.RaisePropertyChanged(nameof(CalibrateOffsetValue));

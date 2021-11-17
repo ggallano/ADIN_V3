@@ -5012,14 +5012,14 @@ namespace TargetInterface
         /// <param name="nvp"></param>
         /// <param name="cableOffset"></param>
         /// <param name="mode"></param>
-        public void ResetFaultDetection(out float nvp, out int cableOffset, out CalibrationMode mode)
+        public void ResetFaultDetection(out float nvp, out int cableOffset, out int faultType, out float coeff0, out float coeffi, out CalibrationMode mode)
         {
             int modeResult;
 
             if (this.TenSPEDevice())
             {
 
-                this.deviceConnection.TdrInit(out nvp, out cableOffset, out modeResult);
+                this.deviceConnection.TdrInit(out nvp, out cableOffset, out faultType, out coeff0, out coeffi, out modeResult);
                 mode = (CalibrationMode)modeResult;
             }
             else
