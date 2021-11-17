@@ -24,6 +24,7 @@ namespace TargetInterface
     using System.Text.RegularExpressions;
     using System.Globalization;
     using Parameters;
+    using CableDiagnostics;
 
     /// <summary>
     /// Handles the communication between PC and the device firmware API
@@ -383,6 +384,16 @@ namespace TargetInterface
         {
             NVP,
             Offset,
+            Manual
+        }
+
+        /// <summary>
+        /// Calibration modes.
+        /// </summary>
+        public enum CalibrationMode
+        {
+            AutoRange,
+            Optimized
         }
 
         /// <summary>
@@ -4980,11 +4991,14 @@ namespace TargetInterface
         /// <summary>
         /// Executes the Fault Detection
         /// </summary>
-        public void ExecuteFaultDetection()
+        public float ExecuteFaultDetection(CalibrateOffset calibrateOffsetValue, CalibrateCable calibrateCableValue, CalibrationMode mode, out string faultType)
         {
             if (this.TenSPEDevice())
             {
-                throw new Exception("Fault Detection is not implemented.");
+                this.deviceConnection.TdrSetNvp(calibrateCableValue.NVP);
+                this.deviceConnection.TdrSetOffset(calibrateOffsetValue.Offset);
+                this.deviceConnection.TdrSetMode((int)mode);
+                return this.deviceConnection.TdrFaultDetect(out faultType);
             }
             else
             {
@@ -4993,13 +5007,20 @@ namespace TargetInterface
         }
 
         /// <summary>
-        /// Executes the reset values for Fault Detection
+        /// Executes the reset values for Fault Detection.
         /// </summary>
-        public void ResetFaultDetection()
+        /// <param name="nvp"></param>
+        /// <param name="cableOffset"></param>
+        /// <param name="mode"></param>
+        public void ResetFaultDetection(out float nvp, out int cableOffset, out CalibrationMode mode)
         {
+            int modeResult;
+
             if (this.TenSPEDevice())
             {
-                throw new Exception("Reset Fault Detection is not implemented.");
+
+                this.deviceConnection.TdrInit(out nvp, out cableOffset, out modeResult);
+                mode = (CalibrationMode)modeResult;
             }
             else
             {
@@ -5011,17 +5032,27 @@ namespace TargetInterface
         /// Executes the Calibration for Fault Detection
         /// </summary>
         /// <param name="calibriteType"></param>
-        public void FaultDetectionCalibration(Calibrate calibriteType)
+        /// <param name="cableLength"></param>
+        /// <param name="nvp"></param>
+        /// <param name="calibrationMode"></param>
+        /// <returns></returns>
+        public float[] FaultDetectionCalibration(Calibrate calibriteType, float cableLength = 0.0f, float nvp = 0.0f, CalibrationMode calibrationMode = CalibrationMode.AutoRange)
         {
+            float[] output = null;
+
             switch (calibriteType)
             {
                 case Calibrate.NVP:
-                    throw new Exception("NVP Calibration is not implemented.");
+                    output = this.deviceConnection.TdrCalibrateCable(cableLength);
+                    break;
                 case Calibrate.Offset:
-                    throw new Exception("Offset Calibration is not implemented.");
+                    output = this.deviceConnection.TdrCalibrateOffSet();
+                    break;
                 default:
                     break;
             }
+
+            return output;
         }
 
         ///// <summary>

@@ -47,7 +47,7 @@
                            Style="{StaticResource Label}" Width="Auto" 
                            Text="100.5" HorizontalAlignment="Left"/>-->
             </Grid>
-            <Grid Margin="0 -50">
+            <Grid Margin="0 -80">
                 <local:CableDiagnosticImageControl/>
             </Grid>
         </StackPanel>

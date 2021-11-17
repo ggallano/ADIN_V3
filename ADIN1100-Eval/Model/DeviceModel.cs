@@ -12,6 +12,7 @@ namespace ADIN1100_Eval.Model
     using DeviceCommunication;
     using TargetInterface;
     using Utilities.Feedback;
+    using TargetInterface.CableDiagnostics;
 
     /// <summary>
     /// Device Model
@@ -62,6 +63,16 @@ namespace ADIN1100_Eval.Model
         /// Gets or sets the FrameGenerator
         /// </summary>
         public FrameGeneratorChecker FrameGenerator { get; set; }
+
+        /// <summary>
+        /// Gets or sets cable.
+        /// </summary>
+        public CalibrateCable Cable { get; set; } = new CalibrateCable();
+
+        /// <summary>
+        /// Gets or sets offset.
+        /// </summary>
+        public CalibrateOffset Offset { get; set; } = new CalibrateOffset();
 
         /// <summary>
         /// gets or sets the Inloopback
