@@ -686,7 +686,7 @@ namespace DeviceCommunication
 
             Regex rgFaultTypeResult = new Regex(@"(?<=Found )(\w+)|(No open or short found!)");
             Match matchedFaultType = rgFaultTypeResult.Match(readData);
-            Regex rgDistanceResult = new Regex(@"(?<=at distance\s*)(\d\.\d*)");
+            Regex rgDistanceResult = new Regex(@"(?<=at distance\s*)(\d*\.\d*)");
             Match matchedDistance = rgDistanceResult.Match(readData);
 
             if (string.Equals("No open or short found!", matchedFaultType.ToString()))
