@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         xmlns:local="clr-namespace:ADIN1100_Eval.Views"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
@@ -24,7 +25,10 @@
             <TextBlock x:Name="TxtContentMessage" Text="Content Message" Margin="0 0 0 10"/>
             <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
                 <TextBlock Text="Cable Length: "/>
-                <TextBox x:Name="txtCableLength" Width="80"/>
+                <telerik:RadNumericUpDown x:Name="txtCableLength" 
+                                          Width="80"
+                                          Minimum="0"
+                                          Maximum="2000"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="OK" Width="80" Margin="0 0 10 0" Click="OkButton_Click"/>

@@ -2202,7 +2202,7 @@ namespace ADIN1100_Eval.ViewModel
                                 message = "Please connect cable at MDI connector and enter the cable \nlength to perform offset calibration.";
 
                                 Views.CalibrateCableDialog cableDialog = new Views.CalibrateCableDialog();
-                                cableDialog.txtCableLength.Text = "0.0";
+                                cableDialog.txtCableLength.Value = 0.0;
                                 cableDialog.Owner = Application.Current.MainWindow;
                                 cableDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                                 cableDialog.ContentMessage = message;
@@ -2210,9 +2210,9 @@ namespace ADIN1100_Eval.ViewModel
                                 if (cableDialog.ShowDialog() == true)
                                 {
                                     float cableLengthInput = 0.0f;
-                                    float.TryParse(cableDialog.txtCableLength.Text, out cableLengthInput);
+                                    cableLengthInput = Convert.ToSingle(cableDialog.txtCableLength.Value.Value);
 
-                                    calibrateCableValue.NVP = float.Parse(cableDialog.txtCableLength.Text);
+                                    calibrateCableValue.NVP = cableLengthInput;
                                     float[] value = this.selectedDevice.FwAPI.FaultDetectionCalibration(Calibrate.NVP, cableLength: cableLengthInput, calibrationMode: CalibrationMode.AutoRange);
                                     this.RaisePropertyChanged(nameof(this.CalibrateCableValue));
 
