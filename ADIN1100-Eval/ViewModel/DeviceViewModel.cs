@@ -100,7 +100,6 @@ namespace ADIN1100_Eval.ViewModel
             this.CalibrateSaveCommand = new BindingCommand(this.DoCalibrateSave);
             this.CalibrateLoadCommand = new BindingCommand(this.DoCalibrateLoad);
 
-            this.SetNVPCommand = new BindingCommand(this.DoSetNVP);
 
             this.deviceSettings.ClearPropertiesChangedList();
             this.deviceSettings.PropertyChanged += this.DeviceSettings_PropertyChanged;
@@ -155,11 +154,7 @@ namespace ADIN1100_Eval.ViewModel
             this.FaultState = "-";
         }
 
-        private void DoSetNVP(object obj)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         /// <summary>
         /// Gets or sets the function to be called when running a script
         /// </summary>
@@ -275,11 +270,7 @@ namespace ADIN1100_Eval.ViewModel
         /// </summary>
         public BindingCommand CalibrateLoadCommand { get; set; }
 
-        /// <summary>
-        /// Gets or sets the NVP value
-        /// </summary>
-        public BindingCommand SetNVPCommand { get; set; }
-
+        
         /// <summary>
         /// Gets or sets the value to write to the register in the manual register window
         /// </summary>
@@ -2300,9 +2291,9 @@ namespace ADIN1100_Eval.ViewModel
                                 if (saveFileDialog.ShowDialog() == true)
                                 {
                                     //this.viewModel.Error(new NotImplementedException().Message);
-                                    content.Append($"{result[0]},");
-                                    content.Append($"{result[1]},");
-                                    content.Append($"{result[2]},");
+                                    content.Append($"{result[0].ToString("f6")},");
+                                    content.Append($"{result[1].ToString("f6")},");
+                                    content.Append($"{result[2].ToString("f6")},");
                                     this.WriteContent(saveFileDialog.FileName, content);
                                 }
 
