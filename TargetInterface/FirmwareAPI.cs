@@ -5055,6 +5055,26 @@ namespace TargetInterface
             return output;
         }
 
+        public float[] GetCoeff()
+        {
+            return this.deviceConnection.TdrGetCoeff();
+        }
+
+        public int GetOffset()
+        {
+            return this.deviceConnection.TdrGetOffset();
+        }
+
+        public void SetNvp(float nvpValue)
+        {
+            this.deviceConnection.TdrSetNvp(nvpValue);
+        }
+
+        public void SetOffset(float offsetValue)
+        {
+            this.deviceConnection.TdrSetOffset(offsetValue);
+        }
+
         ///// <summary>
         ///// Gets capability for 2.4 V Linking and PMA Loopback
         ///// </summary>

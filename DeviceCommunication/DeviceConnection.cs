@@ -878,7 +878,7 @@ namespace DeviceCommunication
             for (int i = 0; i < readDataSplit.Length; i++)
             {
                 float parse = 0.0f;
-                if (float.TryParse(readData, System.Globalization.NumberStyles.Float, null, out parse))
+                if (float.TryParse(readDataSplit[i], System.Globalization.NumberStyles.Float, null, out parse))
                 {
                     result[i] = parse;
                 }

@@ -100,6 +100,8 @@ namespace ADIN1100_Eval.ViewModel
             this.CalibrateSaveCommand = new BindingCommand(this.DoCalibrateSave);
             this.CalibrateLoadCommand = new BindingCommand(this.DoCalibrateLoad);
 
+            this.SetNVPCommand = new BindingCommand(this.DoSetNVP);
+
             this.deviceSettings.ClearPropertiesChangedList();
             this.deviceSettings.PropertyChanged += this.DeviceSettings_PropertyChanged;
 
@@ -151,6 +153,11 @@ namespace ADIN1100_Eval.ViewModel
 
             // Calibration.
             this.FaultState = "-";
+        }
+
+        private void DoSetNVP(object obj)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -267,6 +274,11 @@ namespace ADIN1100_Eval.ViewModel
         /// Gets or sets the Calibrations to load.
         /// </summary>
         public BindingCommand CalibrateLoadCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the NVP value
+        /// </summary>
+        public BindingCommand SetNVPCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the value to write to the register in the manual register window
@@ -2283,22 +2295,26 @@ namespace ADIN1100_Eval.ViewModel
                         {
                             case Calibrate.NVP:
                                 saveFileDialog.Filter = "Calibrate Cable file (*.ccf)|*.ccf";
+                                var result = this.selectedDevice.FwAPI.GetCoeff();
+
                                 if (saveFileDialog.ShowDialog() == true)
                                 {
                                     //this.viewModel.Error(new NotImplementedException().Message);
-                                    content.Append($"{this.CalibrateCableValue.NVP},");
-                                    content.Append($"{this.CalibrateCableValue.Coeff0},");
-                                    content.Append($"{this.CalibrateCableValue.Coeffi},");
+                                    content.Append($"{result[0]},");
+                                    content.Append($"{result[1]},");
+                                    content.Append($"{result[2]},");
                                     this.WriteContent(saveFileDialog.FileName, content);
                                 }
 
                                 break;
                             case Calibrate.Offset:
                                 saveFileDialog.Filter = "Calibrate Offset file (*.cof)|*.cof";
+                                var offsetValue = this.selectedDevice.FwAPI.GetOffset();
+
                                 if (saveFileDialog.ShowDialog() == true)
                                 {
                                     //this.viewModel.Error(new NotImplementedException().Message);
-                                    content.Append($"{this.CalibrateOffsetValue.Offset},");
+                                    content.Append($"{offsetValue},");
                                     this.WriteContent(saveFileDialog.FileName, content);
                                 }
 
@@ -2369,6 +2385,8 @@ namespace ADIN1100_Eval.ViewModel
                                         Coeffi = float.Parse(values[2]),
                                         FileName = Path.GetFileName(openFileDialog.FileName),
                                     };
+
+                                    this.selectedDevice.FwAPI.SetNvp(this.CalibrateCableValue.NVP);
                                 }
 
                                 break;
@@ -2383,6 +2401,8 @@ namespace ADIN1100_Eval.ViewModel
                                         Offset = float.Parse(values[0]),
                                         FileName = Path.GetFileName(openFileDialog.FileName),
                                     };
+
+                                    this.selectedDevice.FwAPI.SetOffset(this.CalibrateOffsetValue.Offset);
                                 }
 
                                 break;
