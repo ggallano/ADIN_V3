@@ -383,8 +383,7 @@ namespace TargetInterface
         public enum Calibrate
         {
             NVP,
-            Offset,
-            Manual
+            Offset
         }
 
         /// <summary>
