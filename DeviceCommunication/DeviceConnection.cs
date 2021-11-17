@@ -709,7 +709,6 @@ namespace DeviceCommunication
                 throw new ApplicationException(matchedReadData.ToString());
             }
 
-            faultType = "No Fault";
             return detectionResult;
         }
 

@@ -1389,7 +1389,7 @@ namespace ADIN1100_Eval.ViewModel
                 if (value.ToLower().Contains("open") || value.ToLower().Contains("close"))
                 {
                     // Open/Close.
-                    this.FaultTypeColor = "#FF0505";
+                    this.FaultTypeColor = "#850000";
                     this.DistToFaultVisibility = Visibility.Visible;
                 }
                 else if (value.ToLower().Equals("-"))
@@ -2436,6 +2436,9 @@ namespace ADIN1100_Eval.ViewModel
                         this.selectedDevice.FwAPI.ResetFaultDetection(out nvpResult, out cableOffsetResult, out modeResult);
                         this.CalibrateOffsetValue.Offset = cableOffsetResult;
                         this.CalibrateCableValue.NVP = nvpResult;
+
+                        this.RaisePropertyChanged(nameof(CalibrateOffsetValue));
+                        this.RaisePropertyChanged(nameof(CalibrateCableValue));
                     }
                     catch (Exception ex)
                     {

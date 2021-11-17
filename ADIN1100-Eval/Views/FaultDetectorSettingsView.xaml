@@ -126,16 +126,9 @@
                         <Border x:Name="border" Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" CornerRadius="3">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="18"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0">
-                                    <Path Stretch="Fill" Fill="{TemplateBinding Foreground}">
-                                        <Path.Data>
-                                            <PathGeometry Figures="M32.667,136.16667 L32.667,254.83366 238.66733,254.83366 238.66733,136.16667 z M152.16734,22.167 L180.16734,22.167 180.16734,92.166992 152.16734,92.166992 z M50.167008,14.5 L50.167008,102.167 204.16737,102.167 204.16737,14.5 z M0.5,0.5 L212.91499,0.5 268.83334,56.512142 268.83334,268.83365 0.5,268.83365 z" FillRule="NonZero"/>
-                                        </Path.Data>
-                                    </Path>
-                                </Grid>
+
                                 <TextBlock Grid.Column="1" Text="Reset to Default" HorizontalAlignment="Center"/>
                             </Grid>
                         </Border>
