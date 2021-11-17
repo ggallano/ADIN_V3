@@ -26,6 +26,8 @@ namespace ADIN1100_Eval.ViewModel
     using TargetInterface.CableDiagnostics;
     using Microsoft.Win32;
     using System.Text;
+    using System.Text.RegularExpressions;
+    using Utilities;
 
     /// <summary>
     /// Device View Model
