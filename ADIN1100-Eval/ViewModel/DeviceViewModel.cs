@@ -150,7 +150,7 @@ namespace ADIN1100_Eval.ViewModel
             this.LoopbackItems = this.loopbackItemsADIN1100;
 
             // Calibration.
-            this.FaultState = "Open\\Short";
+            this.FaultState = "-";
         }
 
         /// <summary>
@@ -720,6 +720,21 @@ namespace ADIN1100_Eval.ViewModel
                         {
                             this.selectedDevice.FwAPI.Open();
                             this.selectedDevice.FwAPI.DeviceSettings.FlagAllPropertiesChanged();
+
+                            try
+                            {
+                                float nvpResult = 0.0f;
+                                int cableOffsetResult = 0;
+                                CalibrationMode modeResult = 0;
+
+                                this.selectedDevice.FwAPI.ResetFaultDetection(out nvpResult, out cableOffsetResult, out modeResult);
+                                this.CalibrateOffsetValue.Offset = cableOffsetResult;
+                                this.CalibrateCableValue.NVP = nvpResult;
+                            }
+                            catch (Exception exc)
+                            {
+                                this.Error(exc.Message);
+                            }
                         }
                         catch (FTDIException exc)
                         {
@@ -1370,6 +1385,67 @@ namespace ADIN1100_Eval.ViewModel
             {
                 this.faultState = value;
                 this.RaisePropertyChanged(nameof(FaultState));
+
+                if (value.ToLower().Contains("open") || value.ToLower().Contains("close"))
+                {
+                    // Open/Close.
+                    this.FaultTypeColor = "#FF0505";
+                    this.DistToFaultVisibility = Visibility.Visible;
+                }
+                else if (value.ToLower().Equals("-"))
+                {
+                    // No data yet.
+                    this.FaultTypeColor = "#e0e0e0";
+                    this.DistToFaultVisibility = Visibility.Hidden;
+                }
+                else
+                {
+                    // No fault.
+                    this.FaultTypeColor = "#228B22";
+                    this.DistToFaultVisibility = Visibility.Hidden;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fault type indicator color.
+        /// </summary>
+        private string faultTypeColor;
+        /// <summary>
+        /// Gets or sets the color of the fault type indicator.
+        /// </summary>
+        public string FaultTypeColor
+        {
+            get
+            {
+                return this.faultTypeColor;
+            }
+
+            set
+            {
+                this.faultTypeColor = value;
+                this.RaisePropertyChanged(nameof(FaultTypeColor));
+            }
+        }
+
+        /// <summary>
+        /// Distance to fault indicator cisibility.
+        /// </summary>
+        private Visibility distToFaultVisibility;
+        /// <summary>
+        /// Gets or sets the distance to fault visibility.
+        /// </summary>
+        public Visibility DistToFaultVisibility
+        {
+            get
+            {
+                return this.distToFaultVisibility;
+            }
+
+            set
+            {
+                this.distToFaultVisibility = value;
+                this.RaisePropertyChanged(nameof(DistToFaultVisibility));
             }
         }
 
@@ -1378,7 +1454,7 @@ namespace ADIN1100_Eval.ViewModel
         /// </summary>
         private float distToFault;
         /// <summary>
-        /// Gets or sets the istance to fault.
+        /// Gets or sets the distance to fault.
         /// </summary>
         public float DistToFault
         {
@@ -2353,7 +2429,13 @@ namespace ADIN1100_Eval.ViewModel
                 {
                     try
                     {
-                        this.selectedDevice.FwAPI.ResetFaultDetection();
+                        float nvpResult = 0.0f;
+                        int cableOffsetResult = 0;
+                        CalibrationMode modeResult = 0;
+
+                        this.selectedDevice.FwAPI.ResetFaultDetection(out nvpResult, out cableOffsetResult, out modeResult);
+                        this.CalibrateOffsetValue.Offset = cableOffsetResult;
+                        this.CalibrateCableValue.NVP = nvpResult;
                     }
                     catch (Exception ex)
                     {

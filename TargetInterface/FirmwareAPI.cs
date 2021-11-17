@@ -5007,13 +5007,20 @@ namespace TargetInterface
         }
 
         /// <summary>
-        /// Executes the reset values for Fault Detection
+        /// Executes the reset values for Fault Detection.
         /// </summary>
-        public void ResetFaultDetection()
+        /// <param name="nvp"></param>
+        /// <param name="cableOffset"></param>
+        /// <param name="mode"></param>
+        public void ResetFaultDetection(out float nvp, out int cableOffset, out CalibrationMode mode)
         {
+            int modeResult;
+
             if (this.TenSPEDevice())
             {
-                this.deviceConnection.TdrInit();
+
+                this.deviceConnection.TdrInit(out nvp, out cableOffset, out modeResult);
+                mode = (CalibrationMode)modeResult;
             }
             else
             {

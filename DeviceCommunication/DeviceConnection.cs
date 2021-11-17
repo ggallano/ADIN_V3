@@ -443,13 +443,19 @@ namespace DeviceCommunication
         /// <summary>
         /// Initializes the fault structure needed to pass and read arguments to the TDR functions.
         /// </summary>
-        public void TdrInit()
+        /// <param name="nvp"></param>
+        /// <param name="cableOffset"></param>
+        /// <param name="mode"></param>
+        public void TdrInit(out float nvp, out int cableOffset, out int mode)
         {
             string readData;
             float nvpResult = 0.0f;
             int cableOffsetResult = 0;
             int faultTypeResult = 0;
             int modeResult = 0;
+            nvp = 0;
+            cableOffset = 0;
+            mode = 0;
 
             this.Purge();
             // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
@@ -478,6 +484,28 @@ namespace DeviceCommunication
             {
                 throw new ApplicationException("invalid response");
             }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
+            }
+
+            if (float.TryParse(matchedNVP.ToString(), System.Globalization.NumberStyles.Float, null, out nvpResult))
+            {
+                nvp = nvpResult;
+            }
+            if (int.TryParse(matchedCableOffset.ToString(), System.Globalization.NumberStyles.Integer, null, out cableOffsetResult))
+            {
+                cableOffset = cableOffsetResult;
+            }
+            if (int.TryParse(matchedFaultType.ToString(), System.Globalization.NumberStyles.Integer, null, out faultTypeResult))
+            {
+                cableOffset = cableOffsetResult;
+            }
+            if (int.TryParse(matchedMode.ToString(), System.Globalization.NumberStyles.Integer, null, out modeResult))
+            {
+                mode = modeResult;
+            }
         }
 
         /// <summary>
@@ -500,13 +528,18 @@ namespace DeviceCommunication
             Regex rg = new Regex("(?<=ERROR: ).*");
             Match matchedReadData = rg.Match(readData);
 
-            Regex rgCableOffsetResult = new Regex(@"((?<=CableOffset=)((\d*)|1\.0|1))");
+            Regex rgCableOffsetResult = new Regex(@"((?<=(CableOffset=))((\d*)|1\.0|1))");
             Match matchedResult = rgCableOffsetResult.Match(readData);
 
             if (!int.TryParse(matchedResult.ToString(), System.Globalization.NumberStyles.Integer, null, out parsedresult) &&
                 string.IsNullOrWhiteSpace(matchedReadData.ToString()))
             {
                 throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
             }
 
             return parsedresult;
@@ -542,6 +575,11 @@ namespace DeviceCommunication
                 !int.TryParse(matchedMode.ToString(), System.Globalization.NumberStyles.Integer, null, out modeResult))
             {
                 throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
             }
         }
 
@@ -587,6 +625,11 @@ namespace DeviceCommunication
             {
                 throw new ApplicationException("invalid response");
             }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
+            }
         }
 
         /// <summary>
@@ -614,6 +657,11 @@ namespace DeviceCommunication
                 string.IsNullOrWhiteSpace(matchedReadData.ToString()))
             {
                 throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
             }
         }
 
@@ -654,6 +702,11 @@ namespace DeviceCommunication
                 !readData.Contains(matchedReadData.ToString()))
             {
                 throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
             }
 
             return detectionResult;

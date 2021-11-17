@@ -57,7 +57,8 @@
                             </TextBlock.RenderTransform>
                         </TextBlock>
                     </Grid>
-                    <Line Margin="-49,170,0,129" X1="10" X2="100" StrokeThickness="1" Stroke="Black" StrokeDashArray="2,2" RenderTransformOrigin="0.5,0.5" Width="58">
+                    <Line Margin="-49,170,0,129" X1="10" X2="100" StrokeThickness="1" Stroke="Black" StrokeDashArray="2,2" RenderTransformOrigin="0.5,0.5" Width="58"
+                          Visibility="{Binding DistToFaultVisibility}">
                         <Line.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -89,16 +90,22 @@
                         <Rectangle Height="30" Width="150" Fill="Black" HorizontalAlignment="Left"/>
                     </Grid>
                 </StackPanel>
-                <TextBlock Margin="20 190 0 0" >Distance to fault = </TextBlock>
+                <TextBlock Margin="20 190 0 0" 
+                           Visibility="{Binding DistToFaultVisibility}">
+                    Distance to fault = 
+                </TextBlock>
                 <TextBlock Margin="120 190 0 0"
-                           Text="{Binding DistToFault}"/>
-                <Line Stretch="Fill" Stroke="Black" X2="1" Margin="0 120 0 0" Height="5" Width="Auto"/>
+                           Text="{Binding DistToFault}"
+                           Visibility="{Binding DistToFaultVisibility}"/>
+                <Line Stretch="Fill" Stroke="Black" X2="1" Margin="0 120 0 0" Height="5" Width="Auto"
+                      Visibility="{Binding DistToFaultVisibility}"/>
             </Grid>
 
             <!--Col 3-->
             <Grid Grid.Row="0" Grid.Column="3">
                 <StackPanel Orientation="Horizontal">
-                    <Line Margin="-50,170,0,129" X1="10" X2="100" StrokeThickness="1" Stroke="Black" StrokeDashArray="2,2" RenderTransformOrigin="0.5,0.5" Width="58">
+                    <Line Margin="-50,170,0,129" X1="10" X2="100" StrokeThickness="1" Stroke="Black" StrokeDashArray="2,2" RenderTransformOrigin="0.5,0.5" Width="58"
+                          Visibility="{Binding DistToFaultVisibility}">
                         <Line.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -109,7 +116,7 @@
                         </Line.RenderTransform>
                     </Line>
                     <Grid Margin="-32">
-                        <Border Height="100" Width="30" Background="#FF0505" CornerRadius="5"/>
+                        <Border Height="100" Width="30" Background="{Binding FaultTypeColor}" CornerRadius="5"/>
                         <TextBlock Text="{Binding FaultState}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFD8D8D8" FontSize="15" RenderTransformOrigin="0.5,0.5">
                             <TextBlock.RenderTransform>
                                 <TransformGroup>
