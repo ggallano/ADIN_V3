@@ -180,8 +180,9 @@
 
                         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical">
                             <TextBlock Text="Offset:"/>
-                            <!--<TextBlock Text="{Binding CalibrateOffsetValue.Offset}"/>-->
-                            <TextBox Text="{Binding CalibrateOffsetValue.Offset}"/>
+                            <telerik:RadNumericUpDown Width="80"
+                                                      Minimum="0"
+                                                      Value="{Binding CalibrateOffsetValue.Offset}"/>
                         </StackPanel>
                         <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load" Style="{StaticResource LoadButtonStyle}" Command="{Binding CalibrateLoadCommand}" CommandParameter="Offset"/>
                     </Grid>
@@ -207,8 +208,11 @@
 
                         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical">
                             <TextBlock Text="NVP:"/>
-                            <!--<TextBlock Text="{Binding CalibrateCableValue.NVP}"/>-->
-                            <TextBox Text="{Binding CalibrateCableValue.NVP}"/>
+                            <telerik:RadNumericUpDown Width="80"
+                                                      Minimum="0.0"
+                                                      Maximum="1.0"
+                                                      SmallChange="0.01"
+                                                      Value="{Binding Binding CalibrateCableValue.NVP}"/>
                         </StackPanel>
                         <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load" Style="{StaticResource LoadButtonStyle}" Command="{Binding CalibrateLoadCommand}" CommandParameter="NVP"/>
                     </Grid>
