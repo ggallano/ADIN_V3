@@ -2086,14 +2086,16 @@ namespace ADIN1100_Eval.ViewModel
         /// <param name="obj"></param>
         private void DoFaultDetection(object obj)
         {
+            string faultType = string.Empty;
+
             lock (this)
             {
                 if (this.selectedDevice != null)
                 {
                     try
                     {
-
-                        this.DistToFault = this.selectedDevice.FwAPI.ExecuteFaultDetection(this.calibrateOffsetValue, this.calibrateCableValue, CalibrationMode.AutoRange);
+                        this.DistToFault = this.selectedDevice.FwAPI.ExecuteFaultDetection(this.calibrateOffsetValue, this.calibrateCableValue, CalibrationMode.AutoRange, out faultType);
+                        this.FaultState = faultType;
                     }
                     catch (Exception ex)
                     {

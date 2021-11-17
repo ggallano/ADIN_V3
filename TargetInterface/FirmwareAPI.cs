@@ -4991,11 +4991,14 @@ namespace TargetInterface
         /// <summary>
         /// Executes the Fault Detection
         /// </summary>
-        public float ExecuteFaultDetection(CalibrateOffset calibrateOffsetValue, CalibrateCable calibrateCableValue, CalibrationMode mode)
+        public float ExecuteFaultDetection(CalibrateOffset calibrateOffsetValue, CalibrateCable calibrateCableValue, CalibrationMode mode, out string faultType)
         {
             if (this.TenSPEDevice())
             {
-                return this.deviceConnection.RunFaultDetector(calibrateCableValue.NVP, calibrateOffsetValue.Offset, (int)mode);
+                this.deviceConnection.TdrSetNvp(calibrateCableValue.NVP);
+                this.deviceConnection.TdrSetOffset(calibrateOffsetValue.Offset);
+                this.deviceConnection.TdrSetMode((int)mode);
+                return this.deviceConnection.TdrFaultDetect(out faultType);
             }
             else
             {
@@ -5010,7 +5013,7 @@ namespace TargetInterface
         {
             if (this.TenSPEDevice())
             {
-                throw new Exception("Reset Fault Detection is not implemented.");
+                this.deviceConnection.TdrInit();
             }
             else
             {
@@ -5033,10 +5036,10 @@ namespace TargetInterface
             switch (calibriteType)
             {
                 case Calibrate.NVP:
-                    output = this.deviceConnection.CalibrateCable(cableLength, (int)calibrationMode);
+                    output = this.deviceConnection.TdrCalibrateCable(cableLength);
                     break;
                 case Calibrate.Offset:
-                    output = this.deviceConnection.CalibrateOffset(nvp, (int)calibrationMode);
+                    output = this.deviceConnection.TdrCalibrateOffSet();
                     break;
                 default:
                     break;
