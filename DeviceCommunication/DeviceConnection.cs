@@ -709,6 +709,7 @@ namespace DeviceCommunication
                 throw new ApplicationException(matchedReadData.ToString());
             }
 
+            faultType = "No Fault";
             return detectionResult;
         }
 
@@ -738,6 +739,11 @@ namespace DeviceCommunication
                 !readData.Contains(matchedReadData.ToString()))
             {
                 throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
             }
 
             return calibrationResult;
@@ -772,6 +778,11 @@ namespace DeviceCommunication
             {
                 throw new ApplicationException("invalid response");
             }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
+            }
 
             return calibrationResult;
         }
@@ -800,6 +811,11 @@ namespace DeviceCommunication
             {
                 throw new ApplicationException("invalid response");
             }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
+            }
 
             return result;
         }
@@ -827,6 +843,11 @@ namespace DeviceCommunication
                 && !readData.Contains(matchedReadData.ToString()))
             {
                 throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
             }
 
             return result;
@@ -872,6 +893,11 @@ namespace DeviceCommunication
                 !resultValid)
             {
                 throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
             }
 
             return result;
@@ -929,6 +955,11 @@ namespace DeviceCommunication
                 && !readData.Contains(matchedReadData.ToString()))
             {
                 throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
             }
 
             return regContent;
