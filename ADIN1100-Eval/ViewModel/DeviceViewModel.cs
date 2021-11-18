@@ -2223,8 +2223,10 @@ namespace ADIN1100_Eval.ViewModel
                 {
                     try
                     {
+                        this.Info($"Executing fault detection.");
                         this.DistToFault = this.selectedDevice.FwAPI.ExecuteFaultDetection(this.calibrateOffsetValue, this.calibrateCableValue, CalibrationMode.AutoRange, out faultType);
                         this.FaultState = faultType;
+                        this.Info($"Fault detection finished.");
                     }
                     catch (Exception ex)
                     {
@@ -2250,10 +2252,14 @@ namespace ADIN1100_Eval.ViewModel
                         switch (type)
                         {
                             case Calibrate.NVP:
+                                this.Info($"Executing cable manual calibration.");
                                 this.selectedDevice.FwAPI.SetNvp(this.CalibrateCableValue.NVP);
+                                this.Info($"Cable manual calibration finished.");
                                 break;
                             case Calibrate.Offset:
+                                this.Info($"Executing manual offset calibration.");
                                 this.selectedDevice.FwAPI.SetOffset(this.CalibrateOffsetValue.Offset);
+                                this.Info($"Offset manual calibration finished.");
                                 break;
                             default:
                                 break;
@@ -2285,6 +2291,7 @@ namespace ADIN1100_Eval.ViewModel
                         switch (type)
                         {
                             case Calibrate.NVP:
+                                this.Info($"Executing cable fault detection calibration.");
                                 message = "Please connect cable at MDI connector and enter the cable \nlength to perform cable calibration.";
 
                                 Views.CalibrateCableDialog cableDialog = new Views.CalibrateCableDialog();
@@ -2310,6 +2317,7 @@ namespace ADIN1100_Eval.ViewModel
                                     };
 
                                     this.SetCalibrationSuccessIndicator(true, type);
+                                    this.Info($"Cable fault detection calibration finished.");
                                 }
                                 else
                                 {
@@ -2317,6 +2325,7 @@ namespace ADIN1100_Eval.ViewModel
                                 }
                                 break;
                             case Calibrate.Offset:
+                                this.Info($"Executing offset fault detection calibration.");
                                 message = "Please disconnect cable from MDI connector and \nclick OK to perform offset calibration.";
 
                                 Views.CalibrateOffsetDialog offsetDialog = new Views.CalibrateOffsetDialog();
@@ -2335,6 +2344,7 @@ namespace ADIN1100_Eval.ViewModel
                                     };
 
                                     this.SetCalibrationSuccessIndicator(true, type);
+                                    this.Info($"Offset fault detection calibration finished.");
                                 }
                                 else
                                 {
@@ -2527,6 +2537,7 @@ namespace ADIN1100_Eval.ViewModel
                 {
                     try
                     {
+                        this.Info($"Executing fault detection reset.");
                         float nvpResult = 0.0f;
                         int cableOffsetResult = 0;
                         int faultTypeResult = 0;
@@ -2545,6 +2556,7 @@ namespace ADIN1100_Eval.ViewModel
 
                         this.RaisePropertyChanged(nameof(CalibrateOffsetValue));
                         this.RaisePropertyChanged(nameof(CalibrateCableValue));
+                        this.Info($"Fault detection reset finished.");
                     }
                     catch (Exception ex)
                     {
