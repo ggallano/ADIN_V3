@@ -97,9 +97,9 @@ namespace ADIN1100_Eval.ViewModel
             this.RunFaultDetectionCommand = new BindingCommand(this.DoFaultDetection);
             this.ResetFaultDetectorCommand = new BindingCommand(this.DoResetFaultDetection);
             this.FaultDetectionCalibrateCommand = new BindingCommand(this.DoFaultDetectionCalibrate);
-            this.FaultDetectionManualCalibrateCommand = new BindingCommand(this.DoFaultDetectionManualCalibrate);
             this.CalibrateSaveCommand = new BindingCommand(this.DoCalibrateSave);
             this.CalibrateLoadCommand = new BindingCommand(this.DoCalibrateLoad);
+
 
             this.deviceSettings.ClearPropertiesChangedList();
             this.deviceSettings.PropertyChanged += this.DeviceSettings_PropertyChanged;
@@ -154,6 +154,7 @@ namespace ADIN1100_Eval.ViewModel
             this.FaultState = "-";
         }
 
+        
         /// <summary>
         /// Gets or sets the function to be called when running a script
         /// </summary>
@@ -255,14 +256,9 @@ namespace ADIN1100_Eval.ViewModel
         public BindingCommand ResetFaultDetectorCommand { get; set; }
 
         /// <summary>
-        /// Gets or sets the Calibrations.
+        /// Gets or sets the Calibrations
         /// </summary>
         public BindingCommand FaultDetectionCalibrateCommand { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Manual Calibration.
-        /// </summary>
-        public BindingCommand FaultDetectionManualCalibrateCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the Calibrations to save.
@@ -274,6 +270,7 @@ namespace ADIN1100_Eval.ViewModel
         /// </summary>
         public BindingCommand CalibrateLoadCommand { get; set; }
 
+        
         /// <summary>
         /// Gets or sets the value to write to the register in the manual register window
         /// </summary>
@@ -731,10 +728,15 @@ namespace ADIN1100_Eval.ViewModel
                             {
                                 float nvpResult = 0.0f;
                                 int cableOffsetResult = 0;
+                                int faultTypeResult = 0;
+                                float coeff0Result = 0.0f;
+                                float coeffiResult = 0.0f;
                                 CalibrationMode modeResult = 0;
 
-                                this.selectedDevice.FwAPI.ResetFaultDetection(out nvpResult, out cableOffsetResult, out modeResult);
+                                this.selectedDevice.FwAPI.ResetFaultDetection(out nvpResult, out cableOffsetResult,out faultTypeResult, out coeff0Result, out coeffiResult, out modeResult);
                                 this.CalibrateOffsetValue.Offset = cableOffsetResult;
+                                this.CalibrateCableValue.Coeff0 = coeff0Result;
+                                this.CalibrateCableValue.Coeffi = coeffiResult;
                                 this.CalibrateCableValue.NVP = nvpResult;
                             }
                             catch (Exception exc)
@@ -1452,48 +1454,6 @@ namespace ADIN1100_Eval.ViewModel
             {
                 this.distToFaultVisibility = value;
                 this.RaisePropertyChanged(nameof(DistToFaultVisibility));
-            }
-        }
-
-        /// <summary>
-        /// Calibrate offset button collor.
-        /// </summary>
-        private Brush calibrateOffsetButtonColor;
-        /// <summary>
-        /// Gets or sets the calibrate offset button collor.
-        /// </summary>
-        public Brush CalibrateOffsetButtonColor
-        {
-            get
-            {
-                return this.calibrateOffsetButtonColor;
-            }
-
-            set
-            {
-                this.calibrateOffsetButtonColor = value;
-                this.RaisePropertyChanged(nameof(CalibrateOffsetButtonColor));
-            }
-        }
-
-        /// <summary>
-        /// Calibrate Cable button collor.
-        /// </summary>
-        private Brush calibrateCableButtonColor;
-        /// <summary>
-        /// Gets or sets the calibrate Cable button collor.
-        /// </summary>
-        public Brush CalibrateCableButtonColor
-        {
-            get
-            {
-                return this.calibrateCableButtonColor;
-            }
-
-            set
-            {
-                this.calibrateCableButtonColor = value;
-                this.RaisePropertyChanged(nameof(CalibrateCableButtonColor));
             }
         }
 
@@ -2230,42 +2190,7 @@ namespace ADIN1100_Eval.ViewModel
         }
 
         /// <summary>
-        /// Executes manual calibration.
-        /// </summary>
-        /// <param name="obj"></param>
-        private void DoFaultDetectionManualCalibrate(object obj)
-        {
-            string message;
-
-            lock (this)
-            {
-                if (this.selectedDevice != null)
-                {
-                    try
-                    {
-                        var type = (Calibrate)Enum.Parse(typeof(Calibrate), obj.ToString());
-                        switch (type)
-                        {
-                            case Calibrate.NVP:
-
-                                break;
-                            case Calibrate.Offset:
-                                
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        this.Error(ex.Message);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Executes fault detection calibration.
+        /// Executes faule detection calibration.
         /// </summary>
         /// <param name="obj"></param>
         private void DoFaultDetectionCalibrate(object obj)
@@ -2282,10 +2207,10 @@ namespace ADIN1100_Eval.ViewModel
                         switch (type)
                         {
                             case Calibrate.NVP:
-                                message = "Please connect cable at MDI connector and enter the cable \nlength to perform offset calibration.";
+                                message = "Please connect cable at MDI connector and enter the cable \nlength to perform cable calibration.";
 
                                 Views.CalibrateCableDialog cableDialog = new Views.CalibrateCableDialog();
-                                cableDialog.txtCableLength.Value = 0.0;
+                                cableDialog.txtCableLength.Text = "100.0";
                                 cableDialog.Owner = Application.Current.MainWindow;
                                 cableDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                                 cableDialog.ContentMessage = message;
@@ -2293,9 +2218,9 @@ namespace ADIN1100_Eval.ViewModel
                                 if (cableDialog.ShowDialog() == true)
                                 {
                                     float cableLengthInput = 0.0f;
-                                    cableLengthInput = Convert.ToSingle(cableDialog.txtCableLength.Value.Value);
+                                    float.TryParse(cableDialog.txtCableLength.Text, out cableLengthInput);
 
-                                    calibrateCableValue.NVP = cableLengthInput;
+                                    calibrateCableValue.NVP = float.Parse(cableDialog.txtCableLength.Text);
                                     float[] value = this.selectedDevice.FwAPI.FaultDetectionCalibration(Calibrate.NVP, cableLength: cableLengthInput, calibrationMode: CalibrationMode.AutoRange);
                                     this.RaisePropertyChanged(nameof(this.CalibrateCableValue));
 
@@ -2305,8 +2230,6 @@ namespace ADIN1100_Eval.ViewModel
                                         Coeff0 = value[1],
                                         Coeffi = value[2],
                                     };
-
-                                    this.SetCalibrationSuccessIndicator(true, type);
                                 }
                                 else
                                 {
@@ -2330,8 +2253,6 @@ namespace ADIN1100_Eval.ViewModel
                                     {
                                         Offset = value[0]
                                     };
-
-                                    this.SetCalibrationSuccessIndicator(true, type);
                                 }
                                 else
                                 {
@@ -2370,22 +2291,26 @@ namespace ADIN1100_Eval.ViewModel
                         {
                             case Calibrate.NVP:
                                 saveFileDialog.Filter = "Calibrate Cable file (*.ccf)|*.ccf";
+                                var result = this.selectedDevice.FwAPI.GetCoeff();
+
                                 if (saveFileDialog.ShowDialog() == true)
                                 {
                                     //this.viewModel.Error(new NotImplementedException().Message);
-                                    content.Append($"{this.CalibrateCableValue.NVP},");
-                                    content.Append($"{this.CalibrateCableValue.Coeff0},");
-                                    content.Append($"{this.CalibrateCableValue.Coeffi},");
+                                    content.Append($"{result[0].ToString("f6")},");
+                                    content.Append($"{result[1].ToString("f6")},");
+                                    content.Append($"{result[2].ToString("f6")},");
                                     this.WriteContent(saveFileDialog.FileName, content);
                                 }
 
                                 break;
                             case Calibrate.Offset:
                                 saveFileDialog.Filter = "Calibrate Offset file (*.cof)|*.cof";
+                                var offsetValue = this.selectedDevice.FwAPI.GetOffset();
+
                                 if (saveFileDialog.ShowDialog() == true)
                                 {
                                     //this.viewModel.Error(new NotImplementedException().Message);
-                                    content.Append($"{this.CalibrateOffsetValue.Offset},");
+                                    content.Append($"{offsetValue},");
                                     this.WriteContent(saveFileDialog.FileName, content);
                                 }
 
@@ -2456,6 +2381,8 @@ namespace ADIN1100_Eval.ViewModel
                                         Coeffi = float.Parse(values[2]),
                                         FileName = Path.GetFileName(openFileDialog.FileName),
                                     };
+
+                                    this.selectedDevice.FwAPI.SetNvp(this.CalibrateCableValue.NVP);
                                 }
 
                                 break;
@@ -2470,6 +2397,8 @@ namespace ADIN1100_Eval.ViewModel
                                         Offset = float.Parse(values[0]),
                                         FileName = Path.GetFileName(openFileDialog.FileName),
                                     };
+
+                                    this.selectedDevice.FwAPI.SetOffset(this.CalibrateOffsetValue.Offset);
                                 }
 
                                 break;
@@ -2518,14 +2447,16 @@ namespace ADIN1100_Eval.ViewModel
                     {
                         float nvpResult = 0.0f;
                         int cableOffsetResult = 0;
+                        int faultTypeResult = 0;
+                        float coeff0Result = 0.0f;
+                        float coeffiResult = 0.0f;
                         CalibrationMode modeResult = 0;
 
-                        this.selectedDevice.FwAPI.ResetFaultDetection(out nvpResult, out cableOffsetResult, out modeResult);
+                        this.selectedDevice.FwAPI.ResetFaultDetection(out nvpResult, out cableOffsetResult, out faultTypeResult, out coeff0Result, out coeffiResult, out modeResult);
                         this.CalibrateOffsetValue.Offset = cableOffsetResult;
+                        this.CalibrateCableValue.Coeff0 = coeff0Result;
+                        this.CalibrateCableValue.Coeffi = coeffiResult;
                         this.CalibrateCableValue.NVP = nvpResult;
-
-                        this.SetCalibrationSuccessIndicator(false, Calibrate.NVP);
-                        this.SetCalibrationSuccessIndicator(false, Calibrate.Offset);
 
                         this.RaisePropertyChanged(nameof(CalibrateOffsetValue));
                         this.RaisePropertyChanged(nameof(CalibrateCableValue));
@@ -3420,24 +3351,6 @@ namespace ADIN1100_Eval.ViewModel
                         this.Error(exc.Message);
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// Set Calibration success indicator.
-        /// </summary>
-        /// <param name="successful"></param>
-        /// <param name="calibrate"></param>
-        private void SetCalibrationSuccessIndicator(bool successful, Calibrate calibrate)
-        {
-            switch (calibrate)
-            {
-                case Calibrate.NVP:
-                    this.CalibrateCableButtonColor = successful ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Transparent);
-                    break;
-                case Calibrate.Offset:
-                    this.CalibrateOffsetButtonColor = successful ? new SolidColorBrush(Colors.Green) : new SolidColorBrush(Colors.Transparent);
-                    break;
             }
         }
 

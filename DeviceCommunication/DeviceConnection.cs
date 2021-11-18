@@ -446,15 +446,20 @@ namespace DeviceCommunication
         /// <param name="nvp"></param>
         /// <param name="cableOffset"></param>
         /// <param name="mode"></param>
-        public void TdrInit(out float nvp, out int cableOffset, out int mode)
+        public void TdrInit(out float nvp, out int cableOffset, out int faultType, out float coeff0, out float coeffi, out int mode)
         {
             string readData;
             float nvpResult = 0.0f;
             int cableOffsetResult = 0;
             int faultTypeResult = 0;
+            float coeff0Result = 0;
+            float coeffiResult = 0;
             int modeResult = 0;
             nvp = 0;
             cableOffset = 0;
+            faultType = 0;
+            coeff0 = 0.0f;
+            coeffi = 0.0f;
             mode = 0;
 
             this.Purge();
@@ -467,12 +472,16 @@ namespace DeviceCommunication
             Regex rg = new Regex("(?<=ERROR: ).*");
             Match matchedReadData = rg.Match(readData);
 
-            Regex rgNVPResult = new Regex(@"((?<=NVP=)((0\.\d*)|1\.0|1))");
+            Regex rgNVPResult = new Regex(@"((?<=NVP=)(\d*\.\d*|\d*))");
             Match matchedNVP = rgNVPResult.Match(readData);
-            Regex rgCableOffsetResult = new Regex(@"((?<=CableOffset=)((\d*)|1\.0|1))");
+            Regex rgCableOffsetResult = new Regex(@"((?<=CableOffset=)(\d*\.\d*|\d*))");
             Match matchedCableOffset = rgCableOffsetResult.Match(readData);
-            Regex rgFaultTypeResult = new Regex(@"((?<=FaultType=)((\d*)|1\.0|1))");
+            Regex rgFaultTypeResult = new Regex(@"((?<=FaultType=)(1\.\d*|\d*))");
             Match matchedFaultType = rgFaultTypeResult.Match(readData);
+            Regex rgCoeff0Result = new Regex(@"((?<=Coeff0=)(\d*\.\d*|\d*))");
+            Match matchedCeoff0 = rgCoeff0Result.Match(readData);
+            Regex rgCoeffiResult = new Regex(@"((?<=CoeffI=)(\d*\.\d*|\d*))");
+            Match matchedCeoffi = rgCoeffiResult.Match(readData);
             Regex rgModeResult = new Regex(@"((?<=Mode=)(0|1))");
             Match matchedMode = rgModeResult.Match(readData);
 
@@ -480,6 +489,8 @@ namespace DeviceCommunication
                 !float.TryParse(matchedNVP.ToString(), System.Globalization.NumberStyles.Float, null, out nvpResult) &&
                 !int.TryParse(matchedCableOffset.ToString(), System.Globalization.NumberStyles.Integer, null, out cableOffsetResult) &&
                 !int.TryParse(matchedFaultType.ToString(), System.Globalization.NumberStyles.Integer, null, out faultTypeResult) &&
+                !float.TryParse(matchedCeoff0.ToString(), System.Globalization.NumberStyles.Integer, null, out coeff0Result) &&
+                !float.TryParse(matchedCeoffi.ToString(), System.Globalization.NumberStyles.Integer, null, out coeffiResult) &&
                 !int.TryParse(matchedMode.ToString(), System.Globalization.NumberStyles.Integer, null, out modeResult))
             {
                 throw new ApplicationException("invalid response");
@@ -500,7 +511,15 @@ namespace DeviceCommunication
             }
             if (int.TryParse(matchedFaultType.ToString(), System.Globalization.NumberStyles.Integer, null, out faultTypeResult))
             {
-                cableOffset = cableOffsetResult;
+                faultType = faultTypeResult;
+            }
+            if (float.TryParse(matchedCeoff0.ToString(), System.Globalization.NumberStyles.Float, null, out coeff0Result))
+            {
+                coeff0 = coeff0Result;
+            }
+            if (float.TryParse(matchedCeoffi.ToString(), System.Globalization.NumberStyles.Float, null, out coeffiResult))
+            {
+                coeffi = coeffiResult;
             }
             if (int.TryParse(matchedMode.ToString(), System.Globalization.NumberStyles.Integer, null, out modeResult))
             {
@@ -686,7 +705,7 @@ namespace DeviceCommunication
 
             Regex rgFaultTypeResult = new Regex(@"(?<=Found )(\w+)|(No open or short found!)");
             Match matchedFaultType = rgFaultTypeResult.Match(readData);
-            Regex rgDistanceResult = new Regex(@"(?<=at distance\s*)(\d\.\d*)");
+            Regex rgDistanceResult = new Regex(@"(?<=at distance\s*)(\d*\.\d*)");
             Match matchedDistance = rgDistanceResult.Match(readData);
 
             if (string.Equals("No open or short found!", matchedFaultType.ToString()))
@@ -878,7 +897,7 @@ namespace DeviceCommunication
             for (int i = 0; i < readDataSplit.Length; i++)
             {
                 float parse = 0.0f;
-                if (float.TryParse(readData, System.Globalization.NumberStyles.Float, null, out parse))
+                if (float.TryParse(readDataSplit[i], System.Globalization.NumberStyles.Float, null, out parse))
                 {
                     result[i] = parse;
                 }
