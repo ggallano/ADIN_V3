@@ -879,7 +879,7 @@ namespace DeviceCommunication
         {
             string readData;
             string[] readDataSplit;
-            float[] result = new float[3];
+            float[] result;
             bool resultValid = true;
 
             this.Purge();
@@ -894,10 +894,14 @@ namespace DeviceCommunication
 
             // Parse data.
             readDataSplit = readData.Split(new char[] { ',' });
+            result = new float[readDataSplit.Length];
             for (int i = 0; i < readDataSplit.Length; i++)
             {
+                Regex rgResult = new Regex(@"(\d*\.\d*)|(\d*)");
+                Match matchedResult = rgResult.Match(readDataSplit[i]);
+
                 float parse = 0.0f;
-                if (float.TryParse(readDataSplit[i], System.Globalization.NumberStyles.Float, null, out parse))
+                if (float.TryParse(matchedResult.ToString(), System.Globalization.NumberStyles.Float, null, out parse))
                 {
                     result[i] = parse;
                 }
@@ -1069,7 +1073,7 @@ namespace DeviceCommunication
                     complete = true;
                 }
 
-                if (commandresponse.Count > 100)
+                if (commandresponse.Count > 200)
                 {
                     throw new ApplicationException("Lost communication with Evaluation board.");
                 }

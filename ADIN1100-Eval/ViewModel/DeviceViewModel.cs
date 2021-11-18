@@ -26,6 +26,8 @@ namespace ADIN1100_Eval.ViewModel
     using TargetInterface.CableDiagnostics;
     using Microsoft.Win32;
     using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows.Threading;
 
     /// <summary>
     /// Device View Model
@@ -778,6 +780,8 @@ namespace ADIN1100_Eval.ViewModel
                 this.RaisePropertyChanged("SelectedLoopbackItem");
                 this.RaisePropertyChanged("TxSuppression");
                 this.RaisePropertyChanged("RxSuppression");
+                this.RaisePropertyChanged(nameof(CalibrateOffsetValue));
+                this.RaisePropertyChanged(nameof(CalibrateCableValue));
             }
         }
 
@@ -1316,6 +1320,27 @@ namespace ADIN1100_Eval.ViewModel
             get
             {
                 return this.IsDeviceConnected();
+            }
+        }
+
+        /// <summary>
+        /// Is the fault detector busy?
+        /// </summary>
+        private bool isFaultDetectorBusy;
+        /// <summary>
+        /// Gets or sets whether the fault detector is busy.
+        /// </summary>
+        public bool IsFaultDetectorBusy
+        {
+            get
+            {
+                return this.isFaultDetectorBusy;
+            }
+
+            set
+            {
+                this.isFaultDetectorBusy = value;
+                this.RaisePropertyChanged(nameof(IsFaultDetectorBusy));
             }
         }
 
@@ -2215,25 +2240,34 @@ namespace ADIN1100_Eval.ViewModel
         /// <param name="obj"></param>
         private void DoFaultDetection(object obj)
         {
-            string faultType = string.Empty;
-
-            lock (this)
+            Task.Run(() =>
             {
-                if (this.selectedDevice != null)
+                string faultType = string.Empty;
+
+                // Update busy indicator.
+                this.IsFaultDetectorBusy = true;
+
+                lock (this)
                 {
-                    try
+                    if (this.selectedDevice != null)
                     {
-                        this.Info($"Executing fault detection.");
-                        this.DistToFault = this.selectedDevice.FwAPI.ExecuteFaultDetection(this.calibrateOffsetValue, this.calibrateCableValue, CalibrationMode.AutoRange, out faultType);
-                        this.FaultState = faultType;
-                        this.Info($"Fault detection finished.");
-                    }
-                    catch (Exception ex)
-                    {
-                        this.Error(ex.Message);
+                        try
+                        {
+                            this.Info($"Executing fault detection.");
+                            this.DistToFault = this.selectedDevice.FwAPI.ExecuteFaultDetection(this.calibrateOffsetValue, this.calibrateCableValue, CalibrationMode.AutoRange, out faultType);
+                            this.FaultState = faultType;
+                            this.Info($"Fault detection finished.");
+                        }
+                        catch (Exception ex)
+                        {
+                            this.Error(ex.Message);
+                        }
                     }
                 }
-            }
+
+                // Update busy indicator.
+                this.IsFaultDetectorBusy = false;
+            });
         }
 
         /// <summary>
@@ -2242,35 +2276,44 @@ namespace ADIN1100_Eval.ViewModel
         /// <param name="obj"></param>
         private void DoFaultDetectionManualCalibrate(object obj)
         {
-            lock (this)
+            Task.Run(() =>
             {
-                if (this.selectedDevice != null)
+                // Update busy indicator.
+                this.IsFaultDetectorBusy = true;
+
+                lock (this)
                 {
-                    try
+                    if (this.selectedDevice != null)
                     {
-                        var type = (Calibrate)Enum.Parse(typeof(Calibrate), obj.ToString());
-                        switch (type)
+                        try
                         {
-                            case Calibrate.NVP:
-                                this.Info($"Executing manual cable calibration.");
-                                this.selectedDevice.FwAPI.SetNvp(this.CalibrateCableValue.NVP);
-                                this.Info($"Cable manual calibration finished.");
-                                break;
-                            case Calibrate.Offset:
-                                this.Info($"Executing manual offset calibration.");
-                                this.selectedDevice.FwAPI.SetOffset(this.CalibrateOffsetValue.Offset);
-                                this.Info($"Offset manual calibration finished.");
-                                break;
-                            default:
-                                break;
+                            var type = (Calibrate)Enum.Parse(typeof(Calibrate), obj.ToString());
+                            switch (type)
+                            {
+                                case Calibrate.NVP:
+                                    this.Info($"Executing manual cable calibration.");
+                                    this.selectedDevice.FwAPI.SetNvp(this.CalibrateCableValue.NVP);
+                                    this.Info($"Cable manual calibration finished.");
+                                    break;
+                                case Calibrate.Offset:
+                                    this.Info($"Executing manual offset calibration.");
+                                    this.selectedDevice.FwAPI.SetOffset(this.CalibrateOffsetValue.Offset);
+                                    this.Info($"Offset manual calibration finished.");
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            this.Error(ex.Message);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        this.Error(ex.Message);
-                    }
                 }
-            }
+
+                // Update busy indicator.
+                this.IsFaultDetectorBusy = false;
+            });
         }
 
         /// <summary>
@@ -2280,87 +2323,157 @@ namespace ADIN1100_Eval.ViewModel
         private void DoFaultDetectionCalibrate(object obj)
         {
             string message;
+            // Update busy indicator.
+            this.IsFaultDetectorBusy = true;
 
-            lock (this)
+            //lock (this)
+            //{
+            if (this.selectedDevice != null)
             {
-                if (this.selectedDevice != null)
+                try
                 {
-                    try
+                    var type = (Calibrate)Enum.Parse(typeof(Calibrate), obj.ToString());
+                    switch (type)
                     {
-                        var type = (Calibrate)Enum.Parse(typeof(Calibrate), obj.ToString());
-                        switch (type)
-                        {
-                            case Calibrate.NVP:
-                                this.Info($"Executing cable fault detection calibration.");
-                                message = "Please connect cable at MDI connector and enter the cable \nlength to perform cable calibration.";
+                        case Calibrate.NVP:
+                            this.Info($"Executing cable fault detection calibration.");
+                            message = "Please connect cable at MDI connector and enter the cable \nlength to perform cable calibration.";
 
-                                Views.CalibrateCableDialog cableDialog = new Views.CalibrateCableDialog();
-                                cableDialog.txtCableLength.Value = 100.0;
-                                cableDialog.Owner = Application.Current.MainWindow;
-                                cableDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                                cableDialog.ContentMessage = message;
+                            Views.CalibrateCableDialog cableDialog = new Views.CalibrateCableDialog();
+                            cableDialog.txtCableLength.Value = 100.0;
+                            cableDialog.Owner = Application.Current.MainWindow;
+                            cableDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                            cableDialog.ContentMessage = message;
 
-                                if (cableDialog.ShowDialog() == true)
+                            if (cableDialog.ShowDialog() == true)
+                            {
+                                float cableLengthInput = 0.0f;
+                                cableLengthInput = Convert.ToSingle(cableDialog.txtCableLength.Value.Value);
+
+                                Task.Run(() =>
                                 {
-                                    float cableLengthInput = 0.0f;
-                                    cableLengthInput = Convert.ToSingle(cableDialog.txtCableLength.Value.Value);
+                                    bool calibrationSuccessful = false;
 
-                                    calibrateCableValue.NVP = cableLengthInput;
-                                    float[] value = this.selectedDevice.FwAPI.FaultDetectionCalibration(Calibrate.NVP, cableLength: cableLengthInput, calibrationMode: CalibrationMode.AutoRange);
-                                    this.RaisePropertyChanged(nameof(this.CalibrateCableValue));
-
-                                    this.CalibrateCableValue = new CalibrateCable()
+                                    lock (this)
                                     {
-                                        NVP = value[0],
-                                        Coeff0 = value[1],
-                                        Coeffi = value[2],
-                                    };
+                                        try
+                                        {
+                                            float[] value = this.selectedDevice.FwAPI.FaultDetectionCalibration(Calibrate.NVP, cableLength: cableLengthInput, calibrationMode: CalibrationMode.AutoRange);
 
-                                    this.SetCalibrationSuccessIndicator(true, type);
-                                    this.Info($"Cable fault detection calibration finished.");
-                                }
-                                else
-                                {
-                                    this.VerboseInfo("Calibration NVP cancelled.");
-                                }
-                                break;
-                            case Calibrate.Offset:
-                                this.Info($"Executing offset fault detection calibration.");
-                                message = "Please disconnect cable from MDI connector and \nclick OK to perform offset calibration.";
+                                            this.CalibrateCableValue = new CalibrateCable()
+                                            {
+                                                NVP = value[0],
+                                                Coeff0 = value[1],
+                                                Coeffi = value[2],
+                                            };
 
-                                Views.CalibrateOffsetDialog offsetDialog = new Views.CalibrateOffsetDialog();
-                                offsetDialog.Owner = Application.Current.MainWindow;
-                                offsetDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                                offsetDialog.ContentMessage = message;
+                                            calibrationSuccessful = true;
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            // Update busy indicator.
+                                            this.IsFaultDetectorBusy = false;
+                                            calibrationSuccessful = false;
+                                            this.Error(ex.Message);
+                                        }
+                                    }
 
-                                if (offsetDialog.ShowDialog() == true)
-                                {
-                                    float[] value = this.selectedDevice.FwAPI.FaultDetectionCalibration(Calibrate.Offset, nvp: 0.0f);
-                                    this.RaisePropertyChanged(nameof(this.CalibrateOffsetValue));
-
-                                    this.CalibrateOffsetValue = new CalibrateOffset()
+                                    Application.Current.Dispatcher.Invoke(() =>
                                     {
-                                        Offset = value[0]
-                                    };
+                                        // Update busy indicator.
+                                        this.IsFaultDetectorBusy = false;
+                                        this.RaisePropertyChanged(nameof(this.CalibrateCableValue));
 
-                                    this.SetCalibrationSuccessIndicator(true, type);
-                                    this.Info($"Offset fault detection calibration finished.");
-                                }
-                                else
+                                        if (calibrationSuccessful)
+                                        {
+                                            this.SetCalibrationSuccessIndicator(true, type);
+                                            this.Info($"Cable fault detection calibration finished.");
+                                        }
+                                    }
+                                    );
+                                });
+                            }
+                            else
+                            {
+                                // Update busy indicator.
+                                this.IsFaultDetectorBusy = false;
+
+                                this.VerboseInfo("Calibration NVP cancelled.");
+                            }
+                            break;
+                        case Calibrate.Offset:
+                            this.Info($"Executing offset fault detection calibration.");
+                            message = "Please disconnect cable from MDI connector and \nclick OK to perform offset calibration.";
+
+                            Views.CalibrateOffsetDialog offsetDialog = new Views.CalibrateOffsetDialog();
+                            offsetDialog.Owner = Application.Current.MainWindow;
+                            offsetDialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                            offsetDialog.ContentMessage = message;
+
+                            if (offsetDialog.ShowDialog() == true)
+                            {
+                                Task.Run(() =>
                                 {
-                                    this.VerboseInfo("Calibration offset cancelled.");
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        this.Error(ex.Message);
+                                    bool calibrationSuccessful = false;
+
+                                    lock (this)
+                                    {
+                                        try
+                                        {
+                                            float[] value = this.selectedDevice.FwAPI.FaultDetectionCalibration(Calibrate.Offset, nvp: 0.0f);
+
+                                            this.CalibrateOffsetValue = new CalibrateOffset()
+                                            {
+                                                Offset = value[0]
+                                            };
+
+                                            calibrationSuccessful = true;
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            // Update busy indicator.
+                                            this.IsFaultDetectorBusy = false;
+                                            calibrationSuccessful = false;
+                                            this.Error(ex.Message);
+                                        }
+                                    }
+
+                                    Application.Current.Dispatcher.Invoke(() =>
+                                    {
+                                        // Update busy indicator.
+                                        this.IsFaultDetectorBusy = false;
+                                        this.RaisePropertyChanged(nameof(this.CalibrateOffsetValue));
+
+                                        if (calibrationSuccessful)
+                                        {
+                                            this.SetCalibrationSuccessIndicator(true, type);
+                                            this.Info($"Offset fault detection calibration finished.");
+                                        }
+                                    });
+                                });
+                            }
+                            else
+                            {
+                                // Update busy indicator.
+                                this.IsFaultDetectorBusy = false;
+
+                                this.VerboseInfo("Calibration offset cancelled.");
+                            }
+                            break;
+                        default:
+                            // Update busy indicator.
+                            this.IsFaultDetectorBusy = false;
+                            break;
                     }
                 }
+                catch (Exception ex)
+                {
+                    // Update busy indicator.
+                    this.IsFaultDetectorBusy = false;
+                    this.Error(ex.Message);
+                }
             }
+            //}
         }
 
         /// <summary>
@@ -2448,61 +2561,126 @@ namespace ADIN1100_Eval.ViewModel
         /// <param name="obj"></param>
         private void DoCalibrateLoad(object obj)
         {
-            lock (this)
+            // Update busy indicator.
+            this.IsFaultDetectorBusy = true;
+
+            if (this.selectedDevice != null)
             {
-                if (this.selectedDevice != null)
+                try
                 {
-                    try
+                    var type = (Calibrate)Enum.Parse(typeof(Calibrate), obj.ToString());
+                    OpenFileDialog openFileDialog = new OpenFileDialog();
+                    string[] values = null;
+
+                    switch (type)
                     {
-                        var type = (Calibrate)Enum.Parse(typeof(Calibrate), obj.ToString());
-                        OpenFileDialog openFileDialog = new OpenFileDialog();
-                        string[] values = null;
-
-                        switch (type)
-                        {
-                            case Calibrate.NVP:
-                                openFileDialog.Filter = "Calibrate Cable file (*.ccf)|*.ccf";
-                                if (openFileDialog.ShowDialog() == true)
+                        case Calibrate.NVP:
+                            this.Info($"Loading NVP calibration.");
+                            openFileDialog.Filter = "Calibrate Cable file (*.ccf)|*.ccf";
+                            if (openFileDialog.ShowDialog() == true)
+                            {
+                                Task.Run(() =>
                                 {
-                                    //this.viewModel.Error(new NotImplementedException().Message);
-                                    values = this.ReadContent(openFileDialog.FileName);
-                                    this.CalibrateCableValue = new CalibrateCable()
+                                    bool loadSuccess = false;
+
+                                    lock (this)
                                     {
-                                        NVP = float.Parse(values[0]),
-                                        Coeff0 = float.Parse(values[1]),
-                                        Coeffi = float.Parse(values[2]),
-                                        FileName = Path.GetFileName(openFileDialog.FileName),
-                                    };
+                                        try
+                                        {
+                                            values = this.ReadContent(openFileDialog.FileName);
+                                            this.CalibrateCableValue = new CalibrateCable()
+                                            {
+                                                NVP = float.Parse(values[0]),
+                                                Coeff0 = float.Parse(values[1]),
+                                                Coeffi = float.Parse(values[2]),
+                                                FileName = Path.GetFileName(openFileDialog.FileName),
+                                            };
 
-                                    this.selectedDevice.FwAPI.SetNvp(this.CalibrateCableValue.NVP);
-                                }
+                                            this.selectedDevice.FwAPI.SetNvp(this.CalibrateCableValue.NVP);
+                                            loadSuccess = true;
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            this.Error(ex.Message);
+                                        }
+                                    }
 
-                                break;
-                            case Calibrate.Offset:
-                                openFileDialog.Filter = "Calibrate Offset file (*.cof)|*.cof";
-                                if (openFileDialog.ShowDialog() == true)
+                                    // Update busy indicator.
+                                    this.IsFaultDetectorBusy = false;
+
+                                    Application.Current.Dispatcher.Invoke(() =>
+                                    {
+                                        if (loadSuccess)
+                                        {
+                                            this.Info($"NVP calibration successfully loaded.");
+                                        }
+                                    });
+                                });
+                            }
+                            else
+                            {
+                                this.Info($"Loading NVP calibration cancelled.");
+                            }
+
+                            break;
+                        case Calibrate.Offset:
+                            this.Info($"Loading offset calibration.");
+                            openFileDialog.Filter = "Calibrate Offset file (*.cof)|*.cof";
+                            if (openFileDialog.ShowDialog() == true)
+                            {
+                                Task.Run(() =>
                                 {
-                                    //this.viewModel.Error(new NotImplementedException().Message);
-                                    values = this.ReadContent(openFileDialog.FileName);
-                                    this.CalibrateOffsetValue = new CalibrateOffset()
+                                    bool loadSuccess = false;
+
+                                    lock (this)
                                     {
-                                        Offset = float.Parse(values[0]),
-                                        FileName = Path.GetFileName(openFileDialog.FileName),
-                                    };
+                                        try
+                                        {
+                                            values = this.ReadContent(openFileDialog.FileName);
+                                            this.CalibrateOffsetValue = new CalibrateOffset()
+                                            {
+                                                Offset = float.Parse(values[0]),
+                                                FileName = Path.GetFileName(openFileDialog.FileName),
+                                            };
 
-                                    this.selectedDevice.FwAPI.SetOffset(this.CalibrateOffsetValue.Offset);
-                                }
+                                            this.selectedDevice.FwAPI.SetOffset(this.CalibrateOffsetValue.Offset);
+                                            loadSuccess = true;
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            this.Error(ex.Message);
+                                        }
+                                    }
 
-                                break;
-                            default:
-                                this.Error(new NotSupportedException().Message);
-                                break;
-                        }
+                                    // Update busy indicator.
+                                    this.IsFaultDetectorBusy = false;
+
+                                    Application.Current.Dispatcher.Invoke(() =>
+                                    {
+                                        if (loadSuccess)
+                                        {
+                                            this.Info($"Offset calibration successfully loaded.");
+                                        }
+                                    });
+                                });
+                            }
+                            else
+                            {
+                                this.Info($"Loading NVP calibration cancelled.");
+                            }
+
+                            break;
+                        default:
+                            this.Error(new NotSupportedException().Message);
+                            break;
                     }
-                    catch (Exception ex)
-                    {
-                        this.Error(ex.Message);
-                    }
+                }
+                catch (Exception ex)
+                {
+                    this.Error(ex.Message);
+
+                    // Update busy indicator.
+                    this.IsFaultDetectorBusy = false;
                 }
             }
         }
@@ -2531,39 +2709,46 @@ namespace ADIN1100_Eval.ViewModel
         /// <param name="obj"></param>
         private void DoResetFaultDetection(object obj)
         {
-            lock (this)
+            Task.Run(() =>
             {
-                if (this.selectedDevice != null)
+                lock (this)
                 {
-                    try
+                    if (this.selectedDevice != null)
                     {
-                        this.Info($"Executing fault detection reset.");
-                        float nvpResult = 0.0f;
-                        int cableOffsetResult = 0;
-                        int faultTypeResult = 0;
-                        float coeff0Result = 0.0f;
-                        float coeffiResult = 0.0f;
-                        CalibrationMode modeResult = 0;
+                        try
+                        {
+                            this.Info($"Executing fault detection reset.");
+                            float nvpResult = 0.0f;
+                            int cableOffsetResult = 0;
+                            int faultTypeResult = 0;
+                            float coeff0Result = 0.0f;
+                            float coeffiResult = 0.0f;
+                            CalibrationMode modeResult = 0;
 
-                        this.selectedDevice.FwAPI.ResetFaultDetection(out nvpResult, out cableOffsetResult, out faultTypeResult, out coeff0Result, out coeffiResult, out modeResult);
-                        this.CalibrateOffsetValue.Offset = cableOffsetResult;
-                        this.CalibrateCableValue.Coeff0 = coeff0Result;
-                        this.CalibrateCableValue.Coeffi = coeffiResult;
-                        this.CalibrateCableValue.NVP = nvpResult;
+                            this.selectedDevice.FwAPI.ResetFaultDetection(out nvpResult, out cableOffsetResult, out faultTypeResult, out coeff0Result, out coeffiResult, out modeResult);
+                            this.CalibrateOffsetValue.Offset = cableOffsetResult;
+                            this.CalibrateCableValue.Coeff0 = coeff0Result;
+                            this.CalibrateCableValue.Coeffi = coeffiResult;
+                            this.CalibrateCableValue.NVP = nvpResult;
 
-                        this.SetCalibrationSuccessIndicator(false, Calibrate.NVP);
-                        this.SetCalibrationSuccessIndicator(false, Calibrate.Offset);
-
-                        this.RaisePropertyChanged(nameof(CalibrateOffsetValue));
-                        this.RaisePropertyChanged(nameof(CalibrateCableValue));
-                        this.Info($"Fault detection reset finished.");
-                    }
-                    catch (Exception ex)
-                    {
-                        this.Error(ex.Message);
+                            this.Info($"Fault detection reset finished.");
+                        }
+                        catch (Exception ex)
+                        {
+                            this.Error(ex.Message);
+                        }
                     }
                 }
-            }
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    this.SetCalibrationSuccessIndicator(false, Calibrate.NVP);
+                    this.SetCalibrationSuccessIndicator(false, Calibrate.Offset);
+
+                    this.RaisePropertyChanged(nameof(CalibrateOffsetValue));
+                    this.RaisePropertyChanged(nameof(CalibrateCableValue));
+                });
+            });
         }
 
         /// <summary>
