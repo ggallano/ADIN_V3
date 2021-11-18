@@ -2252,7 +2252,7 @@ namespace ADIN1100_Eval.ViewModel
                         switch (type)
                         {
                             case Calibrate.NVP:
-                                this.Info($"Executing cable manual calibration.");
+                                this.Info($"Executing manual cable calibration.");
                                 this.selectedDevice.FwAPI.SetNvp(this.CalibrateCableValue.NVP);
                                 this.Info($"Cable manual calibration finished.");
                                 break;
