@@ -114,6 +114,36 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="OkButtonStyle" TargetType="{x:Type telerik:RadButton}">
+            <Setter Property="Width" Value="70"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Margin" Value="5 5 0 5"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Padding="{TemplateBinding Padding}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" CornerRadius="3">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Text="Ok" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Foreground" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Foreground}"/>
+                                <Setter Property="Background" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Background}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Foreground" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Foreground}"/>
+                                <Setter Property="Background" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Background}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="ResetToDefaultButtonStyle" TargetType="{x:Type telerik:RadButton}">
             <Setter Property="Width" Value="70"/>
             <Setter Property="Height" Value="25"/>
@@ -165,6 +195,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="95"/>
@@ -175,7 +206,8 @@
                             <TextBlock Text="{Binding CalibrateOffsetValue.FileName}"/>
                         </StackPanel>
 
-                        <telerik:RadButton Grid.Row="1" Grid.Column="0" Style="{StaticResource CalibrateButtonStyle}" Command="{Binding FaultDetectionCalibrateCommand}" CommandParameter="Offset">
+                        <telerik:RadButton Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Margin="6" Style="{StaticResource CalibrateButtonStyle}" Command="{Binding FaultDetectionCalibrateCommand}" CommandParameter="Offset"
+                                           ToolTip="Perferms offset calibration.">
                             <Border BorderBrush="{Binding CalibrateOffsetButtonColor}"
                                     BorderThickness="3">
                                 <TextBlock Text="Calibrate"
@@ -184,20 +216,28 @@
                             </Border>
                         </telerik:RadButton>
                         
-                        <telerik:RadButton Grid.Row="1" Grid.Column="1" Content="Save" Style="{StaticResource SaveButtonStyle}" Command="{Binding CalibrateSaveCommand}" CommandParameter="Offset"/>
+                        <telerik:RadButton Grid.Row="1" Grid.Column="1" Content="Save" Style="{StaticResource SaveButtonStyle}" Command="{Binding CalibrateSaveCommand}" CommandParameter="Offset" HorizontalAlignment="Center"/>
+                        <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load" Style="{StaticResource LoadButtonStyle}" Command="{Binding CalibrateLoadCommand}" CommandParameter="Offset" HorizontalAlignment="Center"/>
 
-                        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical">
+                        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical">
                             <TextBlock Text="Offset:"/>
-                            <telerik:RadNumericUpDown Width="80"
-                                                      Minimum="0"
-                                                      Value="{Binding CalibrateOffsetValue.Offset}"/>
+                            <StackPanel Orientation="Horizontal">
+                                <telerik:RadNumericUpDown Width="100" Height="25"
+                                                          Minimum="0"
+                                                          Value="{Binding CalibrateOffsetValue.Offset}"/>
+                                <telerik:RadButton Style="{StaticResource OkButtonStyle}" 
+                                                   Command="{Binding FaultDetectionManualCalibrateCommand}"
+                                                   CommandParameter="Offset"
+                                                   ToolTip="Write Offset"
+                                                   VerticalAlignment="Bottom"/>
+                            </StackPanel>
                         </StackPanel>
-                        <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load" Style="{StaticResource LoadButtonStyle}" Command="{Binding CalibrateLoadCommand}" CommandParameter="Offset"/>
                     </Grid>
                 </GroupBox>
                 <GroupBox Header="Cable Calibration" Padding="5" Margin="5" Width="200">
                     <Grid>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
@@ -211,7 +251,8 @@
                             <TextBlock Text="{Binding CalibrateCableValue.FileName}"/>
                         </StackPanel>
 
-                        <telerik:RadButton Grid.Row="1" Grid.Column="0" Style="{StaticResource CalibrateButtonStyle}" Command="{Binding FaultDetectionCalibrateCommand}" CommandParameter="NVP">
+                        <telerik:RadButton Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Margin="6" Style="{StaticResource CalibrateButtonStyle}" Command="{Binding FaultDetectionCalibrateCommand}" CommandParameter="NVP"
+                                           ToolTip="Perferms cable calibration.">
                             <Border BorderBrush="{Binding CalibrateCableButtonColor}"
                                     BorderThickness="3">
                                 <TextBlock Text="Calibrate"
@@ -221,16 +262,23 @@
                         </telerik:RadButton>
 
                         <telerik:RadButton Grid.Row="1" Grid.Column="1" Content="Save" Style="{StaticResource SaveButtonStyle}" Command="{Binding CalibrateSaveCommand}" CommandParameter="NVP"/>
-
-                        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Vertical">
-                            <TextBlock Text="NVP:"/>
-                            <telerik:RadNumericUpDown Width="80"
-                                                      Minimum="0.0"
-                                                      Maximum="1.0"
-                                                      SmallChange="0.01"
-                                                      Value="{Binding Binding CalibrateCableValue.NVP}"/>
-                        </StackPanel>
                         <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load" Style="{StaticResource LoadButtonStyle}" Command="{Binding CalibrateLoadCommand}" CommandParameter="NVP"/>
+
+                        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Vertical">
+                            <TextBlock Text="NVP:"/>
+                            <StackPanel Orientation="Horizontal">
+                                <telerik:RadNumericUpDown Width="100" Height="25"
+                                                          Minimum="0.0"
+                                                          Maximum="1.0"
+                                                          SmallChange="0.01"
+                                                          Value="{Binding Binding CalibrateCableValue.NVP}"/>
+                                <telerik:RadButton Style="{StaticResource OkButtonStyle}" 
+                                                   Command="{Binding FaultDetectionManualCalibrateCommand}"
+                                                   CommandParameter="NVP"
+                                                   ToolTip="Write NVP"
+                                                   VerticalAlignment="Bottom"/>
+                            </StackPanel>
+                        </StackPanel>
                     </Grid>
                 </GroupBox>
             </StackPanel>

@@ -97,6 +97,7 @@ namespace ADIN1100_Eval.ViewModel
             this.RunFaultDetectionCommand = new BindingCommand(this.DoFaultDetection);
             this.ResetFaultDetectorCommand = new BindingCommand(this.DoResetFaultDetection);
             this.FaultDetectionCalibrateCommand = new BindingCommand(this.DoFaultDetectionCalibrate);
+            this.FaultDetectionManualCalibrateCommand = new BindingCommand(this.DoFaultDetectionManualCalibrate);
             this.CalibrateSaveCommand = new BindingCommand(this.DoCalibrateSave);
             this.CalibrateLoadCommand = new BindingCommand(this.DoCalibrateLoad);
 
@@ -254,9 +255,14 @@ namespace ADIN1100_Eval.ViewModel
         public BindingCommand ResetFaultDetectorCommand { get; set; }
 
         /// <summary>
-        /// Gets or sets the Calibrations
+        /// Gets or sets the Calibrations.
         /// </summary>
         public BindingCommand FaultDetectionCalibrateCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Manual Calibration.
+        /// </summary>
+        public BindingCommand FaultDetectionManualCalibrateCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the Calibrations to save.
@@ -2224,7 +2230,42 @@ namespace ADIN1100_Eval.ViewModel
         }
 
         /// <summary>
-        /// Executes faule detection calibration.
+        /// Executes manual calibration.
+        /// </summary>
+        /// <param name="obj"></param>
+        private void DoFaultDetectionManualCalibrate(object obj)
+        {
+            string message;
+
+            lock (this)
+            {
+                if (this.selectedDevice != null)
+                {
+                    try
+                    {
+                        var type = (Calibrate)Enum.Parse(typeof(Calibrate), obj.ToString());
+                        switch (type)
+                        {
+                            case Calibrate.NVP:
+
+                                break;
+                            case Calibrate.Offset:
+                                
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        this.Error(ex.Message);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Executes fault detection calibration.
         /// </summary>
         /// <param name="obj"></param>
         private void DoFaultDetectionCalibrate(object obj)
