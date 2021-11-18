@@ -283,6 +283,10 @@
     <SolidColorBrush x:Key="Button.Disabled.Background" Color="{StaticResource SkyBlueColor}"/>
     <SolidColorBrush x:Key="Button.Disabled.Border" Color="{StaticResource SkyBlueColor}"/>
     <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="{StaticResource WhiteColor}"/>
+    <LinearGradientBrush x:Key="Button.Gradient.Static.Background" StartPoint="0,1" EndPoint="0,0">
+        <GradientStop Color="{StaticResource ADIBlue}" Offset="1.0"/>
+        <GradientStop Color="{StaticResource DarkBlueColor}" Offset="0.0"/>
+    </LinearGradientBrush>
 
     <!-- Main Window-->
     <SolidColorBrush x:Key="brushWatermarkForeground" Color="{StaticResource WhiteColor}" />
