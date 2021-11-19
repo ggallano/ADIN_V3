@@ -4994,9 +4994,6 @@ namespace TargetInterface
         {
             if (this.TenSPEDevice())
             {
-                this.deviceConnection.TdrSetNvp(calibrateCableValue.NVP);
-                this.deviceConnection.TdrSetOffset(calibrateOffsetValue.Offset);
-                this.deviceConnection.TdrSetMode((int)mode);
                 return this.deviceConnection.TdrFaultDetect(out faultType);
             }
             else
