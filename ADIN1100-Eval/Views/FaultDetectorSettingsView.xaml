@@ -268,8 +268,6 @@
                             <TextBlock Text="NVP:"/>
                             <StackPanel Orientation="Horizontal">
                                 <telerik:RadNumericUpDown Width="100" Height="25"
-                                                          Minimum="0.0"
-                                                          Maximum="1.0"
                                                           SmallChange="0.01"
                                                           NumberDecimalDigits="3"
                                                           Value="{Binding CalibrateCableValue.NVP}"/>

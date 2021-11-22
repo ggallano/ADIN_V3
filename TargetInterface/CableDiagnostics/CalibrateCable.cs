@@ -12,11 +12,7 @@
 
             set
             {
-                if (this.nvp > 1.0f || this.nvp < 0.0f)
-                {
-                    this.nvp = 0.0f;
-                }
-                else
+                if (value >= 0.0f && value <= 1.0f)
                 {
                     this.nvp = value;
                 }
