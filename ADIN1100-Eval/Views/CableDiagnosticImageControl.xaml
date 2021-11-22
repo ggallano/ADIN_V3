@@ -124,7 +124,7 @@
                     Distance to fault = 
                 </TextBlock>
                 <TextBlock Margin="120 190 0 0"
-                           Text="{Binding DistToFault}"
+                           Text="{Binding DistToFault, StringFormat={}{0:0.000}}"
                            Visibility="{Binding DistToFaultVisibility}"/>
                 <Line Stretch="Fill" Stroke="Black" X2="1" Margin="0 120 0 0" Height="5" Width="Auto"
                       Visibility="{Binding DistToFaultVisibility}"/>
