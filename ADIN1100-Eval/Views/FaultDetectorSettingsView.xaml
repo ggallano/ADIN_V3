@@ -271,6 +271,7 @@
                                                           Minimum="0.0"
                                                           Maximum="1.0"
                                                           SmallChange="0.01"
+                                                          NumberDecimalDigits="3"
                                                           Value="{Binding CalibrateCableValue.NVP}"/>
                                 <telerik:RadButton Style="{StaticResource OkButtonStyle}" 
                                                    Command="{Binding FaultDetectionManualCalibrateCommand}"
