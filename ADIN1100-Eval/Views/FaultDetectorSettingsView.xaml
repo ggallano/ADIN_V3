@@ -223,7 +223,6 @@
                             <TextBlock Text="Offset:"/>
                             <StackPanel Orientation="Horizontal">
                                 <telerik:RadNumericUpDown Width="100" Height="25"
-                                                          Minimum="0"
                                                           Value="{Binding CalibrateOffsetValue.Offset}"/>
                                 <telerik:RadButton Style="{StaticResource OkButtonStyle}" 
                                                    Command="{Binding FaultDetectionManualCalibrateCommand}"
