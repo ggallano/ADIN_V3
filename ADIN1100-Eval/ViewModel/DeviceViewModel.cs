@@ -96,12 +96,13 @@ namespace ADIN1100_Eval.ViewModel
             this.LocalLoopbackCommand = new BindingCommand(this.DoLocalLoopback, this.CanDoLocalLoopback);
             this.RxSuppressionCommand = new BindingCommand(this.DoRxSuppression);
             this.TxSuppressionCommand = new BindingCommand(this.DoTxSuppression);
-            this.RunFaultDetectionCommand = new BindingCommand(this.DoFaultDetection);
-            this.ResetFaultDetectorCommand = new BindingCommand(this.DoResetFaultDetection);
-            this.FaultDetectionCalibrateCommand = new BindingCommand(this.DoFaultDetectionCalibrate);
-            this.FaultDetectionManualCalibrateCommand = new BindingCommand(this.DoFaultDetectionManualCalibrate);
-            this.CalibrateSaveCommand = new BindingCommand(this.DoCalibrateSave);
-            this.CalibrateLoadCommand = new BindingCommand(this.DoCalibrateLoad);
+
+            this.RunFaultDetectionCommand = new BindingCommand(this.DoFaultDetection, this.CanDoFaultDetection);
+            this.ResetFaultDetectorCommand = new BindingCommand(this.DoResetFaultDetection, this.CanDoResetFaultDetection);
+            this.FaultDetectionCalibrateCommand = new BindingCommand(this.DoFaultDetectionCalibrate, this.CanDoFaultDetectionCalibrate);
+            this.FaultDetectionManualCalibrateCommand = new BindingCommand(this.DoFaultDetectionManualCalibrate, this.CanDoFaultDetectionManualCalibrate);
+            this.CalibrateSaveCommand = new BindingCommand(this.DoCalibrateSave, this.CanDoCalibrateSave);
+            this.CalibrateLoadCommand = new BindingCommand(this.DoCalibrateLoad, this.CanDoCalibrateLoad);
 
             this.deviceSettings.ClearPropertiesChangedList();
             this.deviceSettings.PropertyChanged += this.DeviceSettings_PropertyChanged;
@@ -154,6 +155,36 @@ namespace ADIN1100_Eval.ViewModel
 
             // Calibration.
             this.FaultState = "-";
+        }
+
+        private bool CanDoCalibrateLoad(object arg)
+        {
+            return this.DeviceConnected;
+        }
+
+        private bool CanDoCalibrateSave(object arg)
+        {
+            return this.DeviceConnected;
+        }
+
+        private bool CanDoFaultDetectionManualCalibrate(object arg)
+        {
+            return this.DeviceConnected;
+        }
+
+        private bool CanDoFaultDetectionCalibrate(object arg)
+        {
+            return this.DeviceConnected;
+        }
+
+        private bool CanDoResetFaultDetection(object arg)
+        {
+            return this.DeviceConnected;
+        }
+
+        private bool CanDoFaultDetection(object arg)
+        {
+            return this.DeviceConnected;
         }
 
         /// <summary>
@@ -721,6 +752,7 @@ namespace ADIN1100_Eval.ViewModel
                     }
 
                     this.selectedDevice = value;
+                    
 
                     if (this.selectedDevice != null)
                     {
@@ -728,26 +760,8 @@ namespace ADIN1100_Eval.ViewModel
                         {
                             this.selectedDevice.FwAPI.Open();
                             this.selectedDevice.FwAPI.DeviceSettings.FlagAllPropertiesChanged();
-
-                            try
-                            {
-                                float nvpResult = 0.0f;
-                                int cableOffsetResult = 0;
-                                int faultTypeResult = 0;
-                                float coeff0Result = 0.0f;
-                                float coeffiResult = 0.0f;
-                                CalibrationMode modeResult = 0;
-
-                                this.selectedDevice.FwAPI.ResetFaultDetection(out nvpResult, out cableOffsetResult, out faultTypeResult, out coeff0Result, out coeffiResult, out modeResult);
-                                this.CalibrateOffsetValue.Offset = cableOffsetResult;
-                                this.CalibrateCableValue.Coeff0 = coeff0Result;
-                                this.CalibrateCableValue.Coeffi = coeffiResult;
-                                this.CalibrateCableValue.NVP = nvpResult;
-                            }
-                            catch (Exception exc)
-                            {
-                                this.Error(exc.Message);
-                            }
+                            this.CalibrateOffsetValue = this.selectedDevice.Offset;
+                            this.CalibrateCableValue = this.selectedDevice.Cable;
                         }
                         catch (FTDIException exc)
                         {
@@ -1422,9 +1436,9 @@ namespace ADIN1100_Eval.ViewModel
                 this.faultState = value;
                 this.RaisePropertyChanged(nameof(FaultState));
 
-                if (value.ToLower().Contains("open") || value.ToLower().Contains("close"))
+                if (value.ToLower().Contains("open") || value.ToLower().Contains("short"))
                 {
-                    // Open/Close.
+                    // Open/Short.
                     this.FaultTypeColor = "#850000";
                     this.DistToFaultVisibility = Visibility.Visible;
                 }
@@ -1530,11 +1544,11 @@ namespace ADIN1100_Eval.ViewModel
         /// <summary>
         /// Distance to fault.
         /// </summary>
-        private float distToFault;
+        private string distToFault;
         /// <summary>
         /// Gets or sets the distance to fault.
         /// </summary>
-        public float DistToFault
+        public string DistToFault
         {
             get
             {
@@ -1543,7 +1557,7 @@ namespace ADIN1100_Eval.ViewModel
 
             set
             {
-                this.distToFault = value;
+                this.distToFault = value + "m";
                 this.RaisePropertyChanged(nameof(DistToFault));
             }
         }
@@ -2254,7 +2268,7 @@ namespace ADIN1100_Eval.ViewModel
                         try
                         {
                             this.Info($"Executing fault detection.");
-                            this.DistToFault = this.selectedDevice.FwAPI.ExecuteFaultDetection(this.calibrateOffsetValue, this.calibrateCableValue, CalibrationMode.AutoRange, out faultType);
+                            this.DistToFault = this.selectedDevice.FwAPI.ExecuteFaultDetection(this.calibrateOffsetValue, this.calibrateCableValue, CalibrationMode.AutoRange, out faultType).ToString();
                             this.FaultState = faultType;
                             this.Info($"Fault detection finished.");
                         }
@@ -2291,14 +2305,14 @@ namespace ADIN1100_Eval.ViewModel
                             switch (type)
                             {
                                 case Calibrate.NVP:
-                                    this.Info($"Executing manual cable calibration.");
+                                    //this.Info($"Executing manual cable calibration.");
                                     this.selectedDevice.FwAPI.SetNvp(this.CalibrateCableValue.NVP);
-                                    this.Info($"Cable manual calibration finished.");
+                                    this.VerboseInfo($"NVP entered manually.");
                                     break;
                                 case Calibrate.Offset:
-                                    this.Info($"Executing manual offset calibration.");
+                                    //this.Info($"Executing manual offset calibration.");
                                     this.selectedDevice.FwAPI.SetOffset(this.CalibrateOffsetValue.Offset);
-                                    this.Info($"Offset manual calibration finished.");
+                                    this.VerboseInfo($"Offset entered manually.");
                                     break;
                                 default:
                                     break;
@@ -2374,6 +2388,7 @@ namespace ADIN1100_Eval.ViewModel
                                             // Update busy indicator.
                                             this.IsFaultDetectorBusy = false;
                                             calibrationSuccessful = false;
+                                            this.CalibrateCableValue.NVP = 0.670f;
                                             this.Error(ex.Message);
                                         }
                                     }
@@ -2718,18 +2733,17 @@ namespace ADIN1100_Eval.ViewModel
                         try
                         {
                             this.Info($"Executing fault detection reset.");
-                            float nvpResult = 0.0f;
-                            int cableOffsetResult = 0;
-                            int faultTypeResult = 0;
-                            float coeff0Result = 0.0f;
-                            float coeffiResult = 0.0f;
-                            CalibrationMode modeResult = 0;
 
-                            this.selectedDevice.FwAPI.ResetFaultDetection(out nvpResult, out cableOffsetResult, out faultTypeResult, out coeff0Result, out coeffiResult, out modeResult);
-                            this.CalibrateOffsetValue.Offset = cableOffsetResult;
-                            this.CalibrateCableValue.Coeff0 = coeff0Result;
-                            this.CalibrateCableValue.Coeffi = coeffiResult;
-                            this.CalibrateCableValue.NVP = nvpResult;
+                            var result = this.selectedDevice.FwAPI.ResetFaultDetection();
+
+                            this.CalibrateCableValue.NVP = float.Parse(result[0]);
+                            this.CalibrateOffsetValue.Offset = float.Parse(result[1]);
+                            this.CalibrateCableValue.Coeff0 = float.Parse(result[2]);
+                            this.CalibrateCableValue.Coeffi = float.Parse(result[3]);
+
+
+                            this.DistToFault = 0.ToString();
+                            this.FaultState = "-";
 
                             this.Info($"Fault detection reset finished.");
                         }

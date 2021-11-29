@@ -13,8 +13,8 @@
 
         <Style x:Key="StartButtonStyle" TargetType="{x:Type telerik:RadButton}">
             <Setter Property="Width" Value="80"/>
-            <Setter Property="Background" Value="{DynamicResource Button.Gradient.Static.Background}"/>
-            <Setter Property="Foreground" Value="White"/>
+            <!--<Setter Property="Background" Value="{DynamicResource Button.Gradient.Static.Background}"/>-->
+            <!--<Setter Property="Foreground" Value="White"/>-->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -52,7 +52,7 @@
 
             <!--Col 0-->
             <Grid Grid.Row="0" Grid.Column="0">
-                <Border Height="100" Width="130" Background="#FF5E8FCB" CornerRadius="7" BorderThickness="0"/>
+                <Border Height="100" Width="130" Background="#0067B9" CornerRadius="7" BorderThickness="0"/>
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                     <TextBlock Text="TDR Engine" HorizontalAlignment="Center" Foreground="#FFD8D8D8" FontSize="20"/>
                     <telerik:RadButton CornerRadius='15' Width="103" Height="25"

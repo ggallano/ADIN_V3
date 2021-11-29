@@ -16,6 +16,7 @@ namespace DeviceCommunication
     using Utilities.Feedback;
     using System.Collections.Specialized;
     using System.Text.RegularExpressions;
+    using System.Linq;
 
     /// <summary>
     /// Serial Port Delegate
@@ -440,27 +441,20 @@ namespace DeviceCommunication
             return result;
         }
 
+        string FLOATPATTERN = @"\d*\.\d*";
+        string INTEGERPATTERN = @"\d*";
+        string STRINGPATTERN = @"[a-zA-Z]";
+        //string NUMBERPATTERN = $@"({FLOATPATTERN}|{INTEGERPATTERN})";
+
         /// <summary>
         /// Initializes the fault structure needed to pass and read arguments to the TDR functions.
         /// </summary>
         /// <param name="nvp"></param>
         /// <param name="cableOffset"></param>
         /// <param name="mode"></param>
-        public void TdrInit(out float nvp, out int cableOffset, out int faultType, out float coeff0, out float coeffi, out int mode)
+        public string[] TdrInit()
         {
             string readData;
-            float nvpResult = 0.0f;
-            int cableOffsetResult = 0;
-            int faultTypeResult = 0;
-            float coeff0Result = 0;
-            float coeffiResult = 0;
-            int modeResult = 0;
-            nvp = 0;
-            cableOffset = 0;
-            faultType = 0;
-            coeff0 = 0.0f;
-            coeffi = 0.0f;
-            mode = 0;
 
             this.Purge();
             // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
@@ -470,60 +464,19 @@ namespace DeviceCommunication
             readData = this.ReadCommandResponse();
 
             Regex rg = new Regex("(?<=ERROR: ).*");
-            Match matchedReadData = rg.Match(readData);
+            Match errorMatched = rg.Match(readData);
 
-            Regex rgNVPResult = new Regex(@"((?<=NVP=)(\d*\.\d*|\d*))");
-            Match matchedNVP = rgNVPResult.Match(readData);
-            Regex rgCableOffsetResult = new Regex(@"((?<=CableOffset=)(\d*\.\d*|\d*))");
-            Match matchedCableOffset = rgCableOffsetResult.Match(readData);
-            Regex rgFaultTypeResult = new Regex(@"((?<=FaultType=)(1\.\d*|\d*))");
-            Match matchedFaultType = rgFaultTypeResult.Match(readData);
-            Regex rgCoeff0Result = new Regex(@"((?<=Coeff0=)(\d*\.\d*|\d*))");
-            Match matchedCeoff0 = rgCoeff0Result.Match(readData);
-            Regex rgCoeffiResult = new Regex(@"((?<=CoeffI=)(\d*\.\d*|\d*))");
-            Match matchedCeoffi = rgCoeffiResult.Match(readData);
-            Regex rgModeResult = new Regex(@"((?<=Mode=)(0|1))");
-            Match matchedMode = rgModeResult.Match(readData);
+            string numberPattern = $@"(?<=\=)({FLOATPATTERN}|{INTEGERPATTERN}|{STRINGPATTERN})*";
+            Regex tdrInitPattern = new Regex(numberPattern);
+            var matchedValues = tdrInitPattern.Matches(readData).Cast<Match>().Select(m => m.Value).ToArray();
 
-            if (string.IsNullOrWhiteSpace(matchedReadData.ToString()) &&
-                !float.TryParse(matchedNVP.ToString(), System.Globalization.NumberStyles.Float, null, out nvpResult) &&
-                !int.TryParse(matchedCableOffset.ToString(), System.Globalization.NumberStyles.Integer, null, out cableOffsetResult) &&
-                !int.TryParse(matchedFaultType.ToString(), System.Globalization.NumberStyles.Integer, null, out faultTypeResult) &&
-                !float.TryParse(matchedCeoff0.ToString(), System.Globalization.NumberStyles.Integer, null, out coeff0Result) &&
-                !float.TryParse(matchedCeoffi.ToString(), System.Globalization.NumberStyles.Integer, null, out coeffiResult) &&
-                !int.TryParse(matchedMode.ToString(), System.Globalization.NumberStyles.Integer, null, out modeResult))
+            if (!string.IsNullOrWhiteSpace(errorMatched.ToString()))
             {
-                throw new ApplicationException("invalid response");
+                throw new ApplicationException(errorMatched.ToString());
             }
-            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            else
             {
-                // Log error.
-                throw new ApplicationException(matchedReadData.ToString());
-            }
-
-            if (float.TryParse(matchedNVP.ToString(), System.Globalization.NumberStyles.Float, null, out nvpResult))
-            {
-                nvp = nvpResult;
-            }
-            if (int.TryParse(matchedCableOffset.ToString(), System.Globalization.NumberStyles.Integer, null, out cableOffsetResult))
-            {
-                cableOffset = cableOffsetResult;
-            }
-            if (int.TryParse(matchedFaultType.ToString(), System.Globalization.NumberStyles.Integer, null, out faultTypeResult))
-            {
-                faultType = faultTypeResult;
-            }
-            if (float.TryParse(matchedCeoff0.ToString(), System.Globalization.NumberStyles.Float, null, out coeff0Result))
-            {
-                coeff0 = coeff0Result;
-            }
-            if (float.TryParse(matchedCeoffi.ToString(), System.Globalization.NumberStyles.Float, null, out coeffiResult))
-            {
-                coeffi = coeffiResult;
-            }
-            if (int.TryParse(matchedMode.ToString(), System.Globalization.NumberStyles.Integer, null, out modeResult))
-            {
-                mode = modeResult;
+                return matchedValues;
             }
         }
 
@@ -545,20 +498,21 @@ namespace DeviceCommunication
             readData = this.ReadCommandResponse();
 
             Regex rg = new Regex("(?<=ERROR: ).*");
-            Match matchedReadData = rg.Match(readData);
+            Match errorMatched = rg.Match(readData);
 
-            Regex rgCableOffsetResult = new Regex(@"((?<=(CableOffset=))((\d*)|1\.0|1))");
-            Match matchedResult = rgCableOffsetResult.Match(readData);
+            string numberPattern = $@"(?<=\=)({FLOATPATTERN}|{INTEGERPATTERN}|{STRINGPATTERN})*";
+            Regex rgCableOffsetResult = new Regex(numberPattern);
+            Match matchedValue = rgCableOffsetResult.Match(readData);
 
-            if (!int.TryParse(matchedResult.ToString(), System.Globalization.NumberStyles.Integer, null, out parsedresult) &&
-                string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            if (!int.TryParse(matchedValue.ToString(), System.Globalization.NumberStyles.Integer, null, out parsedresult) &&
+                string.IsNullOrWhiteSpace(errorMatched.ToString()))
             {
                 throw new ApplicationException("invalid response");
             }
-            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            else if (!string.IsNullOrWhiteSpace(errorMatched.ToString()))
             {
                 // Log error.
-                throw new ApplicationException(matchedReadData.ToString());
+                throw new ApplicationException(errorMatched.ToString());
             }
 
             return parsedresult;
@@ -571,8 +525,6 @@ namespace DeviceCommunication
         public void TdrSetNvp(float nvp)
         {
             string readData = string.Empty;
-            float nvpResult = 0.0f;
-            int modeResult = 0;
 
             this.Purge();
             // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
@@ -584,21 +536,26 @@ namespace DeviceCommunication
             Regex rg = new Regex("(?<=ERROR: ).*");
             Match matchedReadData = rg.Match(readData);
 
-            Regex rgNVPResult = new Regex(@"((?<=NVP=)((0\.\d*)|1\.0|1))");
-            Match matchedNVP = rgNVPResult.Match(readData);
-            Regex rgModeResult = new Regex(@"((?<=Mode=)(0|1))");
-            Match matchedMode = rgModeResult.Match(readData);
+            string numberPattern = $@"(?<=\=)({FLOATPATTERN}|{INTEGERPATTERN}|{STRINGPATTERN})*";
+            Regex tdrSetNvpPattern = new Regex(numberPattern);
+            var matchedValues = tdrSetNvpPattern.Matches(readData).Cast<Match>().Select(m => m.Value).ToArray();
 
-            if (string.IsNullOrWhiteSpace(matchedReadData.ToString()) &&
-                !float.TryParse(matchedNVP.ToString(), System.Globalization.NumberStyles.Float, null, out nvpResult) &&
-                !int.TryParse(matchedMode.ToString(), System.Globalization.NumberStyles.Integer, null, out modeResult))
-            {
-                throw new ApplicationException("invalid response");
-            }
-            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
             {
                 // Log error.
                 throw new ApplicationException(matchedReadData.ToString());
+            }
+            else
+            {
+                try
+                {
+                    float.Parse(matchedValues[0]);
+                    int.Parse(matchedValues[1]);
+                }
+                catch (Exception ex)
+                {
+                    throw new ApplicationException(ex.Message);
+                }
             }
         }
 
@@ -924,7 +881,7 @@ namespace DeviceCommunication
 
             return result;
         }
-        
+
         /// <summary>
         /// Read an MDIO Register
         /// </summary>
