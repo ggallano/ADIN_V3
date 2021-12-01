@@ -386,6 +386,12 @@ namespace TargetInterface
             Offset
         }
 
+        public enum TDRMode
+        {
+            Optimized = 0,
+            AutoRange,
+        }
+
         /// <summary>
         /// Calibration modes.
         /// </summary>
@@ -5065,6 +5071,11 @@ namespace TargetInterface
         public void SetOffset(float offsetValue)
         {
             this.deviceConnection.TdrSetOffset(offsetValue);
+        }
+
+        public void TDRSetMode(TDRMode mode)
+        {
+            this.deviceConnection.TdrSetMode((int)mode);
         }
 
         ///// <summary>

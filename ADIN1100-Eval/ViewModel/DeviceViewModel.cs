@@ -2338,7 +2338,7 @@ namespace ADIN1100_Eval.ViewModel
         {
             string message;
             // Update busy indicator.
-            this.IsFaultDetectorBusy = true;
+            //this.IsFaultDetectorBusy = true;
 
             //lock (this)
             //{
@@ -2361,6 +2361,7 @@ namespace ADIN1100_Eval.ViewModel
 
                             if (cableDialog.ShowDialog() == true)
                             {
+                                this.IsFaultDetectorBusy = true;
                                 float cableLengthInput = 0.0f;
                                 cableLengthInput = Convert.ToSingle(cableDialog.txtCableLength.Value.Value);
 
@@ -2385,11 +2386,14 @@ namespace ADIN1100_Eval.ViewModel
                                         }
                                         catch (Exception ex)
                                         {
-                                            // Update busy indicator.
-                                            this.IsFaultDetectorBusy = false;
                                             calibrationSuccessful = false;
                                             this.CalibrateCableValue.NVP = 0.670f;
                                             this.Error(ex.Message);
+                                        }
+                                        finally
+                                        {
+                                            // Update busy indicator.
+                                            this.IsFaultDetectorBusy = false;
                                         }
                                     }
 
@@ -2412,7 +2416,6 @@ namespace ADIN1100_Eval.ViewModel
                             {
                                 // Update busy indicator.
                                 this.IsFaultDetectorBusy = false;
-
                                 this.VerboseInfo("Calibration NVP cancelled.");
                             }
                             break;
@@ -2427,6 +2430,7 @@ namespace ADIN1100_Eval.ViewModel
 
                             if (offsetDialog.ShowDialog() == true)
                             {
+                                this.IsFaultDetectorBusy = true;
                                 Task.Run(() =>
                                 {
                                     bool calibrationSuccessful = false;
@@ -2446,10 +2450,13 @@ namespace ADIN1100_Eval.ViewModel
                                         }
                                         catch (Exception ex)
                                         {
-                                            // Update busy indicator.
-                                            this.IsFaultDetectorBusy = false;
                                             calibrationSuccessful = false;
                                             this.Error(ex.Message);
+                                        }
+                                        finally
+                                        {
+                                            // Update busy indicator.
+                                            this.IsFaultDetectorBusy = false;
                                         }
                                     }
 
@@ -2471,7 +2478,6 @@ namespace ADIN1100_Eval.ViewModel
                             {
                                 // Update busy indicator.
                                 this.IsFaultDetectorBusy = false;
-
                                 this.VerboseInfo("Calibration offset cancelled.");
                             }
                             break;
@@ -2577,7 +2583,7 @@ namespace ADIN1100_Eval.ViewModel
         private void DoCalibrateLoad(object obj)
         {
             // Update busy indicator.
-            this.IsFaultDetectorBusy = true;
+            //this.IsFaultDetectorBusy = true;
 
             if (this.selectedDevice != null)
             {
@@ -2594,6 +2600,7 @@ namespace ADIN1100_Eval.ViewModel
                             openFileDialog.Filter = "Calibrate Cable file (*.ccf)|*.ccf";
                             if (openFileDialog.ShowDialog() == true)
                             {
+                                this.IsFaultDetectorBusy = true;
                                 Task.Run(() =>
                                 {
                                     bool loadSuccess = false;
@@ -2612,30 +2619,38 @@ namespace ADIN1100_Eval.ViewModel
                                             };
 
                                             this.selectedDevice.FwAPI.SetNvp(this.CalibrateCableValue.NVP);
-
-                                            //TO DO: Load Calibration process
+                                            this.selectedDevice.FwAPI.TDRSetMode(TDRMode.Optimized);
                                             loadSuccess = true;
                                         }
                                         catch (Exception ex)
                                         {
+                                            this.SetCalibrationSuccessIndicator(false, type);
                                             this.Error(ex.Message);
                                         }
+                                        finally
+                                        {
+                                            // Update busy indicator.
+                                            this.IsFaultDetectorBusy = false;
+                                        }
                                     }
-
-                                    // Update busy indicator.
-                                    this.IsFaultDetectorBusy = false;
 
                                     Application.Current.Dispatcher.Invoke(() =>
                                     {
                                         if (loadSuccess)
                                         {
+                                            this.SetCalibrationSuccessIndicator(true, type);
                                             this.Info($"NVP calibration successfully loaded.");
+                                        }
+                                        else
+                                        {
+                                            this.SetCalibrationSuccessIndicator(false, type);
                                         }
                                     });
                                 });
                             }
                             else
                             {
+                                this.IsFaultDetectorBusy = false;
                                 this.Info($"Loading NVP calibration cancelled.");
                             }
 
@@ -2645,6 +2660,7 @@ namespace ADIN1100_Eval.ViewModel
                             openFileDialog.Filter = "Calibrate Offset file (*.cof)|*.cof";
                             if (openFileDialog.ShowDialog() == true)
                             {
+                                this.IsFaultDetectorBusy = true;
                                 Task.Run(() =>
                                 {
                                     bool loadSuccess = false;
@@ -2665,25 +2681,34 @@ namespace ADIN1100_Eval.ViewModel
                                         }
                                         catch (Exception ex)
                                         {
+                                            this.SetCalibrationSuccessIndicator(false, type);
                                             this.Error(ex.Message);
                                         }
+                                        finally
+                                        {
+                                            // Update busy indicator.
+                                            this.IsFaultDetectorBusy = false;
+                                        }
                                     }
-
-                                    // Update busy indicator.
-                                    this.IsFaultDetectorBusy = false;
 
                                     Application.Current.Dispatcher.Invoke(() =>
                                     {
                                         if (loadSuccess)
                                         {
+                                            this.SetCalibrationSuccessIndicator(true, type);
                                             this.Info($"Offset calibration successfully loaded.");
+                                        }
+                                        else
+                                        {
+                                            this.SetCalibrationSuccessIndicator(false, type);
                                         }
                                     });
                                 });
                             }
                             else
                             {
-                                this.Info($"Loading NVP calibration cancelled.");
+                                this.IsFaultDetectorBusy = false;
+                                this.Info($"Loading offset calibration cancelled.");
                             }
 
                             break;
