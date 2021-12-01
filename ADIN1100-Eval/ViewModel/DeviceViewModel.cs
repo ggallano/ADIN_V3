@@ -2612,6 +2612,8 @@ namespace ADIN1100_Eval.ViewModel
                                             };
 
                                             this.selectedDevice.FwAPI.SetNvp(this.CalibrateCableValue.NVP);
+
+                                            //TO DO: Load Calibration process
                                             loadSuccess = true;
                                         }
                                         catch (Exception ex)
