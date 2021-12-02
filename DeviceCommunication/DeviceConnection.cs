@@ -565,8 +565,8 @@ namespace DeviceCommunication
         /// </summary>
         /// <param name="nvp"></param>
         /// <param name="coff0"></param>
-        /// <param name="coeff1"></param>
-        public void TdrSetCoeff(float nvp, float coeff0, float coeff1)
+        /// <param name="coeffi"></param>
+        public void TdrSetCoeff(float nvp, float coeff0, float coeffi)
         {
             string readData;
             float nvpResult = 0.0f;
@@ -576,7 +576,7 @@ namespace DeviceCommunication
 
             this.Purge();
             // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
-            this.SendData($"tdrsetcoeff {nvp},{coeff0},{coeff1}\n");
+            this.SendData($"tdrsetcoeff {nvp},{coeff0},{coeffi}\n");
 
             /* ...and get the response */
             readData = this.ReadCommandResponse();
@@ -584,20 +584,15 @@ namespace DeviceCommunication
             Regex rg = new Regex("(?<=ERROR: ).*");
             Match matchedReadData = rg.Match(readData);
 
-            Regex rgNVPResult = new Regex(@"((?<=NVP=)((0\.\d*)|1\.0|1))");
-            Match matchedNVP = rgNVPResult.Match(readData);
-            Regex rgCoeff0Result = new Regex(@"((?<=Coeff0=)((\d*\.\d*)|1\.0|1))");
-            Match matchedCoeff0 = rgCoeff0Result.Match(readData);
-            Regex rgCoeff1Result = new Regex(@"((?<=Coeff1=)((\d*\.\d*)|1\.0|1))");
-            Match matchedCoeff1 = rgCoeff1Result.Match(readData);
-            Regex rgModeResult = new Regex(@"((?<=Mode=)(0|1))");
-            Match matchedMode = rgModeResult.Match(readData);
+            string numberPattern = $@"(?<=\=)({FLOATPATTERN}|{INTEGERPATTERN}|{STRINGPATTERN})*";
+            Regex tdrSetCoeffPattern = new Regex(numberPattern);
+            var matchedValues = tdrSetCoeffPattern.Matches(readData).Cast<Match>().Select(m => m.Value).ToArray();
 
             if (string.IsNullOrWhiteSpace(matchedReadData.ToString()) &&
-                !float.TryParse(matchedNVP.ToString(), System.Globalization.NumberStyles.Float, null, out nvpResult) &&
-                !float.TryParse(matchedCoeff0.ToString(), System.Globalization.NumberStyles.Float, null, out coeff0Result) &&
-                !float.TryParse(matchedCoeff1.ToString(), System.Globalization.NumberStyles.Float, null, out coeff1Result) &&
-                !int.TryParse(matchedMode.ToString(), System.Globalization.NumberStyles.Integer, null, out modeResult))
+                !float.TryParse(matchedValues[0].ToString(), System.Globalization.NumberStyles.Float, null, out nvpResult) &&
+                !float.TryParse(matchedValues[1].ToString(), System.Globalization.NumberStyles.Float, null, out coeff0Result) &&
+                !float.TryParse(matchedValues[2].ToString(), System.Globalization.NumberStyles.Float, null, out coeff1Result) &&
+                !int.TryParse(matchedValues[3].ToString(), System.Globalization.NumberStyles.Integer, null, out modeResult))
             {
                 throw new ApplicationException("invalid response");
             }

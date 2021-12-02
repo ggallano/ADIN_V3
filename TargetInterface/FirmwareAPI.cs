@@ -386,19 +386,13 @@ namespace TargetInterface
             Offset
         }
 
-        public enum TDRMode
-        {
-            Optimized = 0,
-            AutoRange,
-        }
-
         /// <summary>
         /// Calibration modes.
         /// </summary>
         public enum CalibrationMode
         {
-            AutoRange,
-            Optimized
+            Optimized = 0,
+            AutoRange
         }
 
         /// <summary>
@@ -5063,6 +5057,11 @@ namespace TargetInterface
             return this.deviceConnection.TdrGetOffset();
         }
 
+        public void SetNvpAndCoeff(CalibrateCable cableValues)
+        {
+            this.deviceConnection.TdrSetCoeff(cableValues.NVP, cableValues.Coeff0, cableValues.Coeffi);
+        }
+
         public void SetNvp(float nvpValue)
         {
             this.deviceConnection.TdrSetNvp(nvpValue);
@@ -5073,7 +5072,7 @@ namespace TargetInterface
             this.deviceConnection.TdrSetOffset(offsetValue);
         }
 
-        public void TDRSetMode(TDRMode mode)
+        public void TDRSetCalibrationMode(CalibrationMode mode)
         {
             this.deviceConnection.TdrSetMode((int)mode);
         }

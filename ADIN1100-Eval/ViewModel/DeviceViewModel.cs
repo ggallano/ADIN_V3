@@ -752,7 +752,7 @@ namespace ADIN1100_Eval.ViewModel
                     }
 
                     this.selectedDevice = value;
-                    
+
 
                     if (this.selectedDevice != null)
                     {
@@ -2596,10 +2596,10 @@ namespace ADIN1100_Eval.ViewModel
                     switch (type)
                     {
                         case Calibrate.NVP:
-                            this.Info($"Loading NVP calibration.");
                             openFileDialog.Filter = "Calibrate Cable file (*.ccf)|*.ccf";
                             if (openFileDialog.ShowDialog() == true)
                             {
+                                this.Info($"Loading cable calibration.");
                                 this.IsFaultDetectorBusy = true;
                                 Task.Run(() =>
                                 {
@@ -2618,8 +2618,8 @@ namespace ADIN1100_Eval.ViewModel
                                                 FileName = Path.GetFileName(openFileDialog.FileName),
                                             };
 
-                                            this.selectedDevice.FwAPI.SetNvp(this.CalibrateCableValue.NVP);
-                                            this.selectedDevice.FwAPI.TDRSetMode(TDRMode.Optimized);
+                                            this.selectedDevice.FwAPI.SetNvpAndCoeff(this.CalibrateCableValue);
+                                            this.selectedDevice.FwAPI.TDRSetCalibrationMode(CalibrationMode.Optimized);
                                             loadSuccess = true;
                                         }
                                         catch (Exception ex)
@@ -2639,7 +2639,7 @@ namespace ADIN1100_Eval.ViewModel
                                         if (loadSuccess)
                                         {
                                             this.SetCalibrationSuccessIndicator(true, type);
-                                            this.Info($"NVP calibration successfully loaded.");
+                                            this.Info($"cable calibration successfully loaded.");
                                         }
                                         else
                                         {
@@ -2651,15 +2651,16 @@ namespace ADIN1100_Eval.ViewModel
                             else
                             {
                                 this.IsFaultDetectorBusy = false;
-                                this.Info($"Loading NVP calibration cancelled.");
+                                this.Info($"Loading cable calibration cancelled.");
                             }
 
                             break;
                         case Calibrate.Offset:
-                            this.Info($"Loading offset calibration.");
+
                             openFileDialog.Filter = "Calibrate Offset file (*.cof)|*.cof";
                             if (openFileDialog.ShowDialog() == true)
                             {
+                                this.Info($"Loading offset calibration.");
                                 this.IsFaultDetectorBusy = true;
                                 Task.Run(() =>
                                 {
