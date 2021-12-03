@@ -16,6 +16,7 @@ namespace DeviceCommunication
     using Utilities.Feedback;
     using System.Collections.Specialized;
     using System.Text.RegularExpressions;
+    using System.Linq;
 
     /// <summary>
     /// Serial Port Delegate
@@ -57,6 +58,11 @@ namespace DeviceCommunication
         /// Flag to indicate if this is an initial scan
         /// </summary>
         private static bool initialScan = true;
+
+        /// <summary>
+        /// Check whether the device can lock or not.
+        /// </summary>
+        private readonly object deviceConLock = new object();
 
         /// <summary>
         /// The serial number of the connected device
@@ -418,7 +424,459 @@ namespace DeviceCommunication
                 this.ftdiDevice.Close();
             }
         }
- 
+
+        /// <summary>
+        /// Crops the received data. Some data are being formatted.
+        /// eg: "NVP = 0.5". "NVP =" will be removed.
+        /// </summary>
+        /// <returns></returns>
+        private string CropDataReceived(string value, string toRemove)
+        {
+            string result = string.Empty;
+            if (value.StartsWith(toRemove))
+            {
+                result = value.Remove(0, toRemove.Length);
+            }
+
+            return result;
+        }
+
+        string FLOATPATTERN = @"\d*\.\d*";
+        string INTEGERPATTERN = @"\d*";
+        string STRINGPATTERN = @"[a-zA-Z]";
+        //string NUMBERPATTERN = $@"({FLOATPATTERN}|{INTEGERPATTERN})";
+
+        /// <summary>
+        /// Initializes the fault structure needed to pass and read arguments to the TDR functions.
+        /// </summary>
+        /// <param name="nvp"></param>
+        /// <param name="cableOffset"></param>
+        /// <param name="mode"></param>
+        public string[] TdrInit()
+        {
+            string readData;
+
+            this.Purge();
+            // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
+            this.SendData($"tdrinit\n");
+
+            /* ...and get the response */
+            readData = this.ReadCommandResponse();
+
+            Regex rg = new Regex("(?<=ERROR: ).*");
+            Match errorMatched = rg.Match(readData);
+
+            string numberPattern = $@"(?<=\=)({FLOATPATTERN}|{INTEGERPATTERN}|{STRINGPATTERN})*";
+            Regex tdrInitPattern = new Regex(numberPattern);
+            var matchedValues = tdrInitPattern.Matches(readData).Cast<Match>().Select(m => m.Value).ToArray();
+
+            if (!string.IsNullOrWhiteSpace(errorMatched.ToString()))
+            {
+                throw new ApplicationException(errorMatched.ToString());
+            }
+            else
+            {
+                return matchedValues;
+            }
+        }
+
+        /// <summary>
+        /// Sets the TDR offset value.
+        /// </summary>
+        /// <param name="offset"></param>
+        /// <returns></returns>
+        public int TdrSetOffset(float offset)
+        {
+            string readData;
+            int parsedresult = 0;
+
+            this.Purge();
+            // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
+            this.SendData($"tdrsetoffset {offset}\n");
+
+            /* ...and get the response */
+            readData = this.ReadCommandResponse();
+
+            Regex rg = new Regex("(?<=ERROR: ).*");
+            Match errorMatched = rg.Match(readData);
+
+            string numberPattern = $@"(?<=\=)({FLOATPATTERN}|{INTEGERPATTERN}|{STRINGPATTERN})*";
+            Regex rgCableOffsetResult = new Regex(numberPattern);
+            Match matchedValue = rgCableOffsetResult.Match(readData);
+
+            if (!int.TryParse(matchedValue.ToString(), System.Globalization.NumberStyles.Integer, null, out parsedresult) &&
+                string.IsNullOrWhiteSpace(errorMatched.ToString()))
+            {
+                throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(errorMatched.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(errorMatched.ToString());
+            }
+
+            return parsedresult;
+        }
+
+        /// <summary>
+        /// Sets the TDR offset value.
+        /// </summary>
+        /// <param name="nvp"></param>
+        public void TdrSetNvp(float nvp)
+        {
+            string readData = string.Empty;
+
+            this.Purge();
+            // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
+            this.SendData($"tdrsetnvp {nvp}\n");
+
+            /* ...and get the response */
+            readData = this.ReadCommandResponse();
+
+            Regex rg = new Regex("(?<=ERROR: ).*");
+            Match matchedReadData = rg.Match(readData);
+
+            string numberPattern = $@"(?<=\=)({FLOATPATTERN}|{INTEGERPATTERN}|{STRINGPATTERN})*";
+            Regex tdrSetNvpPattern = new Regex(numberPattern);
+            var matchedValues = tdrSetNvpPattern.Matches(readData).Cast<Match>().Select(m => m.Value).ToArray();
+
+            if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
+            }
+            else
+            {
+                try
+                {
+                    float.Parse(matchedValues[0]);
+                    int.Parse(matchedValues[1]);
+                }
+                catch (Exception ex)
+                {
+                    throw new ApplicationException(ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the cable parameters on the fault structure. 
+        /// This argument also sets the fault detection mode in the firmware to optimized.
+        /// </summary>
+        /// <param name="nvp"></param>
+        /// <param name="coff0"></param>
+        /// <param name="coeffi"></param>
+        public void TdrSetCoeff(float nvp, float coeff0, float coeffi)
+        {
+            string readData;
+            float nvpResult = 0.0f;
+            float coeff0Result = 0.0f;
+            float coeff1Result = 0.0f;
+            int modeResult = 0;
+
+            this.Purge();
+            // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
+            this.SendData($"tdrsetcoeff {nvp},{coeff0},{coeffi}\n");
+
+            /* ...and get the response */
+            readData = this.ReadCommandResponse();
+
+            Regex rg = new Regex("(?<=ERROR: ).*");
+            Match matchedReadData = rg.Match(readData);
+
+            string numberPattern = $@"(?<=\=)({FLOATPATTERN}|{INTEGERPATTERN}|{STRINGPATTERN})*";
+            Regex tdrSetCoeffPattern = new Regex(numberPattern);
+            var matchedValues = tdrSetCoeffPattern.Matches(readData).Cast<Match>().Select(m => m.Value).ToArray();
+
+            if (string.IsNullOrWhiteSpace(matchedReadData.ToString()) &&
+                !float.TryParse(matchedValues[0].ToString(), System.Globalization.NumberStyles.Float, null, out nvpResult) &&
+                !float.TryParse(matchedValues[1].ToString(), System.Globalization.NumberStyles.Float, null, out coeff0Result) &&
+                !float.TryParse(matchedValues[2].ToString(), System.Globalization.NumberStyles.Float, null, out coeff1Result) &&
+                !int.TryParse(matchedValues[3].ToString(), System.Globalization.NumberStyles.Integer, null, out modeResult))
+            {
+                throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Sets the fault detection mode to Auto range or Optimized.
+        /// </summary>
+        public void TdrSetMode(int mode)
+        {
+            string readData;
+            int modeResult = 0;
+
+            this.Purge();
+            // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
+            this.SendData($"tdrsetmode {mode}\n");
+
+            /* ...and get the response */
+            readData = this.ReadCommandResponse();
+
+            Regex rg = new Regex("(?<=ERROR: ).*");
+            Match matchedReadData = rg.Match(readData);
+
+            Regex rgModeResult = new Regex(@"((?<=Mode=)(0|1))");
+            Match matchedMode = rgModeResult.Match(readData);
+
+            if (!int.TryParse(matchedMode.ToString(), System.Globalization.NumberStyles.Integer, null, out modeResult) &&
+                string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
+            }
+        }
+
+        /// <summary>
+        /// This function runs the TDR Fault Detector and outputs the fault type and distance to fault.
+        /// </summary>
+        /// <returns></returns>
+        public float TdrFaultDetect(out string faultType)
+        {
+            string readData;
+            float detectionResult = 0.0f;
+
+            this.Purge();
+            // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
+            this.SendData($"tdrfaultdet\n");
+
+            /* ...and get the response */
+            readData = this.ReadCommandResponse();
+
+            Regex rg = new Regex("(?<=ERROR: ).*");
+            Match matchedReadData = rg.Match(readData);
+
+            Regex rgFaultTypeResult = new Regex(@"(?<=Found )(\w+)|(No open or short found!)");
+            Match matchedFaultType = rgFaultTypeResult.Match(readData);
+            Regex rgDistanceResult = new Regex(@"(?<=at distance\s*)(\d*\.\d*)");
+            Match matchedDistance = rgDistanceResult.Match(readData);
+
+            if (string.Equals("No open or short found!", matchedFaultType.ToString()))
+            {
+                faultType = "No Fault";
+            }
+            else
+            {
+                faultType = matchedFaultType.ToString().ToUpperInvariant();
+            }
+
+            if (!float.TryParse(matchedDistance.ToString(), System.Globalization.NumberStyles.Float, null, out detectionResult) &&
+                !readData.Contains(matchedReadData.ToString()))
+            {
+                throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
+            }
+
+            return detectionResult;
+        }
+
+        /// <summary>
+        /// This function performs an offset calibration. It reports whether the calibration was successful or not.
+        /// </summary>
+        /// <returns></returns>
+        public float[] TdrCalibrateOffSet()
+        {
+            string readData;
+            float[] calibrationResult = new float[1];
+
+            this.Purge();
+            // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
+            this.SendData($"tdroffsetcal\n");
+
+            /* ...and get the response */
+            readData = this.ReadCommandResponse();
+
+            Regex rg = new Regex("(?<=ERROR: ).*");
+            Match matchedReadData = rg.Match(readData);
+
+            Regex rgOffsetResult = new Regex(@"(?<=Offset=)(\d*)");
+            Match matchedOffset = rgOffsetResult.Match(readData);
+
+            if (!float.TryParse(matchedOffset.ToString(), System.Globalization.NumberStyles.Float, null, out calibrationResult[0]) &&
+                !readData.Contains(matchedReadData.ToString()))
+            {
+                throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
+            }
+
+            return calibrationResult;
+        }
+
+        /// <summary>
+        /// This function performs a cable calibration, and it takes (1) float argument which must be validated.
+        /// This should also check if the calibration was successful.
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public float[] TdrCalibrateCable(float length)
+        {
+            string readData;
+            float[] calibrationResult = new float[3];
+
+            this.Purge();
+            // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
+            this.SendData($"tdrcablecal {length}\n");
+
+            /* ...and get the response */
+            readData = this.ReadCommandResponse();
+
+            Regex rg = new Regex("(?<=ERROR: ).*");
+            Match matchedReadData = rg.Match(readData);
+
+            Regex rgNVPResult = new Regex(@"(?<=NVP=)((\d*\.\d*)|1\.0|1)");
+            Match matchedNVP = rgNVPResult.Match(readData);
+
+            if (!float.TryParse(matchedNVP.ToString(), System.Globalization.NumberStyles.Float, null, out calibrationResult[0]) &&
+                !readData.Contains(matchedReadData.ToString()))
+            {
+                throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
+            }
+
+            return calibrationResult;
+        }
+
+        /// <summary>
+        /// This function reads the current offset value stored on the faultDetect structure.
+        /// </summary>
+        /// <returns></returns>
+        public int TdrGetOffset()
+        {
+            string readData;
+            int result = 0;
+
+            this.Purge();
+            // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
+            this.SendData($"tdrgetoffset\n");
+
+            /* ...and get the response */
+            readData = this.ReadCommandResponse();
+
+            Regex rg = new Regex("(?<=ERROR: ).*");
+            Match matchedReadData = rg.Match(readData);
+
+            if (!int.TryParse(readData, System.Globalization.NumberStyles.Integer, null, out result)
+                && !readData.Contains(matchedReadData.ToString()))
+            {
+                throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// This function reads the current NVP value stored on the faultDetect structure.
+        /// </summary>
+        /// <returns></returns>
+        public float TdrGetNvp()
+        {
+            string readData;
+            float result = 0.0f;
+
+            this.Purge();
+            // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
+            this.SendData($"tdrgetnvp\n");
+
+            /* ...and get the response */
+            readData = this.ReadCommandResponse();
+
+            Regex rg = new Regex("(?<=ERROR: ).*");
+            Match matchedReadData = rg.Match(readData);
+
+            if (!float.TryParse(readData, System.Globalization.NumberStyles.Float, null, out result)
+                && !readData.Contains(matchedReadData.ToString()))
+            {
+                throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// This function reads the NVP and cable coefficients from the faultDetect structure.
+        /// </summary>
+        /// <returns></returns>
+        public float[] TdrGetCoeff()
+        {
+            string readData;
+            string[] readDataSplit;
+            float[] result;
+            bool resultValid = true;
+
+            this.Purge();
+            // mdiord_cl45 <phyAddress>,< register address in Hex ><\n >
+            this.SendData($"tdrgetcoeff\n");
+
+            /* ...and get the response */
+            readData = this.ReadCommandResponse();
+
+            Regex rg = new Regex("(?<=ERROR: ).*");
+            Match matchedReadData = rg.Match(readData);
+
+            // Parse data.
+            readDataSplit = readData.Split(new char[] { ',' });
+            result = new float[readDataSplit.Length];
+            for (int i = 0; i < readDataSplit.Length; i++)
+            {
+                Regex rgResult = new Regex(@"(\d*\.\d*)|(\d*)");
+                Match matchedResult = rgResult.Match(readDataSplit[i]);
+
+                float parse = 0.0f;
+                if (float.TryParse(matchedResult.ToString(), System.Globalization.NumberStyles.Float, null, out parse))
+                {
+                    result[i] = parse;
+                }
+                else
+                {
+                    resultValid = false;
+                }
+            }
+
+            if (!readData.Contains(matchedReadData.ToString()) &&
+                !resultValid)
+            {
+                throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Read an MDIO Register
         /// </summary>
@@ -471,6 +929,11 @@ namespace DeviceCommunication
                 && !readData.Contains(matchedReadData.ToString()))
             {
                 throw new ApplicationException("invalid response");
+            }
+            else if (!string.IsNullOrWhiteSpace(matchedReadData.ToString()))
+            {
+                // Log error.
+                throw new ApplicationException(matchedReadData.ToString());
             }
 
             return regContent;
@@ -562,7 +1025,7 @@ namespace DeviceCommunication
                     complete = true;
                 }
 
-                if (commandresponse.Count > 100)
+                if (commandresponse.Count > 200)
                 {
                     throw new ApplicationException("Lost communication with Evaluation board.");
                 }

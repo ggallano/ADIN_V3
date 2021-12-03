@@ -12,6 +12,7 @@ namespace ADIN1100_Eval.Model
     using DeviceCommunication;
     using TargetInterface;
     using Utilities.Feedback;
+    using TargetInterface.CableDiagnostics;
 
     /// <summary>
     /// Device Model
@@ -46,6 +47,14 @@ namespace ADIN1100_Eval.Model
 
             this.fwAPI.AttachDevice(this.deviceConnection);
             this.isPresent = true;
+
+            this.fwAPI.Open();
+            var result = fwAPI.ResetFaultDetection();
+            this.Cable.NVP = float.Parse(result[0]);
+            this.Offset.Offset = float.Parse(result[1]);
+            this.Cable.Coeff0 = float.Parse(result[2]);
+            this.Cable.Coeffi = float.Parse(result[3]);
+            this.fwAPI.Close();
         }
 
         /// <summary>
@@ -62,6 +71,16 @@ namespace ADIN1100_Eval.Model
         /// Gets or sets the FrameGenerator
         /// </summary>
         public FrameGeneratorChecker FrameGenerator { get; set; }
+
+        /// <summary>
+        /// Gets or sets cable.
+        /// </summary>
+        public CalibrateCable Cable { get; set; } = new CalibrateCable();
+
+        /// <summary>
+        /// Gets or sets offset.
+        /// </summary>
+        public CalibrateOffset Offset { get; set; } = new CalibrateOffset();
 
         /// <summary>
         /// gets or sets the Inloopback
