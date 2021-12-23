@@ -1359,6 +1359,29 @@ namespace ADIN1100_Eval.ViewModel
         }
 
         /// <summary>
+        /// fault busy content
+        /// </summary>
+        private string faultDetectorBusyContent;
+
+        /// <summary>
+        /// gets or sets the fault busy content
+        /// </summary>
+        public string FaultDetectorBusyContent
+        {
+            get
+            {
+                return this.faultDetectorBusyContent;
+            }
+
+            set
+            {
+                this.faultDetectorBusyContent = value;
+                this.RaisePropertyChanged(nameof(FaultDetectorBusyContent));
+            }
+        }
+
+
+        /// <summary>
         /// Gets the text for the power down button
         /// </summary>
         public string SoftwarePowerDownButtonText
@@ -2254,6 +2277,10 @@ namespace ADIN1100_Eval.ViewModel
         /// <param name="obj"></param>
         private void DoFaultDetection(object obj)
         {
+            this.PerformSoftwareReset("Reset: PHY");
+
+            //this.Info("Performing Software Reset");
+
             Task.Run(() =>
             {
                 string faultType = string.Empty;
@@ -2261,12 +2288,18 @@ namespace ADIN1100_Eval.ViewModel
                 // Update busy indicator.
                 this.IsFaultDetectorBusy = true;
 
+
                 lock (this)
                 {
                     if (this.selectedDevice != null)
                     {
                         try
                         {
+                            //Application.Current.Dispatcher.Invoke(() => { this.PerformSoftwareReset("Reset: PHY"); this.FaultDetectorBusyContent = "Performing Software Reset"; });
+                            this.FaultDetectorBusyContent = "Performing Software Reset";
+                            Thread.Sleep(5000);
+
+                            this.FaultDetectorBusyContent = "Running TDR";
                             this.Info($"Executing fault detection.");
                             this.DistToFault = this.selectedDevice.FwAPI.ExecuteFaultDetection(this.calibrateOffsetValue, this.calibrateCableValue, CalibrationMode.AutoRange, out faultType).ToString();
                             this.FaultState = faultType;
@@ -2274,13 +2307,15 @@ namespace ADIN1100_Eval.ViewModel
                         }
                         catch (Exception ex)
                         {
-                            this.Error(ex.Message);
+                            this.Error(ex.Message.TrimEnd());
+                        }
+                        finally
+                        {
+                            // Update busy indicator.
+                            this.IsFaultDetectorBusy = false;
                         }
                     }
                 }
-
-                // Update busy indicator.
-                this.IsFaultDetectorBusy = false;
             });
         }
 
@@ -2294,6 +2329,7 @@ namespace ADIN1100_Eval.ViewModel
             {
                 // Update busy indicator.
                 this.IsFaultDetectorBusy = true;
+                this.FaultDetectorBusyContent = "";
 
                 lock (this)
                 {
@@ -2320,7 +2356,7 @@ namespace ADIN1100_Eval.ViewModel
                         }
                         catch (Exception ex)
                         {
-                            this.Error(ex.Message);
+                            this.Error(ex.Message.TrimEnd());
                         }
                     }
                 }
@@ -2340,6 +2376,8 @@ namespace ADIN1100_Eval.ViewModel
             // Update busy indicator.
             //this.IsFaultDetectorBusy = true;
 
+            //this.PerformSoftwareReset("Reset: PHY");
+
             //lock (this)
             //{
             if (this.selectedDevice != null)
@@ -2350,7 +2388,6 @@ namespace ADIN1100_Eval.ViewModel
                     switch (type)
                     {
                         case Calibrate.NVP:
-                            this.Info($"Executing cable fault detection calibration.");
                             message = "Please connect cable at MDI connector and enter the cable \nlength to perform cable calibration.";
 
                             Views.CalibrateCableDialog cableDialog = new Views.CalibrateCableDialog();
@@ -2362,11 +2399,18 @@ namespace ADIN1100_Eval.ViewModel
                             if (cableDialog.ShowDialog() == true)
                             {
                                 this.IsFaultDetectorBusy = true;
+                                this.PerformSoftwareReset("Reset: PHY");
+
+                                this.Info($"Executing cable fault detection calibration.");
+                                this.FaultDetectorBusyContent = "Calibrating";
                                 float cableLengthInput = 0.0f;
                                 cableLengthInput = Convert.ToSingle(cableDialog.txtCableLength.Value.Value);
 
                                 Task.Run(() =>
                                 {
+                                    this.FaultDetectorBusyContent = "Performing Software Reset";
+                                    Thread.Sleep(5000);
+
                                     bool calibrationSuccessful = false;
 
                                     lock (this)
@@ -2388,7 +2432,7 @@ namespace ADIN1100_Eval.ViewModel
                                         {
                                             calibrationSuccessful = false;
                                             this.CalibrateCableValue.NVP = 0.670f;
-                                            this.Error(ex.Message);
+                                            this.Error(ex.Message.TrimEnd());
                                         }
                                         finally
                                         {
@@ -2398,18 +2442,22 @@ namespace ADIN1100_Eval.ViewModel
                                     }
 
                                     Application.Current.Dispatcher.Invoke(() =>
-                                    {
-                                        // Update busy indicator.
-                                        this.IsFaultDetectorBusy = false;
-                                        this.RaisePropertyChanged(nameof(this.CalibrateCableValue));
-
-                                        if (calibrationSuccessful)
                                         {
-                                            this.SetCalibrationSuccessIndicator(true, type);
-                                            this.Info($"Cable fault detection calibration finished.");
+                                            // Update busy indicator.
+                                            this.IsFaultDetectorBusy = false;
+                                            this.RaisePropertyChanged(nameof(this.CalibrateCableValue));
+
+                                            if (calibrationSuccessful)
+                                            {
+                                                this.SetCalibrationSuccessIndicator(true, type);
+                                                this.Info($"Cable fault detection calibration finished.");
+                                            }
+                                            else
+                                            {
+                                                this.SetCalibrationSuccessIndicator(false, type);
+                                            }
                                         }
-                                    }
-                                    );
+                                        );
                                 });
                             }
                             else
@@ -2420,7 +2468,7 @@ namespace ADIN1100_Eval.ViewModel
                             }
                             break;
                         case Calibrate.Offset:
-                            this.Info($"Executing offset fault detection calibration.");
+
                             message = "Please disconnect cable from MDI connector and \nclick OK to perform offset calibration.";
 
                             Views.CalibrateOffsetDialog offsetDialog = new Views.CalibrateOffsetDialog();
@@ -2431,8 +2479,16 @@ namespace ADIN1100_Eval.ViewModel
                             if (offsetDialog.ShowDialog() == true)
                             {
                                 this.IsFaultDetectorBusy = true;
+                                this.PerformSoftwareReset("Reset: PHY");
+
                                 Task.Run(() =>
                                 {
+                                    this.FaultDetectorBusyContent = "Performing Software Reset";
+                                    Thread.Sleep(5000);
+
+                                    this.Info($"Executing offset fault detection calibration.");
+                                    this.FaultDetectorBusyContent = "Calibrating";
+
                                     bool calibrationSuccessful = false;
 
                                     lock (this)
@@ -2451,7 +2507,7 @@ namespace ADIN1100_Eval.ViewModel
                                         catch (Exception ex)
                                         {
                                             calibrationSuccessful = false;
-                                            this.Error(ex.Message);
+                                            this.Error(ex.Message.TrimEnd());
                                         }
                                         finally
                                         {
@@ -2461,17 +2517,21 @@ namespace ADIN1100_Eval.ViewModel
                                     }
 
                                     Application.Current.Dispatcher.Invoke(() =>
-                                    {
-                                        // Update busy indicator.
-                                        this.IsFaultDetectorBusy = false;
-                                        this.RaisePropertyChanged(nameof(this.CalibrateOffsetValue));
+                                            {
+                                                // Update busy indicator.
+                                                this.IsFaultDetectorBusy = false;
+                                                this.RaisePropertyChanged(nameof(this.CalibrateOffsetValue));
 
-                                        if (calibrationSuccessful)
-                                        {
-                                            this.SetCalibrationSuccessIndicator(true, type);
-                                            this.Info($"Offset fault detection calibration finished.");
-                                        }
-                                    });
+                                                if (calibrationSuccessful)
+                                                {
+                                                    this.SetCalibrationSuccessIndicator(true, type);
+                                                    this.Info($"Offset fault detection calibration finished.");
+                                                }
+                                                else
+                                                {
+                                                    this.SetCalibrationSuccessIndicator(false, type);
+                                                }
+                                            });
                                 });
                             }
                             else
@@ -2491,7 +2551,7 @@ namespace ADIN1100_Eval.ViewModel
                 {
                     // Update busy indicator.
                     this.IsFaultDetectorBusy = false;
-                    this.Error(ex.Message);
+                    this.Error(ex.Message.TrimEnd());
                 }
             }
             //}
@@ -2624,8 +2684,8 @@ namespace ADIN1100_Eval.ViewModel
                                         }
                                         catch (Exception ex)
                                         {
-                                            this.SetCalibrationSuccessIndicator(false, type);
-                                            this.Error(ex.Message);
+                                            //this.SetCalibrationSuccessIndicator(false, type);
+                                            this.Error(ex.Message.TrimEnd());
                                         }
                                         finally
                                         {
@@ -2682,8 +2742,8 @@ namespace ADIN1100_Eval.ViewModel
                                         }
                                         catch (Exception ex)
                                         {
-                                            this.SetCalibrationSuccessIndicator(false, type);
-                                            this.Error(ex.Message);
+                                            //this.SetCalibrationSuccessIndicator(false, type);
+                                            this.Error(ex.Message.TrimEnd());
                                         }
                                         finally
                                         {
@@ -3015,37 +3075,42 @@ namespace ADIN1100_Eval.ViewModel
             {
                 string resettype = (string)obj;
 
-                if (this.selectedDevice != null)
+                PerformSoftwareReset(resettype);
+            }
+        }
+
+        private void PerformSoftwareReset(string resetType)
+        {
+            if (this.selectedDevice != null)
+            {
+                try
                 {
-                    try
+                    this.selectedDevice.FwAPI.SoftwareReset(resetType);
+                    if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1100)
                     {
-                        this.selectedDevice.FwAPI.SoftwareReset(resettype);
-                        if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1100)
-                        {
-                            this.SelectedTestModeItem = this.testmodeitemsADIN1100[0];
-                            this.SelectedLoopbackItem = this.loopbackItemsADIN1100[0];
-                        }
-                        else if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1200)
-                        {
-                            this.SelectedTestModeItem = this.testmodeitemsADIN1200[0];
-                        }
-                        else
-                        {
-                            this.SelectedTestModeItem = this.testmodeitemsADIN1300[0];
-                        }
+                        this.SelectedTestModeItem = this.testmodeitemsADIN1100[0];
+                        this.SelectedLoopbackItem = this.loopbackItemsADIN1100[0];
                     }
-                    catch (FTDIException exc)
+                    else if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1200)
                     {
-                        this.Error(exc.Message);
+                        this.SelectedTestModeItem = this.testmodeitemsADIN1200[0];
                     }
-                    catch (ApplicationException exc)
+                    else
                     {
-                        this.Error(exc.Message);
+                        this.SelectedTestModeItem = this.testmodeitemsADIN1300[0];
                     }
-                    catch (Exception exc)
-                    {
-                        this.Error(exc.Message);
-                    }
+                }
+                catch (FTDIException exc)
+                {
+                    this.Error(exc.Message);
+                }
+                catch (ApplicationException exc)
+                {
+                    this.Error(exc.Message);
+                }
+                catch (Exception exc)
+                {
+                    this.Error(exc.Message);
                 }
             }
         }

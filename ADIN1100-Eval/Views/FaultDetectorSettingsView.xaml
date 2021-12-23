@@ -207,7 +207,7 @@
                         </StackPanel>
 
                         <telerik:RadButton Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Margin="6" Style="{StaticResource CalibrateButtonStyle}" Command="{Binding FaultDetectionCalibrateCommand}" CommandParameter="Offset"
-                                           ToolTip="Manual offset calibration.">
+                                           ToolTip="Perform offset calibration">
                             <Border BorderBrush="{Binding CalibrateOffsetButtonColor}"
                                     BorderThickness="3">
                                 <TextBlock Text="Calibrate"
@@ -251,7 +251,7 @@
                         </StackPanel>
 
                         <telerik:RadButton Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Margin="6" Style="{StaticResource CalibrateButtonStyle}" Command="{Binding FaultDetectionCalibrateCommand}" CommandParameter="NVP"
-                                           ToolTip="Manual NVP calibration.">
+                                           ToolTip="Perform cable calibration">
                             <Border BorderBrush="{Binding CalibrateCableButtonColor}"
                                     BorderThickness="3">
                                 <TextBlock Text="Calibrate"
