@@ -2272,12 +2272,34 @@ namespace ADIN1100_Eval.ViewModel
         }
 
         /// <summary>
+        /// it resets the UI to their default position
+        /// </summary>
+        private void ResetUIControls()
+        {
+            if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1100)
+            {
+                this.SelectedLoopbackItem = this.loopbackItemsADIN1100[0];
+                this.SelectedTestModeItem = this.testmodeitemsADIN1100[0];
+            }
+            else if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1200)
+            {
+                this.SelectedTestModeItem = this.testmodeitemsADIN1200[0];
+            }
+            else
+            {
+                this.SelectedTestModeItem = this.testmodeitemsADIN1300[0];
+            }
+        }
+
+        /// <summary>
         /// Executes Fault Detection
         /// </summary>
         /// <param name="obj"></param>
         private void DoFaultDetection(object obj)
         {
-            this.PerformSoftwareReset("Reset: PHY");
+            ResetUIControls();
+            //return;
+            //this.PerformSoftwareReset("Reset: PHY");
 
             //this.Info("Performing Software Reset");
 
@@ -3086,19 +3108,7 @@ namespace ADIN1100_Eval.ViewModel
                 try
                 {
                     this.selectedDevice.FwAPI.SoftwareReset(resetType);
-                    if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1100)
-                    {
-                        this.SelectedTestModeItem = this.testmodeitemsADIN1100[0];
-                        this.SelectedLoopbackItem = this.loopbackItemsADIN1100[0];
-                    }
-                    else if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1200)
-                    {
-                        this.SelectedTestModeItem = this.testmodeitemsADIN1200[0];
-                    }
-                    else
-                    {
-                        this.SelectedTestModeItem = this.testmodeitemsADIN1300[0];
-                    }
+                    ResetUIControls();
                 }
                 catch (FTDIException exc)
                 {
