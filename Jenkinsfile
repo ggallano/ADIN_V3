@@ -46,7 +46,7 @@ pipeline {
 		
 		//stage('Publish') {
 		//	steps {
-		//		bat "echo Publish"
+		//		bat "echo Publish"df6g56df5g
 		//	}
 		//}
     }
