@@ -114,6 +114,11 @@
     <Compile Include="AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AutoVersionIncrement.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AutoVersionIncrement.tt</DependentUpon>
+    </Compile>
     <Compile Include="FrameGeneratorChecker.cs" />
     <Compile Include="LocalLoopbackParameters.cs" />
     <Compile Include="Loopback.cs" />
@@ -648,6 +653,12 @@
     <Resource Include="Images\Yoda\adin1100S1\ea411b5fd7c45f115bdf767605744a87a86eed79.png" />
     <Resource Include="Images\Yoda\adin1100S1\f08bfcb514f8b2df6edbe0958070e5a2cfad038d.png" />
     <Resource Include="Images\Yoda\adin1100S1\fabdaf625dd2e556ce84d8773580e05f639585ca.png" />
+    <Content Include="AutoVersionIncrement.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AutoVersionIncrement.cs</LastGenOutput>
+      <AlwaysRun>True</AlwaysRun>
+      <RunCustomToolOnBuild>True</RunCustomToolOnBuild>
+    </Content>
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -682,6 +693,9 @@
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
