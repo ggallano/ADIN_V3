@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ADIN1100_Eval.Views"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800">
     <Grid>
@@ -13,31 +14,41 @@
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                    <TextBlock HorizontalAlignment="Center" Style="{StaticResource Title_H1}" FontSize="18" FontWeight="Bold">Time Domain Reflectometry</TextBlock>
-                    <TextBlock HorizontalAlignment="Center" Style="{StaticResource Title_H1}" FontSize="18" FontWeight="Medium">Fault Detector</TextBlock>
-                </StackPanel>
-            </Grid>
 
-            <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Style="{DynamicResource VerticalGridSplitter}" />
-            
-            <Grid Grid.Row="0" Grid.Column="2" Grid.RowSpan="3">
+            <Grid Grid.Row="0" Grid.Column="2">
                 <local:LinkStatus/>
             </Grid>
 
-            <Grid Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                <local:FaultDetectorSettingsView/>
-            </Grid>
-            
-            <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                <local:CableDiagnosticsStatusADIN1100/>
-            </Grid>
+            <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" Style="{DynamicResource VerticalGridSplitter}" />
+
+            <telerik:RadBusyIndicator x:Name="FaultDetectorBusyindicator" 
+                                      Background="Transparent"
+                                      BorderThickness="0"
+                                      Focusable="False"
+                                      IsBusy="{Binding IsFaultDetectorBusy}">
+                <Grid Grid.Row="0" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                            <TextBlock HorizontalAlignment="Center" Style="{StaticResource Title_H1}" FontSize="18" FontWeight="Bold">Time Domain Reflectometry</TextBlock>
+                            <TextBlock HorizontalAlignment="Center" Style="{StaticResource Title_H1}" FontSize="18" FontWeight="Medium">Fault Detector</TextBlock>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <local:FaultDetectorSettingsView/>
+                    </Grid>
+
+                    <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <local:CableDiagnosticsStatusADIN1100/>
+                    </Grid>
+                </Grid>
+            </telerik:RadBusyIndicator>
         </Grid>
     </Grid>
 </UserControl>

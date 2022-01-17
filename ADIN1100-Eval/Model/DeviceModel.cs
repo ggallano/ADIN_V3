@@ -47,6 +47,14 @@ namespace ADIN1100_Eval.Model
 
             this.fwAPI.AttachDevice(this.deviceConnection);
             this.isPresent = true;
+
+            this.fwAPI.Open();
+            var result = fwAPI.ResetFaultDetection();
+            this.Cable.NVP = float.Parse(result[0]);
+            this.Offset.Offset = float.Parse(result[1]);
+            this.Cable.Coeff0 = float.Parse(result[2]);
+            this.Cable.Coeffi = float.Parse(result[3]);
+            this.fwAPI.Close();
         }
 
         /// <summary>

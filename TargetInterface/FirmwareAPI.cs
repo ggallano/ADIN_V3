@@ -383,8 +383,7 @@ namespace TargetInterface
         public enum Calibrate
         {
             NVP,
-            Offset,
-            Manual
+            Offset
         }
 
         /// <summary>
@@ -392,8 +391,8 @@ namespace TargetInterface
         /// </summary>
         public enum CalibrationMode
         {
-            AutoRange,
-            Optimized
+            Optimized = 0,
+            AutoRange
         }
 
         /// <summary>
@@ -4995,9 +4994,6 @@ namespace TargetInterface
         {
             if (this.TenSPEDevice())
             {
-                this.deviceConnection.TdrSetNvp(calibrateCableValue.NVP);
-                this.deviceConnection.TdrSetOffset(calibrateOffsetValue.Offset);
-                this.deviceConnection.TdrSetMode((int)mode);
                 return this.deviceConnection.TdrFaultDetect(out faultType);
             }
             else
@@ -5012,15 +5008,11 @@ namespace TargetInterface
         /// <param name="nvp"></param>
         /// <param name="cableOffset"></param>
         /// <param name="mode"></param>
-        public void ResetFaultDetection(out float nvp, out int cableOffset, out CalibrationMode mode)
+        public string[] ResetFaultDetection()
         {
-            int modeResult;
-
             if (this.TenSPEDevice())
             {
-
-                this.deviceConnection.TdrInit(out nvp, out cableOffset, out modeResult);
-                mode = (CalibrationMode)modeResult;
+                return this.deviceConnection.TdrInit();
             }
             else
             {
@@ -5053,6 +5045,36 @@ namespace TargetInterface
             }
 
             return output;
+        }
+
+        public float[] GetCoeff()
+        {
+            return this.deviceConnection.TdrGetCoeff();
+        }
+
+        public int GetOffset()
+        {
+            return this.deviceConnection.TdrGetOffset();
+        }
+
+        public void SetNvpAndCoeff(CalibrateCable cableValues)
+        {
+            this.deviceConnection.TdrSetCoeff(cableValues.NVP, cableValues.Coeff0, cableValues.Coeffi);
+        }
+
+        public void SetNvp(float nvpValue)
+        {
+            this.deviceConnection.TdrSetNvp(nvpValue);
+        }
+
+        public void SetOffset(float offsetValue)
+        {
+            this.deviceConnection.TdrSetOffset(offsetValue);
+        }
+
+        public void TDRSetCalibrationMode(CalibrationMode mode)
+        {
+            this.deviceConnection.TdrSetMode((int)mode);
         }
 
         ///// <summary>
