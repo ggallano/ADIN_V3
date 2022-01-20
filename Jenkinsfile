@@ -11,6 +11,8 @@ pipeline {
 		SOLUTION_NAME = "ADIN1100-Eval.sln"
 		NSIS_SCRIPT_NAME = "ADIN1100_Eval.nsi"
 		BASE_INSTALLER_NAME = "Analog Devices Ethernet PHY Installer"
+		
+		RECIPIENTS = "glenn.gallano@analog.com"
 	}
 
     stages {
@@ -109,5 +111,28 @@ pipeline {
 				echo "[DEBUG] End Publish"
 			}
 		}
-    }
+	}
+	
+	post {
+		always {
+			echo "[DEBUG] Post Always"
+			
+		}
+	
+		success {
+			mail to: "${env.RECIPIENTS}",
+				subject: "ADIN1100GUI Latest Version [SUCCESS]", 
+				body: """Hi\nKindly download the file under Build Artifacts in this link: ${env.BUILD_URL}"""
+				
+			echo "[DEBUG] Post Success"
+		}
+		
+		failure {
+			mail to: "${env.RECIPIENTS}",
+				subject: "ADIN1100GUI Latest Version [FAILED]", 
+				body: """The build was failed.\n${env.BUILD_URL}"""
+				
+			echo "[DEBUG] Post Failure"
+		}
+	}
 }
