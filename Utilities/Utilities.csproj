@@ -55,6 +55,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BoardNameParser.cs" />
     <Compile Include="Feedback\Feedback.cs" />
     <Compile Include="Feedback\FeedbackConsoleNotifier.cs" />
     <Compile Include="Feedback\FeedbackPropertyChange.cs" />
