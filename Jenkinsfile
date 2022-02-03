@@ -13,7 +13,7 @@ pipeline {
 		BASE_INSTALLER_NAME = "Analog Devices Ethernet PHY Installer"
 		
 		RECIPIENTS = 'glenn.gallano@analog.com, Wassim.Magnin@analog.com, hector.arroyo@analog.com, danail.baylov@analog.com'
-		//DEV_RECIPIENTS = 'glenn.gallano@analog.com'
+		DEV_RECIPIENTS = 'glenn.gallano@analog.com'
 	}
 
     stages {
@@ -121,18 +121,18 @@ pipeline {
 		}
 	
 		success {
-			//mail to: "${env.RECIPIENTS}",
-			//	subject: "ADIN1100GUI Latest Version [SUCCESS]", 
-			//	body: """Hi\nKindly download the file under Build Artifacts in this link: ${env.BUILD_URL}"""
-			//	
+			mail to: "${env.RECIPIENTS}",
+				subject: "ADIN1100GUI Latest Version [SUCCESS]", 
+				body: """Hi\nKindly download the file under Build Artifacts in this link: ${env.BUILD_URL}"""
+				
 			echo "[DEBUG] Post Success"
 		}
 		
 		failure {
-			//mail to: "${env.DEV_RECIPIENTS}",
-			//	subject: "ADIN1100GUI Latest Version [FAILED]", 
-			//	body: """The build was failed.\n${env.BUILD_URL}"""
-			//	
+			mail to: "${env.DEV_RECIPIENTS}",
+				subject: "ADIN1100GUI Latest Version [FAILED]", 
+				body: """The build was failed.\n${env.BUILD_URL}"""
+				
 			echo "[DEBUG] Post Failure"
 		}
 	}
