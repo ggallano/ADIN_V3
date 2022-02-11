@@ -1,6 +1,7 @@
 pipeline {
-    agent { label 'IPN_Software_Agent' }
-	
+    agent { label 'CAV_SSE_Agent' }
+	//agent { label 'IPN_Software_Agent' }
+
 	environment {
 		VERSION_NUMBER_FILE = "ADIN1100-Eval\\AutoVersionIncrement.cs"
 		
@@ -8,12 +9,16 @@ pipeline {
 		MSBUILD_PATH = "C:\\Program Files (x86)\\MSBuild\\14.0\\Bin\\msbuild.exe"
 		NUGET_PATH = "C:\\Program Files (x86)\\MSBuild\\14.0\\Bin\\nuget.exe"
 		
+		PROJECT_FILES = "ADIN1100-Eval;DeviceCommunication;TargetInterface;Utilities"
+		FRAMEWORK_SDK = "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v10.0A\\bin\\NETFX 4.6.2 Tools"
+		
 		SOLUTION_NAME = "ADIN1100-Eval.sln"
 		NSIS_SCRIPT_NAME = "ADIN1100_Eval.nsi"
 		BASE_INSTALLER_NAME = "Analog Devices Ethernet PHY Installer"
 		
-		RECIPIENTS = 'glenn.gallano@analog.com, Wassim.Magnin@analog.com, hector.arroyo@analog.com, danail.baylov@analog.com'
-		DEV_RECIPIENTS = 'glenn.gallano@analog.com'
+		//RECIPIENTS = 'glenn.gallano@analog.com, Wassim.Magnin@analog.com, hector.arroyo@analog.com, danail.baylov@analog.com'
+		RECIPIENTS = 'glenn.gallano@analog.com'
+		//DEV_RECIPIENTS = 'glenn.gallano@analog.com'
 	}
 
     stages {
@@ -48,7 +53,7 @@ pipeline {
 					echo "End Nuget Packages Restore"
 					
 					echo "Start Release Build"
-						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release
+						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES} /p:Platform="Any CPU"
 					echo "[DEBUG] End Release Build"
 				"""
             }
@@ -113,7 +118,7 @@ pipeline {
 			}
 		}
 	}
-	
+
 	post {
 		always {
 			echo "[DEBUG] Post Always"
@@ -121,18 +126,18 @@ pipeline {
 		}
 	
 		success {
-			mail to: "${env.RECIPIENTS}",
-				subject: "ADIN1100GUI Latest Version [SUCCESS]", 
-				body: """Hi\nKindly download the file under Build Artifacts in this link: ${env.BUILD_URL}"""
-				
+			//mail to: "${env.RECIPIENTS}",
+			//	subject: "ADIN1100GUI Latest Version [SUCCESS]", 
+			//	body: """Hi\nKindly download the file under Build Artifacts in this link: ${env.BUILD_URL}"""
+			//	
 			echo "[DEBUG] Post Success"
 		}
 		
 		failure {
-			mail to: "${env.DEV_RECIPIENTS}",
-				subject: "ADIN1100GUI Latest Version [FAILED]", 
-				body: """The build was failed.\n${env.BUILD_URL}"""
-				
+			//mail to: "${env.DEV_RECIPIENTS}",
+			//	subject: "ADIN1100GUI Latest Version [FAILED]", 
+			//	body: """The build was failed.\n${env.BUILD_URL}"""
+			//	
 			echo "[DEBUG] Post Failure"
 		}
 	}

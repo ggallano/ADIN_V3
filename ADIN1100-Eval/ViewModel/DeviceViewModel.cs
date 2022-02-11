@@ -2453,12 +2453,13 @@ namespace ADIN1100_Eval.ViewModel
                                         catch (Exception ex)
                                         {
                                             calibrationSuccessful = false;
-                                            this.CalibrateCableValue.NVP = 0.670f;
+                                            //this.CalibrateCableValue.NVP = 0.670f;
                                             this.Error(ex.Message.TrimEnd());
                                         }
                                         finally
                                         {
                                             // Update busy indicator.
+                                            this.CalibrateCableValue.NVP = this.selectedDevice.FwAPI.GetCoeff()[0];
                                             this.IsFaultDetectorBusy = false;
                                         }
                                     }
@@ -2534,6 +2535,7 @@ namespace ADIN1100_Eval.ViewModel
                                         finally
                                         {
                                             // Update busy indicator.
+                                            this.CalibrateOffsetValue.Offset = this.selectedDevice.FwAPI.GetOffset();
                                             this.IsFaultDetectorBusy = false;
                                         }
                                     }
