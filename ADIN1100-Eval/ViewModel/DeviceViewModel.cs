@@ -2423,7 +2423,7 @@ namespace ADIN1100_Eval.ViewModel
                                 this.IsFaultDetectorBusy = true;
                                 this.PerformSoftwareReset("Reset: PHY");
 
-                                this.Info($"Executing cable fault detection calibration.");
+                                this.Info($"Executing cable calibration.");
                                 this.FaultDetectorBusyContent = "Calibrating";
                                 float cableLengthInput = 0.0f;
                                 cableLengthInput = Convert.ToSingle(cableDialog.txtCableLength.Value.Value);
@@ -2473,7 +2473,7 @@ namespace ADIN1100_Eval.ViewModel
                                             if (calibrationSuccessful)
                                             {
                                                 this.SetCalibrationSuccessIndicator(true, type);
-                                                this.Info($"Cable fault detection calibration finished.");
+                                                this.Info($"Cable calibration complete.");
                                             }
                                             else
                                             {
