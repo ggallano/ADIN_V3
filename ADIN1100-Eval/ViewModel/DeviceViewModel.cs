@@ -2509,7 +2509,7 @@ namespace ADIN1100_Eval.ViewModel
                                     this.FaultDetectorBusyContent = "Performing Software Reset";
                                     Thread.Sleep(5000);
 
-                                    this.Info($"Executing offset fault detection calibration.");
+                                    this.Info($"Executing offset calibration.");
                                     this.FaultDetectorBusyContent = "Calibrating";
 
                                     bool calibrationSuccessful = false;
@@ -2549,7 +2549,7 @@ namespace ADIN1100_Eval.ViewModel
                                                 if (calibrationSuccessful)
                                                 {
                                                     this.SetCalibrationSuccessIndicator(true, type);
-                                                    this.Info($"Offset fault detection calibration finished.");
+                                                    this.Info($"Offset calibration complete.");
                                                 }
                                                 else
                                                 {
