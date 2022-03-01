@@ -2365,12 +2365,16 @@ namespace ADIN1100_Eval.ViewModel
                                 case Calibrate.NVP:
                                     //this.Info($"Executing manual cable calibration.");
                                     this.selectedDevice.FwAPI.SetNvp(this.CalibrateCableValue.NVP);
-                                    this.VerboseInfo($"NVP entered manually.");
+                                    this.VerboseInfo($"Enter NVP manually");
                                     break;
                                 case Calibrate.Offset:
                                     //this.Info($"Executing manual offset calibration.");
                                     this.selectedDevice.FwAPI.SetOffset(this.CalibrateOffsetValue.Offset);
-                                    this.VerboseInfo($"Offset entered manually.");
+                                    this.VerboseInfo($"Enter offset manually");
+                                    Application.Current.Dispatcher.Invoke(() =>
+                                    {
+                                        this.SetCalibrationSuccessIndicator(false, type);
+                                    });
                                     break;
                                 default:
                                     break;
@@ -2423,7 +2427,7 @@ namespace ADIN1100_Eval.ViewModel
                                 this.IsFaultDetectorBusy = true;
                                 this.PerformSoftwareReset("Reset: PHY");
 
-                                this.Info($"Executing cable fault detection calibration.");
+                                this.Info($"Executing cable calibration.");
                                 this.FaultDetectorBusyContent = "Calibrating";
                                 float cableLengthInput = 0.0f;
                                 cableLengthInput = Convert.ToSingle(cableDialog.txtCableLength.Value.Value);
@@ -2473,7 +2477,7 @@ namespace ADIN1100_Eval.ViewModel
                                             if (calibrationSuccessful)
                                             {
                                                 this.SetCalibrationSuccessIndicator(true, type);
-                                                this.Info($"Cable fault detection calibration finished.");
+                                                this.Info($"Cable calibration complete.");
                                             }
                                             else
                                             {
@@ -2509,7 +2513,7 @@ namespace ADIN1100_Eval.ViewModel
                                     this.FaultDetectorBusyContent = "Performing Software Reset";
                                     Thread.Sleep(5000);
 
-                                    this.Info($"Executing offset fault detection calibration.");
+                                    this.Info($"Executing offset calibration.");
                                     this.FaultDetectorBusyContent = "Calibrating";
 
                                     bool calibrationSuccessful = false;
@@ -2549,7 +2553,7 @@ namespace ADIN1100_Eval.ViewModel
                                                 if (calibrationSuccessful)
                                                 {
                                                     this.SetCalibrationSuccessIndicator(true, type);
-                                                    this.Info($"Offset fault detection calibration finished.");
+                                                    this.Info($"Offset calibration complete.");
                                                 }
                                                 else
                                                 {
