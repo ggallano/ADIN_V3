@@ -2371,7 +2371,10 @@ namespace ADIN1100_Eval.ViewModel
                                     //this.Info($"Executing manual offset calibration.");
                                     this.selectedDevice.FwAPI.SetOffset(this.CalibrateOffsetValue.Offset);
                                     this.VerboseInfo($"Enter offset manually");
-                                    this.SetCalibrationSuccessIndicator(false, type);
+                                    Application.Current.Dispatcher.Invoke(() =>
+                                    {
+                                        this.SetCalibrationSuccessIndicator(false, type);
+                                    });
                                     break;
                                 default:
                                     break;
