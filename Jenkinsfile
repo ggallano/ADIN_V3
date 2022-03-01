@@ -44,6 +44,15 @@ pipeline {
 		//	}
 		//}
 		
+		stage('Cleanup Workspace') {
+            steps {
+                cleanWs()
+                bat """
+					echo "Cleaned Up Workspace for ${APP_NAME}"
+                """
+            }
+        }
+		
 		stage('Source_Code_Build') {
             steps {
 				echo 'Source_Code_Build'
