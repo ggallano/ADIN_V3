@@ -13,6 +13,7 @@ namespace ADIN1100_Eval.Model
     using TargetInterface;
     using Utilities.Feedback;
     using TargetInterface.CableDiagnostics;
+    using System.Globalization;
 
     /// <summary>
     /// Device Model
@@ -50,10 +51,10 @@ namespace ADIN1100_Eval.Model
 
             this.fwAPI.Open();
             var result = fwAPI.ResetFaultDetection();
-            this.Cable.NVP = float.Parse(result[0]);
-            this.Offset.Offset = float.Parse(result[1]);
-            this.Cable.Coeff0 = float.Parse(result[2]);
-            this.Cable.Coeffi = float.Parse(result[3]);
+            this.Cable.NVP = float.Parse(result[0],CultureInfo.InvariantCulture);
+            this.Offset.Offset = float.Parse(result[1], CultureInfo.InvariantCulture);
+            this.Cable.Coeff0 = float.Parse(result[2], CultureInfo.InvariantCulture);
+            this.Cable.Coeffi = float.Parse(result[3], CultureInfo.InvariantCulture);
             this.fwAPI.Close();
         }
 

@@ -159,7 +159,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Grid.Column="1" Text="Reset to Default" HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="Initialize TDR" HorizontalAlignment="Center"/>
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
