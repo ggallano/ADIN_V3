@@ -426,9 +426,9 @@
                         </Grid>
                     </Grid>
                 </TabItem>
-                <!--<TabItem Header='Cable Diagnostics' Visibility="{Binding DataContext.CableDiagnosticsPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
+                <TabItem Header='Cable Diagnostics' Visibility="{Binding DataContext.CableDiagnosticsPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
                     <local:FaultDetectorView/>
-                </TabItem>-->
+                </TabItem>
             </TabControl>
         </Grid>
     </DockPanel>

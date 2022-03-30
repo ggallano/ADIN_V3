@@ -147,6 +147,9 @@
     <Compile Include="Views\CableDiagnosticImageControl.xaml.cs">
       <DependentUpon>CableDiagnosticImageControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CableDiagnosticsADIN1100.xaml.cs">
+      <DependentUpon>CableDiagnosticsADIN1100.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CableDiagnosticsStatus.xaml.cs">
       <DependentUpon>CableDiagnosticsStatus.xaml</DependentUpon>
     </Compile>
@@ -164,6 +167,12 @@
     </Compile>
     <Compile Include="Views\DeviceView.xaml.cs">
       <DependentUpon>DeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FaultDetectorSettingsView.xaml.cs">
+      <DependentUpon>FaultDetectorSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FaultDetectorView.xaml.cs">
+      <DependentUpon>FaultDetectorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Framechecker.xaml.cs">
       <DependentUpon>Framechecker.xaml</DependentUpon>
@@ -224,6 +233,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CableDiagnosticsADIN1100.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\CableDiagnosticsStatus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -247,6 +260,14 @@
     <Page Include="Views\DeviceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FaultDetectorSettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FaultDetectorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Framechecker.xaml">
       <SubType>Designer</SubType>
