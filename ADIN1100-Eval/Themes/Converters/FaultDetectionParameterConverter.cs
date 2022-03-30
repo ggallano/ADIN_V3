@@ -18,9 +18,9 @@ namespace ADIN1100_Eval.Themes.Converters
             FaultDetectionParameters parameters = new FaultDetectionParameters();
 
             parameters.CableType = values[0].ToString();
-            parameters.CableLength = float.Parse(values[1].ToString());
+            parameters.CableLength = float.Parse(values[1].ToString(), CultureInfo.InvariantCulture);
             parameters.CalibrateType = (Calibrate)Enum.Parse(typeof(Calibrate), values[2].ToString());
-            parameters.CalculatedNVP = float.Parse(values[3].ToString());
+            parameters.CalculatedNVP = float.Parse(values[3].ToString(), CultureInfo.InvariantCulture);
             return parameters;
         }
 
