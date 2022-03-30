@@ -17,6 +17,7 @@ namespace DeviceCommunication
     using System.Collections.Specialized;
     using System.Text.RegularExpressions;
     using System.Linq;
+    using System.Globalization;
 
     /// <summary>
     /// Serial Port Delegate
@@ -549,8 +550,8 @@ namespace DeviceCommunication
             {
                 try
                 {
-                    float.Parse(matchedValues[0]);
-                    int.Parse(matchedValues[1]);
+                    float.Parse(matchedValues[0], CultureInfo.InvariantCulture);
+                    int.Parse(matchedValues[1], CultureInfo.InvariantCulture);
                 }
                 catch (Exception ex)
                 {

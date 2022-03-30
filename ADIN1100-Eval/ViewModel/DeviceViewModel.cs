@@ -28,6 +28,7 @@ namespace ADIN1100_Eval.ViewModel
     using System.Text;
     using System.Threading.Tasks;
     using System.Windows.Threading;
+    using System.Globalization;
 
     /// <summary>
     /// Device View Model
@@ -2610,9 +2611,9 @@ namespace ADIN1100_Eval.ViewModel
                                 if (saveFileDialog.ShowDialog() == true)
                                 {
                                     //this.viewModel.Error(new NotImplementedException().Message);
-                                    content.Append($"{result[0].ToString("f6")},");
-                                    content.Append($"{result[1].ToString("f6")},");
-                                    content.Append($"{result[2].ToString("f6")},");
+                                    content.Append($"{result[0].ToString("f6", CultureInfo.InvariantCulture)},");
+                                    content.Append($"{result[1].ToString("f6", CultureInfo.InvariantCulture)},");
+                                    content.Append($"{result[2].ToString("f6", CultureInfo.InvariantCulture)}");
                                     this.WriteContent(saveFileDialog.FileName, content);
                                 }
 
@@ -2624,7 +2625,7 @@ namespace ADIN1100_Eval.ViewModel
                                 if (saveFileDialog.ShowDialog() == true)
                                 {
                                     //this.viewModel.Error(new NotImplementedException().Message);
-                                    content.Append($"{offsetValue},");
+                                    content.Append($"{offsetValue.ToString(CultureInfo.InvariantCulture)},");
                                     this.WriteContent(saveFileDialog.FileName, content);
                                 }
 
@@ -2700,9 +2701,9 @@ namespace ADIN1100_Eval.ViewModel
                                             values = this.ReadContent(openFileDialog.FileName);
                                             this.CalibrateCableValue = new CalibrateCable()
                                             {
-                                                NVP = float.Parse(values[0]),
-                                                Coeff0 = float.Parse(values[1]),
-                                                Coeffi = float.Parse(values[2]),
+                                                NVP = float.Parse(values[0], CultureInfo.InvariantCulture),
+                                                Coeff0 = float.Parse(values[1], CultureInfo.InvariantCulture),
+                                                Coeffi = float.Parse(values[2], CultureInfo.InvariantCulture),
                                                 FileName = Path.GetFileName(openFileDialog.FileName),
                                             };
 
@@ -2761,7 +2762,7 @@ namespace ADIN1100_Eval.ViewModel
                                             values = this.ReadContent(openFileDialog.FileName);
                                             this.CalibrateOffsetValue = new CalibrateOffset()
                                             {
-                                                Offset = float.Parse(values[0]),
+                                                Offset = float.Parse(values[0], CultureInfo.InvariantCulture),
                                                 FileName = Path.GetFileName(openFileDialog.FileName),
                                             };
 
@@ -2852,10 +2853,10 @@ namespace ADIN1100_Eval.ViewModel
 
                             var result = this.selectedDevice.FwAPI.ResetFaultDetection();
 
-                            this.CalibrateCableValue.NVP = float.Parse(result[0]);
-                            this.CalibrateOffsetValue.Offset = float.Parse(result[1]);
-                            this.CalibrateCableValue.Coeff0 = float.Parse(result[2]);
-                            this.CalibrateCableValue.Coeffi = float.Parse(result[3]);
+                            this.CalibrateCableValue.NVP = float.Parse(result[0], CultureInfo.InvariantCulture);
+                            this.CalibrateOffsetValue.Offset = float.Parse(result[1], CultureInfo.InvariantCulture);
+                            this.CalibrateCableValue.Coeff0 = float.Parse(result[2], CultureInfo.InvariantCulture);
+                            this.CalibrateCableValue.Coeffi = float.Parse(result[3], CultureInfo.InvariantCulture);
 
 
                             this.DistToFault = 0.ToString();
