@@ -50,6 +50,7 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="120" MinWidth='70'/>
@@ -76,6 +77,9 @@
 
                                 <TextBlock Grid.Row="4" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.PairMeanSquareErrorStats.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.PairMeanSquareErrorStats.ItemName}"/>
                                 <TextBlock Grid.Row="4" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.PairMeanSquareErrorStats.ItemContent}" Visibility="{Binding DeviceSettings.Link.PairMeanSquareErrorStats.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                <TextBlock Grid.Row="5" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Left" Visibility="{Binding DeviceSettings.Link.MseValue.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}" Text="{Binding DeviceSettings.Link.MseValue.ItemName}"/>
+                                <TextBlock Grid.Row="5" Grid.Column="1" Style="{StaticResource Label}" Width="Auto" HorizontalAlignment="Left" Text="{Binding DeviceSettings.Link.MseValue.ItemContent}" Visibility="{Binding DeviceSettings.Link.MseValue.IsAvailable,Converter={StaticResource BooleanToVisibilityConverter}}"/>
                             </Grid>
 
                         </WrapPanel>
