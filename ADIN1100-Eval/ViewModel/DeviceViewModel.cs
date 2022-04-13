@@ -2281,6 +2281,7 @@ namespace ADIN1100_Eval.ViewModel
             {
                 this.SelectedLoopbackItem = this.loopbackItemsADIN1100[0];
                 this.SelectedTestModeItem = this.testmodeitemsADIN1100[0];
+                DoExecuteTest(null);
             }
             else if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1200)
             {
