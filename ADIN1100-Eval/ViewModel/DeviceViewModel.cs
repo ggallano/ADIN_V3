@@ -2279,6 +2279,7 @@ namespace ADIN1100_Eval.ViewModel
         {
             if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1100)
             {
+                this.Info("Check/Reset to default values in Loopback and TestMode");
                 this.SelectedLoopbackItem = this.loopbackItemsADIN1100[0];
                 this.SelectedTestModeItem = this.testmodeitemsADIN1100[0];
                 DoExecuteTest(null);
