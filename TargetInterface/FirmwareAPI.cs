@@ -2892,6 +2892,20 @@ namespace TargetInterface
                         break;
                     case "Reset: PHY":
                         this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_RST", 1);
+                        //this.Sleep(0.1);
+                        //PCS
+                        //this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+                        //this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
+                        //this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 1);
+                        //this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 1);
+                        //this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
+
+                        //OFF
+                        //this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
+                        //this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
+                        //this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
+                        //this.WriteYodaRg("IndirectAccessAddressMap", "B10L_LB_PCS_EN", 0);
+                        //this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
                         //Fixed this.Error("TODO_10SPE : What registers are needed to do this reset : " + resettype);
                         break;
                 }
@@ -4559,18 +4573,18 @@ namespace TargetInterface
         /// </summary>
         public void SetupT1L_NormalMode()
         {
-            this.Info("  10SPE Phy software reset");
+            //this.Info("  10SPE Phy software reset");
 
-            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_RST", 1);
-            this.Sleep(0.1);
-            this.Info("  10SPE PHY enters software reset, stays in software powerdown");
+            //this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_RST", 1);
+            //this.Sleep(0.1);
+            //this.Info("  10SPE PHY enters software reset, stays in software powerdown");
             this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
             this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
             this.Sleep(0.1);
             //           this.Info("  Apply base settings for UNH-IOL testing");
             //           this.ApplyIOLBaseSettings();
 
-            this.Info("   exit software powerdown, configure for 10BASE-T1L normal mode");
+            //this.Info("   exit software powerdown, configure for 10BASE-T1L normal mode");
             this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_TEST_MODE", 0);
             this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
             this.Info("  Device configured for 10BASE-T1Ls normal operation");
@@ -4581,11 +4595,11 @@ namespace TargetInterface
         /// </summary>
         public void SetupT1L_TestMode1()
         {
-            this.Info("  10SPE Phy software reset");
+            //this.Info("  10SPE Phy software reset");
 
-            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_RST", 1);
-            this.Sleep(0.1);
-            this.Info("  10SPE PHY enters software reset, stays in software powerdown");
+            //this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_RST", 1);
+            //this.Sleep(0.1);
+            //this.Info("  10SPE PHY enters software reset, stays in software powerdown");
             this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
             this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
             this.Sleep(0.1);
@@ -4593,7 +4607,7 @@ namespace TargetInterface
             //           this.Info("  Apply base settings for UNH-IOL testing");
             //           this.ApplyIOLBaseSettings();
 
-            this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 1");
+            //this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 1");
             this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
             this.WriteValueInRegisterAddress(0x078000, 1);
             this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_TEST_MODE", 1);
@@ -4606,19 +4620,19 @@ namespace TargetInterface
         /// </summary>
         public void SetupT1L_TestMode2()
         {
-            this.Info("  10SPE Phy software reset");
+            //this.Info("  10SPE Phy software reset");
 
-            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_RST", 1);
-            this.Sleep(0.1);
-            this.Info("  10SPE PHY enters software reset, stays in software powerdown");
+            //this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_RST", 1);
+            //this.Sleep(0.1);
+            //this.Info("  10SPE PHY enters software reset, stays in software powerdown");
             this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
             this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
-            this.Sleep(0.1);
+            //this.Sleep(0.1);
 
             //           this.Info("  Apply base settings for UNH-IOL testing");
             //           this.ApplyIOLBaseSettings();
 
-            this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 2");
+            //this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 2");
             this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
             this.WriteValueInRegisterAddress(0x078000, 1);
             this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_TEST_MODE", 2);
@@ -4631,17 +4645,17 @@ namespace TargetInterface
         /// </summary>
         public void SetupT1L_TestMode3()
         {
-            this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_RST", 1);
-            this.Sleep(0.1);
-            this.Info("  10SPE PHY enters software reset, stays in software powerdown");
+            //this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_RST", 1);
+            //this.Sleep(0.1);
+            //this.Info("  10SPE PHY enters software reset, stays in software powerdown");
             this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
             this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
-            this.Sleep(0.1);
+            //this.Sleep(0.1);
 
             //           this.Info("  Apply base settings for UNH-IOL testing");
             //           this.ApplyIOLBaseSettings();
 
-            this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 3");
+            //this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 3");
             this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
             this.WriteValueInRegisterAddress(0x078000, 1);
             this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_TEST_MODE", 3);

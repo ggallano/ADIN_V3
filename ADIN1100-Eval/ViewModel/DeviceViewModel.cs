@@ -2180,7 +2180,6 @@ namespace ADIN1100_Eval.ViewModel
                             //DB Fix this.Error("TODO_10SPE : What registers are needed to do this test : " + this.selectedTestModeItem.TestName);
                             switch (this.selectedTestModeItem.TestModeName)
                             {
-
                                 case "10BASE-T1L Normal mode":
                                     this.selectedDevice.FwAPI.SetupT1L_NormalMode();
                                     break;
@@ -2235,7 +2234,6 @@ namespace ADIN1100_Eval.ViewModel
                                 case "10BASE-T TX 5 MHz DIM 1":
                                     this.selectedDevice.FwAPI.SetupB10TxTst5MHz(1);
                                     break;
-
                                 case "10BASE-T TX 10 MHz DIM 0":
                                     this.selectedDevice.FwAPI.SetupB10TxTst10MHz(0);
                                     break;
@@ -2279,10 +2277,18 @@ namespace ADIN1100_Eval.ViewModel
         {
             if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1100)
             {
-                this.Info("Check/Reset to default values in Loopback and TestMode");
-                this.SelectedLoopbackItem = this.loopbackItemsADIN1100[0];
-                this.SelectedTestModeItem = this.testmodeitemsADIN1100[0];
-                DoExecuteTest(null);
+                //this.Info("Check/Reset to default values in Loopback");
+                //this.SelectedLoopbackItem = this.loopbackItemsADIN1100[0];
+
+                //this.Info("Check/Reset to default values in TestMode");
+                //this.SelectedTestModeItem = this.testmodeitemsADIN1100[0];
+                //DoExecuteTest(null);
+
+                //if (frameCheckerParameters != null)
+                //{
+                //    this.Info("Check/Reset to default values in FrameCheckerGenerator");
+                //    this.selectedDevice.FwAPI.SendData(frameCheckerParameters);
+                //}
             }
             else if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1200)
             {
@@ -2884,6 +2890,8 @@ namespace ADIN1100_Eval.ViewModel
             });
         }
 
+        private FrameCheckerParameters frameCheckerParameters;
+
         /// <summary>
         /// Execute a FrameChecker
         /// </summary>
@@ -2896,7 +2904,7 @@ namespace ADIN1100_Eval.ViewModel
                 {
                     if (obj is FrameCheckerParameters)
                     {
-                        FrameCheckerParameters frameCheckerParameters = (FrameCheckerParameters)obj;
+                        frameCheckerParameters = (FrameCheckerParameters)obj;
                         try
                         {
                             if (frameCheckerParameters.EnableChecker)
@@ -3117,7 +3125,7 @@ namespace ADIN1100_Eval.ViewModel
                 try
                 {
                     this.selectedDevice.FwAPI.SoftwareReset(resetType);
-                    ResetUIControls();
+                    //ResetUIControls();
                 }
                 catch (FTDIException exc)
                 {
