@@ -2277,18 +2277,18 @@ namespace ADIN1100_Eval.ViewModel
         {
             if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1100)
             {
-                //this.Info("Check/Reset to default values in Loopback");
-                //this.SelectedLoopbackItem = this.loopbackItemsADIN1100[0];
+                this.Info("Check/Reset to default values in Loopback");
+                this.SelectedLoopbackItem = this.loopbackItemsADIN1100[0];
 
-                //this.Info("Check/Reset to default values in TestMode");
-                //this.SelectedTestModeItem = this.testmodeitemsADIN1100[0];
-                //DoExecuteTest(null);
+                this.Info("Check/Reset to default values in TestMode");
+                this.SelectedTestModeItem = this.testmodeitemsADIN1100[0];
+                DoExecuteTest(null);
 
-                //if (frameCheckerParameters != null)
-                //{
-                //    this.Info("Check/Reset to default values in FrameCheckerGenerator");
-                //    this.selectedDevice.FwAPI.SendData(frameCheckerParameters);
-                //}
+                if (frameCheckerParameters != null)
+                {
+                    this.Info("Check/Reset to default values in FrameCheckerGenerator");
+                    this.selectedDevice.FwAPI.SendData(frameCheckerParameters);
+                }
             }
             else if (this.selectedDevice.FwAPI.DeviceSettings.ConnectedDeviceType == DeviceType.ADIN1200)
             {
@@ -3125,7 +3125,7 @@ namespace ADIN1100_Eval.ViewModel
                 try
                 {
                     this.selectedDevice.FwAPI.SoftwareReset(resetType);
-                    //ResetUIControls();
+                    ResetUIControls();
                 }
                 catch (FTDIException exc)
                 {
