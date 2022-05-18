@@ -4581,8 +4581,9 @@ namespace TargetInterface
             this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
             this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
             this.Sleep(0.1);
-            //           this.Info("  Apply base settings for UNH-IOL testing");
-            //           this.ApplyIOLBaseSettings();
+            
+            //this.Info("  Apply base settings for UNH-IOL testing");
+            //this.ApplyIOLBaseSettings();
 
             //this.Info("   exit software powerdown, configure for 10BASE-T1L normal mode");
             this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_TEST_MODE", 0);
@@ -4605,8 +4606,8 @@ namespace TargetInterface
             this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
             this.Sleep(0.1);
 
-            //           this.Info("  Apply base settings for UNH-IOL testing");
-            //           this.ApplyIOLBaseSettings();
+            //this.Info("  Apply base settings for UNH-IOL testing");
+            //this.ApplyIOLBaseSettings();
 
             //this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 1");
             this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
@@ -4633,8 +4634,8 @@ namespace TargetInterface
             this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
             //this.Sleep(0.1);
 
-            //           this.Info("  Apply base settings for UNH-IOL testing");
-            //           this.ApplyIOLBaseSettings();
+            //this.Info("  Apply base settings for UNH-IOL testing");
+            //this.ApplyIOLBaseSettings();
 
             //this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 2");
             this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
@@ -4659,8 +4660,8 @@ namespace TargetInterface
             this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
             //this.Sleep(0.1);
 
-            //           this.Info("  Apply base settings for UNH-IOL testing");
-            //           this.ApplyIOLBaseSettings();
+            //this.Info("  Apply base settings for UNH-IOL testing");
+            //this.ApplyIOLBaseSettings();
 
             //this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 3");
             this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
