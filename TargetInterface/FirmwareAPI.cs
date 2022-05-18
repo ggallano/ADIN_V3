@@ -4581,11 +4581,13 @@ namespace TargetInterface
             this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 1);
             this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
             this.Sleep(0.1);
-            //           this.Info("  Apply base settings for UNH-IOL testing");
-            //           this.ApplyIOLBaseSettings();
+            
+            //this.Info("  Apply base settings for UNH-IOL testing");
+            //this.ApplyIOLBaseSettings();
 
             //this.Info("   exit software powerdown, configure for 10BASE-T1L normal mode");
             this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_TEST_MODE", 0);
+            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_DIS_MODE_EN", 0);
             this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
             this.Info("  Device configured for 10BASE-T1Ls normal operation");
         }
@@ -4604,13 +4606,16 @@ namespace TargetInterface
             this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
             this.Sleep(0.1);
 
-            //           this.Info("  Apply base settings for UNH-IOL testing");
-            //           this.ApplyIOLBaseSettings();
+            //this.Info("  Apply base settings for UNH-IOL testing");
+            //this.ApplyIOLBaseSettings();
 
             //this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 1");
             this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
-            this.WriteValueInRegisterAddress(0x078000, 1);
+            //this.WriteValueInRegisterAddress(0x078000, 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 1);
+
             this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_TEST_MODE", 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_DIS_MODE_EN", 0);
             this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
             this.Info("  Device configured for 10BASE-T1Ls test mode 1 measurement");
         }
@@ -4629,13 +4634,16 @@ namespace TargetInterface
             this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
             //this.Sleep(0.1);
 
-            //           this.Info("  Apply base settings for UNH-IOL testing");
-            //           this.ApplyIOLBaseSettings();
+            //this.Info("  Apply base settings for UNH-IOL testing");
+            //this.ApplyIOLBaseSettings();
 
             //this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 2");
             this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
-            this.WriteValueInRegisterAddress(0x078000, 1);
+            //this.WriteValueInRegisterAddress(0x078000, 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 1);
+
             this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_TEST_MODE", 2);
+            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_DIS_MODE_EN", 0);
             this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
             this.Info("  Device configured for 10BASE-T1Ls test mode 2 measurement");
         }
@@ -4652,13 +4660,16 @@ namespace TargetInterface
             this.ReadYodaRg("IndirectAccessAddressMap", "CRSM_STAT");
             //this.Sleep(0.1);
 
-            //           this.Info("  Apply base settings for UNH-IOL testing");
-            //           this.ApplyIOLBaseSettings();
+            //this.Info("  Apply base settings for UNH-IOL testing");
+            //this.ApplyIOLBaseSettings();
 
             //this.Info("   exit software powerdown, configure for 10BASE-T1L test mode 3");
             this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
-            this.WriteValueInRegisterAddress(0x078000, 1);
+            //this.WriteValueInRegisterAddress(0x078000, 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 1);
+
             this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_TEST_MODE", 3);
+            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_DIS_MODE_EN", 0);
             this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
             this.Info("  Device configured for 10BASE-T1Ls test mode 3 measurement");
         }
@@ -4673,8 +4684,11 @@ namespace TargetInterface
             this.Sleep(0.1);
             this.Info("   exit software powerdown, configure for 10BASE-T1L test mode silent");
             this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 0);
-            this.WriteValueInRegisterAddress(0x078000, 1);
-            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_LVL_HI", 1);
+            //this.WriteValueInRegisterAddress(0x078000, 1);  
+            this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 1);
+
+            //this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_LVL_HI", 1);
+            this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_TEST_MODE", 0);
             this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_DIS_MODE_EN", 1);
             this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
         }
