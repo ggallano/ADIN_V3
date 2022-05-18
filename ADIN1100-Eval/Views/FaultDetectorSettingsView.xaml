@@ -201,10 +201,10 @@
                             <ColumnDefinition Width="95"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 0 0 5">
+                        <!--<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 0 0 5">
                             <TextBlock Text="Load File: "/>
                             <TextBlock Text="{Binding CalibrateOffsetValue.FileName}"/>
-                        </StackPanel>
+                        </StackPanel>-->
 
                         <telerik:RadButton Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Margin="6" Style="{StaticResource CalibrateButtonStyle}" Command="{Binding FaultDetectionCalibrateCommand}" CommandParameter="Offset"
                                            ToolTip="Perform offset calibration">
@@ -245,10 +245,10 @@
                             <ColumnDefinition Width="95"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 0 0 5">
+                        <!--<StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 0 0 5">
                             <TextBlock Text="Load File: "/>
                             <TextBlock Text="{Binding CalibrateCableValue.FileName}"/>
-                        </StackPanel>
+                        </StackPanel>-->
 
                         <telerik:RadButton Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Margin="6" Style="{StaticResource CalibrateButtonStyle}" Command="{Binding FaultDetectionCalibrateCommand}" CommandParameter="NVP"
                                            ToolTip="Perform cable calibration">
