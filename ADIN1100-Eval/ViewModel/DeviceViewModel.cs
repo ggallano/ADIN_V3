@@ -1581,7 +1581,7 @@ namespace ADIN1100_Eval.ViewModel
 
             set
             {
-                this.distToFault = value + "m";
+                this.distToFault = "Fault at " + value + "m";
                 this.RaisePropertyChanged(nameof(DistToFault));
             }
         }

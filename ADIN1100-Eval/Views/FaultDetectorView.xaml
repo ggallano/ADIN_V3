@@ -41,8 +41,8 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" Style="{StaticResource Title_H1}" FontSize="18" Margin="0" FontWeight="Bold">Hard Fault Detector</TextBlock>
-                                <TextBlock Grid.Row="1" HorizontalAlignment="Center" Style="{StaticResource Title_H1}" FontSize="16" Margin="0" FontWeight="Medium">Fault Detector</TextBlock>
+                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" Style="{StaticResource Title_H1}" FontSize="18" Margin="0" FontWeight="Bold">Time Domain Reflectometry - Open/Short Detector</TextBlock>
+                                <!--<TextBlock Grid.Row="1" HorizontalAlignment="Center" Style="{StaticResource Title_H1}" FontSize="16" Margin="0" FontWeight="Medium">Fault Detector</TextBlock>-->
                             </Grid>
                         </Grid>
 
