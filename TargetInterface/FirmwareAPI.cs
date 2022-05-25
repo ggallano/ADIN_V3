@@ -4588,6 +4588,8 @@ namespace TargetInterface
             //this.Info("   exit software powerdown, configure for 10BASE-T1L normal mode");
             this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_TEST_MODE", 0);
             this.WriteYodaRg("IndirectAccessAddressMap", "B10L_TX_DIS_MODE_EN", 0);
+            this.WriteYodaRg("IndirectAccessAddressMap", "AN_FRC_MODE_EN", 0);
+            this.WriteYodaRg("IndirectAccessAddressMap", "AN_EN", 1);
             this.WriteYodaRg("IndirectAccessAddressMap", "CRSM_SFT_PD", 0);
             this.Info("  Device configured for 10BASE-T1Ls normal operation");
         }

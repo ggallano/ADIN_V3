@@ -2281,8 +2281,11 @@ namespace ADIN1100_Eval.ViewModel
                 this.SelectedLoopbackItem = this.loopbackItemsADIN1100[0];
 
                 this.Info("Check/Reset to default values in TestMode");
-                this.SelectedTestModeItem = this.testmodeitemsADIN1100[0];
-                DoExecuteTest(null);
+                if (this.SelectedTestModeItem != this.testmodeitemsADIN1100[0])
+                {
+                    this.SelectedTestModeItem = this.testmodeitemsADIN1100[0];
+                    DoExecuteTest(null);
+                }
 
                 if (frameCheckerParameters != null)
                 {
@@ -2328,7 +2331,7 @@ namespace ADIN1100_Eval.ViewModel
                         {
                             //Application.Current.Dispatcher.Invoke(() => { this.PerformSoftwareReset("Reset: PHY"); this.FaultDetectorBusyContent = "Performing Software Reset"; });
                             this.FaultDetectorBusyContent = "Performing Software Reset";
-                            Thread.Sleep(5000);
+                            Thread.Sleep(2000);
 
                             this.FaultDetectorBusyContent = "Running TDR";
                             this.Info($"Executing fault detection.");
@@ -2444,7 +2447,7 @@ namespace ADIN1100_Eval.ViewModel
                                 Task.Run(() =>
                                 {
                                     this.FaultDetectorBusyContent = "Performing Software Reset";
-                                    Thread.Sleep(5000);
+                                    Thread.Sleep(2000);
 
                                     bool calibrationSuccessful = false;
 
@@ -2520,7 +2523,7 @@ namespace ADIN1100_Eval.ViewModel
                                 Task.Run(() =>
                                 {
                                     this.FaultDetectorBusyContent = "Performing Software Reset";
-                                    Thread.Sleep(5000);
+                                    Thread.Sleep(2000);
 
                                     this.Info($"Executing offset calibration.");
                                     this.FaultDetectorBusyContent = "Calibrating";
