@@ -14,6 +14,7 @@ namespace ADIN1100_Eval.Model
     using Utilities.Feedback;
     using TargetInterface.CableDiagnostics;
     using System.Globalization;
+    using System.Windows.Media;
 
     /// <summary>
     /// Device Model
@@ -172,6 +173,69 @@ namespace ADIN1100_Eval.Model
                     this.isPresent = value;
                     this.RaisePropertyChanged("IsPresent");
                 }
+            }
+        }
+
+        /// <summary>
+        /// Fault state.
+        /// </summary>
+        private string faultState = "-";
+        /// <summary>
+        /// Gets or sets the fault state.
+        /// </summary>
+        public string FaultState
+        {
+            get
+            {
+                return this.faultState;
+            }
+
+            set
+            {
+                this.faultState = value;
+                this.RaisePropertyChanged(nameof(FaultState));
+            }
+        }
+
+        /// <summary>
+        /// Calibrate offset button collor.
+        /// </summary>
+        private Brush calibrateOffsetButtonColor = new SolidColorBrush(Colors.Transparent);
+        /// <summary>
+        /// Gets or sets the calibrate offset button collor.
+        /// </summary>
+        public Brush CalibrateOffsetButtonColor
+        {
+            get
+            {
+                return this.calibrateOffsetButtonColor;
+            }
+
+            set
+            {
+                this.calibrateOffsetButtonColor = value;
+                this.RaisePropertyChanged(nameof(CalibrateOffsetButtonColor));
+            }
+        }
+
+        /// <summary>
+        /// Calibrate Cable button collor.
+        /// </summary>
+        private Brush calibrateCableButtonColor;
+        /// <summary>
+        /// Gets or sets the calibrate Cable button collor.
+        /// </summary>
+        public Brush CalibrateCableButtonColor
+        {
+            get
+            {
+                return this.calibrateCableButtonColor;
+            }
+
+            set
+            {
+                this.calibrateCableButtonColor = value;
+                this.RaisePropertyChanged(nameof(CalibrateCableButtonColor));
             }
         }
 
