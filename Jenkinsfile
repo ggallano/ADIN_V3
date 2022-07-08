@@ -16,8 +16,8 @@ pipeline {
 		NSIS_SCRIPT_NAME = "ADIN1100_Eval.nsi"
 		BASE_INSTALLER_NAME = "Analog Devices Ethernet PHY Installer"
 		
-		RECIPIENTS = 'glenn.gallano@analog.com, Wassim.Magnin@analog.com, hector.arroyo@analog.com, danail.baylov@analog.com'
-		//RECIPIENTS = 'glenn.gallano@analog.com'
+		//RECIPIENTS = 'glenn.gallano@analog.com, Wassim.Magnin@analog.com, hector.arroyo@analog.com, danail.baylov@analog.com'
+		RECIPIENTS = 'glenn.gallano@analog.com'
 		//DEV_RECIPIENTS = 'glenn.gallano@analog.com'
 	}
 

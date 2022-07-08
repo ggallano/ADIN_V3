@@ -754,7 +754,6 @@ namespace ADIN1100_Eval.ViewModel
 
                     this.selectedDevice = value;
 
-
                     if (this.selectedDevice != null)
                     {
                         try
@@ -763,6 +762,9 @@ namespace ADIN1100_Eval.ViewModel
                             this.selectedDevice.FwAPI.DeviceSettings.FlagAllPropertiesChanged();
                             this.CalibrateOffsetValue = this.selectedDevice.Offset;
                             this.CalibrateCableValue = this.selectedDevice.Cable;
+                            this.FaultState = this.selectedDevice.FaultState;
+                            this.CalibrateCableButtonColor = this.selectedDevice.CalibrateCableButtonColor;
+                            this.CalibrateOffsetButtonColor = this.selectedDevice.CalibrateOffsetButtonColor;
                         }
                         catch (FTDIException exc)
                         {
@@ -797,6 +799,9 @@ namespace ADIN1100_Eval.ViewModel
                 this.RaisePropertyChanged("RxSuppression");
                 this.RaisePropertyChanged(nameof(CalibrateOffsetValue));
                 this.RaisePropertyChanged(nameof(CalibrateCableValue));
+                this.RaisePropertyChanged(nameof(FaultState));
+                this.RaisePropertyChanged(nameof(CalibrateCableButtonColor));
+                this.RaisePropertyChanged(nameof(CalibrateOffsetButtonColor));
             }
         }
 
@@ -1432,6 +1437,7 @@ namespace ADIN1100_Eval.ViewModel
             set
             {
                 calibrateCableValue = value;
+
                 if (this.SelectedDevice != null)
                 {
                     this.SelectedDevice.Cable = value;
@@ -1458,6 +1464,12 @@ namespace ADIN1100_Eval.ViewModel
             set
             {
                 this.faultState = value;
+
+                if (this.selectedDevice != null)
+                {
+                    this.selectedDevice.FaultState = value;
+                }
+
                 this.RaisePropertyChanged(nameof(FaultState));
 
                 if (value.ToLower().Contains("open") || value.ToLower().Contains("short"))
@@ -1540,6 +1552,12 @@ namespace ADIN1100_Eval.ViewModel
             set
             {
                 this.calibrateOffsetButtonColor = value;
+
+                if (this.selectedDevice != null)
+                {
+                    this.selectedDevice.CalibrateOffsetButtonColor = value;
+                }
+
                 this.RaisePropertyChanged(nameof(CalibrateOffsetButtonColor));
             }
         }
@@ -1561,6 +1579,12 @@ namespace ADIN1100_Eval.ViewModel
             set
             {
                 this.calibrateCableButtonColor = value;
+
+                if (this.selectedDevice != null)
+                {
+                    this.selectedDevice.CalibrateCableButtonColor = value;
+                }
+
                 this.RaisePropertyChanged(nameof(CalibrateCableButtonColor));
             }
         }
@@ -1600,6 +1624,7 @@ namespace ADIN1100_Eval.ViewModel
             set
             {
                 calibrateOffsetValue = value;
+
                 if (this.SelectedDevice != null)
                 {
                     this.SelectedDevice.Offset = value;
@@ -2337,6 +2362,7 @@ namespace ADIN1100_Eval.ViewModel
                             this.Info($"Executing fault detection.");
                             this.DistToFault = this.selectedDevice.FwAPI.ExecuteFaultDetection(this.calibrateOffsetValue, this.calibrateCableValue, CalibrationMode.AutoRange, out faultType).ToString();
                             this.FaultState = faultType;
+
                             this.Info($"Fault detection finished.");
                         }
                         catch (Exception ex)
@@ -2481,22 +2507,22 @@ namespace ADIN1100_Eval.ViewModel
                                     }
 
                                     Application.Current.Dispatcher.Invoke(() =>
-                                        {
-                                            // Update busy indicator.
-                                            this.IsFaultDetectorBusy = false;
-                                            this.RaisePropertyChanged(nameof(this.CalibrateCableValue));
+                                    {
+                                        // Update busy indicator.
+                                        this.IsFaultDetectorBusy = false;
+                                        this.RaisePropertyChanged(nameof(this.CalibrateCableValue));
 
-                                            if (calibrationSuccessful)
-                                            {
-                                                this.SetCalibrationSuccessIndicator(true, type);
-                                                this.Info($"Cable calibration complete.");
-                                            }
-                                            else
-                                            {
-                                                this.SetCalibrationSuccessIndicator(false, type);
-                                            }
+                                        if (calibrationSuccessful)
+                                        {
+                                            this.SetCalibrationSuccessIndicator(true, type);
+                                            this.Info($"Cable calibration complete.");
                                         }
-                                        );
+                                        else
+                                        {
+                                            this.SetCalibrationSuccessIndicator(false, type);
+                                        }
+                                    }
+                                    );
                                 });
                             }
                             else
@@ -2557,21 +2583,21 @@ namespace ADIN1100_Eval.ViewModel
                                     }
 
                                     Application.Current.Dispatcher.Invoke(() =>
-                                            {
-                                                // Update busy indicator.
-                                                this.IsFaultDetectorBusy = false;
-                                                this.RaisePropertyChanged(nameof(this.CalibrateOffsetValue));
+                                    {
+                                        // Update busy indicator.
+                                        this.IsFaultDetectorBusy = false;
+                                        this.RaisePropertyChanged(nameof(this.CalibrateOffsetValue));
 
-                                                if (calibrationSuccessful)
-                                                {
-                                                    this.SetCalibrationSuccessIndicator(true, type);
-                                                    this.Info($"Offset calibration complete.");
-                                                }
-                                                else
-                                                {
-                                                    this.SetCalibrationSuccessIndicator(false, type);
-                                                }
-                                            });
+                                        if (calibrationSuccessful)
+                                        {
+                                            this.SetCalibrationSuccessIndicator(true, type);
+                                            this.Info($"Offset calibration complete.");
+                                        }
+                                        else
+                                        {
+                                            this.SetCalibrationSuccessIndicator(false, type);
+                                        }
+                                    });
                                 });
                             }
                             else
