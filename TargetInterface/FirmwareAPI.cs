@@ -5077,31 +5077,55 @@ namespace TargetInterface
             return output;
         }
 
+        /// <summary>
+        /// gets the coefficient value
+        /// </summary>
+        /// <returns>returns the coefficient value</returns>
         public float[] GetCoeff()
         {
             return this.deviceConnection.TdrGetCoeff();
         }
 
+        /// <summary>
+        /// gets the offset value
+        /// </summary>
+        /// <returns>returns the offset value</returns>
         public int GetOffset()
         {
             return this.deviceConnection.TdrGetOffset();
         }
 
+        /// <summary>
+        /// sets the NVP and coefficient value to the eval board
+        /// </summary>
+        /// <param name="cableValues">current length of the cable</param>
         public void SetNvpAndCoeff(CalibrateCable cableValues)
         {
             this.deviceConnection.TdrSetCoeff(cableValues.NVP, cableValues.Coeff0, cableValues.Coeffi);
         }
 
+        /// <summary>
+        /// sets the NVP to the eval board
+        /// </summary>
+        /// <param name="nvpValue">NVP value</param>
         public void SetNvp(float nvpValue)
         {
             this.deviceConnection.TdrSetNvp(nvpValue);
         }
 
+        /// <summary>
+        /// sets the offset to the eval board
+        /// </summary>
+        /// <param name="offsetValue">Offset value</param>
         public void SetOffset(float offsetValue)
         {
             this.deviceConnection.TdrSetOffset(offsetValue);
         }
 
+        /// <summary>
+        /// performs the cable calibration
+        /// </summary>
+        /// <param name="mode">calibration type</param>
         public void TDRSetCalibrationMode(CalibrationMode mode)
         {
             this.deviceConnection.TdrSetMode((int)mode);
