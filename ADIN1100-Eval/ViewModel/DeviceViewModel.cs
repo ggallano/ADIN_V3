@@ -2404,12 +2404,10 @@ namespace ADIN1100_Eval.ViewModel
                             switch (type)
                             {
                                 case Calibrate.NVP:
-                                    //this.Info($"Executing manual cable calibration.");
                                     this.selectedDevice.FwAPI.SetNvp(this.CalibrateCableValue.NVP);
                                     this.VerboseInfo($"Enter NVP manually");
                                     break;
                                 case Calibrate.Offset:
-                                    //this.Info($"Executing manual offset calibration.");
                                     this.selectedDevice.FwAPI.SetOffset(this.CalibrateOffsetValue.Offset);
                                     this.VerboseInfo($"Enter offset manually");
                                     Application.Current.Dispatcher.Invoke(() =>
