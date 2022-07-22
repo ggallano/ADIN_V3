@@ -2342,10 +2342,6 @@ namespace ADIN1100_Eval.ViewModel
         private void DoFaultDetection(object obj)
         {
             ResetUIControls();
-            //return;
-            //this.PerformSoftwareReset("Reset: PHY");
-
-            //this.Info("Performing Software Reset");
 
             Task.Run(() =>
             {
