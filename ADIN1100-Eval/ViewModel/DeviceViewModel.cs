@@ -765,6 +765,7 @@ namespace ADIN1100_Eval.ViewModel
                             this.FaultState = this.selectedDevice.FaultState;
                             this.CalibrateCableButtonColor = this.selectedDevice.CalibrateCableButtonColor;
                             this.CalibrateOffsetButtonColor = this.selectedDevice.CalibrateOffsetButtonColor;
+                            this.DistToFault = this.selectedDevice.DistToFault;
                         }
                         catch (FTDIException exc)
                         {
@@ -1605,7 +1606,13 @@ namespace ADIN1100_Eval.ViewModel
 
             set
             {
-                this.distToFault = "Fault at " + value + "m";
+                this.distToFault = value;
+
+                if(this.SelectedDevice != null)
+                {
+                    this.SelectedDevice.DistToFault = value;
+                }
+
                 this.RaisePropertyChanged(nameof(DistToFault));
             }
         }
@@ -2356,11 +2363,11 @@ namespace ADIN1100_Eval.ViewModel
                         {
                             //Application.Current.Dispatcher.Invoke(() => { this.PerformSoftwareReset("Reset: PHY"); this.FaultDetectorBusyContent = "Performing Software Reset"; });
                             this.FaultDetectorBusyContent = "Performing Software Reset";
-                            Thread.Sleep(2000);
+                            Thread.Sleep(1000);
 
                             this.FaultDetectorBusyContent = "Running TDR";
                             this.Info($"Executing fault detection.");
-                            this.DistToFault = this.selectedDevice.FwAPI.ExecuteFaultDetection(this.calibrateOffsetValue, this.calibrateCableValue, CalibrationMode.AutoRange, out faultType).ToString();
+                            this.DistToFault = "Fault at " + this.selectedDevice.FwAPI.ExecuteFaultDetection(this.calibrateOffsetValue, this.calibrateCableValue, CalibrationMode.AutoRange, out faultType).ToString() + "m";
                             this.FaultState = faultType;
 
                             this.Info($"Fault detection finished.");
