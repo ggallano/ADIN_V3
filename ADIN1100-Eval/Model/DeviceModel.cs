@@ -198,6 +198,11 @@ namespace ADIN1100_Eval.Model
         }
 
         /// <summary>
+        /// gets or sets the distance to fault
+        /// </summary>
+        public string DistToFault { get; set; }
+
+        /// <summary>
         /// Calibrate offset button collor.
         /// </summary>
         private Brush calibrateOffsetButtonColor = new SolidColorBrush(Colors.Transparent);
