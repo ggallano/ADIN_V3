@@ -923,7 +923,7 @@ namespace DeviceCommunication
                 }
             }
 
-            Regex rg = new Regex("ERROR:");
+            Regex rg = new Regex("(?<=ERROR: )[a-zA-Z0-9 -]*");
             Match matchedReadData = rg.Match(readData);
 
             if (!uint.TryParse(readData, System.Globalization.NumberStyles.HexNumber, null, out regContent)

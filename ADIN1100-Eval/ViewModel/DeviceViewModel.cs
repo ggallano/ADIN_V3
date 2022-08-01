@@ -2956,6 +2956,10 @@ namespace ADIN1100_Eval.ViewModel
                         {
                             this.Error(exc.Message);
                         }
+                        finally
+                        {
+                            frameCheckerParameters = null;
+                        }
                     }
                 }
             }
