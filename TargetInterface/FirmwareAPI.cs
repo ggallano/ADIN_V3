@@ -5000,11 +5000,18 @@ namespace TargetInterface
                 uint dev_ID = 0;
                 for (; i < 8; i++)
                 {
-                    this.deviceConnection.ModifyMDIOAddress(i);
-                    dev_ID = this.deviceConnection.ReadMDIORegister(0x1e0003);
-                    if ((dev_ID == 0xbc80) || (dev_ID == 0xbc81))
+                    try
                     {
-                        break;
+                        this.deviceConnection.ModifyMDIOAddress(i);
+                        dev_ID = this.deviceConnection.ReadMDIORegister(0x1e0003);
+                        if ((dev_ID == 0xbc80) || (dev_ID == 0xbc81))
+                        {
+                            break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        continue;
                     }
                 }
 
