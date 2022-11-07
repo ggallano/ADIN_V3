@@ -160,33 +160,35 @@ namespace ADIN1100_Eval.ViewModel
 
         private bool CanDoCalibrateLoad(object arg)
         {
-            return this.DeviceConnected;
+            return this.DeviceConnected && this.SelectedDevice.IsTdrAvailable;
         }
 
         private bool CanDoCalibrateSave(object arg)
         {
-            return this.DeviceConnected;
+            return this.DeviceConnected && this.SelectedDevice.IsTdrAvailable;
         }
 
         private bool CanDoFaultDetectionManualCalibrate(object arg)
         {
-            return this.DeviceConnected;
+            return this.DeviceConnected && this.SelectedDevice.IsTdrAvailable;
         }
 
         private bool CanDoFaultDetectionCalibrate(object arg)
         {
-            return this.DeviceConnected;
+            return this.DeviceConnected && this.SelectedDevice.IsTdrAvailable;
         }
 
         private bool CanDoResetFaultDetection(object arg)
         {
-            return this.DeviceConnected;
+            return this.DeviceConnected && this.SelectedDevice.IsTdrAvailable;
         }
 
         private bool CanDoFaultDetection(object arg)
         {
-            return this.DeviceConnected;
+            return this.DeviceConnected && this.SelectedDevice.IsTdrAvailable;
         }
+
+        public bool IsTdrAvailable => this.SelectedDevice.IsTdrAvailable;
 
         /// <summary>
         /// Gets or sets the function to be called when running a script
@@ -798,11 +800,12 @@ namespace ADIN1100_Eval.ViewModel
                 this.RaisePropertyChanged("SelectedLoopbackItem");
                 this.RaisePropertyChanged("TxSuppression");
                 this.RaisePropertyChanged("RxSuppression");
-                this.RaisePropertyChanged(nameof(CalibrateOffsetValue));
-                this.RaisePropertyChanged(nameof(CalibrateCableValue));
-                this.RaisePropertyChanged(nameof(FaultState));
-                this.RaisePropertyChanged(nameof(CalibrateCableButtonColor));
-                this.RaisePropertyChanged(nameof(CalibrateOffsetButtonColor));
+                this.RaisePropertyChanged(nameof(this.CalibrateOffsetValue));
+                this.RaisePropertyChanged(nameof(this.CalibrateCableValue));
+                this.RaisePropertyChanged(nameof(this.FaultState));
+                this.RaisePropertyChanged(nameof(this.CalibrateCableButtonColor));
+                this.RaisePropertyChanged(nameof(this.CalibrateOffsetButtonColor));
+                this.RaisePropertyChanged(nameof(this.IsTdrAvailable));
             }
         }
 
