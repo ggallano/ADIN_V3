@@ -1314,19 +1314,11 @@ namespace TargetInterface
                 this.deviceSettingsUp.Fixed.FixedMasterSlave = MasterSlaveFixed.Master;
                 this.deviceSettingsUp.Negotiate.PreferMasterSlave = MasterSlavePreference.Master;
                 this.deviceSettingsUp.Negotiate.AutoNegCompleted = true;
-                this.deviceSettingsUp.Link.ResolvedHCD = EthernetSpeeds.SPEED_10BASE_T_1L;//dani 20april SPEED_10BASE_T_FD; // 10SPE uses a fixed speed
+                this.deviceSettingsUp.Link.ResolvedHCD = EthernetSpeeds.SPEED_10BASE_T_1L;
                 this.deviceSettingsUp.Link.FrameGenRunning = false;
                 this.deviceSettingsUp.Link.FrameGenRunning = false;
-                if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL") == 1)
-                {
-                    this.deviceSettingsUp.Negotiate.PkPkVoltage = SignalPeakToPeakVoltage.Capable2p4Volts_Requested2p4Volts;//CapableTwoPointFourVolts_RequestedTwoPointFourVolts;
-                }
-                else
-                {
-                    this.deviceSettingsUp.Negotiate.PkPkVoltage = SignalPeakToPeakVoltage.Capable1Volt;//CapableOneVolt;
-                }
 
-                this.RefreshNegotiateMasterSlaveSetting(); //dani Do we need to refresh the settings?              
+                this.RefreshNegotiateMasterSlaveSetting();
                 this.RefreshTenSPEStatusItem();
                 this.FrameGeneratorStatus();
                 this.FrameCheckerStatus();
@@ -1821,18 +1813,21 @@ namespace TargetInterface
                 // Configuring for high voltage transmit levels 2.4VPkpk
                 this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL", 1);
                 this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ", 1);
+                //this.deviceSettingsUp.Negotiate.PkPkVoltage = SignalPeakToPeakVoltage.Capable2p4Volts_Requested2p4Volts;
             }
             else if (pkpkVoltage == SignalPeakToPeakVoltage.Capable2p4Volts_Requested1Volt)//CapableTwoPointFourVolts_RequestedOneVolt)
             {
                 // Configuring for high voltage transmit levels 2.4VPkpk
                 this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL", 1);
                 this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ", 0);
+                //this.deviceSettingsUp.Negotiate.PkPkVoltage = SignalPeakToPeakVoltage.Capable2p4Volts_Requested1Volt;
             }
-
             else
             {
                 // Configuring for low voltage transmit levels 1.0VPk-pk AnAdvB10lTxLvlHiAbl
                 this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL", 0);
+                this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ", 0);
+                //this.deviceSettingsUp.Negotiate.PkPkVoltage = SignalPeakToPeakVoltage.Capable1Volt;
             }
 
             // Renegotiate immediately
@@ -1844,71 +1839,7 @@ namespace TargetInterface
 #if MASTER_SLAVE_NEGOTIATE
             if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_EN") == 1)
             {
-                ////////dani 20April  this.deviceSettingsUp.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Negotiate;
-                //////  uint masterSlave = this.ReadYodaRg("IndirectAccessAddressMap", "AN_MS_CONFIG_RSLTN");
-                //////  switch (masterSlave)
-                //////  {
-                //////      case 0:
-                //////          {
-                //////              //Not Run
-                //////          }
-
-                //////          break;
-                //////      case 1:
-                //////          {
-                //////              //Configuration Fault
-                //////              //Configuration Fault
-                //////              // Configuration Fault
-
-                //////              // FYI: the function call for this method was comment out.
-                //////              // Initializing the AN Status
-                //////            //  TargetInfoItem anStatus = new TargetInfoItem(this.deviceSettingsUp.Link.AnStatus.ItemName);
-                //////            //  anStatus.IsAvailable = this.TenSPEDevice();//&& this.deviceSettingsUp.PhyState != EthPhyState.LinkUp; // this is the condition for the visibility in the UI
-
-                //////              // start the code here
-
-                //////              // this how to set the AN Status
-                //////             // anStatus.ItemContent = "Configuration Fault";// ANStatus.Config_Fault.ToString().Replace("_", " ");  // this converts from enum type to string type
-                //////             // anStatus.ItemContent = ANStatus.AN_Done.ToString().Replace("_", " ");       // this converts from enum type to string type
-                //////             // anStatus.ItemContent = ANStatus.AN_Link_Good.ToString().Replace("_", " ");  // this converts from enum type to string type
-
-                //////              // end the code here
-
-                //////             // this.deviceSettingsUp.Link.AnStatus = anStatus;
-                //////          }
-
-                //////          break;
-                //////      case 2:
-                //////          {
-                //////              if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_FORCE_MS") == 1)
-                //////              {
-                //////                  this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Forced_Slave;
-                //////              }
-                //////              else
-                //////              {
-                //////                  this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Prefer_Slave;
-                //////              }
-                //////          }
-
-                //////          break;
-                //////      case 3:
-                //////          {
-                //////              if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_FORCE_MS") == 1)
-                //////              {
-                //////                  this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Forced_Master;
-                //////              }
-                //////              else
-                //////              {
-                //////                  this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Prefer_Master;
-                //////              }
-                //////          }
-
-                //////          break;
-                //////  }
-                //// }
-                ////else
-                ////{
-                ////    uint masterSlave = this.ReadYodaRg("IndirectAccessAddressMap", "AN_MS_CONFIG_RSLTN");	AN_ADV_MST
+                // M/S Advertisement
                 if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_MST") == 1)
                 {
                     if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_FORCE_MS") == 1)
@@ -1930,6 +1861,22 @@ namespace TargetInterface
                     {
                         this.DeviceSettings.Negotiate.NegotiateMasterSlave = MasterSlaveNegotiate.Prefer_Slave;
                     }
+                }
+
+                // Tx Level Advertisement
+                if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL") == 1 &&
+                    this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ") == 1)
+                {
+                    this.deviceSettingsUp.Negotiate.PkPkVoltage = SignalPeakToPeakVoltage.Capable2p4Volts_Requested2p4Volts;
+                }
+                else if (this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL") == 1 &&
+                    this.ReadYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ") == 0)
+                {
+                    this.deviceSettingsUp.Negotiate.PkPkVoltage = SignalPeakToPeakVoltage.Capable2p4Volts_Requested1Volt;
+                }
+                else
+                {
+                    this.deviceSettingsUp.Negotiate.PkPkVoltage = SignalPeakToPeakVoltage.Capable1Volt;
                 }
             }
 #else
