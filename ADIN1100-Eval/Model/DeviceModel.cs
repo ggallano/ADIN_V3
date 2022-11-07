@@ -51,13 +51,35 @@ namespace ADIN1100_Eval.Model
             this.isPresent = true;
 
             this.fwAPI.Open();
-            var result = fwAPI.ResetFaultDetection();
-            this.Cable.NVP = float.Parse(result[0],CultureInfo.InvariantCulture);
-            this.Offset.Offset = float.Parse(result[1], CultureInfo.InvariantCulture);
-            this.Cable.Coeff0 = float.Parse(result[2], CultureInfo.InvariantCulture);
-            this.Cable.Coeffi = float.Parse(result[3], CultureInfo.InvariantCulture);
+            try
+            {
+                var result = fwAPI.ResetFaultDetection();
+                this.Cable.NVP = float.Parse(result[0], CultureInfo.InvariantCulture);
+                this.Offset.Offset = float.Parse(result[1], CultureInfo.InvariantCulture);
+                this.Cable.Coeff0 = float.Parse(result[2], CultureInfo.InvariantCulture);
+                this.Cable.Coeffi = float.Parse(result[3], CultureInfo.InvariantCulture);
+            }
+            catch (Exception)
+            {
+                this.Warning("ADIN1100 board requires a firmware upgrade to enable TDR fault detector.");
+                IsTdrAvailable = false;
+            }
             this.fwAPI.Close();
         }
+
+        private bool isTdrAvailable = true;
+
+        public bool IsTdrAvailable
+        {
+            get { return this.isTdrAvailable; }
+
+            set
+            {
+                this.isTdrAvailable = value;
+                this.RaisePropertyChanged(nameof(IsTdrAvailable));
+            }
+        }
+
 
         /// <summary>
         /// Gets or sets the loopback item

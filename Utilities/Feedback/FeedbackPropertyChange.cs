@@ -64,5 +64,14 @@ namespace Utilities.Feedback
         {
             this.FeedbackOfActions = new Feedback() { FeedbackType = FeedBackType.Error, FeedbackMessage = info };
         }
+
+        /// <summary>
+        /// Pass information string to handler.
+        /// </summary>
+        /// <param name="info">Information String</param>
+        public void Warning(string info)
+        {
+            this.FeedbackOfActions = new Feedback() { FeedbackType = FeedBackType.Warning, FeedbackMessage = info };
+        }
     }
 }
