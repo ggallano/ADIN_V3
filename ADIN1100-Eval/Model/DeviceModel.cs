@@ -27,6 +27,7 @@ namespace ADIN1100_Eval.Model
         private bool lpbkmode;
         private DeviceConnection deviceConnection;
         private FirmwareAPI fwAPI;
+        private bool isTdrAvailable;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceModel"/> class.
@@ -58,28 +59,32 @@ namespace ADIN1100_Eval.Model
                 this.Offset.Offset = float.Parse(result[1], CultureInfo.InvariantCulture);
                 this.Cable.Coeff0 = float.Parse(result[2], CultureInfo.InvariantCulture);
                 this.Cable.Coeffi = float.Parse(result[3], CultureInfo.InvariantCulture);
+                this.isTdrAvailable = true;
             }
             catch (Exception)
             {
-                this.Warning("ADIN1100 board requires a firmware upgrade to enable TDR fault detector.");
-                IsTdrAvailable = false;
+                this.Warning($"[{this.serialNumber}] ADIN1100 board requires a firmware upgrade to enable TDR fault detector.");
+                this.IsTdrAvailable = false;
             }
             this.fwAPI.Close();
         }
 
-        private bool isTdrAvailable = true;
-
+        /// <summary>
+        /// Gets or sets the is tdr available
+        /// </summary>
         public bool IsTdrAvailable
         {
-            get { return this.isTdrAvailable; }
+            get
+            {
+                return this.isTdrAvailable;
+            }
 
             set
             {
                 this.isTdrAvailable = value;
-                this.RaisePropertyChanged(nameof(IsTdrAvailable));
+                this.RaisePropertyChanged(nameof(this.IsTdrAvailable));
             }
         }
-
 
         /// <summary>
         /// Gets or sets the loopback item

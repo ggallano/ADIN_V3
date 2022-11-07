@@ -32,6 +32,10 @@
                                 <Setter Property="Foreground" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Foreground}"/>
                                 <Setter Property="Background" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Background}"/>
                             </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Foreground}"/>
+                                <Setter Property="Background" Value="LightGray"/>
+                            </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>

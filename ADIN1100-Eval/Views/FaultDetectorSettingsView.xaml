@@ -46,6 +46,10 @@
                                 <Setter Property="Foreground" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Foreground}"/>
                                 <Setter Property="Background" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Background}"/>
                             </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Foreground}"/>
+                                <Setter Property="Background" Value="LightGray"/>
+                            </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -85,6 +89,10 @@
                                 <Setter Property="Foreground" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Foreground}"/>
                                 <Setter Property="Background" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Background}"/>
                             </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Foreground}"/>
+                                <Setter Property="Background" Value="LightGray"/>
+                            </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -108,6 +116,10 @@
                             <Trigger Property="IsPressed" Value="true">
                                 <Setter Property="Foreground" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Foreground}"/>
                                 <Setter Property="Background" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Background}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Foreground}"/>
+                                <Setter Property="Background" Value="LightGray"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -138,6 +150,10 @@
                             <Trigger Property="IsPressed" Value="true">
                                 <Setter Property="Foreground" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Foreground}"/>
                                 <Setter Property="Background" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Background}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Foreground}"/>
+                                <Setter Property="Background" Value="LightGray"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -170,6 +186,10 @@
                             <Trigger Property="IsPressed" Value="true">
                                 <Setter Property="Foreground" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Foreground}"/>
                                 <Setter Property="Background" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Background}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="{DynamicResource BottomPane.Graph.Button.Hovered.Foreground}"/>
+                                <Setter Property="Background" Value="LightGray"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -223,7 +243,8 @@
                             <TextBlock Text="Offset:"/>
                             <StackPanel Orientation="Horizontal">
                                 <telerik:RadNumericUpDown Width="100" Height="25"
-                                                          Value="{Binding CalibrateOffsetValue.Offset}"/>
+                                                          Value="{Binding CalibrateOffsetValue.Offset}"
+                                                          IsEnabled="{Binding IsTdrAvailable}"/>
                                 <telerik:RadButton Style="{StaticResource OkButtonStyle}" 
                                                    Command="{Binding FaultDetectionManualCalibrateCommand}"
                                                    CommandParameter="Offset"
@@ -269,7 +290,8 @@
                                 <telerik:RadNumericUpDown Width="100" Height="25"
                                                           SmallChange="0.01"
                                                           NumberDecimalDigits="3"
-                                                          Value="{Binding CalibrateCableValue.NVP}"/>
+                                                          Value="{Binding CalibrateCableValue.NVP}"
+                                                          IsEnabled="{Binding IsTdrAvailable}"/>
                                 <telerik:RadButton Style="{StaticResource OkButtonStyle}" 
                                                    Command="{Binding FaultDetectionManualCalibrateCommand}"
                                                    CommandParameter="NVP"

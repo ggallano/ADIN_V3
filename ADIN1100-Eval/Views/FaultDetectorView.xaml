@@ -5,8 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ADIN1100_Eval.Views"
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:converter="clr-namespace:ADIN1100_Eval.Themes.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converter:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" IsInversed="True"/>
+    </UserControl.Resources>
     <Grid>
         <Grid HorizontalAlignment='Stretch' VerticalAlignment='Stretch' Background="White">
             <Grid.ColumnDefinitions>
@@ -32,6 +36,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
@@ -53,6 +58,7 @@
                         <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                             <local:CableDiagnosticsStatusADIN1100/>
                         </Grid>
+                        <TextBlock Grid.Row="3" Text="[Warning] ADIN1100 board requires a firmware upgrade to enable TDR fault detector." Foreground="Red" HorizontalAlignment="Center" Visibility="{Binding IsTdrAvailable,Converter={StaticResource booleanToVisibilityConverter}}" />
                     </Grid>
                 </telerik:RadBusyIndicator>
             </ScrollViewer>
