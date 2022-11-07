@@ -1813,21 +1813,18 @@ namespace TargetInterface
                 // Configuring for high voltage transmit levels 2.4VPkpk
                 this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL", 1);
                 this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ", 1);
-                //this.deviceSettingsUp.Negotiate.PkPkVoltage = SignalPeakToPeakVoltage.Capable2p4Volts_Requested2p4Volts;
             }
             else if (pkpkVoltage == SignalPeakToPeakVoltage.Capable2p4Volts_Requested1Volt)//CapableTwoPointFourVolts_RequestedOneVolt)
             {
                 // Configuring for high voltage transmit levels 2.4VPkpk
                 this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL", 1);
                 this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ", 0);
-                //this.deviceSettingsUp.Negotiate.PkPkVoltage = SignalPeakToPeakVoltage.Capable2p4Volts_Requested1Volt;
             }
             else
             {
                 // Configuring for low voltage transmit levels 1.0VPk-pk AnAdvB10lTxLvlHiAbl
                 this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL", 0);
                 this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ", 0);
-                //this.deviceSettingsUp.Negotiate.PkPkVoltage = SignalPeakToPeakVoltage.Capable1Volt;
             }
 
             // Renegotiate immediately
