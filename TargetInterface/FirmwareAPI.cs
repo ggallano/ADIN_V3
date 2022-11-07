@@ -1833,6 +1833,7 @@ namespace TargetInterface
             {
                 // Configuring for low voltage transmit levels 1.0VPk-pk AnAdvB10lTxLvlHiAbl
                 this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_ABL", 0);
+                this.WriteYodaRg("IndirectAccessAddressMap", "AN_ADV_B10L_TX_LVL_HI_REQ", 0);
             }
 
             // Renegotiate immediately
