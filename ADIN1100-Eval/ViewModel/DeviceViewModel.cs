@@ -1994,6 +1994,11 @@ namespace ADIN1100_Eval.ViewModel
                         try
                         {
                             this.selectedDevice.FwAPI.ReportPhyStatus();
+                            //if (this.SelectedDevice.IsTdrAvailable)
+                            //{
+                            //    this.CalibrateCableValue.NVP = this.SelectedDevice.FwAPI.GetCoeff()[0];
+                            //    this.CalibrateOffsetValue.Offset = this.SelectedDevice.FwAPI.GetOffset();
+                            //}
                         }
                         catch (FTDIException exc)
                         {

@@ -18,7 +18,7 @@
 
             set
             {
-                if (value >= 0.0f && value <= 1.0f)
+                if (value >= 0.0f && value <= 1.0f && this.nvp != value)
                 {
                     this.nvp = value;
                 }
