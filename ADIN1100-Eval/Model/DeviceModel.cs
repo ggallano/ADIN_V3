@@ -15,6 +15,7 @@ namespace ADIN1100_Eval.Model
     using TargetInterface.CableDiagnostics;
     using System.Globalization;
     using System.Windows.Media;
+    using System.Windows.Forms;
 
     /// <summary>
     /// Device Model
@@ -63,6 +64,7 @@ namespace ADIN1100_Eval.Model
             }
             catch (Exception)
             {
+                MessageBox.Show($"[{this.serialNumber}] ADIN1100 board requires a firmware upgrade to enable TDR fault detector.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.Warning($"[{this.serialNumber}] ADIN1100 board requires a firmware upgrade to enable TDR fault detector.");
                 this.IsTdrAvailable = false;
             }
