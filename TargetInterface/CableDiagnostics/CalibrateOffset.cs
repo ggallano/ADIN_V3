@@ -18,7 +18,7 @@
 
             set
             {
-                if (value >= 0.0f && value <= 1000.0f)
+                if (value >= 0.0f && value <= 1000.0f && this.offset != value)
                 {
                     this.offset = value;
                 }
