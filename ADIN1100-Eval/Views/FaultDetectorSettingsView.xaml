@@ -306,7 +306,7 @@
             <telerik:RadButton HorizontalAlignment="Center"
                                Width="125"
                                Style="{StaticResource ResetToDefaultButtonStyle}" 
-                               Command="{Binding ResetFaultDetectorCommand}"/>
+                               Command="{Binding ResetFaultDetectorCommand}" Visibility="Collapsed"/>
         </StackPanel>
     </Grid>
 </UserControl>
