@@ -15,6 +15,7 @@ namespace ADIN1100_Eval.Model
     using TargetInterface.CableDiagnostics;
     using System.Globalization;
     using System.Windows.Media;
+    using System.Windows.Forms;
 
     /// <summary>
     /// Device Model
@@ -54,18 +55,23 @@ namespace ADIN1100_Eval.Model
             this.fwAPI.Open();
             try
             {
-                var result = fwAPI.ResetFaultDetection();
-                this.Cable.NVP = float.Parse(result[0], CultureInfo.InvariantCulture);
-                this.Offset.Offset = float.Parse(result[1], CultureInfo.InvariantCulture);
-                this.Cable.Coeff0 = float.Parse(result[2], CultureInfo.InvariantCulture);
-                this.Cable.Coeffi = float.Parse(result[3], CultureInfo.InvariantCulture);
+                //var result = fwAPI.ResetFaultDetection();
+                //this.Cable.NVP = float.Parse(result[0], CultureInfo.InvariantCulture);
+                //this.Offset.Offset = float.Parse(result[1], CultureInfo.InvariantCulture);
+                //this.Cable.Coeff0 = float.Parse(result[2], CultureInfo.InvariantCulture);
+                //this.Cable.Coeffi = float.Parse(result[3], CultureInfo.InvariantCulture);
+
+                this.Cable.NVP = fwAPI.GetCoeff()[0];
+                this.Offset.Offset = fwAPI.GetOffset();
                 this.isTdrAvailable = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show($"[{this.serialNumber}] ADIN1100 board requires a firmware upgrade to enable TDR fault detector.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 this.Warning($"[{this.serialNumber}] ADIN1100 board requires a firmware upgrade to enable TDR fault detector.");
                 this.IsTdrAvailable = false;
             }
+
             this.fwAPI.Close();
         }
 

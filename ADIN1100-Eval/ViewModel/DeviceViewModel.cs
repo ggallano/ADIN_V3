@@ -2360,6 +2360,12 @@ namespace ADIN1100_Eval.ViewModel
                     {
                         try
                         {
+                            this.CalibrateCableValue.NVP = this.SelectedDevice.FwAPI.GetCoeff()[0];
+                            this.CalibrateOffsetValue.Offset = this.SelectedDevice.FwAPI.GetOffset();
+
+                            this.RaisePropertyChanged(nameof(CalibrateCableValue));
+                            this.RaisePropertyChanged(nameof(CalibrateOffsetValue));
+
                             //Application.Current.Dispatcher.Invoke(() => { this.PerformSoftwareReset("Reset: PHY"); this.FaultDetectorBusyContent = "Performing Software Reset"; });
                             this.FaultDetectorBusyContent = "Performing Software Reset";
                             Thread.Sleep(1000);
