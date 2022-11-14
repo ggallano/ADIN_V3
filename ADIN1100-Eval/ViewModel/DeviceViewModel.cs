@@ -188,7 +188,7 @@ namespace ADIN1100_Eval.ViewModel
             return this.DeviceConnected && this.SelectedDevice.IsTdrAvailable;
         }
 
-        public bool IsTdrAvailable => this.SelectedDevice.IsTdrAvailable;
+        public bool IsTdrAvailable => this.SelectedDevice?.IsTdrAvailable ?? true;
 
         /// <summary>
         /// Gets or sets the function to be called when running a script
