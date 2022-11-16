@@ -120,6 +120,8 @@
       <DependentUpon>AutoVersionIncrement.tt</DependentUpon>
     </Compile>
     <Compile Include="FrameGeneratorChecker.cs" />
+    <Compile Include="ListBoxBehavior\AutoScrollHandler.cs" />
+    <Compile Include="ListBoxBehavior\ListBoxBehavior.cs" />
     <Compile Include="LocalLoopbackParameters.cs" />
     <Compile Include="Loopback.cs" />
     <Compile Include="LoopbackItem.cs" />
