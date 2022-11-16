@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:ADIN1100_Eval.Views"
              xmlns:converter="clr-namespace:ADIN1100_Eval.Themes.Converters"
              xmlns:telerik='http://schemas.telerik.com/2008/xaml/presentation'
+             xmlns:listBoxBehavior="clr-namespace:ADIN1100_Eval.ListBoxBehavior"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -80,7 +81,7 @@
                 <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource HelpWindow.Title.Foreground}" FontWeight="DemiBold" FontSize="14" Text="Activity Log" Padding="5"/>
             </DockPanel>
         </Border>
-        <ListBox x:Name="MyListBox" Foreground="Gray" Background="Transparent" ItemsSource="{Binding FeedbackLogs}" SelectionMode='Extended' >
+        <ListBox x:Name="MyListBox" Foreground="Gray" Background="Transparent" ItemsSource="{Binding FeedbackLogs}" listBoxBehavior:ListBoxBehavior.AutoScroll="True">
             <telerik:RadContextMenu.ContextMenu>
                 <telerik:RadContextMenu>
                     <telerik:RadMenuItem Command="{Binding LogWindowClearCommand}" Header="Clear" />
