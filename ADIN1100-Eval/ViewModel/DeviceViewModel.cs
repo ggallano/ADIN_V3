@@ -1611,7 +1611,7 @@ namespace ADIN1100_Eval.ViewModel
             {
                 this.distToFault = value;
 
-                if(this.SelectedDevice != null)
+                if (this.SelectedDevice != null)
                 {
                     this.SelectedDevice.DistToFault = value;
                 }
@@ -2371,11 +2371,17 @@ namespace ADIN1100_Eval.ViewModel
                             Thread.Sleep(1000);
 
                             this.FaultDetectorBusyContent = "Running TDR";
-                            this.Info($"Executing fault detection.");
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                this.Info($"Executing fault detection.");
+                            });
                             this.DistToFault = "Fault at " + this.selectedDevice.FwAPI.ExecuteFaultDetection(this.calibrateOffsetValue, this.calibrateCableValue, CalibrationMode.AutoRange, out faultType).ToString() + "m";
                             this.FaultState = faultType;
 
-                            this.Info($"Fault detection finished.");
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                this.Info($"Fault detection finished.");
+                            });
                         }
                         catch (Exception ex)
                         {
@@ -2561,7 +2567,10 @@ namespace ADIN1100_Eval.ViewModel
                                     this.FaultDetectorBusyContent = "Performing Software Reset";
                                     Thread.Sleep(2000);
 
-                                    this.Info($"Executing offset calibration.");
+                                    Application.Current.Dispatcher.Invoke(() =>
+                                    {
+                                        this.Info($"Executing offset calibration.");
+                                    });
                                     this.FaultDetectorBusyContent = "Calibrating";
 
                                     bool calibrationSuccessful = false;
