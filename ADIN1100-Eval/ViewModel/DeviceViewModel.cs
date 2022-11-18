@@ -2420,13 +2420,16 @@ namespace ADIN1100_Eval.ViewModel
                             {
                                 case Calibrate.NVP:
                                     this.selectedDevice.FwAPI.SetNvp(this.CalibrateCableValue.NVP);
-                                    this.VerboseInfo($"Enter NVP manually");
+                                    Application.Current.Dispatcher.Invoke(() =>
+                                    {
+                                        this.VerboseInfo($"Enter NVP manually");
+                                    });
                                     break;
                                 case Calibrate.Offset:
                                     this.selectedDevice.FwAPI.SetOffset(this.CalibrateOffsetValue.Offset);
-                                    this.VerboseInfo($"Enter offset manually");
                                     Application.Current.Dispatcher.Invoke(() =>
                                     {
+                                        this.VerboseInfo($"Enter offset manually");
                                         this.SetCalibrationSuccessIndicator(false, type);
                                     });
                                     break;
