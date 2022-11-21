@@ -81,7 +81,8 @@
                 <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource HelpWindow.Title.Foreground}" FontWeight="DemiBold" FontSize="14" Text="Activity Log" Padding="5"/>
             </DockPanel>
         </Border>
-        <ListBox x:Name="MyListBox" Foreground="Gray" Background="Transparent" ItemsSource="{Binding FeedbackLogs}" listBoxBehavior:ListBoxBehavior.AutoScroll="True">
+        <!--listBoxBehavior:ListBoxBehavior.AutoScroll="True"-->
+        <ListBox x:Name="MyListBox" Foreground="Gray" Background="Transparent" ItemsSource="{Binding FeedbackLogs}">
             <telerik:RadContextMenu.ContextMenu>
                 <telerik:RadContextMenu>
                     <telerik:RadMenuItem Command="{Binding LogWindowClearCommand}" Header="Clear" />
