@@ -46,8 +46,8 @@
 
                     <TextBlock  Grid.Row='0' FontWeight='Bold'>Hardware default register values shown</TextBlock>
 
-                    <ScrollViewer Grid.Row='1'>
-                        <Image  x:Name='RegImage' Source='../Images/Yoda/adin1100/099dde65723743503791a6cfc6b8c52312d849d1.png' VerticalAlignment='Top' HorizontalAlignment='Center' Stretch='None' />
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row='1'>
+                        <Image  x:Name='RegImage' Source='../Images/Yoda/adin1100/099dde65723743503791a6cfc6b8c52312d849d1.png' VerticalAlignment='Top' HorizontalAlignment='Center' Stretch='UniformToFill' />
 
                     </ScrollViewer>
                     <GridSplitter Grid.Row="2" ShowsPreview="False" Style="{StaticResource HorizontalGridSplitter}"/>

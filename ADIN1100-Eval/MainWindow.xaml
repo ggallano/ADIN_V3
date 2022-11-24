@@ -139,9 +139,9 @@
             <Grid Grid.Row='1' HorizontalAlignment='Stretch' VerticalAlignment='Stretch' Margin='0,0,5,0'>
                 <Grid x:Name="LayoutRoot" HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*" MinWidth='380' />
-                        <ColumnDefinition Width="8" />
-                        <ColumnDefinition Width="2.25*" />
+                        <ColumnDefinition Width="7*" MinWidth='380' />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.Column='0'>
                         <views:LogWindow HorizontalAlignment='Stretch' VerticalAlignment='Stretch' Margin='10,10,10,10' DataContext='{Binding FeedbackViewModel, diag:PresentationTraceSources.TraceLevel=High}' ></views:LogWindow>

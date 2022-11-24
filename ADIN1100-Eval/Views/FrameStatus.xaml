@@ -27,10 +27,10 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Border BorderThickness="0">
+    <Border BorderThickness="0 0 0 0.5" Margin="5 0 10 10" BorderBrush="{DynamicResource MiddlePane.Bottom.Borders}">
         <StackPanel>
             <TextBlock Style="{StaticResource Title_H1}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center">Device Status</TextBlock>
-            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin='-1,0,1,0'>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
