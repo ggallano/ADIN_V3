@@ -186,8 +186,6 @@
                         <Grid x:Name="LayoutRoot" HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
-                                <!--<ColumnDefinition Width="8" />
-                                <ColumnDefinition Width="5*" />-->
                             </Grid.ColumnDefinitions>
                             <ContentControl Visibility="Collapsed" Content="{StaticResource ProxyElement}"/>
                             <Border Grid.Column='0' x:Name="LinkProperty" BorderBrush="#FFCBD8E8"	BorderThickness="1">
@@ -199,22 +197,13 @@
 
                                         <!--Advertised Speeds-->
                                         <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.Advertise1000FD,Source={StaticResource ProxyElement}}" Description="Advertise 1000BASE-T FD when auto-negotiating a link speed." DisplayName="Advertise 1000BASE-T FD" GroupName="Auto-Negotiation Advertised Speeds" OrderIndex='100' Visibility="{Binding DataContext.Negotiate1GSpeeds,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
-
                                         <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.Advertise1000HD,Source={StaticResource ProxyElement}}" Description="Advertise 1000BASE-T HD when auto-negotiating a link speed." DisplayName="Advertise 1000BASE-T HD" GroupName="Auto-Negotiation Advertised Speeds" OrderIndex='101' Visibility="{Binding DataContext.Negotiate1GSpeeds,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
-
                                         <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.AdvertiseEEE1000,Source={StaticResource ProxyElement}}" Description="Advertise EEE 1000BASE-T when auto-negotiating a link speed." DisplayName="Advertise EEE 1000BASE-T" GroupName="EEE Advertisement" OrderIndex='102' Visibility="{Binding DataContext.ShowAdvertiseEEE1000,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
-
                                         <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.Advertise100FD,Source={StaticResource ProxyElement}}" Description="Advertise 100BASE-TX FD when auto-negotiating a link speed." DisplayName="Advertise 100BASE-TX FD" GroupName="Auto-Negotiation Advertised Speeds" OrderIndex='103' Visibility="{Binding DataContext.NegotiationSpeedsShown,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
-
                                         <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.Advertise100HD,Source={StaticResource ProxyElement}}" Description="Advertise 100BASE-TX HD when auto-negotiating a link speed." DisplayName="Advertise 100BASE-TX HD" GroupName="Auto-Negotiation Advertised Speeds" OrderIndex='104' Visibility="{Binding DataContext.NegotiationSpeedsShown,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
-
                                         <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.AdvertiseEEE100,Source={StaticResource ProxyElement}}" Description="Advertise EEE 100BASE-TX when auto-negotiating a link speed." DisplayName="Advertise EEE 100BASE-TX" GroupName="EEE Advertisement" OrderIndex='105' Visibility="{Binding DataContext.ShowAdvertiseEEE100,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
-
-
                                         <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.Advertise10FD,Source={StaticResource ProxyElement}}" Description="Advertise 10BASE-T FD when auto-negotiating a link speed." DisplayName="Advertise 10BASE-T FD" GroupName="Auto-Negotiation Advertised Speeds" OrderIndex='106' Visibility="{Binding DataContext.NegotiationSpeedsShown,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
-
                                         <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Negotiate.Advertise10HD,Source={StaticResource ProxyElement}}" Description="Advertise 10BASE-T HD when auto-negotiating a link speed." DisplayName="Advertise 10BASE-T HD" GroupName="Auto-Negotiation Advertised Speeds" OrderIndex='107' Visibility="{Binding DataContext.NegotiationSpeedsShown,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
-
 
                                         <!--Forced Speeds-->
                                         <telerik:PropertyDefinition Binding="{Binding DataContext.DeviceSettings.Fixed.ForcedSpeedProxy,Source={StaticResource ProxyElement}}" Description="Select forced speed." DisplayName="Forced Speed" GroupName="Forced Speeds" OrderIndex='200' Visibility="{Binding DataContext.ForcedSpeedsShown,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}"></telerik:PropertyDefinition>
@@ -246,10 +235,6 @@
 
                                 </telerik:RadPropertyGrid>
                             </Border>
-                            <!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
-                            <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                                <local:LinkStatus/>
-                            </Grid>-->
                         </Grid>
                     </Grid>
                 </TabItem>
@@ -257,64 +242,57 @@
                     <local:RegisterListView/>
                 </TabItem>
                 <TabItem Header='Clock Pin Control' Visibility="{Binding DataContext.ClockPinControlPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
-                    <Grid>
-                        <Grid x:Name="LayoutRoot2" HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*" />
-                                <ColumnDefinition Width="5" />
-                                <ColumnDefinition Width="3*" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <ContentControl Visibility="Collapsed" Content="{StaticResource ProxyElement}"/>
-                            <Border Grid.Column='0' x:Name="LinkProperty2" BorderBrush="#FFCBD8E8"	BorderThickness="1">
-                                <GroupBox Header='GP_CLK Pin Control' >
-                                    <StackPanel>
-                                        <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Stretch" Margin='10' >Control the clock output on the GPCLK pin.</TextBlock>
-                                        <WrapPanel HorizontalAlignment='Left' Margin='10'  Orientation='Horizontal' ItemHeight='50' ItemWidth='180'>
+                    <Grid x:Name="LayoutRoot2" HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="5" />
+                            <ColumnDefinition Width="3*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <ContentControl Visibility="Collapsed" Content="{StaticResource ProxyElement}"/>
+                        <Border Grid.Column='0' x:Name="LinkProperty2" BorderBrush="#FFCBD8E8"	BorderThickness="1">
+                            <GroupBox Header='GP_CLK Pin Control' >
+                                <StackPanel>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource Title_H1}" HorizontalAlignment="Stretch" Margin='10' >Control the clock output on the GPCLK pin.</TextBlock>
+                                    <WrapPanel HorizontalAlignment='Left' Margin='10'  Orientation='Horizontal' ItemHeight='50' ItemWidth='180'>
+                                        <telerik:RadRadioButton Content='None' Margin='10,10,10,10' CornerRadius='15' ToolTip='Remove any clock output at the GP_CLK pin' Command="{Binding GP_CLKPinCommand}" CommandParameter="OFF" IsChecked='True'/>
+                                        <telerik:RadRadioButton Content='125 MHz PHY Recovered' Margin='10,10,10,10' CornerRadius='15' ToolTip='The 125 MHz PHY recovered clock (or PLL clock) is driven at the GP_CLK pin' Command="{Binding GP_CLKPinCommand}" CommandParameter="RecoveredReceiver125MHz" />
+                                        <telerik:RadRadioButton Content='125 MHz PHY Free Running' Margin='10,10,10,10' CornerRadius='15' ToolTip='The 125 MHz PHY free running clock is driven at the GP_CLK pin' Command="{Binding GP_CLKPinCommand}" CommandParameter="GeClkFree125"/>
+                                        <telerik:RadRadioButton Content='Recovered HeartBeat' Margin='10,10,10,10' CornerRadius='15' ToolTip='Causes the sub-system to request the chip to drive the digital recovered heartbeat clock at the GP_CLK pin' Command="{Binding GP_CLKPinCommand}" CommandParameter="GeClkHrtRcvr"/>
+                                        <telerik:RadRadioButton Content='Free Running HeartBeat' Margin='10,10,10,10' CornerRadius='15' ToolTip='Causes the sub-system to request the chip to drive the digital free-running heartbeat clock at the GP_CLK pin.' Command="{Binding GP_CLKPinCommand}" CommandParameter="GeClkHrtFree"/>
+                                        <telerik:RadRadioButton Content='25 MHz Reference' Margin='10,10,10,10' CornerRadius='15' ToolTip='The 25 MHz reference clock from the crystal oscillator is driven at the GP_CLK pin (having been processed through the digital block, so will not be as clean as the equivalent clock available at the CLK25_REF pin).' Command="{Binding GP_CLKPinCommand}" CommandParameter="Digital25MHz"/>
+                                    </WrapPanel>
+                                </StackPanel>
 
-                                            <telerik:RadRadioButton Content='None' Margin='10,10,10,10' CornerRadius='15' ToolTip='Remove any clock output at the GP_CLK pin' Command="{Binding GP_CLKPinCommand}" CommandParameter="OFF" IsChecked='True'/>
-                                            <telerik:RadRadioButton Content='125 MHz PHY Recovered' Margin='10,10,10,10' CornerRadius='15' ToolTip='The 125 MHz PHY recovered clock (or PLL clock) is driven at the GP_CLK pin' Command="{Binding GP_CLKPinCommand}" CommandParameter="RecoveredReceiver125MHz" />
+                            </GroupBox>
+                        </Border>
 
-                                            <telerik:RadRadioButton Content='125 MHz PHY Free Running' Margin='10,10,10,10' CornerRadius='15' ToolTip='The 125 MHz PHY free running clock is driven at the GP_CLK pin' Command="{Binding GP_CLKPinCommand}" CommandParameter="GeClkFree125"/>
-                                            <telerik:RadRadioButton Content='Recovered HeartBeat' Margin='10,10,10,10' CornerRadius='15' ToolTip='Causes the sub-system to request the chip to drive the digital recovered heartbeat clock at the GP_CLK pin' Command="{Binding GP_CLKPinCommand}" CommandParameter="GeClkHrtRcvr"/>
-                                            <telerik:RadRadioButton Content='Free Running HeartBeat' Margin='10,10,10,10' CornerRadius='15' ToolTip='Causes the sub-system to request the chip to drive the digital free-running heartbeat clock at the GP_CLK pin.' Command="{Binding GP_CLKPinCommand}" CommandParameter="GeClkHrtFree"/>
-                                            <telerik:RadRadioButton Content='25 MHz Reference' Margin='10,10,10,10' CornerRadius='15' ToolTip='The 25 MHz reference clock from the crystal oscillator is driven at the GP_CLK pin (having been processed through the digital block, so will not be as clean as the equivalent clock available at the CLK25_REF pin).' Command="{Binding GP_CLKPinCommand}" CommandParameter="Digital25MHz"/>
-                                        </WrapPanel>
-                                    </StackPanel>
+                        <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
+                        <Border Grid.Column='2' BorderBrush="#FFCBD8E8"	BorderThickness="1">
+                            <GroupBox Header='CLK25_REF Pin Control' Visibility="{Binding DataContext.Clk25RefPinPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
+                                <StackPanel>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource Title_H1}" HorizontalAlignment="Stretch" Margin='10' >Control the clock output on the CLK25_REF pin.</TextBlock>
+                                    <WrapPanel HorizontalAlignment='Left' Margin='10'  Orientation='Horizontal' ItemHeight='50' ItemWidth='180'>
 
-                                </GroupBox>
-                            </Border>
-
-                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
-                            <Border Grid.Column='2' BorderBrush="#FFCBD8E8"	BorderThickness="1">
-                                <GroupBox Header='CLK25_REF Pin Control' Visibility="{Binding DataContext.Clk25RefPinPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
-                                    <StackPanel>
-                                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource Title_H1}" HorizontalAlignment="Stretch" Margin='10' >Control the clock output on the CLK25_REF pin.</TextBlock>
-                                        <WrapPanel HorizontalAlignment='Left' Margin='10'  Orientation='Horizontal' ItemHeight='50' ItemWidth='180'>
-
-                                            <telerik:RadRadioButton Content='None' Margin='10,10,10,10' CornerRadius='15' ToolTip='Remove any clock output at the GP_CLK pin' Command="{Binding CLK25_REFPinCommand}" IsChecked='True' CommandParameter="False"/>
-                                            <telerik:RadRadioButton Content='25 MHz Reference' Margin='10,10,10,10' CornerRadius='15' ToolTip='The 25 MHz reference clock from the crystal oscillator is driven at the CLK25_REF pin' Command="{Binding CLK25_REFPinCommand}" CommandParameter="True"/>
+                                        <telerik:RadRadioButton Content='None' Margin='10,10,10,10' CornerRadius='15' ToolTip='Remove any clock output at the GP_CLK pin' Command="{Binding CLK25_REFPinCommand}" IsChecked='True' CommandParameter="False"/>
+                                        <telerik:RadRadioButton Content='25 MHz Reference' Margin='10,10,10,10' CornerRadius='15' ToolTip='The 25 MHz reference clock from the crystal oscillator is driven at the CLK25_REF pin' Command="{Binding CLK25_REFPinCommand}" CommandParameter="True"/>
 
 
-                                        </WrapPanel>
+                                    </WrapPanel>
 
-                                    </StackPanel>
+                                </StackPanel>
 
-                                </GroupBox>
-                            </Border>
-                        </Grid>
+                            </GroupBox>
+                        </Border>
                     </Grid>
                 </TabItem>
                 <TabItem Header='Test Modes' x:Name="TestModesTab" Visibility="{Binding DataContext.TestModesPresent,Converter={StaticResource BooleanToVisibilityConverter},Source={StaticResource ProxyElement}}">
                     <Grid>
                         <Grid HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
                             <Grid.ColumnDefinitions>
-                                <!--<ColumnDefinition Width="4*" />-->
                                 <ColumnDefinition Width="*" />
-                                <!--<ColumnDefinition Width="5" />-->
-                                <!--<ColumnDefinition Width="3*" />-->
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
@@ -323,11 +301,6 @@
                             <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                                 <local:Testmodes/>
                             </Grid>
-                            <!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
-
-                            <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                                <local:LinkStatus/>
-                            </Grid>-->
                         </Grid>
                     </Grid>
                 </TabItem>
@@ -335,10 +308,7 @@
                     <Grid>
                         <Grid HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
                             <Grid.ColumnDefinitions>
-                                <!--<ColumnDefinition Width="5*" MinWidth="500"/>-->
                                 <ColumnDefinition Width="*"/>
-                                <!--<ColumnDefinition Width="5" />-->
-                                <!--<ColumnDefinition Width="3*" />-->
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
@@ -347,11 +317,6 @@
                             <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                                 <local:Loopback/>
                             </Grid>
-                            <!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />-->
-
-                            <!--<Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                                <local:LinkStatus/>
-                            </Grid>-->
                         </Grid>
                     </Grid>
                 </TabItem>
@@ -359,10 +324,7 @@
                     <Grid>
                         <Grid HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
                             <Grid.ColumnDefinitions>
-                                <!--<ColumnDefinition Width="3*" />-->
                                 <ColumnDefinition Width="*" />
-                                <!--<ColumnDefinition Width="5" />-->
-                                <!--<ColumnDefinition Width="3*" />-->
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition></RowDefinition>
@@ -371,11 +333,6 @@
                             <Grid Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                                 <local:Framechecker/>
                             </Grid>
-                            <!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />-->
-
-                            <!--<Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                                <local:FrameStatus/>
-                            </Grid>-->
                         </Grid>
                     </Grid>
                 </TabItem>
@@ -397,18 +354,5 @@
             <!--Frame Gen-->
             <local:FrameStatus x:Name="FrameStatusVisible"/>
         </Grid>
-        
-        <!--<Grid Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5.25*" MinWidth="380"/>
-                <ColumnDefinition Width="2"/>
-                <ColumnDefinition Width="3*"/>
-            </Grid.ColumnDefinitions>
-            
-            
-            
-        </Grid>-->
     </Grid>
-
-
 </UserControl>
