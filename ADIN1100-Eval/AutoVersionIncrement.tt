@@ -13,6 +13,6 @@ using System.Reflection;
  static DateTime ProjectStartedDate = new DateTime(year: 2022, month: 1, day: 1);
  int DaysSinceProjectStarted = (int)((DateTime.UtcNow - ProjectStartedDate).TotalDays);
  
- int SecondsSinceMidnight = (int)DateTime.UtcNow.TimeOfDay.Minutes;
+ int SecondsSinceMidnight = (int)DateTime.Now.TimeOfDay.TotalMinutes;
 
 #>
