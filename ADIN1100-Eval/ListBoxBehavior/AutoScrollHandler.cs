@@ -84,10 +84,10 @@ namespace ADIN1100_Eval.ListBoxBehavior
                 return;
             }
 
-            Application.Current.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 this.target.ScrollIntoView(e.NewItems[e.NewItems.Count - 1]);
-            });
+            }));
         }
     }
 }
