@@ -15,7 +15,7 @@
         <Style x:Key="SaveButtonStyle" TargetType="{x:Type telerik:RadButton}">
             <Setter Property="Width" Value="70"/>
             <Setter Property="Height" Value="25"/>
-            <Setter Property="Margin" Value="5 0 0 1"/>
+            <Setter Property="Margin" Value="5 0 0 3"/>
             <Setter Property="ToolTip" Value="Save Calibration"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="Template">
@@ -58,7 +58,7 @@
         <Style x:Key="LoadButtonStyle" TargetType="{x:Type telerik:RadButton}">
             <Setter Property="Width" Value="70"/>
             <Setter Property="Height" Value="25"/>
-            <Setter Property="Margin" Value="5 1 0 0"/>
+            <Setter Property="Margin" Value="5 3 0 0"/>
             <Setter Property="ToolTip" Value="Load Calibration"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="Template">
