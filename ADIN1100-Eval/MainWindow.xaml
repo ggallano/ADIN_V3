@@ -69,7 +69,7 @@
                         <telerik:RadComboBox Margin="0" Width="150" ItemsSource="{Binding DeviceViewModel.Scripts}" DisplayMemberPath="Script.Name" SelectedItem="{Binding DeviceViewModel.SelectedScript1}"/>
                         <telerik:RadButton Margin="10,0,0,0" Width="60" Content="Apply" Command="{Binding DeviceViewModel.RunScriptCommand}"/>
                     </StackPanel>
-                        <!--<telerik:RadSplitButton x:Name="ScriptButton1" Grid.Row="0" Grid.Column="1" ToolTip='Select and click to load a script.' Command="{Binding DeviceViewModel.RunScriptCommand}" CommandParameter='{Binding DeviceViewModel.SelectedScript1}'
+                    <!--<telerik:RadSplitButton x:Name="ScriptButton1" Grid.Row="0" Grid.Column="1" ToolTip='Select and click to load a script.' Command="{Binding DeviceViewModel.RunScriptCommand}" CommandParameter='{Binding DeviceViewModel.SelectedScript1}'
 			                           HorizontalContentAlignment="Stretch" Margin='10,10,10,10'
 			                           Content="{Binding DeviceViewModel.SelectedScript1}"
 			                           DropDownContent="{Binding DeviceViewModel.Scripts}">
@@ -89,9 +89,9 @@
                                 </telerik:RadListBox>
                             </DataTemplate>
                         </telerik:RadSplitButton.DropDownContentTemplate>
-                    </telerik:RadSplitButton>--> 
+                    </telerik:RadSplitButton>-->
 
-                   <!-- <telerik:RadSplitButton x:Name="ScriptButton2" Grid.Row="0" Grid.Column="2" ToolTip='Select and click to load a script.' Command="{Binding DeviceViewModel.RunScriptCommand}" CommandParameter='{Binding DeviceViewModel.SelectedScript2}'
+                    <!-- <telerik:RadSplitButton x:Name="ScriptButton2" Grid.Row="0" Grid.Column="2" ToolTip='Select and click to load a script.' Command="{Binding DeviceViewModel.RunScriptCommand}" CommandParameter='{Binding DeviceViewModel.SelectedScript2}'
 			                           HorizontalContentAlignment="Stretch" Margin='10,10,10,10'
 			                           Content="{Binding DeviceViewModel.SelectedScript2}"
 			                           DropDownContent="{Binding DeviceViewModel.Scripts}">
@@ -112,10 +112,7 @@
                             </DataTemplate>
                         </telerik:RadSplitButton.DropDownContentTemplate>
                     </telerik:RadSplitButton>-->
-                    
-
                 </Grid>
-
                 <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                     <Label Margin='10,10,10,10' Content="{Binding DeviceViewModel.DeviceSettings.Link.ResolvedHCD}" ContentStringFormat="Link Speed: {0}" />
                     <Label Margin='10,10,10,10'  Content="{Binding DeviceViewModel.DeviceSettings.PhyState}" ContentStringFormat="Link Status: {0}"/>
@@ -124,92 +121,83 @@
         </StackPanel>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height='66*'>
-                    
-                </RowDefinition>
-                <RowDefinition Height='28*'>
-                    
-                </RowDefinition>
+                <RowDefinition Height='66*'/>
+                <RowDefinition Height='28*'/>
             </Grid.RowDefinitions>
-            <views:DeviceView Grid.Row='0'  x:Name='DeviceVewControl' DataContext='{Binding DeviceViewModel, 
-            diag:PresentationTraceSources.TraceLevel=High}'></views:DeviceView>
+            <views:DeviceView Grid.Row='0'  x:Name='DeviceVewControl' DataContext='{Binding DeviceViewModel, diag:PresentationTraceSources.TraceLevel=High}'/>
             <Grid Grid.Row='1' HorizontalAlignment='Stretch' VerticalAlignment='Stretch' Margin='0,0,5,0'>
                 <Grid x:Name="LayoutRoot" HorizontalAlignment='Stretch'  VerticalAlignment='Stretch' Background="White">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*" MinWidth='380' />
-                        <ColumnDefinition Width="8" />
-                        <ColumnDefinition Width="2.25*" />
+                        <ColumnDefinition Width="7*" MinWidth="787" />
+                        <ColumnDefinition Width="4" />
+                        <ColumnDefinition Width="3*" />
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column='0'>
-                        <views:LogWindow HorizontalAlignment='Stretch' VerticalAlignment='Stretch' Margin='10,10,10,10' DataContext='{Binding FeedbackViewModel, diag:PresentationTraceSources.TraceLevel=High}' ></views:LogWindow>
-                    </Border>
+                    <views:LogWindow Grid.Column='0' HorizontalAlignment='Stretch' VerticalAlignment='Stretch' Margin='10,10,10,10' DataContext='{Binding FeedbackViewModel}'/>
                     <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitter}" />
                     <Grid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Top" DataContext='{Binding DeviceViewModel, diag:PresentationTraceSources.TraceLevel=High}'>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" Margin="10 0">
-                                <TextBlock Style="{StaticResource Label}" Width="Auto" Margin="0 10 10 10" HorizontalAlignment="Left">Address:</TextBlock>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="0x"/>
-                                    <TextBox x:Name='ReadRegisterAddress' Text="{Binding Path=ReadRegisterAddress, UpdateSourceTrigger=PropertyChanged}" Width="80" Height="20" KeyboardNavigation.TabIndex="0" MaxLength="6"/>
-                                </StackPanel>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Vertical" Margin="10 0">
+                            <TextBlock Style="{StaticResource Label}" Width="Auto" Margin="0 10 10 10" HorizontalAlignment="Left">Address:</TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="0x"/>
+                                <TextBox x:Name='ReadRegisterAddress' Text="{Binding Path=ReadRegisterAddress, UpdateSourceTrigger=PropertyChanged}" Width="80" Height="20" KeyboardNavigation.TabIndex="0" MaxLength="6"/>
                             </StackPanel>
-                            <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical" Margin="10 0">
-                                <TextBlock Style="{StaticResource Label}" Width="Auto" Margin="0 10 10 10" HorizontalAlignment="Left">Value:</TextBlock>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="0x"/>
-                                    <TextBox Text="{Binding Path=ReadRegisterValue}" Width="80" Height="20" HorizontalAlignment="Left" KeyboardNavigation.TabIndex="1" IsReadOnly="True" Background="LightGray" Foreground="Black"/>
-                                </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Vertical" Margin="10 0">
+                            <TextBlock Style="{StaticResource Label}" Width="Auto" Margin="0 10 10 10" HorizontalAlignment="Left">Value:</TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="0x"/>
+                                <TextBox Text="{Binding Path=ReadRegisterValue}" Width="80" Height="20" HorizontalAlignment="Left" KeyboardNavigation.TabIndex="1" IsReadOnly="True" Background="LightGray" Foreground="Black"/>
                             </StackPanel>
-                            <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal" Height="100" VerticalAlignment="Top">
-                                <telerik:RadButton CornerRadius='15' Width="80" Height='30' Margin="10 10 0 0" ToolTip='Read Register' Content='Read' KeyboardNavigation.TabIndex="2" Command="{Binding ReadRegisterCommand}">
-                                    <telerik:RadButton.CommandParameter>
-                                        <MultiBinding Converter="{StaticResource RegisterParametersConverter}">
-                                            <MultiBinding.Bindings>
-                                                <Binding ElementName="ReadRegisterAddress" Path="Text" />
-                                            </MultiBinding.Bindings>
-                                        </MultiBinding>
-                                    </telerik:RadButton.CommandParameter>
-                                </telerik:RadButton>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal" Height="100" VerticalAlignment="Top">
+                            <telerik:RadButton CornerRadius='15' Width="80" Height='30' Margin="10 10 0 0" ToolTip='Read Register' Content='Read' KeyboardNavigation.TabIndex="2" Command="{Binding ReadRegisterCommand}">
+                                <telerik:RadButton.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource RegisterParametersConverter}">
+                                        <MultiBinding.Bindings>
+                                            <Binding ElementName="ReadRegisterAddress" Path="Text" />
+                                        </MultiBinding.Bindings>
+                                    </MultiBinding>
+                                </telerik:RadButton.CommandParameter>
+                            </telerik:RadButton>
+                        </StackPanel>
+                        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical" Margin="10 0">
+                            <TextBlock Style="{StaticResource Label}" Width="Auto" Margin="0 10 10 10" HorizontalAlignment="Left">Address:</TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="0x"/>
+                                <TextBox x:Name='WriteRegisterAddress' Text="{Binding Path=WriteRegisterAddress, UpdateSourceTrigger=PropertyChanged}" Width="80" Height="20" KeyboardNavigation.TabIndex="3" MaxLength="6"/>
                             </StackPanel>
-                            <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Vertical" Margin="10 0">
-                                <TextBlock Style="{StaticResource Label}" Width="Auto" Margin="0 10 10 10" HorizontalAlignment="Left">Address:</TextBlock>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="0x"/>
-                                    <TextBox x:Name='WriteRegisterAddress' Text="{Binding Path=WriteRegisterAddress, UpdateSourceTrigger=PropertyChanged}" Width="80" Height="20" KeyboardNavigation.TabIndex="3" MaxLength="6"/>
-                                </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" Margin="10 0">
+                            <TextBlock Style="{StaticResource Label}" Width="Auto" Margin="0 10 10 10" HorizontalAlignment="Left">Value:</TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="0x"/>
+                                <TextBox x:Name='WriteRegisterValue' Text="{Binding Path=WriteRegisterValue, UpdateSourceTrigger=PropertyChanged}" Width="80" Height="20" HorizontalAlignment="Left" KeyboardNavigation.TabIndex="4" MaxLength="6"></TextBox>
                             </StackPanel>
-                            <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" Margin="10 0">
-                                <TextBlock Style="{StaticResource Label}" Width="Auto" Margin="0 10 10 10" HorizontalAlignment="Left">Value:</TextBlock>
-                                <StackPanel Orientation="Horizontal">
-                                    <Label Content="0x"/>
-                                    <TextBox x:Name='WriteRegisterValue' Text="{Binding Path=WriteRegisterValue, UpdateSourceTrigger=PropertyChanged}" Width="80" Height="20" HorizontalAlignment="Left" KeyboardNavigation.TabIndex="4" MaxLength="6"></TextBox>
-                                </StackPanel>
-                            </StackPanel>
-                            <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal" Height="100" VerticalAlignment="Top">
-                                <telerik:RadButton CornerRadius='15' Width="80" Height='30' Margin="10 10 0 0" ToolTip='Write Register' Content='Write' KeyboardNavigation.TabIndex="5" Command="{Binding WriteRegisterCommand}">
-                                    <telerik:RadButton.CommandParameter>
-                                        <MultiBinding Converter="{StaticResource RegisterParametersConverter}">
-                                            <MultiBinding.Bindings>
-                                                <Binding ElementName="WriteRegisterAddress" Path="Text" />
-                                                <Binding ElementName="WriteRegisterValue" Path="Text" />
-                                            </MultiBinding.Bindings>
-                                        </MultiBinding>
-                                    </telerik:RadButton.CommandParameter>
-                                </telerik:RadButton>
-                            </StackPanel>
-                        </Grid>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal" Height="100" VerticalAlignment="Top">
+                            <telerik:RadButton CornerRadius='15' Width="80" Height='30' Margin="10 10 0 0" ToolTip='Write Register' Content='Write' KeyboardNavigation.TabIndex="5" Command="{Binding WriteRegisterCommand}">
+                                <telerik:RadButton.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource RegisterParametersConverter}">
+                                        <MultiBinding.Bindings>
+                                            <Binding ElementName="WriteRegisterAddress" Path="Text" />
+                                            <Binding ElementName="WriteRegisterValue" Path="Text" />
+                                        </MultiBinding.Bindings>
+                                    </MultiBinding>
+                                </telerik:RadButton.CommandParameter>
+                            </telerik:RadButton>
+                        </StackPanel>
                     </Grid>
                 </Grid>
             </Grid>

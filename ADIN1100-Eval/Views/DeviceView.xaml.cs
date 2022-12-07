@@ -51,5 +51,22 @@ namespace ADIN1100_Eval.Views
         {
             e.CancelCommand();
         }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var tab = this.tabControl.SelectedItem as TabItem;
+
+            switch (tab.Header as string)
+            {
+                case "FrameGenerator/Checker":
+                    this.LinkStatusVisible.Visibility = Visibility.Hidden;
+                    this.FrameStatusVisible.Visibility = Visibility.Visible;
+                    break;
+                default:
+                    this.LinkStatusVisible.Visibility = Visibility.Visible;
+                    this.FrameStatusVisible.Visibility = Visibility.Hidden;
+                    break;
+            }
+        }
     }
 }

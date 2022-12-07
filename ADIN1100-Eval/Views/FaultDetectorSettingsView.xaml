@@ -204,7 +204,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0" Grid.Column="0" Margin="5,0" Orientation="Horizontal">
-            <GroupBox Header="Offset Calibration" Padding="5" Margin="5" Width="200">
+            <GroupBox Header="Offset Calibration" Padding="10 0 0 10" Margin="5" Width="200">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -236,7 +236,7 @@
                     <telerik:RadButton Grid.Row="4" Grid.Column="1" Style="{StaticResource OkButtonStyle}" Command="{Binding FaultDetectionManualCalibrateCommand}" CommandParameter="Offset" ToolTip="Manual offset calibration."/>
                 </Grid>
             </GroupBox>
-            <GroupBox Header="Cable Calibration" Padding="5" Margin="5" Width="200">
+            <GroupBox Header="Cable Calibration" Padding="10 0 0 10" Margin="5" Width="200">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
