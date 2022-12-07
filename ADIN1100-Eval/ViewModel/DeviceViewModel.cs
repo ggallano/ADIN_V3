@@ -2471,7 +2471,7 @@ namespace ADIN1100_Eval.ViewModel
                     switch (type)
                     {
                         case Calibrate.NVP:
-                            message = "Please connect cable at MDI connector and enter the cable \nlength to perform cable calibration.";
+                            message = "Please connect cable at MDI connector, leave its other end open and \nenter the cable length to perform cable calibration.";
 
                             Views.CalibrateCableDialog cableDialog = new Views.CalibrateCableDialog();
                             cableDialog.txtCableLength.Value = 100.0;
