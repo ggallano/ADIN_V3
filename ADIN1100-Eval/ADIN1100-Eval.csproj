@@ -657,7 +657,6 @@
     <Resource Include="Images\Yoda\adin1100S1\fabdaf625dd2e556ce84d8773580e05f639585ca.png" />
     <Content Include="AutoVersionIncrement.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AutoVersionIncrement.cs</LastGenOutput>
       <AlwaysRun>True</AlwaysRun>
       <RunCustomToolOnBuild>True</RunCustomToolOnBuild>
     </Content>

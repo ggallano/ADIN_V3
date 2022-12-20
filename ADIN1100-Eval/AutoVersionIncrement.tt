@@ -7,12 +7,14 @@ using System.Reflection;
 
 <#+
 
- int Major = 1;
- int Minor = 8;
+ int Major = 2;
+ int Minor = 0;
  
  static DateTime ProjectStartedDate = new DateTime(year: 2022, month: 1, day: 1);
- int DaysSinceProjectStarted = (int)((DateTime.UtcNow - ProjectStartedDate).TotalDays);
+ //int DaysSinceProjectStarted = (int)((DateTime.UtcNow - ProjectStartedDate).TotalDays);
+ int DaysSinceProjectStarted = (int)0;
  
- int SecondsSinceMidnight = (int)DateTime.Now.TimeOfDay.TotalMinutes;
+ //int SecondsSinceMidnight = (int)DateTime.Now.TimeOfDay.TotalMinutes;
+ int SecondsSinceMidnight = (int)0;
 
 #>
