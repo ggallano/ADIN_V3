@@ -14,7 +14,7 @@
 #!define VERSION "01.08.04.04"
 !define COPYRIGHT "Analog Devices Inc. � 2021"
 !define DESCRIPTION "Application"
-!define INSTALLER_NAME "Analog Devices Ethernet PHY Installer.exe"
+!define INSTALLER_NAME "ADIN1100 Analog Devices Ethernet PHY Installer.exe"
 !define MAIN_APP_EXE "ADIN1100-Eval.exe"
 !define INSTALL_TYPE "SetShellVarContext current"
 !define REG_ROOT "HKCU"
