@@ -120,10 +120,10 @@ File "..\ADIN1100-Eval\bin\Release\scripts\Reset Auto-Negotiation_scripts.json"
 File "..\ADIN1100-Eval\bin\Release\scripts\SftPd Down&Up_scripts.json"
 
 
-SetOutPath "$INSTDIR\doc"
-File "..\Installer\EVAL-ADIN1100FMCZ-UG-XXXX_RevPrA.pdf"
-File "..\Installer\02-063798-01-b_SCH_NDA.pdf"
-File "..\Installer\08-063798-01-b_PCB_NDA.pdf"
+#SetOutPath "$INSTDIR\doc"
+#File "..\Installer\EVAL-ADIN1100FMCZ-UG-XXXX_RevPrA.pdf"
+#File "..\Installer\02-063798-01-b_SCH_NDA.pdf"
+#File "..\Installer\08-063798-01-b_PCB_NDA.pdf"
 SectionEnd
 
 ######################################################################
@@ -137,9 +137,10 @@ CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN1100\${APP_NAME}.lnk" "$INSTDIR\$
 CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}"
 CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN1100\Uninstall ${APP_NAME}.lnk" "$INSTDIR\uninstall.exe"
 
-CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1100 User Guide.lnk" "$INSTDIR\doc\EVAL-ADIN1100FMCZ-UG-XXXX_RevPrA.pdf"
-CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1100 Schematics.lnk" "$INSTDIR\doc\02-063798-01-b_SCH_NDA.pdf"
-CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1100 PCB.lnk" "$INSTDIR\doc\08-063798-01-b_PCB_NDA.pdf"
+#CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1100 User Guide.lnk" "$INSTDIR\doc\EVAL-ADIN1100FMCZ-UG-XXXX_RevPrA.pdf"
+#CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1100 Schematics.lnk" "$INSTDIR\doc\02-063798-01-b_SCH_NDA.pdf"
+#CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1100 PCB.lnk" "$INSTDIR\doc\08-063798-01-b_PCB_NDA.pdf"
+
 #CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1300 Datasheet.lnk" "$INSTDIR\doc\ADIN1300_Datasheet.pdf"
 #CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1300 User Guide.lnk" "$INSTDIR\doc\EVAL-ADIN1300FMCZ-UG-1635.pdf"
 #CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1200 Datasheet.lnk" "$INSTDIR\doc\ADIN1200_Datasheet.pdf"
@@ -198,6 +199,7 @@ Delete "$INSTDIR\Utilities.dll"
 Delete "$INSTDIR\doc\EVAL-ADIN1100FMCZ-UG-XXXX_RevPrA.pdf"
 Delete "$INSTDIR\doc\02-063798-01-b_SCH_NDA.pdf"
 Delete "$INSTDIR\doc\08-063798-01-b_PCB_NDA.pdf"
+
 #Delete "$INSTDIR\doc\ADIN1300_Datasheet.pdf"
 #Delete "$INSTDIR\doc\EVAL-ADIN1300FMCZ-UG-1635.pdf"
 #Delete "$INSTDIR\doc\ADIN1200_Datasheet.pdf"
