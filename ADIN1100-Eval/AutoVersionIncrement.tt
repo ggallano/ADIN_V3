@@ -15,6 +15,6 @@ using System.Reflection;
  int DaysSinceProjectStarted = (int)0;
  
  //int SecondsSinceMidnight = (int)DateTime.Now.TimeOfDay.TotalMinutes;
- int SecondsSinceMidnight = (int)1;
+ int SecondsSinceMidnight = 1;
 
 #>
