@@ -670,7 +670,7 @@ namespace DeviceCommunication
                 faultType = matchedFaultType.ToString().ToUpperInvariant();
             }
 
-            if (!float.TryParse(matchedDistance.ToString(), System.Globalization.NumberStyles.Float, null, out detectionResult) &&
+            if (!float.TryParse(matchedDistance.Value, System.Globalization.NumberStyles.Float, CultureInfo.InvariantCulture, out detectionResult) &&
                 !readData.Contains(matchedReadData.ToString()))
             {
                 throw new ApplicationException("invalid response");
