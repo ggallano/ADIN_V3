@@ -854,7 +854,7 @@ namespace DeviceCommunication
                 Match matchedResult = rgResult.Match(readDataSplit[i]);
 
                 float parse = 0.0f;
-                if (float.TryParse(matchedResult.ToString(), System.Globalization.NumberStyles.Float, null, out parse))
+                if (float.TryParse(matchedResult.ToString(), System.Globalization.NumberStyles.Float, CultureInfo.InvariantCulture, out parse))
                 {
                     result[i] = parse;
                 }
