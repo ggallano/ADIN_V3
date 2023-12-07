@@ -1350,7 +1350,7 @@ namespace ADIN1100_Eval.ViewModel
         /// <summary>
         /// Is the fault detector busy?
         /// </summary>
-        private bool isFaultDetectorBusy;
+        private bool isFaultDetectorBusy = false;
         /// <summary>
         /// Gets or sets whether the fault detector is busy.
         /// </summary>
