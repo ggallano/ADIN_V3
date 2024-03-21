@@ -45,9 +45,9 @@
                 <Button Style="{DynamicResource AdiLogoStyle}"/>
                 <TextBlock Text="Local Devices" FontWeight="Bold" FontSize="18" Margin="0 20 0 5"/>
                 <components:DeviceListing DataContext="{Binding DeviceListingViewModel}" Height="100"/>
-                <components:ExtraCommandsView DataContext="{Binding ExtraCommandsViewModel}" Height="230"/>
+                <!--<components:ExtraCommandsView DataContext="{Binding ExtraCommandsViewModel}" Height="230"/>-->
             </StackPanel>
-            <Grid Grid.Column="1" Grid.Row="1">
+            <!--<Grid Grid.Column="1" Grid.Row="1">
                 <TabControl>
                     <TabItem Header="Link Properties" IsSelected="True">
                         <Grid>
@@ -125,10 +125,9 @@
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <components:LogActivityView Grid.Column="0" DataContext="{Binding LogActivityViewModel}"/>
-                    <!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />-->
                     <components:RegisterAccessView Grid.Column="2" DataContext="{Binding RegisterAccessViewModel}"/>
                 </Grid>
-            </Grid>
+            </Grid>-->
         </Grid>
     </DockPanel>
 </UserControl>

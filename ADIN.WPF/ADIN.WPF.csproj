@@ -9,11 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ADIN.WPF</RootNamespace>
     <AssemblyName>ADIN1100-Eval</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -129,81 +130,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AutoVersionIncrement.tt</DependentUpon>
     </Compile>
-    <Compile Include="Commands\AboutCommand.cs" />
-    <Compile Include="Commands\AutoNegCommand.cs" />
-    <Compile Include="Commands\CalibrationCommand.cs" />
-    <Compile Include="Commands\ClearLogCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
-    <Compile Include="Commands\ExecuteFrameCheckerCommand.cs" />
-    <Compile Include="Commands\InitializedCommand.cs" />
-    <Compile Include="Commands\LinkLengthSetCommand.cs" />
-    <Compile Include="Commands\LogWindowSaveCommand.cs" />
-    <Compile Include="Commands\MseBenchmarkSetCommand.cs" />
-    <Compile Include="Commands\ReadRegisterCommand.cs" />
-    <Compile Include="Commands\RefreshCommand.cs" />
-    <Compile Include="Commands\RegisterActionCommand.cs" />
-    <Compile Include="Commands\ResetCommand.cs" />
-    <Compile Include="Commands\ResetFrameDeviceCheckerCommnad.cs" />
-    <Compile Include="Commands\RegisterSaveDataCommand.cs" />
-    <Compile Include="Commands\ScriptApplyCommand.cs" />
-    <Compile Include="Commands\SoftwarePowerDownCommand.cs" />
-    <Compile Include="Commands\TDRFaultDetectorCommand.cs" />
-    <Compile Include="Commands\TDRLoadCommand.cs" />
-    <Compile Include="Commands\TDRManualCommand.cs" />
-    <Compile Include="Commands\TDRSaveCommand.cs" />
-    <Compile Include="Commands\TestModeCommand.cs" />
-    <Compile Include="Commands\WriteRegisterCommand.cs" />
-    <Compile Include="Components\ActiveLinkMonitoringView.xaml.cs">
-      <DependentUpon>ActiveLinkMonitoringView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\CableManualDialog.xaml.cs">
-      <DependentUpon>CableManualDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\DeviceStatusView.xaml.cs">
-      <DependentUpon>DeviceStatusView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\ExtraCommandsView.xaml.cs">
-      <DependentUpon>ExtraCommandsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\FaultDetectroView.xaml.cs">
-      <DependentUpon>FaultDetectroView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\FrameGenChecker.xaml.cs">
-      <DependentUpon>FrameGenChecker.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\FrameGenCheckerStatusView.xaml.cs">
-      <DependentUpon>FrameGenCheckerStatusView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\LinkLengthBenchmarkDialog.xaml.cs">
-      <DependentUpon>LinkLengthBenchmarkDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\LinkPropertiesView.xaml.cs">
-      <DependentUpon>LinkPropertiesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\LogActivityView.xaml.cs">
-      <DependentUpon>LogActivityView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\LoobackView.xaml.cs">
-      <DependentUpon>LoobackView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\MACAddress.xaml.cs">
-      <DependentUpon>MACAddress.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\OffsetManualDialog.xaml.cs">
-      <DependentUpon>OffsetManualDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\RegisterAccessView.xaml.cs">
-      <DependentUpon>RegisterAccessView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\RegisterView.xaml.cs">
-      <DependentUpon>RegisterView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\StatusStripView.xaml.cs">
-      <DependentUpon>StatusStripView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Components\TestModeView.xaml.cs">
-      <DependentUpon>TestModeView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Converters\ActiveLinkTextConverter.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\LinkStateForegroundConverter.cs" />
@@ -211,22 +138,9 @@
     <Compile Include="Converters\RegisterValueConverter.cs" />
     <Compile Include="Stores\SelectedDeviceStore.cs" />
     <Compile Include="Themes\ValueCellStyle.cs" />
-    <Compile Include="ViewModel\ActiveLinkMonitoringViewModel.cs" />
-    <Compile Include="ViewModel\DeviceStatusViewModel.cs" />
-    <Compile Include="ViewModel\ExtraCommandsViewModel.cs" />
-    <Compile Include="ViewModel\FaultDetectorViewModel.cs" />
-    <Compile Include="ViewModel\FrameGenCheckerViewModel.cs" />
-    <Compile Include="ViewModel\LinkPropertiesViewModel.cs" />
     <Compile Include="ViewModel\DeviceListingItemViewModel.cs" />
     <Compile Include="ViewModel\DeviceListingViewModel.cs" />
-    <Compile Include="ViewModel\LogActivityViewModel.cs" />
-    <Compile Include="ViewModel\LoopbackViewModel.cs" />
-    <Compile Include="ViewModel\MenuItemViewModel.cs" />
     <Compile Include="ViewModel\OperationViewModel.cs" />
-    <Compile Include="ViewModel\RegisterAccessViewModel.cs" />
-    <Compile Include="ViewModel\RegisterViewModel.cs" />
-    <Compile Include="ViewModel\StatusStripViewModel.cs" />
-    <Compile Include="ViewModel\TestModeViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\OperationView.xaml.cs">
       <DependentUpon>OperationView.xaml</DependentUpon>
@@ -235,75 +149,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Components\ActiveLinkMonitoringView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\CableManualDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Components\DeviceListing.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\DeviceStatusView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\ExtraCommandsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\FaultDetectroView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\FrameGenChecker.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\FrameGenCheckerStatusView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\LinkLengthBenchmarkDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\LinkPropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\LogActivityView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\LoobackView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\MACAddress.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\OffsetManualDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\RegisterAccessView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\RegisterView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\StatusStripView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Components\TestModeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

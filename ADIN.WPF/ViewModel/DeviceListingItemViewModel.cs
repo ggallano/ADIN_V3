@@ -4,16 +4,16 @@ namespace ADIN.WPF.ViewModel
 {
     public class DeviceListingItemViewModel : ViewModelBase
     {
-        public DeviceListingItemViewModel(ADINDeviceModel device)
+        public DeviceListingItemViewModel(ADINDevice device)
         {
             Device = device;
             ImagePath = @"..\Images\icons\Applications-Industrial-Automation-Ethernet-Icon.png";
         }
 
-        public ADINDeviceModel Device { get; }
+        public ADINDevice Device { get; }
 
         public string ImagePath { get; }
-        public string Name => Device.Name;
-        public string SerialNumber => Device.SerialNumber;
+        public string Name => Device.Device.BoardName;
+        public string SerialNumber => Device.Device.SerialNumber;
     }
 }

@@ -9,7 +9,7 @@ namespace ADI.ADIN.Test
     [TestClass]
     public class RegisterTest
     {
-        ADINDeviceModel _device;
+        ADINDevice _device;
         private readonly IRegisterService _registerService;
         private readonly IFTDIServices _ftdiService;
 
@@ -17,7 +17,7 @@ namespace ADI.ADIN.Test
         {
             _registerService = new RegisterService();
             _ftdiService = new FTDIServices();
-            _device = new ADINDeviceModel("AU6F1TCD", "ADIN1100DIZ", _ftdiService, _registerService);
+            _device = new ADINDevice("AU6F1TCD", "ADIN1100DIZ", _ftdiService, _registerService);
             _device.Registers = _registerService.GetRegisterSet(Path.Combine("Registers", _device.RegisterJsonFile));
         }
 

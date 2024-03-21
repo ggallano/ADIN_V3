@@ -28,37 +28,30 @@ namespace ADIN.WPF.ViewModel
         private readonly IRegisterService _registerService;
         private readonly SelectedDeviceStore _selectedDeviceStore;
         private ObservableCollection<DeviceListingItemViewModel> _deviceListingViewModels;
-        private List<ADINDeviceModel> _devices;
-        private FeedbackModel _feedback;
+        //private FeedbackModel _feedback;
         private IFTDIServices _ftdiService;
 
         private WqlEventQuery _insertQuery;
         private ManagementEventWatcher _insertWatcher;
-        private LogActivityViewModel _logActivityViewModel;
         private WqlEventQuery _removeQuery;
         private ManagementEventWatcher _removeWatcher;
         private DeviceListingItemViewModel _selectedDeviceListingItemViewModel;
-        private object _thisLock;
+        //private object _thisLock;
 
         /// <summary>
         /// creates new instance
         /// </summary>
         /// <param name="selectedDeviceStore">selected device store</param>
         /// <param name="ftdiService">ftdi service</param>
-        public DeviceListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, IRegisterService registerService, LogActivityViewModel logActivityViewModel, object thisLock)
+        public DeviceListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiService = ftdiService;
-            _registerService = registerService;
-            _logActivityViewModel = logActivityViewModel;
-            _thisLock = thisLock;
 
             _deviceListingViewModels = new ObservableCollection<DeviceListingItemViewModel>();
-            _devices = new List<ADINDeviceModel>();
-            _feedback = new FeedbackModel();
+            //_feedback = new FeedbackModel();
 
-            RefreshCommand = new RefreshCommand(this);
-            CheckConnectedDevice();
+            //CheckConnectedDevice();
 
             _insertQuery = new WqlEventQuery(INSERT_QUERY);
             _insertWatcher = new ManagementEventWatcher(_insertQuery);
@@ -76,15 +69,15 @@ namespace ADIN.WPF.ViewModel
         /// </summary>
         public ObservableCollection<DeviceListingItemViewModel> DeviceListingItemViewModels => _deviceListingViewModels;
 
-        public FeedbackModel Feedback
-        {
-            get { return _feedback; }
-            set
-            {
-                _feedback = value;
-                OnPropertyChanged(nameof(Feedback));
-            }
-        }
+        //public FeedbackModel Feedback
+        //{
+        //    get { return _feedback; }
+        //    set
+        //    {
+        //        _feedback = value;
+        //        OnPropertyChanged(nameof(Feedback));
+        //    }
+        //}
 
         public ICommand RefreshCommand { get; set; }
 
@@ -96,7 +89,7 @@ namespace ADIN.WPF.ViewModel
             get { return _selectedDeviceListingItemViewModel; }
             set
             {
-                lock (_thisLock)
+                //lock (_thisLock)
                 {
                     _ftdiService.Close();
                     _selectedDeviceListingItemViewModel = value;
@@ -137,7 +130,7 @@ namespace ADIN.WPF.ViewModel
         private void _insertWatcher_EventArrived(object sender, EventArrivedEventArgs e)
         {
             Debug.WriteLine("=================== Insert Event Fired ==============================");
-            lock (_thisLock)
+            //lock (_thisLock)
             {
                 if (!_ftdiService.IsComOpen)
                 {
@@ -147,7 +140,7 @@ namespace ADIN.WPF.ViewModel
 
                 var serialNum = _ftdiService.GetSerialNumber();
                 _ftdiService.Close();
-                InsertNewDevice();
+                //InsertNewDevice();
                 _ftdiService.Open(_selectedDeviceListingItemViewModel.SerialNumber);
             }
         }
@@ -159,10 +152,11 @@ namespace ADIN.WPF.ViewModel
         /// <param name="e"></param>
         private void _removeWatcher_EventArrived(object sender, EventArrivedEventArgs e)
         {
+            Debug.WriteLine("=================== Remove Event Fired ==============================");
             List<string> connectedDevices = new List<string>();
             try
             {
-                lock (_thisLock)
+                //lock (_thisLock)
                 {
                     if (!_ftdiService.IsComOpen)
                     {
@@ -234,7 +228,7 @@ namespace ADIN.WPF.ViewModel
 
             foreach (var currentNewDevice in newDevices)
             {
-                if (!ADIN1100ConfirmBoard.ConfirmADINBoard(currentNewDevice.Description))
+                if (!ADINConfirmBoard.ConfirmADINBoard(currentNewDevice.Description))
                     continue;
                 if (currentNewDevice.Description == "")
                     continue;
@@ -242,67 +236,22 @@ namespace ADIN.WPF.ViewModel
                     continue;
 
                 _ftdiService.Open(currentNewDevice.SerialNumber);
-                ADINDeviceModel device = new ADINDeviceModel(currentNewDevice.SerialNumber, currentNewDevice.Description, _ftdiService, _registerService);
 
-                //Link Properties
-                device.LinkProperty.AutoNegMasterSlaveAdvertisements.Add(new AutoNegMasterSlaveAdvertisementModel() { Name = AutoNegMasterSlaveAdvertisementItem.Prefer_Master.ToString() });
-                device.LinkProperty.AutoNegMasterSlaveAdvertisements.Add(new AutoNegMasterSlaveAdvertisementModel() { Name = AutoNegMasterSlaveAdvertisementItem.Prefer_Slave.ToString() });
-                device.LinkProperty.AutoNegMasterSlaveAdvertisements.Add(new AutoNegMasterSlaveAdvertisementModel() { Name = AutoNegMasterSlaveAdvertisementItem.Forced_Master.ToString() });
-                device.LinkProperty.AutoNegMasterSlaveAdvertisements.Add(new AutoNegMasterSlaveAdvertisementModel() { Name = AutoNegMasterSlaveAdvertisementItem.Forced_Slave.ToString() });
-                var result = device.FirmwareAPI.GetNegotiationMasterSlaveInitialization().ToString();
-                device.LinkProperty.AutoNegMasterSlaveAdvertisement = device.LinkProperty.AutoNegMasterSlaveAdvertisements.Where(x => x.Name == result).ToList()[0];
-
-                device.LinkProperty.AutoNegTxLevelAdvertisements.Add(new AutoNegTxLevelAdvertisementModel() { Name = PeakVoltageAdvertisementItem.Capable2p4Volts_Requested2p4Volts.ToString() });
-                device.LinkProperty.AutoNegTxLevelAdvertisements.Add(new AutoNegTxLevelAdvertisementModel() { Name = PeakVoltageAdvertisementItem.Capable2p4Volts_Requested1Volt.ToString() });
-                device.LinkProperty.AutoNegTxLevelAdvertisements.Add(new AutoNegTxLevelAdvertisementModel() { Name = PeakVoltageAdvertisementItem.Capable1Volt.ToString() });
-                result = device.FirmwareAPI.GetPeakVoltageInitialization().ToString();
-                device.LinkProperty.AutoNegTxLevelAdvertisement = device.LinkProperty.AutoNegTxLevelAdvertisements.Where(x => x.Name == result).ToList()[0];
-
-                //FrameGenChecker
-                device.FrameGenChecker.EnableContinuousMode = false;
-                device.FrameGenChecker.EnableMacAddress = false;
-                device.FrameGenChecker.FrameBurst = 64001;
-                device.FrameGenChecker.FrameLength = 1250;
-                device.FrameGenChecker.FrameContents.Add(new FrameContentModel() { Name = "Random", FrameContentType = FrameType.Random });
-                device.FrameGenChecker.FrameContents.Add(new FrameContentModel() { Name = "All 0s", FrameContentType = FrameType.All0s });
-                device.FrameGenChecker.FrameContents.Add(new FrameContentModel() { Name = "All 1s", FrameContentType = FrameType.All1s });
-                device.FrameGenChecker.FrameContents.Add(new FrameContentModel() { Name = "Alt 10s", FrameContentType = FrameType.Alt10s });
-                var frameType = device.FirmwareAPI.GetFrameContentInitialization();
-                device.FrameGenChecker.FrameContent = device.FrameGenChecker.FrameContents.Where(x => x.FrameContentType == frameType).ToList()[0];
-                device.FrameGenChecker.SrcMacAddress = ":::::";
-                device.FrameGenChecker.DestMacAddress = ":::::";
-
-                //Test modes
-                device.TestMode.TestModes.Add(new TestModeListingModel() { Name1 = "10BASE-T1L Normal Mode", Name2 = "", Description = "PHY is in normal mode", TestmodeType = TestModeType.Normal });
-                device.TestMode.TestModes.Add(new TestModeListingModel() { Name1 = "10BASE-T1L Test Mode 1:", Name2 = "Tx output voltage, Tx clock frequency and jitter.", Description = "PHY repeatedly transmit the data symbol sequence (+1,-1)", TestmodeType = TestModeType.Test1 });
-                device.TestMode.TestModes.Add(new TestModeListingModel() { Name1 = "10BASE-T1L Test Mode 2:", Name2 = "Tx output droop", Description = "PHY Transmit ten '+1' symbols followed by ten '-1' symbols", TestmodeType = TestModeType.Test2 });
-                device.TestMode.TestModes.Add(new TestModeListingModel() { Name1 = "10BASE-T1L Test Mode 3:", Name2 = "Power Spectral Density (PSD) and power level", Description = "PHY transmit as in non-test operation and in the MASTER data mode with data set to normal Inter-Frame idle signals", TestmodeType = TestModeType.Test3 });
-                device.TestMode.TestModes.Add(new TestModeListingModel() { Name1 = "10BASE-T1L Transmit Disable:", Name2 = "MDI Return Loss", Description = "PHY's receive and transmit paths as in notmal operation but PHY transmits 0 symbols continuously", TestmodeType = TestModeType.Transmit });
-                var testmodeResult = device.FirmwareAPI.GetTestModeInitialization();
-                device.TestMode.TestMode = device.TestMode.TestModes.Where(x => x.TestmodeType == testmodeResult).ToList()[0];
-
-                //Loopback
-                device.Loopback.Loopbacks.Add(new LoopbackListingModel() { Name = "None", EnumLoopbackType = LoopBackMode.OFF, ImagePath = @"../Images/loopback/NoLoopback.png" });
-                device.Loopback.Loopbacks.Add(new LoopbackListingModel() { Name = "MAC I/F Remote", EnumLoopbackType = LoopBackMode.MacRemote, ImagePath = @"../Images/loopback/MACRemoteLoopback.png" });
-                device.Loopback.Loopbacks.Add(new LoopbackListingModel() { Name = "MAC I/F", EnumLoopbackType = LoopBackMode.MAC, ImagePath = @"../Images/loopback/MACLoopback.png" });
-                device.Loopback.Loopbacks.Add(new LoopbackListingModel() { Name = "PCS", EnumLoopbackType = LoopBackMode.Digital, ImagePath = @"../Images/loopback/PCSLoopback.png" });
-                device.Loopback.Loopbacks.Add(new LoopbackListingModel() { Name = "PMA", EnumLoopbackType = LoopBackMode.LineDriver, ImagePath = @"../Images/loopback/PMALoopback.png" });
-                device.Loopback.Loopbacks.Add(new LoopbackListingModel() { Name = "External MII/RMII", EnumLoopbackType = LoopBackMode.ExtCable, ImagePath = @"../Images/loopback/ExternalLoopback.png" });
-                var loopbackResult = device.FirmwareAPI.GetLoopbackInitialization();
-                device.Loopback.Loopback = device.Loopback.Loopbacks.Where(x => x.EnumLoopbackType == loopbackResult).ToList()[0];
-
-                //Fault Detector
-                device.FaultDetector.CableDiagnostics.NVP = Convert.ToDecimal(device.FirmwareAPI.GetNvp(), CultureInfo.InvariantCulture);
-                device.FaultDetector.CableDiagnostics.CableOffset = Convert.ToDecimal(device.FirmwareAPI.GetOffset(), CultureInfo.InvariantCulture);
+                ADINDevice adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService);
+                if (adin != null)
+                {
+                    adin.Device.SerialNumber = currentNewDevice.SerialNumber;
+                    adin.Device.BoardName = currentNewDevice.Description;
+                }
 
                 _ftdiService.Close();
 
                 Application.Current.Dispatcher.Invoke(new Action (() =>
                 {
-                    _deviceListingViewModels.Add(new DeviceListingItemViewModel(device));
-                    _feedback.Message = $"Device Added: {device.SerialNumber}";
-                    _feedback.FeedBackType = FeedbackType.Verbose;
-                    _logActivityViewModel.SetFeedback(_feedback);
+                    _deviceListingViewModels.Add(new DeviceListingItemViewModel(adin));
+                    //_feedback.Message = $"Device Added: {device.SerialNumber}";
+                    //_feedback.FeedBackType = FeedbackType.Verbose;
+                    //_logActivityViewModel.SetFeedback(_feedback);
                 }));
             }
         }
@@ -326,9 +275,9 @@ namespace ADIN.WPF.ViewModel
 
                 Application.Current.Dispatcher.BeginInvoke((Action)(() =>
                 {
-                    _feedback.Message = $"Device Removed: {removeDevice[0].SerialNumber}";
-                    _feedback.FeedBackType = FeedbackType.Info;
-                    _logActivityViewModel.SetFeedback(_feedback);
+                    //_feedback.Message = $"Device Removed: {removeDevice[0].SerialNumber}";
+                    //_feedback.FeedBackType = FeedbackType.Info;
+                    //_logActivityViewModel.SetFeedback(_feedback);
                     DeviceListingItemViewModels.Remove(removeDevice[0]);
                 }));
             }

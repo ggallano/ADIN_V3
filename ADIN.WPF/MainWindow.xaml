@@ -40,7 +40,7 @@
         </Menu>
         <view:OperationView Margin="5 0 5 5" Grid.Row="1"/>
         <Border Grid.Row="2" Background="LightGray" BorderBrush="Black" BorderThickness="0 1 0 0">
-            <components:StatusStripView DataContext="{Binding StatusStripViewModel}"/>
+            <!--<components:StatusStripView DataContext="{Binding StatusStripViewModel}"/>-->
         </Border>
     </Grid>
 </Window>

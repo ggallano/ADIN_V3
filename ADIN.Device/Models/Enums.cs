@@ -16,7 +16,11 @@
 
     public enum BoardType
     {
-        ADIN1100
+        ADIN1100,
+        ADIN1110,
+        ADIN1200,
+        ADIN1300,
+        ADIN2111,
     }
 
     public enum CalibrateType

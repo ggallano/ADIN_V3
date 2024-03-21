@@ -33,7 +33,6 @@ namespace ADIN.WPF
 
             _selectedDeviceStore = new SelectedDeviceStore();
             _ftdiService = new FTDIServices();
-            _registerService = new RegisterService();
             _scriptService = new ScriptService();
         }
 
@@ -43,7 +42,7 @@ namespace ADIN.WPF
             {
                 Title = "Explore your Ethernet PHY!",
                 WindowStartupLocation=WindowStartupLocation.CenterScreen,
-                DataContext = new OperationViewModel(_selectedDeviceStore, _ftdiService, _registerService, _thisLock, _scriptService)
+                DataContext = new OperationViewModel(_selectedDeviceStore, _ftdiService)
             };
 
             MainWindow.Show();
