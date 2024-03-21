@@ -1,0 +1,63 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ADIN.WPF.Themes">
+
+    <Color x:Key="ADIColorBlue">#0067B9</Color>
+    <Color x:Key="BlackColor1">#1e1f21</Color>
+    
+    <Color x:Key="RedColor1">#bd3d2a</Color>
+    <Color x:Key="RedColor2">#a80303</Color>    <!--equivalent RGB:168,3,3-->
+    <Color x:Key="RedColor3">#bf3434</Color>
+
+    <Color x:Key="GreenColor1">#289e08</Color> <!--equivalent RGB:40, 158, 8-->
+
+    <Color x:Key="Gray">#a9afb8</Color>
+    <Color x:Key="Gray02">#d1cfcf</Color>
+    <Color x:Key="DarkerGray">#989a9e</Color>
+    <Color x:Key="LightGrayColor1">#FFD1D5D8</Color>
+    <Color x:Key="LightGrayColor2">#c9d4f5</Color>
+    <Color x:Key="LightGrayColor3">#dadde6</Color>
+
+    <Color x:Key="LightBlue">#364cf5</Color>
+    <Color x:Key="LightBlue1">#0067B9</Color>
+    <Color x:Key="LightBlue2">#1a59ed</Color>
+
+    <Color x:Key="WhiteColor">#FFFFFFFF</Color>
+    
+    
+    
+    <SolidColorBrush x:Key="Foreground.Color" Color="{StaticResource BlackColor1}"/>
+
+    <!--ADI Logo Color-->
+    <SolidColorBrush x:Key="ADILogo.Foreground" Color="{StaticResource ADIColorBlue}"/>
+
+    <!--Device Status View-->
+    <SolidColorBrush x:Key="BorderPrimaryColor" Color="{StaticResource Gray}"/>
+
+    <!--GridSplitterStyle-->
+    <SolidColorBrush x:Key="GridSplitter.Border" Color="{DynamicResource DarkerGray}"/>
+    <SolidColorBrush x:Key="GridSplitter.Background" Color="{StaticResource LightGrayColor1}"/>
+
+
+    <!--Log Activity-->
+    <SolidColorBrush x:Key="LogActivity.Title.Background" Color="{StaticResource BlackColor1}"/>
+    
+    <!--Extra Command Buttons-->
+    <SolidColorBrush x:Key="Reset.Background" Color="{StaticResource RedColor3}"/>
+    <SolidColorBrush x:Key="Reset.Foreground" Color="White"/>
+    <SolidColorBrush x:Key="Reset.IsMouseOver" Color="{StaticResource LightGrayColor2}"/>
+    
+    <!--Base Button Colors-->
+    <SolidColorBrush x:Key="Button.Background" Color="{StaticResource Gray02}"/>
+    <SolidColorBrush x:Key="Button.BorderBrush" Color="Black"/>
+    <SolidColorBrush x:Key="Button.Foreground" Color="Black"/>
+
+    <SolidColorBrush x:Key="Button.IsEnable.Background" Color="Transparent"/>
+    <SolidColorBrush x:Key="Button.IsEnable.BorderBrush" Color="{StaticResource DarkerGray}"/>
+    <SolidColorBrush x:Key="Button.IsEnable.Foreground" Color="{StaticResource DarkerGray}"/>
+
+    <SolidColorBrush x:Key="Button.IsMouseOver.Background" Color="{StaticResource DarkerGray}"/>
+    <SolidColorBrush x:Key="Button.IsMouseOver.Foreground" Color="White"/>
+    <SolidColorBrush x:Key="Button.IsMouseOver.BorderBrush" Color="White"/>
+
+</ResourceDictionary>

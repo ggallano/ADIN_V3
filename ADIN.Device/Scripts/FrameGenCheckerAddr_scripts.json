@@ -1,0 +1,64 @@
+{
+  "Scripts": [
+    {
+      "Name": "Frame Gen Checker Addr",
+      "RegisterAccesses": [
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          //"RegisterName": "CRSM_FRM_GEN_DIAG_CLK_EN",
+          "RegisterAddress": "0x1E882C",
+          "Value": "0d1"
+        },
+
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          //"RegisterName": "FG_FRM_LEN",
+          "RegisterAddress": "0x1F8025",
+          "Value": "0x4E2"
+        },
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          //"RegisterName": "FG_NFRM_L",
+          "RegisterAddress": "0x1F8028",
+          "Value": "0xFA01"
+        },
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          //"RegisterName": "FG_NFRM_H",
+          "RegisterAddress": "0x1F8022",
+          "Value": "0d0"
+        },
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          //"RegisterName": "FG_CONT_MODE_EN",
+          "RegisterAddress": "0x1F8027",
+          "Value": "0d0"
+        },
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          //"RegisterName": "FG_CNTRL",
+          "RegisterAddress": "0x1F8021",
+          "Value": "0d1"
+        },
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          //"RegisterName": "FgSa",
+          "RegisterAddress": "0x1F8033",
+          "Value": "0xE1"
+        },
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          //"RegisterName": "FgDa5Emi",
+          "RegisterAddress": "0x1F8032",
+          "Value": "0d1"
+        },
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          //"RegisterName": "FG_EN",
+          "RegisterAddress": "0x1F8020",
+          "Value": "0d1"
+        },
+      ]
+    },
+  ]
+}

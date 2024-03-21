@@ -1,0 +1,20 @@
+{
+  "Scripts": [
+    {
+      "Name": "SftPd Down&Up",
+      "RegisterAccesses": [
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          "RegisterName": "CRSM_SFT_PD",
+          "Value": "0d1"
+        },
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          "RegisterName": "CRSM_SFT_PD",
+          "Value": "0d0"
+        },
+      ]
+
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+﻿<UserControl x:Class="ADIN.WPF.Components.RegisterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:customStyle="clr-namespace:ADIN.WPF.Themes"
+             xmlns:converter="clr-namespace:ADIN.WPF.Converters"
+             xmlns:local="clr-namespace:ADIN.WPF.Components"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="500">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converter:RegisterValueConverter x:Key="RegisterValueConverter" />
+            <telerik:Windows8Colors x:Key="Windows8Colors" />
+            <SolidColorBrush x:Key="AccentBrush" Color="{Binding Path=Palette.AccentColor, Source={StaticResource Windows8Colors}}"></SolidColorBrush>
+            <Style x:Key="Label" TargetType="TextBlock">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontFamily" Value="Segoe UI Light" />
+                <Setter Property="Foreground" Value="{StaticResource AccentBrush}" />
+                <Setter Property="Width" Value="70" />
+                <Setter Property="TextAlignment" Value="Right" />
+                <Setter Property="Margin" Value="0,-5,0,0" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="150" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Hardware default register values shown" Style="{StaticResource TextBlockstyle}"/>
+        <Image Grid.Row="1" Source="{Binding ImagePath}" VerticalAlignment="Center" Stretch="None" HorizontalAlignment="Center" />
+        <!--<TextBlock Grid.Row="1" Text="{Binding ImagePath}" />-->
+        <!--<DataGrid Grid.Row="2" AutoGenerateColumns="False" ItemsSource="{Binding Registers}" SelectedItem="{Binding SelectedRegister}">-->
+        <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="CellEditEnding">
+                    <i:InvokeCommandAction Command="{Binding SaveDataCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
+        <!--<DataGrid.Columns>
+                <DataGridTextColumn Header="Address" Binding="{Binding Address, StringFormat={}{0:X}}" />
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Value" Binding="{Binding Value, StringFormat={}{0:X}}" />
+            </DataGrid.Columns>
+        </DataGrid>-->
+
+        <Grid Grid.Row="2">
+            <Grid.Resources>
+                <customStyle:ValueCellStyle x:Key="valueCellStyle">
+                    <customStyle:ValueCellStyle.EditStyle>
+                        <Style TargetType="telerik:GridViewCell">
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Style>
+                    </customStyle:ValueCellStyle.EditStyle>
+                    <customStyle:ValueCellStyle.NoEditStyle>
+                        <Style TargetType="telerik:GridViewCell" />
+                    </customStyle:ValueCellStyle.NoEditStyle>
+                </customStyle:ValueCellStyle>
+                <DataTemplate x:Key="RowDetailsTemplate">
+                    <telerik:RadGridView x:Name="gvFields" ItemsSource="{Binding BitFields,Mode=TwoWay}"
+                                         AutoGenerateColumns="False" RowIndicatorVisibility="Collapsed" CanUserSortColumns="True" ShowGroupPanel="False" BeginningEdit="RadGridView_BeginningEdit" CellEditEnded="RadGridView_CellEditEnded"
+                                         CellValidating="RadGridView_CellValidating" PreparedCellForEdit="RadGridView_PreparedCellForEdit" IsReadOnly="True">
+                        <!--<i:Interaction.Triggers>
+                            <i:EventTrigger EventName="CellEditEnding">
+                                <i:InvokeCommandAction Command="{Binding Path=DataContext.SaveRegisterDataCommand, RelativeSource= {RelativeSource FindAncestor, AncestorType={x:Type telerik:RadGridView}}}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>-->
+                        <telerik:EventToCommandBehavior.EventBindings>
+                            <telerik:EventBinding EventName="CellEditEnded" Command="{Binding SaveRegisterDataCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=telerik:RadGridView}}" />
+                        </telerik:EventToCommandBehavior.EventBindings>
+                        <telerik:StyleManager.Theme>
+                            <telerik:Windows7Theme />
+                        </telerik:StyleManager.Theme>
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Name}" IsReadOnly="True" />
+                            <telerik:GridViewDataColumn CellStyleSelector="{StaticResource valueCellStyle}" DataMemberBinding="{Binding Path=Value, Converter={StaticResource RegisterValueConverter},Mode=TwoWay}" />
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Access}" IsReadOnly="True" />
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Width}" IsReadOnly="True" />
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Position}" IsReadOnly="True" />
+                            <telerik:GridViewDataColumn DataMemberBinding="{Binding Documentation}" IsReadOnly="True" />
+                        </telerik:RadGridView.Columns>
+                    </telerik:RadGridView>
+                </DataTemplate>
+            </Grid.Resources>
+            <telerik:RadGridView x:Name="gvRegister" ItemsSource="{Binding Registers}" SelectedItem="{Binding SelectedRegister}" RowDetailsTemplate="{StaticResource RowDetailsTemplate}"
+                             AutoGenerateColumns="False" RowIndicatorVisibility="Collapsed"
+                             Width="Auto" ScrollViewer.CanContentScroll="True"
+                             SelectionChanged="RadGridView_RegisterSelectionChanged" BeginningEdit="RadGridView_BeginningEdit"
+                             CellEditEnded="RadGridView_CellEditEnded" CellValidating="RadGridView_CellValidating"
+                             ShowGroupPanel="False" PreparedCellForEdit="RadGridView_PreparedCellForEdit" DataLoading="gvRegisters_DataLoading" IsReadOnly="True">
+                <telerik:EventToCommandBehavior.EventBindings>
+                    <telerik:EventBinding EventName="CellEditEnded" Command="{Binding SaveRegisterDataCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=telerik:RadGridView}}" />
+                </telerik:EventToCommandBehavior.EventBindings>
+                <!--<telerik:RadGridView.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding SaveDataCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=telerik:RadGridView}}" />
+                </telerik:RadGridView.InputBindings>-->
+                <telerik:StyleManager.Theme>
+                    <telerik:Windows8Theme />
+                </telerik:StyleManager.Theme>
+                <telerik:RadGridView.Columns>
+                    <telerik:GridViewToggleRowDetailsColumn />
+                    <telerik:GridViewDataColumn x:Name='colAddress' Header="Address" DataMemberBinding="{Binding Path=Address,StringFormat={}0x{0:X6}}" IsReadOnly='True' />
+                    <telerik:GridViewDataColumn x:Name='colName' Header="Name" DataMemberBinding="{Binding Name}" IsReadOnly="True" Width="200" />
+                    <telerik:GridViewDataColumn x:Name='colValue' Header="Value" DataMemberBinding="{Binding Value}" IsSortable="True" IsFilterable="True" CellStyleSelector="{StaticResource valueCellStyle}" />
+                    <telerik:GridViewDataColumn DataMemberBinding="{Binding Access}" IsReadOnly="True" />
+                    <telerik:GridViewDataColumn DataMemberBinding="{Binding Group}" IsReadOnly="True" />
+                    <telerik:GridViewDataColumn x:Name='colDocumentation' Header="Documentation" DataMemberBinding="{Binding Documentation}" IsReadOnly="True" IsSortable="True" IsFilterable="True" />
+                </telerik:RadGridView.Columns>
+            </telerik:RadGridView>
+        </Grid>
+    </Grid>
+</UserControl>

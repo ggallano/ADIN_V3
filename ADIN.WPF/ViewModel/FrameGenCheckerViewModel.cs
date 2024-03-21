@@ -1,0 +1,221 @@
+﻿using ADIN.Device.Models;
+using ADIN.WPF.Commands;
+using ADIN.WPF.Stores;
+using FTDIChip.Driver.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+
+namespace ADIN.WPF.ViewModel
+{
+    public class FrameGenCheckerViewModel : ViewModelBase
+    {
+        private string _destMacAddress;
+        private bool _enableContinuousMode;
+        private bool _enableMacAddress;
+        private uint _frameBurst;
+        private string _frameGeneratorButtonText;
+        private uint _frameLength;
+        private IFTDIServices _ftdiService;
+        private SelectedDeviceStore _selectedDeviceStore;
+        private FrameContentModel _selectedFrameContent;
+        private string _srcMacAddress;
+        private object _thisLock;
+
+        /// <summary>
+        /// creates new instance
+        /// </summary>
+        /// <param name="selectedDeviceStore"></param>
+        /// <param name="ftdiService"></param>
+        public FrameGenCheckerViewModel(SelectedDeviceStore selectedDeviceStore, object thisLock, IFTDIServices ftdiService)
+        {
+            _selectedDeviceStore = selectedDeviceStore;
+            _ftdiService = ftdiService;
+            _thisLock = thisLock;
+
+            ResetFrameCheckerCommnad = new ResetFrameDeviceCheckerCommnad(this, selectedDeviceStore);
+            ExecuteFrameCheckerCommand = new ExecuteFrameCheckerCommand(this, selectedDeviceStore);
+
+            _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.FrameGenCheckerStatusChanged += _selectedDeviceStore_FrameGenCheckerStatusChanged;
+            _selectedDeviceStore.FrameContentChanged += _selectedDeviceStore_FrameContentChanged;
+        }
+
+        public string DestMacAddress
+        {
+            get { return _selectedDevice?.FrameGenChecker.DestMacAddress ?? ":::::"; }
+            set
+            {
+                if (_selectedDevice != null)
+                {
+                    _destMacAddress = value;
+                    _frameGenChecker.DestMacAddress = value;
+
+                    var octets = value.Split(':');
+                    DestOctet = octets[5] == string.Empty ? string.Empty : octets[5];
+                    _frameGenChecker.DestOctet = DestOctet;
+                }
+                OnPropertyChanged(nameof(DestMacAddress));
+            }
+        }
+
+        public string DestOctet { get; set; }
+
+        public bool EnableContinuousMode
+        {
+            get { return _selectedDevice?.FrameGenChecker.EnableContinuousMode ?? false; }
+            set
+            {
+                if (_selectedDevice != null)
+                {
+                    _enableContinuousMode = value;
+                    _frameGenChecker.EnableContinuousMode = value;
+                }
+                OnPropertyChanged(nameof(EnableContinuousMode));
+            }
+        }
+
+        public bool EnableMacAddress
+        {
+            get { return _selectedDevice?.FrameGenChecker.EnableMacAddress ?? false; }
+            set
+            {
+                if (_selectedDevice != null)
+                {
+                    _enableMacAddress = value;
+                    _frameGenChecker.EnableMacAddress = value;
+                }
+                OnPropertyChanged(nameof(EnableMacAddress));
+            }
+        }
+
+        public ICommand ExecuteFrameCheckerCommand { get; set; }
+
+        public uint FrameBurst
+        {
+            get { return _selectedDevice?.FrameGenChecker.FrameBurst ?? 0; }
+            set
+            {
+                if (_selectedDevice != null)
+                {
+                    _frameBurst = value;
+                    _frameGenChecker.FrameBurst = value;
+                }
+                OnPropertyChanged(nameof(FrameBurst));
+            }
+        }
+
+        public List<FrameContentModel> FrameContents => _selectedDevice?.FrameGenChecker.FrameContents;
+
+        public string FrameGeneratorButtonText
+        {
+            get
+            {
+                return _selectedDevice?.FirmwareAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+            }
+            set
+            {
+                if (value != null)
+                {
+                    _frameGeneratorButtonText = value;
+                    //_selectedDevice.Checker = value;
+                }
+                OnPropertyChanged(nameof(FrameGeneratorButtonText));
+            }
+        }
+
+        public bool FrameGenRunning => true;
+
+        public uint FrameLength
+        {
+            get { return _selectedDevice?.FrameGenChecker.FrameLength ?? 0; }
+            set
+            {
+                if (_selectedDevice != null)
+                {
+                    _frameLength = value;
+                    _frameGenChecker.FrameLength = value;
+                }
+                OnPropertyChanged(nameof(FrameLength));
+            }
+        }
+
+        public ICommand ResetFrameCheckerCommnad { get; set; }
+
+        public FrameContentModel SelectedFrameContent
+        {
+            get { return _selectedDevice?.FrameGenChecker.FrameContent ?? _selectedDevice?.FrameGenChecker.FrameContent; }
+            set
+            {
+                if (value != null)
+                {
+                    _selectedFrameContent = value;
+                    _frameGenChecker.FrameContent = value;
+                }
+                OnPropertyChanged(nameof(SelectedFrameContent));
+            }
+        }
+
+        public string SrcMacAddress
+        {
+            get { return _selectedDevice?.FrameGenChecker.SrcMacAddress ?? ":::::"; }
+            set
+            {
+                if (_selectedDevice != null)
+                {
+                    _srcMacAddress = value;
+                    _frameGenChecker.SrcMacAddress = value;
+
+                    var octets = value.Split(':');
+                    SrcOctet = octets[5] == string.Empty ? string.Empty : octets[5];
+                    _frameGenChecker.SrcOctet = SrcOctet;
+                }
+                OnPropertyChanged(nameof(SrcMacAddress));
+            }
+        }
+
+        public string SrcOctet { get; set; }
+        protected ADINDeviceModel _selectedDevice => _selectedDeviceStore.SelectedDevice;
+        private FrameGenCheckerModel _frameGenChecker => _selectedDevice.FrameGenChecker;
+
+        protected override void Dispose()
+        {
+            _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.FrameGenCheckerStatusChanged -= _selectedDeviceStore_FrameGenCheckerStatusChanged;
+            _selectedDeviceStore.FrameContentChanged -= _selectedDeviceStore_FrameContentChanged;
+        }
+
+        private void _selectedDeviceStore_FrameContentChanged(FrameType obj)
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                SelectedFrameContent = _frameGenChecker.FrameContents.Where(x => x.FrameContentType == obj).ToList()[0];
+            }));
+        }
+
+        private void _selectedDeviceStore_FrameGenCheckerStatusChanged(string status)
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                //FrameGeneratorButtonText = status;
+                OnPropertyChanged(nameof(FrameGeneratorButtonText));
+            }));
+        }
+
+        private void _selectedDeviceStore_SelectedDeviceChanged()
+        {
+            OnPropertyChanged(nameof(SelectedFrameContent));
+            OnPropertyChanged(nameof(FrameGenRunning));
+            OnPropertyChanged(nameof(FrameBurst));
+            OnPropertyChanged(nameof(FrameLength));
+            OnPropertyChanged(nameof(FrameContents));
+            OnPropertyChanged(nameof(SrcMacAddress));
+            OnPropertyChanged(nameof(DestMacAddress));
+            OnPropertyChanged(nameof(EnableMacAddress));
+            OnPropertyChanged(nameof(EnableContinuousMode));
+            OnPropertyChanged(nameof(FrameGeneratorButtonText));
+        }
+    }
+}

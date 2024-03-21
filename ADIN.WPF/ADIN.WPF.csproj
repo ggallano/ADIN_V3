@@ -1,0 +1,532 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5B1CC075-2594-4992-84D7-D963E195CB47}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ADIN.WPF</RootNamespace>
+    <AssemblyName>ADIN1100-Eval</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>applications_industrial_automation_ethernet_icon_oN6_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FTDI2XX, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FTD2XX.Net.1.2.1\lib\net45\FTDI2XX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SciChart.Charting, Version=5.4.0.12119, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SciChartLibraries\SciChart.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Core, Version=5.4.0.12119, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SciChartLibraries\SciChart.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Data, Version=5.4.0.12119, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SciChartLibraries\SciChart.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Drawing, Version=5.4.0.12119, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SciChartLibraries\SciChart.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls, Version=2020.2.617.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Telerik\Telerik.Windows.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Data, Version=2020.2.617.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Telerik\Telerik.Windows.Controls.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.DataVisualization, Version=2020.2.617.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Telerik\Telerik.Windows.Controls.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView, Version=2020.2.617.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Telerik\Telerik.Windows.Controls.GridView.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.GridView.Export, Version=2020.2.617.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Telerik\Telerik.Windows.Controls.GridView.Export.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Input, Version=2020.2.617.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Telerik\Telerik.Windows.Controls.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Navigation, Version=2020.2.617.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Telerik\Telerik.Windows.Controls.Navigation.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data, Version=2020.2.617.45, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Telerik\Telerik.Windows.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AutoVersionIncrement.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AutoVersionIncrement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Commands\AboutCommand.cs" />
+    <Compile Include="Commands\AutoNegCommand.cs" />
+    <Compile Include="Commands\CalibrationCommand.cs" />
+    <Compile Include="Commands\ClearLogCommand.cs" />
+    <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\ExecuteFrameCheckerCommand.cs" />
+    <Compile Include="Commands\InitializedCommand.cs" />
+    <Compile Include="Commands\LinkLengthSetCommand.cs" />
+    <Compile Include="Commands\LogWindowSaveCommand.cs" />
+    <Compile Include="Commands\MseBenchmarkSetCommand.cs" />
+    <Compile Include="Commands\ReadRegisterCommand.cs" />
+    <Compile Include="Commands\RefreshCommand.cs" />
+    <Compile Include="Commands\RegisterActionCommand.cs" />
+    <Compile Include="Commands\ResetCommand.cs" />
+    <Compile Include="Commands\ResetFrameDeviceCheckerCommnad.cs" />
+    <Compile Include="Commands\RegisterSaveDataCommand.cs" />
+    <Compile Include="Commands\ScriptApplyCommand.cs" />
+    <Compile Include="Commands\SoftwarePowerDownCommand.cs" />
+    <Compile Include="Commands\TDRFaultDetectorCommand.cs" />
+    <Compile Include="Commands\TDRLoadCommand.cs" />
+    <Compile Include="Commands\TDRManualCommand.cs" />
+    <Compile Include="Commands\TDRSaveCommand.cs" />
+    <Compile Include="Commands\TestModeCommand.cs" />
+    <Compile Include="Commands\WriteRegisterCommand.cs" />
+    <Compile Include="Components\ActiveLinkMonitoringView.xaml.cs">
+      <DependentUpon>ActiveLinkMonitoringView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\CableManualDialog.xaml.cs">
+      <DependentUpon>CableManualDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\DeviceStatusView.xaml.cs">
+      <DependentUpon>DeviceStatusView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\ExtraCommandsView.xaml.cs">
+      <DependentUpon>ExtraCommandsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\FaultDetectroView.xaml.cs">
+      <DependentUpon>FaultDetectroView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\FrameGenChecker.xaml.cs">
+      <DependentUpon>FrameGenChecker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\FrameGenCheckerStatusView.xaml.cs">
+      <DependentUpon>FrameGenCheckerStatusView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\LinkLengthBenchmarkDialog.xaml.cs">
+      <DependentUpon>LinkLengthBenchmarkDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\LinkPropertiesView.xaml.cs">
+      <DependentUpon>LinkPropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\LogActivityView.xaml.cs">
+      <DependentUpon>LogActivityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\LoobackView.xaml.cs">
+      <DependentUpon>LoobackView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\MACAddress.xaml.cs">
+      <DependentUpon>MACAddress.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\OffsetManualDialog.xaml.cs">
+      <DependentUpon>OffsetManualDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\RegisterAccessView.xaml.cs">
+      <DependentUpon>RegisterAccessView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\RegisterView.xaml.cs">
+      <DependentUpon>RegisterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\StatusStripView.xaml.cs">
+      <DependentUpon>StatusStripView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\TestModeView.xaml.cs">
+      <DependentUpon>TestModeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\ActiveLinkTextConverter.cs" />
+    <Compile Include="Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Converters\LinkStateForegroundConverter.cs" />
+    <Compile Include="Converters\MSEForegroundConverter.cs" />
+    <Compile Include="Converters\RegisterValueConverter.cs" />
+    <Compile Include="Stores\SelectedDeviceStore.cs" />
+    <Compile Include="Themes\ValueCellStyle.cs" />
+    <Compile Include="ViewModel\ActiveLinkMonitoringViewModel.cs" />
+    <Compile Include="ViewModel\DeviceStatusViewModel.cs" />
+    <Compile Include="ViewModel\ExtraCommandsViewModel.cs" />
+    <Compile Include="ViewModel\FaultDetectorViewModel.cs" />
+    <Compile Include="ViewModel\FrameGenCheckerViewModel.cs" />
+    <Compile Include="ViewModel\LinkPropertiesViewModel.cs" />
+    <Compile Include="ViewModel\DeviceListingItemViewModel.cs" />
+    <Compile Include="ViewModel\DeviceListingViewModel.cs" />
+    <Compile Include="ViewModel\LogActivityViewModel.cs" />
+    <Compile Include="ViewModel\LoopbackViewModel.cs" />
+    <Compile Include="ViewModel\MenuItemViewModel.cs" />
+    <Compile Include="ViewModel\OperationViewModel.cs" />
+    <Compile Include="ViewModel\RegisterAccessViewModel.cs" />
+    <Compile Include="ViewModel\RegisterViewModel.cs" />
+    <Compile Include="ViewModel\StatusStripViewModel.cs" />
+    <Compile Include="ViewModel\TestModeViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\OperationView.xaml.cs">
+      <DependentUpon>OperationView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\ActiveLinkMonitoringView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\CableManualDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\DeviceListing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\DeviceStatusView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\ExtraCommandsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\FaultDetectroView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\FrameGenChecker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\FrameGenCheckerStatusView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\LinkLengthBenchmarkDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\LinkPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\LogActivityView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\LoobackView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\MACAddress.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\OffsetManualDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\RegisterAccessView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\RegisterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\StatusStripView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\TestModeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Components\DeviceListing.xaml.cs">
+      <DependentUpon>DeviceListing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Themes\ButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\CustomControlStyle\GridSplitterStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\TextBlockStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\WhiteTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\OperationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ADI.Register\ADI.Register.csproj">
+      <Project>{3AB9F7BC-10AE-4A8F-95DE-BD2620798B8C}</Project>
+      <Name>ADI.Register</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ADIN.Device\ADIN.Device.csproj">
+      <Project>{706B8375-E968-4223-AD1B-FD3EF8BEE42F}</Project>
+      <Name>ADIN.Device</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FTDIChip.Driver\FTDIChip.Driver.csproj">
+      <Project>{38262539-68b6-4efb-b718-04bfb86730c1}</Project>
+      <Name>FTDIChip.Driver</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Helper\Helper.csproj">
+      <Project>{48DB4E06-8757-4A3B-A58F-DF7C981AAC04}</Project>
+      <Name>Helper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FTDI2XX.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ADI-Logo-AWP-Tag.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\adin1100S2\099a3b427d7b6dde5e4d1215d0d60ec16961cf3a.png" />
+    <Resource Include="Images\adin1100S2\10e29332421672b932ed7ea68c32155d658f9d4f.png" />
+    <Resource Include="Images\adin1100S2\1608a32e2769748ab7bba654156eb6f9b894d848.png" />
+    <Resource Include="Images\adin1100S2\16d505ca686f2e7da5bcbc7b41e1b3978bb31821.png" />
+    <Resource Include="Images\adin1100S2\17ce9fce2c86f1964af6d220129190ec0d8cb019.png" />
+    <Resource Include="Images\adin1100S2\1cdcbbf66e0fb688cf581bc5dd11298024099af7.png" />
+    <Resource Include="Images\adin1100S2\2289d48f15c903e94366f00a58a2c8bb3390f1c4.png" />
+    <Resource Include="Images\adin1100S2\29172761ef2bb920c32866db9fc5fe6910fc613b.png" />
+    <Resource Include="Images\adin1100S2\2a0423c6f6c7c203b28a7416a3b64652895f1146.png" />
+    <Resource Include="Images\adin1100S2\2a0a279edd85806ea98c419cd0440ffaf388fc9a.png" />
+    <Resource Include="Images\adin1100S2\2ada7d1bac202ee8ccb80757d585998e410279aa.png" />
+    <Resource Include="Images\adin1100S2\2c635c2547c1720a3b4a943def67783a75615750.png" />
+    <Resource Include="Images\adin1100S2\2cf0420beb2075667971edcd1a1edc6ce273f9ca.png" />
+    <Resource Include="Images\adin1100S2\30427649ab4b690b3b5c60cea612ef5509d2c35c.png" />
+    <Resource Include="Images\adin1100S2\35b1464426c0f29b43de444de53190ba55d1bb71.png" />
+    <Resource Include="Images\adin1100S2\371d3fa30f98056bf8a9a2dcdf123acb83cdda2b.png" />
+    <Resource Include="Images\adin1100S2\37b7ca3f6c4d46d4ea9e4c44dd54dd84b78269f0.png" />
+    <Resource Include="Images\adin1100S2\38b97c2c71668a3c63a0ed84fdb9a6dd9a878d2d.png" />
+    <Resource Include="Images\adin1100S2\3c4481f3aaad1b313c01bcea87cf74c59edb6f28.png" />
+    <Resource Include="Images\adin1100S2\3db1509c0e4f04655a049895ce6d9a2d0e4e98ec.png" />
+    <Resource Include="Images\adin1100S2\3feb2556a08f1cc96cf32bbe5a9d533a27de0321.png" />
+    <Resource Include="Images\adin1100S2\401f95128e82cb0ca9164a8c16e6d107b6f89474.png" />
+    <Resource Include="Images\adin1100S2\42d78143cf55476c0add737705a41ff3585aa4e1.png" />
+    <Resource Include="Images\adin1100S2\4379cabceb772c12a9b0ee42c1d294e5ba445839.png" />
+    <Resource Include="Images\adin1100S2\44960670b39bbb52d476667c0792d72960ddce79.png" />
+    <Resource Include="Images\adin1100S2\44eca9835b3992e0662cc1a878295cad874573ec.png" />
+    <Resource Include="Images\adin1100S2\4f0f82a98f4bc79632f7ac72fedc18edc946a27e.png" />
+    <Resource Include="Images\adin1100S2\50bf337d66d5cd10956484fcfbd05599737dda41.png" />
+    <Resource Include="Images\adin1100S2\566a35d195238a8d5f764d7645e49a888b644bdc.png" />
+    <Resource Include="Images\adin1100S2\5a73386c78551d6971ad82aaedc17ed6cb2839dc.png" />
+    <Resource Include="Images\adin1100S2\5d16dc624c33cb87bd936f03602504d3c4dfb28b.png" />
+    <Resource Include="Images\adin1100S2\5d1c52c9de86145478b925842e36c3f1b93a3a64.png" />
+    <Resource Include="Images\adin1100S2\6167491e2ad34835d5c5e346b41f1ca307f5788a.png" />
+    <Resource Include="Images\adin1100S2\63403701925e6dfe58292afeb60935009cf2caa1.png" />
+    <Resource Include="Images\adin1100S2\648ccba032d0216c9a61feeeb1ac483f773fd82e.png" />
+    <Resource Include="Images\adin1100S2\66d2e195c6874acbbf92a5870c7432f6c2c37959.png" />
+    <Resource Include="Images\adin1100S2\672d4042a4e67b1fdbe3229be6b0dbe9c792d774.png" />
+    <Resource Include="Images\adin1100S2\6891a47195b3db2b4f823e31b71c0a0e43213f2e.png" />
+    <Resource Include="Images\adin1100S2\68c25cc93aebfc58a35fa8805e17b1c9484381db.png" />
+    <Resource Include="Images\adin1100S2\70a35fa7425d3174ff315a11c7b985c40917a038.png" />
+    <Resource Include="Images\adin1100S2\73cd8594990a57ed7db1dbd8fc35912696745b47.png" />
+    <Resource Include="Images\adin1100S2\7437eb4cb62b4a782004d12ce2744eaf681f7424.png" />
+    <Resource Include="Images\adin1100S2\780430b25d3470c16104478e5bd6fd991238c2d8.png" />
+    <Resource Include="Images\adin1100S2\7a458037fcdc580d05d0f1302592af5a36afefa8.png" />
+    <Resource Include="Images\adin1100S2\7a701bf5c989b8ee9bd1b0ff5ec5f96af4918155.png" />
+    <Resource Include="Images\adin1100S2\7c5a6be176cb11eef76212f45c63a69ca1d46e8c.png" />
+    <Resource Include="Images\adin1100S2\7f889b04214a9acc8201c5382f6cc37f8c14c845.png" />
+    <Resource Include="Images\adin1100S2\84933ba1280a7c5522d74724e4eda9cb8f51faec.png" />
+    <Resource Include="Images\adin1100S2\85266d9772e3fc98ced3542cd7ed22cb358507f5.png" />
+    <Resource Include="Images\adin1100S2\86d36a7f666b6b8a74a675833a6240a6abbbb2fd.png" />
+    <Resource Include="Images\adin1100S2\8c487aa108781490073c5a3f019009b58fd73b36.png" />
+    <Resource Include="Images\adin1100S2\8e44eb2f5401edc0bdbd0fc8324d2926ee9da500.png" />
+    <Resource Include="Images\adin1100S2\8f1735240e1e046b364af963b9a671da1de65327.png" />
+    <Resource Include="Images\adin1100S2\8f3eda8881fdde993b6d70038c00dcdffc15a640.png" />
+    <Resource Include="Images\adin1100S2\8fb0a56b40b72c10b619cd52b80007224cf47550.png" />
+    <Resource Include="Images\adin1100S2\900d92d9c6bcbd963523725c9327d5b420dbf089.png" />
+    <Resource Include="Images\adin1100S2\912da2dcccd2371edd379b85c1755dfa05f4226c.png" />
+    <Resource Include="Images\adin1100S2\953f5c6d022a3ef833cf9798076dbbef12d744b4.png" />
+    <Resource Include="Images\adin1100S2\9658a8168a53dede49be268c45f22b59b34742b4.png" />
+    <Resource Include="Images\adin1100S2\97bf4c7896f18f57dd7dd28018256f441f884be2.png" />
+    <Resource Include="Images\adin1100S2\99f056aee6f07f540139d731d7d0eb486d284e07.png" />
+    <Resource Include="Images\adin1100S2\9d6361584fdb3570595026ce64aeb504ce559465.png" />
+    <Resource Include="Images\adin1100S2\9e20467634ea06302a2809ed13dcdaa42a1adc42.png" />
+    <Resource Include="Images\adin1100S2\9f72b3b1f4e39416edac8beacd7dc9451799bb00.png" />
+    <Resource Include="Images\adin1100S2\a043d4ad98a29b90eda6d6ad712eae5bd1b86b35.png" />
+    <Resource Include="Images\adin1100S2\a7289016c5dc727bba3b66375dcc6d1d0322ae46.png" />
+    <Resource Include="Images\adin1100S2\a7b74cd05636781e10b0636262377d5d23e6f746.png" />
+    <Resource Include="Images\adin1100S2\adc59e8aad025520fe997ea1fbcb1092b93c40d2.png" />
+    <Resource Include="Images\adin1100S2\afecb6983bd12dc1725a5f43e67d3c4bc0d3c7f1.png" />
+    <Resource Include="Images\adin1100S2\b023b6b09c3a3d6cd0d4b47a7a040b519df6841a.png" />
+    <Resource Include="Images\adin1100S2\b8224908fa81b275dd5b61f3486ff8e023460fb3.png" />
+    <Resource Include="Images\adin1100S2\bc06a4836b6fc7b9a7157b6d86953d71a60930e0.png" />
+    <Resource Include="Images\adin1100S2\bea08d515391c164bed2ebea69b6f655ed0be5e3.png" />
+    <Resource Include="Images\adin1100S2\c0b4e38b47066a1c9520b35682b379ffbf308435.png" />
+    <Resource Include="Images\adin1100S2\c243a94de366e4864040a2b69fc9ccb24a3ef27a.png" />
+    <Resource Include="Images\adin1100S2\c38d80fc09df4f97e462f84023fd713e3e1e467d.png" />
+    <Resource Include="Images\adin1100S2\c42018541a9232c1b7bd707b1dab918e8e6e9313.png" />
+    <Resource Include="Images\adin1100S2\c828d3269932fd487efffca2a867210f99b8c924.png" />
+    <Resource Include="Images\adin1100S2\c82b0116f843482c8d5a87ed4a07f8714299ab1c.png" />
+    <Resource Include="Images\adin1100S2\ce23cc580a6950ebb0922a6e5ffb2ec81bcf16bf.png" />
+    <Resource Include="Images\adin1100S2\cf33c8146833b0e77fde2e9f858839a5f7d56dd4.png" />
+    <Resource Include="Images\adin1100S2\d1d71416f312aa4d4ac30b6b211073a5b054cfda.png" />
+    <Resource Include="Images\adin1100S2\d248630d99d6da3142ad4f696fc2a161f6099a76.png" />
+    <Resource Include="Images\adin1100S2\d7b60008b77ff9684828dbb43f76ea24e48f0628.png" />
+    <Resource Include="Images\adin1100S2\db04640839344da15dd2ec49fe6ad9775c115103.png" />
+    <Resource Include="Images\adin1100S2\db57377dd9e13bf9806002f724c0e8d6d2d1f208.png" />
+    <Resource Include="Images\adin1100S2\df720d78e46e24393972dc2e7fc876cdba407d92.png" />
+    <Resource Include="Images\adin1100S2\e2b8a0803c0ba26a2949e7d16ce57bdcc2ae9d5e.png" />
+    <Resource Include="Images\adin1100S2\e5e7b2a925a589844dee4ad2b9635719acf96a38.png" />
+    <Resource Include="Images\adin1100S2\e7f8169ab5028387f0eef98d5cf5cdb4bab45910.png" />
+    <Resource Include="Images\adin1100S2\ed8f5d78bedc01611e2f0973350aa965b932cfc0.png" />
+    <Resource Include="Images\adin1100S2\ef2c11617306a2c48fe88e962f6f23b6cb7a22aa.png" />
+    <Resource Include="Images\adin1100S2\f1cd5b48ad49282be4b0171193d65a3e5f8c4856.png" />
+    <Resource Include="Images\adin1100S2\f6045bf54c28d3e3e01beec83a94daf84e9cdf1d.png" />
+    <Resource Include="Images\adin1100S2\f6308aabaf9e10050b8cd8f1ecb60080883b65be.png" />
+    <Resource Include="Images\adin1100S2\f71f0ce77848c6e3f127251771ada161d5d7f579.png" />
+    <Resource Include="Images\adin1100S2\fbf7ae37bdf67298c69b8c70ac4b52a5755cfe51.png" />
+    <Resource Include="Images\adin1100S2\fc8dfedece5814ac5a81a5488ffb0dd66c75b04d.png" />
+    <Resource Include="Images\adin1100S2\fd0638b1f1249d8f99a080f5539ec831576e0c84.png" />
+    <Resource Include="Images\loopback\ExternalLoopback.png" />
+    <Resource Include="Images\loopback\MACLoopback.png" />
+    <Resource Include="Images\loopback\MACRemoteLoopback.png" />
+    <Resource Include="Images\loopback\NoLoopback.png" />
+    <Resource Include="Images\loopback\PCSLoopback.png" />
+    <Resource Include="Images\loopback\PMALoopback.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="applications_industrial_automation_ethernet_icon_oN6_icon.ico" />
+    <Resource Include="Images\icons\Applications-Industrial-Automation-Ethernet-Icon.png" />
+    <Resource Include="Images\icons\applications_industrial_automation_ethernet_icon_oN6_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AutoVersionIncrement.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AutoVersionIncrement.cs</LastGenOutput>
+      <AlwaysRun>True</AlwaysRun>
+      <RunCustomToolOnBuild>True</RunCustomToolOnBuild>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

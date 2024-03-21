@@ -1,0 +1,17 @@
+{
+  "Scripts": [
+    {
+      "Name": "Reset Auto-Negotiation",
+      "RegisterAccesses": [
+        {
+          "RegisterAddress": "0d459264",
+          "Value": "0d0"
+        },
+        {
+          "RegisterAddress": "0x70200",
+          "Value": "0x1000"
+        }
+      ]
+    }
+  ]
+}
