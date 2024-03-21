@@ -275,10 +275,10 @@ namespace ADIN.WPF.ViewModel
 
                 Application.Current.Dispatcher.BeginInvoke((Action)(() =>
                 {
-                    //_feedback.Message = $"Device Removed: {removeDevice[0].SerialNumber}";
-                    //_feedback.FeedBackType = FeedbackType.Info;
-                    //_logActivityViewModel.SetFeedback(_feedback);
-                    DeviceListingItemViewModels.Remove(removeDevice[0]);
+                    //_feedback.message = $"device removed: {removedevice[0].serialnumber}";
+                    //_feedback.feedbacktype = feedbacktype.info;
+                    //_logactivityviewmodel.setfeedback(_feedback);
+                    _deviceListingViewModels.Remove(removeDevice[0]);
                 }));
             }
         }
