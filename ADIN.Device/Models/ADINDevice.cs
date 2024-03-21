@@ -1,4 +1,6 @@
-﻿namespace ADIN.Device.Models
+﻿using ADIN.Device.Services;
+
+namespace ADIN.Device.Models
 {
     public class ADINDevice
     {
@@ -11,5 +13,7 @@
         public string SerialNumber => Device.SerialNumber;
 
         public string BoardName => Device.BoardName;
+
+        public IFirmwareAPI FwAPI => Device.FirmwareAPI;
     }
 }
