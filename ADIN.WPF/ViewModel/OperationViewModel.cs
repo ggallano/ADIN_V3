@@ -9,9 +9,22 @@ namespace ADIN.WPF.ViewModel
 {
     public class OperationViewModel : ViewModelBase
     {
-        public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
+        private readonly NavigationStore _navigationStore;
+
+        public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
+
+        public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore)
         {
             DeviceListingViewModel = new DeviceListingViewModel(selectedDeviceStore, ftdiService);
+            
+            _navigationStore = navigationStore;
+            _navigationStore.CurrentViewModelChanged += _navigationStore_CurrentViewModelChanged;
+
+        }
+
+        private void _navigationStore_CurrentViewModelChanged()
+        {
+            OnPropertyChanged(nameof(CurrentViewModel));
         }
 
         public DeviceListingViewModel DeviceListingViewModel { get; }

@@ -131,25 +131,43 @@
       <DependentUpon>AutoVersionIncrement.tt</DependentUpon>
     </Compile>
     <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\NavigateCommand.cs" />
+    <Compile Include="Components\NavigationBar.xaml.cs">
+      <DependentUpon>NavigationBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\ActiveLinkTextConverter.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\LinkStateForegroundConverter.cs" />
     <Compile Include="Converters\MSEForegroundConverter.cs" />
     <Compile Include="Converters\RegisterValueConverter.cs" />
+    <Compile Include="Stores\NavigationStore.cs" />
     <Compile Include="Stores\SelectedDeviceStore.cs" />
     <Compile Include="Themes\ValueCellStyle.cs" />
     <Compile Include="ViewModel\DeviceListingItemViewModel.cs" />
     <Compile Include="ViewModel\DeviceListingViewModel.cs" />
+    <Compile Include="ViewModel\LinkPropertiesViewModel.cs" />
+    <Compile Include="ViewModel\NavigationBarViewModel.cs" />
     <Compile Include="ViewModel\OperationViewModel.cs" />
+    <Compile Include="ViewModel\RegisterAccessViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\LinkPropertiesView.xaml.cs">
+      <DependentUpon>LinkPropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\OperationView.xaml.cs">
       <DependentUpon>OperationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RegisterAccessView.xaml.cs">
+      <DependentUpon>RegisterAccessView.xaml</DependentUpon>
     </Compile>
     <Page Include="AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\DeviceListing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\NavigationBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -184,7 +202,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\LinkPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\OperationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RegisterAccessView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -366,6 +392,9 @@
       <AlwaysRun>True</AlwaysRun>
       <RunCustomToolOnBuild>True</RunCustomToolOnBuild>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Service\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

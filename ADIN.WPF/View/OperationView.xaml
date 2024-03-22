@@ -6,6 +6,8 @@
              xmlns:local="clr-namespace:ADIN.WPF.View"
              xmlns:components="clr-namespace:ADIN.WPF.Components"
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:viewmodel="clr-namespace:ADIN.WPF.ViewModel"
+             xmlns:view="clr-namespace:ADIN.WPF.View"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
     <UserControl.Resources>
@@ -44,9 +46,21 @@
             <StackPanel Grid.Column="0" Grid.Row="1" Margin="0 5 5 0">
                 <Button Style="{DynamicResource AdiLogoStyle}"/>
                 <TextBlock Text="Local Devices" FontWeight="Bold" FontSize="18" Margin="0 20 0 5"/>
-                <components:DeviceListing DataContext="{Binding DeviceListingViewModel}" Height="100"/>
+                <components:DeviceListing DataContext="{Binding DeviceListingViewModel}" Height="150"/>
                 <!--<components:ExtraCommandsView DataContext="{Binding ExtraCommandsViewModel}" Height="230"/>-->
             </StackPanel>
+            <Grid Grid.Column="1" Grid.Row="1">
+                <ContentControl Content="{Binding CurrentViewModel}">
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type viewmodel:LinkPropertiesViewModel}">
+                            <view:LinkPropertiesView/>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type viewmodel:RegisterAccessViewModel}">
+                            <view:RegisterAccessView/>
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
+            </Grid>
             <!--<Grid Grid.Column="1" Grid.Row="1">
                 <TabControl>
                     <TabItem Header="Link Properties" IsSelected="True">
