@@ -140,6 +140,7 @@
     <Compile Include="Converters\LinkStateForegroundConverter.cs" />
     <Compile Include="Converters\MSEForegroundConverter.cs" />
     <Compile Include="Converters\RegisterValueConverter.cs" />
+    <Compile Include="Service\NavigationService.cs" />
     <Compile Include="Stores\NavigationStore.cs" />
     <Compile Include="Stores\SelectedDeviceStore.cs" />
     <Compile Include="Themes\ValueCellStyle.cs" />
@@ -393,9 +394,7 @@
       <RunCustomToolOnBuild>True</RunCustomToolOnBuild>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Service\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

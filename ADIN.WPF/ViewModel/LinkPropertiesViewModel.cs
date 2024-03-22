@@ -1,5 +1,6 @@
 ﻿using ADIN.Device.Models;
 using ADIN.WPF.Commands;
+using ADIN.WPF.Service;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
 using System;
@@ -16,7 +17,7 @@ namespace ADIN.WPF.ViewModel
 
         public LinkPropertiesViewModel(NavigationStore navigationStore)
         {
-            NavigateRegisterAccessCommand = new NavigateCommand<RegisterAccessViewModel>(navigationStore, ()=> new RegisterAccessViewModel(navigationStore));
+            NavigateRegisterAccessCommand = new NavigateCommand<RegisterAccessViewModel>(new NavigationService<RegisterAccessViewModel>(navigationStore, () => new RegisterAccessViewModel(navigationStore)));
         }
     }
 }

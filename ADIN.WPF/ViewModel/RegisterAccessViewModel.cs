@@ -1,4 +1,5 @@
 ﻿using ADIN.WPF.Commands;
+using ADIN.WPF.Service;
 using ADIN.WPF.Stores;
 using System.Windows.Input;
 
@@ -10,7 +11,7 @@ namespace ADIN.WPF.ViewModel
 
         public RegisterAccessViewModel(NavigationStore navigationStore)
         {
-            NavigateLinkPorpCommand = new NavigateCommand<LinkPropertiesViewModel>(navigationStore, ()=> new LinkPropertiesViewModel(navigationStore));
+            NavigateLinkPorpCommand = new NavigateCommand<LinkPropertiesViewModel>(new NavigationService<LinkPropertiesViewModel>(navigationStore, () => new LinkPropertiesViewModel(navigationStore)));
         }
     }
 }

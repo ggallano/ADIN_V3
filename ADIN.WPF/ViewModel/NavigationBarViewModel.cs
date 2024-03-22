@@ -15,7 +15,7 @@ namespace ADIN.WPF.ViewModel
 
         public NavigationBarViewModel()
         {
-            NavigateLinkPropertiesCommand = new NavigateCommand<LinkPropertiesViewModel>()
+            //NavigateLinkPropertiesCommand = new NavigateCommand<LinkPropertiesViewModel>()
         }
     }
 }

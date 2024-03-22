@@ -1,4 +1,5 @@
-﻿using ADIN.WPF.Stores;
+﻿using ADIN.WPF.Service;
+using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -11,18 +12,16 @@ namespace ADIN.WPF.Commands
     public class NavigateCommand<TViewModel> : CommandBase
         where TViewModel : ViewModelBase
     {
-        private readonly NavigationStore _navigationStore;
-        private readonly Func<TViewModel> _createViewModel;
+        private readonly NavigationService<TViewModel> _navigationService;
 
-        public NavigateCommand(NavigationStore navigationStore, Func<TViewModel> createViewModel)
+        public NavigateCommand(NavigationService<TViewModel> navigationService)
         {
-            _navigationStore = navigationStore;
-            _createViewModel = createViewModel;
+            _navigationService = navigationService;
         }
 
         public override void Execute(object parameter)
         {
-            _navigationStore.CurrentViewModel = _createViewModel();
+            _navigationService.Navigate();
         }
     }
 }
