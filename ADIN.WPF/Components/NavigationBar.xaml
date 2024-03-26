@@ -9,7 +9,7 @@
     <UserControl.Resources>
         <Style TargetType="Button">
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Foreground" Value="Black" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Template">
@@ -40,6 +40,11 @@
         </Grid.ColumnDefinitions>
         <Button Grid.Column="0"
                 Margin="10 0 0 0"
-                Content="Link Properties"/>
+                Content="Link Properties"
+                Command="{Binding NavigateLinkPropertiesCommand}"/>
+        <Button Grid.Column="1"
+                Margin="10 0 0 0"
+                Content="Register Access"
+                Command="{Binding NavigateRegisterAccessCommand}"/>
     </Grid>
 </UserControl>

@@ -50,16 +50,25 @@
                 <!--<components:ExtraCommandsView DataContext="{Binding ExtraCommandsViewModel}" Height="230"/>-->
             </StackPanel>
             <Grid Grid.Column="1" Grid.Row="1">
-                <ContentControl Content="{Binding CurrentViewModel}">
-                    <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type viewmodel:LinkPropertiesViewModel}">
-                            <view:LinkPropertiesView/>
-                        </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewmodel:RegisterAccessViewModel}">
-                            <view:RegisterAccessView/>
-                        </DataTemplate>
-                    </ContentControl.Resources>
-                </ContentControl>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <components:NavigationBar DataContext="{Binding NavigationBarViewModel}"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <ContentControl Content="{Binding CurrentViewModel}">
+                        <ContentControl.Resources>
+                            <DataTemplate DataType="{x:Type viewmodel:LinkPropertiesViewModel}">
+                                <view:LinkPropertiesView/>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type viewmodel:RegisterAccessViewModel}">
+                                <view:RegisterAccessView/>
+                            </DataTemplate>
+                        </ContentControl.Resources>
+                    </ContentControl>
+                </Grid>
             </Grid>
             <!--<Grid Grid.Column="1" Grid.Row="1">
                 <TabControl>

@@ -15,9 +15,12 @@ namespace ADIN.WPF.ViewModel
     {
         public ICommand NavigateRegisterAccessCommand { get; }
 
-        public LinkPropertiesViewModel(NavigationStore navigationStore)
+        public NavigationBarViewModel NavigationBarViewModel { get; }
+
+        public LinkPropertiesViewModel(NavigationStore navigationStore, NavigationBarViewModel navigationBarViewModel)
         {
-            NavigateRegisterAccessCommand = new NavigateCommand<RegisterAccessViewModel>(new NavigationService<RegisterAccessViewModel>(navigationStore, () => new RegisterAccessViewModel(navigationStore)));
+            NavigateRegisterAccessCommand = new NavigateCommand<RegisterAccessViewModel>(new NavigationService<RegisterAccessViewModel>(navigationStore, () => new RegisterAccessViewModel(navigationStore, navigationBarViewModel)));
+            NavigationBarViewModel = navigationBarViewModel;
         }
     }
 }

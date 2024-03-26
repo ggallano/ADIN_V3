@@ -9,9 +9,12 @@ namespace ADIN.WPF.ViewModel
     {
         public ICommand NavigateLinkPorpCommand { get; set; }
 
-        public RegisterAccessViewModel(NavigationStore navigationStore)
+        public NavigationBarViewModel NavigationBarViewModel { get; }
+
+        public RegisterAccessViewModel(NavigationStore navigationStore, NavigationBarViewModel navigationBarViewModel)
         {
-            NavigateLinkPorpCommand = new NavigateCommand<LinkPropertiesViewModel>(new NavigationService<LinkPropertiesViewModel>(navigationStore, () => new LinkPropertiesViewModel(navigationStore)));
+            NavigateLinkPorpCommand = new NavigateCommand<LinkPropertiesViewModel>(new NavigationService<LinkPropertiesViewModel>(navigationStore, () => new LinkPropertiesViewModel(navigationStore, navigationBarViewModel)));
+            NavigationBarViewModel = navigationBarViewModel;
         }
     }
 }

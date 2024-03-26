@@ -1,4 +1,5 @@
 ﻿using ADIN.WPF.Commands;
+using ADIN.WPF.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,11 @@ namespace ADIN.WPF.ViewModel
         public ICommand NavigateLinkPropertiesCommand { get; }
         public ICommand NavigateRegisterAccessCommand { get; }
 
-        public NavigationBarViewModel()
+        public NavigationBarViewModel(NavigationService<LinkPropertiesViewModel> linkNavigationService, 
+            NavigationService<RegisterAccessViewModel> registerAccessService)
         {
-            //NavigateLinkPropertiesCommand = new NavigateCommand<LinkPropertiesViewModel>()
+            NavigateLinkPropertiesCommand = new NavigateCommand<LinkPropertiesViewModel>(linkNavigationService);
+            NavigateRegisterAccessCommand = new NavigateCommand<RegisterAccessViewModel>(registerAccessService);
         }
     }
 }
