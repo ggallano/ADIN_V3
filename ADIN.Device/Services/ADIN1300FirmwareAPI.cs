@@ -1,59 +1,19 @@
-﻿using System;
+﻿using ADI.Register.Models;
+using ADIN.Device.Models;
+using ADIN.WPF.Models;
+using Helper.Feedback;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ADI.Register.Models;
-using ADIN.Device.Models;
-using ADIN.WPF.Models;
-using Helper.Feedback;
-using FTDIChip.Driver.Services;
 
 namespace ADIN.Device.Services
 {
-    public class ADIN2111FirmwareAPI : IFirmwareAPI, ICableDiagnostic
+    public class ADIN1300FirmwareAPI : IFirmwareAPI
     {
-        private BoardRevision _boardRev;
-        private BoardType _boardType;
-        private IFTDIServices _ftdiService;
-        private uint _phyAddress;
-        private ObservableCollection<RegisterModel> _registers;
-
-        public ADIN2111FirmwareAPI(IFTDIServices ftdiService)
-        {
-            _ftdiService = ftdiService;
-        }
-
-        /// <summary>
-        /// creates new instance
-        /// </summary>
-        /// <param name="ftdiService"></param>
-        /// <param name="phyAddress"></param>
-        /// <param name="registers"></param>
-        /// <param name="boardRev"></param>
-        /// <param name="boardType"></param>
-        public ADIN2111FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, ObservableCollection<RegisterModel> registers, BoardRevision boardRev, BoardType boardType)
-        {
-            _ftdiService = ftdiService;
-            _registers = registers;
-            _phyAddress = phyAddress;
-            _boardRev = boardRev;
-            _boardType = boardType;
-        }
-
-        public bool isFrameGenCheckerOngoing
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public bool isFrameGenCheckerOngoing { get; set; }
 
         public event EventHandler<FeedbackModel> ErrorOccured;
         public event EventHandler<FrameType> FrameContentChanged;
@@ -74,16 +34,6 @@ namespace ADIN.Device.Services
         }
 
         public string GetAnStatus()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<string> GetCoeff()
-        {
-            throw new NotImplementedException();
-        }
-
-        public decimal GetFaultDistance()
         {
             throw new NotImplementedException();
         }
@@ -133,22 +83,7 @@ namespace ADIN.Device.Services
             throw new NotImplementedException();
         }
 
-        public string GetMseValue()
-        {
-            throw new NotImplementedException();
-        }
-
         public AutoNegMasterSlaveAdvertisementItem GetNegotiationMasterSlaveInitialization(bool eventTrigger = false)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetNvp()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetOffset()
         {
             throw new NotImplementedException();
         }
@@ -170,29 +105,7 @@ namespace ADIN.Device.Services
 
         public BoardRevision GetRevNum()
         {
-            int i;
-            for (i = 0; i < 8; i++)
-            {
-                var value = MdioReadCl45(Convert.ToUInt32(0x1E0003));
-                var revNum = Convert.ToUInt32(value, 16) & 0x03;
-
-                switch (revNum)
-                {
-                    case 1:
-                        _boardRev = BoardRevision.Rev1;
-                        break;
-
-                    case 0:
-                        _boardRev = BoardRevision.Rev0;
-                        break;
-
-                    default:
-                        _boardRev = BoardRevision.Rev1;
-                        break;
-                }
-                break;
-            }
-            return _boardRev;
+            throw new NotImplementedException();
         }
 
         public ObservableCollection<RegisterModel> GetStatusRegisters()
@@ -275,11 +188,6 @@ namespace ADIN.Device.Services
             throw new NotImplementedException();
         }
 
-        public List<string> SetCoeff(decimal nvp, decimal coeff0, decimal coeffi)
-        {
-            throw new NotImplementedException();
-        }
-
         public void SetFrameCheckerSetting(FrameGenCheckerModel frameContent)
         {
             throw new NotImplementedException();
@@ -296,16 +204,6 @@ namespace ADIN.Device.Services
         }
 
         public void SetNegotiateMasterSlaveSetting(AutoNegMasterSlaveAdvertisementItem negotiateMasterSlave)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<string> SetNvp(decimal nvpValue)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string SetOffset(decimal offset)
         {
             throw new NotImplementedException();
         }
@@ -336,11 +234,6 @@ namespace ADIN.Device.Services
         }
 
         public void SoftwareReset()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void TDRInit()
         {
             throw new NotImplementedException();
         }

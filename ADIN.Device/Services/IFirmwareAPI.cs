@@ -52,18 +52,6 @@ namespace ADIN.Device.Services
         string GetAnStatus();
 
         /// <summary>
-        /// gets the coeffiecent values
-        /// </summary>
-        /// <returns></returns>
-        List<string> GetCoeff();
-
-        /// <summary>
-        /// gets the fault distance
-        /// </summary>
-        /// <returns>returns the fault distance</returns>
-        decimal GetFaultDistance();
-
-        /// <summary>
         /// gets the frame checker status
         /// </summary>
         void GetFrameCheckerStatus();
@@ -120,28 +108,10 @@ namespace ADIN.Device.Services
         BoardType GetModelNum(out uint phyAddress);
 
         /// <summary>
-        /// gets the MSE Value
-        /// </summary>
-        /// <returns></returns>
-        string GetMseValue();
-
-        /// <summary>
         /// Gets Master Slave Settings
         /// </summary>
         /// <returns></returns>
         AutoNegMasterSlaveAdvertisementItem GetNegotiationMasterSlaveInitialization(bool eventTrigger = false);
-
-        /// <summary>
-        /// gets the nvp value
-        /// </summary>
-        /// <returns></returns>
-        string GetNvp();
-
-        /// <summary>
-        /// gets the offset value
-        /// </summary>
-        /// <returns></returns>
-        string GetOffset();
 
         /// <summary>
         /// gets the Peak Voltage settings
@@ -261,15 +231,6 @@ namespace ADIN.Device.Services
         void RestartAutoNegotiation();
 
         /// <summary>
-        /// sets the coeffiecent calues
-        /// </summary>
-        /// <param name="nvp">nvp value</param>
-        /// <param name="coeff0">coeff0 value</param>
-        /// <param name="coeffi">coeffi value</param>
-        /// <returns>retruns the list of written values</returns>
-        List<string> SetCoeff(decimal nvp, decimal coeff0, decimal coeffi);
-
-        /// <summary>
         /// sets the Frame Gen Checker
         /// </summary>
         void SetFrameCheckerSetting(FrameGenCheckerModel frameContent);
@@ -290,20 +251,6 @@ namespace ADIN.Device.Services
         /// </summary>
         /// <param name="negotiateMasterSlave">AutoNegMasterSlaveAdvertisementItem</param>
         void SetNegotiateMasterSlaveSetting(AutoNegMasterSlaveAdvertisementItem negotiateMasterSlave);
-
-        /// <summary>
-        /// tdr set nvp
-        /// </summary>
-        /// <param name="nvpValue">nvp value</param>
-        /// <returns></returns>
-        List<string> SetNvp(decimal nvpValue);
-
-        /// <summary>
-        /// tdr set offset
-        /// </summary>
-        /// <param name="offset">offset value</param>
-        /// <returns>returns the offset value</returns>
-        string SetOffset(decimal offset);
 
         /// <summary>
         /// sets the AutoNegTxLevelAdvertisement
@@ -340,11 +287,5 @@ namespace ADIN.Device.Services
         /// Format: reset\n
         /// </summary>
         void SoftwareReset();
-
-        /// <summary>
-        /// tdr initialization
-        /// </summary>
-        /// <returns></returns>
-        void TDRInit();
     }
 }

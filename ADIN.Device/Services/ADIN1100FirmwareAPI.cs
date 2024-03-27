@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace ADIN.Device.Services
 {
-    public class ADIN1100FirmwareAPI : IFirmwareAPI
+    public class ADIN1100FirmwareAPI : IFirmwareAPI, ICableDiagnostic
     {
         private const string EXTRACTNUMBER_REGEX = @"(?<=\=)(\d+\.?\d*)";
         private AutoNegMasterSlaveAdvertisementItem _autoNegMasterSlave;
