@@ -16,6 +16,6 @@ namespace ADIN.Device.Models
 
         public IFirmwareAPI FwAPI => Device.FirmwareAPI;
 
-        public ILinkProperties LinkProperties => Device?.LinkProperties;
+        public ILinkProperties LinkProperties => Device.LinkProperties;
     }
 }

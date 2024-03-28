@@ -3,42 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ADIN.Device.Models.ADIN1300
 {
     public class LinkPropertiesADIN1300 : ILinkProperties
     {
-        //Advertised
-        public List<string> SpeedMode { get; set; }
-        public List<string> ANAdvertisedSpeeds { get; set; }
-        public List<string> EEEAdvertiseSpeeds { get; set; }
-        public List<string> MDIXs { get; set; }
-        public List<string> EnergyDetectPowerDownModes { get; set; }
-        public List<string> MasterSlave { get; set; }
-
         public LinkPropertiesADIN1300()
         {
-            SpeedMode = new List<string>()
+            SpeedModes = new List<string>()
             {
                 "Advertised",
                 "Forced"
             };
+            SpeedMode = SpeedModes[0];
 
-            ANAdvertisedSpeeds = new List<string>()
-            {
-                "Advertise 1000BASE-T FD",
-                "Advertise 1000BASE-T HD",
-                "Advertise 1000BASE-TX FD",
-                "Advertise 1000BASE-TX HD",
-                "Advertise 10BASE-T FD",
-                "Advertise 10BASE-T HD",
-            };
-
-            EEEAdvertiseSpeeds = new List<string>()
-            {
-                "Advertise EEE 1000BASE-T",
-                "Advertise EEE 100BASE-TX",
-            };
 
             MDIXs = new List<string>()
             {
@@ -46,6 +25,7 @@ namespace ADIN.Device.Models.ADIN1300
                 "Fixed MDI",
                 "Fixed MDIX"
             };
+            MDIX = MDIXs[0];
 
             EnergyDetectPowerDownModes = new List<string>()
             {
@@ -53,12 +33,41 @@ namespace ADIN.Device.Models.ADIN1300
                 "Enabled",
                 "Enabled With Periodic Pulse TX"
             };
+            EnergyDetectPowerDownMode = EnergyDetectPowerDownModes[0];
 
-            MasterSlave = new List<string>()
+            MasterSlaves = new List<string>()
             {
                 "Master",
                 "Slave"
             };
+            MasterSlave = MasterSlaves[0];
         }
+
+        public bool IsAdvertise_1000BASE_T_FD { get; set; }
+        public bool IsAdvertise_1000BASE_T_HD { get; set; }
+        public bool IsAdvertise_100BASE_TX_FD { get; set; }
+        public bool IsAdvertise_100BASE_TX_HD { get; set; }
+        public bool IsAdvertise_10BASE_T_FD { get; set; }
+        public bool IsAdvertise_10BASE_T_HD { get; set; }
+
+        public bool IsAdvertise_EEE_1000BASE_T { get; set; }
+        public bool IsAdvertise_EEE_100BASE_TX { get; set; }
+
+
+        public string EnergyDetectPowerDownMode { get; set; }
+
+        public List<string> EnergyDetectPowerDownModes { get; set; }
+
+        public string MasterSlave { get; set; }
+
+        public List<string> MasterSlaves { get; set; }
+
+        public string MDIX { get; set; }
+
+        public List<string> MDIXs { get; set; }
+
+        public string SpeedMode { get; set; }
+
+        public List<string> SpeedModes { get; set; }
     }
 }

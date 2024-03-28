@@ -20,6 +20,6 @@ namespace ADIN.WPF.Stores
             }
         }
 
-        public Action SelectedDeviceChanged;
+        public event Action SelectedDeviceChanged;
     }
 }

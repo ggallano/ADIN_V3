@@ -46,11 +46,11 @@
             <StackPanel Grid.Column="0" Grid.Row="1" Margin="0 5 5 0">
                 <Button Style="{DynamicResource AdiLogoStyle}"/>
                 <TextBlock Text="Local Devices" FontWeight="Bold" FontSize="18" Margin="0 20 0 5"/>
-                <components:DeviceListing DataContext="{Binding DeviceListingViewModel}" Height="150"/>
+                <components:DeviceListing DataContext="{Binding DeviceListingVM}" Height="150"/>
                 <!--<components:ExtraCommandsView DataContext="{Binding ExtraCommandsViewModel}" Height="230"/>-->
             </StackPanel>
             <Grid Grid.Column="1" Grid.Row="1">
-                <ContentControl Content="{Binding CurrentViewModel}">
+                <!--<ContentControl Content="{Binding CurrentViewModel}">
                     <ContentControl.Resources>
                         <DataTemplate DataType="{x:Type viewmodel:LinkPropertiesViewModel}">
                             <view:LinkPropertiesView/>
@@ -59,7 +59,20 @@
                             <view:RegisterAccessView/>
                         </DataTemplate>
                     </ContentControl.Resources>
-                </ContentControl>
+                </ContentControl>-->
+                <TabControl>
+                    <TabItem Header="Link Properties" IsSelected="True">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" MinWidth="400"/>
+                                <ColumnDefinition Width="3"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <local:LinkPropertiesView Grid.Column="0" DataContext="{Binding LinkPropertiesVM}"/>
+                            <!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />-->
+                        </Grid>
+                    </TabItem>
+                </TabControl>
             </Grid>
             <!--<Grid Grid.Column="1" Grid.Row="1">
                 <TabControl>

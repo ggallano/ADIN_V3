@@ -12,7 +12,6 @@ namespace ADIN.Device.Models
     public class ADIN1300Model : AbstractADINFactory
     {
         private IFTDIServices _ftdiService;
-        private ILinkProperties linkProperties;
 
         public ADIN1300Model(IFTDIServices ftdiService)
         {
@@ -23,11 +22,5 @@ namespace ADIN.Device.Models
         }
 
         public override IFirmwareAPI FirmwareAPI { get; set; }
-
-        public ILinkProperties LinkProperties
-        {
-            get { return linkProperties; }
-            set { linkProperties = value; }
-        }
     }
 }

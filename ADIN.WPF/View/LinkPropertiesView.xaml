@@ -10,17 +10,75 @@
     <Grid>
         <!--<Label Content="Link Properties View"/>
         <Button Content="Reg Acc" Command="{Binding NavigateRegisterAccessCommand}"/>-->
-        <telerik:RadPropertyGrid AutoGeneratePropertyDefinitions="False" IsGrouped="True">
+        <telerik:RadPropertyGrid Item="{Binding}" AutoGeneratePropertyDefinitions="False" IsGrouped="True">
             <telerik:RadPropertyGrid.PropertyDefinitions>
-                <telerik:PropertyDefinition Description="Speed Mode" DisplayName="Speed Mode" GroupName="Speed Modes">
+                <telerik:PropertyDefinition Description="Speed Mode" DisplayName="Speed Mode" GroupName="Speed Mode" >
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
-                            <!--<telerik:RadNumericUpDown Value="{Binding Width, Mode=TwoWay}" />-->
-                            <telerik:RadComboBox ItemsSource="{Binding SpeedModes}"/>
+                            <telerik:RadComboBox ItemsSource="{Binding SpeedModes}"
+                                                 SelectedItem="{Binding SelectedSpeedMode}"/>
+                        </DataTemplate>
+                    </telerik:PropertyDefinition.EditorTemplate>
+                </telerik:PropertyDefinition>
+                <telerik:PropertyDefinition Description="Advertise 1000BASE-T FD" DisplayName="Advertise 1000BASE-T FD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
+                    <telerik:PropertyDefinition.EditorTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsAdvertise_1000BASE_T_FD}"/>
+                        </DataTemplate>
+                    </telerik:PropertyDefinition.EditorTemplate>
+                </telerik:PropertyDefinition>
+                <telerik:PropertyDefinition Description="Advertise 1000BASE-T HD" DisplayName="Advertise 1000BASE-T HD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
+                    <telerik:PropertyDefinition.EditorTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsAdvertise_1000BASE_T_HD}"/>
+                        </DataTemplate>
+                    </telerik:PropertyDefinition.EditorTemplate>
+                </telerik:PropertyDefinition>
+                <telerik:PropertyDefinition Description="Advertise 100BASE-TX FD" DisplayName="Advertise 100BASE-TX FD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
+                    <telerik:PropertyDefinition.EditorTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsAdvertise_100BASE_TX_FD}"/>
+                        </DataTemplate>
+                    </telerik:PropertyDefinition.EditorTemplate>
+                </telerik:PropertyDefinition>
+                <telerik:PropertyDefinition Description="Advertise 100BASE-TX HD" DisplayName="Advertise 100BASE-TX HD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
+                    <telerik:PropertyDefinition.EditorTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsAdvertise_100BASE_TX_HD}"/>
+                        </DataTemplate>
+                    </telerik:PropertyDefinition.EditorTemplate>
+                </telerik:PropertyDefinition>
+                <telerik:PropertyDefinition Description="Advertise 10BASE-T FD" DisplayName="Advertise 10BASE-T FD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
+                    <telerik:PropertyDefinition.EditorTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsAdvertise_10BASE_T_FD}"/>
+                        </DataTemplate>
+                    </telerik:PropertyDefinition.EditorTemplate>
+                </telerik:PropertyDefinition>
+                <telerik:PropertyDefinition Description="Advertise 10BASE-T HD" DisplayName="Advertise 10BASE-T HD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
+                    <telerik:PropertyDefinition.EditorTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsAdvertise_10BASE_T_HD}"/>
+                        </DataTemplate>
+                    </telerik:PropertyDefinition.EditorTemplate>
+                </telerik:PropertyDefinition>
+
+                <telerik:PropertyDefinition Description="Advertise EEE 1000BASE-T" DisplayName="Advertise EEE 1000BASE-T" GroupName="EEE Advertisement" OrderIndex="1">
+                    <telerik:PropertyDefinition.EditorTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsAdvertise_EEE_1000BASE_T}"/>
+                        </DataTemplate>
+                    </telerik:PropertyDefinition.EditorTemplate>
+                </telerik:PropertyDefinition>
+                <telerik:PropertyDefinition Description="Advertise EEE 100BASE-TX" DisplayName="Advertise EEE 100BASE-TX" GroupName="EEE Advertisement" OrderIndex="1">
+                    <telerik:PropertyDefinition.EditorTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsAdvertise_EEE_100BASE_TX}"/>
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
             </telerik:RadPropertyGrid.PropertyDefinitions>
         </telerik:RadPropertyGrid>
+        <!--<telerik:RadComboBox ItemsSource="{Binding SpeedModes}" SelectedItem="{Binding SelectedSpeedMode}"/>-->
     </Grid>
 </UserControl>
