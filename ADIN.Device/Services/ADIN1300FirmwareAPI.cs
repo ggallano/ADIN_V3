@@ -1,6 +1,7 @@
 ﻿using ADI.Register.Models;
 using ADIN.Device.Models;
 using ADIN.WPF.Models;
+using FTDIChip.Driver.Services;
 using Helper.Feedback;
 using System;
 using System.Collections.Generic;
@@ -13,21 +14,38 @@ namespace ADIN.Device.Services
 {
     public class ADIN1300FirmwareAPI : IFirmwareAPI
     {
-        public bool isFrameGenCheckerOngoing { get; set; }
+        private IFTDIServices _ftdiService;
+
+        public ADIN1300FirmwareAPI(IFTDIServices ftdiService)
+        {
+            _ftdiService = ftdiService;
+        }
 
         public event EventHandler<FeedbackModel> ErrorOccured;
+
         public event EventHandler<FrameType> FrameContentChanged;
+
         public event EventHandler<string> FrameGenCheckerTextStatusChanged;
+
         public event EventHandler<string> LinkLengthChanged;
+
         public event EventHandler<LoopBackMode> LoopbackChanged;
+
         public event EventHandler<string> MseValueChanged;
+
         public event EventHandler<AutoNegMasterSlaveAdvertisementItem> NegotiationMasterSlaveChanged;
+
         public event EventHandler<PeakVoltageAdvertisementItem> PeakVoltageChanged;
+
         public event EventHandler<FeedbackModel> ReadProcessCompleted;
+
         public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
+
         public event EventHandler<TestModeType> TestModeChanged;
+
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
 
+        public bool isFrameGenCheckerOngoing { get; set; }
         public void ExecuteSript(ScriptModel script)
         {
             throw new NotImplementedException();

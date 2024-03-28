@@ -55,6 +55,8 @@
     <Compile Include="Models\ActiveLinkModel.cs" />
     <Compile Include="Models\ADIN1100Model.cs" />
     <Compile Include="Models\ADIN1300Model.cs" />
+    <Compile Include="Models\ILinkProperties.cs" />
+    <Compile Include="Models\ADIN1300\LinkPropertiesADIN1300.cs" />
     <Compile Include="Models\ADIN2111Model.cs" />
     <Compile Include="Models\ADINDevice.cs" />
     <Compile Include="Models\AutoNegAdvertisementBase.cs" />

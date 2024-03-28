@@ -12,8 +12,13 @@ namespace ADIN.Device.Services
             "EVAL-ADIN1100EBZ",
             "EVAL-ADIN1100FMCZ",
             "DEMO-ADIN1100-DIZ",
-            "EVAL-ADIN2111EBZ",
+
             "EVAL-ADIN1110EBZ",
+            
+            "EVAL-ADIN2111EBZ",
+
+            "EVAL-ADIN1300",
+            "EVAL-ADIN1200",
         };
 
         public static bool ConfirmADINBoard(string boardName)
@@ -36,10 +41,10 @@ namespace ADIN.Device.Services
                 return new ADINDevice(new ADIN2111Model(ftdtService));
             }
 
-            //if (BoardName == "EVAL-ADIN1110EBZ")
-            //{
-
-            //}
+            if (BoardName == "EVAL-ADIN1300")
+            {
+                return new ADINDevice(new ADIN1300Model(ftdtService));
+            }
 
             return null;
         }

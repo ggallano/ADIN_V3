@@ -34,7 +34,7 @@ namespace ADIN.WPF
 
             _selectedDeviceStore = new SelectedDeviceStore();
             _navigationStore = new NavigationStore();
-            _navigationStore.CurrentViewModel = new LinkPropertiesViewModel(_navigationStore);
+            _navigationStore.CurrentViewModel = new LinkPropertiesViewModel(_navigationStore, _selectedDeviceStore);
             _ftdiService = new FTDIServices();
             _scriptService = new ScriptService();
         }

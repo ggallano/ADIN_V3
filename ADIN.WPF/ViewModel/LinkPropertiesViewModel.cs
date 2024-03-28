@@ -13,11 +13,17 @@ namespace ADIN.WPF.ViewModel
 {
     public class LinkPropertiesViewModel : ViewModelBase
     {
-        public ICommand NavigateRegisterAccessCommand { get; }
+        private ILinkProperties _linkProperties => _selectedDeviceStore.SelectedDevice.LinkProperties;
+        private NavigationStore _navigationStore;
+        private SelectedDeviceStore _selectedDeviceStore;
 
-        public LinkPropertiesViewModel(NavigationStore navigationStore)
+        public List<string> SpeedModes => _linkProperties.SpeedMode;
+
+
+        public LinkPropertiesViewModel(NavigationStore navigationStore, SelectedDeviceStore selectedDeviceStore)
         {
-            NavigateRegisterAccessCommand = new NavigateCommand<RegisterAccessViewModel>(new NavigationService<RegisterAccessViewModel>(navigationStore, () => new RegisterAccessViewModel(navigationStore)));
+            _navigationStore = navigationStore;
+            _selectedDeviceStore = selectedDeviceStore;
         }
     }
 }

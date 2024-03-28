@@ -7,11 +7,11 @@ namespace ADIN.WPF.ViewModel
 {
     public class RegisterAccessViewModel : ViewModelBase
     {
-        public ICommand NavigateLinkPorpCommand { get; set; }
+        //public ICommand NavigateLinkPorpCommand { get; set; }
 
         public RegisterAccessViewModel(NavigationStore navigationStore)
         {
-            NavigateLinkPorpCommand = new NavigateCommand<LinkPropertiesViewModel>(new NavigationService<LinkPropertiesViewModel>(navigationStore, () => new LinkPropertiesViewModel(navigationStore)));
+            //NavigateLinkPorpCommand = new NavigateCommand<LinkPropertiesViewModel>(new NavigationService<LinkPropertiesViewModel>(navigationStore, () => new LinkPropertiesViewModel(navigationStore)));
         }
     }
 }

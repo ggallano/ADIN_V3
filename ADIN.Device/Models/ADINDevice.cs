@@ -15,5 +15,7 @@ namespace ADIN.Device.Models
         public string BoardName => Device.BoardName;
 
         public IFirmwareAPI FwAPI => Device.FirmwareAPI;
+
+        public ILinkProperties LinkProperties => Device?.LinkProperties;
     }
 }

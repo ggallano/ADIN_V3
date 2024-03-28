@@ -1,18 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using ADIN.Device.Models.ADIN1300;
+using System.Collections.Generic;
 
 namespace ADIN.Device.Models
 {
-    public class LinkPropertyModel
+    public class LinkPropertyModel : ILinkProperties
     {
-        public LinkPropertyModel()
-        {
-            AutoNegMasterSlaveAdvertisements = new List<AutoNegMasterSlaveAdvertisementModel>();
-            AutoNegTxLevelAdvertisements = new List<AutoNegTxLevelAdvertisementModel>();
-        }
-
-        public AutoNegMasterSlaveAdvertisementModel AutoNegMasterSlaveAdvertisement { get; set; }
-        public List<AutoNegMasterSlaveAdvertisementModel> AutoNegMasterSlaveAdvertisements { get; set; }
-        public AutoNegTxLevelAdvertisementModel AutoNegTxLevelAdvertisement { get; set; }
-        public List<AutoNegTxLevelAdvertisementModel> AutoNegTxLevelAdvertisements { get; set; }
+        public List<string> ANAdvertisedSpeeds { get; set; }
+        public List<string> EEEAdvertiseSpeeds { get; set; }
+        public List<string> EnergyDetectPowerDownModes { get; set; }
+        public List<string> MasterSlave { get; set; }
+        public List<string> MDIXs { get; set; }
+        public List<string> SpeedMode { get; set; }
     }
 }

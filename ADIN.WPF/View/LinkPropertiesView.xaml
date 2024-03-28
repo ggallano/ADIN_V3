@@ -10,8 +10,17 @@
     <Grid>
         <!--<Label Content="Link Properties View"/>
         <Button Content="Reg Acc" Command="{Binding NavigateRegisterAccessCommand}"/>-->
-        <telerik:RadPropertyGrid>
-            
+        <telerik:RadPropertyGrid AutoGeneratePropertyDefinitions="False" IsGrouped="True">
+            <telerik:RadPropertyGrid.PropertyDefinitions>
+                <telerik:PropertyDefinition Description="Speed Mode" DisplayName="Speed Mode" GroupName="Speed Modes">
+                    <telerik:PropertyDefinition.EditorTemplate>
+                        <DataTemplate>
+                            <!--<telerik:RadNumericUpDown Value="{Binding Width, Mode=TwoWay}" />-->
+                            <telerik:RadComboBox ItemsSource="{Binding SpeedModes}"/>
+                        </DataTemplate>
+                    </telerik:PropertyDefinition.EditorTemplate>
+                </telerik:PropertyDefinition>
+            </telerik:RadPropertyGrid.PropertyDefinitions>
         </telerik:RadPropertyGrid>
     </Grid>
 </UserControl>
