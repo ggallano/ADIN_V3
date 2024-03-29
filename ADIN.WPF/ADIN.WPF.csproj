@@ -136,6 +136,7 @@
       <DependentUpon>NavigationBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\ActiveLinkTextConverter.cs" />
+    <Compile Include="Converters\BooleanVisibilityConverter.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\LinkStateForegroundConverter.cs" />
     <Compile Include="Converters\MSEForegroundConverter.cs" />

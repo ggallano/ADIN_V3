@@ -5,8 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ADIN.WPF.View"
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:converters="clr-namespace:ADIN.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:BooleanVisibilityConverter x:Key="booleanVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid>
         <!--<Label Content="Link Properties View"/>
         <Button Content="Reg Acc" Command="{Binding NavigateRegisterAccessCommand}"/>-->
@@ -20,14 +24,14 @@
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Description="Advertise 1000BASE-T FD" DisplayName="Advertise 1000BASE-T FD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
+                <telerik:PropertyDefinition Visibility="{Binding IsANAdvertisedSpeedVisible, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise 1000BASE-T FD" DisplayName="Advertise 1000BASE-T FD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsAdvertise_1000BASE_T_FD}"/>
+                            <CheckBox IsChecked="{Binding IsAdvertise_1000BASE_T_FD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Description="Advertise 1000BASE-T HD" DisplayName="Advertise 1000BASE-T HD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
+                <!--<telerik:PropertyDefinition Description="Advertise 1000BASE-T HD" DisplayName="Advertise 1000BASE-T HD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsAdvertise_1000BASE_T_HD}"/>
@@ -61,7 +65,7 @@
                             <CheckBox IsChecked="{Binding IsAdvertise_10BASE_T_HD}"/>
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
+                </telerik:PropertyDefinition>-->
 
                 <telerik:PropertyDefinition Description="Advertise EEE 1000BASE-T" DisplayName="Advertise EEE 1000BASE-T" GroupName="EEE Advertisement" OrderIndex="1">
                     <telerik:PropertyDefinition.EditorTemplate>

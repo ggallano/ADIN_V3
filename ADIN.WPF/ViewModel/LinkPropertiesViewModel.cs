@@ -14,6 +14,7 @@ namespace ADIN.WPF.ViewModel
 {
     public class LinkPropertiesViewModel : ViewModelBase
     {
+        private bool _isANAdvertisedSpeedVisible;
         private NavigationStore _navigationStore;
         private SelectedDeviceStore _selectedDeviceStore;
 
@@ -25,27 +26,13 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
         }
 
-        public string SelectedSpeedMode
-        {
-            get { return _linkProperties?.SpeedMode; }
-            set
-            {
-                _linkProperties.SpeedMode = value;
-                OnPropertyChanged(nameof(SelectedSpeedMode));
-            }
-        }
-
-        public List<string> SpeedModes => _linkProperties?.SpeedModes;
-
-        //public bool IsAdvertise_1000BASE_T_FD => _linkProperties.IsAdvertise_1000BASE_T_FD;
-
-
         public bool IsAdvertise_1000BASE_T_FD
         {
             get { return _linkProperties?.IsAdvertise_1000BASE_T_FD == false; }
-            set 
-            { 
-                _linkProperties.IsAdvertise_1000BASE_T_FD = value; 
+            set
+            {
+                _linkProperties.IsAdvertise_1000BASE_T_FD = value;
+                OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
             }
         }
 
@@ -112,6 +99,34 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsANAdvertisedSpeedVisible
+        {
+            get { return _isANAdvertisedSpeedVisible; }
+            set
+            {
+                _isANAdvertisedSpeedVisible = value;
+                OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
+            }
+        }
+
+        public bool IsEEEAdvertisementVisible { get; set; } = true;
+
+        public string SelectedSpeedMode
+        {
+            get { return _linkProperties?.SpeedMode; }
+            set
+            {
+                _linkProperties.SpeedMode = value;
+                OnPropertyChanged(nameof(SelectedSpeedMode));
+
+                IsANAdvertisedSpeedVisible = true;
+                if (_linkProperties.SpeedMode == "Forced")
+                {
+                    IsANAdvertisedSpeedVisible = false;
+                }
+            }
+        }
+        public List<string> SpeedModes => _linkProperties?.SpeedModes;
         private ILinkProperties _linkProperties => _selectedDeviceStore.SelectedDevice?.LinkProperties;
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
