@@ -53,6 +53,12 @@ namespace ADIN.WPF.ViewModel
 
             //CheckConnectedDevice();
 
+            ADINDevice adin = new ADINDevice(new ADIN1300Model(_ftdiService));
+            adin.Device.SerialNumber = "SerialNumber";
+            adin.Device.BoardName = "Description";
+
+            _deviceListingViewModels.Add(new DeviceListingItemViewModel(adin));
+
             _insertQuery = new WqlEventQuery(INSERT_QUERY);
             _insertWatcher = new ManagementEventWatcher(_insertQuery);
             _insertWatcher.EventArrived += _insertWatcher_EventArrived;

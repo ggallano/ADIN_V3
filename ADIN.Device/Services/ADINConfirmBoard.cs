@@ -9,13 +9,13 @@ namespace ADIN.Device.Services
     {
         private static List<string> AcceptedBoardNames = new List<string>()
         {
-            "EVAL-ADIN1100EBZ",
-            "EVAL-ADIN1100FMCZ",
-            "DEMO-ADIN1100-DIZ",
+            //"EVAL-ADIN1100EBZ",
+            //"EVAL-ADIN1100FMCZ",
+            //"DEMO-ADIN1100-DIZ",
 
-            "EVAL-ADIN1110EBZ",
+            //"EVAL-ADIN1110EBZ",
             
-            "EVAL-ADIN2111EBZ",
+            //"EVAL-ADIN2111EBZ",
 
             "EVAL-ADIN1300",
             "EVAL-ADIN1200",

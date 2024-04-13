@@ -31,50 +31,50 @@
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
-                <!--<telerik:PropertyDefinition Description="Advertise 1000BASE-T HD" DisplayName="Advertise 1000BASE-T HD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
+                <telerik:PropertyDefinition Visibility="{Binding IsANAdvertisedSpeedVisible, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise 1000BASE-T HD" DisplayName="Advertise 1000BASE-T HD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsAdvertise_1000BASE_T_HD}"/>
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Description="Advertise 100BASE-TX FD" DisplayName="Advertise 100BASE-TX FD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
+                <telerik:PropertyDefinition Visibility="{Binding IsANAdvertisedSpeedVisible, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise 100BASE-TX FD" DisplayName="Advertise 100BASE-TX FD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsAdvertise_100BASE_TX_FD}"/>
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Description="Advertise 100BASE-TX HD" DisplayName="Advertise 100BASE-TX HD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
+                <telerik:PropertyDefinition Visibility="{Binding IsANAdvertisedSpeedVisible, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise 100BASE-TX HD" DisplayName="Advertise 100BASE-TX HD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsAdvertise_100BASE_TX_HD}"/>
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Description="Advertise 10BASE-T FD" DisplayName="Advertise 10BASE-T FD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
+                <telerik:PropertyDefinition Visibility="{Binding IsANAdvertisedSpeedVisible, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise 10BASE-T FD" DisplayName="Advertise 10BASE-T FD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsAdvertise_10BASE_T_FD}"/>
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Description="Advertise 10BASE-T HD" DisplayName="Advertise 10BASE-T HD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
+                <telerik:PropertyDefinition Visibility="{Binding IsANAdvertisedSpeedVisible, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise 10BASE-T HD" DisplayName="Advertise 10BASE-T HD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsAdvertise_10BASE_T_HD}"/>
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>-->
+                </telerik:PropertyDefinition>
 
-                <telerik:PropertyDefinition Description="Advertise EEE 1000BASE-T" DisplayName="Advertise EEE 1000BASE-T" GroupName="EEE Advertisement" OrderIndex="1">
+                <telerik:PropertyDefinition Visibility="{Binding IsANAdvertisedSpeedVisible, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise EEE 1000BASE-T" DisplayName="Advertise EEE 1000BASE-T" GroupName="EEE Advertisement" OrderIndex="1">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsAdvertise_EEE_1000BASE_T}"/>
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Description="Advertise EEE 100BASE-TX" DisplayName="Advertise EEE 100BASE-TX" GroupName="EEE Advertisement" OrderIndex="1">
+                <telerik:PropertyDefinition Visibility="{Binding IsANAdvertisedSpeedVisible, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise EEE 100BASE-TX" DisplayName="Advertise EEE 100BASE-TX" GroupName="EEE Advertisement" OrderIndex="1">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsAdvertise_EEE_100BASE_TX}"/>
