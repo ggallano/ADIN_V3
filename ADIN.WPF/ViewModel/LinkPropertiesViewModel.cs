@@ -14,7 +14,7 @@ namespace ADIN.WPF.ViewModel
 {
     public class LinkPropertiesViewModel : ViewModelBase
     {
-        private bool _isANAdvertisedSpeedVisible;
+        private bool _isANAdvertisedSpeedVisible = true;
         private NavigationStore _navigationStore;
         private SelectedDeviceStore _selectedDeviceStore;
 
@@ -28,7 +28,7 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsAdvertise_1000BASE_T_FD
         {
-            get { return _linkProperties?.IsAdvertise_1000BASE_T_FD == false; }
+            get { return _linkProperties?.IsAdvertise_1000BASE_T_FD == true; }
             set
             {
                 _linkProperties.IsAdvertise_1000BASE_T_FD = value;
@@ -38,64 +38,71 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsAdvertise_1000BASE_T_HD
         {
-            get { return _linkProperties?.IsAdvertise_1000BASE_T_HD == false; }
+            get { return _linkProperties?.IsAdvertise_1000BASE_T_HD == true; }
             set
             {
                 _linkProperties.IsAdvertise_1000BASE_T_HD = value;
+                OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
             }
         }
 
         public bool IsAdvertise_100BASE_TX_FD
         {
-            get { return _linkProperties?.IsAdvertise_100BASE_TX_FD == false; }
+            get { return _linkProperties?.IsAdvertise_100BASE_TX_FD == true; }
             set
             {
                 _linkProperties.IsAdvertise_100BASE_TX_FD = value;
+                OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
             }
         }
 
         public bool IsAdvertise_100BASE_TX_HD
         {
-            get { return _linkProperties?.IsAdvertise_100BASE_TX_HD == false; }
+            get { return _linkProperties?.IsAdvertise_100BASE_TX_HD == true; }
             set
             {
                 _linkProperties.IsAdvertise_100BASE_TX_HD = value;
+                OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
             }
         }
 
         public bool IsAdvertise_10BASE_T_FD
         {
-            get { return _linkProperties?.IsAdvertise_10BASE_T_FD == false; }
+            get { return _linkProperties?.IsAdvertise_10BASE_T_FD == true; }
             set
             {
                 _linkProperties.IsAdvertise_10BASE_T_FD = value;
+                OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
             }
         }
 
         public bool IsAdvertise_10BASE_T_HD
         {
-            get { return _linkProperties?.IsAdvertise_10BASE_T_HD == false; }
+            get { return _linkProperties?.IsAdvertise_10BASE_T_HD == true; }
             set
             {
                 _linkProperties.IsAdvertise_10BASE_T_HD = value;
+                OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
             }
         }
 
         public bool IsAdvertise_EEE_1000BASE_T
         {
-            get { return _linkProperties?.IsAdvertise_EEE_1000BASE_T == false; }
+            get { return _linkProperties?.IsAdvertise_EEE_1000BASE_T == true; }
             set
             {
                 _linkProperties.IsAdvertise_EEE_1000BASE_T = value;
+                OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
             }
         }
 
         public bool IsAdvertise_EEE_100BASE_TX
         {
-            get { return _linkProperties?.IsAdvertise_EEE_100BASE_TX == false; }
+            get { return _linkProperties?.IsAdvertise_EEE_100BASE_TX == true; }
             set
             {
                 _linkProperties.IsAdvertise_EEE_100BASE_TX = value;
+                OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
             }
         }
 
