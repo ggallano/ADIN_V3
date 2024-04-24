@@ -1,4 +1,5 @@
 ﻿using ADI.Register.Models;
+using ADI.Register.Services;
 using ADIN.Device.Models;
 using ADIN.WPF.Models;
 using FTDIChip.Driver.Services;
@@ -15,10 +16,13 @@ namespace ADIN.Device.Services
     public class ADIN1300FirmwareAPI : IFirmwareAPI
     {
         private IFTDIServices _ftdiService;
+        private IRegisterService _registerService;
+        private ObservableCollection<RegisterModel> _registers;
 
-        public ADIN1300FirmwareAPI(IFTDIServices ftdiService)
+        public ADIN1300FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers)
         {
             _ftdiService = ftdiService;
+            _registers = registers;
         }
 
         public event EventHandler<FeedbackModel> ErrorOccured;

@@ -43,21 +43,22 @@ namespace ADIN.WPF.ViewModel
         /// </summary>
         /// <param name="selectedDeviceStore">selected device store</param>
         /// <param name="ftdiService">ftdi service</param>
-        public DeviceListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
+        public DeviceListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, IRegisterService registerService)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiService = ftdiService;
+            _registerService = registerService;
 
             _deviceListingViewModels = new ObservableCollection<DeviceListingItemViewModel>();
             //_feedback = new FeedbackModel();
 
-            //CheckConnectedDevice();
+            CheckConnectedDevice();
 
-            ADINDevice adin = new ADINDevice(new ADIN1300Model(_ftdiService));
-            adin.Device.SerialNumber = "SerialNumber";
-            adin.Device.BoardName = "Description";
+            //ADINDevice adin = new ADINDevice(new ADIN1300Model(_ftdiService, _registerService));
+            //adin.Device.SerialNumber = "SerialNumber";
+            //adin.Device.BoardName = "Description";
 
-            _deviceListingViewModels.Add(new DeviceListingItemViewModel(adin));
+            //_deviceListingViewModels.Add(new DeviceListingItemViewModel(adin));
 
             _insertQuery = new WqlEventQuery(INSERT_QUERY);
             _insertWatcher = new ManagementEventWatcher(_insertQuery);
@@ -243,7 +244,7 @@ namespace ADIN.WPF.ViewModel
 
                 _ftdiService.Open(currentNewDevice.SerialNumber);
 
-                ADINDevice adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService);
+                ADINDevice adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService, _registerService);
                 if (adin != null)
                 {
                     adin.Device.SerialNumber = currentNewDevice.SerialNumber;

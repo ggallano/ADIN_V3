@@ -11,12 +11,12 @@ namespace ADIN.WPF.ViewModel
     {
         private readonly NavigationStore _navigationStore;
         private readonly SelectedDeviceStore _selectedDeviceStore;
-        public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore)
+        public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore, IRegisterService registerService)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _navigationStore = navigationStore;
 
-            DeviceListingVM = new DeviceListingViewModel(selectedDeviceStore, ftdiService);
+            DeviceListingVM = new DeviceListingViewModel(selectedDeviceStore, ftdiService, registerService);
             LinkPropertiesVM = new LinkPropertiesViewModel(_navigationStore, _selectedDeviceStore);
 
             _navigationStore.CurrentViewModelChanged += _navigationStore_CurrentViewModelChanged;

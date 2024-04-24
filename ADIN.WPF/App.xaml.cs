@@ -37,6 +37,7 @@ namespace ADIN.WPF
             _navigationStore.CurrentViewModel = new LinkPropertiesViewModel(_navigationStore, _selectedDeviceStore);
             _ftdiService = new FTDIServices();
             _scriptService = new ScriptService();
+            _registerService = new RegisterService();
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -45,7 +46,7 @@ namespace ADIN.WPF
             {
                 Title = "Explore your Ethernet PHY!",
                 WindowStartupLocation=WindowStartupLocation.CenterScreen,
-                DataContext = new OperationViewModel(_selectedDeviceStore, _ftdiService, _navigationStore)
+                DataContext = new OperationViewModel(_selectedDeviceStore, _ftdiService, _navigationStore, _registerService)
             };
 
             MainWindow.Show();
