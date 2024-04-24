@@ -1360,7 +1360,7 @@ namespace ADIN.Device.Services
             return localRange;
         }
 
-        public void MdioReadCl22(uint phyAddress, uint regAddress)
+        public void MdioReadCl22(uint regAddress)
         {
             throw new NotImplementedException();
         }
@@ -1391,7 +1391,7 @@ namespace ADIN.Device.Services
             return response;
         }
 
-        public void MdioWriteCl22(uint phyAddress, uint regAddress, uint data)
+        public void MdioWriteCl22(uint regAddress, uint data)
         {
             throw new NotImplementedException();
         }
@@ -2374,6 +2374,11 @@ namespace ADIN.Device.Services
         {
             MdioWriteCl45(registerAddress, value);
             //OnWriteProcessCompleted(new FeedbackModel() { Message = $"[{_ftdiService.GetSerialNumber()}] [Write] Address: 0x{registerAddress.ToString("X")}, Value: {value.ToString("X")}", FeedBackType = FeedbackType.Info });
+        }
+
+        public void Speed1000FdAdvertisement(bool spd1000FdAdv_st)
+        {
+            throw new NotImplementedException();
         }
     }
 }

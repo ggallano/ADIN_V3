@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace ADIN.Device.Services
 {
-    public interface IFirmwareAPI
+    public interface IFirmwareAPI : IADIN1300API
     {
         event EventHandler<FeedbackModel> ErrorOccured;
 
@@ -170,7 +170,7 @@ namespace ADIN.Device.Services
         /// </summary>
         void HardwareReset();
 
-        void MdioReadCl22(uint phyAddress, uint regAddress);
+        void MdioReadCl22(uint regAddress);
 
         /// <summary>
         /// MDIO (Cluase45) Read
@@ -181,7 +181,7 @@ namespace ADIN.Device.Services
         /// <returns>register value</returns>
         string MdioReadCl45(uint regAddress);
 
-        void MdioWriteCl22(uint phyAddress, uint regAddress, uint data);
+        void MdioWriteCl22(uint regAddress, uint data);
 
         /// <summary>
         /// MDIO (Cluase45) Write
@@ -287,5 +287,11 @@ namespace ADIN.Device.Services
         /// Format: reset\n
         /// </summary>
         void SoftwareReset();
+
+        /// <summary>
+        /// sets the 1000Base-T
+        /// </summary>
+        /// <param name="spd1000FdAdv_st"></param>
+        //void Speed1000FdAdvertisement(bool spd1000FdAdv_st);
     }
 }

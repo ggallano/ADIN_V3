@@ -53,11 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ActiveLinkModel.cs" />
-    <Compile Include="Models\ADIN1100Model.cs" />
     <Compile Include="Models\ADIN1300Model.cs" />
     <Compile Include="Models\ILinkProperties.cs" />
     <Compile Include="Models\ADIN1300\LinkPropertiesADIN1300.cs" />
-    <Compile Include="Models\ADIN2111Model.cs" />
     <Compile Include="Models\ADINDevice.cs" />
     <Compile Include="Models\AutoNegAdvertisementBase.cs" />
     <Compile Include="Models\AutoNegMasterSlaveAdvertisementModel.cs" />
@@ -84,6 +82,7 @@
     <Compile Include="Services\ADINConfirmBoard.cs" />
     <Compile Include="Services\ADIN1100FirmwareAPI.cs" />
     <Compile Include="Services\ADIN2111FirmwareAPI.cs" />
+    <Compile Include="Services\IADIN1300API.cs" />
     <Compile Include="Services\ICableDiagnostic.cs" />
     <Compile Include="Services\IFirmwareAPI.cs" />
     <Compile Include="Services\ScriptService.cs" />

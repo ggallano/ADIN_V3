@@ -31,8 +31,12 @@ namespace ADIN.WPF.ViewModel
             get { return _linkProperties?.IsAdvertise_1000BASE_T_FD == true; }
             set
             {
-                _linkProperties.IsAdvertise_1000BASE_T_FD = value;
-                OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
+                if (value != _linkProperties.IsAdvertise_1000BASE_T_FD)
+                {
+                    _linkProperties.IsAdvertise_1000BASE_T_FD = value;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.Speed1000FdAdvertisement(value);
+                    OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
+                }
             }
         }
 

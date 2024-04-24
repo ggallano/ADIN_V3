@@ -7,6 +7,8 @@ using Helper.Feedback;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +20,13 @@ namespace ADIN.Device.Services
         private IFTDIServices _ftdiService;
         private IRegisterService _registerService;
         private ObservableCollection<RegisterModel> _registers;
+        private uint _phyAddress;
 
-        public ADIN1300FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers)
+        public ADIN1300FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress)
         {
             _ftdiService = ftdiService;
             _registers = registers;
+            _phyAddress = phyAddress;
         }
 
         public event EventHandler<FeedbackModel> ErrorOccured;
@@ -155,24 +159,88 @@ namespace ADIN.Device.Services
             throw new NotImplementedException();
         }
 
-        public void MdioReadCl22(uint phyAddress, uint regAddress)
+        public void MdioReadCl22(uint regAddress)
         {
             throw new NotImplementedException();
         }
 
         public string MdioReadCl45(uint regAddress)
         {
-            throw new NotImplementedException();
+            string response = string.Empty;
+            string command = string.Empty;
+
+            command = $"mdiord_cl45 {_phyAddress},{regAddress.ToString("X")}\n";
+            //lock (thisLock)
+            {
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+
+                response = _ftdiService.ReadCommandResponse().Trim();
+            }
+
+            if (response.Contains("ERROR"))
+            {
+                //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
+                //throw new ApplicationException(response);
+            }
+
+            Debug.WriteLine($"Command:{command.TrimEnd()}");
+            Debug.WriteLine($"Response:{response}");
+
+            return response;
         }
 
-        public void MdioWriteCl22(uint phyAddress, uint regAddress, uint data)
+        public void MdioWriteCl22(uint regAddress, uint data)
         {
-            throw new NotImplementedException();
+            string response = string.Empty;
+            string command = string.Empty;
+
+            command = $"mdiowrite {_phyAddress},{regAddress.ToString("X")},{data.ToString("X")}\n";
+            //lock (thisLock)
+            {
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+
+                response = _ftdiService.ReadCommandResponse().Trim();
+            }
+
+            if (response.Contains("ERROR"))
+            {
+                //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
+                throw new ApplicationException(response);
+            }
+
+            Debug.WriteLine($"Command:{command.TrimEnd()}");
+            Debug.WriteLine($"Response:{response}");
         }
 
         public string MdioWriteCl45(uint regAddress, uint data)
         {
-            throw new NotImplementedException();
+            string response = string.Empty;
+            string command = string.Empty;
+            string command2 = string.Empty;
+
+            command = $"mdiowrite {_phyAddress},10,{regAddress.ToString("X")}\n";
+            command2 = $"mdiowrite {_phyAddress},11,{data.ToString("X")}\n";
+            //lock (thisLock)
+            {
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+                _ftdiService.SendData(command2);
+                response = _ftdiService.ReadCommandResponse().Trim();
+            }
+
+            if (response.Contains("ERROR"))
+            {
+                //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
+                throw new ApplicationException(response);
+            }
+
+            Debug.WriteLine($"Command:{command.TrimEnd()}");
+            Debug.WriteLine($"Response:{response}");
+
+            return response;
         }
 
         public string PerformCableCalibration(decimal length)
@@ -193,6 +261,57 @@ namespace ADIN.Device.Services
         public void ReadRegsiters()
         {
             throw new NotImplementedException();
+        }
+
+        private string ReadYogaRg(string name)
+        {
+            RegisterModel register = null;
+            string value = string.Empty;
+
+            register = GetRegister(name);
+            if (register == null)
+                throw new ApplicationException("Invalid Register");
+
+            //lock (thisLock)
+                register.Value = MdioReadCl45(register.Address);
+
+            foreach (var bitfield in register.BitFields)
+            {
+                if (bitfield.Name == name)
+                    value = bitfield.Value.ToString();
+            }
+
+            return value;
+        }
+
+        private string ReadYodaRg(uint registerAddress)
+        {
+            string value = string.Empty;
+
+            value = MdioReadCl45(registerAddress);
+
+            return value;
+        }
+
+        private RegisterModel GetRegister(string name)
+        {
+            RegisterModel register = new RegisterModel();
+
+            var res = _registers.Where(x => x.Name == name).ToList();
+            if (res.Count == 0)
+            {
+                res = _registers.Where(r => r.BitFields.Any(b => b.Name == name)).ToList();
+                if (res.Count == 1)
+                {
+                    register = res[0];
+                }
+            }
+            else
+            {
+                register = res[0];
+            }
+
+            return register;
         }
 
         public void ResetFrameGenCheckerStatistics()
@@ -258,6 +377,66 @@ namespace ADIN.Device.Services
         public void SoftwareReset()
         {
             throw new NotImplementedException();
+        }
+
+        private void WriteYodaRg(string name, uint value)
+        {
+            RegisterModel register = null;
+            var result = _registers.Where(x => x.Name == name).ToList();
+            if (result.Count == 0)
+            {
+                result = _registers.Where(r => r.BitFields.Any(b => b.Name == name)).ToList();
+                if (result.Count == 1)
+                {
+                    register = result[0];
+                    foreach (var bitField in result[0].BitFields)
+                    {
+                        if (bitField.Name == name)
+                            bitField.Value = value;
+                    }
+                }
+                else
+                    throw new NullReferenceException($"{name} is not in the register/bitfield list.");
+            }
+            else
+            {
+                register = result[0];
+                register.Value = value.ToString("X");
+            }
+
+            //Debug.WriteLine($"Read Register Value:{MdioReadCl45(register.Address)}");
+            //MdioWriteCl45(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
+            //Debug.WriteLine($"Read RegisterValue:{MdioReadCl45(register.Address)}");
+            //OnWriteProcessCompleted(new FeedbackModel() { Message = $"[{_ftdiService.GetSerialNumber()}] [Write] Name: {name}, Value: {value.ToString("X")}", FeedBackType = FeedbackType.Info });
+
+            uint pageNumber = register.Address >> 16;
+            uint pageAddr = register.Address & 0xFFFF;
+            if (pageNumber == 0)
+            {
+                MdioWriteCl22(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
+            }
+            else
+            {
+                MdioWriteCl45(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
+            }
+        }
+
+        private void WriteYodaRg(uint registerAddress, uint value)
+        {
+            MdioWriteCl45(registerAddress, value);
+            //OnWriteProcessCompleted(new FeedbackModel() { Message = $"[{_ftdiService.GetSerialNumber()}] [Write] Address: 0x{registerAddress.ToString("X")}, Value: {value.ToString("X")}", FeedBackType = FeedbackType.Info });
+        }
+
+        public void Speed1000FdAdvertisement(bool spd1000FdAdv_st)
+        {
+            if (spd1000FdAdv_st)
+            {
+                this.WriteYodaRg("Fd1000Adv", 1);
+            }
+            else
+            {
+                this.WriteYodaRg("Fd1000Adv", 0);
+            }
         }
     }
 }

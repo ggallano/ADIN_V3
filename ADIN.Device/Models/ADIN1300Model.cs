@@ -18,17 +18,19 @@ namespace ADIN.Device.Models
         private IFTDIServices _ftdiService;
         private IRegisterService _registerService;
         private string registerJsonFile;
-        private ObservableCollection<RegisterModel> registers { get; set; }
+        private ObservableCollection<RegisterModel> registers;
+        private uint phyAddress;
 
         public ADIN1300Model(IFTDIServices ftdiService, IRegisterService registerService)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
+            phyAddress = 0;
 
-            //Retrieve Register
+            //Retrieve Registers
             registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1300.json"));
 
-            FirmwareAPI = new ADIN1300FirmwareAPI(_ftdiService, registers);
+            FirmwareAPI = new ADIN1300FirmwareAPI(_ftdiService, registers, phyAddress);
 
             LinkProperties = new LinkPropertiesADIN1300();
         }

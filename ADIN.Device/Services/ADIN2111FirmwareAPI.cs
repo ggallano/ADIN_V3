@@ -220,7 +220,7 @@ namespace ADIN.Device.Services
             throw new NotImplementedException();
         }
 
-        public void MdioReadCl22(uint phyAddress, uint regAddress)
+        public void MdioReadCl22(uint regAddress)
         {
             throw new NotImplementedException();
         }
@@ -230,7 +230,7 @@ namespace ADIN.Device.Services
             throw new NotImplementedException();
         }
 
-        public void MdioWriteCl22(uint phyAddress, uint regAddress, uint data)
+        public void MdioWriteCl22(uint regAddress, uint data)
         {
             throw new NotImplementedException();
         }
@@ -336,6 +336,11 @@ namespace ADIN.Device.Services
         }
 
         public void SoftwareReset()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Speed1000FdAdvertisement(bool spd1000FdAdv_st)
         {
             throw new NotImplementedException();
         }
