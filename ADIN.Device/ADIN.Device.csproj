@@ -83,12 +83,12 @@
     <Compile Include="Services\ADIN1200FirmwareAPI.cs" />
     <Compile Include="Services\ADIN1300FirmwareAPI.cs" />
     <Compile Include="Services\ADINConfirmBoard.cs" />
-    <Compile Include="Services\ADIN1100FirmwareAPI.cs" />
-    <Compile Include="Services\ADIN2111FirmwareAPI.cs" />
     <Compile Include="Services\IADIN1200API.cs" />
     <Compile Include="Services\IADIN1300API.cs" />
+    <Compile Include="Services\IAdvertisedSpeed.cs" />
     <Compile Include="Services\ICableDiagnostic.cs" />
     <Compile Include="Services\IFirmwareAPI.cs" />
+    <Compile Include="Services\IMDIOAPI.cs" />
     <Compile Include="Services\ScriptService.cs" />
   </ItemGroup>
   <ItemGroup>

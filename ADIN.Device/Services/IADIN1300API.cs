@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface IADIN1300API
+    public interface IADIN1300API : IMDIOAPI, IAdvertisedSpeed
     {
-        // Put unique method declarations here
+        void Speed1000EEEAdvertisement(bool spd1000EEEAdv_st);
+        void Speed1000FdAdvertisement(bool spd1000FdAdv_st);
+        void Speed1000HdAdvertisement(bool spd1000HdAdv_st);
     }
 }
