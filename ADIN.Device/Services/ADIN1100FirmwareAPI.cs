@@ -1360,7 +1360,7 @@ namespace ADIN.Device.Services
             return localRange;
         }
 
-        public void MdioReadCl22(uint regAddress)
+        public string MdioReadCl22(uint regAddress)
         {
             throw new NotImplementedException();
         }
@@ -1391,7 +1391,7 @@ namespace ADIN.Device.Services
             return response;
         }
 
-        public void MdioWriteCl22(uint regAddress, uint data)
+        public string MdioWriteCl22(uint regAddress, uint data)
         {
             throw new NotImplementedException();
         }

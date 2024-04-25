@@ -159,9 +159,30 @@ namespace ADIN.Device.Services
             throw new NotImplementedException();
         }
 
-        public void MdioReadCl22(uint regAddress)
+        public string MdioReadCl22(uint regAddress)
         {
-            throw new NotImplementedException();
+            string response = string.Empty;
+            string command = string.Empty;
+
+            command = $"mdioread {_phyAddress},{regAddress.ToString("X")}\n";
+            //lock (thisLock)
+            {
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+
+                response = _ftdiService.ReadCommandResponse().Trim();
+            }
+
+            if (response.Contains("ERROR"))
+            {
+                //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
+                throw new ApplicationException(response);
+            }
+
+            Debug.WriteLine($"Command:{command.TrimEnd()}");
+            Debug.WriteLine($"Response:{response}");
+
+            return response;
         }
 
         public string MdioReadCl45(uint regAddress)
@@ -190,7 +211,7 @@ namespace ADIN.Device.Services
             return response;
         }
 
-        public void MdioWriteCl22(uint regAddress, uint data)
+        public string MdioWriteCl22(uint regAddress, uint data)
         {
             string response = string.Empty;
             string command = string.Empty;
@@ -212,6 +233,8 @@ namespace ADIN.Device.Services
 
             Debug.WriteLine($"Command:{command.TrimEnd()}");
             Debug.WriteLine($"Response:{response}");
+
+            return response;
         }
 
         public string MdioWriteCl45(uint regAddress, uint data)
@@ -275,6 +298,17 @@ namespace ADIN.Device.Services
             //lock (thisLock)
                 register.Value = MdioReadCl45(register.Address);
 
+            uint pageNumber = register.Address >> 16;
+            uint pageAddr = register.Address & 0xFFFF;
+            if (pageNumber == 0)
+            {
+                register.Value = MdioReadCl22(register.Address);
+            }
+            else
+            {
+                register.Value = MdioReadCl45(register.Address);
+            }
+
             foreach (var bitfield in register.BitFields)
             {
                 if (bitfield.Name == name)
@@ -309,6 +343,33 @@ namespace ADIN.Device.Services
             else
             {
                 register = res[0];
+            }
+
+            return register;
+        }
+
+        private RegisterModel SetRegisterValue(string name, uint value)
+        {
+            RegisterModel register = new RegisterModel();
+
+            var res = _registers.Where(x => x.Name == name).ToList();
+            if (res.Count == 0)
+            {
+                res = _registers.Where(r => r.BitFields.Any(b => b.Name == name)).ToList();
+                if (res.Count == 1)
+                {
+                    register = res[0];
+                    foreach (var bitField in res[0].BitFields)
+                    {
+                        if (bitField.Name == name)
+                            bitField.Value = value;
+                    }
+                }
+            }
+            else
+            {
+                register = res[0];
+                register.Value = value.ToString("X");
             }
 
             return register;
@@ -382,32 +443,8 @@ namespace ADIN.Device.Services
         private void WriteYodaRg(string name, uint value)
         {
             RegisterModel register = null;
-            var result = _registers.Where(x => x.Name == name).ToList();
-            if (result.Count == 0)
-            {
-                result = _registers.Where(r => r.BitFields.Any(b => b.Name == name)).ToList();
-                if (result.Count == 1)
-                {
-                    register = result[0];
-                    foreach (var bitField in result[0].BitFields)
-                    {
-                        if (bitField.Name == name)
-                            bitField.Value = value;
-                    }
-                }
-                else
-                    throw new NullReferenceException($"{name} is not in the register/bitfield list.");
-            }
-            else
-            {
-                register = result[0];
-                register.Value = value.ToString("X");
-            }
 
-            //Debug.WriteLine($"Read Register Value:{MdioReadCl45(register.Address)}");
-            //MdioWriteCl45(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
-            //Debug.WriteLine($"Read RegisterValue:{MdioReadCl45(register.Address)}");
-            //OnWriteProcessCompleted(new FeedbackModel() { Message = $"[{_ftdiService.GetSerialNumber()}] [Write] Name: {name}, Value: {value.ToString("X")}", FeedBackType = FeedbackType.Info });
+            register = SetRegisterValue(name, value);
 
             uint pageNumber = register.Address >> 16;
             uint pageAddr = register.Address & 0xFFFF;

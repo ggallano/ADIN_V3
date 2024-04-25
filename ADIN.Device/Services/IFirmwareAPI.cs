@@ -170,7 +170,7 @@ namespace ADIN.Device.Services
         /// </summary>
         void HardwareReset();
 
-        void MdioReadCl22(uint regAddress);
+        string MdioReadCl22(uint regAddress);
 
         /// <summary>
         /// MDIO (Cluase45) Read
@@ -181,7 +181,7 @@ namespace ADIN.Device.Services
         /// <returns>register value</returns>
         string MdioReadCl45(uint regAddress);
 
-        void MdioWriteCl22(uint regAddress, uint data);
+        string MdioWriteCl22(uint regAddress, uint data);
 
         /// <summary>
         /// MDIO (Cluase45) Write

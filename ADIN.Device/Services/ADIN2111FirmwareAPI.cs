@@ -220,7 +220,7 @@ namespace ADIN.Device.Services
             throw new NotImplementedException();
         }
 
-        public void MdioReadCl22(uint regAddress)
+        public string MdioReadCl22(uint regAddress)
         {
             throw new NotImplementedException();
         }
@@ -230,7 +230,7 @@ namespace ADIN.Device.Services
             throw new NotImplementedException();
         }
 
-        public void MdioWriteCl22(uint regAddress, uint data)
+        public string MdioWriteCl22(uint regAddress, uint data)
         {
             throw new NotImplementedException();
         }
