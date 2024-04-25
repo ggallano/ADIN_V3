@@ -13,6 +13,9 @@ namespace ADIN.Device.Models
         public string MasterSlave { get; set; }
         public string MDIX { get; set; }
         public string SpeedMode { get; set; }
+        public uint DownSpeedRetries { get; set; }
+        public bool IsDownSpeed_10BASE_T_HD { get; set; }
+        public bool IsDownSpeed_100BASE_TX_HD { get; set; }
         public bool IsAdvertise_1000BASE_T_FD { get; set; }
         public bool IsAdvertise_1000BASE_T_HD { get; set; }
         public bool IsAdvertise_100BASE_TX_FD { get; set; }

@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ADIN.Device.Models.ADIN1300
+namespace ADIN.Device.Models.ADIN1200
 {
-    public class LinkPropertiesADIN1300 : ILinkProperties
+    public class LinkPropertiesADIN1200 : ILinkProperties
     {
-        public LinkPropertiesADIN1300()
+        public LinkPropertiesADIN1200()
         {
             SpeedModes = new List<string>()
             {
@@ -52,7 +52,6 @@ namespace ADIN.Device.Models.ADIN1300
 
         public bool IsAdvertise_EEE_1000BASE_T { get; set; }
         public bool IsAdvertise_EEE_100BASE_TX { get; set; }
-
 
         public uint DownSpeedRetries { get; set; }
         public bool IsDownSpeed_10BASE_T_HD { get; set; }
