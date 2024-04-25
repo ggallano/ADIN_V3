@@ -46,6 +46,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.IsAdvertise_1000BASE_T_HD = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.Speed1000HdAdvertisement(value);
                 OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
             }
         }
@@ -56,6 +57,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.IsAdvertise_100BASE_TX_FD = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.Speed100FdAdvertisement(value);
                 OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
             }
         }
@@ -66,6 +68,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.IsAdvertise_100BASE_TX_HD = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.Speed100HdAdvertisement(value);
                 OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
             }
         }
@@ -76,6 +79,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.IsAdvertise_10BASE_T_FD = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.Speed10FdAdvertisement(value);
                 OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
             }
         }
@@ -86,6 +90,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.IsAdvertise_10BASE_T_HD = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.Speed10HdAdvertisement(value);
                 OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
             }
         }
@@ -96,6 +101,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.IsAdvertise_EEE_1000BASE_T = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.Speed1000EEEAdvertisement(value);
                 OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
             }
         }
@@ -106,6 +112,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.IsAdvertise_EEE_100BASE_TX = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.Speed100EEEAdvertisement(value);
                 OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
             }
         }
@@ -138,11 +145,64 @@ namespace ADIN.WPF.ViewModel
             }
         }
         public List<string> SpeedModes => _linkProperties?.SpeedModes;
+        public string SelectedMDIX
+        {
+            get { return _linkProperties?.MDIX; }
+            set
+            {
+                _linkProperties.MDIX = value;
+                OnPropertyChanged(nameof(SelectedMDIX));
+            }
+        }
+        public List<string> MDIXs => _linkProperties?.MDIXs;
+        public string SelectedEnergyDetectPowerDownMode
+        {
+            get { return _linkProperties?.EnergyDetectPowerDownMode; }
+            set
+            {
+                _linkProperties.EnergyDetectPowerDownMode = value;
+                OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
+            }
+        }
+        public List<string> EnergyDetectPowerDownModes => _linkProperties?.EnergyDetectPowerDownModes;
+        public bool IsDownSpeed_100BASE_TX_HD
+        {
+            get { return _linkProperties?.IsDownSpeed_100BASE_TX_HD == true; }
+            set
+            {
+                _linkProperties.IsDownSpeed_100BASE_TX_HD = value;
+                OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
+            }
+        }
+
+        public bool IsDownSpeed_10BASE_T_HD
+        {
+            get { return _linkProperties?.IsDownSpeed_10BASE_T_HD == true; }
+            set
+            {
+                _linkProperties.IsDownSpeed_10BASE_T_HD = value;
+                OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
+            }
+        }
+        public uint SetDownSpeedRetries
+        {
+            get { return _linkProperties?.DownSpeedRetries ?? 0; }
+            set
+            {
+                _linkProperties.DownSpeedRetries = value;
+                OnPropertyChanged(nameof(SetDownSpeedRetries));
+            }
+        }
         private ILinkProperties _linkProperties => _selectedDeviceStore.SelectedDevice?.LinkProperties;
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             OnPropertyChanged(nameof(SpeedModes));
+            OnPropertyChanged(nameof(SelectedSpeedMode));
+            OnPropertyChanged(nameof(MDIXs));
+            OnPropertyChanged(nameof(SelectedMDIX));
+            OnPropertyChanged(nameof(EnergyDetectPowerDownModes));
+            OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
             OnPropertyChanged(nameof(SelectedSpeedMode));
         }
     }

@@ -26,7 +26,7 @@ namespace ADIN.Device.Models
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
-            phyAddress = 0;
+            phyAddress = 4;
 
             //Retrieve Registers
             registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1200.json"));

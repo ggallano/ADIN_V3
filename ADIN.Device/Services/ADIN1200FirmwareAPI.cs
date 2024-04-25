@@ -289,26 +289,11 @@ namespace ADIN.Device.Services
         private string ReadYogaRg(string name)
         {
             RegisterModel register = null;
-            var result = _registers.Where(x => x.Name == name).ToList();
-            if (result.Count == 0)
-            {
-                result = _registers.Where(r => r.BitFields.Any(b => b.Name == name)).ToList();
-                if (result.Count == 1)
-                {
-                    register = result[0];
-                }
-                else
-                    throw new NullReferenceException($"{name} is not in the register/bitfield list.");
-            }
-            else
-            {
-                register = result[0];
-            }
+            string value = string.Empty;
 
-            //Debug.WriteLine($"Read Register Value:{MdioReadCl45(register.Address)}");
-            //MdioWriteCl45(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
-            //Debug.WriteLine($"Read RegisterValue:{MdioReadCl45(register.Address)}");
-            //OnWriteProcessCompleted(new FeedbackModel() { Message = $"[{_ftdiService.GetSerialNumber()}] [Write] Name: {name}, Value: {value.ToString("X")}", FeedBackType = FeedbackType.Info });
+            register = GetRegister(name);
+            if (register == null)
+                throw new ApplicationException("Invalid Register");
 
             uint pageNumber = register.Address >> 16;
             uint pageAddr = register.Address & 0xFFFF;
@@ -321,26 +306,13 @@ namespace ADIN.Device.Services
                 register.Value = MdioReadCl45(register.Address);
             }
 
+            foreach (var bitfield in register.BitFields)
+            {
+                if (bitfield.Name == name)
+                    value = bitfield.Value.ToString();
+            }
 
-
-
-            //RegisterModel register = null;
-            //string value = string.Empty;
-
-            //register = GetRegister(name);
-            //if (register == null)
-            //    throw new ApplicationException("Invalid Register");
-
-            ////lock (thisLock)
-            //    register.Value = MdioReadCl45(register.Address);
-
-            //foreach (var bitfield in register.BitFields)
-            //{
-            //    if (bitfield.Name == name)
-            //        value = bitfield.Value.ToString();
-            //}
-
-            return register.Value;
+            return value;
         }
 
         private string ReadYodaRg(uint registerAddress)
@@ -368,6 +340,33 @@ namespace ADIN.Device.Services
             else
             {
                 register = res[0];
+            }
+
+            return register;
+        }
+
+        private RegisterModel SetRegisterValue(string name, uint value)
+        {
+            RegisterModel register = new RegisterModel();
+
+            var res = _registers.Where(x => x.Name == name).ToList();
+            if (res.Count == 0)
+            {
+                res = _registers.Where(r => r.BitFields.Any(b => b.Name == name)).ToList();
+                if (res.Count == 1)
+                {
+                    register = res[0];
+                    foreach (var bitField in res[0].BitFields)
+                    {
+                        if (bitField.Name == name)
+                            bitField.Value = value;
+                    }
+                }
+            }
+            else
+            {
+                register = res[0];
+                register.Value = value.ToString("X");
             }
 
             return register;

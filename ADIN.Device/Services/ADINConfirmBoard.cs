@@ -49,6 +49,11 @@ namespace ADIN.Device.Services
                 return new ADINDevice(new ADIN1300Model(ftdtService, _registerService));
             }
 
+            if (BoardName == "EVAL-ADIN1200" || BoardName == "ADIN1200 MDIO DONGLE")
+            {
+                return new ADINDevice(new ADIN1200Model(ftdtService, _registerService));
+            }
+
             return null;
         }
     }
