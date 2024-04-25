@@ -14,6 +14,10 @@ namespace ADIN.Device.Models
         string MDIX { get; set; }
         string SpeedMode { get; set; }
 
+
+        uint DownSpeedRetries { get; set; }
+        bool IsDownSpeed_10BASE_T_HD { get; set; }
+        bool IsDownSpeed_100BASE_TX_HD { get; set; }
         bool IsAdvertise_1000BASE_T_FD { get; set; }
         bool IsAdvertise_1000BASE_T_HD { get; set; }
         bool IsAdvertise_100BASE_TX_FD { get; set; }

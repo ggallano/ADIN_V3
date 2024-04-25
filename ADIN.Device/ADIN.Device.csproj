@@ -53,6 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ActiveLinkModel.cs" />
+    <Compile Include="Models\ADIN1200Model.cs" />
+    <Compile Include="Models\ADIN1200\LinkPropertiesADIN1200.cs" />
     <Compile Include="Models\ADIN1300Model.cs" />
     <Compile Include="Models\ILinkProperties.cs" />
     <Compile Include="Models\ADIN1300\LinkPropertiesADIN1300.cs" />
@@ -78,10 +80,12 @@
     <Compile Include="Models\TestModeListingModel.cs" />
     <Compile Include="Models\TestModeModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ADIN1200FirmwareAPI.cs" />
     <Compile Include="Services\ADIN1300FirmwareAPI.cs" />
     <Compile Include="Services\ADINConfirmBoard.cs" />
     <Compile Include="Services\ADIN1100FirmwareAPI.cs" />
     <Compile Include="Services\ADIN2111FirmwareAPI.cs" />
+    <Compile Include="Services\IADIN1200API.cs" />
     <Compile Include="Services\IADIN1300API.cs" />
     <Compile Include="Services\ICableDiagnostic.cs" />
     <Compile Include="Services\IFirmwareAPI.cs" />

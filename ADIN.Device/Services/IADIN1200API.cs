@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface IADIN1300API
+    public interface IADIN1200API
     {
         // Put unique method declarations here
     }

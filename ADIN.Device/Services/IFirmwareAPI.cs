@@ -289,9 +289,66 @@ namespace ADIN.Device.Services
         void SoftwareReset();
 
         /// <summary>
-        /// sets the 1000Base-T
+        /// sets the 1000Base-T-FD
         /// </summary>
         /// <param name="spd1000FdAdv_st"></param>
-        //void Speed1000FdAdvertisement(bool spd1000FdAdv_st);
+        /// 
+        void Speed1000FdAdvertisement(bool spd1000FdAdv_st = true);
+
+        /// <summary>
+        /// sets the 1000Base-T-HD
+        /// </summary>
+        /// <param name="spd1000HdAdv_st"></param>
+        /// 
+
+        void Speed1000HdAdvertisement(bool spd1000HdAdv_st = true);
+
+        /// <summary>
+        /// sets the 100Base-TX-FD
+        /// </summary>
+        /// <param name="spd100FdAdv_st"></param>
+        /// 
+
+        void Speed100FdAdvertisement(bool spd100FdAdv_st = true);
+
+        /// <summary>
+        /// sets the 100Base-TX-HD
+        /// </summary>
+        /// <param name="spd100HdAdv_st"></param>
+        /// 
+
+        void Speed100HdAdvertisement(bool spd100HdAdv_st = true);
+
+        /// <summary>
+        /// sets the 10Base-T-FD
+        /// </summary>
+        /// <param name="spd10FdAdv_st"></param>
+        /// 
+
+        void Speed10FdAdvertisement(bool spd10FdAdv_st = true);
+
+        /// <summary>
+        /// sets the 10Base-T-HD
+        /// </summary>
+        /// <param name="spd10HdAdv_st"></param>
+        /// 
+
+        void Speed10HdAdvertisement(bool spd10HdAdv_st = true);
+
+        /// <summary>
+        /// sets the EEE-1000Base-T
+        /// </summary>
+        /// <param name="spd1000EEEAdv_st"></param>
+        /// 
+
+        void Speed1000EEEAdvertisement(bool spd1000EEEAdv_st = true);
+
+        /// <summary>
+        /// sets the EEE-100Base-TX
+        /// </summary>
+        /// <param name="spd100EEEAdv_st"></param>
+        /// 
+
+        void Speed100EEEAdvertisement(bool spd100EEEAdv_st = true);
     }
 }

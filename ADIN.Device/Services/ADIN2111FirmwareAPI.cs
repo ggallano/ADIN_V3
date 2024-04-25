@@ -345,6 +345,36 @@ namespace ADIN.Device.Services
             throw new NotImplementedException();
         }
 
+        public void Speed1000HdAdvertisement(bool spd1000HdAdv_st)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Speed100FdAdvertisement(bool spd100FdAdv_st)
+        {
+            throw new NotImplementedException();
+        }
+        public void Speed100HdAdvertisement(bool spd100HdAdv_st)
+        {
+            throw new NotImplementedException();
+        }
+        public void Speed10FdAdvertisement(bool spd10FdAdv_st)
+        {
+            throw new NotImplementedException();
+        }
+        public void Speed10HdAdvertisement(bool spd10HdAdv_st)
+        {
+            throw new NotImplementedException();
+        }
+        public void Speed1000EEEAdvertisement(bool spd1000EEEAdv_st)
+        {
+            throw new NotImplementedException();
+        }
+        public void Speed100EEEAdvertisement(bool spd100EEEAdv_st)
+        {
+            throw new NotImplementedException();
+        }
+
         public void TDRInit()
         {
             throw new NotImplementedException();
