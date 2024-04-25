@@ -296,7 +296,6 @@ namespace ADIN.Device.Services
                 throw new ApplicationException("Invalid Register");
 
             //lock (thisLock)
-                register.Value = MdioReadCl45(register.Address);
 
             uint pageNumber = register.Address >> 16;
             uint pageAddr = register.Address & 0xFFFF;
@@ -553,6 +552,30 @@ namespace ADIN.Device.Services
             {
                 this.WriteYodaRg("Eee100Adv", 0);
             }
+        }
+        public void AdvertisedForcedSpeed(string advFrcSpd)
+        {
+            throw new NotImplementedException();
+        }
+        public void DownSpeed100Hd(bool dwnSpd100Hd)
+        {
+            throw new NotImplementedException();
+        }
+        public void DownSpeed10Hd(bool dwnSpd10Hd)
+        {
+            throw new NotImplementedException();
+        }
+        public void DownSpeedRetriesSetVal(uint dwnSpdRtryVal)
+        {
+            throw new NotImplementedException();
+        }
+        public void AutoMDIXMode(string autoMDIXmod)
+        {
+            throw new NotImplementedException();
+        }
+        public void EnableEnergyDetectPowerDown(string enEnergyDetect)
+        {
+            throw new NotImplementedException();
         }
     }
 }

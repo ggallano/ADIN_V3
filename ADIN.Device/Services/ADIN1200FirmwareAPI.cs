@@ -243,14 +243,11 @@ namespace ADIN.Device.Services
             string command = string.Empty;
             string command2 = string.Empty;
 
-            command = $"mdiowrite {_phyAddress},10,{regAddress.ToString("X")}\n";
-            command2 = $"mdiowrite {_phyAddress},11,{data.ToString("X")}\n";
+            command = $"mdiowr_cl45 {_phyAddress},{regAddress.ToString("X")},{data.ToString("X")}\n";
             //lock (thisLock)
             {
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
-                response = _ftdiService.ReadCommandResponse().Trim();
-                _ftdiService.SendData(command2);
                 response = _ftdiService.ReadCommandResponse().Trim();
             }
 
@@ -471,11 +468,15 @@ namespace ADIN.Device.Services
             uint pageAddr = register.Address & 0xFFFF;
             if (pageNumber == 0)
             {
+                MdioReadCl22(register.Address); // Temporary: for register change debug purpose
                 MdioWriteCl22(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
+                MdioReadCl22(register.Address); // Temporary: for register change debug purpose
             }
             else
             {
+                MdioReadCl45(register.Address); // Temporary: for register change debug purpose
                 MdioWriteCl45(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
+                MdioReadCl45(register.Address); // Temporary: for register change debug purpose
             }
         }
 
@@ -545,9 +546,7 @@ namespace ADIN.Device.Services
         {
             if (spd10HdAdv_st)
             {
-                this.ReadYogaRg("Hd10Adv");
                 this.WriteYodaRg("Hd10Adv", 1);
-                this.ReadYogaRg("Hd10Adv");
             }
             else
             {
@@ -574,6 +573,71 @@ namespace ADIN.Device.Services
             else
             {
                 this.WriteYodaRg("Eee100Adv", 0);
+            }
+        }
+
+        public void AdvertisedForcedSpeed(string advFrcSpd)
+        {
+            if (advFrcSpd == "Advertised")
+            {
+                this.WriteYodaRg("AutonegEn", 1);
+            }
+            else
+            {
+                this.WriteYodaRg("AutonegEn", 0);
+            }
+        }
+        public void DownSpeed100Hd(bool dwnSpd100Hd)
+        {
+            throw new NotImplementedException();
+        }
+        public void DownSpeed10Hd(bool dwnSpd10Hd)
+        {
+            if (dwnSpd10Hd)
+            {
+                this.WriteYodaRg("DnSpeedTo10En", 1);
+            }
+            else
+            {
+                this.WriteYodaRg("DnSpeedTo10En", 0);
+            }
+        }
+        public void DownSpeedRetriesSetVal(uint dwnSpdRtryVal)
+        {
+            this.WriteYodaRg("NumSpeedRetry", dwnSpdRtryVal);
+        }
+        public void AutoMDIXMode(string autoMDIXmod)
+        {
+            if (autoMDIXmod == "Auto MDIX")
+            {
+                this.WriteYodaRg("AutoMdiEn", 1);
+            }
+            else if (autoMDIXmod == "Fixed MDI")
+            {
+                this.WriteYodaRg("AutoMdiEn", 0);
+                this.WriteYodaRg("ManMdix", 0);
+            }
+            else
+            {
+                this.WriteYodaRg("AutoMdiEn", 0);
+                this.WriteYodaRg("ManMdix", 1);
+            }
+        }
+        public void EnableEnergyDetectPowerDown(string enEnergyDetect)
+        {
+            if (enEnergyDetect == "Disabled")
+            {
+                this.WriteYodaRg("NrgPdEn", 0);
+            }
+            else if(enEnergyDetect == "Enabled")
+            {
+                this.WriteYodaRg("NrgPdEn", 1);
+                this.WriteYodaRg("NrgPdTxEn", 0);
+            }
+            else
+            {
+                this.WriteYodaRg("NrgPdEn", 1);
+                this.WriteYodaRg("NrgPdTxEn", 1);
             }
         }
     }

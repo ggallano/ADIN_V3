@@ -135,6 +135,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.SpeedMode = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.AdvertisedForcedSpeed(value);
                 OnPropertyChanged(nameof(SelectedSpeedMode));
 
                 IsANAdvertisedSpeedVisible = true;
@@ -151,6 +152,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.MDIX = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.AutoMDIXMode(value);
                 OnPropertyChanged(nameof(SelectedMDIX));
             }
         }
@@ -161,6 +163,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.EnergyDetectPowerDownMode = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.EnableEnergyDetectPowerDown(value);
                 OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
             }
         }
@@ -171,6 +174,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.IsDownSpeed_100BASE_TX_HD = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.DownSpeed100Hd(value);
                 OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
             }
         }
@@ -181,6 +185,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.IsDownSpeed_10BASE_T_HD = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.DownSpeed10Hd(value);
                 OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
             }
         }
@@ -190,6 +195,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.DownSpeedRetries = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.DownSpeedRetriesSetVal(value);
                 OnPropertyChanged(nameof(SetDownSpeedRetries));
             }
         }

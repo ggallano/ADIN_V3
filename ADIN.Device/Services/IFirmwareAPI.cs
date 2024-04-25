@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace ADIN.Device.Services
 {
-    public interface IFirmwareAPI : IADIN1300API
+    public interface IFirmwareAPI : IADIN1300API, IADIN1200API
     {
         event EventHandler<FeedbackModel> ErrorOccured;
 
@@ -350,5 +350,53 @@ namespace ADIN.Device.Services
         /// 
 
         void Speed100EEEAdvertisement(bool spd100EEEAdv_st = true);
+
+        /// <summary>
+        /// sets the Speed mode
+        /// </summary>
+        /// <param name="autoNegSpd"></param>
+        /// 
+
+        void AdvertisedForcedSpeed(string autoNegSpd = "Advertised");
+
+        /// <summary>
+        /// sets the 100Base-TX-HD downspeed
+        /// </summary>
+        /// <param name="dwnSpd100Hd"></param>
+        /// 
+
+        void DownSpeed100Hd(bool dwnSpd100Hd = true);
+
+        /// <summary>
+        /// sets the 10Base-T-HD downspeed
+        /// </summary>
+        /// <param name="dwnSpd10Hd"></param>
+        /// 
+
+        void DownSpeed10Hd(bool dwnSpd10Hd = true);
+
+        /// <summary>
+        /// sets the number of downspeed retries
+        /// </summary>
+        /// <param name="dwnSpdRtryVal"></param>
+        /// 
+
+        void DownSpeedRetriesSetVal(uint dwnSpdRtryVal = 0);
+
+        /// <summary>
+        /// sets the MDIX mode
+        /// </summary>
+        /// <param name="autoMDIXmod"></param>
+        /// 
+
+        void AutoMDIXMode(string autoMDIXmod = "Auto MDIX");
+
+        /// <summary>
+        /// sets the Energy Detect Power Down mode
+        /// </summary>
+        /// <param name="enEnergyDetect"></param>
+        /// 
+
+        void EnableEnergyDetectPowerDown(string enEnergyDetect = "Disabled");
     }
 }
