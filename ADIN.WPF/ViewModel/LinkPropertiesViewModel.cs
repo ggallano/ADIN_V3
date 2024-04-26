@@ -15,6 +15,7 @@ namespace ADIN.WPF.ViewModel
     public class LinkPropertiesViewModel : ViewModelBase
     {
         private bool _isANAdvertisedSpeedVisible = true;
+        private bool _isANAdvertised1GSpeedVisible = true;
         private NavigationStore _navigationStore;
         private SelectedDeviceStore _selectedDeviceStore;
 
@@ -127,6 +128,16 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsANAdvertised1GSpeedVisible
+        {
+            get { return _isANAdvertised1GSpeedVisible && (_linkProperties?.IsSpeedCapable1G != false); }
+            set
+            {
+                _isANAdvertised1GSpeedVisible = value;
+                OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
+            }
+        }
+
         public bool IsEEEAdvertisementVisible { get; set; } = true;
 
         public string SelectedSpeedMode
@@ -139,9 +150,11 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(SelectedSpeedMode));
 
                 IsANAdvertisedSpeedVisible = true;
+                IsANAdvertised1GSpeedVisible = true;
                 if (_linkProperties.SpeedMode == "Forced")
                 {
                     IsANAdvertisedSpeedVisible = false;
+                    IsANAdvertised1GSpeedVisible = false;
                 }
             }
         }
@@ -203,6 +216,7 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
             OnPropertyChanged(nameof(SpeedModes));
             OnPropertyChanged(nameof(SelectedSpeedMode));
             OnPropertyChanged(nameof(MDIXs));

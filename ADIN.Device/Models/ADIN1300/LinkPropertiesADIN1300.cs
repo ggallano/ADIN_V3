@@ -11,6 +11,8 @@ namespace ADIN.Device.Models.ADIN1300
     {
         public LinkPropertiesADIN1300()
         {
+            IsSpeedCapable1G = true;
+
             SpeedModes = new List<string>()
             {
                 "Advertised",
@@ -45,6 +47,7 @@ namespace ADIN.Device.Models.ADIN1300
 
         public bool IsAdvertise_1000BASE_T_FD { get; set; }
         public bool IsAdvertise_1000BASE_T_HD { get; set; }
+        public bool IsSpeedCapable1G { get; set; }
         public bool IsAdvertise_100BASE_TX_FD { get; set; }
         public bool IsAdvertise_100BASE_TX_HD { get; set; }
         public bool IsAdvertise_10BASE_T_FD { get; set; }
