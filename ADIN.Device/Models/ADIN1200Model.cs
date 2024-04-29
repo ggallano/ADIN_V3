@@ -34,6 +34,7 @@ namespace ADIN.Device.Models
             FirmwareAPI = new ADIN1200FirmwareAPI(_ftdiService, registers, phyAddress);
 
             LinkProperties = new LinkPropertiesADIN1200();
+            ClockPinControl = new ClockPinControlADIN1200();
         }
 
         public override IFirmwareAPI FirmwareAPI { get; set; }

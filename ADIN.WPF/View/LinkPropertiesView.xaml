@@ -12,20 +12,23 @@
         <FrameworkElement x:Key="ProxyElement" DataContext="{Binding}"/>
         <telerik:BooleanToVisibilityConverter x:Key="booleanVisibilityConverter"/>
     </UserControl.Resources>
-    <Grid>
+    <Grid Margin="5">
         <!--<Label Content="Link Properties View"/>
         <Button Content="Reg Acc" Command="{Binding NavigateRegisterAccessCommand}"/>-->
         <ContentControl Visibility="Visible" Content="{StaticResource ProxyElement}"/>
-        <telerik:RadPropertyGrid Item="{Binding}" AutoGeneratePropertyDefinitions="False" IsGrouped="True">
+        <telerik:RadPropertyGrid telerik:StyleManager.Theme="Windows8" Item="{Binding}" AutoGeneratePropertyDefinitions="False" IsGrouped="True" SearchBoxVisibility="Collapsed" SortAndGroupButtonsVisibility="Collapsed">
             <telerik:RadPropertyGrid.PropertyDefinitions>
+                
+                <!--Speed Mode-->
                 <telerik:PropertyDefinition Description="Speed Mode" DisplayName="Speed Mode" GroupName="Speed Mode" OrderIndex="0">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
-                            <telerik:RadComboBox ItemsSource="{Binding SpeedModes}"
-                                                 SelectedItem="{Binding SelectedSpeedMode}"/>
+                            <telerik:RadComboBox ItemsSource="{Binding SpeedModes}" SelectedItem="{Binding SelectedSpeedMode}"/>
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
+
+                <!--Advertised Speeds-->
                 <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertised1GSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise 1000BASE-T FD" DisplayName="Advertise 1000BASE-T FD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
@@ -69,6 +72,7 @@
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
 
+                <!--EEE Speed-->
                 <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertised1GSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise EEE 1000BASE-T" DisplayName="Advertise EEE 1000BASE-T" GroupName="EEE Advertisement" OrderIndex="2">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
@@ -84,6 +88,7 @@
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
 
+                <!--Downspeed-->
                 <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertised1GSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="100BASE-TX HD" DisplayName="100BASE-TX HD" GroupName="Down Speed" OrderIndex="3">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
@@ -106,6 +111,7 @@
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
 
+                <!--MDIX-->
                 <telerik:PropertyDefinition Description="MDIX" DisplayName="MDIX" GroupName="MDIX" OrderIndex="4">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
@@ -115,6 +121,7 @@
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
 
+                <!--Energy Detect Powerdown Mode-->
                 <telerik:PropertyDefinition Description="Energy Detect PowerDown Mode" DisplayName="Energy Detect PowerDown Mode" GroupName="Energy Detect PowerDown Mode" OrderIndex="5">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>

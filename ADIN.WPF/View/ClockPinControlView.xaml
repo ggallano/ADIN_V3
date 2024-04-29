@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="ADIN.WPF.View.ClockPinControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ADIN.WPF.View"
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:converters="clr-namespace:ADIN.WPF.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <FrameworkElement x:Key="ProxyElement" DataContext="{Binding}"/>
+        <telerik:BooleanToVisibilityConverter x:Key="booleanVisibilityConverter"/>
+    </UserControl.Resources>
+    <Grid Margin="5">
+        <StackPanel Orientation="Vertical">
+
+            <GroupBox Header='GP_CLK Pin Control' >
+                <StackPanel>
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Margin='10' >Control the clock output on the GPCLK pin.</TextBlock>
+                    <WrapPanel HorizontalAlignment='Left' Margin='10'  Orientation='Horizontal' ItemHeight='50' ItemWidth='180'>
+
+                        <telerik:RadRadioButton Content="None" Margin='10,10,10,10' CornerRadius='15'  Command="{Binding ClkPnCtrlCmd_None}" CommandParameter="None"/>
+                        <telerik:RadRadioButton Content="125 MHz PHY Recovered" Margin='10,10,10,10' CornerRadius='15'  Command="{Binding ClkPnCtrlCmd_Rcvr125Mhz}" CommandParameter="125 MHz PHY Recovered"/>
+                        <telerik:RadRadioButton Content="125 MHz PHY Free Running" Margin='10,10,10,10' CornerRadius='15'  Command="{Binding ClkPnCtrlCmd_Free125Mhz}" CommandParameter="125 MHz PHY Free Running"/>
+                        <telerik:RadRadioButton Content="Recovered HeartBeat" Margin='10,10,10,10' CornerRadius='15'  Command="{Binding ClkPnCtrlCmd_HrtRcvr}" CommandParameter="Recovered HeartBeat"/>
+                        <telerik:RadRadioButton Content="Free Running HeartBeat" Margin='10,10,10,10' CornerRadius='15'  Command="{Binding ClkPnCtrlCmd_HrtFree}" CommandParameter="Free Running HeartBeat"/>
+                        <telerik:RadRadioButton Content="25 MHz Reference" Margin='10,10,10,10' CornerRadius='15'  Command="{Binding ClkPnCtrlCmd_25Mhz}" CommandParameter="25 MHz Reference"/>
+
+                    </WrapPanel>
+                </StackPanel>
+
+            </GroupBox>
+
+            <!--<TextBlock Text="GPCLK Pin Control" Margin="10 10" Style="{StaticResource TextBlockstyle}"/>
+            <telerik:RadButton Margin="10 10" Content="None" Command="{Binding IsGpClk_None}" Style="{StaticResource FaultDetectorInitializedButtonStyle}"/>-->
+        </StackPanel>
+    </Grid>
+</UserControl>
