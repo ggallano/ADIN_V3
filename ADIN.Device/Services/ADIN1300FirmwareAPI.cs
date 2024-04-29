@@ -577,5 +577,9 @@ namespace ADIN.Device.Services
         {
             throw new NotImplementedException();
         }
+        public void SetGpClkPinControl(string gpClkPinCtrl)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

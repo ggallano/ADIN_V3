@@ -640,5 +640,32 @@ namespace ADIN.Device.Services
                 this.WriteYodaRg("NrgPdTxEn", 1);
             }
         }
+        public void SetGpClkPinControl(string gpClkPinCtrl)
+        {
+            this.WriteYodaRg("GeClkCfg", 0);
+
+            switch(gpClkPinCtrl)
+            {
+                case "125 MHz PHY Recovered":
+                    this.WriteYodaRg("GeClkRcvr125En", 1);
+                    break;
+                case "125 MHz PHY Free Running":
+                    this.WriteYodaRg("GeClkFree125En", 1);
+                    break;
+                case "Recovered HeartBeat":
+                    this.WriteYodaRg("GeClkHrtRcvrEn", 1);
+                    break;
+                case "Free Running HeartBeat":
+                    this.WriteYodaRg("GeClkHrtFreeEn", 1);
+                    break;
+                case "25 MHz Reference":
+                    this.WriteYodaRg("GeClk25En", 1);
+                    break;
+                default:
+                    // Not enable any register
+                    break;
+
+            }
+        }
     }
 }

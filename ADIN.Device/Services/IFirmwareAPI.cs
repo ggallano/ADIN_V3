@@ -398,5 +398,13 @@ namespace ADIN.Device.Services
         /// 
 
         void EnableEnergyDetectPowerDown(string enEnergyDetect = "Disabled");
+
+        /// <summary>
+        /// sets the GP Clock Pin Control
+        /// </summary>
+        /// <param name="gpClkPinCtrl"></param>
+        /// 
+
+        void SetGpClkPinControl(string gpClkPinCtrl = "None");
     }
 }
