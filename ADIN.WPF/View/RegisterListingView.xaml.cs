@@ -17,14 +17,14 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Telerik.Windows.Controls;
 
-namespace ADIN.WPF.Components
+namespace ADIN.WPF.View
 {
     /// <summary>
-    /// Interaction logic for RegisterView.xaml
+    /// Interaction logic for RegisterListingView.xaml
     /// </summary>
-    public partial class RegisterView : UserControl
+    public partial class RegisterListingView : UserControl
     {
-        public RegisterView()
+        public RegisterListingView()
         {
             InitializeComponent();
         }
@@ -35,7 +35,7 @@ namespace ADIN.WPF.Components
             {
                 if (e.Cell.DataContext is RegisterModel)
                 {
-                    RegisterViewModel registerViewModel = (RegisterViewModel)this.DataContext;
+                    RegisterListingViewModel registerViewModel = (RegisterListingViewModel)this.DataContext;
                     RegisterModel rdetails = (RegisterModel)e.Cell.DataContext;
                     uint newValue = 0;
                     if (ParseValue((string)e.NewData, out newValue))
@@ -63,7 +63,7 @@ namespace ADIN.WPF.Components
                 if (e.AddedItems[0] is RegisterModel)
                 {
                     RegisterModel details = (RegisterModel)e.AddedItems[0];
-                    System.Uri imguri = new Uri(string.Format("../Images/Yoda/{0}", details.Image), UriKind.Relative);
+                    System.Uri imguri = new Uri(string.Format("../Images/{0}", details.Image), UriKind.Relative);
                     BitmapImage ni = new BitmapImage(imguri);
                     //this.RegImage.Source = ni;
                 }
@@ -95,7 +95,7 @@ namespace ADIN.WPF.Components
         {
             if ((string)e.Cell.Column.Header == "Value")
             {
-                RegisterViewModel deviceViewModel = (RegisterViewModel)this.DataContext;
+                RegisterListingViewModel deviceViewModel = (RegisterListingViewModel)this.DataContext;
                 uint newValue = 0;
                 if (e.NewValue is string)
                 {

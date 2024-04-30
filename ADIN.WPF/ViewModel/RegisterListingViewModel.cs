@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace ADIN.WPF.ViewModel
 {
-    public class RegisterViewModel : ViewModelBase
+    public class RegisterListingViewModel : ViewModelBase
     {
         private readonly RegisterService _registerService = new RegisterService();
         private IFTDIServices _ftdiService;
@@ -18,16 +18,16 @@ namespace ADIN.WPF.ViewModel
         private SelectedDeviceStore _selectedDeviceStore;
         private RegisterModel _selectedRegister;
 
-        public RegisterViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
+        public RegisterListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiService = ftdiService;
 
-            SaveRegisterDataCommand = new RegisterSaveDataCommand(this);
+            //SaveRegisterDataCommand = new RegisterSaveDataCommand(this);
             //SaveBitFielddataCommand = new RegisterSaveDataCommand(this);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
-            _selectedDeviceStore.RegistersValueChanged += _selectedDeviceStore_RegistersValueChanged;
+            //_selectedDeviceStore.RegistersValueChanged += _selectedDeviceStore_RegistersValueChanged;
         }
 
         public string ImagePath
@@ -68,7 +68,7 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        private ADINDeviceModel _selectedDevice => _selectedDeviceStore.SelectedDevice;
+        private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
 
         public void WriteRegister(string name, uint value)
         {
@@ -78,7 +78,7 @@ namespace ADIN.WPF.ViewModel
         protected override void Dispose()
         {
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
-            _selectedDeviceStore.RegistersValueChanged -= _selectedDeviceStore_RegistersValueChanged;
+            //_selectedDeviceStore.RegistersValueChanged -= _selectedDeviceStore_RegistersValueChanged;
             base.Dispose();
         }
 
@@ -89,7 +89,7 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
-            OnPropertyChanged(nameof(Registers));
+            OnPropertyChanged(nameof(this.Registers));
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using ADIN.Device.Services;
+﻿using ADI.Register.Models;
+using ADIN.Device.Services;
+using System.Collections.ObjectModel;
 
 namespace ADIN.Device.Models
 {
@@ -19,5 +21,7 @@ namespace ADIN.Device.Models
         public ILinkProperties LinkProperties => Device.LinkProperties;
 
         public IClockPinControl ClockPinControl => Device.ClockPinControl;
+
+        public ObservableCollection<RegisterModel> Registers => Device.Registers;
     }
 }

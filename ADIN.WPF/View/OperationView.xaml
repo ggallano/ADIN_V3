@@ -73,6 +73,9 @@
                             <!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />-->
                         </Grid>
                     </TabItem>
+                    <TabItem Header="Register Access">
+                        <local:RegisterListingView DataContext="{Binding RegisterListingVM}"/>
+                    </TabItem>
                     <TabItem Header="Clock Control">
                         <Grid>
                             <Grid.ColumnDefinitions>

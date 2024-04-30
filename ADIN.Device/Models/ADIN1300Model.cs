@@ -18,7 +18,7 @@ namespace ADIN.Device.Models
         private IFTDIServices _ftdiService;
         private IRegisterService _registerService;
         private string registerJsonFile;
-        private ObservableCollection<RegisterModel> registers;
+        //private ObservableCollection<RegisterModel> registers;
         private uint phyAddress;
 
         public ADIN1300Model(IFTDIServices ftdiService, IRegisterService registerService)
@@ -28,9 +28,9 @@ namespace ADIN.Device.Models
             phyAddress = 0;
 
             //Retrieve Registers
-            registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1300.json"));
+            Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1300.json"));
 
-            FirmwareAPI = new ADIN1300FirmwareAPI(_ftdiService, registers, phyAddress);
+            FirmwareAPI = new ADIN1300FirmwareAPI(_ftdiService, Registers, phyAddress);
 
             LinkProperties = new LinkPropertiesADIN1300();
             ClockPinControl = new ClockPinControlADIN1300();
