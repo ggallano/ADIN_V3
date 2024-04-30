@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface IADIN1200API : IMDIOAPI, IAdvertisedSpeed, IClockPinControl, IDownSpeed, IAutoMDIX, IEnergyDetect
+    public interface IDownSpeed
     {
+        void DownSpeed10Hd(bool dwnSpd10Hd);
+        void DownSpeedRetriesSetVal(uint dwnSpdRtryVal);
     }
 }

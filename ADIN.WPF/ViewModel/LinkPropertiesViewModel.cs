@@ -15,6 +15,7 @@ namespace ADIN.WPF.ViewModel
     public class LinkPropertiesViewModel : ViewModelBase
     {
         private bool _isANAdvertisedSpeedVisible = true;
+        private bool _isANAdvertised1GSpeedVisible = true;
         private NavigationStore _navigationStore;
         private SelectedDeviceStore _selectedDeviceStore;
 
@@ -127,6 +128,16 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsANAdvertised1GSpeedVisible
+        {
+            get { return _isANAdvertised1GSpeedVisible && (_linkProperties?.IsSpeedCapable1G != false); }
+            set
+            {
+                _isANAdvertised1GSpeedVisible = value;
+                OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
+            }
+        }
+
         public bool IsEEEAdvertisementVisible { get; set; } = true;
 
         public string SelectedSpeedMode
@@ -135,12 +146,15 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.SpeedMode = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.AdvertisedForcedSpeed(value);
                 OnPropertyChanged(nameof(SelectedSpeedMode));
 
                 IsANAdvertisedSpeedVisible = true;
+                IsANAdvertised1GSpeedVisible = true;
                 if (_linkProperties.SpeedMode == "Forced")
                 {
                     IsANAdvertisedSpeedVisible = false;
+                    IsANAdvertised1GSpeedVisible = false;
                 }
             }
         }
@@ -151,6 +165,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.MDIX = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.AutoMDIXMode(value);
                 OnPropertyChanged(nameof(SelectedMDIX));
             }
         }
@@ -161,6 +176,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.EnergyDetectPowerDownMode = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.EnableEnergyDetectPowerDown(value);
                 OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
             }
         }
@@ -171,6 +187,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.IsDownSpeed_100BASE_TX_HD = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.DownSpeed100Hd(value);
                 OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
             }
         }
@@ -181,6 +198,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.IsDownSpeed_10BASE_T_HD = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.DownSpeed10Hd(value);
                 OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
             }
         }
@@ -190,6 +208,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkProperties.DownSpeedRetries = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.DownSpeedRetriesSetVal(value);
                 OnPropertyChanged(nameof(SetDownSpeedRetries));
             }
         }
@@ -197,6 +216,7 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
             OnPropertyChanged(nameof(SpeedModes));
             OnPropertyChanged(nameof(SelectedSpeedMode));
             OnPropertyChanged(nameof(MDIXs));

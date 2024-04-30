@@ -20,6 +20,7 @@ namespace ADIN.Device.Models
         bool IsDownSpeed_100BASE_TX_HD { get; set; }
         bool IsAdvertise_1000BASE_T_FD { get; set; }
         bool IsAdvertise_1000BASE_T_HD { get; set; }
+        bool IsSpeedCapable1G { get; set; }
         bool IsAdvertise_100BASE_TX_FD { get; set; }
         bool IsAdvertise_100BASE_TX_HD { get; set; }
         bool IsAdvertise_10BASE_T_FD { get; set; }

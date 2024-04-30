@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface IADIN1200API : IMDIOAPI, IAdvertisedSpeed, IClockPinControl, IDownSpeed, IAutoMDIX, IEnergyDetect
+    public interface IEnergyDetect
     {
+        void EnableEnergyDetectPowerDown(string enEnergyDetect);
     }
 }

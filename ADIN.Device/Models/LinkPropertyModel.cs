@@ -16,6 +16,7 @@ namespace ADIN.Device.Models
         public uint DownSpeedRetries { get; set; }
         public bool IsDownSpeed_10BASE_T_HD { get; set; }
         public bool IsDownSpeed_100BASE_TX_HD { get; set; }
+        public bool IsSpeedCapable1G { get; set; }
         public bool IsAdvertise_1000BASE_T_FD { get; set; }
         public bool IsAdvertise_1000BASE_T_HD { get; set; }
         public bool IsAdvertise_100BASE_TX_FD { get; set; }
