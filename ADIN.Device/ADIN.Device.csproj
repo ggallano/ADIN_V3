@@ -57,6 +57,7 @@
     <Compile Include="Models\ADIN1200\ClockPinControlADIN1200.cs" />
     <Compile Include="Models\ADIN1200\LinkPropertiesADIN1200.cs" />
     <Compile Include="Models\ADIN1300Model.cs" />
+    <Compile Include="Models\ADIN1300\ClockPinControlADIN1300.cs" />
     <Compile Include="Models\IClockPinControl.cs" />
     <Compile Include="Models\ILinkProperties.cs" />
     <Compile Include="Models\ADIN1300\LinkPropertiesADIN1300.cs" />

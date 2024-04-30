@@ -47,6 +47,7 @@
                 <Button Style="{DynamicResource AdiLogoStyle}"/>
                 <TextBlock Text="Local Devices" FontWeight="Bold" FontSize="18" Margin="0 20 0 5"/>
                 <components:DeviceListing DataContext="{Binding DeviceListingVM}" Height="150"/>
+                <local:ADINButtonsView/>
                 <!--<components:ExtraCommandsView DataContext="{Binding ExtraCommandsViewModel}" Height="230"/>-->
             </StackPanel>
             <Grid Grid.Column="1" Grid.Row="1">

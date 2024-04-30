@@ -23,6 +23,7 @@
     <Color x:Key="LightBlue2">#1a59ed</Color>
 
     <Color x:Key="WhiteColor">#FFFFFFFF</Color>
+    <Color x:Key="JohsonColor">#0067b9</Color>
     
     
     
@@ -59,5 +60,9 @@
     <SolidColorBrush x:Key="Button.IsMouseOver.Background" Color="{StaticResource DarkerGray}"/>
     <SolidColorBrush x:Key="Button.IsMouseOver.Foreground" Color="White"/>
     <SolidColorBrush x:Key="Button.IsMouseOver.BorderBrush" Color="White"/>
+
+    <SolidColorBrush x:Key="Button.IsChecked.Background" Color="{StaticResource DarkerGray}"/>
+    <SolidColorBrush x:Key="Button.IsChecked.Foreground" Color="{StaticResource JohsonColor}"/>
+    <SolidColorBrush x:Key="Button.IsChecked.BorderBrush" Color="White"/>
 
 </ResourceDictionary>

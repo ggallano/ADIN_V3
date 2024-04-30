@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="ADIN.WPF.View.ADINButtonsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:local="clr-namespace:ADIN.WPF.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Software Powerdown Down"/>
+            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Disable Linking"/>
+            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Restart Linking"/>
+            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Save Registers"/>
+            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Load Registers"/>
+            <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys (Pin)"/>
+            <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys"/>
+            <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: PHY"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
