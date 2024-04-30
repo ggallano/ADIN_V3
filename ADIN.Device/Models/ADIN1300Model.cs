@@ -29,6 +29,7 @@ namespace ADIN.Device.Models
 
             //Retrieve Registers
             Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1300.json"));
+            
 
             FirmwareAPI = new ADIN1300FirmwareAPI(_ftdiService, Registers, phyAddress);
 

@@ -14,7 +14,6 @@ namespace ADIN.WPF.ViewModel
         private string _anStatus = "-";
         private BackgroundWorker _backgroundWorker;
         private string _checker = "-";
-        private FrameGenCheckerViewModel _frameGenCheckerViewModel;
         private IFTDIServices _ftdiService;
         private string _generator = "-";
         private string _linkLength;
@@ -30,21 +29,18 @@ namespace ADIN.WPF.ViewModel
         /// creates new instance
         /// </summary>
         /// <param name="selectedDeviceStore">selected device store</param>
-        public DeviceStatusViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, object thisLock, FrameGenCheckerViewModel frameGenCheckerViewModel)
+        public DeviceStatusViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiService = ftdiService;
-            _thisLock = thisLock;
-            _frameGenCheckerViewModel = frameGenCheckerViewModel;
 
-            SetBackgroundWroker();
+            //SetBackgroundWroker();
             //SetRegsiterWorker();
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
-            _selectedDeviceStore.FrameGenCheckerResetDisplay += _selectedDeviceStore_FrameGenCheckerResetDisplay;
         }
 
-        public string AdvertisedSpeed => _selectedDevice?.AdvertisedSpeed ?? "-";
+        //public string AdvertisedSpeed => _selectedDevice?.AdvertisedSpeed ?? "-";
 
         public string AnStatus
         {
@@ -56,23 +52,23 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public string BoardName => _selectedDevice?.Name ?? "No Device";
+        //public string BoardName => _selectedDevice?.Name ?? "No Device";
 
-        public string Checker
-        {
-            get { return _selectedDevice?.Checker ?? "-"; }
-            set
-            {
-                if (_selectedDevice != null)
-                {
-                    _checker = value;
-                    _selectedDevice.Checker = value;
-                }
-                OnPropertyChanged(nameof(Checker));
-            }
-        }
+        //public string Checker
+        //{
+        //    get { return _selectedDevice?.Checker ?? "-"; }
+        //    set
+        //    {
+        //        if (_selectedDevice != null)
+        //        {
+        //            _checker = value;
+        //            _selectedDevice.Checker = value;
+        //        }
+        //        OnPropertyChanged(nameof(Checker));
+        //    }
+        //}
 
-        public string DeviceType => _selectedDevice?.EvalBoardType.ToString() ?? "-";
+        //public string DeviceType => _selectedDevice?.EvalBoardType.ToString() ?? "-";
 
         public string Generator
         {
@@ -90,7 +86,6 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _linkLength = value;
-                _selectedDeviceStore.OnLinkLengthChanged(value);
                 OnPropertyChanged(nameof(LinkLength));
             }
         }
@@ -103,22 +98,15 @@ namespace ADIN.WPF.ViewModel
                 switch ((EthPhyState)Enum.Parse(typeof(EthPhyState), value))
                 {
                     case EthPhyState.Powerdown:
-                        _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Up");
                         break;
 
                     case EthPhyState.Standby:
-                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.Standby.ToString());
-                        _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Down");
                         break;
 
                     case EthPhyState.LinkDown:
-                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.LinkDown.ToString());
-                        _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Down");
                         break;
 
                     case EthPhyState.LinkUp:
-                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.LinkUp.ToString());
-                        _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Down");
                         break;
 
                     default:
@@ -145,12 +133,11 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _mseValue = value;
-                _selectedDeviceStore.OnMseValueChanged(value);
                 OnPropertyChanged(nameof(MseValue));
             }
         }
 
-        public string PhyAddress => _selectedDevice?.PhyAddress.ToString() ?? "-";
+        //public string PhyAddress => _selectedDevice?.PhyAddress.ToString() ?? "-";
         public string SerialNumber => _selectedDevice?.SerialNumber ?? "-";
 
         public string TxLevelStatus
@@ -163,12 +150,11 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        private ADINDeviceModel _selectedDevice => _selectedDeviceStore.SelectedDevice;
+        private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
 
         protected override void Dispose()
         {
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
-            _selectedDeviceStore.FrameGenCheckerResetDisplay -= _selectedDeviceStore_FrameGenCheckerResetDisplay;
             base.Dispose();
         }
 
@@ -195,14 +181,14 @@ namespace ADIN.WPF.ViewModel
                             //_selectedDevice.FirmwareAPI.GetFrameContentInitialization(true);
 
                             // Device Status
-                            LinkStatus = _selectedDevice.FirmwareAPI.GetLinkStatus();
-                            AnStatus = _selectedDevice.FirmwareAPI.GetAnStatus();
-                            MasterSlaveStatus = _selectedDevice.FirmwareAPI.GetMasterSlaveStatus();
-                            TxLevelStatus = _selectedDevice.FirmwareAPI.GetTxLevelStatus();
-                            MseValue = _selectedDevice.FirmwareAPI.GetMseValue();
+                            //LinkStatus = _selectedDevice.FwAPI.GetLinkStatus();
+                            //AnStatus = _selectedDevice.FwAPI.GetAnStatus();
+                            //MasterSlaveStatus = _selectedDevice.FwAPI.GetMasterSlaveStatus();
+                            //TxLevelStatus = _selectedDevice.FwAPI.GetTxLevelStatus();
+                            //MseValue = _selectedDevice.FwAPI.GetMseValue();
 
-                            _selectedDevice.FirmwareAPI.GetFrameCheckerStatus();
-                            Generator = _selectedDevice.FirmwareAPI.GetFrameGeneratorStatus();
+                            //_selectedDevice.FwAPI.GetFrameCheckerStatus();
+                            //Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
                         }
                     }
 
@@ -234,7 +220,7 @@ namespace ADIN.WPF.ViewModel
                     lock (_thisLock)
                     {
                         if (_selectedDevice != null && _ftdiService.IsComOpen)
-                            _selectedDevice.FirmwareAPI.ReadRegsiters();
+                            //_selectedDevice.FwAPI.ReadRegsiters();
 
                         _selectedDeviceStore.OnRegistersValueChanged();
                     }
@@ -259,24 +245,24 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_FrameGenCheckerResetDisplay(string status)
         {
-            Checker = status;
+            //Checker = status;
         }
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             Debug.WriteLine($"[{SerialNumber}] Selected");
 
-            OnPropertyChanged(nameof(BoardName));
+            //OnPropertyChanged(nameof(BoardName));
             OnPropertyChanged(nameof(SerialNumber));
             OnPropertyChanged(nameof(LinkStatus));
             OnPropertyChanged(nameof(AnStatus));
             OnPropertyChanged(nameof(MasterSlaveStatus));
             OnPropertyChanged(nameof(MseValue));
             OnPropertyChanged(nameof(TxLevelStatus));
-            OnPropertyChanged(nameof(DeviceType));
-            OnPropertyChanged(nameof(PhyAddress));
-            OnPropertyChanged(nameof(AdvertisedSpeed));
-            OnPropertyChanged(nameof(Checker));
+            //OnPropertyChanged(nameof(DeviceType));
+            //OnPropertyChanged(nameof(PhyAddress));
+            //OnPropertyChanged(nameof(AdvertisedSpeed));
+            //OnPropertyChanged(nameof(Checker));
         }
 
         private void SetBackgroundWroker()

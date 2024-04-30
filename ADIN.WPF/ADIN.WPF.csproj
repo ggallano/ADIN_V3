@@ -149,6 +149,7 @@
     <Compile Include="ViewModel\DeviceListingItemViewModel.cs" />
     <Compile Include="ViewModel\DeviceListingViewModel.cs" />
     <Compile Include="ViewModel\ClockPinControlViewModel.cs" />
+    <Compile Include="ViewModel\DeviceStatusViewModel.cs" />
     <Compile Include="ViewModel\LinkPropertiesViewModel.cs" />
     <Compile Include="ViewModel\NavigationBarViewModel.cs" />
     <Compile Include="ViewModel\OperationViewModel.cs" />

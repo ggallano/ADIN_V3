@@ -10,6 +10,9 @@ namespace ADIN.WPF.Stores
     {
         private ADINDevice _selectedDevice;
 
+        public event Action RegisterListingValueChanged;
+        public event Action SelectedDeviceChanged;
+
         public ADINDevice SelectedDevice
         {
             get { return _selectedDevice; }
@@ -20,6 +23,9 @@ namespace ADIN.WPF.Stores
             }
         }
 
-        public event Action SelectedDeviceChanged;
+        public void OnRegistersValueChanged()
+        {
+            RegisterListingValueChanged?.Invoke();
+        }
     }
 }

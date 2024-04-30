@@ -59,8 +59,10 @@ namespace ADIN.Device.Services
         {
             string response = string.Empty;
             string command = string.Empty;
+            string command2 = string.Empty;
 
-            command = $"mdiord_cl45 {_phyAddress},{regAddress.ToString("X")}\n";
+            MdioWriteCl22(0x10, (regAddress & 0xFFFF));
+            command = $"mdioread {_phyAddress},11\n";
             //lock (thisLock)
             {
                 _ftdiService.Purge();
@@ -171,7 +173,16 @@ namespace ADIN.Device.Services
         {
             string value = string.Empty;
 
-            value = MdioReadCl45(registerAddress);
+            uint pageNumber = registerAddress >> 16;
+            uint pageAddr = registerAddress & 0xFFFF;
+            if (pageNumber == 0)
+            {
+                value = MdioReadCl22(registerAddress);
+            }
+            else
+            {
+                value = MdioReadCl45(registerAddress);
+            }
 
             return value;
         }
@@ -364,7 +375,39 @@ namespace ADIN.Device.Services
         }
         public void SetGpClkPinControl(string gpClkPinCtrl)
         {
-            //throw new NotImplementedException();
+            this.WriteYodaRg("GeClkCfg", 0);
+
+            switch (gpClkPinCtrl)
+            {
+                case "125 MHz PHY Recovered":
+                    this.WriteYodaRg("GeClkRcvr125En", 1);
+                    break;
+                case "125 MHz PHY Free Running":
+                    this.WriteYodaRg("GeClkFree125En", 1);
+                    break;
+                case "Recovered HeartBeat":
+                    this.WriteYodaRg("GeClkHrtRcvrEn", 1);
+                    break;
+                case "Free Running HeartBeat":
+                    this.WriteYodaRg("GeClkHrtFreeEn", 1);
+                    break;
+                case "25 MHz Reference":
+                    this.WriteYodaRg("GeClk25En", 1);
+                    break;
+                default:
+                    // Not enable any register
+                    break;
+
+            }
+        }
+
+        public void ReadRegsiters()
+        {
+            foreach (var register in _registers)
+            {
+                register.Value = ReadYodaRg(register.Address);
+            }
+            Debug.WriteLine("ReadRegisters Done");
         }
     }
 }

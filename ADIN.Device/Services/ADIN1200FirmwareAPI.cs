@@ -429,5 +429,10 @@ namespace ADIN.Device.Services
         {
             throw new NotImplementedException();
         }
+
+        public void ReadRegsiters()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
