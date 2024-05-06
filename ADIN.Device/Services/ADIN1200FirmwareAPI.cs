@@ -20,117 +20,134 @@ namespace ADIN.Device.Services
         private IFTDIServices _ftdiService;
         private IRegisterService _registerService;
         private ObservableCollection<RegisterModel> _registers;
+        private ObservableCollection<RegisterModel> _registersBG;
         private uint _phyAddress;
+        private object _ftdiLock = new object();
 
-        public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress)
+        public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, ObservableCollection<RegisterModel> registersBG,uint phyAddress)
         {
             _ftdiService = ftdiService;
             _registers = registers;
+            _registersBG = registersBG;
             _phyAddress = phyAddress;
         }
 
         public string MdioReadCl22(uint regAddress)
         {
-            string response = string.Empty;
-            string command = string.Empty;
-
-            command = $"mdioread {_phyAddress},{regAddress.ToString("X")}\n";
-            //lock (thisLock)
+            lock(_ftdiLock)
             {
-                _ftdiService.Purge();
-                _ftdiService.SendData(command);
+                string response = string.Empty;
+                string command = string.Empty;
 
-                response = _ftdiService.ReadCommandResponse().Trim();
+                command = $"mdioread {_phyAddress},{regAddress.ToString("X")}\n";
+                //lock (thisLock)
+                {
+                    _ftdiService.Purge();
+                    _ftdiService.SendData(command);
+
+                    response = _ftdiService.ReadCommandResponse().Trim();
+                }
+
+                if (response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
+                    //throw new ApplicationException(response);
+                }
+
+                Debug.WriteLine($"Command:{command.TrimEnd()}");
+                Debug.WriteLine($"Response:{response}");
+
+                return response;
             }
-
-            if (response.Contains("ERROR"))
-            {
-                //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
-                //throw new ApplicationException(response);
-            }
-
-            Debug.WriteLine($"Command:{command.TrimEnd()}");
-            Debug.WriteLine($"Response:{response}");
-
-            return response;
         }
 
         public string MdioReadCl45(uint regAddress)
         {
-            string response = string.Empty;
-            string command = string.Empty;
-
-            command = $"mdiord_cl45 {_phyAddress},{regAddress.ToString("X")}\n";
-            //lock (thisLock)
+            lock (_ftdiLock)
             {
-                _ftdiService.Purge();
-                _ftdiService.SendData(command);
+                string response = string.Empty;
+                string command = string.Empty;
 
-                response = _ftdiService.ReadCommandResponse().Trim();
+                command = $"mdiord_cl45 {_phyAddress},{regAddress.ToString("X")}\n";
+                //lock (thisLock)
+                {
+                    _ftdiService.Purge();
+                    _ftdiService.SendData(command);
+                    //_ftdiService.SendData(command);
+
+                    response = _ftdiService.ReadCommandResponse().Trim();
+                }
+
+                if (response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
+                    //throw new ApplicationException(response);
+                }
+
+                Debug.WriteLine($"Command:{command.TrimEnd()}");
+                Debug.WriteLine($"Response:{response}");
+
+                return response;
             }
-
-            if (response.Contains("ERROR"))
-            {
-                //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
-                //throw new ApplicationException(response);
-            }
-
-            Debug.WriteLine($"Command:{command.TrimEnd()}");
-            Debug.WriteLine($"Response:{response}");
-
-            return response;
         }
 
         public string MdioWriteCl22(uint regAddress, uint data)
         {
-            string response = string.Empty;
-            string command = string.Empty;
-
-            command = $"mdiowrite {_phyAddress},{regAddress.ToString("X")},{data.ToString("X")}\n";
-            //lock (thisLock)
+            lock (_ftdiLock)
             {
-                _ftdiService.Purge();
-                _ftdiService.SendData(command);
+                string response = string.Empty;
+                string command = string.Empty;
 
-                response = _ftdiService.ReadCommandResponse().Trim();
-            }
+                command = $"mdiowrite {_phyAddress},{regAddress.ToString("X")},{data.ToString("X")}\n";
+                //lock (thisLock)
+                {
+                    _ftdiService.Purge();
+                    _ftdiService.SendData(command);
 
-            if (response.Contains("ERROR"))
-            {
-                //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
-                throw new ApplicationException(response);
-            }
+                    response = _ftdiService.ReadCommandResponse().Trim();
+                }
 
-            Debug.WriteLine($"Command:{command.TrimEnd()}");
-            Debug.WriteLine($"Response:{response}");
+                if (response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
 
-            return response;
+                Debug.WriteLine($"Command:{command.TrimEnd()}");
+                Debug.WriteLine($"Response:{response}");
+
+                return response;
+            } 
         }
 
         public string MdioWriteCl45(uint regAddress, uint data)
         {
-            string response = string.Empty;
-            string command = string.Empty;
-            string command2 = string.Empty;
-
-            command = $"mdiowr_cl45 {_phyAddress},{regAddress.ToString("X")},{data.ToString("X")}\n";
-            //lock (thisLock)
+            lock (_ftdiLock)
             {
-                _ftdiService.Purge();
-                _ftdiService.SendData(command);
-                response = _ftdiService.ReadCommandResponse().Trim();
+                string response = string.Empty;
+                string command = string.Empty;
+                string command2 = string.Empty;
+
+                command = $"mdiowr_cl45 {_phyAddress},{regAddress.ToString("X")},{data.ToString("X")}\n";
+                //lock (thisLock)
+                {
+                    _ftdiService.Purge();
+                    _ftdiService.SendData(command);
+                    response = _ftdiService.ReadCommandResponse().Trim();
+                }
+
+                if (response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
+
+                Debug.WriteLine($"Command:{command.TrimEnd()}");
+                Debug.WriteLine($"Response:{response}");
+
+                return response;
+
             }
-
-            if (response.Contains("ERROR"))
-            {
-                //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
-                throw new ApplicationException(response);
-            }
-
-            Debug.WriteLine($"Command:{command.TrimEnd()}");
-            Debug.WriteLine($"Response:{response}");
-
-            return response;
         }
 
         private string ReadYogaRg(string name)
@@ -164,9 +181,17 @@ namespace ADIN.Device.Services
 
         private string ReadYodaRg(uint registerAddress)
         {
-            string value = string.Empty;
+            string value;
 
-            value = MdioReadCl45(registerAddress);
+            uint pageNumber = registerAddress >> 16;
+            if (pageNumber == 0)
+            {
+                value = MdioReadCl22(registerAddress);
+            }
+            else
+            {
+                value = MdioReadCl45(registerAddress);
+            }
 
             return value;
         }
@@ -229,15 +254,15 @@ namespace ADIN.Device.Services
             uint pageAddr = register.Address & 0xFFFF;
             if (pageNumber == 0)
             {
-                MdioReadCl22(register.Address); // Temporary: for register change debug purpose
+                //MdioReadCl22(register.Address); // Temporary: for register change debug purpose
                 MdioWriteCl22(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
-                MdioReadCl22(register.Address); // Temporary: for register change debug purpose
+                //MdioReadCl22(register.Address); // Temporary: for register change debug purpose
             }
             else
             {
-                MdioReadCl45(register.Address); // Temporary: for register change debug purpose
+                //MdioReadCl45(register.Address); // Temporary: for register change debug purpose
                 MdioWriteCl45(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
-                MdioReadCl45(register.Address); // Temporary: for register change debug purpose
+                //MdioReadCl45(register.Address); // Temporary: for register change debug purpose
             }
         }
 
@@ -436,7 +461,11 @@ namespace ADIN.Device.Services
 
         public void ReadRegsiters()
         {
-            throw new NotImplementedException();
+            foreach (var register in _registersBG)
+            {
+                register.Value = ReadYodaRg(register.Address);
+            }
+            Debug.WriteLine("ReadRegisters Done");
         }
     }
 }

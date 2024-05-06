@@ -30,8 +30,9 @@ namespace ADIN.Device.Models
 
             //Retrieve Registers
             Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1200.json"));
+            RegistersBG = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1200.json"));
 
-            FirmwareAPI = new ADIN1200FirmwareAPI(_ftdiService, Registers, phyAddress);
+            FirmwareAPI = new ADIN1200FirmwareAPI(_ftdiService, Registers, RegistersBG, phyAddress);
 
             LinkProperties = new LinkPropertiesADIN1200();
             ClockPinControl = new ClockPinControlADIN1200();

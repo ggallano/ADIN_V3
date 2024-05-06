@@ -13,5 +13,6 @@ namespace ADIN.Device.Models
         public IClockPinControl ClockPinControl { get; set; }
         public ITestMode TestMode { get; set; }
         public ObservableCollection<RegisterModel> Registers { get; set; }
+        public ObservableCollection<RegisterModel> RegistersBG { get; set; }
     }
 }
