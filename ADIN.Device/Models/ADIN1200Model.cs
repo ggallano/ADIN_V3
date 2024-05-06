@@ -35,6 +35,7 @@ namespace ADIN.Device.Models
 
             LinkProperties = new LinkPropertiesADIN1200();
             ClockPinControl = new ClockPinControlADIN1200();
+            TestMode = new TestModeADIN1200();
         }
 
         public override IFirmwareAPI FirmwareAPI { get; set; }

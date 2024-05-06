@@ -76,7 +76,7 @@
                     <TabItem Header="Register Access">
                         <local:RegisterListingView DataContext="{Binding RegisterListingVM}"/>
                     </TabItem>
-                    <TabItem Header="Clock Control">
+                    <TabItem Header="Clock Pin Control">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*" MinWidth="400"/>
@@ -84,6 +84,17 @@
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
                             <local:ClockPinControlView Grid.Column="0" DataContext="{Binding ClockPinControlVM}"/>
+                            <!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />-->
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Test Modes">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" MinWidth="400"/>
+                                <ColumnDefinition Width="3"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <local:TestModeView Grid.Column="0" DataContext="{Binding TestModeVM}"/>
                             <!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />-->
                         </Grid>
                     </TabItem>

@@ -424,6 +424,10 @@ namespace ADIN.Device.Services
 
             }
         }
+        public void SetTestMode(TestModeListingModel testMode)
+        {
+            throw new NotImplementedException();
+        }
 
         public void DownSpeed100Hd(bool dwnSpd100Hd)
         {

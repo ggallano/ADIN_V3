@@ -54,11 +54,13 @@
   <ItemGroup>
     <Compile Include="Models\ActiveLinkModel.cs" />
     <Compile Include="Models\ADIN1200Model.cs" />
+    <Compile Include="Models\ADIN1200\TestModeADIN1200.cs" />
     <Compile Include="Models\ADIN1200\ClockPinControlADIN1200.cs" />
     <Compile Include="Models\ADIN1200\LinkPropertiesADIN1200.cs" />
     <Compile Include="Models\ADIN1300Model.cs" />
     <Compile Include="Models\ADIN1300\ClockPinControlADIN1300.cs" />
     <Compile Include="Models\IClockPinControl.cs" />
+    <Compile Include="Models\ITestMode.cs" />
     <Compile Include="Models\ILinkProperties.cs" />
     <Compile Include="Models\ADIN1300\LinkPropertiesADIN1300.cs" />
     <Compile Include="Models\ADINDevice.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Services\IADIN1200API.cs" />
     <Compile Include="Services\IADIN1300API.cs" />
     <Compile Include="Services\IAdvertisedSpeed.cs" />
+    <Compile Include="Services\ITestMode.cs" />
     <Compile Include="Services\IAutoMDIX.cs" />
     <Compile Include="Services\ICableDiagnostic.cs" />
     <Compile Include="Services\IClockPinControl.cs" />

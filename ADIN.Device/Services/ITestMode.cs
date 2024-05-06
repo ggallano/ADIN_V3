@@ -1,4 +1,4 @@
-﻿using ADIN.Device.Models;
+﻿using ADIN.WPF.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface IADIN1200API : IMDIOAPI, IAdvertisedSpeed, IClockPinControl, IDownSpeed, IAutoMDIX, IEnergyDetect, ITestMode
+    public interface ITestMode
     {
+        void SetTestMode(TestModeListingModel testMode);
     }
 }

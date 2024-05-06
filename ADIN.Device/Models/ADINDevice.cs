@@ -21,6 +21,7 @@ namespace ADIN.Device.Models
         public ILinkProperties LinkProperties => Device.LinkProperties;
 
         public IClockPinControl ClockPinControl => Device.ClockPinControl;
+        public ITestMode TestMode => Device.TestMode;
 
         public ObservableCollection<RegisterModel> Registers => Device.Registers;
     }

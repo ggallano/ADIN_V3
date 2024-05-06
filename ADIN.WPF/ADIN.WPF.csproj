@@ -133,6 +133,7 @@
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
     <Compile Include="Commands\ClockPinControlCommand.cs" />
+    <Compile Include="Commands\TestModeCommand.cs" />
     <Compile Include="Components\NavigationBar.xaml.cs">
       <DependentUpon>NavigationBar.xaml</DependentUpon>
     </Compile>
@@ -155,9 +156,13 @@
     <Compile Include="ViewModel\OperationViewModel.cs" />
     <Compile Include="ViewModel\RegisterAccessViewModel.cs" />
     <Compile Include="ViewModel\RegisterListingViewModel.cs" />
+    <Compile Include="ViewModel\TestModeViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\ADINButtonsView.xaml.cs">
       <DependentUpon>ADINButtonsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestModeView.xaml.cs">
+      <DependentUpon>TestModeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ClockPinControlView.xaml.cs">
       <DependentUpon>ClockPinControlView.xaml</DependentUpon>
@@ -220,6 +225,10 @@
     <Page Include="View\ADINButtonsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TestModeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\ClockPinControlView.xaml">
       <Generator>MSBuild:Compile</Generator>

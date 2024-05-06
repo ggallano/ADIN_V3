@@ -9,11 +9,10 @@ namespace ADIN.WPF.Commands
         private SelectedDeviceStore _selectedDeviceStore;
         private TestModeViewModel _viewModel;
 
-        public TestModeCommand(TestModeViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
+        public TestModeCommand(TestModeViewModel testModeViewModel, SelectedDeviceStore selectedDeviceStore)
         {
-            _viewModel = viewModel;
+            _viewModel = testModeViewModel;
             _selectedDeviceStore = selectedDeviceStore;
-
             _viewModel.PropertyChanged += _viewModel_PropertyChanged;
         }
 
@@ -26,8 +25,8 @@ namespace ADIN.WPF.Commands
 
         public override void Execute(object parameter)
         {
-            var testMode = parameter as TestModeListingModel;
-            _selectedDeviceStore.SelectedDevice.FirmwareAPI.SetTestModeSetting(testMode);
+            //var testMode = parameter as TestModeListingModel;
+            //_selectedDeviceStore.SelectedDevice.FirmwareAPI.SetTestModeSetting(testMode);
         }
 
         private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

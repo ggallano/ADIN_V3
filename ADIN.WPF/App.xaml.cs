@@ -35,7 +35,6 @@ namespace ADIN.WPF
             _selectedDeviceStore = new SelectedDeviceStore();
             _navigationStore = new NavigationStore();
             _navigationStore.CurrentViewModel = new LinkPropertiesViewModel(_navigationStore, _selectedDeviceStore);
-            _navigationStore.CurrentViewModel = new ClockPinControlViewModel(_navigationStore, _selectedDeviceStore);
             _ftdiService = new FTDIServices();
             _scriptService = new ScriptService();
             _registerService = new RegisterService();

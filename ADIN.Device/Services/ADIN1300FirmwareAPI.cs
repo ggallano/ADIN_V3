@@ -400,6 +400,10 @@ namespace ADIN.Device.Services
 
             }
         }
+        public void SetTestMode(TestModeListingModel testMode)
+        {
+            throw new NotImplementedException();
+        }
 
         public void ReadRegsiters()
         {

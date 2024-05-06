@@ -28,7 +28,7 @@ namespace ADIN.WPF.ViewModel
             _ftdiService = ftdiService;
 
 
-            SetRegsiterWorker();
+            //SetRegsiterWorker();
             //SaveRegisterDataCommand = new RegisterSaveDataCommand(this);
             //SaveBitFielddataCommand = new RegisterSaveDataCommand(this);
 
