@@ -23,5 +23,6 @@ namespace ADIN.Device.Models
         public IClockPinControl ClockPinControl => Device.ClockPinControl;
 
         public ObservableCollection<RegisterModel> Registers => Device.Registers;
+        public ObservableCollection<RegisterModel> RegistersBG => Device.RegistersBG;
     }
 }

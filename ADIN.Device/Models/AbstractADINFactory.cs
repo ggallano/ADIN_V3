@@ -12,5 +12,6 @@ namespace ADIN.Device.Models
         public ILinkProperties LinkProperties { get; set; }
         public IClockPinControl ClockPinControl { get; set; }
         public ObservableCollection<RegisterModel> Registers { get; set; }
+        public ObservableCollection<RegisterModel> RegistersBG { get; set; }
     }
 }

@@ -50,7 +50,14 @@ namespace ADIN.WPF.ViewModel
         //public ObservableCollection<RegisterModel> Registers => _selectedDevice?.Registers;
         public ObservableCollection<RegisterModel> Registers
         {
-            get { return _selectedDevice?.Registers; }
+            get 
+            { 
+                return _selectedDevice?.RegistersBG; 
+            }
+            //set
+            //{
+            //    //OnPropertyChanged(nameof(Registers));
+            //}
         }
 
         public ICommand SaveBitFielddataCommand { get; set; }
