@@ -451,6 +451,63 @@ namespace ADIN.Device.Services
         }
         public void SetTestMode(TestModeListingModel testMode)
         {
+            //WriteYodaRg("GeSftRst", 1);
+            //WriteYodaRg("GePhySftPdCfg", 1);
+            //WriteYodaRg("GePhyRst", 1);
+            //WriteYodaRg("LnkWdEn", 0);
+            //WriteYodaRg("NrgPdEn", 0);
+            //WriteYodaRg("DnSpeedTo10En", 0);
+            //WriteYodaRg("ArbWdEn", 0);
+            //WriteYodaRg("B10LpTxEn", 1);
+            //WriteYodaRg("EeeAdv", 0);
+            //WriteYodaRg("ExtNextPageAdv", 0);
+            //WriteYodaRg("GeFifoDpth", 0);
+            //WriteYodaRg("DpthMiiByte", 0);
+
+            //if (testMode.Name1 == "100BASE-TX VOD")
+            //{
+            //    WriteYodaRg("AutonegEn", 0);
+            //    WriteYodaRg("SpeedSelMsb", 0);
+            //    WriteYodaRg("SpeedSelLsb", 1);
+            //    WriteYodaRg("AutoMdiEn", 0);
+            //    WriteYodaRg("ManMdiEn", 0);
+            //    WriteYodaRg("LinkEn", 1);
+            //}
+            //else if(testMode.Name1 == "10BASE-T Link Pulse")
+            //{
+            //    WriteYodaRg("AutonegEn", 0);
+            //    WriteYodaRg("SpeedSelMsb", 0);
+            //    WriteYodaRg("SpeedSelLsb", 0);
+            //    WriteYodaRg("AutoMdiEn", 0);
+            //    WriteYodaRg("ManMdiEn", 0);
+            //    WriteYodaRg("LbTxSup", 0);
+            //    WriteYodaRg("Loopback", 1);
+            //    WriteYodaRg("LinkEn", 1);
+            //}
+            //else
+            //{
+            //    switch (testMode.Name1)
+            //    {
+            //        case "10BASE-T TX 5 MHz DIM 1":
+            //            WriteYodaRg("B10TxTstMode", 4);
+            //            break;
+            //        case "10BASE-T TX 10 MHz DIM 1":
+            //            WriteYodaRg("B10TxTstMode", 3);
+            //            break;
+            //        case "10BASE-T TX 5 MHz DIM 0":
+            //            WriteYodaRg("B10TxTstMode", 2);
+            //            break;
+            //        case "10BASE-T TX 10 MHz DIM 0":
+            //            WriteYodaRg("B10TxTstMode", 1);
+            //            break;
+            //        default:
+            //            // None assigned
+            //            break;
+            //    }
+            //}
+
+            //WriteYodaRg("SftPd", 0);
+
             throw new NotImplementedException();
         }
 
