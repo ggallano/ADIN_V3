@@ -97,6 +97,11 @@ namespace ADIN.WPF.ViewModel
 
             if (message != string.Empty && (message.IndexOf("Undelete") != 1))
             {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    message = _selectedDeviceStore.SelectedDevice.SerialNumber + " " + message;
+                }
+
                 switch (type)
                 {
                     case FeedbackType.Error:
@@ -112,7 +117,7 @@ namespace ADIN.WPF.ViewModel
                         break;
 
                     case FeedbackType.Verbose:
-                        message = "[VerboseInfo]" + message;
+                        message = "[VerboseInfo] " + message;
                         break;
                 }
 
@@ -152,12 +157,12 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        protected override void Dispose()
-        {
-            _selectedDeviceStore.ProcessCompleted -= _selectedDeviceStore_ProcessCompleted;
-            _selectedDeviceStore.ErrorOccured -= _selectedDeviceStore_ErrorOccured;
-            base.Dispose();
-        }
+        //protected override void Dispose()
+        //{
+        //    _selectedDeviceStore.ProcessCompleted -= _selectedDeviceStore_ProcessCompleted;
+        //    _selectedDeviceStore.ErrorOccured -= _selectedDeviceStore_ErrorOccured;
+        //    base.Dispose();
+        //}
 
         private void _selectedDeviceStore_ErrorOccured(FeedbackModel errorFeedback)
         {

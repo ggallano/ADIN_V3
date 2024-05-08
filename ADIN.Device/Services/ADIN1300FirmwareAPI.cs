@@ -29,6 +29,8 @@ namespace ADIN.Device.Services
             _phyAddress = phyAddress;
         }
 
+        public event EventHandler<FeedbackModel> WriteProcessCompleted;
+
         public string MdioReadCl22(uint regAddress)
         {
             string response = string.Empty;
@@ -348,6 +350,10 @@ namespace ADIN.Device.Services
             {
                 this.WriteYodaRg("Eee100Adv", 0);
             }
+        }
+        public void CheckAdvertisedSpeed(List<string> listAdvSpd)
+        {
+            throw new NotImplementedException();
         }
         public void AdvertisedForcedSpeed(string advFrcSpd)
         {

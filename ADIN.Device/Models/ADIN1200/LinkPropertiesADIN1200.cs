@@ -43,6 +43,8 @@ namespace ADIN.Device.Models.ADIN1200
                 "Slave"
             };
             MasterSlave = MasterSlaves[0];
+
+            AdvertisedSpeeds = new List<string>() { };
         }
 
         public bool IsAdvertise_1000BASE_T_FD { get; set; }
@@ -75,5 +77,7 @@ namespace ADIN.Device.Models.ADIN1200
         public string SpeedMode { get; set; }
 
         public List<string> SpeedModes { get; set; }
+
+        public List<string> AdvertisedSpeeds { get; set; }
     }
 }

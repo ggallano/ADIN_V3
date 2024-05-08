@@ -28,11 +28,12 @@ namespace ADIN.WPF.ViewModel
         private readonly IRegisterService _registerService;
         private readonly SelectedDeviceStore _selectedDeviceStore;
         private ObservableCollection<DeviceListingItemViewModel> _deviceListingViewModels;
-        //private FeedbackModel _feedback;
+        private FeedbackModel _feedback;
         private IFTDIServices _ftdiService;
 
         private WqlEventQuery _insertQuery;
         private ManagementEventWatcher _insertWatcher;
+        private LogActivityViewModel _logActivityViewModel;
         private WqlEventQuery _removeQuery;
         private ManagementEventWatcher _removeWatcher;
         private DeviceListingItemViewModel _selectedDeviceListingItemViewModel;
@@ -43,14 +44,15 @@ namespace ADIN.WPF.ViewModel
         /// </summary>
         /// <param name="selectedDeviceStore">selected device store</param>
         /// <param name="ftdiService">ftdi service</param>
-        public DeviceListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, IRegisterService registerService)
+        public DeviceListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, IRegisterService registerService, LogActivityViewModel logActivityViewModel)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiService = ftdiService;
             _registerService = registerService;
+            _logActivityViewModel = logActivityViewModel;
 
             _deviceListingViewModels = new ObservableCollection<DeviceListingItemViewModel>();
-            //_feedback = new FeedbackModel();
+            _feedback = new FeedbackModel();
 
             CheckConnectedDevice();
 
@@ -76,15 +78,15 @@ namespace ADIN.WPF.ViewModel
         /// </summary>
         public ObservableCollection<DeviceListingItemViewModel> DeviceListingItemViewModels => _deviceListingViewModels;
 
-        //public FeedbackModel Feedback
-        //{
-        //    get { return _feedback; }
-        //    set
-        //    {
-        //        _feedback = value;
-        //        OnPropertyChanged(nameof(Feedback));
-        //    }
-        //}
+        public FeedbackModel Feedback
+        {
+            get { return _feedback; }
+            set
+            {
+                _feedback = value;
+                OnPropertyChanged(nameof(Feedback));
+            }
+        }
 
         public ICommand RefreshCommand { get; set; }
 
@@ -256,9 +258,9 @@ namespace ADIN.WPF.ViewModel
                 Application.Current.Dispatcher.Invoke(new Action (() =>
                 {
                     _deviceListingViewModels.Add(new DeviceListingItemViewModel(adin));
-                    //_feedback.Message = $"Device Added: {device.SerialNumber}";
-                    //_feedback.FeedBackType = FeedbackType.Verbose;
-                    //_logActivityViewModel.SetFeedback(_feedback);
+                    _feedback.Message = $"Device Added: {adin.SerialNumber}";
+                    _feedback.FeedBackType = FeedbackType.Info;
+                    _logActivityViewModel.SetFeedback(_feedback);
                 }));
             }
         }
@@ -282,9 +284,9 @@ namespace ADIN.WPF.ViewModel
 
                 Application.Current.Dispatcher.BeginInvoke((Action)(() =>
                 {
-                    //_feedback.message = $"device removed: {removedevice[0].serialnumber}";
-                    //_feedback.feedbacktype = feedbacktype.info;
-                    //_logactivityviewmodel.setfeedback(_feedback);
+                    _feedback.Message = $"Device removed: {removeDevice[0].SerialNumber}";
+                    _feedback.FeedBackType = FeedbackType.Info;
+                    _logActivityViewModel.SetFeedback(_feedback);
                     _deviceListingViewModels.Remove(removeDevice[0]);
                 }));
             }

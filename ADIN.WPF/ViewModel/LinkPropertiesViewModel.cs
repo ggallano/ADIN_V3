@@ -36,6 +36,15 @@ namespace ADIN.WPF.ViewModel
                 {
                     _linkProperties.IsAdvertise_1000BASE_T_FD = value;
                     _selectedDeviceStore.SelectedDevice.FwAPI.Speed1000FdAdvertisement(value);
+                    if (value)
+                    {
+                        _linkProperties.AdvertisedSpeeds.Add("SPEED_1000BASE_T_FD_SPEED");
+                    }
+                    else
+                    {
+                        _linkProperties.AdvertisedSpeeds.Remove("SPEED_1000BASE_T_FD_SPEED");
+                    }
+                    _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
                     OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
                 }
             }
@@ -48,6 +57,15 @@ namespace ADIN.WPF.ViewModel
             {
                 _linkProperties.IsAdvertise_1000BASE_T_HD = value;
                 _selectedDeviceStore.SelectedDevice.FwAPI.Speed1000HdAdvertisement(value);
+                if (value)
+                {
+                    _linkProperties.AdvertisedSpeeds.Add("SPEED_1000BASE_T_HD_SPEED");
+                }
+                else
+                {
+                    _linkProperties.AdvertisedSpeeds.Remove("SPEED_1000BASE_T_HD_SPEED");
+                }
+                _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
                 OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
             }
         }
@@ -59,6 +77,15 @@ namespace ADIN.WPF.ViewModel
             {
                 _linkProperties.IsAdvertise_100BASE_TX_FD = value;
                 _selectedDeviceStore.SelectedDevice.FwAPI.Speed100FdAdvertisement(value);
+                if(value)
+                {
+                    _linkProperties.AdvertisedSpeeds.Add("SPEED_100BASE_TX_FD_SPEED");
+                }
+                else
+                {
+                    _linkProperties.AdvertisedSpeeds.Remove("SPEED_100BASE_TX_FD_SPEED");
+                }
+                _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
                 OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
             }
         }
@@ -70,6 +97,15 @@ namespace ADIN.WPF.ViewModel
             {
                 _linkProperties.IsAdvertise_100BASE_TX_HD = value;
                 _selectedDeviceStore.SelectedDevice.FwAPI.Speed100HdAdvertisement(value);
+                if (value)
+                {
+                    _linkProperties.AdvertisedSpeeds.Add("SPEED_100BASE_TX_HD_SPEED");
+                }
+                else
+                {
+                    _linkProperties.AdvertisedSpeeds.Remove("SPEED_100BASE_TX_HD_SPEED");
+                }
+                _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
                 OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
             }
         }
@@ -81,6 +117,15 @@ namespace ADIN.WPF.ViewModel
             {
                 _linkProperties.IsAdvertise_10BASE_T_FD = value;
                 _selectedDeviceStore.SelectedDevice.FwAPI.Speed10FdAdvertisement(value);
+                if (value)
+                {
+                    _linkProperties.AdvertisedSpeeds.Add("SPEED_10BASE_T_FD_SPEED");
+                }
+                else
+                {
+                    _linkProperties.AdvertisedSpeeds.Remove("SPEED_10BASE_T_FD_SPEED");
+                }
+                _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
                 OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
             }
         }
@@ -92,6 +137,15 @@ namespace ADIN.WPF.ViewModel
             {
                 _linkProperties.IsAdvertise_10BASE_T_HD = value;
                 _selectedDeviceStore.SelectedDevice.FwAPI.Speed10HdAdvertisement(value);
+                if (value)
+                {
+                    _linkProperties.AdvertisedSpeeds.Add("SPEED_10BASE_T_HD_SPEED");
+                }
+                else
+                {
+                    _linkProperties.AdvertisedSpeeds.Remove("SPEED_10BASE_T_HD_SPEED");
+                }
+                _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
                 OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
             }
         }
@@ -103,6 +157,15 @@ namespace ADIN.WPF.ViewModel
             {
                 _linkProperties.IsAdvertise_EEE_1000BASE_T = value;
                 _selectedDeviceStore.SelectedDevice.FwAPI.Speed1000EEEAdvertisement(value);
+                if (value)
+                {
+                    _linkProperties.AdvertisedSpeeds.Add("SPEED_1000BASE_EEE_SPEED");
+                }
+                else
+                {
+                    _linkProperties.AdvertisedSpeeds.Remove("SPEED_1000BASE_EEE_SPEED");
+                }
+                _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
                 OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
             }
         }
@@ -114,6 +177,15 @@ namespace ADIN.WPF.ViewModel
             {
                 _linkProperties.IsAdvertise_EEE_100BASE_TX = value;
                 _selectedDeviceStore.SelectedDevice.FwAPI.Speed100EEEAdvertisement(value);
+                if (value)
+                {
+                    _linkProperties.AdvertisedSpeeds.Add("SPEED_100BASE_EEE_SPEED");
+                }
+                else
+                {
+                    _linkProperties.AdvertisedSpeeds.Remove("SPEED_100BASE_EEE_SPEED");
+                }
+                _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
                 OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
             }
         }
@@ -127,6 +199,7 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
             }
         }
+        public List<string> AdvertisedSpeeds => _linkProperties.AdvertisedSpeeds;
 
         public bool IsANAdvertised1GSpeedVisible
         {

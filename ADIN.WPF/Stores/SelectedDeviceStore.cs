@@ -12,6 +12,9 @@ namespace ADIN.WPF.Stores
 
         public event Action RegisterListingValueChanged;
         public event Action SelectedDeviceChanged;
+        public event Action<FeedbackModel> ProcessCompleted;
+        public event Action<FeedbackModel> ErrorOccured;
+        public event Action<FeedbackModel> ViewModelErrorOccured;
 
         public ADINDevice SelectedDevice
         {
@@ -19,6 +22,7 @@ namespace ADIN.WPF.Stores
             set 
             { 
                 _selectedDevice = value;
+                _selectedDevice.FwAPI.WriteProcessCompleted += FirmwareAPI_WriteProcessCompleted;
                 SelectedDeviceChanged?.Invoke();
             }
         }
@@ -26,6 +30,16 @@ namespace ADIN.WPF.Stores
         public void OnRegistersValueChanged()
         {
             RegisterListingValueChanged?.Invoke();
+        }
+        private void FirmwareAPI_WriteProcessCompleted(object sender, FeedbackModel feedback)
+        {
+            ProcessCompleted?.Invoke(feedback);
+        }
+
+        public void OnViewModelErrorOccured(string errorMessage, FeedbackType errorType = FeedbackType.Error)
+        {
+            FeedbackModel errorFeedback = new FeedbackModel() { Message = errorMessage, FeedBackType = errorType };
+            ViewModelErrorOccured?.Invoke(errorFeedback);
         }
     }
 }

@@ -23,14 +23,17 @@ namespace ADIN.Device.Services
         private ObservableCollection<RegisterModel> _registersBG;
         private uint _phyAddress;
         private object _ftdiLock = new object();
+        private string _feedbackMessage;
 
-        public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, ObservableCollection<RegisterModel> registersBG,uint phyAddress)
+        public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, ObservableCollection<RegisterModel> registersBG, uint phyAddress)
         {
             _ftdiService = ftdiService;
             _registers = registers;
             _registersBG = registersBG;
             _phyAddress = phyAddress;
         }
+
+        public event EventHandler<FeedbackModel> WriteProcessCompleted;
 
         public string MdioReadCl22(uint regAddress)
         {
@@ -231,7 +234,11 @@ namespace ADIN.Device.Services
                     foreach (var bitField in res[0].BitFields)
                     {
                         if (bitField.Name == name)
+                        {
                             bitField.Value = value;
+                            _feedbackMessage = "BitField \"" + bitField.Name + "\" = " + bitField.Value;
+                            FeedbackLog(_feedbackMessage, FeedbackType.Verbose);
+                        }
                     }
                 }
             }
@@ -239,6 +246,8 @@ namespace ADIN.Device.Services
             {
                 register = res[0];
                 register.Value = value.ToString("X");
+                _feedbackMessage = "Register \"" + register.Name + "\" = " + register.Value;
+                FeedbackLog(_feedbackMessage, FeedbackType.Verbose);
             }
 
             return register;
@@ -254,15 +263,11 @@ namespace ADIN.Device.Services
             uint pageAddr = register.Address & 0xFFFF;
             if (pageNumber == 0)
             {
-                //MdioReadCl22(register.Address); // Temporary: for register change debug purpose
                 MdioWriteCl22(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
-                //MdioReadCl22(register.Address); // Temporary: for register change debug purpose
             }
             else
             {
-                //MdioReadCl45(register.Address); // Temporary: for register change debug purpose
                 MdioWriteCl45(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
-                //MdioReadCl45(register.Address); // Temporary: for register change debug purpose
             }
         }
 
@@ -362,16 +367,60 @@ namespace ADIN.Device.Services
             }
         }
 
+        public void CheckAdvertisedSpeed(List<string> listAdvSpd)
+        {
+            _feedbackMessage = "Locally Advertised Speeds:";
+
+            if (listAdvSpd.Contains("SPEED_1000BASE_T_FD_SPEED"))
+            {
+                _feedbackMessage = _feedbackMessage + " SPEED_1000BASE_T_FD_SPEED";
+            }
+            if (listAdvSpd.Contains("SPEED_1000BASE_T_HD_SPEED"))
+            {
+                _feedbackMessage = _feedbackMessage + " SPEED_1000BASE_T_HD_SPEED";
+            }
+            if (listAdvSpd.Contains("SPEED_100BASE_TX_FD_SPEED"))
+            {
+                _feedbackMessage = _feedbackMessage + " SPEED_100BASE_TX_FD_SPEED";
+            }
+            if (listAdvSpd.Contains("SPEED_100BASE_TX_HD_SPEED"))
+            {
+                _feedbackMessage = _feedbackMessage + " SPEED_100BASE_TX_HD_SPEED";
+            }
+            if (listAdvSpd.Contains("SPEED_10BASE_T_FD_SPEED"))
+            {
+                _feedbackMessage = _feedbackMessage + " SPEED_10BASE_T_FD_SPEED";
+            }
+            if (listAdvSpd.Contains("SPEED_10BASE_T_HD_SPEED"))
+            {
+                _feedbackMessage = _feedbackMessage + " SPEED_10BASE_T_HD_SPEED";
+            }
+            if (listAdvSpd.Contains("SPEED_1000BASE_EEE_SPEED"))
+            {
+                _feedbackMessage = _feedbackMessage + " SPEED_1000BASE_EEE_SPEED";
+            }
+            if (listAdvSpd.Contains("SPEED_100BASE_EEE_SPEED"))
+            {
+                _feedbackMessage = _feedbackMessage + " SPEED_100BASE_EEE_SPEED";
+            }
+
+            FeedbackLog(_feedbackMessage, FeedbackType.Info);
+        }
+
         public void AdvertisedForcedSpeed(string advFrcSpd)
         {
             if (advFrcSpd == "Advertised")
             {
                 this.WriteYodaRg("AutonegEn", 1);
+                _feedbackMessage = "enable Auto-Negotiation";
             }
             else
             {
                 this.WriteYodaRg("AutonegEn", 0);
+                _feedbackMessage = "disable Auto-Negotiation";
             }
+
+            FeedbackLog(_feedbackMessage, FeedbackType.Info);
         }
         public void DownSpeed10Hd(bool dwnSpd10Hd)
         {
@@ -410,17 +459,22 @@ namespace ADIN.Device.Services
             if (enEnergyDetect == "Disabled")
             {
                 this.WriteYodaRg("NrgPdEn", 0);
+                _feedbackMessage = "disable EDPD";
             }
             else if(enEnergyDetect == "Enabled")
             {
                 this.WriteYodaRg("NrgPdEn", 1);
                 this.WriteYodaRg("NrgPdTxEn", 0);
+                _feedbackMessage = "enable EDPD - no transmission of pulse";
             }
             else
             {
                 this.WriteYodaRg("NrgPdEn", 1);
                 this.WriteYodaRg("NrgPdTxEn", 1);
+                _feedbackMessage = "enable EDPD - with periodic transmission of pulse";
             }
+
+            FeedbackLog(_feedbackMessage, FeedbackType.Info);
         }
         public void SetGpClkPinControl(string gpClkPinCtrl)
         {
@@ -430,85 +484,119 @@ namespace ADIN.Device.Services
             {
                 case "125 MHz PHY Recovered":
                     this.WriteYodaRg("GeClkRcvr125En", 1);
+                    _feedbackMessage = "GE PHY 125 MHz recovered clock output on GP_CLK pin";
                     break;
                 case "125 MHz PHY Free Running":
                     this.WriteYodaRg("GeClkFree125En", 1);
+                    _feedbackMessage = "GE PHY 125 MHz free-running clock output on GP_CLK pin";
                     break;
                 case "Recovered HeartBeat":
                     this.WriteYodaRg("GeClkHrtRcvrEn", 1);
+                    _feedbackMessage = "GE PHY recovered heartbeat clock output on GP_CLK pin";
                     break;
                 case "Free Running HeartBeat":
                     this.WriteYodaRg("GeClkHrtFreeEn", 1);
+                    _feedbackMessage = "GE PHY free-running heartbeat clock output on GP_CLK pin";
                     break;
                 case "25 MHz Reference":
                     this.WriteYodaRg("GeClk25En", 1);
+                    _feedbackMessage = "GE PHY 25 MHz clock output on GP_CLK pin";
                     break;
                 default:
-                    // Not enable any register
+                    _feedbackMessage = "No clock output on GP_CLK pin";
                     break;
-
             }
+
+            FeedbackLog(_feedbackMessage, FeedbackType.Info);
         }
         public void SetTestMode(TestModeListingModel testMode)
         {
+            //FeedbackLog("GESubsys software reset", FeedbackType.Info);
             //WriteYodaRg("GeSftRst", 1);
+            //FeedbackLog("GE PHY enter software reset, stays in software powerdown", FeedbackType.Info);
             //WriteYodaRg("GePhySftPdCfg", 1);
             //WriteYodaRg("GePhyRst", 1);
+            //FeedbackLog("Apply base settings for UNH-IOL testing", FeedbackType.Info);
             //WriteYodaRg("LnkWdEn", 0);
+            //FeedbackLog("disable energy detect power-down", FeedbackType.Info);
             //WriteYodaRg("NrgPdEn", 0);
+            //FeedbackLog("disable automatic speed down-shift", FeedbackType.Info);
             //WriteYodaRg("DnSpeedTo10En", 0);
             //WriteYodaRg("ArbWdEn", 0);
             //WriteYodaRg("B10LpTxEn", 1);
+            //FeedbackLog("disable Energy Efficient Ethernet", FeedbackType.Info);
             //WriteYodaRg("EeeAdv", 0);
+            //FeedbackLog("disable extended next pages", FeedbackType.Info);
             //WriteYodaRg("ExtNextPageAdv", 0);
             //WriteYodaRg("GeFifoDpth", 0);
             //WriteYodaRg("DpthMiiByte", 0);
 
-            //if (testMode.Name1 == "100BASE-TX VOD")
+            //switch (testMode.Name1)
             //{
-            //    WriteYodaRg("AutonegEn", 0);
-            //    WriteYodaRg("SpeedSelMsb", 0);
-            //    WriteYodaRg("SpeedSelLsb", 1);
-            //    WriteYodaRg("AutoMdiEn", 0);
-            //    WriteYodaRg("ManMdiEn", 0);
-            //    WriteYodaRg("LinkEn", 1);
-            //}
-            //else if(testMode.Name1 == "10BASE-T Link Pulse")
-            //{
-            //    WriteYodaRg("AutonegEn", 0);
-            //    WriteYodaRg("SpeedSelMsb", 0);
-            //    WriteYodaRg("SpeedSelLsb", 0);
-            //    WriteYodaRg("AutoMdiEn", 0);
-            //    WriteYodaRg("ManMdiEn", 0);
-            //    WriteYodaRg("LbTxSup", 0);
-            //    WriteYodaRg("Loopback", 1);
-            //    WriteYodaRg("LinkEn", 1);
-            //}
-            //else
-            //{
-            //    switch (testMode.Name1)
-            //    {
-            //        case "10BASE-T TX 5 MHz DIM 1":
-            //            WriteYodaRg("B10TxTstMode", 4);
-            //            break;
-            //        case "10BASE-T TX 10 MHz DIM 1":
-            //            WriteYodaRg("B10TxTstMode", 3);
-            //            break;
-            //        case "10BASE-T TX 5 MHz DIM 0":
-            //            WriteYodaRg("B10TxTstMode", 2);
-            //            break;
-            //        case "10BASE-T TX 10 MHz DIM 0":
-            //            WriteYodaRg("B10TxTstMode", 1);
-            //            break;
-            //        default:
-            //            // None assigned
-            //            break;
-            //    }
-            //}
+            //    case "100BASE-TX VOD":
+            //        FeedbackLog("configure for auto-negotiation disable, 100BASE-TX, forced MDI, linking enabled", FeedbackType.Info);
+            //        WriteYodaRg("AutonegEn", 0);
+            //        WriteYodaRg("SpeedSelMsb", 0);
+            //        WriteYodaRg("SpeedSelLsb", 1);
+            //        WriteYodaRg("AutoMdiEn", 0);
+            //        WriteYodaRg("ManMdiEn", 0);
+            //        WriteYodaRg("LinkEn", 1);
+            //        FeedbackLog("exit software powerdown", FeedbackType.Info);
+            //        WriteYodaRg("SftPd", 0);
+            //        FeedbackLog("Device configured for 100BASE-TX VOD measurement", FeedbackType.Info);
+            //        break;
 
-            //WriteYodaRg("SftPd", 0);
+            //    case "10BASE-T Link Pulse":
+            //        FeedbackLog("configure for auto-negotiation disabled, 10BASE-T", FeedbackType.Info);
+            //        FeedbackLog("forced MDI, loopback enabled, Tx suppression disabled, linking enabled", FeedbackType.Info);
+            //        WriteYodaRg("AutonegEn", 0);
+            //        WriteYodaRg("SpeedSelMsb", 0);
+            //        WriteYodaRg("SpeedSelLsb", 0);
+            //        WriteYodaRg("AutoMdiEn", 0);
+            //        WriteYodaRg("ManMdiEn", 0);
+            //        WriteYodaRg("LbTxSup", 0);
+            //        WriteYodaRg("Loopback", 1);
+            //        WriteYodaRg("LinkEn", 1);
+            //        FeedbackLog("exit software powerdown", FeedbackType.Info);
+            //        WriteYodaRg("SftPd", 0);
+            //        FeedbackLog("Device configured for 10BASE-TX forced mode link pulse measurement", FeedbackType.Info);
+            //        break;
 
-            throw new NotImplementedException();
+            //    case "10BASE-T TX 5 MHz DIM 1":
+            //        FeedbackLog("10BASE-T transmit 5 MHz square wave test mode transmission on dim 1", FeedbackType.Info);
+            //        WriteYodaRg("B10TxTstMode", 4);
+            //        FeedbackLog("exit software powerdown", FeedbackType.Info);
+            //        WriteYodaRg("SftPd", 0);
+            //        FeedbackLog("Device configured for 10BASE-T test mode transmission (5 MHz)", FeedbackType.Info);
+            //        break;
+
+            //    case "10BASE-T TX 10 MHz DIM 1":
+            //        FeedbackLog("10BASE-T transmit 10 MHz square wave test mode transmission on dim 1", FeedbackType.Info);
+            //        WriteYodaRg("B10TxTstMode", 3);
+            //        FeedbackLog("exit software powerdown", FeedbackType.Info);
+            //        WriteYodaRg("SftPd", 0);
+            //        FeedbackLog("Device configured for 10BASE-T test mode transmission (10 MHz)", FeedbackType.Info);
+            //        break;
+
+            //    case "10BASE-T TX 5 MHz DIM 0":
+            //        FeedbackLog("10BASE-T transmit 5 MHz square wave test mode transmission on dim 0", FeedbackType.Info);
+            //        WriteYodaRg("B10TxTstMode", 2);
+            //        FeedbackLog("exit software powerdown", FeedbackType.Info);
+            //        WriteYodaRg("SftPd", 0);
+            //        FeedbackLog("Device configured for 10BASE-T test mode transmission (5 MHz)", FeedbackType.Info);
+            //        break;
+
+            //    case "10BASE-T TX 10 MHz DIM 0":
+            //        FeedbackLog("10BASE-T transmit 10 MHz square wave test mode transmission on dim 0", FeedbackType.Info);
+            //        WriteYodaRg("B10TxTstMode", 1);
+            //        FeedbackLog("exit software powerdown", FeedbackType.Info);
+            //        WriteYodaRg("SftPd", 0);
+            //        FeedbackLog("Device configured for 10BASE-T test mode transmission (10 MHz)", FeedbackType.Info);
+            //        break;
+
+            //    default:
+            //        throw new NotImplementedException();
+            //}
         }
 
         public void DownSpeed100Hd(bool dwnSpd100Hd)
@@ -523,6 +611,19 @@ namespace ADIN.Device.Services
                 register.Value = ReadYodaRg(register.Address);
             }
             Debug.WriteLine("ReadRegisters Done");
+        }
+
+        protected virtual void OnWriteProcessCompleted(FeedbackModel feedback)
+        {
+            WriteProcessCompleted?.Invoke(this, feedback);
+        }
+
+        private void FeedbackLog(string Message, FeedbackType feedbackType)
+        {
+            FeedbackModel feedback = new FeedbackModel();
+            feedback.Message = Message;
+            feedback.FeedBackType = feedbackType;
+            OnWriteProcessCompleted(feedback);
         }
     }
 }

@@ -76,5 +76,7 @@ namespace ADIN.Device.Models.ADIN1300
         public string SpeedMode { get; set; }
 
         public List<string> SpeedModes { get; set; }
+        
+        public List<string> AdvertisedSpeeds { get; set; }
     }
 }

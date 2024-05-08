@@ -130,7 +130,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AutoVersionIncrement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Commands\ClearLogCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\LogWindowSaveCommand.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
     <Compile Include="Commands\ClockPinControlCommand.cs" />
     <Compile Include="Commands\TestModeCommand.cs" />
@@ -152,6 +154,7 @@
     <Compile Include="ViewModel\ClockPinControlViewModel.cs" />
     <Compile Include="ViewModel\DeviceStatusViewModel.cs" />
     <Compile Include="ViewModel\LinkPropertiesViewModel.cs" />
+    <Compile Include="ViewModel\LogActivityViewModel.cs" />
     <Compile Include="ViewModel\NavigationBarViewModel.cs" />
     <Compile Include="ViewModel\OperationViewModel.cs" />
     <Compile Include="ViewModel\RegisterAccessViewModel.cs" />
@@ -160,6 +163,9 @@
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\ADINButtonsView.xaml.cs">
       <DependentUpon>ADINButtonsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LogActivityView.xaml.cs">
+      <DependentUpon>LogActivityView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TestModeView.xaml.cs">
       <DependentUpon>TestModeView.xaml</DependentUpon>
@@ -225,6 +231,10 @@
     <Page Include="View\ADINButtonsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LogActivityView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\TestModeView.xaml">
       <Generator>MSBuild:Compile</Generator>
