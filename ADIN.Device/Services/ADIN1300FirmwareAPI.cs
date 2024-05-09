@@ -406,7 +406,7 @@ namespace ADIN.Device.Services
 
             }
         }
-        public void SetTestMode(TestModeListingModel testMode)
+        public void SetTestMode(TestModeListingModel testMode, uint framelength)
         {
             throw new NotImplementedException();
         }

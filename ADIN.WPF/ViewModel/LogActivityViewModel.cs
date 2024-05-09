@@ -78,7 +78,7 @@ namespace ADIN.WPF.ViewModel
         /// <param name="type">Type of message which denotes severity of type <see cref="FeedbackType"/></param>
         /// <param name="message">The text message to be displayed as feedback</param>
         /// <param name="seconds">The number of milliseconds for much the message to be displayed, default is 5 seconds</param>
-        public void SetFeedback(FeedbackModel feedback, int seconds = 5000)
+        public void SetFeedback(FeedbackModel feedback, bool setSerialNumber = true, int seconds = 5000)
         {
             string message = feedback.Message;
             FeedbackType type = feedback.FeedBackType;
@@ -97,7 +97,7 @@ namespace ADIN.WPF.ViewModel
 
             if (message != string.Empty && (message.IndexOf("Undelete") != 1))
             {
-                if (_selectedDeviceStore.SelectedDevice != null)
+                if(setSerialNumber)
                 {
                     message = _selectedDeviceStore.SelectedDevice.SerialNumber + " " + message;
                 }

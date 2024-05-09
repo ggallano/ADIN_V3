@@ -4,6 +4,9 @@ using ADIN.Device.Models;
 using ADIN.WPF.Models;
 using FTDIChip.Driver.Services;
 using Helper.Feedback;
+using Helper.ReadFile;
+using Microsoft.Win32;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,16 +23,14 @@ namespace ADIN.Device.Services
         private IFTDIServices _ftdiService;
         private IRegisterService _registerService;
         private ObservableCollection<RegisterModel> _registers;
-        private ObservableCollection<RegisterModel> _registersBG;
         private uint _phyAddress;
         private object _ftdiLock = new object();
         private string _feedbackMessage;
 
-        public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, ObservableCollection<RegisterModel> registersBG, uint phyAddress)
+        public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress)
         {
             _ftdiService = ftdiService;
             _registers = registers;
-            _registersBG = registersBG;
             _phyAddress = phyAddress;
         }
 
@@ -276,6 +277,48 @@ namespace ADIN.Device.Services
             MdioWriteCl45(registerAddress, value);
             //OnWriteProcessCompleted(new FeedbackModel() { Message = $"[{_ftdiService.GetSerialNumber()}] [Write] Address: 0x{registerAddress.ToString("X")}, Value: {value.ToString("X")}", FeedBackType = FeedbackType.Info });
         }
+
+        public void PollEqYodaRg(string name, uint expected, double timeout)
+        {
+            string regContent;
+            RegisterModel register;
+            register = GetRegister(name);
+            long timeout_ms = (long)(timeout * 1000);
+
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            do
+            {
+                regContent = ReadYodaRg(register.Address);
+                if (sw.ElapsedMilliseconds > timeout_ms)
+                {
+                    throw new TimeoutException(string.Format("Gave up waiting for \"{0}\" to contain \"{1}\" within {2} seconds.", name, expected, timeout));
+                }
+            }
+            while (ExtractFieldValue(regContent, register, name) != expected);
+
+            return;
+
+        }
+
+        private uint ExtractFieldValue(string full_reg_contents, RegisterModel register, string name)
+        {
+            uint value = 0;
+            register.Value = full_reg_contents;
+
+            foreach (var bitfield in register.BitFields)
+            {
+                if (bitfield.Name == name)
+                {
+                    value = bitfield.Value;
+                }
+            }
+
+            return value;
+        }
+
+
         public void Speed1000FdAdvertisement(bool spd1000FdAdv_st)
         {
             if (spd1000FdAdv_st)
@@ -422,14 +465,20 @@ namespace ADIN.Device.Services
 
             FeedbackLog(_feedbackMessage, FeedbackType.Info);
         }
+        public void DownSpeed100Hd(bool dwnSpd100Hd)
+        {
+            throw new NotImplementedException();
+        }
         public void DownSpeed10Hd(bool dwnSpd10Hd)
         {
             if (dwnSpd10Hd)
             {
+                FeedbackLog("enable downspeed to 10BASE-T", FeedbackType.Info);
                 this.WriteYodaRg("DnSpeedTo10En", 1);
             }
             else
             {
+                FeedbackLog("disable downspeed to 10BASE-T", FeedbackType.Info);
                 this.WriteYodaRg("DnSpeedTo10En", 0);
             }
         }
@@ -509,104 +558,174 @@ namespace ADIN.Device.Services
 
             FeedbackLog(_feedbackMessage, FeedbackType.Info);
         }
-        public void SetTestMode(TestModeListingModel testMode)
+        public void SetTestMode(TestModeListingModel testMode, uint framelength)
         {
-            //FeedbackLog("GESubsys software reset", FeedbackType.Info);
-            //WriteYodaRg("GeSftRst", 1);
-            //FeedbackLog("GE PHY enter software reset, stays in software powerdown", FeedbackType.Info);
-            //WriteYodaRg("GePhySftPdCfg", 1);
-            //WriteYodaRg("GePhyRst", 1);
-            //FeedbackLog("Apply base settings for UNH-IOL testing", FeedbackType.Info);
-            //WriteYodaRg("LnkWdEn", 0);
-            //FeedbackLog("disable energy detect power-down", FeedbackType.Info);
-            //WriteYodaRg("NrgPdEn", 0);
-            //FeedbackLog("disable automatic speed down-shift", FeedbackType.Info);
-            //WriteYodaRg("DnSpeedTo10En", 0);
-            //WriteYodaRg("ArbWdEn", 0);
-            //WriteYodaRg("B10LpTxEn", 1);
-            //FeedbackLog("disable Energy Efficient Ethernet", FeedbackType.Info);
-            //WriteYodaRg("EeeAdv", 0);
-            //FeedbackLog("disable extended next pages", FeedbackType.Info);
-            //WriteYodaRg("ExtNextPageAdv", 0);
-            //WriteYodaRg("GeFifoDpth", 0);
-            //WriteYodaRg("DpthMiiByte", 0);
+            FeedbackLog("GESubsys software reset", FeedbackType.Info);
+            WriteYodaRg("GeSftRst", 1);
+            FeedbackLog("GE PHY enter software reset, stays in software powerdown", FeedbackType.Info);
+            WriteYodaRg("GePhySftPdCfg", 1);
+            WriteYodaRg("GePhyRst", 1);
+            FeedbackLog("Apply base settings for UNH-IOL testing", FeedbackType.Info);
+            WriteYodaRg("LnkWdEn", 0);
+            FeedbackLog("disable energy detect power-down", FeedbackType.Info);
+            WriteYodaRg("NrgPdEn", 0);
+            FeedbackLog("disable automatic speed down-shift", FeedbackType.Info);
+            WriteYodaRg("DnSpeedTo10En", 0);
+            WriteYodaRg("ArbWdEn", 0);
+            WriteYodaRg("B10LpTxEn", 1);
+            FeedbackLog("disable Energy Efficient Ethernet", FeedbackType.Info);
+            WriteYodaRg("EeeAdv", 0);
+            FeedbackLog("disable extended next pages", FeedbackType.Info);
+            WriteYodaRg("ExtNextPageAdv", 0);
+            WriteYodaRg("GeFifoDpth", 0);
+            WriteYodaRg("DpthMiiByte", 0);
 
-            //switch (testMode.Name1)
-            //{
-            //    case "100BASE-TX VOD":
-            //        FeedbackLog("configure for auto-negotiation disable, 100BASE-TX, forced MDI, linking enabled", FeedbackType.Info);
-            //        WriteYodaRg("AutonegEn", 0);
-            //        WriteYodaRg("SpeedSelMsb", 0);
-            //        WriteYodaRg("SpeedSelLsb", 1);
-            //        WriteYodaRg("AutoMdiEn", 0);
-            //        WriteYodaRg("ManMdiEn", 0);
-            //        WriteYodaRg("LinkEn", 1);
-            //        FeedbackLog("exit software powerdown", FeedbackType.Info);
-            //        WriteYodaRg("SftPd", 0);
-            //        FeedbackLog("Device configured for 100BASE-TX VOD measurement", FeedbackType.Info);
-            //        break;
+            switch (testMode.Name1)
+            {
+                case "100BASE-TX VOD":
+                    FeedbackLog("configure for auto-negotiation disable, 100BASE-TX, forced MDI, linking enabled", FeedbackType.Info);
+                    WriteYodaRg("AutonegEn", 0);
+                    WriteYodaRg("SpeedSelMsb", 0);
+                    WriteYodaRg("SpeedSelLsb", 1);
+                    WriteYodaRg("AutoMdiEn", 0);
+                    WriteYodaRg("ManMdix", 0);
+                    WriteYodaRg("LinkEn", 1);
+                    FeedbackLog("exit software powerdown", FeedbackType.Info);
+                    WriteYodaRg("SftPd", 0);
+                    FeedbackLog("Device configured for 100BASE-TX VOD measurement", FeedbackType.Info);
+                    break;
 
-            //    case "10BASE-T Link Pulse":
-            //        FeedbackLog("configure for auto-negotiation disabled, 10BASE-T", FeedbackType.Info);
-            //        FeedbackLog("forced MDI, loopback enabled, Tx suppression disabled, linking enabled", FeedbackType.Info);
-            //        WriteYodaRg("AutonegEn", 0);
-            //        WriteYodaRg("SpeedSelMsb", 0);
-            //        WriteYodaRg("SpeedSelLsb", 0);
-            //        WriteYodaRg("AutoMdiEn", 0);
-            //        WriteYodaRg("ManMdiEn", 0);
-            //        WriteYodaRg("LbTxSup", 0);
-            //        WriteYodaRg("Loopback", 1);
-            //        WriteYodaRg("LinkEn", 1);
-            //        FeedbackLog("exit software powerdown", FeedbackType.Info);
-            //        WriteYodaRg("SftPd", 0);
-            //        FeedbackLog("Device configured for 10BASE-TX forced mode link pulse measurement", FeedbackType.Info);
-            //        break;
+                case "10BASE-T Link Pulse":
+                    FeedbackLog("configure for auto-negotiation disabled, 10BASE-T", FeedbackType.Info);
+                    FeedbackLog("forced MDI, loopback enabled, Tx suppression disabled, linking enabled", FeedbackType.Info);
+                    WriteYodaRg("AutonegEn", 0);
+                    WriteYodaRg("SpeedSelMsb", 0);
+                    WriteYodaRg("SpeedSelLsb", 0);
+                    WriteYodaRg("AutoMdiEn", 0);
+                    WriteYodaRg("ManMdix", 0);
+                    WriteYodaRg("LbTxSup", 0);
+                    WriteYodaRg("Loopback", 1);
+                    WriteYodaRg("LinkEn", 1);
+                    FeedbackLog("exit software powerdown", FeedbackType.Info);
+                    WriteYodaRg("SftPd", 0);
+                    FeedbackLog("Device configured for 10BASE-TX forced mode link pulse measurement", FeedbackType.Info);
+                    break;
 
-            //    case "10BASE-T TX 5 MHz DIM 1":
-            //        FeedbackLog("10BASE-T transmit 5 MHz square wave test mode transmission on dim 1", FeedbackType.Info);
-            //        WriteYodaRg("B10TxTstMode", 4);
-            //        FeedbackLog("exit software powerdown", FeedbackType.Info);
-            //        WriteYodaRg("SftPd", 0);
-            //        FeedbackLog("Device configured for 10BASE-T test mode transmission (5 MHz)", FeedbackType.Info);
-            //        break;
+                case "10BASE-T TX Random Frames":
+                    FeedbackLog("configure for auto-negotiation disabled, 10BASE-T", FeedbackType.Info);
+                    FeedbackLog("forced MDI, loopback enabled, Tx suppression disabled, linking enabled", FeedbackType.Info);
+                    WriteYodaRg("AutonegEn", 0);
+                    WriteYodaRg("SpeedSelMsb", 0);
+                    WriteYodaRg("SpeedSelLsb", 0);
+                    WriteYodaRg("AutoMdiEn", 0);
+                    WriteYodaRg("ManMdix", 0);
+                    WriteYodaRg("LbTxSup", 0);
+                    WriteYodaRg("Loopback", 1);
+                    WriteYodaRg("LinkEn", 1);
+                    FeedbackLog("exit software powerdown", FeedbackType.Info);
+                    WriteYodaRg("SftPd", 0);
+                    FeedbackLog("poll for link up", FeedbackType.Info);
+                    PollEqYodaRg("LinkStat", 1, 2.0);
+                    FeedbackLog("configure for transmission of frames of length " + framelength + " bytes, random payload", FeedbackType.Info);
+                    WriteYodaRg("DiagClkEn", 1);
+                    WriteYodaRg("FgFrmLen", framelength);
+                    WriteYodaRg("FgContModeEn", 1);
+                    WriteYodaRg("FgEn", 1);
+                    FeedbackLog("Device configured for 10BASE-T forced mode, with random payload frame transmission", FeedbackType.Info);
+                    break;
 
-            //    case "10BASE-T TX 10 MHz DIM 1":
-            //        FeedbackLog("10BASE-T transmit 10 MHz square wave test mode transmission on dim 1", FeedbackType.Info);
-            //        WriteYodaRg("B10TxTstMode", 3);
-            //        FeedbackLog("exit software powerdown", FeedbackType.Info);
-            //        WriteYodaRg("SftPd", 0);
-            //        FeedbackLog("Device configured for 10BASE-T test mode transmission (10 MHz)", FeedbackType.Info);
-            //        break;
+                case "10BASE-T TX 0xFF Frames":
+                    FeedbackLog("configure for auto-negotiation disabled, 10BASE-T", FeedbackType.Info);
+                    FeedbackLog("forced MDI, loopback enabled, Tx suppression disabled, linking enabled", FeedbackType.Info);
+                    WriteYodaRg("AutonegEn", 0);
+                    WriteYodaRg("SpeedSelMsb", 0);
+                    WriteYodaRg("SpeedSelLsb", 0);
+                    WriteYodaRg("AutoMdiEn", 0);
+                    WriteYodaRg("ManMdix", 0);
+                    WriteYodaRg("LbTxSup", 0);
+                    WriteYodaRg("Loopback", 1);
+                    WriteYodaRg("LinkEn", 1);
+                    FeedbackLog("exit software powerdown", FeedbackType.Info);
+                    WriteYodaRg("SftPd", 0);
+                    FeedbackLog("poll for link up", FeedbackType.Info);
+                    PollEqYodaRg("LinkStat", 1, 2.0);
+                    FeedbackLog("configure for transmission of frames of length " + framelength + " bytes, 0xFF repeating payload", FeedbackType.Info);
+                    WriteYodaRg("DiagClkEn", 1);
+                    WriteYodaRg("FgFrmLen", framelength);
+                    WriteYodaRg("FgContModeEn", 1);
+                    WriteYodaRg("FgCntrl", 3);
+                    WriteYodaRg("FgNoHdr", 1);
+                    WriteYodaRg("FgNoFcs", 1);
+                    WriteYodaRg("FgEn", 1);
+                    FeedbackLog("Device configured for 10BASE-T forced mode, with 0xFF repeating payload frame transmission", FeedbackType.Info);
+                    break;
 
-            //    case "10BASE-T TX 5 MHz DIM 0":
-            //        FeedbackLog("10BASE-T transmit 5 MHz square wave test mode transmission on dim 0", FeedbackType.Info);
-            //        WriteYodaRg("B10TxTstMode", 2);
-            //        FeedbackLog("exit software powerdown", FeedbackType.Info);
-            //        WriteYodaRg("SftPd", 0);
-            //        FeedbackLog("Device configured for 10BASE-T test mode transmission (5 MHz)", FeedbackType.Info);
-            //        break;
+                case "10BASE-T TX 0x00 Frames":
+                    FeedbackLog("configure for auto-negotiation disabled, 10BASE-T", FeedbackType.Info);
+                    FeedbackLog("forced MDI, loopback enabled, Tx suppression disabled, linking enabled", FeedbackType.Info);
+                    WriteYodaRg("AutonegEn", 0);
+                    WriteYodaRg("SpeedSelMsb", 0);
+                    WriteYodaRg("SpeedSelLsb", 0);
+                    WriteYodaRg("AutoMdiEn", 0);
+                    WriteYodaRg("ManMdix", 0);
+                    WriteYodaRg("LbTxSup", 0);
+                    WriteYodaRg("Loopback", 1);
+                    WriteYodaRg("LinkEn", 1);
+                    FeedbackLog("exit software powerdown", FeedbackType.Info);
+                    WriteYodaRg("SftPd", 0);
+                    FeedbackLog("poll for link up", FeedbackType.Info);
+                    PollEqYodaRg("LinkStat", 1, 2.0);
+                    FeedbackLog("configure for transmission of frames of length " + framelength + " bytes, 0x00 repeating payload", FeedbackType.Info);
+                    WriteYodaRg("DiagClkEn", 1);
+                    WriteYodaRg("FgFrmLen", framelength);
+                    WriteYodaRg("FgContModeEn", 1);
+                    WriteYodaRg("FgCntrl", 1);
+                    WriteYodaRg("FgNoHdr", 1);
+                    WriteYodaRg("FgNoFcs", 1);
+                    WriteYodaRg("FgEn", 1);
+                    FeedbackLog("Device configured for 10BASE-T forced mode, with 0x00 repeating payload frame transmission", FeedbackType.Info);
+                    break;
 
-            //    case "10BASE-T TX 10 MHz DIM 0":
-            //        FeedbackLog("10BASE-T transmit 10 MHz square wave test mode transmission on dim 0", FeedbackType.Info);
-            //        WriteYodaRg("B10TxTstMode", 1);
-            //        FeedbackLog("exit software powerdown", FeedbackType.Info);
-            //        WriteYodaRg("SftPd", 0);
-            //        FeedbackLog("Device configured for 10BASE-T test mode transmission (10 MHz)", FeedbackType.Info);
-            //        break;
+                case "10BASE-T TX 5 MHz DIM 1":
+                    FeedbackLog("10BASE-T transmit 5 MHz square wave test mode transmission on dim 1", FeedbackType.Info);
+                    WriteYodaRg("B10TxTstMode", 4);
+                    FeedbackLog("exit software powerdown", FeedbackType.Info);
+                    WriteYodaRg("SftPd", 0);
+                    FeedbackLog("Device configured for 10BASE-T test mode transmission (5 MHz)", FeedbackType.Info);
+                    break;
 
-            //    default:
-            //        throw new NotImplementedException();
-            //}
-        }
+                case "10BASE-T TX 10 MHz DIM 1":
+                    FeedbackLog("10BASE-T transmit 10 MHz square wave test mode transmission on dim 1", FeedbackType.Info);
+                    WriteYodaRg("B10TxTstMode", 3);
+                    FeedbackLog("exit software powerdown", FeedbackType.Info);
+                    WriteYodaRg("SftPd", 0);
+                    FeedbackLog("Device configured for 10BASE-T test mode transmission (10 MHz)", FeedbackType.Info);
+                    break;
 
-        public void DownSpeed100Hd(bool dwnSpd100Hd)
-        {
-            throw new NotImplementedException();
+                case "10BASE-T TX 5 MHz DIM 0":
+                    FeedbackLog("10BASE-T transmit 5 MHz square wave test mode transmission on dim 0", FeedbackType.Info);
+                    WriteYodaRg("B10TxTstMode", 2);
+                    FeedbackLog("exit software powerdown", FeedbackType.Info);
+                    WriteYodaRg("SftPd", 0);
+                    FeedbackLog("Device configured for 10BASE-T test mode transmission (5 MHz)", FeedbackType.Info);
+                    break;
+
+                case "10BASE-T TX 10 MHz DIM 0":
+                    FeedbackLog("10BASE-T transmit 10 MHz square wave test mode transmission on dim 0", FeedbackType.Info);
+                    WriteYodaRg("B10TxTstMode", 1);
+                    FeedbackLog("exit software powerdown", FeedbackType.Info);
+                    WriteYodaRg("SftPd", 0);
+                    FeedbackLog("Device configured for 10BASE-T test mode transmission (10 MHz)", FeedbackType.Info);
+                    break;
+
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         public void ReadRegsiters()
         {
-            foreach (var register in _registersBG)
+            foreach (var register in _registers)
             {
                 register.Value = ReadYodaRg(register.Address);
             }
