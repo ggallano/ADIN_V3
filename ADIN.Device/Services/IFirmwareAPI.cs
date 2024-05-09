@@ -10,7 +10,5 @@ namespace ADIN.Device.Services
 {
     public interface IFirmwareAPI : IADIN1300API, IADIN1200API
     {
-        void ReadRegsiters();
-        event EventHandler<FeedbackModel> WriteProcessCompleted;
     }
 }

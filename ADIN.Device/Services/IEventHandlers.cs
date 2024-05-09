@@ -1,4 +1,4 @@
-﻿using ADIN.WPF.Models;
+﻿using Helper.Feedback;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface ITestMode
+    public interface IEventHandlers
     {
-        void SetTestMode(TestModeListingModel testMode, uint framelength);
+        event EventHandler<FeedbackModel> WriteProcessCompleted;
     }
 }

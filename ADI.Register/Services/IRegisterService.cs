@@ -21,6 +21,8 @@ namespace ADI.Register.Services
 
         ObservableCollection<RegisterModel> GetAdditionalRegisterSetRev0(ObservableCollection<RegisterModel> registers);
 
+        ObservableCollection<RegisterModel> GetAdditionalRegisterSet_ADIN1200_ADIN1300(ObservableCollection<RegisterModel> registers);
+
         /// <summary>
         /// gets the dictionary register
         /// </summary>

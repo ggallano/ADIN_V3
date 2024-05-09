@@ -37,7 +37,7 @@ namespace ADIN.WPF.ViewModel
         private WqlEventQuery _removeQuery;
         private ManagementEventWatcher _removeWatcher;
         private DeviceListingItemViewModel _selectedDeviceListingItemViewModel;
-        //private object _thisLock;
+        private object _thisLock = new object();
 
         /// <summary>
         /// creates new instance
@@ -139,7 +139,7 @@ namespace ADIN.WPF.ViewModel
         private void _insertWatcher_EventArrived(object sender, EventArrivedEventArgs e)
         {
             Debug.WriteLine("=================== Insert Event Fired ==============================");
-            //lock (_thisLock)
+            lock (_thisLock)
             {
                 if (!_ftdiService.IsComOpen)
                 {
@@ -149,7 +149,7 @@ namespace ADIN.WPF.ViewModel
 
                 var serialNum = _ftdiService.GetSerialNumber();
                 _ftdiService.Close();
-                //InsertNewDevice();
+                InsertNewDevice();
                 _ftdiService.Open(_selectedDeviceListingItemViewModel.SerialNumber);
             }
         }
@@ -260,7 +260,7 @@ namespace ADIN.WPF.ViewModel
                     _deviceListingViewModels.Add(new DeviceListingItemViewModel(adin));
                     _feedback.Message = $"Device Added: {adin.SerialNumber}";
                     _feedback.FeedBackType = FeedbackType.Info;
-                    _logActivityViewModel.SetFeedback(_feedback);
+                    _logActivityViewModel.SetFeedback(_feedback, false);
                 }));
             }
         }
@@ -286,7 +286,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     _feedback.Message = $"Device removed: {removeDevice[0].SerialNumber}";
                     _feedback.FeedBackType = FeedbackType.Info;
-                    _logActivityViewModel.SetFeedback(_feedback);
+                    _logActivityViewModel.SetFeedback(_feedback, false);
                     _deviceListingViewModels.Remove(removeDevice[0]);
                 }));
             }

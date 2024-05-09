@@ -20,7 +20,7 @@
                     <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Margin='10' >Control the clock output on the GPCLK pin.</TextBlock>
                     <WrapPanel HorizontalAlignment='Left' Margin='10'  Orientation='Horizontal' ItemHeight='50' ItemWidth='180'>
 
-                        <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="None" Command="{Binding ClkPnCtrlCmd_None}" CommandParameter="None"/>
+                        <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="None" Command="{Binding ClkPnCtrlCmd_None}" CommandParameter="None" IsChecked="True"/>
                         <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="125 MHz PHY Recovered" Command="{Binding ClkPnCtrlCmd_Rcvr125Mhz}" CommandParameter="125 MHz PHY Recovered"/>
                         <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="125 MHz PHY Free Running" Command="{Binding ClkPnCtrlCmd_Free125Mhz}" CommandParameter="125 MHz PHY Free Running"/>
                         <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="Recovered HeartBeat" Command="{Binding ClkPnCtrlCmd_HrtRcvr}" CommandParameter="Recovered HeartBeat"/>

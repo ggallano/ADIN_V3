@@ -92,6 +92,8 @@
     <Compile Include="Services\IADIN1200API.cs" />
     <Compile Include="Services\IADIN1300API.cs" />
     <Compile Include="Services\IAdvertisedSpeed.cs" />
+    <Compile Include="Services\IEventHandlers.cs" />
+    <Compile Include="Services\IRegisterList.cs" />
     <Compile Include="Services\ITestMode.cs" />
     <Compile Include="Services\IAutoMDIX.cs" />
     <Compile Include="Services\ICableDiagnostic.cs" />

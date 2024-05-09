@@ -12,12 +12,10 @@ namespace ADIN.WPF.ViewModel
 {
     public class TestModeViewModel : ViewModelBase
     {
-        private NavigationStore _navigationStore;
         private SelectedDeviceStore _selectedDeviceStore;
 
-        public TestModeViewModel(NavigationStore navigationStore, SelectedDeviceStore selectedDeviceStore)
+        public TestModeViewModel(SelectedDeviceStore selectedDeviceStore)
         {
-            _navigationStore = navigationStore;
             _selectedDeviceStore = selectedDeviceStore;
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
 
@@ -35,6 +33,17 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(SelectedTestMode));
             }
         }
+
+        public uint SetTestModeFrameLength
+        {
+            get { return _testMode?.TestModeFrameLength ?? 0; }
+            set
+            {
+                _testMode.TestModeFrameLength = value;
+                OnPropertyChanged(nameof(SetTestModeFrameLength));
+            }
+        }
+
         public List<TestModeListingModel> TestModes => _testMode?.TestModes;
         private ITestMode _testMode => _selectedDeviceStore.SelectedDevice?.TestMode;
 

@@ -24,6 +24,5 @@ namespace ADIN.Device.Models
         public ITestMode TestMode => Device.TestMode;
 
         public ObservableCollection<RegisterModel> Registers => Device.Registers;
-        public ObservableCollection<RegisterModel> RegistersBG => Device.RegistersBG;
     }
 }

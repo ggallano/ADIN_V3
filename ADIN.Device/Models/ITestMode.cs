@@ -7,5 +7,6 @@ namespace ADIN.Device.Models
     {
         List<TestModeListingModel> TestModes { get; set; }
         TestModeListingModel TestMode { get; set; }
+        uint TestModeFrameLength { get; set; }
     }
 }

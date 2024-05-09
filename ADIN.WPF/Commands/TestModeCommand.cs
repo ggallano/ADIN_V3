@@ -26,7 +26,8 @@ namespace ADIN.WPF.Commands
         public override void Execute(object parameter)
         {
             var testMode = parameter as TestModeListingModel;
-            _selectedDeviceStore.SelectedDevice.FwAPI.SetTestMode(testMode);
+            uint _framelength = _selectedDeviceStore.SelectedDevice.TestMode.TestModeFrameLength;
+            _selectedDeviceStore.SelectedDevice.FwAPI.SetTestMode(testMode, _framelength);
         }
 
         private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
