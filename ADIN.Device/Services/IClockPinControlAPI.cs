@@ -1,5 +1,4 @@
-﻿using Helper.Feedback;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface IEventHandlers
+    public interface IClockPinControlAPI
     {
-        event EventHandler<FeedbackModel> WriteProcessCompleted;
+        void SetGpClkPinControl(string gpClkPinCtrl);
     }
 }

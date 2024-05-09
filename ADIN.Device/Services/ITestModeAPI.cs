@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ADIN.WPF.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface IEnergyDetect
+    public interface ITestModeAPI
     {
-        void EnableEnergyDetectPowerDown(string enEnergyDetect);
+        void SetTestMode(TestModeListingModel testMode, uint framelength);
     }
 }

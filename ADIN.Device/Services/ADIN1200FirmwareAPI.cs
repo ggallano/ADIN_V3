@@ -24,21 +24,22 @@ namespace ADIN.Device.Services
         private IRegisterService _registerService;
         private ObservableCollection<RegisterModel> _registers;
         private uint _phyAddress;
-        private object _ftdiLock = new object();
+        private object _mainLock = new object();
         private string _feedbackMessage;
 
-        public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress)
+        public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
             _registers = registers;
             _phyAddress = phyAddress;
+            _mainLock = mainLock;
         }
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
 
         public string MdioReadCl22(uint regAddress)
         {
-            lock(_ftdiLock)
+            lock(_mainLock)
             {
                 string response = string.Empty;
                 string command = string.Empty;
@@ -67,7 +68,7 @@ namespace ADIN.Device.Services
 
         public string MdioReadCl45(uint regAddress)
         {
-            lock (_ftdiLock)
+            lock (_mainLock)
             {
                 string response = string.Empty;
                 string command = string.Empty;
@@ -97,7 +98,7 @@ namespace ADIN.Device.Services
 
         public string MdioWriteCl22(uint regAddress, uint data)
         {
-            lock (_ftdiLock)
+            lock (_mainLock)
             {
                 string response = string.Empty;
                 string command = string.Empty;
@@ -126,7 +127,7 @@ namespace ADIN.Device.Services
 
         public string MdioWriteCl45(uint regAddress, uint data)
         {
-            lock (_ftdiLock)
+            lock (_mainLock)
             {
                 string response = string.Empty;
                 string command = string.Empty;
@@ -533,23 +534,23 @@ namespace ADIN.Device.Services
             {
                 case "125 MHz PHY Recovered":
                     this.WriteYodaRg("GeClkRcvr125En", 1);
-                    _feedbackMessage = "GE PHY 125 MHz recovered clock output on GP_CLK pin";
+                    _feedbackMessage = "PHY 125 MHz recovered clock output on GP_CLK pin";
                     break;
                 case "125 MHz PHY Free Running":
                     this.WriteYodaRg("GeClkFree125En", 1);
-                    _feedbackMessage = "GE PHY 125 MHz free-running clock output on GP_CLK pin";
+                    _feedbackMessage = "PHY 125 MHz free-running clock output on GP_CLK pin";
                     break;
                 case "Recovered HeartBeat":
                     this.WriteYodaRg("GeClkHrtRcvrEn", 1);
-                    _feedbackMessage = "GE PHY recovered heartbeat clock output on GP_CLK pin";
+                    _feedbackMessage = "PHY recovered heartbeat clock output on GP_CLK pin";
                     break;
                 case "Free Running HeartBeat":
                     this.WriteYodaRg("GeClkHrtFreeEn", 1);
-                    _feedbackMessage = "GE PHY free-running heartbeat clock output on GP_CLK pin";
+                    _feedbackMessage = "PHY free-running heartbeat clock output on GP_CLK pin";
                     break;
                 case "25 MHz Reference":
                     this.WriteYodaRg("GeClk25En", 1);
-                    _feedbackMessage = "GE PHY 25 MHz clock output on GP_CLK pin";
+                    _feedbackMessage = "PHY 25 MHz clock output on GP_CLK pin";
                     break;
                 default:
                     _feedbackMessage = "No clock output on GP_CLK pin";
@@ -560,9 +561,9 @@ namespace ADIN.Device.Services
         }
         public void SetTestMode(TestModeListingModel testMode, uint framelength)
         {
-            FeedbackLog("GESubsys software reset", FeedbackType.Info);
+            FeedbackLog("Subsys software reset", FeedbackType.Info);
             WriteYodaRg("GeSftRst", 1);
-            FeedbackLog("GE PHY enter software reset, stays in software powerdown", FeedbackType.Info);
+            FeedbackLog("PHY enter software reset, stays in software powerdown", FeedbackType.Info);
             WriteYodaRg("GePhySftPdCfg", 1);
             WriteYodaRg("GePhyRst", 1);
             FeedbackLog("Apply base settings for UNH-IOL testing", FeedbackType.Info);

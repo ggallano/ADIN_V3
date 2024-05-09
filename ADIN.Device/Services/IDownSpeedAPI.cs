@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface IAutoMDIX
+    public interface IDownSpeedAPI
     {
-        void AutoMDIXMode(string autoMDIXmod);
+        void DownSpeed10Hd(bool dwnSpd10Hd);
+        void DownSpeedRetriesSetVal(uint dwnSpdRtryVal);
     }
 }

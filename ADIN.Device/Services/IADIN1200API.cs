@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface IADIN1200API : IMDIOAPI, IAdvertisedSpeed, IClockPinControl, IDownSpeed, IAutoMDIX, IEnergyDetect, ITestMode, IRegisterList, IEventHandlers
+    public interface IADIN1200API : IMDIOAPI, IAdvertisedSpeedAPI, IClockPinControlAPI, IDownSpeedAPI, IAutoMDIXAPI, IEnergyDetectAPI, ITestModeAPI
     {
     }
 }

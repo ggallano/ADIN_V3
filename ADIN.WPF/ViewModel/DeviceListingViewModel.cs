@@ -37,19 +37,20 @@ namespace ADIN.WPF.ViewModel
         private WqlEventQuery _removeQuery;
         private ManagementEventWatcher _removeWatcher;
         private DeviceListingItemViewModel _selectedDeviceListingItemViewModel;
-        private object _thisLock = new object();
+        private object _mainLock;
 
         /// <summary>
         /// creates new instance
         /// </summary>
         /// <param name="selectedDeviceStore">selected device store</param>
         /// <param name="ftdiService">ftdi service</param>
-        public DeviceListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, IRegisterService registerService, LogActivityViewModel logActivityViewModel)
+        public DeviceListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, IRegisterService registerService, LogActivityViewModel logActivityViewModel, object mainLock)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiService = ftdiService;
             _registerService = registerService;
             _logActivityViewModel = logActivityViewModel;
+            _mainLock = mainLock;
 
             _deviceListingViewModels = new ObservableCollection<DeviceListingItemViewModel>();
             _feedback = new FeedbackModel();
@@ -98,7 +99,7 @@ namespace ADIN.WPF.ViewModel
             get { return _selectedDeviceListingItemViewModel; }
             set
             {
-                //lock (_thisLock)
+                //lock (_mainLock)
                 {
                     _ftdiService.Close();
                     _selectedDeviceListingItemViewModel = value;
@@ -139,7 +140,7 @@ namespace ADIN.WPF.ViewModel
         private void _insertWatcher_EventArrived(object sender, EventArrivedEventArgs e)
         {
             Debug.WriteLine("=================== Insert Event Fired ==============================");
-            lock (_thisLock)
+            //lock (_mainLock)
             {
                 if (!_ftdiService.IsComOpen)
                 {
@@ -165,7 +166,7 @@ namespace ADIN.WPF.ViewModel
             List<string> connectedDevices = new List<string>();
             try
             {
-                //lock (_thisLock)
+                //lock (_mainLock)
                 {
                     if (!_ftdiService.IsComOpen)
                     {
@@ -246,7 +247,7 @@ namespace ADIN.WPF.ViewModel
 
                 _ftdiService.Open(currentNewDevice.SerialNumber);
 
-                ADINDevice adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService, _registerService);
+                ADINDevice adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService, _registerService, _mainLock);
                 if (adin != null)
                 {
                     adin.Device.SerialNumber = currentNewDevice.SerialNumber;

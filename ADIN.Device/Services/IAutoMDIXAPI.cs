@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface IRegisterList
+    public interface IAutoMDIXAPI
     {
-        void ReadRegsiters();
+        void AutoMDIXMode(string autoMDIXmod);
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface IAdvertisedSpeed
+    public interface IAdvertisedSpeedAPI
     {
         void AdvertisedForcedSpeed(string advFrcSpd);
         void Speed100EEEAdvertisement(bool spd100EEEAdv_st);

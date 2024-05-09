@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface IDownSpeed
+    public interface IEnergyDetectAPI
     {
-        void DownSpeed10Hd(bool dwnSpd10Hd);
-        void DownSpeedRetriesSetVal(uint dwnSpdRtryVal);
+        void EnableEnergyDetectPowerDown(string enEnergyDetect);
     }
 }

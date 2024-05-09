@@ -4,6 +4,9 @@
 
     <Color x:Key="ADIColorBlue">#0067B9</Color>
     <Color x:Key="BlackColor1">#1e1f21</Color>
+    <Color x:Key="ADIBlack">#101820</Color>
+    <Color x:Key="ADIDarkBlue">#00325c</Color>
+    <Color x:Key="ADIMidBlue">#004985</Color>
     
     <Color x:Key="RedColor1">#bd3d2a</Color>
     <Color x:Key="RedColor2">#a80303</Color>    <!--equivalent RGB:168,3,3-->
@@ -41,7 +44,7 @@
 
 
     <!--Log Activity-->
-    <SolidColorBrush x:Key="LogActivity.Title.Background" Color="{StaticResource BlackColor1}"/>
+    <SolidColorBrush x:Key="LogActivity.Title.Background" Color="{StaticResource ADIMidBlue}"/>
     
     <!--Extra Command Buttons-->
     <SolidColorBrush x:Key="Reset.Background" Color="{StaticResource RedColor3}"/>
