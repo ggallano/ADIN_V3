@@ -51,6 +51,7 @@ namespace ADIN.WPF.ViewModel
         {
             OnPropertyChanged(nameof(SelectedTestMode));
             OnPropertyChanged(nameof(TestModes));
+            OnPropertyChanged(nameof(SetTestModeFrameLength));
         }
     }
 }
