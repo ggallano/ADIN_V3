@@ -351,6 +351,10 @@ namespace ADIN.Device.Services
                 this.WriteYodaRg("Eee100Adv", 0);
             }
         }
+        public void SetForcedSpeed(string setFrcdSpd)
+        {
+            throw new NotImplementedException();
+        }
         public void CheckAdvertisedSpeed(List<string> listAdvSpd)
         {
             throw new NotImplementedException();

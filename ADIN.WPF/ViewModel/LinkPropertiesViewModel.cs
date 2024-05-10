@@ -16,6 +16,7 @@ namespace ADIN.WPF.ViewModel
     {
         private bool _isANAdvertisedSpeedVisible = true;
         private bool _isANAdvertised1GSpeedVisible = true;
+        private bool _isForcedSpeedVisible = false;
         private NavigationStore _navigationStore;
         private SelectedDeviceStore _selectedDeviceStore;
 
@@ -211,6 +212,16 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsForcedSpeedVisible
+        {
+            get { return _isForcedSpeedVisible; }
+            set
+            {
+                _isForcedSpeedVisible = value;
+                OnPropertyChanged(nameof(IsForcedSpeedVisible));
+            }
+        }
+
         public bool IsEEEAdvertisementVisible { get; set; } = true;
 
         public string SelectedSpeedMode
@@ -224,14 +235,27 @@ namespace ADIN.WPF.ViewModel
 
                 IsANAdvertisedSpeedVisible = true;
                 IsANAdvertised1GSpeedVisible = true;
+                IsForcedSpeedVisible = false;
                 if (_linkProperties.SpeedMode == "Forced")
                 {
                     IsANAdvertisedSpeedVisible = false;
                     IsANAdvertised1GSpeedVisible = false;
+                    IsForcedSpeedVisible = true;
                 }
             }
         }
         public List<string> SpeedModes => _linkProperties?.SpeedModes;
+        public string SelectedForcedSpeed
+        {
+            get { return _linkProperties?.ForcedSpeed; }
+            set
+            {
+                _linkProperties.ForcedSpeed = value;
+                _selectedDeviceStore.SelectedDevice.FwAPI.SetForcedSpeed(value);
+                OnPropertyChanged(nameof(SelectedForcedSpeed));
+            }
+        }
+        public List<string> ForcedSpeeds => _linkProperties?.ForcedSpeeds;
         public string SelectedMDIX
         {
             get { return _linkProperties?.MDIX; }

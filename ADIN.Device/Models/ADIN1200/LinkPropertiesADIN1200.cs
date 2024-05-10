@@ -20,6 +20,14 @@ namespace ADIN.Device.Models.ADIN1200
             };
             SpeedMode = SpeedModes[0];
 
+            ForcedSpeeds = new List<string>()
+            {
+                "SPEED_10BASE_TX_HD",
+                "SPEED_10BASE_TX_FD",
+                "SPEED_100BASE_TX_HD",
+                "SPEED_100BASE_TX_FD"
+            };
+            ForcedSpeed = ForcedSpeeds[0];
 
             MDIXs = new List<string>()
             {
@@ -77,6 +85,10 @@ namespace ADIN.Device.Models.ADIN1200
         public string SpeedMode { get; set; }
 
         public List<string> SpeedModes { get; set; }
+
+        public string ForcedSpeed { get; set; }
+
+        public List<string> ForcedSpeeds { get; set; }
 
         public List<string> AdvertisedSpeeds { get; set; }
     }

@@ -411,6 +411,39 @@ namespace ADIN.Device.Services
             }
         }
 
+        public void SetForcedSpeed (string setFrcdSpd)
+        {
+            switch (setFrcdSpd)
+            {
+                case "SPEED_100BASE_TX_FD":
+                    this.FeedbackLog("100BASE-TX full duplex forced speed selected", FeedbackType.Info);
+                    this.WriteYodaRg("SpeedSelMsb", 0);
+                    this.WriteYodaRg("SpeedSelLsb", 1);
+                    this.WriteYodaRg("DplxMode", 1);
+                    break;
+                case "SPEED_100BASE_TX_HD":
+                    this.FeedbackLog("100BASE-TX half duplex forced speed selected", FeedbackType.Info);
+                    this.WriteYodaRg("SpeedSelMsb", 0);
+                    this.WriteYodaRg("SpeedSelLsb", 1);
+                    this.WriteYodaRg("DplxMode", 0);
+                    break;
+                case "SPEED_10BASE_TX_FD":
+                    this.FeedbackLog("10BASE-T full duplex forced speed selected", FeedbackType.Info);
+                    this.WriteYodaRg("SpeedSelMsb", 0);
+                    this.WriteYodaRg("SpeedSelLsb", 0);
+                    this.WriteYodaRg("DplxMode", 1);
+                    break;
+                case "SPEED_10BASE_TX_HD":
+                    this.FeedbackLog("10BASE-T half duplex forced speed selected", FeedbackType.Info);
+                    this.WriteYodaRg("SpeedSelMsb", 0);
+                    this.WriteYodaRg("SpeedSelLsb", 0);
+                    this.WriteYodaRg("DplxMode", 0);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
         public void CheckAdvertisedSpeed(List<string> listAdvSpd)
         {
             _feedbackMessage = "Locally Advertised Speeds:";
