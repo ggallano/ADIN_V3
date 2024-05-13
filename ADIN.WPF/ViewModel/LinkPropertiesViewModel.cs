@@ -316,11 +316,24 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
             OnPropertyChanged(nameof(SpeedModes));
             OnPropertyChanged(nameof(SelectedSpeedMode));
+            OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
+            OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
+            OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
+            OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
+            OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
+            OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
+            OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
+            OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
+            OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
+            OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
+            OnPropertyChanged(nameof(SetDownSpeedRetries));
+            OnPropertyChanged(nameof(ForcedSpeeds));
+            OnPropertyChanged(nameof(SelectedForcedSpeed));
             OnPropertyChanged(nameof(MDIXs));
             OnPropertyChanged(nameof(SelectedMDIX));
             OnPropertyChanged(nameof(EnergyDetectPowerDownModes));
             OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
-            OnPropertyChanged(nameof(SelectedSpeedMode));
+            OnPropertyChanged(nameof(SetDownSpeedRetries));
         }
     }
 }

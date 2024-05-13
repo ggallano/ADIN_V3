@@ -427,13 +427,13 @@ namespace ADIN.Device.Services
                     this.WriteYodaRg("SpeedSelLsb", 1);
                     this.WriteYodaRg("DplxMode", 0);
                     break;
-                case "SPEED_10BASE_TX_FD":
+                case "SPEED_10BASE_T_FD":
                     this.FeedbackLog("10BASE-T full duplex forced speed selected", FeedbackType.Info);
                     this.WriteYodaRg("SpeedSelMsb", 0);
                     this.WriteYodaRg("SpeedSelLsb", 0);
                     this.WriteYodaRg("DplxMode", 1);
                     break;
-                case "SPEED_10BASE_TX_HD":
+                case "SPEED_10BASE_T_HD":
                     this.FeedbackLog("10BASE-T half duplex forced speed selected", FeedbackType.Info);
                     this.WriteYodaRg("SpeedSelMsb", 0);
                     this.WriteYodaRg("SpeedSelLsb", 0);
@@ -606,7 +606,7 @@ namespace ADIN.Device.Services
             FeedbackLog("disable automatic speed down-shift", FeedbackType.Info);
             WriteYodaRg("DnSpeedTo10En", 0);
             WriteYodaRg("ArbWdEn", 0);
-            WriteYodaRg("B10LpTxEn", 1);
+            WriteYodaRg("B10LpTxEn", 0);
             FeedbackLog("disable Energy Efficient Ethernet", FeedbackType.Info);
             WriteYodaRg("EeeAdv", 0);
             FeedbackLog("disable extended next pages", FeedbackType.Info);
@@ -721,7 +721,7 @@ namespace ADIN.Device.Services
                     break;
 
                 case "10BASE-T TX 5 MHz DIM 1":
-                    FeedbackLog("10BASE-T transmit 5 MHz square wave test mode transmission on dim 1", FeedbackType.Info);
+                    FeedbackLog("configure for 10BASE-T transmit 5 MHz square wave test mode transmission on dim 1", FeedbackType.Info);
                     WriteYodaRg("B10TxTstMode", 4);
                     FeedbackLog("exit software powerdown", FeedbackType.Info);
                     WriteYodaRg("SftPd", 0);
@@ -729,23 +729,23 @@ namespace ADIN.Device.Services
                     break;
 
                 case "10BASE-T TX 10 MHz DIM 1":
-                    FeedbackLog("10BASE-T transmit 10 MHz square wave test mode transmission on dim 1", FeedbackType.Info);
-                    WriteYodaRg("B10TxTstMode", 3);
+                    FeedbackLog("configure for 10BASE-T transmit 10 MHz square wave test mode transmission on dim 1", FeedbackType.Info);
+                    WriteYodaRg("B10TxTstMode", 2);
                     FeedbackLog("exit software powerdown", FeedbackType.Info);
                     WriteYodaRg("SftPd", 0);
                     FeedbackLog("Device configured for 10BASE-T test mode transmission (10 MHz)", FeedbackType.Info);
                     break;
 
                 case "10BASE-T TX 5 MHz DIM 0":
-                    FeedbackLog("10BASE-T transmit 5 MHz square wave test mode transmission on dim 0", FeedbackType.Info);
-                    WriteYodaRg("B10TxTstMode", 2);
+                    FeedbackLog("configure for 10BASE-T transmit 5 MHz square wave test mode transmission on dim 0", FeedbackType.Info);
+                    WriteYodaRg("B10TxTstMode", 3);
                     FeedbackLog("exit software powerdown", FeedbackType.Info);
                     WriteYodaRg("SftPd", 0);
                     FeedbackLog("Device configured for 10BASE-T test mode transmission (5 MHz)", FeedbackType.Info);
                     break;
 
                 case "10BASE-T TX 10 MHz DIM 0":
-                    FeedbackLog("10BASE-T transmit 10 MHz square wave test mode transmission on dim 0", FeedbackType.Info);
+                    FeedbackLog("configure for 10BASE-T transmit 10 MHz square wave test mode transmission on dim 0", FeedbackType.Info);
                     WriteYodaRg("B10TxTstMode", 1);
                     FeedbackLog("exit software powerdown", FeedbackType.Info);
                     WriteYodaRg("SftPd", 0);
