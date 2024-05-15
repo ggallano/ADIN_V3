@@ -33,7 +33,7 @@
                 <StackPanel Visibility="{Binding SelectedTestMode.IsRequiringFrameLength, Converter={StaticResource booleanVisibilityConverter}}">
                     <!--<StackPanel>-->
                     <TextBlock Text="Frame Length" Margin="2 8 2 2" FontWeight="SemiBold" />
-                    <telerik:RadSlider x:Name='SliderFrameLength' Value="{Binding SetTestModeFrameLength}" Minimum="64" SmallChange="1" Maximum="1530" TickFrequency='1' IsSnapToTickEnabled='True' />
+                    <telerik:RadSlider x:Name='SliderFrameLength' Value="{Binding TestModeFrameLengthValue}" Minimum="64" SmallChange="1" Maximum="1530" TickFrequency='1' IsSnapToTickEnabled='True' />
                     <TextBlock Text='{Binding ElementName=SliderFrameLength, Path=Value}'></TextBlock>
                 </StackPanel>
                 <telerik:RadButton Content="Apply Mode" Command="{Binding TestModeCmd}" Style="{StaticResource FaultDetectorInitializedButtonStyle}"/>

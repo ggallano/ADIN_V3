@@ -34,13 +34,13 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public uint SetTestModeFrameLength
+        public uint TestModeFrameLengthValue
         {
             get { return _testMode?.TestModeFrameLength ?? 0; }
             set
             {
                 _testMode.TestModeFrameLength = value;
-                OnPropertyChanged(nameof(SetTestModeFrameLength));
+                OnPropertyChanged(nameof(TestModeFrameLengthValue));
             }
         }
 
@@ -51,7 +51,7 @@ namespace ADIN.WPF.ViewModel
         {
             OnPropertyChanged(nameof(SelectedTestMode));
             OnPropertyChanged(nameof(TestModes));
-            OnPropertyChanged(nameof(SetTestModeFrameLength));
+            OnPropertyChanged(nameof(TestModeFrameLengthValue));
         }
     }
 }
