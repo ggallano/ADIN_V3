@@ -38,6 +38,7 @@ namespace ADIN.WPF.ViewModel
         private ManagementEventWatcher _removeWatcher;
         private DeviceListingItemViewModel _selectedDeviceListingItemViewModel;
         private object _mainLock;
+        private uint _phyAddress;
 
         /// <summary>
         /// creates new instance
@@ -247,11 +248,25 @@ namespace ADIN.WPF.ViewModel
 
                 _ftdiService.Open(currentNewDevice.SerialNumber);
 
-                ADINDevice adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService, _registerService, _mainLock);
+                ADINDevice adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService, _registerService, _mainLock, out _phyAddress);
                 if (adin != null)
                 {
                     adin.Device.SerialNumber = currentNewDevice.SerialNumber;
                     adin.Device.BoardName = currentNewDevice.Description;
+                    adin.Device.PhyAddress = _phyAddress;
+                    switch (adin.Device.BoardName)
+                    {
+                        case "EVAL-ADIN1200":
+                        case "ADIN1200 MDIO DONGLE":
+                            adin.Device.DeviceType = BoardType.ADIN1200;
+                            break;
+                        case "EVAL-ADIN1300":
+                        case "ADIN1300 MDIO DONGLE":
+                            adin.Device.DeviceType = BoardType.ADIN1300;
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
                 }
 
                 _ftdiService.Close();

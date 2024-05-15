@@ -12,5 +12,8 @@ namespace ADIN.Device.Services
     {
         event EventHandler<FeedbackModel> WriteProcessCompleted;
         void ReadRegsiters();
+        EthPhyState GetPhyState();
+        string GetLinkStatus();
+        void SoftwarePowerdown(bool isSoftwarePowerdown);
     }
 }

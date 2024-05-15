@@ -34,25 +34,12 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiService = ftdiService;
 
-            //SetBackgroundWroker();
-            //SetRegsiterWorker();
+            SetBackgroundWroker();
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
         }
 
-        //public string AdvertisedSpeed => _selectedDevice?.AdvertisedSpeed ?? "-";
-
-        public string AnStatus
-        {
-            get { return _anStatus; }
-            set
-            {
-                _anStatus = value;
-                OnPropertyChanged(nameof(AnStatus));
-            }
-        }
-
-        //public string BoardName => _selectedDevice?.Name ?? "No Device";
+        public string BoardName => _selectedDeviceStore.SelectedDevice?.BoardName ?? "No Device";
 
         //public string Checker
         //{
@@ -68,27 +55,27 @@ namespace ADIN.WPF.ViewModel
         //    }
         //}
 
-        //public string DeviceType => _selectedDevice?.EvalBoardType.ToString() ?? "-";
+        public string DeviceType => _selectedDeviceStore.SelectedDevice?.DeviceType.ToString() ?? "-";
 
-        public string Generator
-        {
-            get { return _generator; }
-            set
-            {
-                _generator = value;
-                OnPropertyChanged(nameof(Generator));
-            }
-        }
+        //public string Generator
+        //{
+        //    get { return _generator; }
+        //    set
+        //    {
+        //        _generator = value;
+        //        OnPropertyChanged(nameof(Generator));
+        //    }
+        //}
 
-        public string LinkLength
-        {
-            get { return _linkLength; }
-            set
-            {
-                _linkLength = value;
-                OnPropertyChanged(nameof(LinkLength));
-            }
-        }
+        //public string LinkLength
+        //{
+        //    get { return _linkLength; }
+        //    set
+        //    {
+        //        _linkLength = value;
+        //        OnPropertyChanged(nameof(LinkLength));
+        //    }
+        //}
 
         public string LinkStatus
         {
@@ -117,46 +104,47 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public string MasterSlaveStatus
-        {
-            get { return _masterSlaveStatus; }
-            set
-            {
-                _masterSlaveStatus = value;
-                OnPropertyChanged(nameof(MasterSlaveStatus));
-            }
-        }
+        //public string MasterSlaveStatus
+        //{
+        //    get { return _masterSlaveStatus; }
+        //    set
+        //    {
+        //        _masterSlaveStatus = value;
+        //        OnPropertyChanged(nameof(MasterSlaveStatus));
+        //    }
+        //}
 
-        public string MseValue
-        {
-            get { return _mseValue; }
-            set
-            {
-                _mseValue = value;
-                OnPropertyChanged(nameof(MseValue));
-            }
-        }
+        //public string MseValue
+        //{
+        //    get { return _mseValue; }
+        //    set
+        //    {
+        //        _mseValue = value;
+        //        OnPropertyChanged(nameof(MseValue));
+        //    }
+        //}
 
         //public string PhyAddress => _selectedDevice?.PhyAddress.ToString() ?? "-";
-        public string SerialNumber => _selectedDevice?.SerialNumber ?? "-";
+        public string PhyAddress => _selectedDeviceStore.SelectedDevice?.PhyAddress.ToString() ?? "-";
+        public string SerialNumber => _selectedDeviceStore.SelectedDevice?.SerialNumber ?? "-";
 
-        public string TxLevelStatus
-        {
-            get { return _txLevelStatus; }
-            set
-            {
-                _txLevelStatus = value;
-                OnPropertyChanged(nameof(TxLevelStatus));
-            }
-        }
+        //public string TxLevelStatus
+        //{
+        //    get { return _txLevelStatus; }
+        //    set
+        //    {
+        //        _txLevelStatus = value;
+        //        OnPropertyChanged(nameof(TxLevelStatus));
+        //    }
+        //}
 
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
 
-        protected override void Dispose()
-        {
-            _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
-            base.Dispose();
-        }
+        //protected override void Dispose()
+        //{
+        //    _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
+        //    base.Dispose();
+        //}
 
         private void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -166,7 +154,7 @@ namespace ADIN.WPF.ViewModel
             {
                 try
                 {
-                    lock (_thisLock)
+                    //lock (_thisLock)
                     {
                         if (_selectedDevice != null && _ftdiService.IsComOpen)
                         {
@@ -181,7 +169,7 @@ namespace ADIN.WPF.ViewModel
                             //_selectedDevice.FirmwareAPI.GetFrameContentInitialization(true);
 
                             // Device Status
-                            //LinkStatus = _selectedDevice.FwAPI.GetLinkStatus();
+                            LinkStatus = _selectedDevice.FwAPI.GetLinkStatus();
                             //AnStatus = _selectedDevice.FwAPI.GetAnStatus();
                             //MasterSlaveStatus = _selectedDevice.FwAPI.GetMasterSlaveStatus();
                             //TxLevelStatus = _selectedDevice.FwAPI.GetTxLevelStatus();
@@ -190,6 +178,11 @@ namespace ADIN.WPF.ViewModel
                             //_selectedDevice.FwAPI.GetFrameCheckerStatus();
                             //Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
                         }
+
+                        System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            OnPropertyChanged(nameof(LinkStatus));
+                        });
                     }
 
                     Thread.Sleep(50);
@@ -197,8 +190,8 @@ namespace ADIN.WPF.ViewModel
                 catch (Exception ex)
                 {
                 }
+                e.Result = "Done";
             }
-            e.Result = "Done";
         }
 
         private void _backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -252,15 +245,15 @@ namespace ADIN.WPF.ViewModel
         {
             Debug.WriteLine($"[{SerialNumber}] Selected");
 
-            //OnPropertyChanged(nameof(BoardName));
+            OnPropertyChanged(nameof(BoardName));
             OnPropertyChanged(nameof(SerialNumber));
             OnPropertyChanged(nameof(LinkStatus));
-            OnPropertyChanged(nameof(AnStatus));
-            OnPropertyChanged(nameof(MasterSlaveStatus));
-            OnPropertyChanged(nameof(MseValue));
-            OnPropertyChanged(nameof(TxLevelStatus));
-            //OnPropertyChanged(nameof(DeviceType));
-            //OnPropertyChanged(nameof(PhyAddress));
+            //OnPropertyChanged(nameof(AnStatus));
+            //OnPropertyChanged(nameof(MasterSlaveStatus));
+            //OnPropertyChanged(nameof(MseValue));
+            //OnPropertyChanged(nameof(TxLevelStatus));
+            OnPropertyChanged(nameof(DeviceType));
+            OnPropertyChanged(nameof(PhyAddress));
             //OnPropertyChanged(nameof(AdvertisedSpeed));
             //OnPropertyChanged(nameof(Checker));
         }
@@ -276,19 +269,6 @@ namespace ADIN.WPF.ViewModel
             _backgroundWorker.ProgressChanged += _backgroundWorker_ProgressChanged;
 
             _backgroundWorker.RunWorkerAsync();
-        }
-
-        private void SetRegsiterWorker()
-        {
-            _readRegisterWorker = new BackgroundWorker();
-            _readRegisterWorker.WorkerReportsProgress = true;
-            _readRegisterWorker.WorkerSupportsCancellation = true;
-
-            _readRegisterWorker.DoWork += _readRegisterWorker_DoWork;
-            _readRegisterWorker.RunWorkerCompleted += _readRegisterWorker_RunWorkerCompleted;
-            _readRegisterWorker.ProgressChanged += _readRegisterWorker_ProgressChanged;
-
-            _readRegisterWorker.RunWorkerAsync();
         }
     }
 }

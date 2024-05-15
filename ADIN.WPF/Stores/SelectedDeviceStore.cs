@@ -12,6 +12,7 @@ namespace ADIN.WPF.Stores
 
         public event Action RegisterListingValueChanged;
         public event Action SelectedDeviceChanged;
+        public event Action<string> SoftwarePowerDownChanged;
         public event Action<FeedbackModel> ProcessCompleted;
         public event Action<FeedbackModel> ErrorOccured;
         public event Action<FeedbackModel> ViewModelErrorOccured;

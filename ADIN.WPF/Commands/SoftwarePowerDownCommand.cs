@@ -26,9 +26,17 @@ namespace ADIN.WPF.Commands
 
         public override void Execute(object parameter)
         {
-            var result = _selectedDeviceStore.SelectedDevice.FirmwareAPI.GetPhyState() == EthPhyState.Powerdown ? true : false;
-
-            _selectedDeviceStore.SelectedDevice.FirmwareAPI.SoftwarePowerdown(!result);
+            var result = _selectedDeviceStore.SelectedDevice.FwAPI.GetPhyState() == EthPhyState.Powerdown ? true : false;
+            _selectedDeviceStore.SelectedDevice.FwAPI.SoftwarePowerdown(!result);
+            _selectedDeviceStore.SelectedDevice.DeviceStatus.IsSoftwarePowerDown = !result;
+            if(!result)
+            {
+                _extraCommandsViewModel.SoftwarePowerDownButtonText = "Software Power Up";
+            }
+            else
+            {
+                _extraCommandsViewModel.SoftwarePowerDownButtonText = "Software Power Down";
+            }
         }
 
         private void _extraCommandsViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

@@ -18,11 +18,12 @@ namespace ADIN.WPF.ViewModel
 
             LogActivityVM = new LogActivityViewModel(_selectedDeviceStore);
             DeviceListingVM = new DeviceListingViewModel(selectedDeviceStore, ftdiService, registerService, LogActivityVM, mainLock);
+            ExtraCommandsVM = new ExtraCommandsViewModel(_selectedDeviceStore, ftdiService);
             RegisterListingVM = new RegisterListingViewModel(selectedDeviceStore, ftdiService);
             LinkPropertiesVM = new LinkPropertiesViewModel(_navigationStore, _selectedDeviceStore);
             ClockPinControlVM = new ClockPinControlViewModel(_navigationStore, _selectedDeviceStore);
             TestModeVM = new TestModeViewModel(_selectedDeviceStore);
-            //DeviceStatusVM = new DeviceStatusViewModel(selectedDeviceStore, ftdiService);
+            DeviceStatusVM = new DeviceStatusViewModel(selectedDeviceStore, ftdiService);
 
             _navigationStore.CurrentViewModelChanged += _navigationStore_CurrentViewModelChanged;
         }
@@ -34,6 +35,7 @@ namespace ADIN.WPF.ViewModel
 
         public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
         public DeviceListingViewModel DeviceListingVM { get; }
+        public ExtraCommandsViewModel ExtraCommandsVM { get; set; }
         public LinkPropertiesViewModel LinkPropertiesVM { get; set; }
         public ClockPinControlViewModel ClockPinControlVM { get; set; }
         public TestModeViewModel TestModeVM { get; set; }

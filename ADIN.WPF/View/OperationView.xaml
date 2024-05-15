@@ -47,8 +47,8 @@
                 <Button Style="{DynamicResource AdiLogoStyle}"/>
                 <TextBlock Text="Local Devices" FontWeight="Bold" FontSize="18" Margin="0 20 0 5"/>
                 <components:DeviceListing DataContext="{Binding DeviceListingVM}" Height="150"/>
-                <local:ADINButtonsView/>
-                <!--<components:ExtraCommandsView DataContext="{Binding ExtraCommandsViewModel}" Height="230"/>-->
+                <!--<local:ADINButtonsView/>-->
+                <local:ExtraCommandsView DataContext="{Binding ExtraCommandsVM}" Height="230"/>
             </StackPanel>
             <Grid Grid.Column="1" Grid.Row="1">
                 <!--<ContentControl Content="{Binding CurrentViewModel}">
@@ -70,7 +70,10 @@
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
                             <local:LinkPropertiesView Grid.Column="0" DataContext="{Binding LinkPropertiesVM}"/>
-                            <!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />-->
+                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />
+                            <Grid Grid.Column="2">
+                                <components:DeviceStatusView DataContext="{Binding DeviceStatusVM}"/>
+                            </Grid>
                         </Grid>
                     </TabItem>
                     <TabItem Header="Register Access">
@@ -95,7 +98,7 @@
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
                             <local:TestModeView Grid.Column="0" DataContext="{Binding TestModeVM}"/>
-                            <!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />-->
+                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />
                         </Grid>
                     </TabItem>
                 </TabControl>

@@ -423,5 +423,19 @@ namespace ADIN.Device.Services
             }
             Debug.WriteLine("ReadRegisters Done");
         }
+
+        public EthPhyState GetPhyState()
+        {
+            throw new NotImplementedException();
+        }
+        public void SoftwarePowerdown(bool isSoftwarePowerdown)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetLinkStatus()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

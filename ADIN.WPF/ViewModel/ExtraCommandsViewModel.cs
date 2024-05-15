@@ -1,4 +1,5 @@
-﻿using ADIN.WPF.Commands;
+﻿using ADIN.Device.Models;
+using ADIN.WPF.Commands;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
 using System;
@@ -11,6 +12,7 @@ namespace ADIN.WPF.ViewModel
     {
         private IFTDIServices _ftdiService;
         private string _linkStatus = "-";
+        private bool SelectedSoftPowerDownText;
         private SelectedDeviceStore _selectedDeviceStore;
 
         public ExtraCommandsViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
@@ -19,10 +21,10 @@ namespace ADIN.WPF.ViewModel
             _ftdiService = ftdiService;
 
             SoftwarePowerDownCommand = new SoftwarePowerDownCommand(this, selectedDeviceStore);
-            AutoNegCommand = new AutoNegCommand(this, selectedDeviceStore);
-            SubSysResetCommand = new ResetCommand(this, selectedDeviceStore);
-            PhyResetCommand = new ResetCommand(this, selectedDeviceStore);
-            RegisterActionCommand = new RegisterActionCommand(this, selectedDeviceStore);
+            //AutoNegCommand = new AutoNegCommand(this, selectedDeviceStore);
+            //SubSysResetCommand = new ResetCommand(this, selectedDeviceStore);
+            //PhyResetCommand = new ResetCommand(this, selectedDeviceStore);
+            //RegisterActionCommand = new RegisterActionCommand(this, selectedDeviceStore);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.SoftwarePowerDownChanged += _selectedDeviceStore_LinkStateStatusChanged;
@@ -39,11 +41,38 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(LinkStatus));
             }
         }
-
+        public string SoftwarePowerDownButtonText
+        {
+            get
+            {
+                if(_deviceStatus?.IsSoftwarePowerDown == true)
+                {
+                    return "Software Power Up";
+                }
+                else
+                {
+                    return "Software Power Down";
+                }
+            }
+            set
+            {
+                if(value == "Software Power Up")
+                {
+                    _deviceStatus.IsSoftwarePowerDown = true;
+                }
+                else
+                {
+                    _deviceStatus.IsSoftwarePowerDown = false;
+                }
+                OnPropertyChanged(nameof(SoftwarePowerDownButtonText));
+            }
+        }
         public ICommand PhyResetCommand { get; set; }
         public ICommand SoftwarePowerDownCommand { get; set; }
         public ICommand SubSysResetCommand { get; set; }
         public ICommand RegisterActionCommand { get; set; }
+
+        private IDeviceStatus _deviceStatus => _selectedDeviceStore.SelectedDevice?.DeviceStatus;
 
         protected override void Dispose()
         {
@@ -63,6 +92,7 @@ namespace ADIN.WPF.ViewModel
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             OnPropertyChanged(nameof(LinkStatus));
+            OnPropertyChanged(nameof(SoftwarePowerDownButtonText));
         }
     }
 }

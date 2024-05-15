@@ -171,9 +171,10 @@
     </Style>
 
     <Style x:Key="ToggleStyle" TargetType="{x:Type telerik:RadToggleButton}">
+        <Setter Property="Margin" Value="3"/>
+        <Setter Property="Height" Value="25"/>
         <Setter Property="CornerRadius" Value="8"/>
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="Width" Value="80"/>
         <Setter Property="BorderBrush" Value="{StaticResource Button.BorderBrush}"/>
         <Setter Property="Background" Value="{StaticResource Button.Background}"/>
         <Setter Property="Foreground" Value="{StaticResource Button.Foreground}"/>

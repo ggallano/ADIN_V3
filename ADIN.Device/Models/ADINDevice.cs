@@ -16,6 +16,10 @@ namespace ADIN.Device.Models
 
         public string BoardName => Device.BoardName;
 
+        public uint PhyAddress => Device.PhyAddress;
+
+        public BoardType DeviceType => Device.DeviceType;
+
         public IFirmwareAPI FwAPI => Device.FirmwareAPI;
 
         public ILinkProperties LinkProperties => Device.LinkProperties;
@@ -24,5 +28,7 @@ namespace ADIN.Device.Models
         public ITestMode TestMode => Device.TestMode;
 
         public ObservableCollection<RegisterModel> Registers => Device.Registers;
+
+        public IDeviceStatus DeviceStatus => Device.DeviceStatus;
     }
 }

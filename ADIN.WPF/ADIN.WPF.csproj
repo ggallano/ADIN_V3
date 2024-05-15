@@ -135,6 +135,7 @@
     <Compile Include="Commands\LogWindowSaveCommand.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
     <Compile Include="Commands\ClockPinControlCommand.cs" />
+    <Compile Include="Commands\SoftwarePowerDownCommand.cs" />
     <Compile Include="Commands\TestModeCommand.cs" />
     <Compile Include="Components\NavigationBar.xaml.cs">
       <DependentUpon>NavigationBar.xaml</DependentUpon>
@@ -153,6 +154,7 @@
     <Compile Include="ViewModel\DeviceListingViewModel.cs" />
     <Compile Include="ViewModel\ClockPinControlViewModel.cs" />
     <Compile Include="ViewModel\DeviceStatusViewModel.cs" />
+    <Compile Include="ViewModel\ExtraCommandsViewModel.cs" />
     <Compile Include="ViewModel\LinkPropertiesViewModel.cs" />
     <Compile Include="ViewModel\LogActivityViewModel.cs" />
     <Compile Include="ViewModel\NavigationBarViewModel.cs" />
@@ -161,8 +163,11 @@
     <Compile Include="ViewModel\RegisterListingViewModel.cs" />
     <Compile Include="ViewModel\TestModeViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
-    <Compile Include="View\ADINButtonsView.xaml.cs">
-      <DependentUpon>ADINButtonsView.xaml</DependentUpon>
+    <Compile Include="View\ExtraCommandsView.xaml.cs">
+      <DependentUpon>ExtraCommandsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DeviceStatusView.xaml.cs">
+      <DependentUpon>DeviceStatusView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LogActivityView.xaml.cs">
       <DependentUpon>LogActivityView.xaml</DependentUpon>
@@ -228,9 +233,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ADINButtonsView.xaml">
+    <Page Include="View\ExtraCommandsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DeviceStatusView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\LogActivityView.xaml">
       <Generator>MSBuild:Compile</Generator>

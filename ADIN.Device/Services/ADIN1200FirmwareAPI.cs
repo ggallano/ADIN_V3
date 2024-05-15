@@ -24,6 +24,7 @@ namespace ADIN.Device.Services
         private IRegisterService _registerService;
         private ObservableCollection<RegisterModel> _registers;
         private uint _phyAddress;
+        private EthPhyState _phyState;
         private object _mainLock = new object();
         private string _feedbackMessage;
 
@@ -764,6 +765,37 @@ namespace ADIN.Device.Services
                 register.Value = ReadYodaRg(register.Address);
             }
             Debug.WriteLine("ReadRegisters Done");
+        }
+
+        public EthPhyState GetPhyState()
+        {
+            if (ReadYogaRg("SftPd") == "1")
+            {
+                return _phyState = EthPhyState.Powerdown;
+            }
+
+            if (!(ReadYogaRg("LinkStatLat") == "1"))
+            {
+                return _phyState = EthPhyState.LinkDown;
+            }
+
+            return _phyState = EthPhyState.LinkUp;
+        }
+
+        public string GetLinkStatus()
+        {
+            return GetPhyState().ToString();
+        }
+        public void SoftwarePowerdown(bool isSoftwarePowerdown)
+        {
+            if (isSoftwarePowerdown)
+            {
+                WriteYodaRg("SftPd", 1);
+            }
+            else
+            {
+                WriteYodaRg("SftPd", 0);
+            }
         }
 
         protected virtual void OnWriteProcessCompleted(FeedbackModel feedback)

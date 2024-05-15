@@ -32,8 +32,10 @@ namespace ADIN.Device.Services
             return false;
         }
 
-        public static ADINDevice GetADINBoard(string BoardName, IFTDIServices ftdtService, IRegisterService _registerService, object mainLock)
+        public static ADINDevice GetADINBoard(string BoardName, IFTDIServices ftdtService, IRegisterService _registerService, object mainLock, out uint phyAddress)
         {
+            phyAddress = 0;
+            
             //if (BoardName == "EVAL-ADIN1100EBZ" || BoardName == "EVAL-ADIN1100FMCZ" || BoardName == "DEMO-ADIN1100-DIZ")
             //{
             //    return new ADINDevice(new ADIN1100Model(ftdtService));
@@ -46,12 +48,12 @@ namespace ADIN.Device.Services
 
             if (BoardName == "EVAL-ADIN1300" || BoardName == "ADIN1300 MDIO DONGLE")
             {
-                return new ADINDevice(new ADIN1300Model(ftdtService, _registerService));
+                return new ADINDevice(new ADIN1300Model(ftdtService, _registerService, mainLock, out phyAddress));
             }
 
             if (BoardName == "EVAL-ADIN1200" || BoardName == "ADIN1200 MDIO DONGLE")
             {
-                return new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock));
+                return new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock, out phyAddress));
             }
 
             return null;
