@@ -2,6 +2,7 @@
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
@@ -85,15 +86,22 @@ namespace ADIN.WPF.ViewModel
                 switch ((EthPhyState)Enum.Parse(typeof(EthPhyState), value))
                 {
                     case EthPhyState.Powerdown:
+                        _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Up");
                         break;
 
                     case EthPhyState.Standby:
+                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.Standby.ToString());
+                        _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Down");
                         break;
 
                     case EthPhyState.LinkDown:
+                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.LinkDown.ToString());
+                        _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Down");
                         break;
 
                     case EthPhyState.LinkUp:
+                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.LinkUp.ToString());
+                        _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Down");
                         break;
 
                     default:

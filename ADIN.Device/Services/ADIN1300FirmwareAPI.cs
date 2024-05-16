@@ -432,6 +432,14 @@ namespace ADIN.Device.Services
         {
             throw new NotImplementedException();
         }
+        public void DisableLinking(bool isDisabledLinking)
+        {
+            throw new NotImplementedException();
+        }
+        public void RestartAutoNegotiation()
+        {
+            throw new NotImplementedException();
+        }
 
         public string GetLinkStatus()
         {

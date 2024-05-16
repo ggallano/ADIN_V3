@@ -11,6 +11,7 @@ namespace ADIN.WPF.Stores
         private ADINDevice _selectedDevice;
 
         public event Action RegisterListingValueChanged;
+        public event Action<string> LinkStatusChanged;
         public event Action SelectedDeviceChanged;
         public event Action<string> SoftwarePowerDownChanged;
         public event Action<FeedbackModel> ProcessCompleted;
@@ -21,16 +22,38 @@ namespace ADIN.WPF.Stores
         {
             get { return _selectedDevice; }
             set 
-            { 
-                _selectedDevice = value;
-                _selectedDevice.FwAPI.WriteProcessCompleted += FirmwareAPI_WriteProcessCompleted;
-                SelectedDeviceChanged?.Invoke();
+            {
+                if(_selectedDevice != null)
+                {
+                    _selectedDevice.FwAPI.WriteProcessCompleted -= FirmwareAPI_WriteProcessCompleted;
+                }
+
+                if(value != null)
+                {
+                    _selectedDevice = value;
+                    _selectedDevice.FwAPI.WriteProcessCompleted += FirmwareAPI_WriteProcessCompleted;
+                    SelectedDeviceChanged?.Invoke();
+                }
+
+                if(value == null)
+                {
+                    _selectedDevice = value;
+                    SelectedDeviceChanged?.Invoke();
+                }
             }
         }
 
         public void OnRegistersValueChanged()
         {
             RegisterListingValueChanged?.Invoke();
+        }
+        public void OnLinkStatusChanged(string linkStatus)
+        {
+            LinkStatusChanged?.Invoke(linkStatus);
+        }
+        public void OnSoftwarePowerDownChanged(string linkStatus)
+        {
+            SoftwarePowerDownChanged?.Invoke(linkStatus);
         }
         private void FirmwareAPI_WriteProcessCompleted(object sender, FeedbackModel feedback)
         {

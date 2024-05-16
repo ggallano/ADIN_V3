@@ -15,5 +15,7 @@ namespace ADIN.Device.Services
         EthPhyState GetPhyState();
         string GetLinkStatus();
         void SoftwarePowerdown(bool isSoftwarePowerdown);
+        void DisableLinking(bool isDisabledLinking);
+        void RestartAutoNegotiation();
     }
 }

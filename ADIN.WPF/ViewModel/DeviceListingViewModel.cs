@@ -100,7 +100,7 @@ namespace ADIN.WPF.ViewModel
             get { return _selectedDeviceListingItemViewModel; }
             set
             {
-                //lock (_mainLock)
+                lock (_mainLock)
                 {
                     _ftdiService.Close();
                     _selectedDeviceListingItemViewModel = value;
@@ -141,7 +141,7 @@ namespace ADIN.WPF.ViewModel
         private void _insertWatcher_EventArrived(object sender, EventArrivedEventArgs e)
         {
             Debug.WriteLine("=================== Insert Event Fired ==============================");
-            //lock (_mainLock)
+            lock (_mainLock)
             {
                 if (!_ftdiService.IsComOpen)
                 {
@@ -167,7 +167,7 @@ namespace ADIN.WPF.ViewModel
             List<string> connectedDevices = new List<string>();
             try
             {
-                //lock (_mainLock)
+                lock (_mainLock)
                 {
                     if (!_ftdiService.IsComOpen)
                     {

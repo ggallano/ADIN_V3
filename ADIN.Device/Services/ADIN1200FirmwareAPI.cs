@@ -774,6 +774,11 @@ namespace ADIN.Device.Services
                 return _phyState = EthPhyState.Powerdown;
             }
 
+            if (ReadYogaRg("LinkEn") == "0")
+            {
+                return _phyState = EthPhyState.Standby;
+            }
+
             if (!(ReadYogaRg("LinkStatLat") == "1"))
             {
                 return _phyState = EthPhyState.LinkDown;
@@ -796,6 +801,25 @@ namespace ADIN.Device.Services
             {
                 WriteYodaRg("SftPd", 0);
             }
+        }
+        public void DisableLinking(bool isDisabledLinking)
+        {
+            if(isDisabledLinking)
+            {
+                WriteYodaRg("LinkEn", 0);
+                FeedbackLog("disable Linking", FeedbackType.Info);
+            }
+            else
+            {
+                WriteYodaRg("LinkEn", 1);
+                FeedbackLog("enable Linking", FeedbackType.Info);
+            }
+        }
+        public void RestartAutoNegotiation()
+        {
+            WriteYodaRg("RestartAneg", 1);
+            FeedbackLog("Restart auto negotiation", FeedbackType.Info);
+            Debug.WriteLine("Restart Auto Negotiation");
         }
 
         protected virtual void OnWriteProcessCompleted(FeedbackModel feedback)

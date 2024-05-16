@@ -1,14 +1,20 @@
-﻿using ADIN.WPF.Stores;
+﻿using ADIN.Device.Models;
+using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ADIN.WPF.Commands
 {
-    public class AutoNegCommand : CommandBase
+    public class DisableLinkCommand : CommandBase
     {
         private ExtraCommandsViewModel _extraCommandsViewModel;
         private SelectedDeviceStore _selectedDeviceStore;
 
-        public AutoNegCommand(ExtraCommandsViewModel extraCommandsViewModel, SelectedDeviceStore selectedDeviceStore)
+        public DisableLinkCommand(ExtraCommandsViewModel extraCommandsViewModel, SelectedDeviceStore selectedDeviceStore)
         {
             _extraCommandsViewModel = extraCommandsViewModel;
             _selectedDeviceStore = selectedDeviceStore;
@@ -25,7 +31,8 @@ namespace ADIN.WPF.Commands
 
         public override void Execute(object parameter)
         {
-            _selectedDeviceStore.SelectedDevice.FwAPI.RestartAutoNegotiation();
+            var result = _selectedDeviceStore.SelectedDevice.FwAPI.GetPhyState() == EthPhyState.Standby ? true : false;
+            _selectedDeviceStore.SelectedDevice.FwAPI.DisableLinking(!result);
         }
 
         private void _extraCommandsViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

@@ -130,8 +130,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AutoVersionIncrement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Commands\AutoNegCommand.cs" />
     <Compile Include="Commands\ClearLogCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\DisableLinkCommand.cs" />
     <Compile Include="Commands\LogWindowSaveCommand.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
     <Compile Include="Commands\ClockPinControlCommand.cs" />
