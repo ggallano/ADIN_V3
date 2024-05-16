@@ -41,7 +41,7 @@ namespace ADIN.WPF.Commands
                 return;
             }
 
-            _viewModel.ReadOutput = _selectedDeviceStore.SelectedDevice.FirmwareAPI.MdioReadCl45(value);
+            _viewModel.ReadOutput = _selectedDeviceStore.SelectedDevice.FwAPI.RegisterRead(value);
             _selectedDeviceStore.OnViewModelErrorOccured($"[Register Read] Register Address: 0x{_viewModel.ReadInput.ToLower()}, Value: 0x{_viewModel.ReadOutput}", Helper.Feedback.FeedbackType.Info);
         }
 

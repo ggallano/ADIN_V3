@@ -261,6 +261,15 @@ namespace ADIN.Device.Services
             //OnWriteProcessCompleted(new FeedbackModel() { Message = $"[{_ftdiService.GetSerialNumber()}] [Write] Address: 0x{registerAddress.ToString("X")}, Value: {value.ToString("X")}", FeedBackType = FeedbackType.Info });
         }
 
+        public string RegisterRead(uint regAddress)
+        {
+            throw new NotImplementedException();
+        }
+        public string RegisterWrite(uint regAddress, uint data)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Speed1000FdAdvertisement(bool spd1000FdAdv_st)
         {
             if (spd1000FdAdv_st)

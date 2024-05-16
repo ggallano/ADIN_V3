@@ -274,10 +274,26 @@ namespace ADIN.Device.Services
             }
         }
 
-        private void WriteYodaRg(uint registerAddress, uint value)
+        private string WriteYodaRg(uint registerAddress, uint value)
         {
-            MdioWriteCl45(registerAddress, value);
-            //OnWriteProcessCompleted(new FeedbackModel() { Message = $"[{_ftdiService.GetSerialNumber()}] [Write] Address: 0x{registerAddress.ToString("X")}, Value: {value.ToString("X")}", FeedBackType = FeedbackType.Info });
+            uint pageNumber = registerAddress >> 16;
+            if (pageNumber == 0)
+            {
+                return MdioWriteCl22(registerAddress, value);
+            }
+            else
+            {
+                return MdioWriteCl45(registerAddress, value);
+            }
+        }
+
+        public string RegisterRead(uint regAddress)
+        {
+            return ReadYodaRg(regAddress);
+        }
+        public string RegisterWrite(uint regAddress, uint data)
+        {
+            return WriteYodaRg(regAddress, data);
         }
 
         public void PollEqYodaRg(string name, uint expected, double timeout)

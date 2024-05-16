@@ -137,8 +137,10 @@
     <Compile Include="Commands\LogWindowSaveCommand.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
     <Compile Include="Commands\ClockPinControlCommand.cs" />
+    <Compile Include="Commands\ReadRegisterCommand.cs" />
     <Compile Include="Commands\SoftwarePowerDownCommand.cs" />
     <Compile Include="Commands\TestModeCommand.cs" />
+    <Compile Include="Commands\WriteRegisterCommand.cs" />
     <Compile Include="Components\NavigationBar.xaml.cs">
       <DependentUpon>NavigationBar.xaml</DependentUpon>
     </Compile>
