@@ -773,6 +773,68 @@ namespace ADIN.Device.Services
                     throw new NotImplementedException();
             }
         }
+        public void SetLoopbackSetting(LoopbackListingModel loopback)
+        {
+            switch (loopback.EnumLoopbackType)
+            {
+                case LoopBackMode.OFF:
+                    this.WriteYodaRg("LbAllDigSel", 0);
+                    this.WriteYodaRg("LbLdSel", 0);
+                    this.WriteYodaRg("LbExtEn", 0);
+                    this.WriteYodaRg("Loopback", 0);
+                    FeedbackLog("PHY Loopback disabled", FeedbackType.Info);
+                    break;
+                case LoopBackMode.Digital:
+                    this.WriteYodaRg("LbAllDigSel", 1);
+                    this.WriteYodaRg("LbLdSel", 0);
+                    this.WriteYodaRg("LbExtEn", 0);
+                    this.WriteYodaRg("Loopback", 1);
+                    FeedbackLog("PHY Loopback configured as Digital loopback", FeedbackType.Info);
+                    break;
+                case LoopBackMode.LineDriver:
+                    this.WriteYodaRg("LbLdSel", 1);
+                    this.WriteYodaRg("LbAllDigSel", 0);
+                    this.WriteYodaRg("LbExtEn", 0);
+                    this.WriteYodaRg("Loopback", 1);
+                    FeedbackLog("PHY Loopback configured as LineDriver loopback", FeedbackType.Info);
+                    break;
+                case LoopBackMode.ExtCable:
+                    this.WriteYodaRg("LbExtEn", 1);
+                    this.WriteYodaRg("LbAllDigSel", 0);
+                    this.WriteYodaRg("LbLdSel", 0);
+                    this.WriteYodaRg("Loopback", 0);
+                    FeedbackLog("PHY Loopback configured as ExtCable loopback", FeedbackType.Info);
+                    break;
+                case LoopBackMode.MacRemote:
+                    break;
+            }
+        }
+        public void SetRxSuppressionSetting(bool isRxSuppression)
+        {
+            if (isRxSuppression)
+            {
+                this.WriteYodaRg("IsolateRx", 1);
+                FeedbackLog("Rx data suppressed", FeedbackType.Info);
+            }
+            else
+            {
+                this.WriteYodaRg("IsolateRx", 0);
+                FeedbackLog("Rx data forwarded to MAC IF", FeedbackType.Info);
+            }
+        }
+        public void SetTxSuppressionSetting(bool isTxSuppression)
+        {
+            if (isTxSuppression)
+            {
+                this.WriteYodaRg("LbTxSup", 1);
+                FeedbackLog("Tx data suppressed", FeedbackType.Info);
+            }
+            else
+            {
+                this.WriteYodaRg("LbTxSup", 0);
+                FeedbackLog("Tx data not suppressed", FeedbackType.Info);
+            }
+        }
 
         public void ReadRegsiters()
         {

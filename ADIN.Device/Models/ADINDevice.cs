@@ -23,7 +23,7 @@ namespace ADIN.Device.Models
         public IFirmwareAPI FwAPI => Device.FirmwareAPI;
 
         public ILinkProperties LinkProperties => Device.LinkProperties;
-
+        public ILoopback Loopback => Device.Loopback;
         public IClockPinControl ClockPinControl => Device.ClockPinControl;
         public ITestMode TestMode => Device.TestMode;
 

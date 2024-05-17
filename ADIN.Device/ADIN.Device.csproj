@@ -55,6 +55,7 @@
     <Compile Include="Models\ActiveLinkModel.cs" />
     <Compile Include="Models\ADIN1200Model.cs" />
     <Compile Include="Models\ADIN1200\DeviceStatusADIN1200.cs" />
+    <Compile Include="Models\ADIN1200\LoopbackADIN1200.cs" />
     <Compile Include="Models\ADIN1200\TestModeADIN1200.cs" />
     <Compile Include="Models\ADIN1200\ClockPinControlADIN1200.cs" />
     <Compile Include="Models\ADIN1200\LinkPropertiesADIN1200.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Models\DeviceStatusModel.cs" />
     <Compile Include="Models\IClockPinControl.cs" />
     <Compile Include="Models\IDeviceStatus.cs" />
+    <Compile Include="Models\ILoopback.cs" />
     <Compile Include="Models\ITestMode.cs" />
     <Compile Include="Models\ILinkProperties.cs" />
     <Compile Include="Models\ADIN1300\LinkPropertiesADIN1300.cs" />
@@ -95,6 +97,7 @@
     <Compile Include="Services\IADIN1200API.cs" />
     <Compile Include="Services\IADIN1300API.cs" />
     <Compile Include="Services\IAdvertisedSpeedAPI.cs" />
+    <Compile Include="Services\ILoopbackAPI.cs" />
     <Compile Include="Services\ITestModeAPI.cs" />
     <Compile Include="Services\IAutoMDIXAPI.cs" />
     <Compile Include="Services\ICableDiagnostic.cs" />

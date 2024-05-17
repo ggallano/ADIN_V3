@@ -12,6 +12,7 @@ namespace ADIN.Device.Models
         public BoardType DeviceType { get; set; }
         public abstract IFirmwareAPI FirmwareAPI { get; set; }
         public ILinkProperties LinkProperties { get; set; }
+        public ILoopback Loopback { get; set; }
         public IClockPinControl ClockPinControl { get; set; }
         public ITestMode TestMode { get; set; }
         public ObservableCollection<RegisterModel> Registers { get; set; }

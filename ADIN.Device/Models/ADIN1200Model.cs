@@ -40,6 +40,7 @@ namespace ADIN.Device.Models
             FirmwareAPI = new ADIN1200FirmwareAPI(_ftdiService, Registers, phyAddress, _mainLock);
 
             LinkProperties = new LinkPropertiesADIN1200();
+            Loopback = new LoopbackADIN1200();
             ClockPinControl = new ClockPinControlADIN1200();
             TestMode = new TestModeADIN1200();
 

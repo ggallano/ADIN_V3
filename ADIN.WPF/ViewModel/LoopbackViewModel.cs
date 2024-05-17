@@ -16,7 +16,7 @@ namespace ADIN.WPF.ViewModel
         private SelectedDeviceStore _selectedDeviceStore;
         private LoopbackListingModel _selectedLoopback;
 
-        public LoopbackViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, LogActivityViewModel logActivityViewModel)
+        public LoopbackViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiService = ftdiService;
@@ -26,18 +26,18 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.LoopbackStateChanged += _selectedDeviceStore_LoopbackStateChanged;
         }
 
-        public string ImagePath => _selectedDevice?.Loopback.Loopback.ImagePath;
+        public string ImagePath => _loopback?.Loopback.ImagePath;
 
         public bool IsRxSuppression
         {
-            get { return _selectedDevice?.Loopback.Loopback.RxSuppression ?? false; }
+            get { return _loopback?.Loopback.RxSuppression ?? false; }
             set
             {
-                if (_selectedDevice != null)
+                if (_selectedDeviceStore.SelectedDevice != null)
                 {
                     _isRxSuppression = value;
-                    _selectedDevice.Loopback.Loopback.RxSuppression = value;
-                    _selectedDevice.FirmwareAPI.SetRxSuppressionSetting(value);
+                    _loopback.Loopback.RxSuppression = value;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.SetRxSuppressionSetting(value);
                 }
                 OnPropertyChanged(nameof(IsRxSuppression));
             }
@@ -45,40 +45,40 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsTxSuppression
         {
-            get { return _selectedDevice?.Loopback.Loopback.TxSuppression ?? false; }
+            get { return _loopback?.Loopback.TxSuppression ?? false; }
             set
             {
-                if (_selectedDevice != null)
+                if (_selectedDeviceStore.SelectedDevice != null)
                 {
                     _isTxSuppression = value;
-                    _selectedDevice.Loopback.Loopback.TxSuppression = value;
-                    _selectedDevice.FirmwareAPI.SetTxSuppressionSetting(value);
+                    _loopback.Loopback.TxSuppression = value;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.SetTxSuppressionSetting(value);
                 }
                 OnPropertyChanged(nameof(IsTxSuppression));
             }
         }
 
-        public List<LoopbackListingModel> Loopbacks => _selectedDevice?.Loopback.Loopbacks;
+        public List<LoopbackListingModel> Loopbacks => _loopback?.Loopbacks;
 
         public LoopbackListingModel SelectedLoopback
         {
-            get { return _selectedDevice?.Loopback.Loopback ?? _selectedDevice?.Loopback.Loopbacks[0]; }
+            get { return _loopback?.Loopback; }
             set
             {
                 if (value != null)
                 {
                     _selectedLoopback = value;
-                    _selectedDevice.Loopback.Loopback = value;
-                    _selectedDevice.Loopback.Loopback.RxSuppression = _isRxSuppression;
-                    _selectedDevice.Loopback.Loopback.TxSuppression = _isTxSuppression;
-                    _selectedDevice.FirmwareAPI.SetLoopbackSetting(_selectedDevice?.Loopback.Loopback);
+                    _loopback.Loopback = value;
+                    _loopback.Loopback.RxSuppression = _isRxSuppression;
+                    _loopback.Loopback.TxSuppression = _isTxSuppression;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.Loopback);
                 }
                 OnPropertyChanged(nameof(SelectedLoopback));
                 OnPropertyChanged(nameof(ImagePath));
             }
         }
 
-        private ADINDeviceModel _selectedDevice => _selectedDeviceStore.SelectedDevice;
+        private ILoopback _loopback => _selectedDeviceStore.SelectedDevice?.Loopback;
 
         protected override void Dispose()
         {
@@ -92,7 +92,7 @@ namespace ADIN.WPF.ViewModel
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                SelectedLoopback = _selectedDevice.Loopback.Loopbacks.Where(x => x.EnumLoopbackType == obj).ToList()[0];
+                SelectedLoopback = _loopback.Loopbacks.Where(x => x.EnumLoopbackType == obj).ToList()[0];
             }));
         }
 
