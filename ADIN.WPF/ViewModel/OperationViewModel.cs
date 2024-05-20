@@ -22,6 +22,7 @@ namespace ADIN.WPF.ViewModel
             RegisterListingVM = new RegisterListingViewModel(selectedDeviceStore, ftdiService);
             LinkPropertiesVM = new LinkPropertiesViewModel(_navigationStore, _selectedDeviceStore);
             LoopbackVM = new LoopbackViewModel(_selectedDeviceStore, ftdiService);
+            FrameGenCheckerVM = new FrameGenCheckerViewModel(_selectedDeviceStore, mainLock, ftdiService);
             ClockPinControlVM = new ClockPinControlViewModel(_navigationStore, _selectedDeviceStore);
             TestModeVM = new TestModeViewModel(_selectedDeviceStore);
             DeviceStatusVM = new DeviceStatusViewModel(selectedDeviceStore, ftdiService);
@@ -40,6 +41,7 @@ namespace ADIN.WPF.ViewModel
         public ExtraCommandsViewModel ExtraCommandsVM { get; set; }
         public LinkPropertiesViewModel LinkPropertiesVM { get; set; }
         public LoopbackViewModel LoopbackVM { get; set; }
+        public FrameGenCheckerViewModel FrameGenCheckerVM { get; set; }
         public ClockPinControlViewModel ClockPinControlVM { get; set; }
         public TestModeViewModel TestModeVM { get; set; }
         public RegisterListingViewModel RegisterListingVM { get; set; }

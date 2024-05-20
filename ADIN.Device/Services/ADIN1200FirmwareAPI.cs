@@ -25,6 +25,8 @@ namespace ADIN.Device.Services
         private ObservableCollection<RegisterModel> _registers;
         private uint _phyAddress;
         private EthPhyState _phyState;
+        private uint checkedFrames = 0;
+        private uint checkedFramesErrors = 0;
         private object _mainLock = new object();
         private string _feedbackMessage;
 
@@ -35,6 +37,10 @@ namespace ADIN.Device.Services
             _phyAddress = phyAddress;
             _mainLock = mainLock;
         }
+
+        public event EventHandler<string> FrameGenCheckerTextStatusChanged;
+
+        public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
 
@@ -835,6 +841,128 @@ namespace ADIN.Device.Services
                 FeedbackLog("Tx data not suppressed", FeedbackType.Info);
             }
         }
+        private void SetFrameLength(uint framLength)
+        {
+            if (framLength <= 0xFFFF)
+            {
+                WriteYodaRg("FgFrmLen", framLength);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Length set to {framLength}", FeedBackType = FeedbackType.Info });
+            }
+            else
+            {
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Length Not set - value must be less than 65535", FeedBackType = FeedbackType.Info });
+            }
+        }
+        private void SetContinuousMode(bool isEnable, uint frameBurst)
+        {
+            if (isEnable)
+            {
+                WriteYodaRg("FgContModeEn", 1);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frames will be sent continuously until terminated.", FeedBackType = FeedbackType.Info });
+            }
+            else
+            {
+                uint numFramesH = frameBurst / 65536;
+                uint numFramesL = frameBurst - (numFramesH * 65536);
+                WriteYodaRg("FgNfrmL", numFramesL);
+                WriteYodaRg("FgNfrmH", numFramesH);
+                WriteYodaRg("FgContModeEn", 0);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Num Frames set to {frameBurst}", FeedBackType = FeedbackType.Info });
+            }
+        }
+        private void SetFrameContent(FrameType frameContent)
+        {
+            switch (frameContent)
+            {
+                case FrameType.Random:
+                    WriteYodaRg("FgCntrl", 1);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as random", FeedBackType = FeedbackType.Info });
+                    break;
+
+                case FrameType.All0s:
+                    WriteYodaRg("FgCntrl", 2);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as all zeros", FeedBackType = FeedbackType.Info });
+                    break;
+
+                case FrameType.All1s:
+                    WriteYodaRg("FgCntrl", 3);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as all ones", FeedBackType = FeedbackType.Info });
+                    break;
+
+                case FrameType.Alt10s:
+                    WriteYodaRg("FgCntrl", 4);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as alternating 1 0", FeedBackType = FeedbackType.Info });
+                    break;
+
+                case FrameType.Decrement:
+                    WriteYodaRg("FgCntrl", 5);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as decrementing byte", FeedBackType = FeedbackType.Info });
+                    break;
+
+                default:
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type Not Configured - Use one of  Random / A000s / A111s / Alt10", FeedBackType = FeedbackType.Info });
+                    break;
+            }
+        }
+        //private void SetMacAddresses(bool isEnable, string src, string dest)
+        //{
+        //    if (isEnable)
+        //    {
+        //        if (src != null)
+        //        {
+        //            WriteYodaRg("FgSa", Convert.ToUInt32(src, 16));
+        //            OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0x{src}", FeedBackType = FeedbackType.Info });
+        //        }
+
+        //        if (dest != null)
+        //        {
+        //            WriteYodaRg("FgDa5Emi", Convert.ToUInt32(dest, 16));
+        //            OnWriteProcessCompleted(new FeedbackModel() { Message = $"Destination MAC Address set to 0x{dest}", FeedBackType = FeedbackType.Info });
+        //        }
+        //    }
+        //    else
+        //    {
+        //        WriteYodaRg("FgSa", 0xE1);
+        //        OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0xE1", FeedBackType = FeedbackType.Info });
+        //        WriteYodaRg("FgDa5Emi", 0x01);
+        //        OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0x01", FeedBackType = FeedbackType.Info });
+        //    }
+        //}
+        public bool isFrameGenCheckerOngoing { get; set; } = false;
+        public void SetFrameCheckerSetting(FrameGenCheckerModel frameContent)
+        {
+            checkedFrames = 0;
+            checkedFramesErrors = 0;
+
+            bool fgEn_st = ReadYogaRg("FgEn") == "1" ? true : false;
+
+            if (fgEn_st)
+            {
+                WriteYodaRg("FgEn", 0);
+                //OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Generator disabled", FeedBackType = FeedbackType.Info });
+                isFrameGenCheckerOngoing = false;
+                OnFrameGenCheckerStatusChanged("Generate");
+            }
+            else
+            {
+                WriteYodaRg("DiagClkEn", 1);
+                SetFrameLength(frameContent.FrameLength);
+                SetContinuousMode(frameContent.EnableContinuousMode, frameContent.FrameBurst);
+                SetFrameContent(frameContent.SelectedFrameContent);
+                //SetMacAddresses(frameContent.EnableMacAddress, frameContent.SrcOctet, frameContent.DestOctet);
+
+                WriteYodaRg("FgEn", 1);
+                isFrameGenCheckerOngoing = true;
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"- Started transmission of {frameContent.FrameBurst} frames -", FeedBackType = FeedbackType.Info });
+            }
+        }
+        public void ResetFrameGenCheckerStatistics()
+        {
+            checkedFrames = 0;
+            checkedFramesErrors = 0;
+
+            OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames} frames, {checkedFramesErrors} errors");
+        }
 
         public void ReadRegsiters()
         {
@@ -898,6 +1026,16 @@ namespace ADIN.Device.Services
             WriteYodaRg("RestartAneg", 1);
             FeedbackLog("Restart auto negotiation", FeedbackType.Info);
             Debug.WriteLine("Restart Auto Negotiation");
+        }
+
+        protected virtual void OnFrameGenCheckerStatusChanged(string status)
+        {
+            FrameGenCheckerTextStatusChanged?.Invoke(this, status);
+        }
+
+        protected virtual void OnResetFrameGenCheckerStatisticsChanged(string status)
+        {
+            ResetFrameGenCheckerStatisticsChanged?.Invoke(this, status);
         }
 
         protected virtual void OnWriteProcessCompleted(FeedbackModel feedback)

@@ -38,7 +38,7 @@ namespace ADIN.WPF.Commands
             frameGenChecker.SrcOctet = _viewModel.SrcOctet;
             frameGenChecker.DestOctet = _viewModel.DestOctet;
 
-            _selectedDeviceStore.SelectedDevice.FirmwareAPI.SetFrameCheckerSetting(frameGenChecker);
+            _selectedDeviceStore.SelectedDevice.FwAPI.SetFrameCheckerSetting(frameGenChecker);
         }
 
         private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

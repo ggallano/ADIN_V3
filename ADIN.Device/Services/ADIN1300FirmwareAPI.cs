@@ -435,6 +435,15 @@ namespace ADIN.Device.Services
         {
             throw new NotImplementedException();
         }
+        public bool isFrameGenCheckerOngoing { get; set; } = false;
+        public void SetFrameCheckerSetting(FrameGenCheckerModel frameContent)
+        {
+            throw new NotImplementedException ();
+        }
+        public void ResetFrameGenCheckerStatistics()
+        {
+            throw new NotImplementedException () ;
+        }
 
         public void ReadRegsiters()
         {

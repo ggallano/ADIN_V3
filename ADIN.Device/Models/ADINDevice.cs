@@ -24,6 +24,7 @@ namespace ADIN.Device.Models
 
         public ILinkProperties LinkProperties => Device.LinkProperties;
         public ILoopback Loopback => Device.Loopback;
+        public IFrameGenChecker FrameGenChecker => Device.FrameGenChecker;
         public IClockPinControl ClockPinControl => Device.ClockPinControl;
         public ITestMode TestMode => Device.TestMode;
 

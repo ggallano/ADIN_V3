@@ -90,6 +90,19 @@
                             </Grid>
                         </Grid>
                     </TabItem>
+                    <TabItem Header="FrameGenerator/Checker">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="500"/>
+                                <ColumnDefinition Width="3"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <local:FrameGenCheckerView DataContext="{Binding FrameGenCheckerVM}"/>
+                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />
+                            <components:DeviceStatusView Grid.Column="2" DataContext="{Binding DeviceStatusVM}"/>
+                        </Grid>
+
+                    </TabItem>
                     <TabItem Header="Register Access">
                         <local:RegisterListingView DataContext="{Binding RegisterListingVM}"/>
                     </TabItem>

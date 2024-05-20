@@ -45,10 +45,10 @@ namespace ADIN.WPF.ViewModel
 
         public string DestMacAddress
         {
-            get { return _selectedDevice?.FrameGenChecker.DestMacAddress ?? ":::::"; }
+            get { return _frameGenChecker?.DestMacAddress ?? ":::::"; }
             set
             {
-                if (_selectedDevice != null)
+                if (_selectedDeviceStore.SelectedDevice != null)
                 {
                     _destMacAddress = value;
                     _frameGenChecker.DestMacAddress = value;
@@ -65,10 +65,10 @@ namespace ADIN.WPF.ViewModel
 
         public bool EnableContinuousMode
         {
-            get { return _selectedDevice?.FrameGenChecker.EnableContinuousMode ?? false; }
+            get { return _frameGenChecker?.EnableContinuousMode == true; }
             set
             {
-                if (_selectedDevice != null)
+                if (_selectedDeviceStore.SelectedDevice != null)
                 {
                     _enableContinuousMode = value;
                     _frameGenChecker.EnableContinuousMode = value;
@@ -79,10 +79,10 @@ namespace ADIN.WPF.ViewModel
 
         public bool EnableMacAddress
         {
-            get { return _selectedDevice?.FrameGenChecker.EnableMacAddress ?? false; }
+            get { return _frameGenChecker?.EnableMacAddress == true; }
             set
             {
-                if (_selectedDevice != null)
+                if (_selectedDeviceStore.SelectedDevice != null)
                 {
                     _enableMacAddress = value;
                     _frameGenChecker.EnableMacAddress = value;
@@ -95,10 +95,10 @@ namespace ADIN.WPF.ViewModel
 
         public uint FrameBurst
         {
-            get { return _selectedDevice?.FrameGenChecker.FrameBurst ?? 0; }
+            get { return _frameGenChecker?.FrameBurst ?? 0; }
             set
             {
-                if (_selectedDevice != null)
+                if (_selectedDeviceStore.SelectedDevice != null)
                 {
                     _frameBurst = value;
                     _frameGenChecker.FrameBurst = value;
@@ -107,13 +107,13 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public List<FrameContentModel> FrameContents => _selectedDevice?.FrameGenChecker.FrameContents;
+        public List<FrameContentModel> FrameContents => _frameGenChecker?.FrameContents;
 
         public string FrameGeneratorButtonText
         {
             get
             {
-                return _selectedDevice?.FirmwareAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+                return _selectedDeviceStore.SelectedDevice?.FwAPI.isFrameGenCheckerOngoing ==  true ? "Terminate" : "Generate";
             }
             set
             {
@@ -130,10 +130,10 @@ namespace ADIN.WPF.ViewModel
 
         public uint FrameLength
         {
-            get { return _selectedDevice?.FrameGenChecker.FrameLength ?? 0; }
+            get { return _frameGenChecker?.FrameLength ?? 0; }
             set
             {
-                if (_selectedDevice != null)
+                if (_selectedDeviceStore.SelectedDevice != null)
                 {
                     _frameLength = value;
                     _frameGenChecker.FrameLength = value;
@@ -146,7 +146,7 @@ namespace ADIN.WPF.ViewModel
 
         public FrameContentModel SelectedFrameContent
         {
-            get { return _selectedDevice?.FrameGenChecker.FrameContent ?? _selectedDevice?.FrameGenChecker.FrameContent; }
+            get { return _frameGenChecker?.FrameContent; }
             set
             {
                 if (value != null)
@@ -160,10 +160,10 @@ namespace ADIN.WPF.ViewModel
 
         public string SrcMacAddress
         {
-            get { return _selectedDevice?.FrameGenChecker.SrcMacAddress ?? ":::::"; }
+            get { return _frameGenChecker?.SrcMacAddress ?? ":::::"; }
             set
             {
-                if (_selectedDevice != null)
+                if (_selectedDeviceStore.SelectedDevice != null)
                 {
                     _srcMacAddress = value;
                     _frameGenChecker.SrcMacAddress = value;
@@ -177,8 +177,8 @@ namespace ADIN.WPF.ViewModel
         }
 
         public string SrcOctet { get; set; }
-        protected ADINDeviceModel _selectedDevice => _selectedDeviceStore.SelectedDevice;
-        private FrameGenCheckerModel _frameGenChecker => _selectedDevice.FrameGenChecker;
+        
+        private IFrameGenChecker _frameGenChecker => _selectedDeviceStore.SelectedDevice?.FrameGenChecker;
 
         protected override void Dispose()
         {

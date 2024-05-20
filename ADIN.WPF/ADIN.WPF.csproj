@@ -134,10 +134,12 @@
     <Compile Include="Commands\ClearLogCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\DisableLinkCommand.cs" />
+    <Compile Include="Commands\ExecuteFrameCheckerCommand.cs" />
     <Compile Include="Commands\LogWindowSaveCommand.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
     <Compile Include="Commands\ClockPinControlCommand.cs" />
     <Compile Include="Commands\ReadRegisterCommand.cs" />
+    <Compile Include="Commands\ResetFrameDeviceCheckerCommnad.cs" />
     <Compile Include="Commands\SoftwarePowerDownCommand.cs" />
     <Compile Include="Commands\TestModeCommand.cs" />
     <Compile Include="Commands\WriteRegisterCommand.cs" />
@@ -159,6 +161,7 @@
     <Compile Include="ViewModel\ClockPinControlViewModel.cs" />
     <Compile Include="ViewModel\DeviceStatusViewModel.cs" />
     <Compile Include="ViewModel\ExtraCommandsViewModel.cs" />
+    <Compile Include="ViewModel\FrameGenCheckerViewModel.cs" />
     <Compile Include="ViewModel\LinkPropertiesViewModel.cs" />
     <Compile Include="ViewModel\LogActivityViewModel.cs" />
     <Compile Include="ViewModel\LoopbackViewModel.cs" />
@@ -174,11 +177,17 @@
     <Compile Include="View\DeviceStatusView.xaml.cs">
       <DependentUpon>DeviceStatusView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\FrameGenCheckerView.xaml.cs">
+      <DependentUpon>FrameGenCheckerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\LogActivityView.xaml.cs">
       <DependentUpon>LogActivityView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LoopbackView.xaml.cs">
       <DependentUpon>LoopbackView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MACAddress.xaml.cs">
+      <DependentUpon>MACAddress.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TestModeView.xaml.cs">
       <DependentUpon>TestModeView.xaml</DependentUpon>
@@ -249,11 +258,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\FrameGenCheckerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\LogActivityView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\LoopbackView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MACAddress.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

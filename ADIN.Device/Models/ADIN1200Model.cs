@@ -41,6 +41,7 @@ namespace ADIN.Device.Models
 
             LinkProperties = new LinkPropertiesADIN1200();
             Loopback = new LoopbackADIN1200();
+            FrameGenChecker = new FrameGenCheckerADIN1200();
             ClockPinControl = new ClockPinControlADIN1200();
             TestMode = new TestModeADIN1200();
 

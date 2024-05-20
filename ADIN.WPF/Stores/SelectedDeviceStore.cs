@@ -10,6 +10,8 @@ namespace ADIN.WPF.Stores
     {
         private ADINDevice _selectedDevice;
 
+        public event Action<FrameType> FrameContentChanged;
+        public event Action<string> FrameGenCheckerStatusChanged;
         public event Action RegisterListingValueChanged;
         public event Action<string> LinkStatusChanged;
         public event Action<LoopBackMode> LoopbackChanged;

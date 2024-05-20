@@ -30,7 +30,7 @@ namespace ADIN.WPF.Commands
 
         public override void Execute(object parameter)
         {
-            _selectedDeviceStore.SelectedDevice.FirmwareAPI.ResetFrameGenCheckerStatistics();
+            _selectedDeviceStore.SelectedDevice.FwAPI.ResetFrameGenCheckerStatistics();
         }
 
         private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

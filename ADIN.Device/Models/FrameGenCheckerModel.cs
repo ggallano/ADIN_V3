@@ -2,7 +2,7 @@
 
 namespace ADIN.Device.Models
 {
-    public class FrameGenCheckerModel
+    public class FrameGenCheckerModel : IFrameGenChecker
     {
         public FrameGenCheckerModel()
         {
