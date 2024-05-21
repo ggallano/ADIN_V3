@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ADIN.WPF.View
 {
     /// <summary>
-    /// Interaction logic for ADINButtonsView.xaml
+    /// Interaction logic for ExtraCommandsView.xaml
     /// </summary>
-    public partial class ADINButtonsView : UserControl
+    public partial class ExtraCommandsView : UserControl
     {
-        public ADINButtonsView()
+        public ExtraCommandsView()
         {
             InitializeComponent();
         }

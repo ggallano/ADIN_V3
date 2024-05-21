@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface IDownSpeed
+    public interface IClockPinControlAPI
     {
-        void DownSpeed10Hd(bool dwnSpd10Hd);
-        void DownSpeedRetriesSetVal(uint dwnSpdRtryVal);
+        void SetGpClkPinControl(string gpClkPinCtrl);
     }
 }

@@ -408,6 +408,185 @@ namespace ADI.Register.Services
             #endregion Additional Register sets
         }
 
+        public ObservableCollection<RegisterModel> GetAdditionalRegisterSet_ADIN1200_ADIN1300(ObservableCollection<RegisterModel> registers)
+        {
+            #region Additional Register sets
+
+            registers.Add(
+               new RegisterModel()
+               {
+                   Name = "FgNoFcsNoHdr",
+                   Address = 2003993,
+                   BitFields = new List<BitFieldModel>()
+                   {
+                        new BitFieldModel()
+                        {
+                            Name ="FgNoFcs",
+                            Start = 0,
+                            Width = 1,
+                            ResetValue = 0,
+                            Value = 0
+                        },
+                        new BitFieldModel()
+                        {
+                            Name ="FgNoHdr",
+                            Start = 1,
+                            Width = 1,
+                            ResetValue = 0,
+                            Value = 0
+                        }
+                   }
+               });
+
+            registers.Add(
+               new RegisterModel()
+               {
+                   Name = "LnkWdEn",
+                   Address = 2004992,
+                   BitFields = new List<BitFieldModel>()
+                   {
+                        new BitFieldModel()
+                        {
+                            Name ="LnkWdEn",
+                            Start = 0,
+                            Width = 1,
+                            ResetValue = 0,
+                            Value = 0
+                        }
+                   }
+               });
+
+            registers.Add(
+               new RegisterModel()
+               {
+                   Name = "ArbWdEn",
+                   Address = 1998852,
+                   BitFields = new List<BitFieldModel>()
+                   {
+                        new BitFieldModel()
+                        {
+                            Name ="ArbWdEn",
+                            Start = 0,
+                            Width = 1,
+                            ResetValue = 0,
+                            Value = 0
+                        }
+                   }
+               });
+
+            registers.Add(
+               new RegisterModel()
+               {
+                   Name = "B10LpTxEn",
+                   Address = 2011660,
+                   BitFields = new List<BitFieldModel>()
+                   {
+                        new BitFieldModel()
+                        {
+                            Name ="B10LpTxEn",
+                            Start = 0,
+                            Width = 1,
+                            ResetValue = 0,
+                            Value = 0
+                        }
+                   }
+               });
+
+            registers.Add(
+               new RegisterModel()
+               {
+                   Name = "GePhyIfCfg",
+                   Address = 2031399,
+                   BitFields = new List<BitFieldModel>()
+                   {
+                        new BitFieldModel()
+                        {
+                            Name ="GeFifoDpth",
+                            Start = 2,
+                            Width = 3,
+                            ResetValue = 0,
+                            Value = 0
+                        }
+                   }
+               });
+
+            registers.Add(
+               new RegisterModel()
+               {
+                   Name = "DpthMiiByte",
+                   Address = 2004482,
+                   BitFields = new List<BitFieldModel>()
+                   {
+                        new BitFieldModel()
+                        {
+                            Name ="DpthMiiByte",
+                            Start = 0,
+                            Width = 1,
+                            ResetValue = 0,
+                            Value = 0
+                        }
+                   }
+               });
+
+            registers.Add(
+               new RegisterModel()
+               {
+                   Name = "GePkg",
+                   Address = 2031362,
+                   BitFields = new List<BitFieldModel>()
+                   {
+                        new BitFieldModel()
+                        {
+                            Name ="GePkg",
+                            Start = 0,
+                            Width = 4,
+                            ResetValue = 0,
+                            Value = 0
+                        }
+                   }
+               });
+
+            //registers.Add(
+            //   new RegisterModel()
+            //   {
+            //       Name = "GePhyBaseCfg",
+            //       Address = 2031380,
+            //       BitFields = new List<BitFieldModel>()
+            //       {
+            //            new BitFieldModel()
+            //            {
+            //                Name ="GePhySftPdCfg",
+            //                Start = 3,
+            //                Width = 1,
+            //                ResetValue = 0,
+            //                Value = 0
+            //            }
+            //       }
+            //   });
+
+            registers.Add(
+               new RegisterModel()
+               {
+                   Name = "GePhyRst",
+                   Address = 2031373,
+                   BitFields = new List<BitFieldModel>()
+                   {
+                        new BitFieldModel()
+                        {
+                            Name ="GePhyRst",
+                            Start = 0,
+                            Width = 1,
+                            ResetValue = 0,
+                            Value = 0
+                        }
+                   }
+               });
+
+            return registers;
+
+            #endregion Additional Register sets
+        }
+
         public Dictionary<string, RegisterModel> GetDictRegister(string registerFileName)
         {
             var registerStruct = JsonConvert.DeserializeObject<RegisterSet>(File.ReadAllText(registerFileName));

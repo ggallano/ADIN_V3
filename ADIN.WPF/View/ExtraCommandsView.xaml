@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ADIN.WPF.View.ADINButtonsView"
+﻿<UserControl x:Class="ADIN.WPF.View.ExtraCommandsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,9 +9,9 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Software Powerdown Down"/>
-            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Disable Linking"/>
-            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Restart Linking"/>
+            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="{Binding PowerDownStatus}" Command="{Binding SoftwarePowerDownCommand}" />
+            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="{Binding LinkStatus}" Command="{Binding DisableLinkCommand}" IsEnabled="{Binding IsPoweredUp}"/>
+            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Restart Linking" Command="{Binding AutoNegCommand}" IsEnabled="{Binding IsPoweredUp}"/>
             <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Save Registers"/>
             <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Load Registers"/>
             <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys (Pin)"/>

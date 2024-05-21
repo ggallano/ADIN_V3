@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ADIN.Device.Services
+namespace ADIN.Device.Models
 {
-    public interface IEnergyDetect
+    public interface IDeviceStatus
     {
-        void EnableEnergyDetectPowerDown(string enEnergyDetect);
+        bool IsSoftwarePowerDown { get; set; }
     }
 }

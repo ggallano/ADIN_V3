@@ -9,10 +9,13 @@ namespace ADIN.Device.Models
         public List<string> MasterSlaves { get; set; }
         public List<string> MDIXs { get; set; }
         public List<string> SpeedModes { get; set; }
+        public List<string> ForcedSpeeds { get; set; }
+        public List<string> AdvertisedSpeeds { get; set; }
         public string EnergyDetectPowerDownMode { get; set; }
         public string MasterSlave { get; set; }
         public string MDIX { get; set; }
         public string SpeedMode { get; set; }
+        public string ForcedSpeed { get; set; }
         public uint DownSpeedRetries { get; set; }
         public bool IsDownSpeed_10BASE_T_HD { get; set; }
         public bool IsDownSpeed_100BASE_TX_HD { get; set; }

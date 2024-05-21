@@ -78,7 +78,7 @@ namespace ADIN.WPF.ViewModel
         /// <param name="type">Type of message which denotes severity of type <see cref="FeedbackType"/></param>
         /// <param name="message">The text message to be displayed as feedback</param>
         /// <param name="seconds">The number of milliseconds for much the message to be displayed, default is 5 seconds</param>
-        public void SetFeedback(FeedbackModel feedback, int seconds = 5000)
+        public void SetFeedback(FeedbackModel feedback, bool setSerialNumber = true, int seconds = 5000)
         {
             string message = feedback.Message;
             FeedbackType type = feedback.FeedBackType;
@@ -97,6 +97,11 @@ namespace ADIN.WPF.ViewModel
 
             if (message != string.Empty && (message.IndexOf("Undelete") != 1))
             {
+                if(setSerialNumber)
+                {
+                    message = _selectedDeviceStore.SelectedDevice.SerialNumber + " " + message;
+                }
+
                 switch (type)
                 {
                     case FeedbackType.Error:
@@ -112,7 +117,7 @@ namespace ADIN.WPF.ViewModel
                         break;
 
                     case FeedbackType.Verbose:
-                        message = "[VerboseInfo]" + message;
+                        message = "[VerboseInfo] " + message;
                         break;
                 }
 
@@ -152,12 +157,12 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        protected override void Dispose()
-        {
-            _selectedDeviceStore.ProcessCompleted -= _selectedDeviceStore_ProcessCompleted;
-            _selectedDeviceStore.ErrorOccured -= _selectedDeviceStore_ErrorOccured;
-            base.Dispose();
-        }
+        //protected override void Dispose()
+        //{
+        //    _selectedDeviceStore.ProcessCompleted -= _selectedDeviceStore_ProcessCompleted;
+        //    _selectedDeviceStore.ErrorOccured -= _selectedDeviceStore_ErrorOccured;
+        //    base.Dispose();
+        //}
 
         private void _selectedDeviceStore_ErrorOccured(FeedbackModel errorFeedback)
         {

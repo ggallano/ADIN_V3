@@ -8,11 +8,14 @@ namespace ADIN.Device.Models
         List<string> MasterSlaves { get; set; }
         List<string> MDIXs { get; set; }
         List<string> SpeedModes { get; set; }
+        List<string> ForcedSpeeds { get; set; }
+        List<string> AdvertisedSpeeds { get; set; }
 
         string EnergyDetectPowerDownMode { get; set; }
         string MasterSlave { get; set; }
         string MDIX { get; set; }
         string SpeedMode { get; set; }
+        string ForcedSpeed { get; set; }
 
 
         uint DownSpeedRetries { get; set; }

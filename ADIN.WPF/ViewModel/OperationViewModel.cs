@@ -11,16 +11,22 @@ namespace ADIN.WPF.ViewModel
     {
         private readonly NavigationStore _navigationStore;
         private readonly SelectedDeviceStore _selectedDeviceStore;
-        public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore, IRegisterService registerService)
+        public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore, IRegisterService registerService, object mainLock)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _navigationStore = navigationStore;
 
-            DeviceListingVM = new DeviceListingViewModel(selectedDeviceStore, ftdiService, registerService);
+            LogActivityVM = new LogActivityViewModel(_selectedDeviceStore);
+            DeviceListingVM = new DeviceListingViewModel(selectedDeviceStore, ftdiService, registerService, LogActivityVM, mainLock);
+            ExtraCommandsVM = new ExtraCommandsViewModel(_selectedDeviceStore, ftdiService);
             RegisterListingVM = new RegisterListingViewModel(selectedDeviceStore, ftdiService);
             LinkPropertiesVM = new LinkPropertiesViewModel(_navigationStore, _selectedDeviceStore);
+            LoopbackVM = new LoopbackViewModel(_selectedDeviceStore, ftdiService);
+            FrameGenCheckerVM = new FrameGenCheckerViewModel(_selectedDeviceStore, mainLock, ftdiService);
             ClockPinControlVM = new ClockPinControlViewModel(_navigationStore, _selectedDeviceStore);
-            //DeviceStatusVM = new DeviceStatusViewModel(selectedDeviceStore, ftdiService);
+            TestModeVM = new TestModeViewModel(_selectedDeviceStore);
+            DeviceStatusVM = new DeviceStatusViewModel(selectedDeviceStore, ftdiService);
+            RegisterAccessVM = new RegisterAccessViewModel(selectedDeviceStore, navigationStore);
 
             _navigationStore.CurrentViewModelChanged += _navigationStore_CurrentViewModelChanged;
         }
@@ -32,10 +38,16 @@ namespace ADIN.WPF.ViewModel
 
         public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
         public DeviceListingViewModel DeviceListingVM { get; }
+        public ExtraCommandsViewModel ExtraCommandsVM { get; set; }
         public LinkPropertiesViewModel LinkPropertiesVM { get; set; }
+        public LoopbackViewModel LoopbackVM { get; set; }
+        public FrameGenCheckerViewModel FrameGenCheckerVM { get; set; }
         public ClockPinControlViewModel ClockPinControlVM { get; set; }
+        public TestModeViewModel TestModeVM { get; set; }
         public RegisterListingViewModel RegisterListingVM { get; set; }
         public DeviceStatusViewModel DeviceStatusVM { get; set; }
+        public LogActivityViewModel LogActivityVM { get; set; }
+        public RegisterAccessViewModel RegisterAccessVM { get; set; }
         private void _navigationStore_CurrentViewModelChanged()
         {
             OnPropertyChanged(nameof(CurrentViewModel));

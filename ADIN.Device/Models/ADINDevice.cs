@@ -16,12 +16,21 @@ namespace ADIN.Device.Models
 
         public string BoardName => Device.BoardName;
 
+        public uint PhyAddress => Device.PhyAddress;
+
+        public BoardType DeviceType => Device.DeviceType;
+
         public IFirmwareAPI FwAPI => Device.FirmwareAPI;
+        public string Checker { get; set; }
 
         public ILinkProperties LinkProperties => Device.LinkProperties;
-
+        public ILoopback Loopback => Device.Loopback;
+        public IFrameGenChecker FrameGenChecker => Device.FrameGenChecker;
         public IClockPinControl ClockPinControl => Device.ClockPinControl;
+        public ITestMode TestMode => Device.TestMode;
 
         public ObservableCollection<RegisterModel> Registers => Device.Registers;
+
+        public IDeviceStatus DeviceStatus => Device.DeviceStatus;
     }
 }

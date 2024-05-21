@@ -96,17 +96,26 @@
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Description="10BASE-T HD" DisplayName="10BASE-T HD" GroupName="Down Speed" OrderIndex="3">
+                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertisedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="10BASE-T HD" DisplayName="10BASE-T HD" GroupName="Down Speed" OrderIndex="3">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
                             <CheckBox IsChecked="{Binding IsDownSpeed_10BASE_T_HD}"/>
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Description="Downspeed Retries" DisplayName="Downspeed Retries" GroupName="Down Speed" OrderIndex="3">
+                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertisedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="Downspeed Retries" DisplayName="Downspeed Retries" GroupName="Down Speed" OrderIndex="3">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
                             <telerik:RadNumericUpDown Value="{Binding SetDownSpeedRetries}" Minimum="0" Maximum="7" SmallChange="1"  NumberDecimalDigits="0" IsEditable="False" AutoReverse="True"/>
+                        </DataTemplate>
+                    </telerik:PropertyDefinition.EditorTemplate>
+                </telerik:PropertyDefinition>
+                
+                <!--ForcedSpeed-->
+                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsForcedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="Forced Speed" DisplayName="Forced Speed" GroupName="Forced Speed" OrderIndex="1">
+                    <telerik:PropertyDefinition.EditorTemplate>
+                        <DataTemplate>
+                            <telerik:RadComboBox ItemsSource="{Binding ForcedSpeeds}" SelectedItem="{Binding SelectedForcedSpeed}"/>
                         </DataTemplate>
                     </telerik:PropertyDefinition.EditorTemplate>
                 </telerik:PropertyDefinition>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface IAutoMDIX
+    public interface IAutoMDIXAPI
     {
         void AutoMDIXMode(string autoMDIXmod);
     }

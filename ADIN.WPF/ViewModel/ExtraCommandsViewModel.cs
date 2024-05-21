@@ -1,4 +1,5 @@
-﻿using ADIN.WPF.Commands;
+﻿using ADIN.Device.Models;
+using ADIN.WPF.Commands;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
 using System;
@@ -10,8 +11,11 @@ namespace ADIN.WPF.ViewModel
     public class ExtraCommandsViewModel : ViewModelBase
     {
         private IFTDIServices _ftdiService;
-        private string _linkStatus = "-";
+        private string _powerDownStatus = "Software Power Down";
+        private string _linkStatus = "Disable Linking";
+        private bool SelectedSoftPowerDownText;
         private SelectedDeviceStore _selectedDeviceStore;
+        private bool _isPoweredUp = false;
 
         public ExtraCommandsViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
         {
@@ -20,23 +24,60 @@ namespace ADIN.WPF.ViewModel
 
             SoftwarePowerDownCommand = new SoftwarePowerDownCommand(this, selectedDeviceStore);
             AutoNegCommand = new AutoNegCommand(this, selectedDeviceStore);
-            SubSysResetCommand = new ResetCommand(this, selectedDeviceStore);
-            PhyResetCommand = new ResetCommand(this, selectedDeviceStore);
-            RegisterActionCommand = new RegisterActionCommand(this, selectedDeviceStore);
+            DisableLinkCommand = new DisableLinkCommand(this, selectedDeviceStore);
+            //SubSysResetCommand = new ResetCommand(this, selectedDeviceStore);
+            //PhyResetCommand = new ResetCommand(this, selectedDeviceStore);
+            //RegisterActionCommand = new RegisterActionCommand(this, selectedDeviceStore);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
-            _selectedDeviceStore.SoftwarePowerDownChanged += _selectedDeviceStore_LinkStateStatusChanged;
+            _selectedDeviceStore.SoftwarePowerDownChanged += _selectedDeviceStore_PowerDownStateStatusChanged;
+            _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStateStatusChanged;
         }
 
         public ICommand AutoNegCommand { get; set; }
+
+        public string PowerDownStatus
+        {
+            get { return _powerDownStatus; }
+            set
+            {
+                _powerDownStatus = value;
+                OnPropertyChanged(nameof(PowerDownStatus));
+                if(_powerDownStatus == "Software Power Up")
+                {
+                    IsPoweredUp = false;
+                }
+                else
+                {
+                    IsPoweredUp = true;
+                }
+            }
+        }
 
         public string LinkStatus
         {
             get { return _linkStatus; }
             set
             {
-                _linkStatus = value;
+                if (value == EthPhyState.Standby.ToString())
+                {
+                    _linkStatus = "Enable Linking";
+                }
+                else
+                {
+                    _linkStatus = "Disable Linking";
+                }
                 OnPropertyChanged(nameof(LinkStatus));
+            }
+        }
+
+        public bool IsPoweredUp
+        {
+            get { return _isPoweredUp; }
+            set
+            {
+                _isPoweredUp = value;
+                OnPropertyChanged(nameof(IsPoweredUp));
             }
         }
 
@@ -44,12 +85,24 @@ namespace ADIN.WPF.ViewModel
         public ICommand SoftwarePowerDownCommand { get; set; }
         public ICommand SubSysResetCommand { get; set; }
         public ICommand RegisterActionCommand { get; set; }
+        public ICommand DisableLinkCommand { get; set; }
+
+        //private IDeviceStatus _deviceStatus => _selectedDeviceStore.SelectedDevice?.DeviceStatus;
 
         protected override void Dispose()
         {
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
-            _selectedDeviceStore.SoftwarePowerDownChanged -= _selectedDeviceStore_LinkStateStatusChanged;
+            _selectedDeviceStore.SoftwarePowerDownChanged -= _selectedDeviceStore_PowerDownStateStatusChanged;
+            _selectedDeviceStore.LinkStatusChanged -= _selectedDeviceStore_LinkStateStatusChanged;
             base.Dispose();
+        }
+
+        private void _selectedDeviceStore_PowerDownStateStatusChanged(string powerDownStatus)
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                PowerDownStatus = powerDownStatus;
+            }));
         }
 
         private void _selectedDeviceStore_LinkStateStatusChanged(string linkStatus)
@@ -62,7 +115,9 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            OnPropertyChanged(nameof(PowerDownStatus));
             OnPropertyChanged(nameof(LinkStatus));
+            OnPropertyChanged(nameof(IsPoweredUp));
         }
     }
 }

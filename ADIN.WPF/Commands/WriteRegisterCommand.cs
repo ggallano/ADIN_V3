@@ -42,7 +42,7 @@ namespace ADIN.WPF.Commands
                 return;
             }
 
-            _selectedDeviceStore.SelectedDevice.FirmwareAPI.MdioWriteCl45(register, value);
+            _selectedDeviceStore.SelectedDevice.FwAPI.RegisterWrite(register, value);
             _selectedDeviceStore.OnViewModelErrorOccured($"[Register Write] Register Address: 0x{_viewModel.WriteInput.ToLower()}, Value: 0x{_viewModel.WriteValue.ToLower()}", Helper.Feedback.FeedbackType.Info);
         }
 

@@ -12,5 +12,9 @@ namespace ADIN.Device.Services
         string MdioReadCl45(uint regAddress);
         string MdioWriteCl22(uint regAddress, uint data);
         string MdioWriteCl45(uint regAddress, uint data);
+
+        string RegisterRead(uint regAddress);
+        string RegisterWrite(uint regAddress, uint data);
+
     }
 }

@@ -25,7 +25,7 @@ namespace ADIN.WPF.Commands
 
         public override void Execute(object parameter)
         {
-            _selectedDeviceStore.SelectedDevice.FirmwareAPI.RestartAutoNegotiation();
+            _selectedDeviceStore.SelectedDevice.FwAPI.RestartAutoNegotiation();
         }
 
         private void _extraCommandsViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

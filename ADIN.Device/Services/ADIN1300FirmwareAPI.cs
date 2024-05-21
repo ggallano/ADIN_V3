@@ -29,6 +29,14 @@ namespace ADIN.Device.Services
             _phyAddress = phyAddress;
         }
 
+        public event EventHandler<FeedbackModel> WriteProcessCompleted;
+
+        public event EventHandler<string> FrameGenCheckerTextStatusChanged;
+
+        public event EventHandler<FrameType> FrameContentChanged;
+
+        public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
+
         public string MdioReadCl22(uint regAddress)
         {
             string response = string.Empty;
@@ -259,6 +267,15 @@ namespace ADIN.Device.Services
             //OnWriteProcessCompleted(new FeedbackModel() { Message = $"[{_ftdiService.GetSerialNumber()}] [Write] Address: 0x{registerAddress.ToString("X")}, Value: {value.ToString("X")}", FeedBackType = FeedbackType.Info });
         }
 
+        public string RegisterRead(uint regAddress)
+        {
+            throw new NotImplementedException();
+        }
+        public string RegisterWrite(uint regAddress, uint data)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Speed1000FdAdvertisement(bool spd1000FdAdv_st)
         {
             if (spd1000FdAdv_st)
@@ -349,6 +366,14 @@ namespace ADIN.Device.Services
                 this.WriteYodaRg("Eee100Adv", 0);
             }
         }
+        public void SetForcedSpeed(string setFrcdSpd)
+        {
+            throw new NotImplementedException();
+        }
+        public void CheckAdvertisedSpeed(List<string> listAdvSpd)
+        {
+            throw new NotImplementedException();
+        }
         public void AdvertisedForcedSpeed(string advFrcSpd)
         {
             throw new NotImplementedException();
@@ -400,7 +425,31 @@ namespace ADIN.Device.Services
 
             }
         }
-
+        public void SetTestMode(TestModeListingModel testMode, uint framelength)
+        {
+            throw new NotImplementedException();
+        }
+        public void SetLoopbackSetting(LoopbackListingModel loopback)
+        {
+            throw new NotImplementedException();
+        }
+        public void SetRxSuppressionSetting(bool isRxSuppression)
+        {
+            throw new NotImplementedException();
+        }
+        public void SetTxSuppressionSetting(bool isTxSuppression)
+        {
+            throw new NotImplementedException();
+        }
+        public bool isFrameGenCheckerOngoing { get; set; } = false;
+        public void SetFrameCheckerSetting(FrameGenCheckerModel frameContent)
+        {
+            throw new NotImplementedException ();
+        }
+        public void ResetFrameGenCheckerStatistics()
+        {
+            throw new NotImplementedException () ;
+        }
         public void ReadRegsiters()
         {
             foreach (var register in _registers)
@@ -408,6 +457,39 @@ namespace ADIN.Device.Services
                 register.Value = ReadYodaRg(register.Address);
             }
             Debug.WriteLine("ReadRegisters Done");
+        }
+        public EthPhyState GetPhyState()
+        {
+            throw new NotImplementedException();
+        }
+        public string GetMseValue()
+        { 
+            throw new NotImplementedException(); 
+        }
+        public void GetFrameCheckerStatus()
+        { 
+            throw new NotImplementedException(); 
+        }
+        public string GetFrameGeneratorStatus()
+        { 
+            throw new NotImplementedException(); 
+        }
+        public void SoftwarePowerdown(bool isSoftwarePowerdown)
+        {
+            throw new NotImplementedException();
+        }
+        public void DisableLinking(bool isDisabledLinking)
+        {
+            throw new NotImplementedException();
+        }
+        public void RestartAutoNegotiation()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetLinkStatus()
+        {
+            throw new NotImplementedException();
         }
     }
 }

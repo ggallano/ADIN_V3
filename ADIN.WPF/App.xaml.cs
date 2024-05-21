@@ -16,7 +16,7 @@ namespace ADIN.WPF
         private IFTDIServices _ftdiService;
         private IRegisterService _registerService;
         private ScriptService _scriptService;
-        private object _thisLock = new object();
+        private object _mainLock = new object();
         private readonly NavigationStore _navigationStore;
 
         public App()
@@ -35,7 +35,6 @@ namespace ADIN.WPF
             _selectedDeviceStore = new SelectedDeviceStore();
             _navigationStore = new NavigationStore();
             _navigationStore.CurrentViewModel = new LinkPropertiesViewModel(_navigationStore, _selectedDeviceStore);
-            _navigationStore.CurrentViewModel = new ClockPinControlViewModel(_navigationStore, _selectedDeviceStore);
             _ftdiService = new FTDIServices();
             _scriptService = new ScriptService();
             _registerService = new RegisterService();
@@ -47,7 +46,7 @@ namespace ADIN.WPF
             {
                 Title = "Explore your Ethernet PHY!",
                 WindowStartupLocation=WindowStartupLocation.CenterScreen,
-                DataContext = new OperationViewModel(_selectedDeviceStore, _ftdiService, _navigationStore, _registerService)
+                DataContext = new OperationViewModel(_selectedDeviceStore, _ftdiService, _navigationStore, _registerService, _mainLock)
             };
 
             MainWindow.Show();
