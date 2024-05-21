@@ -31,6 +31,12 @@ namespace ADIN.Device.Services
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
 
+        public event EventHandler<string> FrameGenCheckerTextStatusChanged;
+
+        public event EventHandler<FrameType> FrameContentChanged;
+
+        public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
+
         public string MdioReadCl22(uint regAddress)
         {
             string response = string.Empty;
@@ -444,7 +450,6 @@ namespace ADIN.Device.Services
         {
             throw new NotImplementedException () ;
         }
-
         public void ReadRegsiters()
         {
             foreach (var register in _registers)
@@ -453,10 +458,21 @@ namespace ADIN.Device.Services
             }
             Debug.WriteLine("ReadRegisters Done");
         }
-
         public EthPhyState GetPhyState()
         {
             throw new NotImplementedException();
+        }
+        public string GetMseValue()
+        { 
+            throw new NotImplementedException(); 
+        }
+        public void GetFrameCheckerStatus()
+        { 
+            throw new NotImplementedException(); 
+        }
+        public string GetFrameGeneratorStatus()
+        { 
+            throw new NotImplementedException(); 
         }
         public void SoftwarePowerdown(bool isSoftwarePowerdown)
         {

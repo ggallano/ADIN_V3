@@ -11,9 +11,18 @@ namespace ADIN.Device.Services
     public interface IFirmwareAPI : IADIN1300API, IADIN1200API
     {
         event EventHandler<FeedbackModel> WriteProcessCompleted;
+
+        event EventHandler<string> FrameGenCheckerTextStatusChanged;
+
+        event EventHandler<FrameType> FrameContentChanged;
+
+        event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
         void ReadRegsiters();
         EthPhyState GetPhyState();
         string GetLinkStatus();
+        string GetMseValue();
+        void GetFrameCheckerStatus();
+        string GetFrameGeneratorStatus();
         void SoftwarePowerdown(bool isSoftwarePowerdown);
         void DisableLinking(bool isDisabledLinking);
         void RestartAutoNegotiation();

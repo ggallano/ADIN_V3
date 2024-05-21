@@ -21,6 +21,7 @@ namespace ADIN.Device.Models
         public BoardType DeviceType => Device.DeviceType;
 
         public IFirmwareAPI FwAPI => Device.FirmwareAPI;
+        public string Checker { get; set; }
 
         public ILinkProperties LinkProperties => Device.LinkProperties;
         public ILoopback Loopback => Device.Loopback;

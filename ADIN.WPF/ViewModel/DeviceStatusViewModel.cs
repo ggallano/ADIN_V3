@@ -38,35 +38,36 @@ namespace ADIN.WPF.ViewModel
             SetBackgroundWroker();
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.FrameGenCheckerResetDisplay += _selectedDeviceStore_FrameGenCheckerResetDisplay;
         }
 
         public string BoardName => _selectedDeviceStore.SelectedDevice?.BoardName ?? "No Device";
 
-        //public string Checker
-        //{
-        //    get { return _selectedDevice?.Checker ?? "-"; }
-        //    set
-        //    {
-        //        if (_selectedDevice != null)
-        //        {
-        //            _checker = value;
-        //            _selectedDevice.Checker = value;
-        //        }
-        //        OnPropertyChanged(nameof(Checker));
-        //    }
-        //}
+        public string Checker
+        {
+            get { return _selectedDevice?.Checker ?? "-"; }
+            set
+            {
+                if (_selectedDevice != null)
+                {
+                    _checker = value;
+                    _selectedDevice.Checker = value;
+                }
+                OnPropertyChanged(nameof(Checker));
+            }
+        }
 
         public string DeviceType => _selectedDeviceStore.SelectedDevice?.DeviceType.ToString() ?? "-";
 
-        //public string Generator
-        //{
-        //    get { return _generator; }
-        //    set
-        //    {
-        //        _generator = value;
-        //        OnPropertyChanged(nameof(Generator));
-        //    }
-        //}
+        public string Generator
+        {
+            get { return _generator; }
+            set
+            {
+                _generator = value;
+                OnPropertyChanged(nameof(Generator));
+            }
+        }
 
         //public string LinkLength
         //{
@@ -122,17 +123,16 @@ namespace ADIN.WPF.ViewModel
         //    }
         //}
 
-        //public string MseValue
-        //{
-        //    get { return _mseValue; }
-        //    set
-        //    {
-        //        _mseValue = value;
-        //        OnPropertyChanged(nameof(MseValue));
-        //    }
-        //}
+        public string MseValue
+        {
+            get { return _mseValue; }
+            set
+            {
+                _mseValue = value;
+                OnPropertyChanged(nameof(MseValue));
+            }
+        }
 
-        //public string PhyAddress => _selectedDevice?.PhyAddress.ToString() ?? "-";
         public string PhyAddress => _selectedDeviceStore.SelectedDevice?.PhyAddress.ToString() ?? "-";
         public string SerialNumber => _selectedDeviceStore.SelectedDevice?.SerialNumber ?? "-";
 
@@ -148,11 +148,12 @@ namespace ADIN.WPF.ViewModel
 
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
 
-        //protected override void Dispose()
-        //{
-        //    _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
-        //    base.Dispose();
-        //}
+        protected override void Dispose()
+        {
+            _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.FrameGenCheckerResetDisplay -= _selectedDeviceStore_FrameGenCheckerResetDisplay;
+            base.Dispose();
+        }
 
         private void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -166,7 +167,7 @@ namespace ADIN.WPF.ViewModel
                     {
                         if (_selectedDevice != null && _ftdiService.IsComOpen)
                         {
-                            //_selectedDevice.FirmwareAPI.ReadRegsiters();
+                            //_selectedDevice.FwAPI.ReadRegsiters();
                             //_selectedDeviceStore.OnRegistersValueChanged();
 
                             // UI Control Update
@@ -181,10 +182,10 @@ namespace ADIN.WPF.ViewModel
                             //AnStatus = _selectedDevice.FwAPI.GetAnStatus();
                             //MasterSlaveStatus = _selectedDevice.FwAPI.GetMasterSlaveStatus();
                             //TxLevelStatus = _selectedDevice.FwAPI.GetTxLevelStatus();
-                            //MseValue = _selectedDevice.FwAPI.GetMseValue();
+                            MseValue = _selectedDevice.FwAPI.GetMseValue();
 
-                            //_selectedDevice.FwAPI.GetFrameCheckerStatus();
-                            //Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
+                            _selectedDevice.FwAPI.GetFrameCheckerStatus();
+                            Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
                         }
 
                         System.Windows.Application.Current.Dispatcher.Invoke(() =>
@@ -212,28 +213,6 @@ namespace ADIN.WPF.ViewModel
             Debug.WriteLine("_backgroundWorker Completed");
         }
 
-        private void _readRegisterWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            while (!_readRegisterWorker.CancellationPending)
-            {
-                try
-                {
-                    lock (_thisLock)
-                    {
-                        if (_selectedDevice != null && _ftdiService.IsComOpen)
-                            //_selectedDevice.FwAPI.ReadRegsiters();
-
-                        _selectedDeviceStore.OnRegistersValueChanged();
-                    }
-                    Thread.Sleep(50);
-                }
-                catch (Exception)
-                {
-                }
-                e.Result = "Done";
-            }
-        }
-
         private void _readRegisterWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             Debug.WriteLine("Progress Changed");
@@ -246,7 +225,7 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_FrameGenCheckerResetDisplay(string status)
         {
-            //Checker = status;
+            Checker = status;
         }
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
@@ -258,12 +237,12 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(LinkStatus));
             //OnPropertyChanged(nameof(AnStatus));
             //OnPropertyChanged(nameof(MasterSlaveStatus));
-            //OnPropertyChanged(nameof(MseValue));
+            OnPropertyChanged(nameof(MseValue));
             //OnPropertyChanged(nameof(TxLevelStatus));
             OnPropertyChanged(nameof(DeviceType));
             OnPropertyChanged(nameof(PhyAddress));
             //OnPropertyChanged(nameof(AdvertisedSpeed));
-            //OnPropertyChanged(nameof(Checker));
+            OnPropertyChanged(nameof(Checker));
         }
 
         private void SetBackgroundWroker()

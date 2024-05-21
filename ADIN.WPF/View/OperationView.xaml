@@ -99,7 +99,7 @@
                             </Grid.ColumnDefinitions>
                             <local:FrameGenCheckerView DataContext="{Binding FrameGenCheckerVM}"/>
                             <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />
-                            <components:DeviceStatusView Grid.Column="2" DataContext="{Binding DeviceStatusVM}"/>
+                            <components:FrameGenCheckerStatusView Grid.Column="2" DataContext="{Binding DeviceStatusVM}"/>
                         </Grid>
 
                     </TabItem>

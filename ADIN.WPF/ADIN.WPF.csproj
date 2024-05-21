@@ -171,6 +171,9 @@
     <Compile Include="ViewModel\RegisterListingViewModel.cs" />
     <Compile Include="ViewModel\TestModeViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\FrameGenCheckerStatusView.xaml.cs">
+      <DependentUpon>FrameGenCheckerStatusView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ExtraCommandsView.xaml.cs">
       <DependentUpon>ExtraCommandsView.xaml</DependentUpon>
     </Compile>
@@ -249,6 +252,10 @@
     <Page Include="Themes\WhiteTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FrameGenCheckerStatusView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\ExtraCommandsView.xaml">
       <SubType>Designer</SubType>

@@ -11,6 +11,7 @@ namespace ADIN.WPF.Stores
         private ADINDevice _selectedDevice;
 
         public event Action<FrameType> FrameContentChanged;
+        public event Action<string> FrameGenCheckerResetDisplay;
         public event Action<string> FrameGenCheckerStatusChanged;
         public event Action RegisterListingValueChanged;
         public event Action<string> LinkStatusChanged;
@@ -30,12 +31,20 @@ namespace ADIN.WPF.Stores
                 if(_selectedDevice != null)
                 {
                     _selectedDevice.FwAPI.WriteProcessCompleted -= FirmwareAPI_WriteProcessCompleted;
+                    _selectedDevice.FwAPI.FrameGenCheckerTextStatusChanged -= FirmwareAPI_FrameGenCheckerStatusCompleted;
+                    _selectedDevice.FwAPI.ResetFrameGenCheckerStatisticsChanged -= FirmwareAPI_ResetFrameGenCheckerStatisticsChanged;
+                    //_selectedDevice.FwAPI.ErrorOccured -= FirmwareAPI_ErrorOccured;
+                    _selectedDevice.FwAPI.FrameContentChanged -= FirmwareAPI_FrameContentChanged;
                 }
 
                 if(value != null)
                 {
                     _selectedDevice = value;
                     _selectedDevice.FwAPI.WriteProcessCompleted += FirmwareAPI_WriteProcessCompleted;
+                    _selectedDevice.FwAPI.FrameGenCheckerTextStatusChanged += FirmwareAPI_FrameGenCheckerStatusCompleted;
+                    _selectedDevice.FwAPI.ResetFrameGenCheckerStatisticsChanged += FirmwareAPI_ResetFrameGenCheckerStatisticsChanged;
+                    //_selectedDevice.FwAPI.ErrorOccured += FirmwareAPI_ErrorOccured;
+                    _selectedDevice.FwAPI.FrameContentChanged += FirmwareAPI_FrameContentChanged;
                     SelectedDeviceChanged?.Invoke();
                 }
 
@@ -58,6 +67,18 @@ namespace ADIN.WPF.Stores
         public void OnSoftwarePowerDownChanged(string linkStatus)
         {
             SoftwarePowerDownChanged?.Invoke(linkStatus);
+        }
+        private void FirmwareAPI_ResetFrameGenCheckerStatisticsChanged(object sender, string status)
+        {
+            FrameGenCheckerResetDisplay?.Invoke(status);
+        }
+        private void FirmwareAPI_FrameContentChanged(object sender, FrameType e)
+        {
+            FrameContentChanged?.Invoke(e);
+        }
+        private void FirmwareAPI_FrameGenCheckerStatusCompleted(object sender, string status)
+        {
+            FrameGenCheckerStatusChanged?.Invoke(status);
         }
         private void FirmwareAPI_WriteProcessCompleted(object sender, FeedbackModel feedback)
         {

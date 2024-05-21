@@ -23,6 +23,7 @@ namespace ADIN.Device.Services
         private IFTDIServices _ftdiService;
         private IRegisterService _registerService;
         private ObservableCollection<RegisterModel> _registers;
+        private BoardRevision _boardRev;
         private uint _phyAddress;
         private EthPhyState _phyState;
         private uint checkedFrames = 0;
@@ -39,6 +40,8 @@ namespace ADIN.Device.Services
         }
 
         public event EventHandler<string> FrameGenCheckerTextStatusChanged;
+
+        public event EventHandler<FrameType> FrameContentChanged;
 
         public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
 
@@ -996,6 +999,88 @@ namespace ADIN.Device.Services
         public string GetLinkStatus()
         {
             return GetPhyState().ToString();
+        }
+        public string GetMseValue()
+        {
+            if (_boardRev == BoardRevision.Rev0)
+                return "N/A";
+
+            if (_phyState != EthPhyState.LinkUp)
+                return "N/A";
+
+            // Formula:
+            // where mse is the value from the register, and sym_pwr_exp is a constant 0.64423.
+            // mse_db = 10 * log10((mse / 218) / sym_pwr_exp)
+            double mse = Convert.ToUInt32(ReadYogaRg("MseA"), 16);
+            double sym_pwr_exp = 0.64423;
+            double mse_db = 10 * Math.Log10((mse / Math.Pow(2, 18)) / sym_pwr_exp);
+
+            //OnMseValueChanged(mse_db.ToString("0.00") + " dB");
+            return $"{mse_db.ToString("0.00")} dB";
+        }
+        public void GetFrameCheckerStatus()
+        {
+            uint fcEn_st = Convert.ToUInt32(ReadYogaRg("FcEn"));
+            uint fcTxSel_st = Convert.ToUInt32(ReadYogaRg("FcTxSel"));
+
+            if (fcEn_st == 0)
+            {
+                OnResetFrameGenCheckerStatisticsChanged("Disabled");
+                return;
+            }
+
+            uint errCnt = Convert.ToUInt32(ReadYogaRg("RxErrCnt"));
+            uint fCntL = Convert.ToUInt32(ReadYogaRg("FcFrmCntL"));
+            uint fCntH = Convert.ToUInt32(ReadYogaRg("FcFrmCntH"));
+            uint fCnt = (65536 * fCntH) + fCntL;
+
+            if (fCnt == 0)
+            {
+                OnResetFrameGenCheckerStatisticsChanged("-");
+                //return;
+            }
+
+            checkedFrames += fCnt;
+            checkedFramesErrors += errCnt;
+
+            if (fcTxSel_st == 0)
+            {
+                OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames} frames, {checkedFramesErrors} errors");
+                return;
+            }
+
+            OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames} Tx Side with {checkedFramesErrors} errors");
+        }
+        public string GetFrameGeneratorStatus()
+        {
+            uint fgEn_st = Convert.ToUInt32(ReadYogaRg("FgEn"), 16);
+            //uint fcTxSel_st = Convert.ToUInt32(ReadYodaRg("FC_TX_SEL"), 16);
+            uint fgContModeEn_st = Convert.ToUInt32(ReadYogaRg("FgContModeEn"), 16);
+
+            if (fgEn_st == 0)
+                return "Not Enabled";
+
+            if (fgContModeEn_st == 1)
+            {
+                isFrameGenCheckerOngoing = true;
+                OnFrameGenCheckerStatusChanged("Terminate");
+                return "Frame Transmission in progress";
+            }
+
+            uint fgDone_st = Convert.ToUInt32(ReadYogaRg("FgDone"), 16);
+            if (fgDone_st != 0)
+            {
+                WriteYodaRg("FgEn", 0);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Transmission completed", FeedBackType = FeedbackType.Info });
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Generator disabled", FeedBackType = FeedbackType.Info });
+                isFrameGenCheckerOngoing = false;
+                OnFrameGenCheckerStatusChanged("Generate");
+                return "Frame Transmission completed";
+            }
+
+            isFrameGenCheckerOngoing = true;
+            OnFrameGenCheckerStatusChanged("Terminate");
+            return "Frame Transmission in progress";
         }
         public void SoftwarePowerdown(bool isSoftwarePowerdown)
         {
