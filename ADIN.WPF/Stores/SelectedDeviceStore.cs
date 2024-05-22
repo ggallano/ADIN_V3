@@ -3,6 +3,7 @@ using ADIN.WPF.Models;
 using Helper.Feedback;
 using System;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace ADIN.WPF.Stores
 {
@@ -85,6 +86,13 @@ namespace ADIN.WPF.Stores
             ProcessCompleted?.Invoke(feedback);
         }
 
+        public void OnViewModelFeedbackLog(string message, FeedbackType feedbackType = FeedbackType.Info)
+        {
+            FeedbackModel feedback = new FeedbackModel();
+            feedback.Message = message;
+            feedback.FeedBackType = feedbackType;
+            ViewModelErrorOccured?.Invoke(feedback);
+        }
         public void OnViewModelErrorOccured(string errorMessage, FeedbackType errorType = FeedbackType.Error)
         {
             FeedbackModel errorFeedback = new FeedbackModel() { Message = errorMessage, FeedBackType = errorType };

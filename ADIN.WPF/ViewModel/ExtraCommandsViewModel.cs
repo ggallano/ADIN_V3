@@ -27,7 +27,7 @@ namespace ADIN.WPF.ViewModel
             DisableLinkCommand = new DisableLinkCommand(this, selectedDeviceStore);
             //SubSysResetCommand = new ResetCommand(this, selectedDeviceStore);
             //PhyResetCommand = new ResetCommand(this, selectedDeviceStore);
-            //RegisterActionCommand = new RegisterActionCommand(this, selectedDeviceStore);
+            RegisterActionCommand = new RegisterActionCommand(this, selectedDeviceStore);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.SoftwarePowerDownChanged += _selectedDeviceStore_PowerDownStateStatusChanged;
