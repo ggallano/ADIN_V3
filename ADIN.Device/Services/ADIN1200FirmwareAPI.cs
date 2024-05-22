@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
@@ -618,14 +619,8 @@ namespace ADIN.Device.Services
 
             FeedbackLog(_feedbackMessage, FeedbackType.Info);
         }
-        public void SetTestMode(TestModeListingModel testMode, uint framelength)
+        private void ApplyIOLBaseSettings()
         {
-            FeedbackLog("Subsys software reset", FeedbackType.Info);
-            WriteYodaRg("GeSftRst", 1);
-            FeedbackLog("PHY enter software reset, stays in software powerdown", FeedbackType.Info);
-            WriteYodaRg("GePhySftPdCfg", 1);
-            WriteYodaRg("GePhyRst", 1);
-            FeedbackLog("Apply base settings for UNH-IOL testing", FeedbackType.Info);
             WriteYodaRg("LnkWdEn", 0);
             FeedbackLog("disable energy detect power-down", FeedbackType.Info);
             WriteYodaRg("NrgPdEn", 0);
@@ -639,6 +634,16 @@ namespace ADIN.Device.Services
             WriteYodaRg("ExtNextPageAdv", 0);
             WriteYodaRg("GeFifoDpth", 0);
             WriteYodaRg("DpthMiiByte", 0);
+        }
+        public void SetTestMode(TestModeListingModel testMode, uint framelength)
+        {
+            FeedbackLog("Subsys software reset", FeedbackType.Info);
+            WriteYodaRg("GeSftRst", 1);
+            FeedbackLog("PHY enter software reset, stays in software powerdown", FeedbackType.Info);
+            WriteYodaRg("GePhySftPdCfg", 1);
+            WriteYodaRg("GePhyRst", 1);
+            FeedbackLog("Apply base settings for UNH-IOL testing", FeedbackType.Info);
+            ApplyIOLBaseSettings();
 
             switch (testMode.Name1)
             {
@@ -798,7 +803,16 @@ namespace ADIN.Device.Services
                     this.WriteYodaRg("LbLdSel", 0);
                     this.WriteYodaRg("LbExtEn", 0);
                     this.WriteYodaRg("Loopback", 1);
-                    FeedbackLog("PHY Loopback configured as Digital loopback", FeedbackType.Info);
+                    if(loopback.TxSuppression)
+                    {
+                        this.WriteYodaRg("LbTxSup", 1);
+                        FeedbackLog("PHY Loopback configured as Digital loopback - Tx suppressed", FeedbackType.Info);
+                    }
+                    else
+                    {
+                        this.WriteYodaRg("LbTxSup", 0);
+                        FeedbackLog("PHY Loopback configured as Digital loopback - Tx not suppressed", FeedbackType.Info);
+                    }
                     break;
                 case LoopBackMode.LineDriver:
                     this.WriteYodaRg("LbLdSel", 1);
@@ -815,33 +829,39 @@ namespace ADIN.Device.Services
                     FeedbackLog("PHY Loopback configured as ExtCable loopback", FeedbackType.Info);
                     break;
                 case LoopBackMode.MacRemote:
+                    this.FeedbackLog("GESubsys software reset", FeedbackType.Info);
+                    this.WriteYodaRg("GeSftRst", 1);
+                    Thread.Sleep(100);
+                    this.FeedbackLog("GE PHY enters software reset, stays in software powerdown", FeedbackType.Info);
+                    this.WriteYodaRg("GePhySftPdCfg", 1);
+                    this.WriteYodaRg("GePhyRst", 1);
+                    Thread.Sleep(100);
+                    this.FeedbackLog("Apply base settings for UNH-IOL testing", FeedbackType.Info);
+                    this.ApplyIOLBaseSettings();
+                    this.FeedbackLog("configure for remote loopback,", FeedbackType.Info);
+                    this.FeedbackLog("enable remote loopback", FeedbackType.Info);
+                    this.WriteYodaRg("LbRemoteEn", 1);
+                    this.FeedbackLog("exit software powerdown", FeedbackType.Info);
+                    this.WriteYodaRg("SftPd", 0);
+                    this.FeedbackLog("Device configured for remote loopback", FeedbackType.Info);
                     break;
+                default:
+                    throw new NotImplementedException();
             }
-        }
-        public void SetRxSuppressionSetting(bool isRxSuppression)
-        {
-            if (isRxSuppression)
+
+            if (loopback.EnumLoopbackType != LoopBackMode.MacRemote && loopback.RxSuppression)
             {
                 this.WriteYodaRg("IsolateRx", 1);
                 FeedbackLog("Rx data suppressed", FeedbackType.Info);
             }
-            else
+            else if (loopback.EnumLoopbackType != LoopBackMode.MacRemote)
             {
                 this.WriteYodaRg("IsolateRx", 0);
                 FeedbackLog("Rx data forwarded to MAC IF", FeedbackType.Info);
             }
-        }
-        public void SetTxSuppressionSetting(bool isTxSuppression)
-        {
-            if (isTxSuppression)
-            {
-                this.WriteYodaRg("LbTxSup", 1);
-                FeedbackLog("Tx data suppressed", FeedbackType.Info);
-            }
             else
             {
-                this.WriteYodaRg("LbTxSup", 0);
-                FeedbackLog("Tx data not suppressed", FeedbackType.Info);
+                // Do nothing/skip
             }
         }
         private void SetFrameLength(uint framLength)
@@ -967,13 +987,15 @@ namespace ADIN.Device.Services
             OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames} frames, {checkedFramesErrors} errors");
         }
 
-        public void ReadRegsiters()
+        public ObservableCollection<RegisterModel> ReadRegsiters()
         {
             foreach (var register in _registers)
             {
                 register.Value = ReadYodaRg(register.Address);
             }
             Debug.WriteLine("ReadRegisters Done");
+
+            return _registers;
         }
 
         public EthPhyState GetPhyState()
@@ -1128,10 +1150,10 @@ namespace ADIN.Device.Services
             WriteProcessCompleted?.Invoke(this, feedback);
         }
 
-        private void FeedbackLog(string Message, FeedbackType feedbackType)
+        private void FeedbackLog(string message, FeedbackType feedbackType)
         {
             FeedbackModel feedback = new FeedbackModel();
-            feedback.Message = Message;
+            feedback.Message = message;
             feedback.FeedBackType = feedbackType;
             OnWriteProcessCompleted(feedback);
         }

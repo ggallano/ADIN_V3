@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik='http://schemas.telerik.com/2008/xaml/presentation'
              xmlns:local="clr-namespace:ADIN.WPF.View"
-                          mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             xmlns:enum="clr-namespace:ADIN.Device.Models;assembly=ADIN.Device"
+                          mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style x:Key="TextBlockSuppressionStyle" TargetType="{x:Type TextBlock}">
@@ -14,7 +15,32 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Margin="5">
-        <Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical">
+            <WrapPanel HorizontalAlignment='Left' Margin='10'  Orientation='Horizontal' ItemHeight='40' ItemWidth='180'>
+
+                <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="None" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.OFF}" IsChecked="True"/>
+                <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="All Digital" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.Digital}"/>
+                <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="Line Driver" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.LineDriver}"/>
+                <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="External Cable" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.ExtCable}"/>
+                <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="Remote" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.MacRemote}"/>
+
+                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Margin="10 0 0 0">
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding IsRxSuppression}"/>
+                        <TextBlock Text="Rx Suppression" Style="{StaticResource TextBlockSuppressionStyle}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding IsTxSuppression}"/>
+                        <TextBlock Text="Tx Suppression" Style="{StaticResource TextBlockSuppressionStyle}"/>
+                    </StackPanel>
+                </StackPanel>
+
+            </WrapPanel>
+
+            <Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="20" Source="{Binding ImagePath}" VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Height="300" Width="600"/>
+        </StackPanel>
+
+        <!--<Grid.ColumnDefinitions>
             <ColumnDefinition Width=".5*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -28,17 +54,6 @@
                     <TextBlock Text="{Binding Name}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
-        </ComboBox>
-        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Margin="10 0 0 0">
-            <StackPanel Orientation="Horizontal">
-                <CheckBox IsChecked="{Binding IsRxSuppression}"/>
-                <TextBlock Text="Rx Suppression" Style="{StaticResource TextBlockSuppressionStyle}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <CheckBox IsChecked="{Binding IsTxSuppression}"/>
-                <TextBlock Text="Tx Suppression" Style="{StaticResource TextBlockSuppressionStyle}"/>
-            </StackPanel>
-        </StackPanel>
-        <Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 20" Source="{Binding ImagePath}" VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Height="300" Width="600"/>
+        </ComboBox>-->
     </Grid>
 </UserControl>

@@ -433,14 +433,6 @@ namespace ADIN.Device.Services
         {
             throw new NotImplementedException();
         }
-        public void SetRxSuppressionSetting(bool isRxSuppression)
-        {
-            throw new NotImplementedException();
-        }
-        public void SetTxSuppressionSetting(bool isTxSuppression)
-        {
-            throw new NotImplementedException();
-        }
         public bool isFrameGenCheckerOngoing { get; set; } = false;
         public void SetFrameCheckerSetting(FrameGenCheckerModel frameContent)
         {
@@ -450,13 +442,15 @@ namespace ADIN.Device.Services
         {
             throw new NotImplementedException () ;
         }
-        public void ReadRegsiters()
+        public ObservableCollection<RegisterModel> ReadRegsiters()
         {
             foreach (var register in _registers)
             {
                 register.Value = ReadYodaRg(register.Address);
             }
             Debug.WriteLine("ReadRegisters Done");
+
+            return _registers;
         }
         public EthPhyState GetPhyState()
         {

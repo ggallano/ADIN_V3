@@ -37,11 +37,14 @@ namespace ADIN.WPF.ViewModel
 
             ResetFrameCheckerCommnad = new ResetFrameDeviceCheckerCommnad(this, selectedDeviceStore);
             ExecuteFrameCheckerCommand = new ExecuteFrameCheckerCommand(this, selectedDeviceStore);
+            RemoteLoopbackCommand = new RemoteLoopbackCommand(this, selectedDeviceStore);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerStatusChanged += _selectedDeviceStore_FrameGenCheckerStatusChanged;
             _selectedDeviceStore.FrameContentChanged += _selectedDeviceStore_FrameContentChanged;
         }
+
+        public ICommand RemoteLoopbackCommand { get; set; }
 
         public string DestMacAddress
         {

@@ -132,6 +132,8 @@
     </Compile>
     <Compile Include="Commands\AutoNegCommand.cs" />
     <Compile Include="Commands\ClearLogCommand.cs" />
+    <Compile Include="Commands\RemoteLoopbackCommand.cs" />
+    <Compile Include="Commands\LoopbackCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\DisableLinkCommand.cs" />
     <Compile Include="Commands\ExecuteFrameCheckerCommand.cs" />
@@ -139,6 +141,7 @@
     <Compile Include="Commands\NavigateCommand.cs" />
     <Compile Include="Commands\ClockPinControlCommand.cs" />
     <Compile Include="Commands\ReadRegisterCommand.cs" />
+    <Compile Include="Commands\RegisterActionCommand.cs" />
     <Compile Include="Commands\ResetFrameDeviceCheckerCommnad.cs" />
     <Compile Include="Commands\SoftwarePowerDownCommand.cs" />
     <Compile Include="Commands\TestModeCommand.cs" />
@@ -483,6 +486,7 @@
       <AlwaysRun>True</AlwaysRun>
       <RunCustomToolOnBuild>True</RunCustomToolOnBuild>
     </Content>
+    <Resource Include="Images\loopback\loopback.png" />
     <Resource Include="Images\adin1200\03ec687cd2e0416bd18737fd6961b6e7.png" />
     <Resource Include="Images\adin1200\05f1755eab3b667f2d53cb8f4e0fdbc5.png" />
     <Resource Include="Images\adin1200\079cef858fd0ca76523efe4a0b54ada4.png" />

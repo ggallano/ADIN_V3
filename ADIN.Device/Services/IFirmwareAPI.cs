@@ -17,7 +17,7 @@ namespace ADIN.Device.Services
         event EventHandler<FrameType> FrameContentChanged;
 
         event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
-        void ReadRegsiters();
+        ObservableCollection<RegisterModel> ReadRegsiters();
         EthPhyState GetPhyState();
         string GetLinkStatus();
         string GetMseValue();

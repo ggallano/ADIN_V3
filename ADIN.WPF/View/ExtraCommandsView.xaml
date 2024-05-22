@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              xmlns:local="clr-namespace:ADIN.WPF.View"
+             xmlns:enum="clr-namespace:ADIN.Device.Models;assembly=ADIN.Device"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -12,8 +13,8 @@
             <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="{Binding PowerDownStatus}" Command="{Binding SoftwarePowerDownCommand}" />
             <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="{Binding LinkStatus}" Command="{Binding DisableLinkCommand}" IsEnabled="{Binding IsPoweredUp}"/>
             <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Restart Linking" Command="{Binding AutoNegCommand}" IsEnabled="{Binding IsPoweredUp}"/>
-            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Save Registers"/>
-            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Load Registers"/>
+            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Save Registers" Command="{Binding RegisterActionCommand}" CommandParameter="{x:Static enum:RegisterActionType.Save}"/>
+            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Load Registers" Command="{Binding RegisterActionCommand}" CommandParameter="{x:Static enum:RegisterActionType.Load}"/>
             <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys (Pin)"/>
             <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys"/>
             <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: PHY"/>
