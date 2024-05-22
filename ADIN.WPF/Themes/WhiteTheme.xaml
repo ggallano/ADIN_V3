@@ -352,4 +352,10 @@
     <SolidColorBrush x:Key="button.secondary.borderbrush" Color="{Binding Source={StaticResource hmc.color.interactive.primary.idle}, Path=Color}"/>
     <SolidColorBrush x:Key="button.secondary.hover.foreground" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
     <SolidColorBrush x:Key="button.secondary.hover.background" Color="{Binding Source={StaticResource hmc.color.interactive.secondary.pressed}, Path=Color}"/>
+
+    <SolidColorBrush x:Key="buttonReset.background" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    <SolidColorBrush x:Key="buttonReset.foreground" Color="{Binding Source={StaticResource hmc.color.notification.danger.default.text}, Path=Color}"/>
+    <SolidColorBrush x:Key="buttonReset.borderbrush" Color="{Binding Source={StaticResource hmc.color.notification.danger.default.text}, Path=Color}"/>
+    <SolidColorBrush x:Key="buttonReset.hover.foreground" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.text}, Path=Color}"/>
+    <SolidColorBrush x:Key="buttonReset.hover.background" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.background}, Path=Color}"/>
 </ResourceDictionary>
