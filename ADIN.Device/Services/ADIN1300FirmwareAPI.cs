@@ -30,7 +30,7 @@ namespace ADIN.Device.Services
             _ftdiService = ftdiService;
             _registers = registers;
             _phyAddress = phyAddress;
-            _thisLock = mainLock;
+            //_thisLock = mainLock;
         }
 
         public event EventHandler<FrameType> FrameContentChanged;
@@ -219,11 +219,11 @@ namespace ADIN.Device.Services
 
         public string MdioReadCl22(uint regAddress)
         {
+            response = string.Empty;
+            command = string.Empty;
+
             lock (_thisLock)
             {
-                string response = string.Empty;
-                string command = string.Empty;
-
                 command = $"mdioread {_phyAddress},{regAddress.ToString("X")}\n";
 
                 _ftdiService.Purge();
@@ -246,12 +246,12 @@ namespace ADIN.Device.Services
 
         public string MdioReadCl45(uint regAddress)
         {
+            response = string.Empty;
+            command = string.Empty;
+            command2 = string.Empty;
+
             lock (_thisLock)
             {
-                string response = string.Empty;
-                string command = string.Empty;
-                string command2 = string.Empty;
-
                 MdioWriteCl22(0x10, (regAddress & 0xFFFF));
                 command = $"mdioread {_phyAddress},11\n";
 
@@ -273,13 +273,17 @@ namespace ADIN.Device.Services
             }
         }
 
+        private string response = string.Empty;
+        private string command = string.Empty;
+        private string command2 = string.Empty;
+
         public string MdioWriteCl22(uint regAddress, uint data)
         {
+            response = string.Empty;
+            command = string.Empty;
+
             lock (_thisLock)
             {
-                string response = string.Empty;
-                string command = string.Empty;
-
                 command = $"mdiowrite {_phyAddress},{regAddress.ToString("X")},{data.ToString("X")}\n";
 
                 _ftdiService.Purge();
@@ -302,12 +306,12 @@ namespace ADIN.Device.Services
 
         public string MdioWriteCl45(uint regAddress, uint data)
         {
+            response = string.Empty;
+            command = string.Empty;
+            command2 = string.Empty;
+
             lock (_thisLock)
             {
-                string response = string.Empty;
-                string command = string.Empty;
-                string command2 = string.Empty;
-
                 command = $"mdiowrite {_phyAddress},10,{regAddress.ToString("X")}\n";
                 command2 = $"mdiowrite {_phyAddress},11,{data.ToString("X")}\n";
 
