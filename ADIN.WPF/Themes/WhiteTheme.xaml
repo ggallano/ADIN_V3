@@ -27,13 +27,8 @@
 
     <Color x:Key="WhiteColor">#FFFFFFFF</Color>
     <Color x:Key="JohsonColor">#0067b9</Color>
-    
-    
-    
-    <SolidColorBrush x:Key="Foreground.Color" Color="{StaticResource BlackColor1}"/>
 
-    <!--ADI Logo Color-->
-    <SolidColorBrush x:Key="ADILogo.Foreground" Color="{StaticResource ADIColorBlue}"/>
+    <SolidColorBrush x:Key="Foreground.Color" Color="{StaticResource BlackColor1}"/>
 
     <!--Device Status View-->
     <SolidColorBrush x:Key="BorderPrimaryColor" Color="{StaticResource Gray}"/>
@@ -45,12 +40,12 @@
 
     <!--Log Activity-->
     <SolidColorBrush x:Key="LogActivity.Title.Background" Color="{StaticResource ADIMidBlue}"/>
-    
+
     <!--Extra Command Buttons-->
     <SolidColorBrush x:Key="Reset.Background" Color="{StaticResource RedColor3}"/>
     <SolidColorBrush x:Key="Reset.Foreground" Color="White"/>
     <SolidColorBrush x:Key="Reset.IsMouseOver" Color="{StaticResource LightGrayColor2}"/>
-    
+
     <!--Base Button Colors-->
     <SolidColorBrush x:Key="Button.Background" Color="{StaticResource Gray02}"/>
     <SolidColorBrush x:Key="Button.BorderBrush" Color="Black"/>
@@ -68,4 +63,293 @@
     <SolidColorBrush x:Key="Button.IsChecked.Foreground" Color="{StaticResource JohsonColor}"/>
     <SolidColorBrush x:Key="Button.IsChecked.BorderBrush" Color="White"/>
 
+
+    <!--Harmonics Colors-->
+    <!--Grey-->
+    <Color x:Key="hmc.color.gray.100">#F0F1F3</Color>
+    <Color x:Key="hmc.color.gray.200">#D5D8DC</Color>
+    <Color x:Key="hmc.color.gray.300">#B7BBC3</Color>
+    <Color x:Key="hmc.color.gray.400">#9FA4AD</Color>
+    <Color x:Key="hmc.color.gray.500">#848B95</Color>
+    <Color x:Key="hmc.color.gray.600">#717984</Color>
+    <Color x:Key="hmc.color.gray.700">#5E6773</Color>
+    <Color x:Key="hmc.color.gray.800">#4B545D</Color>
+    <Color x:Key="hmc.color.gray.900">#3A424B</Color>
+    <Color x:Key="hmc.color.gray.1000">#293038</Color>
+    <Color x:Key="hmc.color.gray.black">#101820</Color>
+    <Color x:Key="hmc.color.gray.white">#FFF</Color>
+
+    <!--Blue-->
+    <Color x:Key="hmc.color.blue.100">#EDF3FC</Color>
+    <Color x:Key="hmc.color.blue.200">#C6D8F6</Color>
+    <Color x:Key="hmc.color.blue.300">#92BEFC</Color>
+    <Color x:Key="hmc.color.blue.400">#6CA7EF</Color>
+    <Color x:Key="hmc.color.blue.500">#3A8EE9</Color>
+    <Color x:Key="hmc.color.blue.600">#0C79DF</Color>
+    <Color x:Key="hmc.color.blue.700">#0067B9</Color>
+    <Color x:Key="hmc.color.blue.800">#00549A</Color>
+    <Color x:Key="hmc.color.blue.900">#00427A</Color>
+    <Color x:Key="hmc.color.blue.1000">#00305B</Color>
+    
+    <!--Purple-->
+    <Color x:Key="hmc.color.purple.100">#F6EEFC</Color>
+    <Color x:Key="hmc.color.purple.200">#E5CEF6</Color>
+    <Color x:Key="hmc.color.purple.300">#D4ADF0</Color>
+    <Color x:Key="hmc.color.purple.400">#C48EEB</Color>
+    <Color x:Key="hmc.color.purple.500">#B16EE0</Color>
+    <Color x:Key="hmc.color.purple.600">#A451DF</Color>
+    <Color x:Key="hmc.color.purple.700">#8E3DC7</Color>
+    <Color x:Key="hmc.color.purple.800">#7531A5</Color>
+    <Color x:Key="hmc.color.purple.900">#5D2287</Color>
+    <Color x:Key="hmc.color.purple.1000">#431C5F</Color>
+    
+    <!--Teal-->
+    <!--Color to be used strictly for Data Visualization purposes only!-->
+    <Color x:Key="hmc.color.teal.100">#E3F5FC</Color>
+    <Color x:Key="hmc.color.teal.200">#A8DEF5</Color>
+    <Color x:Key="hmc.color.teal.300">#68C6EE</Color>
+    <Color x:Key="hmc.color.teal.400">#2CAFE8</Color>
+    <Color x:Key="hmc.color.teal.500">#1694CA</Color>
+    <Color x:Key="hmc.color.teal.600">#1981AE</Color>
+    <Color x:Key="hmc.color.teal.700">#0E6D95</Color>
+    <Color x:Key="hmc.color.teal.800">#07597E</Color>
+    <Color x:Key="hmc.color.teal.900">#034663</Color>
+    <Color x:Key="hmc.color.teal.1000">#053347</Color>
+
+    <!--Green-->
+    <Color x:Key="hmc.color.green.100">#E4F6EF</Color>
+    <Color x:Key="hmc.color.green.200">#ABE3CD</Color>
+    <Color x:Key="hmc.color.green.300">#6FCEA6</Color>
+    <Color x:Key="hmc.color.green.400">#3DB885</Color>
+    <Color x:Key="hmc.color.green.500">#2E9E6F</Color>
+    <Color x:Key="hmc.color.green.600">#1F895E</Color>
+    <Color x:Key="hmc.color.green.700">#16744D</Color>
+    <Color x:Key="hmc.color.green.800">#115F3F</Color>
+    <Color x:Key="hmc.color.green.900">#114A32</Color>
+    <Color x:Key="hmc.color.green.1000">#0D3624</Color>
+    
+    <!--Orange-->
+    <Color x:Key="hmc.color.orange.100">#FEEFE7</Color>
+    <Color x:Key="hmc.color.orange.200">#FCCAB1</Color>
+    <Color x:Key="hmc.color.orange.300">#FEA77C</Color>
+    <Color x:Key="hmc.color.orange.400">#FB8246</Color>
+    <Color x:Key="hmc.color.orange.500">#E76423</Color>
+    <Color x:Key="hmc.color.orange.600">#CD5215</Color>
+    <Color x:Key="hmc.color.orange.700">#AE4410</Color>
+    <Color x:Key="hmc.color.orange.800">#91370B</Color>
+    <Color x:Key="hmc.color.orange.900">#702C0A</Color>
+    <Color x:Key="hmc.color.orange.1000">#551E03</Color>
+
+    <!--Red-->
+    <Color x:Key="hmc.color.red.100">#FEEEEF</Color>
+    <Color x:Key="hmc.color.red.200">#FCCACE</Color>
+    <Color x:Key="hmc.color.red.300">#FFA3AB</Color>
+    <Color x:Key="hmc.color.red.400">#FE7B86</Color>
+    <Color x:Key="hmc.color.red.500">#F64C5A</Color>
+    <Color x:Key="hmc.color.red.600">#E13745</Color>
+    <Color x:Key="hmc.color.red.700">#C81A28</Color>
+    <Color x:Key="hmc.color.red.800">#A71420</Color>
+    <Color x:Key="hmc.color.red.900">#840D17</Color>
+    <Color x:Key="hmc.color.red.1000">#64060E</Color>
+
+    <!--Pink-->
+    <Color x:Key="hmc.color.pink.100">#FEECF8</Color>
+    <Color x:Key="hmc.color.pink.200">#F9C7E8</Color>
+    <Color x:Key="hmc.color.pink.300">#F7A1DA</Color>
+    <Color x:Key="hmc.color.pink.400">#F07AC9</Color>
+    <Color x:Key="hmc.color.pink.500">#E84DB4</Color>
+    <Color x:Key="hmc.color.pink.600">#D3379F</Color>
+    <Color x:Key="hmc.color.pink.700">#B32D87</Color>
+    <Color x:Key="hmc.color.pink.800">#9A196F</Color>
+    <Color x:Key="hmc.color.pink.900">#761A57</Color>
+    <Color x:Key="hmc.color.pink.1000">#571140</Color>
+
+
+    
+<!--System Colors Start-->
+    <!--Primary-->
+    <SolidColorBrush x:Key="hmc.color.system.primary.default" Color="{StaticResource hmc.color.blue.700}"/>
+    <SolidColorBrush x:Key="hmc.color.system.primary.faint" Color="{StaticResource hmc.color.blue.200}"/>
+    <SolidColorBrush x:Key="hmc.color.system.primary.silent" Color="{StaticResource hmc.color.blue.100}"/>
+    <SolidColorBrush x:Key="hmc.color.system.primary.strong" Color="{StaticResource hmc.color.blue.900}"/>
+    <SolidColorBrush x:Key="hmc.color.system.primary.subtle" Color="{StaticResource hmc.color.blue.300}"/>
+    
+    <!--Secondary-->
+    <SolidColorBrush x:Key="hmc.color.system.secondary.default" Color="{StaticResource hmc.color.blue.700}"/>
+    <SolidColorBrush x:Key="hmc.color.system.secondary.faint" Color="{StaticResource hmc.color.blue.200}"/>
+    <SolidColorBrush x:Key="hmc.color.system.secondary.silent" Color="{StaticResource hmc.color.blue.100}"/>
+    <SolidColorBrush x:Key="hmc.color.system.secondary.strong" Color="{StaticResource hmc.color.blue.900}"/>
+    <SolidColorBrush x:Key="hmc.color.system.secondary.subtle" Color="{StaticResource hmc.color.blue.300}"/>
+
+    <!--Hightlight-->
+    <SolidColorBrush x:Key="hmc.color.system.highlight.default" Color="{StaticResource hmc.color.purple.500}"/>
+    <SolidColorBrush x:Key="hmc.color.system.highlight.silent" Color="{StaticResource hmc.color.purple.100}"/>
+    <SolidColorBrush x:Key="hmc.color.system.highlight.strong" Color="{StaticResource hmc.color.purple.700}"/>
+    
+    <!--Info-->
+    <SolidColorBrush x:Key="hmc.color.system.info.default" Color="{StaticResource hmc.color.content.default}"/>
+    <SolidColorBrush x:Key="hmc.color.system.info.silent" Color="{StaticResource hmc.color.gray.100}"/>
+    
+    <!--Success-->
+    <SolidColorBrush x:Key="hmc.color.system.success.default" Color="{StaticResource hmc.color.green.500}"/>
+    <SolidColorBrush x:Key="hmc.color.system.success.silent" Color="{StaticResource hmc.color.green.100}"/>
+    <SolidColorBrush x:Key="hmc.color.system.success.strong" Color="{StaticResource hmc.color.green.700}"/>
+    
+    <!--Warning-->
+    <SolidColorBrush x:Key="hmc.color.system.warning.default" Color="{StaticResource hmc.color.orange.500}"/>
+    <SolidColorBrush x:Key="hmc.color.system.warning.silent" Color="{StaticResource hmc.color.orange.100}"/>
+    <SolidColorBrush x:Key="hmc.color.system.warning.strong" Color="{StaticResource hmc.color.orange.700}"/>
+    
+    <!--Danger-->
+    <SolidColorBrush x:Key="hmc.color.system.danger.default" Color="{StaticResource hmc.color.red.700}"/>
+    <SolidColorBrush x:Key="hmc.color.system.danger.silent" Color="{StaticResource hmc.color.red.100}"/>
+<!--System Colors End-->
+    
+<!--Non-interactive Element Start-->
+    <!--Content-->
+    <SolidColorBrush x:Key="hmc.color.content.default" Color="{StaticResource hmc.color.gray.black}"/>
+    <SolidColorBrush x:Key="hmc.color.content.inverse" Color="{StaticResource hmc.color.gray.white}"/>
+    <SolidColorBrush x:Key="hmc.color.content.silent" Color="{StaticResource hmc.color.gray.400}"/>
+    <SolidColorBrush x:Key="hmc.color.content.subtle" Color="{StaticResource hmc.color.gray.700}"/>
+    <SolidColorBrush x:Key="hmc.color.logo.default" Color="{Binding Source={StaticResource hmc.color.system.primary.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.logo.inverse" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.logo.subtle" Color="{Binding Source={StaticResource hmc.color.content.default}, Path=Color}"/>
+    
+    <!--Layout-->
+    <SolidColorBrush x:Key="hmc.color.layout.divider.default" Color="{StaticResource hmc.color.gray.300}"/>
+    <SolidColorBrush x:Key="hmc.color.layout.divider.silent" Color="{StaticResource hmc.color.gray.200}"/>
+    <SolidColorBrush x:Key="hmc.color.layout.divider.strong" Color="{Binding Source={StaticResource hmc.color.content.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.layout.canvas" Color="{StaticResource hmc.color.gray.100}"/>
+    <SolidColorBrush x:Key="hmc.color.layout.container" Color="{StaticResource hmc.color.gray.white}"/>
+    <SolidColorBrush x:Key="hmc.color.layout.overlay" Color="{StaticResource hmc.color.gray.1000}"/>
+<!--Non-interactive Element End-->
+
+<!--Interactive Elements Start-->
+    <!--Primary-->
+    <SolidColorBrush x:Key="hmc.color.interactive.primary.idle" Color="{Binding Source={StaticResource hmc.color.system.primary.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.interactive.primary.hover" Color="{Binding Source={StaticResource hmc.color.system.primary.strong}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.interactive.primary.pressed" Color="{Binding Source={StaticResource hmc.color.system.primary.strong}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.interactive.primary.disabled" Color="{Binding Source={StaticResource hmc.color.system.primary.subtle}, Path=Color}"/>
+    
+    <!--Secondary-->
+    <SolidColorBrush x:Key="hmc.color.interactive.secondary.idle" Color="{Binding Source={StaticResource hmc.color.system.secondary.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.interactive.secondary.hover" Color="{Binding Source={StaticResource hmc.color.system.secondary.strong}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.interactive.secondary.pressed" Color="{Binding Source={StaticResource hmc.color.system.secondary.strong}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.interactive.secondary.disabled" Color="{Binding Source={StaticResource hmc.color.system.secondary.subtle}, Path=Color}"/>
+    
+    <!--Subtle-->
+    <SolidColorBrush x:Key="hmc.color.interactive.subtle.idle" Color="{StaticResource hmc.color.gray.500}"/>
+    <SolidColorBrush x:Key="hmc.color.interactive.subtle.hover" Color="{StaticResource hmc.color.gray.700}"/>
+    <SolidColorBrush x:Key="hmc.color.interactive.subtle.pressed" Color="{StaticResource hmc.color.gray.700}"/>
+    <SolidColorBrush x:Key="hmc.color.interactive.subtle.disabled" Color="{StaticResource hmc.color.gray.200}"/>
+    
+    <!--Silent-->
+    <SolidColorBrush x:Key="hmc.color.interactive.silent.hover" Color="{StaticResource hmc.color.gray.200}"/>
+    <SolidColorBrush x:Key="hmc.color.interactive.silent.pressed" Color="{StaticResource hmc.color.gray.200}"/>
+    
+    <!--Other-->
+    <SolidColorBrush x:Key="hmc.color.interactive.focus" Color="{Binding Source={StaticResource hmc.color.system.highlight.default}, Path=Color}"/>
+<!--Interactive Elements End-->
+    
+<!--Notification Pattern Start-->
+    <!--Highlight-->
+    <SolidColorBrush x:Key="hmc.color.notification.highlight.default.background" Color="{Binding Source={StaticResource hmc.color.system.highlight.silent}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.highlight.default.border" Color="{Binding Source={StaticResource hmc.color.system.highlight.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.highlight.default.graphic" Color="{Binding Source={StaticResource hmc.color.system.highlight.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.highlight.default.text" Color="{Binding Source={StaticResource hmc.color.content.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.highlight.strong.background" Color="{Binding Source={StaticResource hmc.color.system.highlight.strong}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.highlight.strong.graphic" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.highlight.strong.text" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    
+    <!--Information-->
+    <SolidColorBrush x:Key="hmc.color.notification.info.default.background" Color="{Binding Source={StaticResource hmc.color.system.info.silent}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.info.default.border" Color="{StaticResource hmc.color.gray.400}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.info.default.graphic" Color="{Binding Source={StaticResource hmc.color.system.info.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.info.default.text" Color="{Binding Source={StaticResource hmc.color.system.info.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.info.strong.background" Color="{Binding Source={StaticResource hmc.color.content.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.info.strong.graphic" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.info.strong.text" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    
+    <!--Success-->
+    <SolidColorBrush x:Key="hmc.color.notification.success.default.background" Color="{Binding Source={StaticResource hmc.color.system.success.silent}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.success.default.border" Color="{Binding Source={StaticResource hmc.color.system.success.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.success.default.graphic" Color="{Binding Source={StaticResource hmc.color.system.success.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.success.default.text" Color="{Binding Source={StaticResource hmc.color.content.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.success.strong.background" Color="{Binding Source={StaticResource hmc.color.system.success.strong}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.success.strong.graphic" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.success.strong.text" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    
+    <!--Warning-->
+    <SolidColorBrush x:Key="hmc.color.notification.warning.default.background" Color="{Binding Source={StaticResource hmc.color.system.warning.silent}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.warning.default.border" Color="{Binding Source={StaticResource hmc.color.system.warning.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.warning.default.graphic" Color="{Binding Source={StaticResource hmc.color.system.warning.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.warning.default.text" Color="{Binding Source={StaticResource hmc.color.content.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.warning.strong.background" Color="{Binding Source={StaticResource hmc.color.system.warning.strong}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.warning.strong.graphic" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.warning.strong.text" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    
+    <!--Danger-->
+    <SolidColorBrush x:Key="hmc.color.notification.danger.default.background" Color="{Binding Source={StaticResource hmc.color.system.danger.silent}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.danger.default.border" Color="{Binding Source={StaticResource hmc.color.system.danger.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.danger.default.graphic" Color="{Binding Source={StaticResource hmc.color.system.danger.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.danger.default.text" Color="{Binding Source={StaticResource hmc.color.system.danger.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.danger.strong.background" Color="{Binding Source={StaticResource hmc.color.system.danger.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.danger.strong.graphic" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    <SolidColorBrush x:Key="hmc.color.notification.danger.strong.text" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+<!--Notification Pattern End-->
+    
+<!--Data Visualization Start-->
+    <!--Categorical-->
+    <SolidColorBrush x:Key="hmc.color.dataviz.categorical.l" Color="{StaticResource hmc.color.teal.500}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.categorical.2" Color="{StaticResource hmc.color.orange.500}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.categorical.3" Color="{StaticResource hmc.color.purple.700}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.categorical.4" Color="{StaticResource hmc.color.green.800}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.categorical.5" Color="{StaticResource hmc.color.pink.800}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.categorical.6" Color="{StaticResource hmc.color.teal.1000}"/>
+    
+    <!--Sequential-->
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.a.l" Color="{StaticResource hmc.color.teal.500}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.a.2" Color="{StaticResource hmc.color.teal.600}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.a.3" Color="{StaticResource hmc.color.teal.700}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.a.4" Color="{StaticResource hmc.color.teal.800}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.a.5" Color="{StaticResource hmc.color.teal.900}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.a.6" Color="{StaticResource hmc.color.teal.1000}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.b.l" Color="{StaticResource hmc.color.orange.500}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.b.2" Color="{StaticResource hmc.color.orange.600}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.b.3" Color="{StaticResource hmc.color.orange.700}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.b.4" Color="{StaticResource hmc.color.orange.800}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.b.5" Color="{StaticResource hmc.color.orange.900}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.b.6" Color="{StaticResource hmc.color.orange.1000}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.c.l" Color="{StaticResource hmc.color.purple.500}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.c.2" Color="{StaticResource hmc.color.purple.600}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.c.3" Color="{StaticResource hmc.color.purple.700}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.c.4" Color="{StaticResource hmc.color.purple.800}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.c.5" Color="{StaticResource hmc.color.purple.900}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.c.6" Color="{StaticResource hmc.color.purple.1000}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.d.l" Color="{StaticResource hmc.color.green.500}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.d.2" Color="{StaticResource hmc.color.green.600}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.d.3" Color="{StaticResource hmc.color.green.700}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.d.4" Color="{StaticResource hmc.color.green.800}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.d.5" Color="{StaticResource hmc.color.green.900}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.d.6" Color="{StaticResource hmc.color.green.1000}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.e.l" Color="{StaticResource hmc.color.pink.500}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.e.2" Color="{StaticResource hmc.color.pink.600}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.e.3" Color="{StaticResource hmc.color.pink.700}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.e.4" Color="{StaticResource hmc.color.pink.800}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.e.5" Color="{StaticResource hmc.color.pink.900}"/>
+    <SolidColorBrush x:Key="hmc.color.dataviz.sequential.e.6" Color="{StaticResource hmc.color.pink.1000}"/>
+    
+    <!--Other-->
+    <SolidColorBrush x:Key="hmc.color.dataviz.background" Color="{Binding Source={StaticResource hmc.color.gray.white}, Path=Color}"/>
+<!--Data Visualization End-->
+
+    <!--Button Color-->
+    <SolidColorBrush x:Key="button.primary.background.idle" Color="{Binding Source={StaticResource hmc.color.interactive.primary.idle}, Path=Color}"/>
+    <SolidColorBrush x:Key="button.primary.content.idle" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+
+    <SolidColorBrush x:Key="button.secondary.background" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    <SolidColorBrush x:Key="button.secondary.foreground" Color="{Binding Source={StaticResource hmc.color.interactive.primary.idle}, Path=Color}"/>
+    <SolidColorBrush x:Key="button.secondary.borderbrush" Color="{Binding Source={StaticResource hmc.color.interactive.primary.idle}, Path=Color}"/>
+    <SolidColorBrush x:Key="button.secondary.hover.foreground" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    <SolidColorBrush x:Key="button.secondary.hover.background" Color="{Binding Source={StaticResource hmc.color.interactive.secondary.pressed}, Path=Color}"/>
 </ResourceDictionary>

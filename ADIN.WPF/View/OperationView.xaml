@@ -14,7 +14,7 @@
         <ResourceDictionary>
             <Style x:Key="AdiLogoStyle" TargetType="{x:Type Button}">
                 <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="Foreground" Value="{DynamicResource ADILogo.Foreground}"/>
+                <Setter Property="Foreground" Value="{DynamicResource hmc.color.logo.default}"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 <Setter Property="Template">
@@ -48,7 +48,7 @@
                 <TextBlock Text="Local Devices" FontWeight="Bold" FontSize="18" Margin="0 20 0 5"/>
                 <components:DeviceListing DataContext="{Binding DeviceListingVM}" Height="150"/>
                 <!--<local:ADINButtonsView/>-->
-                <local:ExtraCommandsView DataContext="{Binding ExtraCommandsVM}" Height="230"/>
+                <local:ExtraCommandsView DataContext="{Binding ExtraCommandsVM}" Height="260"/>
             </StackPanel>
             <Grid Grid.Column="1" Grid.Row="1">
                 <!--<ContentControl Content="{Binding CurrentViewModel}">
