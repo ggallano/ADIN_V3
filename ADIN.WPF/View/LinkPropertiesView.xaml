@@ -121,7 +121,7 @@
                 </telerik:PropertyDefinition>
 
                 <!--MDIX-->
-                <telerik:PropertyDefinition Description="MDIX" DisplayName="MDIX" GroupName="MDIX" OrderIndex="4">
+                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsForcedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="MDIX" DisplayName="MDIX" GroupName="MDIX" OrderIndex="4">
                     <telerik:PropertyDefinition.EditorTemplate>
                         <DataTemplate>
                             <telerik:RadComboBox ItemsSource="{Binding MDIXs}"

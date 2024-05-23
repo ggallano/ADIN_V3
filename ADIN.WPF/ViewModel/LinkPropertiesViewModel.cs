@@ -14,9 +14,6 @@ namespace ADIN.WPF.ViewModel
 {
     public class LinkPropertiesViewModel : ViewModelBase
     {
-        private bool _isANAdvertisedSpeedVisible = true;
-        private bool _isANAdvertised1GSpeedVisible = true;
-        private bool _isForcedSpeedVisible = false;
         private NavigationStore _navigationStore;
         private SelectedDeviceStore _selectedDeviceStore;
 
@@ -193,33 +190,18 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsANAdvertisedSpeedVisible
         {
-            get { return _isANAdvertisedSpeedVisible; }
-            set
-            {
-                _isANAdvertisedSpeedVisible = value;
-                OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
-            }
+            get { return _linkProperties?.SpeedMode != "Forced"; }
         }
         public List<string> AdvertisedSpeeds => _linkProperties.AdvertisedSpeeds;
 
         public bool IsANAdvertised1GSpeedVisible
         {
-            get { return _isANAdvertised1GSpeedVisible && (_linkProperties?.IsSpeedCapable1G != false); }
-            set
-            {
-                _isANAdvertised1GSpeedVisible = value;
-                OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
-            }
+            get { return (_linkProperties?.SpeedMode != "Forced") && (_linkProperties?.IsSpeedCapable1G != false); }
         }
 
         public bool IsForcedSpeedVisible
         {
-            get { return _isForcedSpeedVisible; }
-            set
-            {
-                _isForcedSpeedVisible = value;
-                OnPropertyChanged(nameof(IsForcedSpeedVisible));
-            }
+            get { return _linkProperties?.SpeedMode == "Forced"; }
         }
 
         public bool IsEEEAdvertisementVisible { get; set; } = true;
@@ -232,16 +214,9 @@ namespace ADIN.WPF.ViewModel
                 _linkProperties.SpeedMode = value;
                 _selectedDeviceStore.SelectedDevice.FwAPI.AdvertisedForcedSpeed(value);
                 OnPropertyChanged(nameof(SelectedSpeedMode));
-
-                IsANAdvertisedSpeedVisible = true;
-                IsANAdvertised1GSpeedVisible = true;
-                IsForcedSpeedVisible = false;
-                if (_linkProperties.SpeedMode == "Forced")
-                {
-                    IsANAdvertisedSpeedVisible = false;
-                    IsANAdvertised1GSpeedVisible = false;
-                    IsForcedSpeedVisible = true;
-                }
+                OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
+                OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
+                OnPropertyChanged(nameof(IsForcedSpeedVisible));
             }
         }
         public List<string> SpeedModes => _linkProperties?.SpeedModes;
@@ -313,9 +288,11 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
-            OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
             OnPropertyChanged(nameof(SpeedModes));
             OnPropertyChanged(nameof(SelectedSpeedMode));
+            OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
+            OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
+            OnPropertyChanged(nameof(IsForcedSpeedVisible));
             OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
             OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
             OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));

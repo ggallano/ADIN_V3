@@ -83,6 +83,7 @@ namespace ADIN.Device.Services
             if (autoMDIXmod == "Auto MDIX")
             {
                 this.WriteYodaRg("AutoMdiEn", 1);
+                this.WriteYodaRg("ManMdix", 0);
             }
             else if (autoMDIXmod == "Fixed MDI")
             {
@@ -179,6 +180,7 @@ namespace ADIN.Device.Services
             if (enEnergyDetect == "Disabled")
             {
                 this.WriteYodaRg("NrgPdEn", 0);
+                this.WriteYodaRg("NrgPdTxEn", 0);
                 _feedbackMessage = "disable EDPD";
             }
             else if (enEnergyDetect == "Enabled")
