@@ -67,12 +67,12 @@ namespace ADIN.Device.Services
             if (advFrcSpd == "Advertised")
             {
                 this.WriteYodaRg("AutonegEn", 1);
-                _feedbackMessage = "enable Auto-Negotiation";
+                _feedbackMessage = "enabled Auto-Negotiation";
             }
             else
             {
                 this.WriteYodaRg("AutonegEn", 0);
-                _feedbackMessage = "disable Auto-Negotiation";
+                _feedbackMessage = "disabled Auto-Negotiation";
             }
 
             FeedbackLog(_feedbackMessage, FeedbackType.Info);
@@ -83,6 +83,7 @@ namespace ADIN.Device.Services
             if (autoMDIXmod == "Auto MDIX")
             {
                 this.WriteYodaRg("AutoMdiEn", 1);
+                this.WriteYodaRg("ManMdix", 0);
             }
             else if (autoMDIXmod == "Fixed MDI")
             {
@@ -102,35 +103,44 @@ namespace ADIN.Device.Services
 
             if (listAdvSpd.Contains("SPEED_1000BASE_T_FD_SPEED"))
             {
-                _feedbackMessage = _feedbackMessage + " SPEED_1000BASE_T_FD_SPEED";
+                _feedbackMessage += " SPEED_1000BASE_T_FD_SPEED,";
             }
             if (listAdvSpd.Contains("SPEED_1000BASE_T_HD_SPEED"))
             {
-                _feedbackMessage = _feedbackMessage + " SPEED_1000BASE_T_HD_SPEED";
+                _feedbackMessage += " SPEED_1000BASE_T_HD_SPEED,";
             }
             if (listAdvSpd.Contains("SPEED_100BASE_TX_FD_SPEED"))
             {
-                _feedbackMessage = _feedbackMessage + " SPEED_100BASE_TX_FD_SPEED";
+                _feedbackMessage += " SPEED_100BASE_TX_FD_SPEED,";
             }
             if (listAdvSpd.Contains("SPEED_100BASE_TX_HD_SPEED"))
             {
-                _feedbackMessage = _feedbackMessage + " SPEED_100BASE_TX_HD_SPEED";
+                _feedbackMessage += " SPEED_100BASE_TX_HD_SPEED,";
             }
             if (listAdvSpd.Contains("SPEED_10BASE_T_FD_SPEED"))
             {
-                _feedbackMessage = _feedbackMessage + " SPEED_10BASE_T_FD_SPEED";
+                _feedbackMessage += " SPEED_10BASE_T_FD_SPEED,";
             }
             if (listAdvSpd.Contains("SPEED_10BASE_T_HD_SPEED"))
             {
-                _feedbackMessage = _feedbackMessage + " SPEED_10BASE_T_HD_SPEED";
+                _feedbackMessage += " SPEED_10BASE_T_HD_SPEED,";
             }
             if (listAdvSpd.Contains("SPEED_1000BASE_EEE_SPEED"))
             {
-                _feedbackMessage = _feedbackMessage + " SPEED_1000BASE_EEE_SPEED";
+                _feedbackMessage += " SPEED_1000BASE_EEE_SPEED,";
             }
             if (listAdvSpd.Contains("SPEED_100BASE_EEE_SPEED"))
             {
-                _feedbackMessage = _feedbackMessage + " SPEED_100BASE_EEE_SPEED";
+                _feedbackMessage += " SPEED_100BASE_EEE_SPEED,";
+            }
+
+            if(_feedbackMessage.EndsWith(","))
+            {
+                _feedbackMessage = _feedbackMessage.Remove(_feedbackMessage.Length - 1);
+            }
+            else
+            {
+                _feedbackMessage += " No advertised speed/s";
             }
 
             FeedbackLog(_feedbackMessage, FeedbackType.Info);
@@ -159,13 +169,13 @@ namespace ADIN.Device.Services
         {
             if (dwnSpd10Hd)
             {
-                FeedbackLog("enable downspeed to 10BASE-T", FeedbackType.Info);
                 this.WriteYodaRg("DnSpeedTo10En", 1);
+                FeedbackLog("enabled downspeed to 10BASE-T", FeedbackType.Info);
             }
             else
             {
-                FeedbackLog("disable downspeed to 10BASE-T", FeedbackType.Info);
                 this.WriteYodaRg("DnSpeedTo10En", 0);
+                FeedbackLog("disabled downspeed to 10BASE-T", FeedbackType.Info);
             }
         }
 
@@ -179,19 +189,20 @@ namespace ADIN.Device.Services
             if (enEnergyDetect == "Disabled")
             {
                 this.WriteYodaRg("NrgPdEn", 0);
-                _feedbackMessage = "disable EDPD";
+                this.WriteYodaRg("NrgPdTxEn", 0);
+                _feedbackMessage = "disabled EDPD";
             }
             else if (enEnergyDetect == "Enabled")
             {
                 this.WriteYodaRg("NrgPdEn", 1);
                 this.WriteYodaRg("NrgPdTxEn", 0);
-                _feedbackMessage = "enable EDPD - no transmission of pulse";
+                _feedbackMessage = "enabled EDPD - no transmission of pulse";
             }
             else
             {
                 this.WriteYodaRg("NrgPdEn", 1);
                 this.WriteYodaRg("NrgPdTxEn", 1);
-                _feedbackMessage = "enable EDPD - with periodic transmission of pulse";
+                _feedbackMessage = "enabled EDPD - with periodic transmission of pulse";
             }
 
             FeedbackLog(_feedbackMessage, FeedbackType.Info);
@@ -481,7 +492,7 @@ namespace ADIN.Device.Services
         public void RestartAutoNegotiation()
         {
             WriteYodaRg("RestartAneg", 1);
-            FeedbackLog("Restart auto negotiation", FeedbackType.Info);
+            FeedbackLog("Restarting auto negotiation...", FeedbackType.Info);
             Debug.WriteLine("Restart Auto Negotiation");
         }
 
@@ -490,28 +501,28 @@ namespace ADIN.Device.Services
             switch (setFrcdSpd)
             {
                 case "SPEED_100BASE_TX_FD":
-                    this.FeedbackLog("100BASE-TX full duplex forced speed selected", FeedbackType.Info);
                     this.WriteYodaRg("SpeedSelMsb", 0);
                     this.WriteYodaRg("SpeedSelLsb", 1);
                     this.WriteYodaRg("DplxMode", 1);
+                    this.FeedbackLog("100BASE-TX full duplex forced speed selected", FeedbackType.Info);
                     break;
                 case "SPEED_100BASE_TX_HD":
-                    this.FeedbackLog("100BASE-TX half duplex forced speed selected", FeedbackType.Info);
                     this.WriteYodaRg("SpeedSelMsb", 0);
                     this.WriteYodaRg("SpeedSelLsb", 1);
                     this.WriteYodaRg("DplxMode", 0);
+                    this.FeedbackLog("100BASE-TX half duplex forced speed selected", FeedbackType.Info);
                     break;
                 case "SPEED_10BASE_T_FD":
-                    this.FeedbackLog("10BASE-T full duplex forced speed selected", FeedbackType.Info);
                     this.WriteYodaRg("SpeedSelMsb", 0);
                     this.WriteYodaRg("SpeedSelLsb", 0);
                     this.WriteYodaRg("DplxMode", 1);
+                    this.FeedbackLog("10BASE-T full duplex forced speed selected", FeedbackType.Info);
                     break;
                 case "SPEED_10BASE_T_HD":
-                    this.FeedbackLog("10BASE-T half duplex forced speed selected", FeedbackType.Info);
                     this.WriteYodaRg("SpeedSelMsb", 0);
                     this.WriteYodaRg("SpeedSelLsb", 0);
                     this.WriteYodaRg("DplxMode", 0);
+                    this.FeedbackLog("10BASE-T half duplex forced speed selected", FeedbackType.Info);
                     break;
                 default:
                     throw new NotImplementedException();
