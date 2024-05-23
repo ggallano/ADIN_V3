@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="Themes/ButtonStyle.xaml"/>
                 <ResourceDictionary Source="Themes/TextBlockStyle.xaml"/>
                 <ResourceDictionary Source="Themes/CustomControlStyle/GridSplitterStyle.xaml"/>
+                <ResourceDictionary Source="Themes/TabControlStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -61,8 +61,8 @@
                         </DataTemplate>
                     </ContentControl.Resources>
                 </ContentControl>-->
-                <TabControl>
-                    <TabItem Header="Link Properties" IsSelected="True">
+                <telerik:RadTabControl Align="Center">
+                    <telerik:RadTabItem Header="Link Properties" IsSelected="True">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*" MinWidth="400"/>
@@ -75,8 +75,8 @@
                                 <components:DeviceStatusView DataContext="{Binding DeviceStatusVM}"/>
                             </Grid>
                         </Grid>
-                    </TabItem>
-                    <TabItem Header="Loopback">
+                    </telerik:RadTabItem>
+                    <telerik:RadTabItem Header="Loopback">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="4*" MinWidth="600"/>
@@ -89,8 +89,8 @@
                                 <components:DeviceStatusView DataContext="{Binding DeviceStatusVM}"/>
                             </Grid>
                         </Grid>
-                    </TabItem>
-                    <TabItem Header="FrameGenerator/Checker">
+                    </telerik:RadTabItem>
+                    <telerik:RadTabItem Header="FrameGenerator/Checker">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" MinWidth="500"/>
@@ -102,11 +102,11 @@
                             <components:FrameGenCheckerStatusView Grid.Column="2" DataContext="{Binding DeviceStatusVM}"/>
                         </Grid>
 
-                    </TabItem>
-                    <TabItem Header="Register Access">
+                    </telerik:RadTabItem>
+                    <telerik:RadTabItem Header="Register Access">
                         <local:RegisterListingView DataContext="{Binding RegisterListingVM}"/>
-                    </TabItem>
-                    <TabItem Header="Clock Pin Control">
+                    </telerik:RadTabItem>
+                    <telerik:RadTabItem Header="Clock Pin Control">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*" MinWidth="400"/>
@@ -116,8 +116,8 @@
                             <local:ClockPinControlView Grid.Column="0" DataContext="{Binding ClockPinControlVM}"/>
                             <!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />-->
                         </Grid>
-                    </TabItem>
-                    <TabItem Header="Test Modes">
+                    </telerik:RadTabItem>
+                    <telerik:RadTabItem Header="Test Modes">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*" MinWidth="400"/>
@@ -127,8 +127,8 @@
                             <local:TestModeView Grid.Column="0" DataContext="{Binding TestModeVM}"/>
                             <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />
                         </Grid>
-                    </TabItem>
-                </TabControl>
+                    </telerik:RadTabItem>
+                </telerik:RadTabControl>
             </Grid>
             <!--<Grid Grid.Column="1" Grid.Row="1">
                 <TabControl>
