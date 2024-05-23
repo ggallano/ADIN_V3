@@ -21,7 +21,7 @@ namespace ADIN.Device.Models
         //private ObservableCollection<RegisterModel> registers;
         private uint _phyAddress;
 
-        public ADIN1300Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock, out uint phyAddress)
+        public ADIN1300Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
@@ -34,7 +34,7 @@ namespace ADIN.Device.Models
 
             DeviceStatus = new DeviceStatusADIN1300();
 
-            FirmwareAPI = new ADIN1300FirmwareAPI(_ftdiService, Registers, phyAddress, mainLock);
+            FirmwareAPI = new ADIN1300FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
 
             LinkProperties = new LinkPropertiesADIN1300();
             ClockPinControl = new ClockPinControlADIN1300();

@@ -23,13 +23,14 @@ namespace ADIN.Device.Models
         private uint _phyAddress;
         private object _mainLock;
 
-        public ADIN1200Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock, out uint phyAddress)
+        public ADIN1200Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
             _mainLock = mainLock;
             _phyAddress = 4;
-            phyAddress = _phyAddress;
+            PhyAddress = _phyAddress;
+            DeviceType = BoardType.ADIN1200;
 
             //Retrieve Registers
             Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1200.json"));
@@ -37,7 +38,7 @@ namespace ADIN.Device.Models
 
             DeviceStatus = new DeviceStatusADIN1200();
 
-            FirmwareAPI = new ADIN1200FirmwareAPI(_ftdiService, Registers, phyAddress, _mainLock);
+            FirmwareAPI = new ADIN1200FirmwareAPI(_ftdiService, Registers, PhyAddress, _mainLock);
 
             LinkProperties = new LinkPropertiesADIN1200();
             Loopback = new LoopbackADIN1200();
