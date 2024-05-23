@@ -25,8 +25,7 @@ namespace ADIN.Device.Models
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
-            _phyAddress = 0;
-            PhyAddress = _phyAddress;
+            PhyAddress = 0;
             DeviceType = BoardType.ADIN1300;
 
             //Retrieve Registers

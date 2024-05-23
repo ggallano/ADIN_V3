@@ -9,7 +9,7 @@
              xmlns:viewmodel="clr-namespace:ADIN.WPF.ViewModel"
              xmlns:view="clr-namespace:ADIN.WPF.View"
              mc:Ignorable="d" 
-             d:DesignHeight="768" d:DesignWidth="1024">
+             d:DesignHeight="820" d:DesignWidth="1024">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style x:Key="AdiLogoStyle" TargetType="{x:Type Button}">
@@ -48,7 +48,7 @@
                 <TextBlock Text="Local Devices" FontWeight="Bold" FontSize="18" Margin="0 20 0 5"/>
                 <components:DeviceListing DataContext="{Binding DeviceListingVM}" Height="150"/>
                 <!--<local:ADINButtonsView/>-->
-                <local:ExtraCommandsView DataContext="{Binding ExtraCommandsVM}" Height="260"/>
+                <local:ExtraCommandsView DataContext="{Binding ExtraCommandsVM}" Height="300"/>
             </StackPanel>
             <Grid Grid.Column="1" Grid.Row="1">
                 <!--<ContentControl Content="{Binding CurrentViewModel}">

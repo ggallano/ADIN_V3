@@ -36,7 +36,7 @@
                     <telerik:RadSlider x:Name='SliderFrameLength' Value="{Binding TestModeFrameLengthValue}" Minimum="64" SmallChange="1" Maximum="1530" TickFrequency='1' IsSnapToTickEnabled='True' />
                     <TextBlock Text='{Binding ElementName=SliderFrameLength, Path=Value}'></TextBlock>
                 </StackPanel>
-                <telerik:RadButton Content="Apply Mode" Command="{Binding TestModeCmd}" Style="{StaticResource FaultDetectorInitializedButtonStyle}"/>
+                <telerik:RadButton Content="Apply Mode" Command="{Binding TestModeCmd}" Style="{StaticResource TestModeTelerikButtonStyle}"/>
 
             </StackPanel>
         </StackPanel>
