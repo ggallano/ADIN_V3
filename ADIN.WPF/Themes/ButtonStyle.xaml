@@ -88,6 +88,10 @@
         </Style.Triggers>
     </Style>
     <Style x:Key="TelerikButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource ButtonStyle}"/>
+    <Style x:Key="TestModeTelerikButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Margin" Value="0 4"/>
+        <Setter Property="Width" Value="125"/>
+    </Style>
 
     <Style x:Key="TelerikRadioButtonStyle" TargetType="{x:Type telerik:RadRadioButton}">
         <Setter Property="Margin" Value="3 0"/>
@@ -146,6 +150,10 @@
         </Style.Triggers>
     </Style>
     <Style x:Key="RadioButtonStyle" TargetType="{x:Type telerik:RadRadioButton}" BasedOn="{StaticResource TelerikRadioButtonStyle}"/>
+    <Style x:Key="ClockPinRadioButtonStyle" TargetType="{x:Type telerik:RadRadioButton}" BasedOn="{StaticResource TelerikRadioButtonStyle}">
+        <Setter Property="Width" Value="150"/>
+        <Setter Property="Margin" Value="5 5"/>
+    </Style>
 
 
     <Style x:Key="ToggleFlatStyle" TargetType="{x:Type telerik:RadToggleButton}">
