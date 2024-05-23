@@ -27,6 +27,7 @@ namespace ADIN.Device.Models
             _registerService = registerService;
             _phyAddress = 0;
             phyAddress = _phyAddress;
+            DeviceType = BoardType.ADIN1300;
 
             //Retrieve Registers
             Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1300.json"));

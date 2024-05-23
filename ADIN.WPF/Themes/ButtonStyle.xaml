@@ -2,42 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
                     xmlns:local="clr-namespace:ADIN.WPF.Themes">
-    <!--Flat Style-->
-    <Style x:Key="ButtonStyle" TargetType="{x:Type telerik:RadButton}">
-        <Setter Property="Background" Value="{StaticResource button.secondary.background}" />
-        <Setter Property="BorderBrush" Value="{StaticResource button.secondary.borderbrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource button.secondary.foreground}" />
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="CornerRadius" Value="2"/>
-        <Setter Property="FontFamily" Value="Barlow"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type telerik:RadButton}">
-                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" CornerRadius="{TemplateBinding CornerRadius}">
-                        <Grid>
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
-                <Setter Property="Foreground" Value="{StaticResource button.secondary.hover.foreground}"/>
-                <Setter Property="Background" Value="{StaticResource button.secondary.hover.background}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource button.secondary.hover.foreground}"/>
-            </Trigger>
-            <Trigger Property="IsPressed" Value="true">
-                <Setter Property="Foreground" Value="Black"/>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource Button.IsEnable.Foreground}"/>
-                <Setter Property="Background" Value="{StaticResource Button.IsEnable.Background}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource Button.IsEnable.BorderBrush}"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-    
     <!--<Style x:Key="ButtonStyle" TargetType="{x:Type telerik:RadButton}">
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
@@ -84,23 +48,61 @@
         <Setter Property="CornerRadius" Value="2"/>
         <Setter Property="FontFamily" Value="Barlow"/>
     </Style>-->
-
-    <Style x:Key="TelerikButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource ButtonStyle}">
+    
+    <!--Flat Style-->
+    <Style x:Key="ButtonStyle" TargetType="{x:Type telerik:RadButton}">
         <Setter Property="Margin" Value="3"/>
-        <Setter Property="Height" Value="25"/>
+        <Setter Property="Height" Value="32"/>
+        <Setter Property="Background" Value="{StaticResource button.secondary.background}" />
+        <Setter Property="Foreground" Value="{StaticResource button.secondary.foreground}" />
+        <Setter Property="BorderBrush" Value="{StaticResource button.secondary.borderbrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="FontFamily" Value="Barlow"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type telerik:RadButton}">
+                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" CornerRadius="{TemplateBinding CornerRadius}">
+                        <Grid>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Foreground" Value="{StaticResource button.secondary.hover.foreground}"/>
+                <Setter Property="Background" Value="{StaticResource button.secondary.hover.background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource button.secondary.hover.borderbrush}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter Property="Foreground" Value="{StaticResource button.secondary.hover.foreground}"/>
+                <Setter Property="FontWeight" Value="Light"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource Button.IsEnable.Foreground}"/>
+                <Setter Property="Background" Value="{StaticResource Button.IsEnable.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Button.IsEnable.BorderBrush}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
+    <Style x:Key="TelerikButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource ButtonStyle}"/>
 
     <Style x:Key="TelerikRadioButtonStyle" TargetType="{x:Type telerik:RadRadioButton}">
-        <Setter Property="Margin" Value="3"/>
-        <Setter Property="Height" Value="25"/>
+        <Setter Property="Margin" Value="3 0"/>
+        <Setter Property="Width" Value="120"/>
+        <Setter Property="Height" Value="32"/>
         <Setter Property="Background" Value="{StaticResource button.secondary.background}" />
         <Setter Property="BorderBrush" Value="{StaticResource button.secondary.borderbrush}"/>
         <Setter Property="Foreground" Value="{StaticResource button.secondary.foreground}" />
         <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="FontFamily" Value="Barlow"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ButtonBase}">
-                    <Border CornerRadius="2" Background="{TemplateBinding Background}" Name="button" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                <ControlTemplate TargetType="{x:Type telerik:RadRadioButton}">
+                    <Border CornerRadius="{TemplateBinding CornerRadius}" Background="{TemplateBinding Background}" Name="button" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <!--<Border BorderThickness="1,0,1,1" BorderBrush="Black" CornerRadius="{Binding ElementName=button, Path=CornerRadius}">
                                 <Border.Effect>
@@ -112,35 +114,38 @@
                                     <BlurEffect Radius="2" KernelType="Gaussian"/>
                                 </Border.Effect>
                             </Border>-->
-                            <ContentPresenter TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{TemplateBinding Content}"></ContentPresenter>
+                            <!--<ContentPresenter TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontFamily="{TemplateBinding FontFamily}" TextBlock.Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center" Content="{TemplateBinding Content}"></ContentPresenter>-->
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        
+
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
                 <Setter Property="Foreground" Value="{StaticResource button.secondary.hover.foreground}"/>
                 <Setter Property="Background" Value="{StaticResource button.secondary.hover.background}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource button.secondary.hover.foreground}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource button.secondary.hover.borderbrush}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="true">
-                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Foreground" Value="{StaticResource button.secondary.isPressed.foreground}"/>
+                <Setter Property="FontWeight" Value="Light"/>
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource button.secondary.isChecked.foreground}"/>
+                <Setter Property="Background" Value="{StaticResource button.secondary.isChecked.background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource button.secondary.isChecked.borderbrush}"/>
+                <Setter Property="FontWeight" Value="DemiBold"/>
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource Button.IsEnable.Foreground}"/>
                 <Setter Property="Background" Value="{StaticResource Button.IsEnable.Background}"/>
                 <Setter Property="BorderBrush" Value="{StaticResource Button.IsEnable.BorderBrush}"/>
             </Trigger>
-            <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource Button.IsChecked.Foreground}"/>
-                <Setter Property="Background" Value="{StaticResource Button.IsChecked.Background}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource Button.IsChecked.BorderBrush}"/>
-                <Setter Property="FontWeight" Value="Bold"/>
-            </Trigger>
         </Style.Triggers>
     </Style>
+    <Style x:Key="RadioButtonStyle" TargetType="{x:Type telerik:RadRadioButton}" BasedOn="{StaticResource TelerikRadioButtonStyle}"/>
 
 
     <Style x:Key="ToggleFlatStyle" TargetType="{x:Type telerik:RadToggleButton}">
@@ -230,7 +235,7 @@
         <Setter Property="Height" Value="20"/>
     </Style>
 
-    <!--Extra Command Button-->
+    <!--Extra Command Button Start-->
     <Style x:Key="ResetPhyButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource TelerikButtonStyle}">
         <Setter Property="Foreground" Value="{StaticResource buttonReset.foreground}"/>
         <Setter Property="BorderBrush" Value="{StaticResource buttonReset.borderbrush}"/>
@@ -238,15 +243,20 @@
             <Trigger Property="IsMouseOver" Value="true">
                 <Setter Property="Foreground" Value="{StaticResource buttonReset.hover.foreground}"/>
                 <Setter Property="Background" Value="{StaticResource buttonReset.hover.background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource buttonReset.hover.borderbrush}"/>
             </Trigger>
             <Trigger Property="IsPressed" Value="true">
-                <Setter Property="Foreground" Value="{StaticResource Reset.IsMouseOver}"/>
-                <Setter Property="Background" Value="Black"/>
+                <Setter Property="Foreground" Value="{StaticResource buttonReset.pressed.foreground}"/>
+                <Setter Property="Background" Value="{StaticResource buttonReset.pressed.background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource buttonReset.pressed.borderbrush}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
-    <!--Extra Command Button-->
+    <!--Extra Command Button End-->
 
+    
+    
+    
     <!--Cable Diagnostics-->
     <Style x:Key="FaultDetectorSaveButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource ButtonStyle}">
         <Setter Property="Width" Value="70"/>
@@ -350,12 +360,10 @@
     <!--Frame Gen Checker-->
     <Style x:Key="FramGenButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource ButtonStyle}">
         <Setter Property="Margin" Value="0 4"/>
-        <Setter Property="Height" Value="20"/>
+        <Setter Property="Height" Value="32"/>
     </Style>
     <!--Frame Gen Checker-->
 
-    <Style x:Key="RadioButtonStyle" TargetType="{x:Type telerik:RadRadioButton}" BasedOn="{StaticResource TelerikRadioButtonStyle}">
-        
-    </Style>
+    
 
 </ResourceDictionary>
