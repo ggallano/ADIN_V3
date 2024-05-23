@@ -364,7 +364,7 @@
     <SolidColorBrush x:Key="buttonReset.hover.foreground" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.text}, Path=Color}"/>
     <SolidColorBrush x:Key="buttonReset.hover.background" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.background}, Path=Color}"/>
     <SolidColorBrush x:Key="buttonReset.hover.borderbrush" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.background}, Path=Color}"/>
-    <SolidColorBrush x:Key="buttonReset.pressed.foreground" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.text}, Path=Color}"/>
-    <SolidColorBrush x:Key="buttonReset.pressed.background" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.background}, Path=Color}"/>
-    <SolidColorBrush x:Key="buttonReset.pressed.borderbrush" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.background}, Path=Color}"/>
+    <SolidColorBrush x:Key="buttonReset.isPressed.foreground" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.text}, Path=Color}"/>
+    <SolidColorBrush x:Key="buttonReset.isPressed.background" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.background}, Path=Color}"/>
+    <SolidColorBrush x:Key="buttonReset.isPressed.borderbrush" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.background}, Path=Color}"/>
 </ResourceDictionary>
