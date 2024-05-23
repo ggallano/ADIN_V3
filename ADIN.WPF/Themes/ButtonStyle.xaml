@@ -92,6 +92,26 @@
         <Setter Property="Margin" Value="0 4"/>
         <Setter Property="Width" Value="125"/>
     </Style>
+    <Style x:Key="ResetPhyButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource TelerikButtonStyle}">
+        <Setter Property="Foreground" Value="{StaticResource buttonReset.foreground}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource buttonReset.borderbrush}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Foreground" Value="{StaticResource buttonReset.hover.foreground}"/>
+                <Setter Property="Background" Value="{StaticResource buttonReset.hover.background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource buttonReset.hover.borderbrush}"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="true">
+                <Setter Property="Foreground" Value="{StaticResource buttonReset.isPressed.foreground}"/>
+                <Setter Property="Background" Value="{StaticResource buttonReset.isPressed.background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource buttonReset.isPressed.borderbrush}"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="FramGenButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Margin" Value="0 4"/>
+        <Setter Property="Height" Value="32"/>
+    </Style>
 
     <Style x:Key="TelerikRadioButtonStyle" TargetType="{x:Type telerik:RadRadioButton}">
         <Setter Property="Margin" Value="3 0"/>
@@ -125,7 +145,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
                 <Setter Property="Foreground" Value="{StaticResource button.secondary.hover.foreground}"/>
@@ -242,28 +261,6 @@
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="Height" Value="20"/>
     </Style>
-
-    <!--Extra Command Button Start-->
-    <Style x:Key="ResetPhyButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource TelerikButtonStyle}">
-        <Setter Property="Foreground" Value="{StaticResource buttonReset.foreground}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource buttonReset.borderbrush}"/>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
-                <Setter Property="Foreground" Value="{StaticResource buttonReset.hover.foreground}"/>
-                <Setter Property="Background" Value="{StaticResource buttonReset.hover.background}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource buttonReset.hover.borderbrush}"/>
-            </Trigger>
-            <Trigger Property="IsPressed" Value="true">
-                <Setter Property="Foreground" Value="{StaticResource buttonReset.pressed.foreground}"/>
-                <Setter Property="Background" Value="{StaticResource buttonReset.pressed.background}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource buttonReset.pressed.borderbrush}"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-    <!--Extra Command Button End-->
-
-    
-    
     
     <!--Cable Diagnostics-->
     <Style x:Key="FaultDetectorSaveButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource ButtonStyle}">
@@ -347,12 +344,6 @@
         <Setter Property="Height" Value="25"/>
     </Style>
 
-    <Style x:Key="FaultDetectorInitializedButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource ButtonStyle}">
-        <Setter Property="Margin" Value="0 4"/>
-        <Setter Property="Width" Value="250"/>
-        <Setter Property="Height" Value="20"/>
-    </Style>
-
     <Style x:Key="FaultDetectorStartButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource ButtonStyle}">
         <Setter Property="Width" Value="103"/>
         <Setter Property="Height" Value="25"/>
@@ -360,18 +351,4 @@
         <Setter Property="Margin" Value="0 10 0 0"/>
     </Style>
     <!--Cable Diagnostics-->
-
-    <!--Active Link Monitoring-->
-    
-    <!--Active Link Monitoring-->
-    
-    <!--Frame Gen Checker-->
-    <Style x:Key="FramGenButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource ButtonStyle}">
-        <Setter Property="Margin" Value="0 4"/>
-        <Setter Property="Height" Value="32"/>
-    </Style>
-    <!--Frame Gen Checker-->
-
-    
-
 </ResourceDictionary>

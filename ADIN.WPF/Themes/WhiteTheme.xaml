@@ -46,18 +46,9 @@
     <SolidColorBrush x:Key="Reset.Foreground" Color="White"/>-->
     <SolidColorBrush x:Key="Reset.IsMouseOver" Color="{StaticResource LightGrayColor2}"/>
 
-    <!--Base Button Colors-->
-    <!--<SolidColorBrush x:Key="Button.Background" Color="{StaticResource Gray02}"/>
-    <SolidColorBrush x:Key="Button.BorderBrush" Color="Black"/>
-    <SolidColorBrush x:Key="Button.Foreground" Color="Black"/>-->
-
     <SolidColorBrush x:Key="Button.IsEnable.Background" Color="Transparent"/>
     <SolidColorBrush x:Key="Button.IsEnable.BorderBrush" Color="{StaticResource DarkerGray}"/>
     <SolidColorBrush x:Key="Button.IsEnable.Foreground" Color="{StaticResource DarkerGray}"/>
-
-    <!--<SolidColorBrush x:Key="Button.IsMouseOver.Background" Color="{StaticResource DarkerGray}"/>
-    <SolidColorBrush x:Key="Button.IsMouseOver.Foreground" Color="White"/>
-    <SolidColorBrush x:Key="Button.IsMouseOver.BorderBrush" Color="White"/>-->
 
     <SolidColorBrush x:Key="Button.IsChecked.Background" Color="{StaticResource DarkerGray}"/>
     <SolidColorBrush x:Key="Button.IsChecked.Foreground" Color="{StaticResource JohsonColor}"/>
