@@ -26,12 +26,12 @@
 
                 <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Margin="10 3 0 0">
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding IsRxSuppression}"/>
-                        <TextBlock Text="Rx Suppression" Style="{StaticResource TextBlockSuppressionStyle}"/>
+                        <CheckBox IsChecked="{Binding IsRxSuppression}" Content="Rx Suppression"/>
+                        <!--<TextBlock Text="Rx Suppression" Style="{StaticResource TextBlockSuppressionStyle}"/>-->
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding IsTxSuppression}"/>
-                        <TextBlock Text="Tx Suppression" Style="{StaticResource TextBlockSuppressionStyle}"/>
+                        <CheckBox IsChecked="{Binding IsTxSuppression}" Content="Tx Suppression"/>
+                        <!--<TextBlock Text="Tx Suppression" Style="{StaticResource TextBlockSuppressionStyle}"/>-->
                     </StackPanel>
                 </StackPanel>
 
