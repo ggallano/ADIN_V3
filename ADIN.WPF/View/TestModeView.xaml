@@ -16,7 +16,7 @@
         <StackPanel Orientation="Vertical">
 
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="Select Test Mode" Margin="0 5" Style="{StaticResource TextBlockstyle}"/>
+                <TextBlock Text="Select Test Mode" Margin="0 0 0 10" Style="{StaticResource TextBlockstyle}"/>
                 <ComboBox ItemsSource="{Binding TestModes}" SelectedItem="{Binding SelectedTestMode}" Margin="0 0 0 10">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -32,9 +32,9 @@
                 </ComboBox>
                 <StackPanel Visibility="{Binding SelectedTestMode.IsRequiringFrameLength, Converter={StaticResource booleanVisibilityConverter}}">
                     <!--<StackPanel>-->
-                    <TextBlock Text="Frame Length" Margin="2 8 2 2" FontWeight="SemiBold" />
+                    <TextBlock Text="Frame Length" Style="{StaticResource LabelStyle}" Margin="0 0 0 10"/>
                     <telerik:RadSlider x:Name='SliderFrameLength' Value="{Binding TestModeFrameLengthValue}" Minimum="64" SmallChange="1" Maximum="1530" TickFrequency='1' IsSnapToTickEnabled='True' />
-                    <TextBlock Text='{Binding ElementName=SliderFrameLength, Path=Value}'></TextBlock>
+                    <TextBlock Text='{Binding ElementName=SliderFrameLength, Path=Value}' Style="{StaticResource TextBlockstyle}" Margin="0 5 0 0"/>
                 </StackPanel>
                 <telerik:RadButton Content="Apply Mode" Command="{Binding TestModeCmd}" Style="{StaticResource TestModeTelerikButtonStyle}"/>
 
