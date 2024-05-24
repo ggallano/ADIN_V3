@@ -15,133 +15,158 @@
     <Grid Margin="5">
         <!--<Label Content="Link Properties View"/>
         <Button Content="Reg Acc" Command="{Binding NavigateRegisterAccessCommand}"/>-->
+        <!--telerik:StyleManager.Theme="Windows8"-->
         <ContentControl Visibility="Visible" Content="{StaticResource ProxyElement}"/>
-        <telerik:RadPropertyGrid telerik:StyleManager.Theme="Windows8" Item="{Binding}" AutoGeneratePropertyDefinitions="False" IsGrouped="True" SearchBoxVisibility="Collapsed" SortAndGroupButtonsVisibility="Collapsed">
-            <telerik:RadPropertyGrid.PropertyDefinitions>
-                
-                <!--Speed Mode-->
-                <telerik:PropertyDefinition Description="Speed Mode" DisplayName="Speed Mode" GroupName="Speed Mode" OrderIndex="0">
-                    <telerik:PropertyDefinition.EditorTemplate>
-                        <DataTemplate>
-                            <telerik:RadComboBox ItemsSource="{Binding SpeedModes}" SelectedItem="{Binding SelectedSpeedMode}"/>
-                        </DataTemplate>
-                    </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" >
+            <StackPanel Orientation="Vertical">
 
-                <!--Advertised Speeds-->
-                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertised1GSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise 1000BASE-T FD" DisplayName="Advertise 1000BASE-T FD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
-                    <telerik:PropertyDefinition.EditorTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsAdvertise_1000BASE_T_FD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        </DataTemplate>
-                    </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertised1GSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise 1000BASE-T HD" DisplayName="Advertise 1000BASE-T HD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
-                    <telerik:PropertyDefinition.EditorTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsAdvertise_1000BASE_T_HD}"/>
-                        </DataTemplate>
-                    </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertisedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise 100BASE-TX FD" DisplayName="Advertise 100BASE-TX FD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
-                    <telerik:PropertyDefinition.EditorTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsAdvertise_100BASE_TX_FD}"/>
-                        </DataTemplate>
-                    </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertisedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise 100BASE-TX HD" DisplayName="Advertise 100BASE-TX HD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
-                    <telerik:PropertyDefinition.EditorTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsAdvertise_100BASE_TX_HD}"/>
-                        </DataTemplate>
-                    </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertisedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise 10BASE-T FD" DisplayName="Advertise 10BASE-T FD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
-                    <telerik:PropertyDefinition.EditorTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsAdvertise_10BASE_T_FD}"/>
-                        </DataTemplate>
-                    </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertisedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise 10BASE-T HD" DisplayName="Advertise 10BASE-T HD" GroupName="Auto-Negotation Advertised Speeds" OrderIndex="1">
-                    <telerik:PropertyDefinition.EditorTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsAdvertise_10BASE_T_HD}"/>
-                        </DataTemplate>
-                    </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
+                <Grid>
+                    <GroupBox Header="Speed" Style="{StaticResource GroupBoxStyle}" 
+				  Margin="0 5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Speed Mode: "/>
+                            <telerik:RadComboBox Grid.Column="1" ItemsSource="{Binding SpeedModes}" SelectedItem="{Binding SelectedSpeedMode}"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
 
-                <!--EEE Speed-->
-                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertised1GSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise EEE 1000BASE-T" DisplayName="Advertise EEE 1000BASE-T" GroupName="EEE Advertisement" OrderIndex="2">
-                    <telerik:PropertyDefinition.EditorTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsAdvertise_EEE_1000BASE_T}"/>
-                        </DataTemplate>
-                    </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertisedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="Advertise EEE 100BASE-TX" DisplayName="Advertise EEE 100BASE-TX" GroupName="EEE Advertisement" OrderIndex="2">
-                    <telerik:PropertyDefinition.EditorTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsAdvertise_EEE_100BASE_TX}"/>
-                        </DataTemplate>
-                    </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
+                <Grid>
+                    <GroupBox Header="Auto-Negotation Advertised Speeds" Style="{StaticResource GroupBoxStyle}" 
+				  Visibility="{Binding DataContext.IsANAdvertisedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
+				  Margin="0 0 0 5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
 
-                <!--Downspeed-->
-                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertised1GSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="100BASE-TX HD" DisplayName="100BASE-TX HD" GroupName="Down Speed" OrderIndex="3">
-                    <telerik:PropertyDefinition.EditorTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsDownSpeed_100BASE_TX_HD}"/>
-                        </DataTemplate>
-                    </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertisedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="10BASE-T HD" DisplayName="10BASE-T HD" GroupName="Down Speed" OrderIndex="3">
-                    <telerik:PropertyDefinition.EditorTemplate>
-                        <DataTemplate>
-                            <CheckBox IsChecked="{Binding IsDownSpeed_10BASE_T_HD}"/>
-                        </DataTemplate>
-                    </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
-                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsANAdvertisedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="Downspeed Retries" DisplayName="Downspeed Retries" GroupName="Down Speed" OrderIndex="3">
-                    <telerik:PropertyDefinition.EditorTemplate>
-                        <DataTemplate>
-                            <telerik:RadNumericUpDown Value="{Binding SetDownSpeedRetries}" Minimum="0" Maximum="7" SmallChange="1"  NumberDecimalDigits="0" IsEditable="False" AutoReverse="True"/>
-                        </DataTemplate>
-                    </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
-                
-                <!--ForcedSpeed-->
-                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsForcedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="Forced Speed" DisplayName="Forced Speed" GroupName="Forced Speed" OrderIndex="1">
-                    <telerik:PropertyDefinition.EditorTemplate>
-                        <DataTemplate>
-                            <telerik:RadComboBox ItemsSource="{Binding ForcedSpeeds}" SelectedItem="{Binding SelectedForcedSpeed}"/>
-                        </DataTemplate>
-                    </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Advertise 1000BASE-T FD: "/>
+                            <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsAdvertise_1000BASE_T_FD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <!--MDIX-->
-                <telerik:PropertyDefinition Visibility="{Binding DataContext.IsForcedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}" Description="MDIX" DisplayName="MDIX" GroupName="MDIX" OrderIndex="4">
-                    <telerik:PropertyDefinition.EditorTemplate>
-                        <DataTemplate>
-                            <telerik:RadComboBox ItemsSource="{Binding MDIXs}"
-                                 SelectedItem="{Binding SelectedMDIX}"/>
-                        </DataTemplate>
-                    </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Advertise 1000BASE-T HD: "/>
+                            <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsAdvertise_1000BASE_T_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                <!--Energy Detect Powerdown Mode-->
-                <telerik:PropertyDefinition Description="Energy Detect Power-down Mode" DisplayName="Energy Detect Power-down Mode" GroupName="Energy Detect Power-down Mode" OrderIndex="5">
-                    <telerik:PropertyDefinition.EditorTemplate>
-                        <DataTemplate>
-                            <telerik:RadComboBox ItemsSource="{Binding EnergyDetectPowerDownModes}"
-                                SelectedItem="{Binding SelectedEnergyDetectPowerDownMode}"/>
-                        </DataTemplate>
-                    </telerik:PropertyDefinition.EditorTemplate>
-                </telerik:PropertyDefinition>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Advertise 100BASE-TX FD: "/>
+                            <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsAdvertise_100BASE_TX_FD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-            </telerik:RadPropertyGrid.PropertyDefinitions>
-        </telerik:RadPropertyGrid>
-        <!--<telerik:RadComboBox ItemsSource="{Binding SpeedModes}" SelectedItem="{Binding SelectedSpeedMode}"/>-->
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Advertise 100BASE-TX HD: "/>
+                            <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding IsAdvertise_100BASE_TX_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Advertise 10BASE-T FD: "/>
+                            <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding IsAdvertise_10BASE_T_FD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="Advertise 10BASE-T HD: "/>
+                            <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding IsAdvertise_10BASE_T_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+
+                <Grid>
+                    <GroupBox Header="EEE Advertisement" Style="{StaticResource GroupBoxStyle}"
+				  Visibility="{Binding DataContext.IsANAdvertised1GSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
+				  Margin="0 0 0 5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Advertise EEE 1000BASE-T: "/>
+                            <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsAdvertise_EEE_1000BASE_T, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Advertise EEE 100BASE-TX: "/>
+                            <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsAdvertise_EEE_100BASE_TX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+
+                <Grid>
+                    <GroupBox Header="Down Speed" Style="{StaticResource GroupBoxStyle}"
+				  Visibility="{Binding DataContext.IsANAdvertised1GSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
+				  Margin="0 0 0 5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="100BASE-TX HD: "/>
+                            <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsDownSpeed_100BASE_TX_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="10BASE-T HD: "/>
+                            <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsDownSpeed_10BASE_T_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Downspeed Retries: "/>
+                            <telerik:RadNumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding SetDownSpeedRetries}" Minimum="0" Maximum="7" SmallChange="1"  NumberDecimalDigits="0" IsEditable="False" AutoReverse="True"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+
+                <Grid>
+                    <GroupBox Header="Forced Speed" Style="{StaticResource GroupBoxStyle}" 
+				  Visibility="{Binding DataContext.IsForcedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
+				  Margin="0 0 0 5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Forced Speed: "/>
+                            <telerik:RadComboBox Grid.Column="1" ItemsSource="{Binding ForcedSpeeds}" SelectedItem="{Binding SelectedForcedSpeed}"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+
+                <Grid>
+                    <GroupBox Header="MDIX" Style="{StaticResource GroupBoxStyle}"
+				  Visibility="{Binding DataContext.IsForcedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
+				  Margin="0 0 0 5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="MDIX: "/>
+                            <telerik:RadComboBox Grid.Column="1" ItemsSource="{Binding MDIXs}" SelectedItem="{Binding SelectedMDIX}"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+
+                <Grid>
+                    <GroupBox Header="Energy Detect Power-down Mode" Style="{StaticResource GroupBoxStyle}"
+				  Margin="0 0 0 5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Energy Detect Power-down Mode: "/>
+                            <telerik:RadComboBox Grid.Column="1" ItemsSource="{Binding EnergyDetectPowerDownModes}" SelectedItem="{Binding SelectedEnergyDetectPowerDownMode}"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+
     </Grid>
 </UserControl>
