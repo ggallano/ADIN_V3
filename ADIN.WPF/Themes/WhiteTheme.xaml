@@ -42,22 +42,13 @@
     <SolidColorBrush x:Key="LogActivity.Title.Background" Color="{StaticResource ADIMidBlue}"/>
 
     <!--Extra Command Buttons-->
-    <SolidColorBrush x:Key="Reset.Background" Color="{StaticResource RedColor3}"/>
-    <SolidColorBrush x:Key="Reset.Foreground" Color="White"/>
+    <!--<SolidColorBrush x:Key="Reset.Background" Color="{StaticResource RedColor3}"/>
+    <SolidColorBrush x:Key="Reset.Foreground" Color="White"/>-->
     <SolidColorBrush x:Key="Reset.IsMouseOver" Color="{StaticResource LightGrayColor2}"/>
-
-    <!--Base Button Colors-->
-    <SolidColorBrush x:Key="Button.Background" Color="{StaticResource Gray02}"/>
-    <SolidColorBrush x:Key="Button.BorderBrush" Color="Black"/>
-    <SolidColorBrush x:Key="Button.Foreground" Color="Black"/>
 
     <SolidColorBrush x:Key="Button.IsEnable.Background" Color="Transparent"/>
     <SolidColorBrush x:Key="Button.IsEnable.BorderBrush" Color="{StaticResource DarkerGray}"/>
     <SolidColorBrush x:Key="Button.IsEnable.Foreground" Color="{StaticResource DarkerGray}"/>
-
-    <SolidColorBrush x:Key="Button.IsMouseOver.Background" Color="{StaticResource DarkerGray}"/>
-    <SolidColorBrush x:Key="Button.IsMouseOver.Foreground" Color="White"/>
-    <SolidColorBrush x:Key="Button.IsMouseOver.BorderBrush" Color="White"/>
 
     <SolidColorBrush x:Key="Button.IsChecked.Background" Color="{StaticResource DarkerGray}"/>
     <SolidColorBrush x:Key="Button.IsChecked.Foreground" Color="{StaticResource JohsonColor}"/>
@@ -343,7 +334,7 @@
     <SolidColorBrush x:Key="hmc.color.dataviz.background" Color="{Binding Source={StaticResource hmc.color.gray.white}, Path=Color}"/>
 <!--Data Visualization End-->
 
-    <!--Button Color-->
+<!--Button Color-->
     <SolidColorBrush x:Key="button.primary.background.idle" Color="{Binding Source={StaticResource hmc.color.interactive.primary.idle}, Path=Color}"/>
     <SolidColorBrush x:Key="button.primary.content.idle" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
 
@@ -352,10 +343,28 @@
     <SolidColorBrush x:Key="button.secondary.borderbrush" Color="{Binding Source={StaticResource hmc.color.interactive.primary.idle}, Path=Color}"/>
     <SolidColorBrush x:Key="button.secondary.hover.foreground" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
     <SolidColorBrush x:Key="button.secondary.hover.background" Color="{Binding Source={StaticResource hmc.color.interactive.secondary.pressed}, Path=Color}"/>
+    <SolidColorBrush x:Key="button.secondary.hover.borderbrush" Color="{Binding Source={StaticResource hmc.color.interactive.secondary.pressed}, Path=Color}"/>
+
+    <SolidColorBrush x:Key="button.secondary.isChecked.foreground" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    <SolidColorBrush x:Key="button.secondary.isChecked.background" Color="{Binding Source={StaticResource hmc.color.interactive.secondary.pressed}, Path=Color}"/>
+    <SolidColorBrush x:Key="button.secondary.isChecked.borderbrush" Color="{Binding Source={StaticResource hmc.color.interactive.secondary.pressed}, Path=Color}"/>
+
+    <SolidColorBrush x:Key="button.secondary.isEnabled.foreground" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    <SolidColorBrush x:Key="button.secondary.isEnabled.background" Color="{Binding Source={StaticResource hmc.color.interactive.secondary.pressed}, Path=Color}"/>
+    <SolidColorBrush x:Key="button.secondary.isEnabled.borderbrush" Color="{Binding Source={StaticResource hmc.color.interactive.primary.idle}, Path=Color}"/>
+
+    <SolidColorBrush x:Key="button.secondary.isPressed.foreground" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+    <SolidColorBrush x:Key="button.secondary.isPressed.background" Color="{Binding Source={StaticResource hmc.color.interactive.secondary.pressed}, Path=Color}"/>
+    <SolidColorBrush x:Key="button.secondary.isPressed.borderbrush" Color="{Binding Source={StaticResource hmc.color.interactive.primary.idle}, Path=Color}"/>
+
 
     <SolidColorBrush x:Key="buttonReset.background" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
     <SolidColorBrush x:Key="buttonReset.foreground" Color="{Binding Source={StaticResource hmc.color.notification.danger.default.text}, Path=Color}"/>
     <SolidColorBrush x:Key="buttonReset.borderbrush" Color="{Binding Source={StaticResource hmc.color.notification.danger.default.text}, Path=Color}"/>
     <SolidColorBrush x:Key="buttonReset.hover.foreground" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.text}, Path=Color}"/>
     <SolidColorBrush x:Key="buttonReset.hover.background" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.background}, Path=Color}"/>
+    <SolidColorBrush x:Key="buttonReset.hover.borderbrush" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.background}, Path=Color}"/>
+    <SolidColorBrush x:Key="buttonReset.isPressed.foreground" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.text}, Path=Color}"/>
+    <SolidColorBrush x:Key="buttonReset.isPressed.background" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.background}, Path=Color}"/>
+    <SolidColorBrush x:Key="buttonReset.isPressed.borderbrush" Color="{Binding Source={StaticResource hmc.color.notification.danger.strong.background}, Path=Color}"/>
 </ResourceDictionary>

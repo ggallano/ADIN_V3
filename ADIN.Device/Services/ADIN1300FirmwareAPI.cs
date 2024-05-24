@@ -24,6 +24,9 @@ namespace ADIN.Device.Services
         private ObservableCollection<RegisterModel> _registers;
         private IRegisterService _registerService;
         private object _thisLock = new object();
+        private string command = string.Empty;
+        private string command2 = string.Empty;
+        private string response = string.Empty;
 
         public ADIN1300FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
         {
@@ -272,11 +275,6 @@ namespace ADIN.Device.Services
                 return response;
             }
         }
-
-        private string response = string.Empty;
-        private string command = string.Empty;
-        private string command2 = string.Empty;
-
         public string MdioWriteCl22(uint regAddress, uint data)
         {
             response = string.Empty;

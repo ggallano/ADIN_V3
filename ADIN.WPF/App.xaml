@@ -5,12 +5,27 @@
              xmlns:local="clr-namespace:ADIN.WPF">
     <Application.Resources>
         <ResourceDictionary>
+            <!--Style that should be applied to all Windows-->
+            <!--<Style x:Key="Win_style" TargetType="{x:Type Window}">
+                <Setter Property="FontFamily" Value="Barlow" />
+            </Style>-->
+
+            <!-- implicit window styles, one for each window -->
+            <!--<Style TargetType="{x:Type local:MainWindow}" BasedOn="{StaticResource Win_style}" />-->
+
+            <!--Style for all Pages - works fine-->
+            <!--<Style x:Key="PageFont" TargetType="{x:Type Page}">
+                <Setter Property="FontFamily" Value="Barlow" />
+                <Setter Property="Foreground" Value="Black"/>
+            </Style>-->
+            
             <telerik:String x:Key="Telerik.Windows.Controls.Key">Analog Devices ADIN1300-Eval</telerik:String>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/WhiteTheme.xaml"/>
                 <ResourceDictionary Source="Themes/ButtonStyle.xaml"/>
                 <ResourceDictionary Source="Themes/TextBlockStyle.xaml"/>
                 <ResourceDictionary Source="Themes/CustomControlStyle/GridSplitterStyle.xaml"/>
+                <ResourceDictionary Source="Themes/TabControlStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

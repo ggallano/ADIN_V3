@@ -21,19 +21,19 @@ namespace ADIN.Device.Models
         //private ObservableCollection<RegisterModel> registers;
         private uint _phyAddress;
 
-        public ADIN1300Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock, out uint phyAddress)
+        public ADIN1300Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
-            _phyAddress = 0;
-            phyAddress = _phyAddress;
+            PhyAddress = 0;
+            DeviceType = BoardType.ADIN1300;
 
             //Retrieve Registers
             Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1300.json"));
 
             DeviceStatus = new DeviceStatusADIN1300();
 
-            FirmwareAPI = new ADIN1300FirmwareAPI(_ftdiService, Registers, phyAddress, mainLock);
+            FirmwareAPI = new ADIN1300FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
 
             LinkProperties = new LinkPropertiesADIN1300();
             ClockPinControl = new ClockPinControlADIN1300();

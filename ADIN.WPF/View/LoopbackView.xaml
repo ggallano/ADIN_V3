@@ -16,7 +16,7 @@
     </UserControl.Resources>
     <Grid Margin="5">
         <StackPanel Orientation="Vertical">
-            <WrapPanel HorizontalAlignment='Left' Margin='10'  Orientation='Horizontal' ItemHeight='40' ItemWidth='180'>
+            <WrapPanel HorizontalAlignment='Left'  Orientation='Horizontal'>
 
                 <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="None" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.OFF}" IsChecked="True"/>
                 <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="All Digital" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.Digital}"/>
@@ -24,14 +24,14 @@
                 <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="External Cable" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.ExtCable}"/>
                 <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="Remote" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.MacRemote}"/>
 
-                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Margin="10 0 0 0">
+                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Margin="10 3 0 0">
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding IsRxSuppression}"/>
-                        <TextBlock Text="Rx Suppression" Style="{StaticResource TextBlockSuppressionStyle}"/>
+                        <CheckBox IsChecked="{Binding IsRxSuppression}" Content="Rx Suppression"/>
+                        <!--<TextBlock Text="Rx Suppression" Style="{StaticResource TextBlockSuppressionStyle}"/>-->
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding IsTxSuppression}"/>
-                        <TextBlock Text="Tx Suppression" Style="{StaticResource TextBlockSuppressionStyle}"/>
+                        <CheckBox IsChecked="{Binding IsTxSuppression}" Content="Tx Suppression"/>
+                        <!--<TextBlock Text="Tx Suppression" Style="{StaticResource TextBlockSuppressionStyle}"/>-->
                     </StackPanel>
                 </StackPanel>
 
