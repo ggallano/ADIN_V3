@@ -36,6 +36,7 @@
         <Setter Property="Background" Value="White"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="FontFamily" Value="Barlow"/>
+        <Setter Property="FontSize" Value="14"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
@@ -45,8 +46,7 @@
                                 <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"  BorderThickness="{TemplateBinding BorderThickness}"/>
                             </Grid>
                             <Border Name="Bar" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
-                                <ContentPresenter Name="headerName" TextBlock.FontSize="14" TextBlock.FontWeight="Medium" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-                                </ContentPresenter>
+                                <ContentPresenter Name="headerName" TextBlock.FontSize="{TemplateBinding FontSize}" TextBlock.FontWeight="Medium" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Border>
                         </Grid>
                     </Border>
@@ -57,22 +57,14 @@
                             <Setter TargetName="headerName" Property="TextBlock.FontWeight" Value="Bold"/>
                             <Setter TargetName="headerName" Property="TextBlock.Foreground" Value="{StaticResource hmc.color.interactive.primary.idle}"/>
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <!--<Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Bar" Property="BorderThickness" Value="0 0 0 3"/>
                             <Setter TargetName="Bar" Property="BorderBrush" Value="{StaticResource hmc.color.interactive.primary.hover}"/>
-                            <!--<Setter TargetName="headerName" Property="TextBlock.Foreground" Value="{StaticResource hmc.color.interactive.primary.hover}"/>-->
-                        </Trigger>
+                            <Setter TargetName="headerName" Property="TextBlock.Foreground" Value="{StaticResource hmc.color.interactive.primary.hover}"/>
+                        </Trigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <!--<Style.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="BorderThickness" Value="0 0 0 3"/>
-                <Setter Property="BorderBrush" Value="{StaticResource hmc.color.interactive.primary.idle}"/>
-                --><!--<Setter Property="FontWeight" Value="Bold"/>--><!--
-                <Setter Property="Foreground" Value="{StaticResource hmc.color.interactive.primary.idle}"/>
-            </Trigger>
-        </Style.Triggers>-->
     </Style>
 </ResourceDictionary>

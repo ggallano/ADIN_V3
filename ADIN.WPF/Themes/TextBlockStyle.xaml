@@ -17,20 +17,51 @@
     </Style>
 
     <Style x:Key="TextBlockstyle" TargetType="{x:Type TextBlock}">
-        <Setter Property="Margin" Value="0 5 0 0"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontSize" Value="12px"/>
+        <Setter Property="FontFamily" Value="Barlow"/>
     </Style>
 
     <Style x:Key="ValueStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockstyle}">
         <Setter Property="FontSize" Value="16"/>
     </Style>
-    
+
+    <Style x:Key="LabelStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockstyle}">
+        <!--<Setter Property="Margin" Value="2 2 8 2"/>-->
+        <!--<Setter Property="FontWeight" Value="SemiBold"/>-->
+    </Style>
+
     <Style x:Key="ComboBoxStyle" TargetType="{x:Type ComboBox}">
         <Setter Property="Margin" Value="5 5"/>
     </Style>
 
     <Style x:Key="TelerikComboBoxStyle" TargetType="{x:Type telerik:RadComboBox}">
         <Setter Property="Margin" Value="5 5"/>
+    </Style>
+
+    <Style x:Key="GroupBoxStyle" TargetType="{x:Type GroupBox}">
+        <Setter Property="FontFamily" Value="Barlow"/>
+        <Setter Property="FontSize" Value="14"/>
+        <!--<Setter Property="Margin" Value="0 5"/>-->
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="FontFamily" Value="Barlow"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GroupBox">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0" BorderBrush="{StaticResource hmc.color.layout.divider.default}" BorderThickness="1 1 1 1" CornerRadius="4 4 0 0" >
+                            <ContentPresenter Margin="7" ContentSource="Header" TextBlock.FontWeight="Bold" RecognizesAccessKey="True" />
+                        </Border>
+                        <Border Grid.Row="1" BorderBrush="{StaticResource hmc.color.layout.divider.default}" BorderThickness="1 0 1 1" CornerRadius="0,0,4,4" >
+                            <ContentPresenter Margin="7" />
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <!--<Setter Property="GroupBox.FontWeight" Value="Bold"/>-->
     </Style>
 </ResourceDictionary>

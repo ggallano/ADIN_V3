@@ -9,7 +9,7 @@
              xmlns:viewmodel="clr-namespace:ADIN.WPF.ViewModel"
              xmlns:view="clr-namespace:ADIN.WPF.View"
              mc:Ignorable="d" 
-             d:DesignHeight="820" d:DesignWidth="1024">
+             d:DesignHeight="820" d:DesignWidth="1200">
     <UserControl.Resources>
         <ResourceDictionary>
             
@@ -18,7 +18,7 @@
     <DockPanel>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>

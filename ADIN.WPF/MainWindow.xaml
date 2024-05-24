@@ -8,7 +8,7 @@
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         xmlns:components="clr-namespace:ADIN.WPF.Components"
         mc:Ignorable="d"
-        Height="900" Width="1150">
+        Height="900" Width="1300">
     <Window.Resources>
         <ResourceDictionary>
             <telerik:Windows8Colors x:Key="Windows8Colors" />

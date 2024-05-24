@@ -26,6 +26,7 @@
                 <ResourceDictionary Source="Themes/TextBlockStyle.xaml"/>
                 <ResourceDictionary Source="Themes/CustomControlStyle/GridSplitterStyle.xaml"/>
                 <ResourceDictionary Source="Themes/TabControlStyle.xaml"/>
+                <ResourceDictionary Source="Themes/CheckBoxStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

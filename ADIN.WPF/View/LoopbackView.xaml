@@ -25,13 +25,15 @@
                 <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="Remote" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.MacRemote}"/>
 
                 <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Margin="10 3 0 0">
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding IsRxSuppression}" Content="Rx Suppression"/>
-                        <!--<TextBlock Text="Rx Suppression" Style="{StaticResource TextBlockSuppressionStyle}"/>-->
+                    <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                        <CheckBox IsChecked="{Binding IsRxSuppression}" Content="Rx Suppression" Style="{StaticResource CheckBoxStyle}"/>
+                        <!--<CheckBox IsChecked="{Binding IsRxSuppression}"/>
+                        <TextBlock Text="Rx Suppression" Style="{StaticResource TextBlockstyle}"/>-->
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding IsTxSuppression}" Content="Tx Suppression"/>
-                        <!--<TextBlock Text="Tx Suppression" Style="{StaticResource TextBlockSuppressionStyle}"/>-->
+                        <CheckBox IsChecked="{Binding IsTxSuppression}" Content="Tx Suppression" Style="{StaticResource CheckBoxStyle}"/>
+                        <!--<CheckBox IsChecked="{Binding IsTxSuppression}"/>
+                        <TextBlock Text="Tx Suppression" Style="{StaticResource TextBlockstyle}"/>-->
                     </StackPanel>
                 </StackPanel>
 
