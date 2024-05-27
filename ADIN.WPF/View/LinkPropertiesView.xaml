@@ -53,10 +53,10 @@
                             </Grid.RowDefinitions>
 
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Advertise 1000BASE-T FD: "/>
-                            <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsAdvertise_1000BASE_T_FD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsAdvertise_1000BASE_T_FD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsANAdvertised1GSpeedVisible}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Advertise 1000BASE-T HD: "/>
-                            <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsAdvertise_1000BASE_T_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsAdvertise_1000BASE_T_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsANAdvertised1GSpeedVisible}"/>
 
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Advertise 100BASE-TX FD: "/>
                             <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsAdvertise_100BASE_TX_FD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -75,7 +75,7 @@
 
                 <Grid>
                     <GroupBox Header="EEE Advertisement" Style="{StaticResource GroupBoxStyle}"
-				  Visibility="{Binding DataContext.IsANAdvertised1GSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
+				  Visibility="{Binding DataContext.IsANAdvertisedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
 				  Margin="0 0 0 5">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -87,7 +87,7 @@
                                 <RowDefinition Height="20"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Advertise EEE 1000BASE-T: "/>
-                            <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsAdvertise_EEE_1000BASE_T, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsAdvertise_EEE_1000BASE_T, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsANAdvertised1GSpeedVisible}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Advertise EEE 100BASE-TX: "/>
                             <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsAdvertise_EEE_100BASE_TX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -97,7 +97,7 @@
 
                 <Grid>
                     <GroupBox Header="Down Speed" Style="{StaticResource GroupBoxStyle}"
-				  Visibility="{Binding DataContext.IsANAdvertised1GSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
+				  Visibility="{Binding DataContext.IsANAdvertisedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
 				  Margin="0 0 0 5">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -110,7 +110,7 @@
                                 <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="100BASE-TX HD: "/>
-                            <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsDownSpeed_100BASE_TX_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsDownSpeed_100BASE_TX_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsANAdvertised1GSpeedVisible}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="10BASE-T HD: "/>
                             <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsDownSpeed_10BASE_T_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
