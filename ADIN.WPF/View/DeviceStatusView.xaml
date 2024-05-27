@@ -9,70 +9,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="300">
     <UserControl.Resources>
-        <ResourceDictionary>
-            <converter:LinkStateForegroundConverter x:Key="LinkStateForegroundConverter"/>
-            <converter:MSEForegroundConverter x:Key="MSEForegroundConverter"/>
-            <telerik:Windows8Colors x:Key="Windows8Colors" />
-            <SolidColorBrush x:Key="AccentBrush" Color="{Binding Path=Palette.AccentColor, Source={StaticResource Windows8Colors}}"/>
-            <Style x:Key="BorderSyle" TargetType="{x:Type Border}">
-                <Setter Property="BorderBrush" Value="{StaticResource BorderPrimaryColor}"/>
-                <Setter Property="BorderThickness" Value="1"/>
-                <Setter Property="Margin" Value="5"/>
-                <Setter Property="CornerRadius" Value="3"/>
-                <Setter Property="Padding" Value="5"/>
-            </Style>
-
-            <Style x:Key="DeviceBoardNameStyle" TargetType="{x:Type TextBlock}">
-                <Setter Property="FontWeight" Value="ExtraBlack"/>
-                <Setter Property="FontSize" Value="20"/>
-                <Setter Property="HorizontalAlignment" Value="Center"/>
-                <Setter Property="Foreground" Value="{StaticResource Foreground.Color}"/>
-            </Style>
-            <Style x:Key="DeviceSerialNameStyle" TargetType="{x:Type TextBlock}">
-                <Setter Property="FontWeight" Value="DemiBold"/>
-                <Setter Property="FontSize" Value="16"/>
-                <Setter Property="HorizontalAlignment" Value="Center"/>
-                <Setter Property="Foreground" Value="{StaticResource Foreground.Color}"/>
-            </Style>
-            <Style x:Key="BaseLabelStyle" TargetType="{x:Type TextBlock}">
-                <Setter Property="FontSize" Value="13"/>
-                <Setter Property="HorizontalAlignment" Value="Center"/>
-                <Setter Property="VerticalAlignment" Value="Center"/>
-
-            </Style>
-
-            <Style x:Key="LabelStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseLabelStyle}">
-                <Setter Property="Foreground" Value="#FF606060" />
-            </Style>
-
-            <Style x:Key="ValueStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseLabelStyle}">
-                <Setter Property="FontSize" Value="18"/>
-                <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
-                <Setter Property="FontFamily" Value="Segoe UI Light"/>
-            </Style>
-        </ResourceDictionary>
+        <converter:LinkStateForegroundConverter x:Key="LinkStateForegroundConverter"/>
+        <converter:MSEForegroundConverter x:Key="MSEForegroundConverter"/>
     </UserControl.Resources>
     <Grid>
         <StackPanel>
-            <TextBlock Text="{Binding BoardName}" Style="{StaticResource DeviceBoardNameStyle}"/>
-            <TextBlock Text="{Binding SerialNumber}" Style="{StaticResource DeviceSerialNameStyle}"/>
+            <TextBlock Text="{Binding BoardName}" Style="{StaticResource TextBlockHeader1Style}"/>
+            <TextBlock Text="{Binding SerialNumber}" Style="{StaticResource TextBlockHeader2Style}"/>
 
             <Border Style="{StaticResource BorderSyle}">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Device Type: " Style="{StaticResource LabelStyle}"/>
-                    <TextBlock Text="{Binding DeviceType}" Style="{StaticResource ValueStyle}"/>
+                    <TextBlock Text="Device Type: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                    <TextBlock Text="{Binding DeviceType}" 
+                               Style="{StaticResource DeviceStatusValueStyle}"/>
                 </StackPanel>
             </Border>
             <Border Style="{StaticResource BorderSyle}">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Phy Address: " Style="{StaticResource LabelStyle}"/>
-                    <TextBlock Text="{Binding PhyAddress}" Style="{StaticResource ValueStyle}"/>
+                    <TextBlock Text="Phy Address: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                    <TextBlock Text="{Binding PhyAddress}" 
+                               Style="{StaticResource DeviceStatusValueStyle}"/>
                 </StackPanel>
             </Border>
             <Border Style="{StaticResource BorderSyle}">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Link Status: " Style="{StaticResource LabelStyle}"/>
-                    <TextBlock Text="{Binding LinkStatus}" Foreground="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource LinkStateForegroundConverter}}" Style="{StaticResource ValueStyle}"/>
+                    <TextBlock Text="Link Status: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                    <TextBlock Text="{Binding LinkStatus}" 
+                               Foreground="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource LinkStateForegroundConverter}}" 
+                               Style="{StaticResource DeviceStatusValueStyle}"/>
                 </StackPanel>
             </Border>
 
