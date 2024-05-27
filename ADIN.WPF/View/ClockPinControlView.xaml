@@ -15,7 +15,7 @@
     <Grid Margin="5">
         <StackPanel Orientation="Vertical">
 
-            <GroupBox Header='GP_CLK Pin Control' >
+            <GroupBox Header='GP_CLK Pin Control' Style="{StaticResource GroupBoxStyle}">
                 <StackPanel>
                     <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Margin='10' >Control the clock output on the GPCLK pin.</TextBlock>
                     <WrapPanel HorizontalAlignment='Left' Orientation='Horizontal'>
