@@ -14,10 +14,11 @@
     <DockPanel>
         <Border DockPanel.Dock="Top" CornerRadius="5,5,0,0" BorderBrush="Transparent" Background="{StaticResource LogActivity.Title.Background}">
             <DockPanel>
-                <TextBlock VerticalAlignment="Center" Foreground="WhiteSmoke" FontWeight="DemiBold" FontSize="14" Text="Activity Log" Padding="5"/>
+                <TextBlock Text="Activity Log" Style="{StaticResource TextBlockHeaderStyle}" Margin="5"/>
             </DockPanel>
         </Border>
-        <ListBox Foreground="Gray" Background="Transparent" ItemsSource="{Binding LogMessages}" SelectionMode='Extended' >
+        <Border CornerRadius="0 0 4 4" BorderThickness="1 0 1 1" BorderBrush="{StaticResource hmc.color.layout.divider.default}">
+        <ListBox Foreground="Gray" Background="Transparent" ItemsSource="{Binding LogMessages}" SelectionMode='Extended' BorderThickness="0">
             <telerik:RadContextMenu.ContextMenu>
                 <telerik:RadContextMenu>
                     <telerik:RadMenuItem Command="{Binding LogWindowClearCommand}" Header="Clear" />
@@ -27,9 +28,24 @@
             </telerik:RadContextMenu.ContextMenu>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock x:Name="Logs" Text="{Binding}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}"/>
+                    <TextBlock x:Name="Logs" Text="{Binding}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}" Style="{StaticResource TextBlockstyle}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <!--<telerik:RadListBox Foreground="Gray" Background="Transparent" ItemsSource="{Binding LogMessages}" SelectionMode='Extended' BorderThickness="1">
+            <telerik:RadContextMenu.ContextMenu>
+                <telerik:RadContextMenu>
+                    <telerik:RadMenuItem Command="{Binding LogWindowClearCommand}" Header="Clear" />
+                    <telerik:RadMenuItem IsSeparator="True" />
+                    <telerik:RadMenuItem Command="{Binding LogWindowSaveCommand}" Header="Save As ..." />
+                </telerik:RadContextMenu>
+            </telerik:RadContextMenu.ContextMenu>
+            <telerik:RadListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock x:Name="Logs" Text="{Binding}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}" Style="{StaticResource TextBlockstyle}"/>
+                </DataTemplate>
+            </telerik:RadListBox.ItemTemplate>
+        </telerik:RadListBox>-->
+        </Border>
     </DockPanel>
 </UserControl>

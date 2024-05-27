@@ -33,13 +33,6 @@
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                <!--<ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="TextBlock.FontWeight">
-                            <Setter.Value></Setter.Value>
-                        </Setter>
-                    </Style>
-                </ListView.ItemContainerStyle>-->
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Style.Triggers>
