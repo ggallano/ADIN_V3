@@ -28,6 +28,7 @@
                 <ResourceDictionary Source="Themes/TabControlStyle.xaml"/>
                 <ResourceDictionary Source="Themes/CheckBoxStyle.xaml"/>
                 <ResourceDictionary Source="Themes/PropertyGridStyle.xaml"/>
+                <ResourceDictionary Source="Themes/ScrollBarStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
