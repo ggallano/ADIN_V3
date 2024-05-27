@@ -7,7 +7,7 @@
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              xmlns:converters="clr-namespace:ADIN.WPF.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="800" d:DesignWidth="800">
     <UserControl.Resources>
         <FrameworkElement x:Key="ProxyElement" DataContext="{Binding}"/>
         <telerik:BooleanToVisibilityConverter x:Key="booleanVisibilityConverter"/>
@@ -28,8 +28,8 @@
                                 <ColumnDefinition Width="220"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Speed Mode: "/>
-                            <telerik:RadComboBox Grid.Column="1" ItemsSource="{Binding SpeedModes}" SelectedItem="{Binding SelectedSpeedMode}"/>
+                            <TextBlock Grid.Column="0" Text="Speed Mode: " Style="{StaticResource TextBlockstyle}"/>
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding SpeedModes}" SelectedItem="{Binding SelectedSpeedMode}" Style="{StaticResource ComboBoxFlatStyle}"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -52,22 +52,22 @@
                                 <RowDefinition Height="20"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Advertise 1000BASE-T FD: "/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Advertise 1000BASE-T FD: " Style="{StaticResource TextBlockstyle}"/>
                             <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsAdvertise_1000BASE_T_FD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsANAdvertised1GSpeedVisible}"/>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Advertise 1000BASE-T HD: "/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Advertise 1000BASE-T HD: " Style="{StaticResource TextBlockstyle}"/>
                             <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsAdvertise_1000BASE_T_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsANAdvertised1GSpeedVisible}"/>
 
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Advertise 100BASE-TX FD: "/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Advertise 100BASE-TX FD: " Style="{StaticResource TextBlockstyle}"/>
                             <CheckBox Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsAdvertise_100BASE_TX_FD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Advertise 100BASE-TX HD: "/>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Advertise 100BASE-TX HD: " Style="{StaticResource TextBlockstyle}"/>
                             <CheckBox Grid.Row="3" Grid.Column="1" IsChecked="{Binding IsAdvertise_100BASE_TX_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Advertise 10BASE-T FD: "/>
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Advertise 10BASE-T FD: " Style="{StaticResource TextBlockstyle}"/>
                             <CheckBox Grid.Row="4" Grid.Column="1" IsChecked="{Binding IsAdvertise_10BASE_T_FD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <TextBlock Grid.Row="5" Grid.Column="0" Text="Advertise 10BASE-T HD: "/>
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="Advertise 10BASE-T HD: " Style="{StaticResource TextBlockstyle}"/>
                             <CheckBox Grid.Row="5" Grid.Column="1" IsChecked="{Binding IsAdvertise_10BASE_T_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </GroupBox>
@@ -86,10 +86,10 @@
                                 <RowDefinition Height="20"/>
                                 <RowDefinition Height="20"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Advertise EEE 1000BASE-T: "/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Advertise EEE 1000BASE-T: " Style="{StaticResource TextBlockstyle}"/>
                             <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsAdvertise_EEE_1000BASE_T, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsANAdvertised1GSpeedVisible}"/>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Advertise EEE 100BASE-TX: "/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Advertise EEE 100BASE-TX: " Style="{StaticResource TextBlockstyle}"/>
                             <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsAdvertise_EEE_100BASE_TX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </GroupBox>
@@ -109,13 +109,13 @@
                                 <RowDefinition Height="20"/>
                                 <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Grid.Column="0" Text="100BASE-TX HD: "/>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="100BASE-TX HD: " Style="{StaticResource TextBlockstyle}"/>
                             <CheckBox Grid.Row="0" Grid.Column="1" IsChecked="{Binding IsDownSpeed_100BASE_TX_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsANAdvertised1GSpeedVisible}"/>
 
-                            <TextBlock Grid.Row="1" Grid.Column="0" Text="10BASE-T HD: "/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="10BASE-T HD: " Style="{StaticResource TextBlockstyle}"/>
                             <CheckBox Grid.Row="1" Grid.Column="1" IsChecked="{Binding IsDownSpeed_10BASE_T_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Downspeed Retries: "/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Downspeed Retries: " Style="{StaticResource TextBlockstyle}"/>
                             <telerik:RadNumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding SetDownSpeedRetries}" Minimum="0" Maximum="7" SmallChange="1"  NumberDecimalDigits="0" IsEditable="False" AutoReverse="True"/>
                         </Grid>
                     </GroupBox>
@@ -130,8 +130,8 @@
                                 <ColumnDefinition Width="220"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Forced Speed: "/>
-                            <telerik:RadComboBox Grid.Column="1" ItemsSource="{Binding ForcedSpeeds}" SelectedItem="{Binding SelectedForcedSpeed}"/>
+                            <TextBlock Grid.Column="0" Text="Forced Speed: " Style="{StaticResource TextBlockstyle}"/>
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding ForcedSpeeds}" SelectedItem="{Binding SelectedForcedSpeed}" Style="{StaticResource ComboBoxFlatStyle}"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -145,22 +145,22 @@
                                 <ColumnDefinition Width="220"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="MDIX: "/>
-                            <telerik:RadComboBox Grid.Column="1" ItemsSource="{Binding MDIXs}" SelectedItem="{Binding SelectedMDIX}"/>
+                            <TextBlock Grid.Column="0" Text="MDIX: " Style="{StaticResource TextBlockstyle}"/>
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding MDIXs}" SelectedItem="{Binding SelectedMDIX}" Style="{StaticResource ComboBoxFlatStyle}"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
 
                 <Grid>
                     <GroupBox Header="Energy Detect Power-down Mode" Style="{StaticResource GroupBoxStyle}"
-				  Margin="0 0 0 5">
+				  Margin="0,0,0,10">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="220"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Energy Detect Power-down Mode: "/>
-                            <telerik:RadComboBox Grid.Column="1" ItemsSource="{Binding EnergyDetectPowerDownModes}" SelectedItem="{Binding SelectedEnergyDetectPowerDownMode}"/>
+                            <TextBlock Grid.Column="0" Text="Energy Detect Power-down Mode: " Style="{StaticResource TextBlockstyle}"/>
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding EnergyDetectPowerDownModes}" SelectedItem="{Binding SelectedEnergyDetectPowerDownMode}" Style="{StaticResource ComboBoxFlatStyle}"/>
                         </Grid>
                     </GroupBox>
                 </Grid>

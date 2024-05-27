@@ -37,6 +37,7 @@
     <Style x:Key="TextBlockstyle" TargetType="{x:Type TextBlock}">
         <Setter Property="FontSize" Value="14px"/>
         <Setter Property="FontFamily" Value="Barlow"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
 
     <Style x:Key="DeviceStatusTextBlockstyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource TextBlockstyle}">
