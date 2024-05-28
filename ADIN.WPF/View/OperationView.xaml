@@ -84,21 +84,6 @@
                             <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />
                             <components:FrameGenCheckerStatusView Grid.Column="2" DataContext="{Binding DeviceStatusVM}"/>
                         </Grid>
-
-                    </TabItem>
-                    <TabItem Header="Register Access" Style="{StaticResource TabItemStyle}">
-                        <local:RegisterListingView DataContext="{Binding RegisterListingVM}"/>
-                    </TabItem>
-                    <TabItem Header="Clock Pin Control" Style="{StaticResource TabItemStyle}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="2*" MinWidth="400"/>
-                                <ColumnDefinition Width="3"/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions>
-                            <local:ClockPinControlView Grid.Column="0" DataContext="{Binding ClockPinControlVM}"/>
-                            <!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />-->
-                        </Grid>
                     </TabItem>
                     <TabItem Header="Test Modes" Style="{StaticResource TabItemStyle}">
                         <Grid>
@@ -109,8 +94,25 @@
                             </Grid.ColumnDefinitions>
                             <local:TestModeView Grid.Column="0" DataContext="{Binding TestModeVM}"/>
                             <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />
+                            <Grid Grid.Column="2">
+                                <components:DeviceStatusView DataContext="{Binding DeviceStatusVM}"/>
+                            </Grid>
                         </Grid>
                     </TabItem>
+                    <TabItem Header="Register Access" Style="{StaticResource TabItemStyle}">
+                        <local:RegisterListingView DataContext="{Binding RegisterListingVM}"/>
+                    </TabItem>
+                    <!--<TabItem Header="Clock Pin Control" Style="{StaticResource TabItemStyle}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" MinWidth="400"/>
+                                <ColumnDefinition Width="3"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <local:ClockPinControlView Grid.Column="0" DataContext="{Binding ClockPinControlVM}"/>
+                            --><!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />--><!--
+                        </Grid>
+                    </TabItem>-->
                 </TabControl>
             </Grid>
             <!--<Grid Grid.Column="1" Grid.Row="1">
