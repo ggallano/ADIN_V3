@@ -23,11 +23,7 @@ namespace ADIN.WPF.ViewModel
             _ftdiService = ftdiService;
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
-
-            LoopbackCmd = new LoopbackCommand(this, _selectedDeviceStore);
         }
-
-        public ICommand LoopbackCmd { get; set; }
 
         public string ImagePath => _loopback?.SelectedLoopback.ImagePath;
 
@@ -59,55 +55,116 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsLoopback_None
         {
-            get { return _loopback.SelectedLoopback.EnumLoopbackType == LoopBackMode.OFF; }
+            get { return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.OFF; }
 
             set
             {
                 if (value)
                 {
-                    _loopback.SelectedLoopback.EnumLoopbackType = LoopBackMode.OFF;
+                    _isTxSuppression = IsTxSuppression;
+                    _isRxSuppression = IsRxSuppression;
+                    _loopback.SelectedLoopback = Loopbacks[0];
+                    _loopback.SelectedLoopback.TxSuppression = _isTxSuppression;
+                    _loopback.SelectedLoopback.RxSuppression = _isRxSuppression;
                     _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.SelectedLoopback);
                 }
                 OnPropertyChanged(nameof(IsLoopback_None));
                 OnPropertyChanged(nameof(IsLoopback_Digital));
+                OnPropertyChanged(nameof(IsLoopback_LineDriver));
+                OnPropertyChanged(nameof(IsLoopback_ExtCable));
+                OnPropertyChanged(nameof(IsLoopback_Remote));
             }
         }
         public bool IsLoopback_Digital
         {
-            get { return _loopback.SelectedLoopback.EnumLoopbackType == LoopBackMode.Digital; }
+            get { return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.Digital; }
 
             set
             {
                 if (value)
                 {
-                    _loopback.SelectedLoopback.EnumLoopbackType = LoopBackMode.Digital;
+                    _isTxSuppression = IsTxSuppression;
+                    _isRxSuppression = IsRxSuppression;
+                    _loopback.SelectedLoopback = Loopbacks[1];
+                    _loopback.SelectedLoopback.TxSuppression = _isTxSuppression;
+                    _loopback.SelectedLoopback.RxSuppression = _isRxSuppression;
                     _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.SelectedLoopback);
                 }
                 OnPropertyChanged(nameof(IsLoopback_None));
                 OnPropertyChanged(nameof(IsLoopback_Digital));
+                OnPropertyChanged(nameof(IsLoopback_LineDriver));
+                OnPropertyChanged(nameof(IsLoopback_ExtCable));
+                OnPropertyChanged(nameof(IsLoopback_Remote));
+            }
+        }
+        public bool IsLoopback_LineDriver
+        {
+            get { return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.LineDriver; }
+
+            set
+            {
+                if (value)
+                {
+                    _isTxSuppression = IsTxSuppression;
+                    _isRxSuppression = IsRxSuppression;
+                    _loopback.SelectedLoopback = Loopbacks[2];
+                    _loopback.SelectedLoopback.TxSuppression = _isTxSuppression;
+                    _loopback.SelectedLoopback.RxSuppression = _isRxSuppression;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.SelectedLoopback);
+                }
+                OnPropertyChanged(nameof(IsLoopback_None));
+                OnPropertyChanged(nameof(IsLoopback_Digital));
+                OnPropertyChanged(nameof(IsLoopback_LineDriver));
+                OnPropertyChanged(nameof(IsLoopback_ExtCable));
+                OnPropertyChanged(nameof(IsLoopback_Remote));
+            }
+        }
+        public bool IsLoopback_ExtCable
+        {
+            get { return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.ExtCable; }
+
+            set
+            {
+                if (value)
+                {
+                    _isTxSuppression = IsTxSuppression;
+                    _isRxSuppression = IsRxSuppression;
+                    _loopback.SelectedLoopback = Loopbacks[3];
+                    _loopback.SelectedLoopback.TxSuppression = _isTxSuppression;
+                    _loopback.SelectedLoopback.RxSuppression = _isRxSuppression;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.SelectedLoopback);
+                }
+                OnPropertyChanged(nameof(IsLoopback_None));
+                OnPropertyChanged(nameof(IsLoopback_Digital));
+                OnPropertyChanged(nameof(IsLoopback_LineDriver));
+                OnPropertyChanged(nameof(IsLoopback_ExtCable));
+                OnPropertyChanged(nameof(IsLoopback_Remote));
+            }
+        }
+        public bool IsLoopback_Remote
+        {
+            get { return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.MacRemote; }
+
+            set
+            {
+                if (value)
+                {
+                    _isTxSuppression = IsTxSuppression;
+                    _isRxSuppression = IsRxSuppression;
+                    _loopback.SelectedLoopback = Loopbacks[4];
+                    _loopback.SelectedLoopback.TxSuppression = _isTxSuppression;
+                    _loopback.SelectedLoopback.RxSuppression = _isRxSuppression;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.SelectedLoopback);
+                }
+                OnPropertyChanged(nameof(IsLoopback_None));
+                OnPropertyChanged(nameof(IsLoopback_Digital));
+                OnPropertyChanged(nameof(IsLoopback_LineDriver));
+                OnPropertyChanged(nameof(IsLoopback_ExtCable));
+                OnPropertyChanged(nameof(IsLoopback_Remote));
             }
         }
 
         public List<LoopbackListingModel> Loopbacks => _loopback?.Loopbacks;
-
-        public LoopbackListingModel SelectedLoopback
-        {
-            set
-            {
-                //if (value != null)
-                //{
-                //    _isTxSuppression = IsTxSuppression;
-                //    _isRxSuppression = IsRxSuppression;
-                //    _loopback.SelectedLoopback = value;
-                //    _loopback.SelectedLoopback.TxSuppression = _isTxSuppression;
-                //    _loopback.SelectedLoopback.RxSuppression = _isRxSuppression;
-                //    _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.SelectedLoopback);
-                //}
-                //OnPropertyChanged(nameof(ImagePath));
-                //OnPropertyChanged(nameof(IsLoopback_None));
-                //OnPropertyChanged(nameof(IsLoopback_Digital));
-            }
-        }
 
         private ILoopback _loopback => _selectedDeviceStore.SelectedDevice?.Loopback;
 
@@ -119,13 +176,15 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
-            OnPropertyChanged(nameof(SelectedLoopback));
             OnPropertyChanged(nameof(Loopbacks));
             OnPropertyChanged(nameof(IsTxSuppression));
             OnPropertyChanged(nameof(IsRxSuppression));
             OnPropertyChanged(nameof(ImagePath));
             OnPropertyChanged(nameof(IsLoopback_None));
             OnPropertyChanged(nameof(IsLoopback_Digital));
+            OnPropertyChanged(nameof(IsLoopback_LineDriver));
+            OnPropertyChanged(nameof(IsLoopback_ExtCable));
+            OnPropertyChanged(nameof(IsLoopback_Remote));
         }
     }
 }

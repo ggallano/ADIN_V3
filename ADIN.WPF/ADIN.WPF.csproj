@@ -133,7 +133,6 @@
     <Compile Include="Commands\AutoNegCommand.cs" />
     <Compile Include="Commands\ClearLogCommand.cs" />
     <Compile Include="Commands\RemoteLoopbackCommand.cs" />
-    <Compile Include="Commands\LoopbackCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\DisableLinkCommand.cs" />
     <Compile Include="Commands\ExecuteFrameCheckerCommand.cs" />
