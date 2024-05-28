@@ -211,8 +211,11 @@ namespace ADIN.WPF.ViewModel
             get { return _linkProperties?.SpeedMode; }
             set
             {
-                _linkProperties.SpeedMode = value;
-                _selectedDeviceStore.SelectedDevice.FwAPI.AdvertisedForcedSpeed(value);
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _linkProperties.SpeedMode = value;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.AdvertisedForcedSpeed(value);
+                }
                 OnPropertyChanged(nameof(SelectedSpeedMode));
                 OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
                 OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
@@ -225,8 +228,11 @@ namespace ADIN.WPF.ViewModel
             get { return _linkProperties?.ForcedSpeed; }
             set
             {
-                _linkProperties.ForcedSpeed = value;
-                _selectedDeviceStore.SelectedDevice.FwAPI.SetForcedSpeed(value);
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _linkProperties.ForcedSpeed = value;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.SetForcedSpeed(value);
+                }
                 OnPropertyChanged(nameof(SelectedForcedSpeed));
             }
         }
@@ -236,8 +242,11 @@ namespace ADIN.WPF.ViewModel
             get { return _linkProperties?.MDIX; }
             set
             {
-                _linkProperties.MDIX = value;
-                _selectedDeviceStore.SelectedDevice.FwAPI.AutoMDIXMode(value);
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _linkProperties.MDIX = value;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.AutoMDIXMode(value);
+                }
                 OnPropertyChanged(nameof(SelectedMDIX));
             }
         }
@@ -247,8 +256,11 @@ namespace ADIN.WPF.ViewModel
             get { return _linkProperties?.EnergyDetectPowerDownMode; }
             set
             {
-                _linkProperties.EnergyDetectPowerDownMode = value;
-                _selectedDeviceStore.SelectedDevice.FwAPI.EnableEnergyDetectPowerDown(value);
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _linkProperties.EnergyDetectPowerDownMode = value;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.EnableEnergyDetectPowerDown(value);
+                }
                 OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
             }
         }

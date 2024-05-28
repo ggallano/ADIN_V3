@@ -61,7 +61,15 @@ namespace ADIN.WPF.ViewModel
 
         public string Generator
         {
-            get { return _generator; }
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    return _generator;
+                }
+                return "-";
+            }
+
             set
             {
                 _generator = value;
@@ -132,7 +140,15 @@ namespace ADIN.WPF.ViewModel
 
         public string MseValue
         {
-            get { return _mseValue; }
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    return _mseValue;
+                }
+                return "-";
+            }
+            
             set
             {
                 _mseValue = value;
@@ -244,6 +260,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(LinkStatus));
             //OnPropertyChanged(nameof(AnStatus));
             //OnPropertyChanged(nameof(MasterSlaveStatus));
+            OnPropertyChanged(nameof(Generator));
             OnPropertyChanged(nameof(MseValue));
             //OnPropertyChanged(nameof(TxLevelStatus));
             OnPropertyChanged(nameof(DeviceType));
