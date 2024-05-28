@@ -57,6 +57,15 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsLoopback_None
+        {
+            get { return _loopback.Loopback.EnumLoopbackType == LoopBackMode.OFF; }
+        }
+        public bool IsLoopback_Digital
+        {
+            get { return _loopback.Loopback.EnumLoopbackType == LoopBackMode.Digital; }
+        }
+
         public List<LoopbackListingModel> Loopbacks => _loopback?.Loopbacks;
 
         public LoopbackListingModel SelectedLoopback
@@ -73,6 +82,8 @@ namespace ADIN.WPF.ViewModel
                     _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.Loopback);
                 }
                 OnPropertyChanged(nameof(ImagePath));
+                OnPropertyChanged(nameof(IsLoopback_None));
+                OnPropertyChanged(nameof(IsLoopback_Digital));
             }
         }
 
@@ -91,6 +102,8 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(IsTxSuppression));
             OnPropertyChanged(nameof(IsRxSuppression));
             OnPropertyChanged(nameof(ImagePath));
+            OnPropertyChanged(nameof(IsLoopback_None));
+            OnPropertyChanged(nameof(IsLoopback_Digital));
         }
     }
 }

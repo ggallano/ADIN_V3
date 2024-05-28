@@ -18,11 +18,13 @@
         <StackPanel Orientation="Vertical">
             <WrapPanel HorizontalAlignment='Left'  Orientation='Horizontal'>
 
-                <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="None" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.OFF}" IsChecked="True"/>
-                <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="All Digital" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.Digital}"/>
-                <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="Line Driver" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.LineDriver}"/>
-                <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="External Cable" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.ExtCable}"/>
-                <telerik:RadRadioButton Style="{StaticResource RadioButtonStyle}" Content="Remote" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.MacRemote}"/>
+                <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="None" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.OFF}" IsChecked="{Binding IsLoopback_None}"/>
+                <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="All Digital" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.Digital}" IsChecked="{Binding IsLoopback_Digital}"/>
+                <!--<telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="None" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.OFF}" IsChecked="True"/>
+                <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="All Digital" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.Digital}"/>-->
+                <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Line Driver" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.LineDriver}"/>
+                <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="External Cable" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.ExtCable}"/>
+                <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Remote" Command="{Binding LoopbackCmd}" CommandParameter="{x:Static enum:LoopBackMode.MacRemote}"/>
 
                 <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Margin="10 3 0 0">
                     <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
