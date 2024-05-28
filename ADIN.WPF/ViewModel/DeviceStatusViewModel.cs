@@ -81,7 +81,14 @@ namespace ADIN.WPF.ViewModel
 
         public string LinkStatus
         {
-            get { return _linkStatus; }
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    return _linkStatus;
+                }
+                return "-";
+            }
             set
             {
                 switch ((EthPhyState)Enum.Parse(typeof(EthPhyState), value))
