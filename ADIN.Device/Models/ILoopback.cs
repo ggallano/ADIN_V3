@@ -8,7 +8,7 @@ namespace ADIN.Device.Models
 {
     public interface ILoopback
     {
-        LoopbackListingModel Loopback { get; set; }
+        LoopbackListingModel SelectedLoopback { get; set; }
         List<LoopbackListingModel> Loopbacks { get; set; }
     }
 }

@@ -29,16 +29,16 @@ namespace ADIN.WPF.ViewModel
 
         public ICommand LoopbackCmd { get; set; }
 
-        public string ImagePath => _loopback?.Loopback.ImagePath;
+        public string ImagePath => _loopback?.SelectedLoopback.ImagePath;
 
         public bool IsRxSuppression
         {
-            get { return _loopback?.Loopback.RxSuppression ?? false; }
+            get { return _loopback?.SelectedLoopback.RxSuppression ?? false; }
             set
             {
                 if (_selectedDeviceStore.SelectedDevice != null)
                 {
-                    _loopback.Loopback.RxSuppression = value;
+                    _loopback.SelectedLoopback.RxSuppression = value;
                 }
                 OnPropertyChanged(nameof(IsRxSuppression));
             }
@@ -46,12 +46,12 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsTxSuppression
         {
-            get { return _loopback?.Loopback.TxSuppression ?? false; }
+            get { return _loopback?.SelectedLoopback.TxSuppression ?? false; }
             set
             {
                 if (_selectedDeviceStore.SelectedDevice != null)
                 {
-                    _loopback.Loopback.TxSuppression = value;
+                    _loopback.SelectedLoopback.TxSuppression = value;
                 }
                 OnPropertyChanged(nameof(IsTxSuppression));
             }
@@ -59,11 +59,33 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsLoopback_None
         {
-            get { return _loopback.Loopback.EnumLoopbackType == LoopBackMode.OFF; }
+            get { return _loopback.SelectedLoopback.EnumLoopbackType == LoopBackMode.OFF; }
+
+            set
+            {
+                if (value)
+                {
+                    _loopback.SelectedLoopback.EnumLoopbackType = LoopBackMode.OFF;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.SelectedLoopback);
+                }
+                OnPropertyChanged(nameof(IsLoopback_None));
+                OnPropertyChanged(nameof(IsLoopback_Digital));
+            }
         }
         public bool IsLoopback_Digital
         {
-            get { return _loopback.Loopback.EnumLoopbackType == LoopBackMode.Digital; }
+            get { return _loopback.SelectedLoopback.EnumLoopbackType == LoopBackMode.Digital; }
+
+            set
+            {
+                if (value)
+                {
+                    _loopback.SelectedLoopback.EnumLoopbackType = LoopBackMode.Digital;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.SelectedLoopback);
+                }
+                OnPropertyChanged(nameof(IsLoopback_None));
+                OnPropertyChanged(nameof(IsLoopback_Digital));
+            }
         }
 
         public List<LoopbackListingModel> Loopbacks => _loopback?.Loopbacks;
@@ -72,18 +94,18 @@ namespace ADIN.WPF.ViewModel
         {
             set
             {
-                if (value != null)
-                {
-                    _isTxSuppression = IsTxSuppression;
-                    _isRxSuppression = IsRxSuppression;
-                    _loopback.Loopback = value;
-                    _loopback.Loopback.TxSuppression = _isTxSuppression;
-                    _loopback.Loopback.RxSuppression = _isRxSuppression;
-                    _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.Loopback);
-                }
-                OnPropertyChanged(nameof(ImagePath));
-                OnPropertyChanged(nameof(IsLoopback_None));
-                OnPropertyChanged(nameof(IsLoopback_Digital));
+                //if (value != null)
+                //{
+                //    _isTxSuppression = IsTxSuppression;
+                //    _isRxSuppression = IsRxSuppression;
+                //    _loopback.SelectedLoopback = value;
+                //    _loopback.SelectedLoopback.TxSuppression = _isTxSuppression;
+                //    _loopback.SelectedLoopback.RxSuppression = _isRxSuppression;
+                //    _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.SelectedLoopback);
+                //}
+                //OnPropertyChanged(nameof(ImagePath));
+                //OnPropertyChanged(nameof(IsLoopback_None));
+                //OnPropertyChanged(nameof(IsLoopback_Digital));
             }
         }
 
