@@ -140,7 +140,7 @@
                                       Style="{StaticResource CheckBoxStyle}"/>
 
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Downspeed Retries: " Style="{StaticResource TextBlockstyle}"/>
-                            <telerik:RadNumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding SetDownSpeedRetries}" Minimum="0" Maximum="7" SmallChange="1"  NumberDecimalDigits="0" IsEditable="False" AutoReverse="True"/>
+                            <telerik:RadNumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding SetDownSpeedRetries}" Minimum="0" Maximum="7" SmallChange="1"  NumberDecimalDigits="0" IsEditable="False" AutoReverse="True" Style="{StaticResource RadNumericUpDownStyle}"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
