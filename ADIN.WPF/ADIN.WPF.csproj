@@ -141,6 +141,7 @@
     <Compile Include="Commands\ClockPinControlCommand.cs" />
     <Compile Include="Commands\ReadRegisterCommand.cs" />
     <Compile Include="Commands\RegisterActionCommand.cs" />
+    <Compile Include="Commands\ResetCommand.cs" />
     <Compile Include="Commands\ResetFrameDeviceCheckerCommnad.cs" />
     <Compile Include="Commands\SoftwarePowerDownCommand.cs" />
     <Compile Include="Commands\TestModeCommand.cs" />

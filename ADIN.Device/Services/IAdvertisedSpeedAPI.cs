@@ -14,7 +14,7 @@ namespace ADIN.Device.Services
         void Speed100HdAdvertisement(bool spd100HdAdv_st);
         void Speed10FdAdvertisement(bool spd10FdAdv_st);
         void Speed10HdAdvertisement(bool spd10HdAdv_st);
-        void CheckAdvertisedSpeed(List<string> listAdvSpd);
+        void LogAdvertisedSpeed(List<string> listAdvSpd);
         void SetForcedSpeed(string advFrcSpd);
     }
 }

@@ -23,8 +23,11 @@ namespace ADIN.Device.Services
         string GetMseValue();
         void GetFrameCheckerStatus();
         string GetFrameGeneratorStatus();
+        List<string> LocalAdvertisedSpeedList();
+        List<string> RemoteAdvertisedSpeedList();
         void SoftwarePowerdown(bool isSoftwarePowerdown);
         void DisableLinking(bool isDisabledLinking);
         void RestartAutoNegotiation();
+        void ResetPhy(ResetType reset);
     }
 }

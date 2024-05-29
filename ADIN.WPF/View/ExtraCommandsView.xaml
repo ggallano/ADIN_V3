@@ -15,9 +15,9 @@
             <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Restart Linking" Command="{Binding AutoNegCommand}" IsEnabled="{Binding IsPoweredUp}"/>
             <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Save Registers" Command="{Binding RegisterActionCommand}" CommandParameter="{x:Static enum:RegisterActionType.Save}"/>
             <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Load Registers" Command="{Binding RegisterActionCommand}" CommandParameter="{x:Static enum:RegisterActionType.Load}"/>
-            <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys (Pin)"/>
-            <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys"/>
-            <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: PHY"/>
+            <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys (Pin)" Command="{Binding SubSysResetCommand}" CommandParameter="{x:Static enum:ResetType.SubSysPin}"/>
+            <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys" Command="{Binding SubSysResetCommand}" CommandParameter="{x:Static enum:ResetType.SubSys}"/>
+            <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: PHY" Command="{Binding PhyResetCommand}" CommandParameter="{x:Static enum:ResetType.Phy}"/>
         </StackPanel>
     </Grid>
 </UserControl>
