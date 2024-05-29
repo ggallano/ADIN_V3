@@ -20,6 +20,27 @@ namespace ADIN.Device.Models.ADIN1300
             };
             SpeedMode = SpeedModes[0];
 
+            IsAdvertise_1000BASE_T_FD = true;
+            IsAdvertise_1000BASE_T_HD = true;
+            IsAdvertise_100BASE_TX_FD = true;
+            IsAdvertise_100BASE_TX_HD = true;
+            IsAdvertise_10BASE_T_FD = true;
+            IsAdvertise_10BASE_T_HD = true;
+
+            IsAdvertise_EEE_1000BASE_T = false;
+            IsAdvertise_EEE_100BASE_TX = false;
+
+            ForcedSpeeds = new List<string>()
+            {
+                "SPEED_10BASE_T_HD",
+                "SPEED_10BASE_T_FD",
+                "SPEED_100BASE_TX_HD",
+                "SPEED_100BASE_TX_FD"
+            };
+            ForcedSpeed = ForcedSpeeds[0];
+
+            IsDownSpeed_10BASE_T_HD = false;
+            DownSpeedRetries = 4;
 
             MDIXs = new List<string>()
             {
@@ -43,6 +64,14 @@ namespace ADIN.Device.Models.ADIN1300
                 "Slave"
             };
             MasterSlave = MasterSlaves[0];
+
+            AdvertisedSpeeds = new List<string>()
+            {
+                "SPEED_100BASE_TX_FD_SPEED",
+                "SPEED_100BASE_TX_HD_SPEED",
+                "SPEED_10BASE_T_FD_SPEED",
+                "SPEED_10BASE_T_HD_SPEED"
+            };
         }
 
         public bool IsAdvertise_1000BASE_T_FD { get; set; }
@@ -55,7 +84,6 @@ namespace ADIN.Device.Models.ADIN1300
 
         public bool IsAdvertise_EEE_1000BASE_T { get; set; }
         public bool IsAdvertise_EEE_100BASE_TX { get; set; }
-
 
         public uint DownSpeedRetries { get; set; }
         public bool IsDownSpeed_10BASE_T_HD { get; set; }
