@@ -17,19 +17,49 @@
 
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Select Test Mode" Margin="0 0 0 10" Style="{StaticResource TextBlockstyle}"/>
-                <ComboBox ItemsSource="{Binding TestModes}" SelectedItem="{Binding SelectedTestMode}" Margin="0 0 0 10" Style="{StaticResource ComboBoxFlatStyle}">
+
+                <ListView ItemsSource="{Binding TestModes}" SelectedItem="{Binding SelectedTestMode}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="2"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock x:Name="TestModeName" Grid.Column="0" Grid.Row="0" Text="{Binding Name1}"/>
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Description}" FontSize="10" FontWeight="Normal"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+                
+                <!--<ComboBox ItemsSource="{Binding TestModes}" SelectedItem="{Binding SelectedTestMode}" Margin="0 0 0 10" Style="{StaticResource ComboBoxFlatStyle}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Name1}"/>
-                                    <!--<TextBlock Text="{Binding Name2}" FontWeight="Bold"/>-->
+                                    --><!--<TextBlock Text="{Binding Name2}" FontWeight="Bold"/>--><!--
                                 </StackPanel>
                                 <TextBlock Text="{Binding Description}" FontStyle="Italic"/>
                             </StackPanel>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
-                </ComboBox>
+                </ComboBox>-->
                 <StackPanel Visibility="{Binding SelectedTestMode.IsRequiringFrameLength, Converter={StaticResource booleanVisibilityConverter}}">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -47,8 +77,13 @@
                         <telerik:RadSlider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name='SliderFrameLength' Value="{Binding TestModeFrameLengthValue}" Minimum="64" SmallChange="1" Maximum="1530" TickFrequency='1' IsSnapToTickEnabled='True' />
                     </Grid>
                 </StackPanel>
-                <telerik:RadButton Content="Apply Mode" Command="{Binding TestModeCmd}" Style="{StaticResource TestModeTelerikButtonStyle}"/>
-
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <telerik:RadButton Grid.Row="1" Content="Apply Mode" Command="{Binding TestModeCmd}" Style="{StaticResource TestModeTelerikButtonStyle}"/>
+                </Grid>
             </StackPanel>
         </StackPanel>
     </Grid>
