@@ -25,8 +25,9 @@ namespace ADIN.WPF.ViewModel
             SoftwarePowerDownCommand = new SoftwarePowerDownCommand(this, selectedDeviceStore);
             AutoNegCommand = new AutoNegCommand(this, selectedDeviceStore);
             DisableLinkCommand = new DisableLinkCommand(this, selectedDeviceStore);
-            //SubSysResetCommand = new ResetCommand(this, selectedDeviceStore);
-            //PhyResetCommand = new ResetCommand(this, selectedDeviceStore);
+            SubSysResetCommand = new ResetCommand(this, selectedDeviceStore);
+            SubSysPinResetCommand = new ResetCommand(this, selectedDeviceStore);
+            PhyResetCommand = new ResetCommand(this, selectedDeviceStore);
             RegisterActionCommand = new RegisterActionCommand(this, selectedDeviceStore);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
@@ -84,6 +85,7 @@ namespace ADIN.WPF.ViewModel
         public ICommand PhyResetCommand { get; set; }
         public ICommand SoftwarePowerDownCommand { get; set; }
         public ICommand SubSysResetCommand { get; set; }
+        public ICommand SubSysPinResetCommand { get; set; }
         public ICommand RegisterActionCommand { get; set; }
         public ICommand DisableLinkCommand { get; set; }
 

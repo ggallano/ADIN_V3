@@ -79,7 +79,7 @@ namespace ADIN.Device.Services
             }
         }
 
-        public void CheckAdvertisedSpeed(List<string> listAdvSpd)
+        public void LogAdvertisedSpeed(List<string> listAdvSpd)
         {
             _feedbackMessage = "Locally Advertised Speeds:";
 
@@ -117,6 +117,16 @@ namespace ADIN.Device.Services
             }
 
             FeedbackLog(_feedbackMessage, FeedbackType.Info);
+        }
+
+        public List<string> LocalAdvertisedSpeedList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> RemoteAdvertisedSpeedList()
+        {
+            throw new NotImplementedException();
         }
 
         public void DisableLinking(bool isDisabledLinking)
@@ -656,6 +666,11 @@ namespace ADIN.Device.Services
             {
                 return MdioWriteCl45(registerAddress, value);
             }
+        }
+
+        public void ResetPhy(ResetType reset)
+        {
+            throw new NotImplementedException();
         }
     }
 }

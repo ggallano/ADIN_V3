@@ -21,6 +21,8 @@ namespace ADIN.WPF.ViewModel
         private string _linkStatus = "-";
         private string _masterSlaveStatus = "-";
         private string _mseValue = "-";
+        private List<string> _localAdvertisedSpeeds = new List<string>();
+        private List<string> _remoteAdvertisedSpeeds = new List<string>();
         private BackgroundWorker _readRegisterWorker;
         private SelectedDeviceStore _selectedDeviceStore;
         private object _thisLock;
@@ -171,6 +173,25 @@ namespace ADIN.WPF.ViewModel
 
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
 
+        public List<string> LocalAdvertisedSpeeds
+        {
+            get { return _localAdvertisedSpeeds; }
+            set
+            {
+                _localAdvertisedSpeeds = value;
+                OnPropertyChanged(nameof(LocalAdvertisedSpeeds));
+            }
+        }
+        public List<string> RemoteAdvertisedSpeeds
+        {
+            get { return _remoteAdvertisedSpeeds; }
+            set
+            {
+                _remoteAdvertisedSpeeds = value;
+                OnPropertyChanged(nameof(RemoteAdvertisedSpeeds));
+            }
+        }
+
         protected override void Dispose()
         {
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
@@ -209,6 +230,8 @@ namespace ADIN.WPF.ViewModel
 
                             _selectedDevice.FwAPI.GetFrameCheckerStatus();
                             Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
+                            LocalAdvertisedSpeeds = _selectedDevice.FwAPI.LocalAdvertisedSpeedList();
+                            RemoteAdvertisedSpeeds = _selectedDevice.FwAPI.RemoteAdvertisedSpeedList();
                         }
 
                         System.Windows.Application.Current.Dispatcher.Invoke(() =>
@@ -265,7 +288,8 @@ namespace ADIN.WPF.ViewModel
             //OnPropertyChanged(nameof(TxLevelStatus));
             OnPropertyChanged(nameof(DeviceType));
             OnPropertyChanged(nameof(PhyAddress));
-            //OnPropertyChanged(nameof(AdvertisedSpeed));
+            OnPropertyChanged(nameof(LocalAdvertisedSpeeds));
+            OnPropertyChanged(nameof(RemoteAdvertisedSpeeds));
             OnPropertyChanged(nameof(Checker));
         }
 
