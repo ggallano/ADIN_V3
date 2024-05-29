@@ -3,6 +3,8 @@
                     xmlns:local="clr-namespace:ADIN.WPF.Themes"
                     xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation">
     <Style x:Key="ListBoxItemStyle" TargetType="{x:Type telerik:RadListBoxItem}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Margin" Value="0 5"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type telerik:RadListBoxItem}">
@@ -11,7 +13,7 @@
                             <Style TargetType="{x:Type TextBlock}">
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <!--<Setter Property="Background" Value="#1FFF0000"></Setter>-->
+                                        <!--Do Nothing-->
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -20,5 +22,10 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="ListBoxStyle" TargetType="{x:Type telerik:RadListBox}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemStyle}"/>
+        <Setter Property="Height" Value="220"/>
     </Style>
 </ResourceDictionary>
