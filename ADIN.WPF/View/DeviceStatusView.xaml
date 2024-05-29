@@ -50,14 +50,16 @@
                 <Border Style="{StaticResource BorderSyle}" Grid.Column="0">
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="Local" Style="{StaticResource DeviceStatusTextBlockstyle}"/>
-                        <telerik:RadListBox Height="183" ItemsSource="{Binding LocalAdvertisedSpeeds}"/>
+                        <telerik:RadListBox Height="183" ItemsSource="{Binding LocalAdvertisedSpeeds}"
+                                            ItemContainerStyle="{StaticResource ListBoxItemStyle}"/>
                     </StackPanel>
                 </Border>
 
                 <Border Style="{StaticResource BorderSyle}" Grid.Column="2">
                     <StackPanel Orientation="Vertical">
                         <TextBlock Text="Remote" Style="{StaticResource DeviceStatusTextBlockstyle}"/>
-                        <telerik:RadListBox Height="183" ItemsSource="{Binding RemoteAdvertisedSpeeds}"/>
+                        <telerik:RadListBox Height="183" ItemsSource="{Binding RemoteAdvertisedSpeeds}"
+                                            ItemContainerStyle="{StaticResource ListBoxItemStyle}"/>
                     </StackPanel>
                 </Border>
 
