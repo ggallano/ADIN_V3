@@ -26,6 +26,6 @@
 
     <Style x:Key="ListBoxStyle" TargetType="{x:Type telerik:RadListBox}">
         <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxItemStyle}"/>
-        <Setter Property="Height" Value="220"/>
+        <Setter Property="Height" Value="250"/>
     </Style>
 </ResourceDictionary>

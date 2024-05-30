@@ -273,6 +273,15 @@ namespace ADIN.Device.Services
                 localSpeeds.Add(string.Empty);
             }
 
+            if (this.ReadYogaRg("Eee1000Adv") == "1")
+            {
+                localSpeeds.Add("EEE_1000BASE_T");
+            }
+            else
+            {
+                localSpeeds.Add(string.Empty);
+            }
+
             if (this.ReadYogaRg("Fd100Adv") == "1")
             {
                 localSpeeds.Add("SPEED_100BASE_TX_FD_SPEED");
@@ -290,6 +299,16 @@ namespace ADIN.Device.Services
             {
                 localSpeeds.Add(string.Empty);
             }
+
+            if (this.ReadYogaRg("Eee100Adv") == "1")
+            {
+                localSpeeds.Add("EEE_100BASE_T");
+            }
+            else
+            {
+                localSpeeds.Add(string.Empty);
+            }
+
             if (this.ReadYogaRg("Fd10Adv") == "1")
             {
                 localSpeeds.Add("SPEED_10BASE_T_FD_SPEED");
@@ -549,6 +568,15 @@ namespace ADIN.Device.Services
                 remoteSpeeds.Add(string.Empty);
             }
 
+            if (this.ReadYogaRg("LpEee1000Able") == "1")
+            {
+                remoteSpeeds.Add("SPEED_1000BASE_EEE_SPEED");
+            }
+            else
+            {
+                remoteSpeeds.Add(string.Empty);
+            }
+
             if (this.ReadYogaRg("LpFd100Able") == "1")
             {
                 remoteSpeeds.Add("SPEED_100BASE_TX_FD_SPEED");
@@ -567,6 +595,15 @@ namespace ADIN.Device.Services
                 remoteSpeeds.Add(string.Empty);
             }
 
+            if (this.ReadYogaRg("LpEee100Able") == "1")
+            {
+                remoteSpeeds.Add("SPEED_100BASE_EEE_SPEED");
+            }
+            else
+            {
+                remoteSpeeds.Add(string.Empty);
+            }
+
             if (this.ReadYogaRg("LpFd10Able") == "1")
             {
                 remoteSpeeds.Add("SPEED_10BASE_T_FD_SPEED");
@@ -579,24 +616,6 @@ namespace ADIN.Device.Services
             if (this.ReadYogaRg("LpHd10Able") == "1")
             {
                 remoteSpeeds.Add("SPEED_10BASE_T_HD_SPEED");
-            }
-            else
-            {
-                remoteSpeeds.Add(string.Empty);
-            }
-
-            if (this.ReadYogaRg("LpEee1000Able") == "1")
-            {
-                remoteSpeeds.Add("SPEED_1000BASE_EEE_SPEED");
-            }
-            else
-            {
-                remoteSpeeds.Add(string.Empty);
-            }
-
-            if (this.ReadYogaRg("LpEee100Able") == "1")
-            {
-                remoteSpeeds.Add("SPEED_100BASE_EEE_SPEED");
             }
             else
             {
