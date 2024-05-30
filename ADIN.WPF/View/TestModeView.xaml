@@ -13,7 +13,7 @@
         <telerik:BooleanToVisibilityConverter x:Key="booleanVisibilityConverter"/>
     </UserControl.Resources>
     <Grid Margin="5">
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Vertical" IsEnabled="{Binding IsDeviceSelected}">
 
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="Select Test Mode" Margin="0 0 0 10" Style="{StaticResource TextBlockstyle}"/>

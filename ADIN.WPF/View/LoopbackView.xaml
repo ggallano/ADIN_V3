@@ -15,7 +15,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Margin="5">
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Vertical" IsEnabled="{Binding IsDeviceSelected}">
             <WrapPanel HorizontalAlignment='Left'  Orientation='Horizontal'>
 
                 <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="None" IsChecked="{Binding IsLoopback_None}"/>

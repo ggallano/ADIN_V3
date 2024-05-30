@@ -47,11 +47,14 @@ namespace ADIN.WPF.ViewModel
         public List<TestModeListingModel> TestModes => _testMode?.TestModes;
         private ITestMode _testMode => _selectedDeviceStore.SelectedDevice?.TestMode;
 
+        public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             OnPropertyChanged(nameof(SelectedTestMode));
             OnPropertyChanged(nameof(TestModes));
             OnPropertyChanged(nameof(TestModeFrameLengthValue));
+            OnPropertyChanged(nameof(IsDeviceSelected));
         }
     }
 }

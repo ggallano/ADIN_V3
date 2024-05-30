@@ -298,6 +298,8 @@ namespace ADIN.WPF.ViewModel
         }
         private ILinkProperties _linkProperties => _selectedDeviceStore.SelectedDevice?.LinkProperties;
 
+        public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             OnPropertyChanged(nameof(SpeedModes));
@@ -323,6 +325,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(EnergyDetectPowerDownModes));
             OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
             OnPropertyChanged(nameof(SetDownSpeedRetries));
+            OnPropertyChanged(nameof(IsDeviceSelected));
         }
     }
 }
