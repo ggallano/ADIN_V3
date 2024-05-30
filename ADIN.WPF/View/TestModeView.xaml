@@ -32,7 +32,7 @@
                                     <RowDefinition Height="2"/>
                                 </Grid.RowDefinitions>
                                 <TextBlock x:Name="TestModeName" Grid.Column="0" Grid.Row="0" Text="{Binding Name1}"/>
-                                <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Description}" FontSize="10" FontWeight="Normal"/>
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding Description}" FontSize="12" FontWeight="Normal"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
