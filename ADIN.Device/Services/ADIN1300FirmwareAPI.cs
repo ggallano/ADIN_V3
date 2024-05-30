@@ -255,8 +255,23 @@ namespace ADIN.Device.Services
         {
             List<string> localSpeeds = new List<string>();
 
-            localSpeeds.Add(string.Empty);
-            localSpeeds.Add(string.Empty);
+            if (this.ReadYogaRg("Fd1000Adv") == "1")
+            {
+                localSpeeds.Add("SPEED_1000BASE_TX_FD_SPEED");
+            }
+            else
+            {
+                localSpeeds.Add(string.Empty);
+            }
+
+            if (this.ReadYogaRg("Hd1000Adv") == "1")
+            {
+                localSpeeds.Add("SPEED_1000BASE_TX_HD_SPEED");
+            }
+            else
+            {
+                localSpeeds.Add(string.Empty);
+            }
 
             if (this.ReadYogaRg("Fd100Adv") == "1")
             {

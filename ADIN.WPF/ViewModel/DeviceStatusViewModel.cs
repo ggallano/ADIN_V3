@@ -188,7 +188,7 @@ namespace ADIN.WPF.ViewModel
             get { return _localAdvertisedSpeeds; }
             set
             {
-                //if (!value.SequenceEqual(_localAdvertisedSpeeds))
+                if (!value.SequenceEqual(_localAdvertisedSpeeds))
                 {
                     _localAdvertisedSpeeds = value;
                     OnPropertyChanged(nameof(LocalAdvertisedSpeeds));
@@ -200,7 +200,7 @@ namespace ADIN.WPF.ViewModel
             get { return _remoteAdvertisedSpeeds; }
             set
             {
-                //if (!value.SequenceEqual(_remoteAdvertisedSpeeds))
+                if (!value.SequenceEqual(_remoteAdvertisedSpeeds))
                 {
                     _remoteAdvertisedSpeeds = value;
                     OnPropertyChanged(nameof(RemoteAdvertisedSpeeds));
