@@ -91,7 +91,8 @@
                              Width="Auto" ScrollViewer.CanContentScroll="True"
                              BeginningEdit="RadGridView_BeginningEdit"
                              CellEditEnded="RadGridView_CellEditEnded" CellValidating="RadGridView_CellValidating"
-                             ShowGroupPanel="False" PreparedCellForEdit="RadGridView_PreparedCellForEdit" DataLoading="gvRegisters_DataLoading" IsReadOnly="True">
+                             ShowGroupPanel="False" PreparedCellForEdit="RadGridView_PreparedCellForEdit" DataLoading="gvRegisters_DataLoading" IsReadOnly="True"
+                                 FontFamily="Barlow">
                 <telerik:EventToCommandBehavior.EventBindings>
                     <telerik:EventBinding EventName="CellEditEnded" Command="{Binding SaveRegisterDataCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=telerik:RadGridView}}" />
                 </telerik:EventToCommandBehavior.EventBindings>
