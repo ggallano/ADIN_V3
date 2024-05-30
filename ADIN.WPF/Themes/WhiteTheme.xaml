@@ -371,7 +371,11 @@
 
     <SolidColorBrush x:Key="deviceStatus.foreground" Color="{StaticResource hmc.color.blue.600}"/>
 
+    <SolidColorBrush x:Key="UI.boderBrush" Color="{Binding Source={StaticResource hmc.color.layout.divider.default}, Path=Color}"/>
+    <SolidColorBrush x:Key="UI.background" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}"/>
+
     <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="{Binding Source={StaticResource hmc.color.layout.divider.default},Path=Color}" />
+    <!--<SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="{Binding Source={StaticResource hmc.color.content.default},Path=Color}" />-->
     <SolidColorBrush x:Key="ComboBoxNormalBackgroundBrush" Color="{Binding Source={StaticResource hmc.color.content.inverse}, Path=Color}" />
     <SolidColorBrush x:Key="ComboBoxDisabledForegroundBrush" Color="#888" />
     <SolidColorBrush x:Key="ComboBoxDisabledBackgroundBrush" Color="#eee" />

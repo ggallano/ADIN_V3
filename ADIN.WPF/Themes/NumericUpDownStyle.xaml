@@ -24,48 +24,6 @@
     </ControlTemplate>
     <ControlTemplate x:Key="IncreaseRepeatButtonControlTemplate" TargetType="RepeatButton">
         <Grid>
-            <!--<VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Disabled">
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Fill">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource hmc.color.content.default}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </VisualState>
-                    <VisualState x:Name="Normal"/>
-                    <VisualState x:Name="MouseOver">
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource hmc.color.content.default}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                            <DoubleAnimation Duration="0" Storyboard.TargetName="Root" Storyboard.TargetProperty="Opacity" To="0.15"/>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Fill">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource hmc.color.content.default}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </VisualState>
-                    <VisualState x:Name="Pressed">
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource hmc.color.content.default}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Fill">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource hmc.color.content.default}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                            <DoubleAnimation To="-1" Duration="0:0:0" Storyboard.TargetName="Icon" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"/>
-                        </Storyboard>
-                    </VisualState>
-                </VisualStateGroup>
-                <VisualStateGroup x:Name="FocusStates">
-                    <VisualState x:Name="Unfocused"/>
-                    <VisualState x:Name="Focused">
-                        <Storyboard>
-                            <DoubleAnimation Duration="0" Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="Opacity" To="0.2"/>
-                        </Storyboard>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>-->
             <Border x:Name="Root" Background="Transparent" MinWidth="14" Padding="0 2"/>
             <Rectangle x:Name="FocusVisual" Grid.RowSpan="2" Grid.ColumnSpan="2" StrokeThickness="1" Opacity="0" Stroke="{StaticResource hmc.color.content.default}"/>
             <Path x:Name="Icon"
@@ -73,57 +31,21 @@
                     Fill="{StaticResource hmc.color.content.default}"
                     VerticalAlignment="Center"
                     Height="4"
-                    Data="M3,0 L6,4 L0,4 z"
+                    Data="M 0 12 L 0 10 L 4 6 L 8 10 L 8 12 L 4 8 L 0 12 Z"
                     SnapsToDevicePixels="True"
                     RenderOptions.EdgeMode="Aliased"
                     RenderOptions.BitmapScalingMode="NearestNeighbor"
                     Stretch="Fill"/>
         </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="UIElement.IsMouseOver" Value="True">
+                <Setter Property="Panel.Background" TargetName="Root" Value="WhiteSmoke"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
     <ControlTemplate x:Key="DecreaseRepeatButtonControlTemplate" TargetType="RepeatButton">
         <Grid>
-            <!--<VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Disabled">
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Fill">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource hmc.color.content.default}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </VisualState>
-                    <VisualState x:Name="Normal"/>
-                    <VisualState x:Name="MouseOver">
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource hmc.color.content.default}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                            <DoubleAnimation Duration="0" Storyboard.TargetName="Root" Storyboard.TargetProperty="Opacity" To="0.15"/>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Fill">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource hmc.color.content.default}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </VisualState>
-                    <VisualState x:Name="Pressed">
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource hmc.color.content.default}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Icon" Storyboard.TargetProperty="Fill">
-                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource hmc.color.content.default}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                            <DoubleAnimation To="1" Duration="0:0:0" Storyboard.TargetName="Icon" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"/>
-                        </Storyboard>
-                    </VisualState>
-                </VisualStateGroup>
-                <VisualStateGroup x:Name="FocusStates">
-                    <VisualState x:Name="Unfocused"/>
-                    <VisualState x:Name="Focused">
-                        <Storyboard>
-                            <DoubleAnimation Duration="0" Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="Opacity" To="0.2"/>
-                        </Storyboard>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>-->
+            <!--M0,0 L6,0 L3,4 z-->
             <Border x:Name="Root" Background="Transparent" MinWidth="14" Padding="0 2"/>
             <Rectangle x:Name="FocusVisual" Grid.RowSpan="2" Grid.ColumnSpan="2" StrokeThickness="1" Opacity="0" Stroke="{StaticResource hmc.color.content.default}"/>
             <Path x:Name="Icon"
@@ -131,12 +53,17 @@
                     Fill="{StaticResource hmc.color.content.default}"
                     VerticalAlignment="Center"
                     Height="4"
-                    Data="M0,0 L6,0 L3,4 z"
+                    Data="M 0 0 L 0 2 L 4 6 L 8 2 L 8 0 L 4 4 z"
                     Stretch="Fill"
                     SnapsToDevicePixels="True"
                     RenderOptions.EdgeMode="Aliased"
                     RenderOptions.BitmapScalingMode="NearestNeighbor"/>
         </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="UIElement.IsMouseOver" Value="True">
+                <Setter Property="Panel.Background" TargetName="Root" Value="WhiteSmoke"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
     <Style x:Key="IncreaseRepeatButtonStyle" TargetType="RepeatButton">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
@@ -150,114 +77,6 @@
     </Style>
     <ControlTemplate x:Key="RadNumericUpDownControlTemplate" TargetType="telerikInput:RadNumericUpDown">
         <Grid>
-            <!--<VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Disabled">
-                        <Storyboard>
-                            <DoubleAnimation To="1" Duration="0:0:0" Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="Opacity"/>
-                        </Storyboard>
-                    </VisualState>
-                    <VisualState x:Name="Normal"/>
-                    <VisualState x:Name="MouseOver">
-                        <Storyboard>
-                            <DoubleAnimation To="1" Duration="0:0:0" Storyboard.TargetName="MouseOverVisual" Storyboard.TargetProperty="Opacity"/>
-                        </Storyboard>
-                    </VisualState>
-                    <VisualState x:Name="MouseOverTextHidden"/>
-                </VisualStateGroup>
-                <VisualStateGroup x:Name="FocusVisualStates">
-                    <VisualState x:Name="Unfocused"/>
-                    <VisualState x:Name="Focused">
-                        <Storyboard>
-                            <DoubleAnimation Duration="0" Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="Opacity" To="0.2"/>
-                        </Storyboard>
-                    </VisualState>
-                </VisualStateGroup>
-                <VisualStateGroup x:Name="ButtonsBehavior">
-                    <VisualState x:Name="ShowButtons"/>
-                    <VisualState x:Name="HideButtons">
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="increase" Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0">
-                                    <DiscreteObjectKeyFrame.Value>
-                                        <Visibility>Collapsed</Visibility>
-                                    </DiscreteObjectKeyFrame.Value>
-                                </DiscreteObjectKeyFrame>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="decrease" Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0">
-                                    <DiscreteObjectKeyFrame.Value>
-                                        <Visibility>Collapsed</Visibility>
-                                    </DiscreteObjectKeyFrame.Value>
-                                </DiscreteObjectKeyFrame>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </VisualState>
-                </VisualStateGroup>
-                <VisualStateGroup x:Name="TextBoxBehavior">
-                    <VisualState x:Name="ShowTextBox"/>
-                    <VisualState x:Name="HideTextBox">
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="textbox" Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0">
-                                    <DiscreteObjectKeyFrame.Value>
-                                        <Visibility>Collapsed</Visibility>
-                                    </DiscreteObjectKeyFrame.Value>
-                                </DiscreteObjectKeyFrame>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FocusVisual" Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0">
-                                    <DiscreteObjectKeyFrame.Value>
-                                        <Visibility>Collapsed</Visibility>
-                                    </DiscreteObjectKeyFrame.Value>
-                                </DiscreteObjectKeyFrame>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="increase" Storyboard.TargetProperty="(Grid.Column)">
-                                <DiscreteObjectKeyFrame KeyTime="0">
-                                    <DiscreteObjectKeyFrame.Value>
-                                        <sys:Int32>0</sys:Int32>
-                                    </DiscreteObjectKeyFrame.Value>
-                                </DiscreteObjectKeyFrame>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="increase" Storyboard.TargetProperty="(Grid.ColumnSpan)">
-                                <DiscreteObjectKeyFrame KeyTime="0">
-                                    <DiscreteObjectKeyFrame.Value>
-                                        <sys:Int32>2</sys:Int32>
-                                    </DiscreteObjectKeyFrame.Value>
-                                </DiscreteObjectKeyFrame>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="increase" Storyboard.TargetProperty="Margin">
-                                <DiscreteObjectKeyFrame KeyTime="0">
-                                    <DiscreteObjectKeyFrame.Value>
-                                        <Thickness>2 2 2 0</Thickness>
-                                    </DiscreteObjectKeyFrame.Value>
-                                </DiscreteObjectKeyFrame>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="decrease" Storyboard.TargetProperty="(Grid.Column)">
-                                <DiscreteObjectKeyFrame KeyTime="0">
-                                    <DiscreteObjectKeyFrame.Value>
-                                        <sys:Int32>0</sys:Int32>
-                                    </DiscreteObjectKeyFrame.Value>
-                                </DiscreteObjectKeyFrame>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="decrease" Storyboard.TargetProperty="(Grid.ColumnSpan)">
-                                <DiscreteObjectKeyFrame KeyTime="0">
-                                    <DiscreteObjectKeyFrame.Value>
-                                        <sys:Int32>2</sys:Int32>
-                                    </DiscreteObjectKeyFrame.Value>
-                                </DiscreteObjectKeyFrame>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="decrease" Storyboard.TargetProperty="Margin">
-                                <DiscreteObjectKeyFrame KeyTime="0">
-                                    <DiscreteObjectKeyFrame.Value>
-                                        <Thickness>2 0 2 2</Thickness>
-                                    </DiscreteObjectKeyFrame.Value>
-                                </DiscreteObjectKeyFrame>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -338,7 +157,7 @@
         <Setter Property="Foreground" Value="{StaticResource hmc.color.content.default}"/>
         <Setter Property="FontFamily" Value="Barlow"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="BorderBrush" Value="{StaticResource hmc.color.content.default}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource ComboBoxNormalBorderBrush}"/>
         <Setter Property="Padding" Value="4 3"/>
         <Setter Property="MinHeight" Value="0"/>
         <Setter Property="Template" Value="{StaticResource RadNumericUpDownControlTemplate}"/>
