@@ -28,7 +28,7 @@ namespace ADIN.WPF.ViewModel
             _ftdiService = ftdiService;
 
 
-            SetRegsiterWorker();
+            //SetRegsiterWorker();
             //SaveRegisterDataCommand = new RegisterSaveDataCommand(this);
             //SaveBitFielddataCommand = new RegisterSaveDataCommand(this);
 
@@ -109,7 +109,7 @@ namespace ADIN.WPF.ViewModel
                             OnPropertyChanged(nameof(Registers));
                         });
                     }
-                    Thread.Sleep(50);
+                    Thread.Sleep(10);
                 }
                 catch (Exception ex)
                 {

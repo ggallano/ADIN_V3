@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 
@@ -74,8 +75,11 @@ namespace ADIN.WPF.ViewModel
 
             set
             {
-                _generator = value;
-                OnPropertyChanged(nameof(Generator));
+                if (value != _generator)
+                {
+                    _generator = value;
+                    OnPropertyChanged(nameof(Generator));
+                }
             }
         }
 
@@ -125,8 +129,11 @@ namespace ADIN.WPF.ViewModel
                     default:
                         break;
                 }
-                _linkStatus = value;
-                OnPropertyChanged(nameof(LinkStatus));
+                if (value != _linkStatus)
+                {
+                    _linkStatus = value;
+                    OnPropertyChanged(nameof(LinkStatus));
+                }
             }
         }
 
@@ -153,8 +160,11 @@ namespace ADIN.WPF.ViewModel
             
             set
             {
-                _mseValue = value;
-                OnPropertyChanged(nameof(MseValue));
+                if (value != _mseValue)
+                {
+                    _mseValue = value;
+                    OnPropertyChanged(nameof(MseValue));
+                }
             }
         }
 
@@ -178,8 +188,11 @@ namespace ADIN.WPF.ViewModel
             get { return _localAdvertisedSpeeds; }
             set
             {
-                _localAdvertisedSpeeds = value;
-                OnPropertyChanged(nameof(LocalAdvertisedSpeeds));
+                //if (!value.SequenceEqual(_localAdvertisedSpeeds))
+                {
+                    _localAdvertisedSpeeds = value;
+                    OnPropertyChanged(nameof(LocalAdvertisedSpeeds));
+                }
             }
         }
         public List<string> RemoteAdvertisedSpeeds
@@ -187,8 +200,11 @@ namespace ADIN.WPF.ViewModel
             get { return _remoteAdvertisedSpeeds; }
             set
             {
-                _remoteAdvertisedSpeeds = value;
-                OnPropertyChanged(nameof(RemoteAdvertisedSpeeds));
+                //if (!value.SequenceEqual(_remoteAdvertisedSpeeds))
+                {
+                    _remoteAdvertisedSpeeds = value;
+                    OnPropertyChanged(nameof(RemoteAdvertisedSpeeds));
+                }
             }
         }
 
@@ -227,17 +243,17 @@ namespace ADIN.WPF.ViewModel
                             //MasterSlaveStatus = _selectedDevice.FwAPI.GetMasterSlaveStatus();
                             //TxLevelStatus = _selectedDevice.FwAPI.GetTxLevelStatus();
                             MseValue = _selectedDevice.FwAPI.GetMseValue();
-
                             _selectedDevice.FwAPI.GetFrameCheckerStatus();
                             Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
                             LocalAdvertisedSpeeds = _selectedDevice.FwAPI.LocalAdvertisedSpeedList();
                             RemoteAdvertisedSpeeds = _selectedDevice.FwAPI.RemoteAdvertisedSpeedList();
                         }
 
-                        System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            OnPropertyChanged(nameof(LinkStatus));
-                        });
+                        OnPropertyChanged(nameof(LinkStatus));
+                        //System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                        //{
+                        //    OnPropertyChanged(nameof(LinkStatus));
+                        //});
                     }
 
                     Thread.Sleep(50);

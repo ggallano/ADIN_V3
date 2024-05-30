@@ -4,18 +4,13 @@ using ADIN.Device.Models;
 using ADIN.WPF.Models;
 using FTDIChip.Driver.Services;
 using Helper.Feedback;
-using Helper.ReadFile;
-using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
@@ -31,8 +26,7 @@ namespace ADIN.Device.Services
         private IRegisterService _registerService;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
-        private List<EthernetSpeeds> _advertisedSpeeds = new List<EthernetSpeeds>();
-        private List<EthernetSpeeds> _localAdvertisedSpeeds = new List<EthernetSpeeds>();
+
         public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
@@ -44,24 +38,10 @@ namespace ADIN.Device.Services
         public event EventHandler<FrameType> FrameContentChanged;
 
         public event EventHandler<string> FrameGenCheckerTextStatusChanged;
+
         public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
-
-        //        if (dest != null)
-        //        {
-        //            WriteYodaRg("FgDa5Emi", Convert.ToUInt32(dest, 16));
-        //            OnWriteProcessCompleted(new FeedbackModel() { Message = $"Destination MAC Address set to 0x{dest}", FeedBackType = FeedbackType.Info });
-        //        }
-        //    }
-        //    else
-        //    {
-        //        WriteYodaRg("FgSa", 0xE1);
-        //        OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0xE1", FeedBackType = FeedbackType.Info });
-        //        WriteYodaRg("FgDa5Emi", 0x01);
-        //        OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0x01", FeedBackType = FeedbackType.Info });
-        //    }
-        //}
         public bool isFrameGenCheckerOngoing { get; set; } = false;
 
         public void AdvertisedForcedSpeed(string advFrcSpd)
@@ -97,188 +77,6 @@ namespace ADIN.Device.Services
                 this.WriteYodaRg("AutoMdiEn", 0);
                 this.WriteYodaRg("ManMdix", 1);
             }
-        }
-
-        public void LogAdvertisedSpeed(List<string> listAdvSpd)
-        {
-            _feedbackMessage = "Locally Advertised Speeds:";
-
-            if (listAdvSpd.Contains("SPEED_1000BASE_T_FD_SPEED"))
-            {
-                _feedbackMessage += " SPEED_1000BASE_T_FD_SPEED,";
-            }
-            if (listAdvSpd.Contains("SPEED_1000BASE_T_HD_SPEED"))
-            {
-                _feedbackMessage += " SPEED_1000BASE_T_HD_SPEED,";
-            }
-            if (listAdvSpd.Contains("SPEED_100BASE_TX_FD_SPEED"))
-            {
-                _feedbackMessage += " SPEED_100BASE_TX_FD_SPEED,";
-            }
-            if (listAdvSpd.Contains("SPEED_100BASE_TX_HD_SPEED"))
-            {
-                _feedbackMessage += " SPEED_100BASE_TX_HD_SPEED,";
-            }
-            if (listAdvSpd.Contains("SPEED_10BASE_T_FD_SPEED"))
-            {
-                _feedbackMessage += " SPEED_10BASE_T_FD_SPEED,";
-            }
-            if (listAdvSpd.Contains("SPEED_10BASE_T_HD_SPEED"))
-            {
-                _feedbackMessage += " SPEED_10BASE_T_HD_SPEED,";
-            }
-            if (listAdvSpd.Contains("SPEED_1000BASE_EEE_SPEED"))
-            {
-                _feedbackMessage += " SPEED_1000BASE_EEE_SPEED,";
-            }
-            if (listAdvSpd.Contains("SPEED_100BASE_EEE_SPEED"))
-            {
-                _feedbackMessage += " SPEED_100BASE_EEE_SPEED,";
-            }
-
-            if(_feedbackMessage.EndsWith(","))
-            {
-                _feedbackMessage = _feedbackMessage.Remove(_feedbackMessage.Length - 1);
-            }
-            else
-            {
-                _feedbackMessage += " No advertised speed/s";
-            }
-
-            FeedbackLog(_feedbackMessage, FeedbackType.Info);
-        }
-
-        public List<string> LocalAdvertisedSpeedList()
-        {
-            List<string> localSpeeds = new List<string>();
-
-            localSpeeds.Add(string.Empty);
-            localSpeeds.Add(string.Empty);
-
-            if(this.ReadYogaRg("Fd100Adv") == "1")
-            {
-                localSpeeds.Add("SPEED_100BASE_TX_FD_SPEED");
-            }
-            else
-            {
-                localSpeeds.Add(string.Empty);
-            }
-
-            if (this.ReadYogaRg("Hd100Adv") == "1")
-            {
-                localSpeeds.Add("SPEED_100BASE_TX_HD_SPEED");
-            }
-            else
-            {
-                localSpeeds.Add(string.Empty);
-            }
-            if (this.ReadYogaRg("Fd10Adv") == "1")
-            {
-                localSpeeds.Add("SPEED_10BASE_T_FD_SPEED");
-            }
-            else
-            {
-                localSpeeds.Add(string.Empty);
-            }
-
-            if (this.ReadYogaRg("Hd10Adv") == "1")
-            {
-                localSpeeds.Add("SPEED_10BASE_T_HD_SPEED");
-            }
-            else
-            {
-                localSpeeds.Add(string.Empty);
-            }
-
-            if (this.ReadYogaRg("EeeAdv") == "1")
-            {
-                localSpeeds.Add("SPEED_100BASE_EEE_SPEED");
-            }
-            else
-            {
-                localSpeeds.Add(string.Empty);
-            }
-
-            return localSpeeds;
-        }
-
-        public List<string> RemoteAdvertisedSpeedList()
-        {
-            List<string> remoteSpeeds = new List<string>();
-
-            if (this.ReadYogaRg("LpFd1000Able") == "1")
-            {
-                remoteSpeeds.Add("SPEED_1000BASE_T_FD_SPEED");
-            }
-            else
-            {
-                remoteSpeeds.Add(string.Empty);
-            }
-
-            if (this.ReadYogaRg("LpHd1000Able") == "1")
-            {
-                remoteSpeeds.Add("SPEED_1000BASE_T_HD_SPEED");
-            }
-            else
-            {
-                remoteSpeeds.Add(string.Empty);
-            }
-
-            if (this.ReadYogaRg("LpFd100Able") == "1")
-            {
-                remoteSpeeds.Add("SPEED_100BASE_TX_FD_SPEED");
-            }
-            else
-            {
-                remoteSpeeds.Add(string.Empty);
-            }
-
-            if (this.ReadYogaRg("LpHd100Able") == "1")
-            {
-                remoteSpeeds.Add("SPEED_100BASE_TX_HD_SPEED");
-            }
-            else
-            {
-                remoteSpeeds.Add(string.Empty);
-            }
-
-            if (this.ReadYogaRg("LpFd10Able") == "1")
-            {
-                remoteSpeeds.Add("SPEED_10BASE_T_FD_SPEED");
-            }
-            else
-            {
-                remoteSpeeds.Add(string.Empty);
-            }
-
-            if (this.ReadYogaRg("LpHd10Able") == "1")
-            {
-                remoteSpeeds.Add("SPEED_10BASE_T_HD_SPEED");
-            }
-            else
-            {
-                remoteSpeeds.Add(string.Empty);
-            }
-
-            if (this.ReadYogaRg("LpEee1000Able") == "1")
-            {
-                remoteSpeeds.Add("SPEED_1000BASE_EEE_SPEED");
-            }
-            else
-            {
-                remoteSpeeds.Add(string.Empty);
-            }
-
-            if (this.ReadYogaRg("LpEee100Able") == "1")
-            {
-                remoteSpeeds.Add("SPEED_100BASE_EEE_SPEED");
-            }
-            else
-            {
-                remoteSpeeds.Add(string.Empty);
-            }
-
-            return remoteSpeeds;
         }
 
         public void DisableLinking(bool isDisabledLinking)
@@ -453,21 +251,121 @@ namespace ADIN.Device.Services
             return _phyState = EthPhyState.LinkUp;
         }
 
+        public List<string> LocalAdvertisedSpeedList()
+        {
+            List<string> localSpeeds = new List<string>();
+
+            localSpeeds.Add(string.Empty);
+            localSpeeds.Add(string.Empty);
+
+            if (this.ReadYogaRg("Fd100Adv") == "1")
+            {
+                localSpeeds.Add("SPEED_100BASE_TX_FD_SPEED");
+            }
+            else
+            {
+                localSpeeds.Add(string.Empty);
+            }
+
+            if (this.ReadYogaRg("Hd100Adv") == "1")
+            {
+                localSpeeds.Add("SPEED_100BASE_TX_HD_SPEED");
+            }
+            else
+            {
+                localSpeeds.Add(string.Empty);
+            }
+            if (this.ReadYogaRg("Fd10Adv") == "1")
+            {
+                localSpeeds.Add("SPEED_10BASE_T_FD_SPEED");
+            }
+            else
+            {
+                localSpeeds.Add(string.Empty);
+            }
+
+            if (this.ReadYogaRg("Hd10Adv") == "1")
+            {
+                localSpeeds.Add("SPEED_10BASE_T_HD_SPEED");
+            }
+            else
+            {
+                localSpeeds.Add(string.Empty);
+            }
+
+            if (this.ReadYogaRg("EeeAdv") == "1")
+            {
+                localSpeeds.Add("SPEED_100BASE_EEE_SPEED");
+            }
+            else
+            {
+                localSpeeds.Add(string.Empty);
+            }
+
+            return localSpeeds;
+        }
+
+        public void LogAdvertisedSpeed(List<string> listAdvSpd)
+        {
+            _feedbackMessage = "Locally Advertised Speeds:";
+
+            if (listAdvSpd.Contains("SPEED_1000BASE_T_FD_SPEED"))
+            {
+                _feedbackMessage += " SPEED_1000BASE_T_FD_SPEED,";
+            }
+            if (listAdvSpd.Contains("SPEED_1000BASE_T_HD_SPEED"))
+            {
+                _feedbackMessage += " SPEED_1000BASE_T_HD_SPEED,";
+            }
+            if (listAdvSpd.Contains("SPEED_100BASE_TX_FD_SPEED"))
+            {
+                _feedbackMessage += " SPEED_100BASE_TX_FD_SPEED,";
+            }
+            if (listAdvSpd.Contains("SPEED_100BASE_TX_HD_SPEED"))
+            {
+                _feedbackMessage += " SPEED_100BASE_TX_HD_SPEED,";
+            }
+            if (listAdvSpd.Contains("SPEED_10BASE_T_FD_SPEED"))
+            {
+                _feedbackMessage += " SPEED_10BASE_T_FD_SPEED,";
+            }
+            if (listAdvSpd.Contains("SPEED_10BASE_T_HD_SPEED"))
+            {
+                _feedbackMessage += " SPEED_10BASE_T_HD_SPEED,";
+            }
+            if (listAdvSpd.Contains("SPEED_1000BASE_EEE_SPEED"))
+            {
+                _feedbackMessage += " SPEED_1000BASE_EEE_SPEED,";
+            }
+            if (listAdvSpd.Contains("SPEED_100BASE_EEE_SPEED"))
+            {
+                _feedbackMessage += " SPEED_100BASE_EEE_SPEED,";
+            }
+
+            if (_feedbackMessage.EndsWith(","))
+            {
+                _feedbackMessage = _feedbackMessage.Remove(_feedbackMessage.Length - 1);
+            }
+            else
+            {
+                _feedbackMessage += " No advertised speed/s";
+            }
+
+            FeedbackLog(_feedbackMessage, FeedbackType.Info);
+        }
         public string MdioReadCl22(uint regAddress)
         {
-            lock(_mainLock)
+            lock (_mainLock)
             {
                 string response = string.Empty;
                 string command = string.Empty;
 
                 command = $"mdioread {_phyAddress},{regAddress.ToString("X")}\n";
-                //lock (thisLock)
-                {
-                    _ftdiService.Purge();
-                    _ftdiService.SendData(command);
 
-                    response = _ftdiService.ReadCommandResponse().Trim();
-                }
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+
+                response = _ftdiService.ReadCommandResponse().Trim();
 
                 if (response.Contains("ERROR"))
                 {
@@ -490,14 +388,11 @@ namespace ADIN.Device.Services
                 string command = string.Empty;
 
                 command = $"mdiord_cl45 {_phyAddress},{regAddress.ToString("X")}\n";
-                //lock (thisLock)
-                {
-                    _ftdiService.Purge();
-                    _ftdiService.SendData(command);
-                    //_ftdiService.SendData(command);
 
-                    response = _ftdiService.ReadCommandResponse().Trim();
-                }
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+
+                response = _ftdiService.ReadCommandResponse().Trim();
 
                 if (response.Contains("ERROR"))
                 {
@@ -520,13 +415,11 @@ namespace ADIN.Device.Services
                 string command = string.Empty;
 
                 command = $"mdiowrite {_phyAddress},{regAddress.ToString("X")},{data.ToString("X")}\n";
-                //lock (thisLock)
-                {
-                    _ftdiService.Purge();
-                    _ftdiService.SendData(command);
 
-                    response = _ftdiService.ReadCommandResponse().Trim();
-                }
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+
+                response = _ftdiService.ReadCommandResponse().Trim();
 
                 if (response.Contains("ERROR"))
                 {
@@ -538,7 +431,7 @@ namespace ADIN.Device.Services
                 Debug.WriteLine($"Response:{response}");
 
                 return response;
-            } 
+            }
         }
 
         public string MdioWriteCl45(uint regAddress, uint data)
@@ -550,12 +443,10 @@ namespace ADIN.Device.Services
                 string command2 = string.Empty;
 
                 command = $"mdiowr_cl45 {_phyAddress},{regAddress.ToString("X")},{data.ToString("X")}\n";
-                //lock (thisLock)
-                {
-                    _ftdiService.Purge();
-                    _ftdiService.SendData(command);
-                    response = _ftdiService.ReadCommandResponse().Trim();
-                }
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
 
                 if (response.Contains("ERROR"))
                 {
@@ -616,12 +507,116 @@ namespace ADIN.Device.Services
             return WriteYodaRg(regAddress, data);
         }
 
+        public List<string> RemoteAdvertisedSpeedList()
+        {
+            List<string> remoteSpeeds = new List<string>();
+
+            if (this.ReadYogaRg("LpFd1000Able") == "1")
+            {
+                remoteSpeeds.Add("SPEED_1000BASE_T_FD_SPEED");
+            }
+            else
+            {
+                remoteSpeeds.Add(string.Empty);
+            }
+
+            if (this.ReadYogaRg("LpHd1000Able") == "1")
+            {
+                remoteSpeeds.Add("SPEED_1000BASE_T_HD_SPEED");
+            }
+            else
+            {
+                remoteSpeeds.Add(string.Empty);
+            }
+
+            if (this.ReadYogaRg("LpFd100Able") == "1")
+            {
+                remoteSpeeds.Add("SPEED_100BASE_TX_FD_SPEED");
+            }
+            else
+            {
+                remoteSpeeds.Add(string.Empty);
+            }
+
+            if (this.ReadYogaRg("LpHd100Able") == "1")
+            {
+                remoteSpeeds.Add("SPEED_100BASE_TX_HD_SPEED");
+            }
+            else
+            {
+                remoteSpeeds.Add(string.Empty);
+            }
+
+            if (this.ReadYogaRg("LpFd10Able") == "1")
+            {
+                remoteSpeeds.Add("SPEED_10BASE_T_FD_SPEED");
+            }
+            else
+            {
+                remoteSpeeds.Add(string.Empty);
+            }
+
+            if (this.ReadYogaRg("LpHd10Able") == "1")
+            {
+                remoteSpeeds.Add("SPEED_10BASE_T_HD_SPEED");
+            }
+            else
+            {
+                remoteSpeeds.Add(string.Empty);
+            }
+
+            if (this.ReadYogaRg("LpEee1000Able") == "1")
+            {
+                remoteSpeeds.Add("SPEED_1000BASE_EEE_SPEED");
+            }
+            else
+            {
+                remoteSpeeds.Add(string.Empty);
+            }
+
+            if (this.ReadYogaRg("LpEee100Able") == "1")
+            {
+                remoteSpeeds.Add("SPEED_100BASE_EEE_SPEED");
+            }
+            else
+            {
+                remoteSpeeds.Add(string.Empty);
+            }
+
+            return remoteSpeeds;
+        }
         public void ResetFrameGenCheckerStatistics()
         {
             checkedFrames = 0;
             checkedFramesErrors = 0;
 
             OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames} frames, {checkedFramesErrors} errors");
+        }
+
+        public void ResetPhy(ResetType reset)
+        {
+            switch (reset)
+            {
+                case ResetType.SubSysPin:
+                    WriteYodaRg("GeSftRstCfgEn", 1);
+                    WriteYodaRg("GeSftRst", 1);
+                    FeedbackLog("SubSys (Pin) reset", FeedbackType.Info);
+                    break;
+
+                case ResetType.SubSys:
+                    WriteYodaRg("GeSftRstCfgEn", 0);
+                    WriteYodaRg("GeSftRst", 1);
+                    FeedbackLog("SubSys reset", FeedbackType.Info);
+                    break;
+
+                case ResetType.Phy:
+                    WriteYodaRg("SftRst", 1);
+                    FeedbackLog("Phy reset", FeedbackType.Info);
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         public void RestartAutoNegotiation()
@@ -664,15 +659,6 @@ namespace ADIN.Device.Services
             }
         }
 
-        //private void SetMacAddresses(bool isEnable, string src, string dest)
-        //{
-        //    if (isEnable)
-        //    {
-        //        if (src != null)
-        //        {
-        //            WriteYodaRg("FgSa", Convert.ToUInt32(src, 16));
-        //            OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0x{src}", FeedBackType = FeedbackType.Info });
-        //        }
         public void SetFrameCheckerSetting(FrameGenCheckerModel frameContent)
         {
             checkedFrames = 0;
@@ -1153,7 +1139,7 @@ namespace ADIN.Device.Services
 
         private string ReadYodaRg(uint registerAddress)
         {
-            string value;
+            string value = string.Empty;
 
             uint pageNumber = registerAddress >> 16;
             if (pageNumber == 0)
@@ -1323,32 +1309,6 @@ namespace ADIN.Device.Services
             else
             {
                 return MdioWriteCl45(registerAddress, value);
-            }
-        }
-
-        public void ResetPhy(ResetType reset)
-        {
-            switch (reset)
-            {
-                case ResetType.SubSysPin:
-                    WriteYodaRg("GeSftRstCfgEn", 1);
-                    WriteYodaRg("GeSftRst", 1);
-                    FeedbackLog("SubSys (Pin) reset", FeedbackType.Info);
-                    break;
-
-                case ResetType.SubSys:
-                    WriteYodaRg("GeSftRstCfgEn", 0);
-                    WriteYodaRg("GeSftRst", 1);
-                    FeedbackLog("SubSys reset", FeedbackType.Info);
-                    break;
-
-                case ResetType.Phy:
-                    WriteYodaRg("SftRst", 1);
-                    FeedbackLog("Phy reset", FeedbackType.Info);
-                    break;
-
-                default:
-                    break;
             }
         }
     }
