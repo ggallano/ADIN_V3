@@ -174,6 +174,8 @@ namespace ADIN.WPF.ViewModel
             base.Dispose();
         }
 
+        public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             OnPropertyChanged(nameof(Loopbacks));
@@ -185,6 +187,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(IsLoopback_LineDriver));
             OnPropertyChanged(nameof(IsLoopback_ExtCable));
             OnPropertyChanged(nameof(IsLoopback_Remote));
+            OnPropertyChanged(nameof(IsDeviceSelected));
         }
     }
 }

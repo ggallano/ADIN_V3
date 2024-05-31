@@ -23,7 +23,7 @@
                 </DockPanel>
             </Border>
             <Border Grid.Row="1" CornerRadius="0 0 4 4" BorderBrush="{StaticResource hmc.color.layout.divider.default}" BorderThickness="1 0 1 1" Background="Transparent" Padding="5">
-                <Grid>
+                <Grid IsEnabled="{Binding IsDeviceSelected}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="117"/>
@@ -61,7 +61,7 @@
                 </DockPanel>
             </Border>
             <Border Grid.Row="1" CornerRadius="0 0 4 4" BorderBrush="{StaticResource hmc.color.layout.divider.default}" BorderThickness="1 0 1 1" Background="Transparent" Padding="5">
-                <Grid>
+                <Grid IsEnabled="{Binding IsDeviceSelected}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>

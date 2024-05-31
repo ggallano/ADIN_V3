@@ -18,8 +18,7 @@
         <!--telerik:StyleManager.Theme="Windows8"-->
         <ContentControl Visibility="Visible" Content="{StaticResource ProxyElement}"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" >
-            <StackPanel Orientation="Vertical">
-
+            <StackPanel Orientation="Vertical" IsEnabled="{Binding IsDeviceSelected}">
                 <Grid>
                     <GroupBox Header="Speed" Style="{StaticResource GroupBoxStyle}" 
 				  Margin="0 5">

@@ -12,7 +12,7 @@
     </UserControl.Resources>
     <Grid Margin="5">
 
-        <StackPanel HorizontalAlignment='Stretch' Margin='10' >
+        <StackPanel HorizontalAlignment='Stretch' Margin='10' IsEnabled="{Binding IsDeviceSelected}">
 
             <GroupBox Header='Enable Remote Loopback in Link Partner' Style="{StaticResource GroupBoxStyle}">
                 <StackPanel Margin="0">
