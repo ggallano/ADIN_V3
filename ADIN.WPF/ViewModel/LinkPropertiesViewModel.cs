@@ -42,7 +42,7 @@ namespace ADIN.WPF.ViewModel
                     {
                         _linkProperties.AdvertisedSpeeds.Remove("SPEED_1000BASE_T_FD_SPEED");
                     }
-                    _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
+                    _selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                     OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
                 }
             }
@@ -63,7 +63,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     _linkProperties.AdvertisedSpeeds.Remove("SPEED_1000BASE_T_HD_SPEED");
                 }
-                _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
+                _selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                 OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
             }
         }
@@ -83,7 +83,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     _linkProperties.AdvertisedSpeeds.Remove("SPEED_100BASE_TX_FD_SPEED");
                 }
-                _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
+                _selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                 OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
             }
         }
@@ -103,7 +103,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     _linkProperties.AdvertisedSpeeds.Remove("SPEED_100BASE_TX_HD_SPEED");
                 }
-                _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
+                _selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                 OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
             }
         }
@@ -123,7 +123,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     _linkProperties.AdvertisedSpeeds.Remove("SPEED_10BASE_T_FD_SPEED");
                 }
-                _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
+                _selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                 OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
             }
         }
@@ -143,7 +143,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     _linkProperties.AdvertisedSpeeds.Remove("SPEED_10BASE_T_HD_SPEED");
                 }
-                _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
+                _selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                 OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
             }
         }
@@ -163,7 +163,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     _linkProperties.AdvertisedSpeeds.Remove("SPEED_1000BASE_EEE_SPEED");
                 }
-                _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
+                _selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                 OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
             }
         }
@@ -183,7 +183,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     _linkProperties.AdvertisedSpeeds.Remove("SPEED_100BASE_EEE_SPEED");
                 }
-                _selectedDeviceStore.SelectedDevice.FwAPI.CheckAdvertisedSpeed(AdvertisedSpeeds);
+                _selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                 OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
             }
         }
@@ -211,8 +211,11 @@ namespace ADIN.WPF.ViewModel
             get { return _linkProperties?.SpeedMode; }
             set
             {
-                _linkProperties.SpeedMode = value;
-                _selectedDeviceStore.SelectedDevice.FwAPI.AdvertisedForcedSpeed(value);
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _linkProperties.SpeedMode = value;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.AdvertisedForcedSpeed(value);
+                }
                 OnPropertyChanged(nameof(SelectedSpeedMode));
                 OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
                 OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
@@ -225,8 +228,11 @@ namespace ADIN.WPF.ViewModel
             get { return _linkProperties?.ForcedSpeed; }
             set
             {
-                _linkProperties.ForcedSpeed = value;
-                _selectedDeviceStore.SelectedDevice.FwAPI.SetForcedSpeed(value);
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _linkProperties.ForcedSpeed = value;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.SetForcedSpeed(value);
+                }
                 OnPropertyChanged(nameof(SelectedForcedSpeed));
             }
         }
@@ -236,8 +242,11 @@ namespace ADIN.WPF.ViewModel
             get { return _linkProperties?.MDIX; }
             set
             {
-                _linkProperties.MDIX = value;
-                _selectedDeviceStore.SelectedDevice.FwAPI.AutoMDIXMode(value);
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _linkProperties.MDIX = value;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.AutoMDIXMode(value);
+                }
                 OnPropertyChanged(nameof(SelectedMDIX));
             }
         }
@@ -247,8 +256,11 @@ namespace ADIN.WPF.ViewModel
             get { return _linkProperties?.EnergyDetectPowerDownMode; }
             set
             {
-                _linkProperties.EnergyDetectPowerDownMode = value;
-                _selectedDeviceStore.SelectedDevice.FwAPI.EnableEnergyDetectPowerDown(value);
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _linkProperties.EnergyDetectPowerDownMode = value;
+                    _selectedDeviceStore.SelectedDevice.FwAPI.EnableEnergyDetectPowerDown(value);
+                }
                 OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
             }
         }
@@ -286,6 +298,8 @@ namespace ADIN.WPF.ViewModel
         }
         private ILinkProperties _linkProperties => _selectedDeviceStore.SelectedDevice?.LinkProperties;
 
+        public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             OnPropertyChanged(nameof(SpeedModes));
@@ -311,6 +325,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(EnergyDetectPowerDownModes));
             OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
             OnPropertyChanged(nameof(SetDownSpeedRetries));
+            OnPropertyChanged(nameof(IsDeviceSelected));
         }
     }
 }

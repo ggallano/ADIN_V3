@@ -9,5 +9,6 @@ namespace ADIN.Device.Models.ADIN1200
     public class DeviceStatusADIN1200 : IDeviceStatus
     {
         public bool IsSoftwarePowerDown { get; set; } = true;
+        public List<string> AdvertisedSpeeds { get; set; }
     }
 }

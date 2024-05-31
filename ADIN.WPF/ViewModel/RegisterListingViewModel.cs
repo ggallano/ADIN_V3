@@ -109,7 +109,7 @@ namespace ADIN.WPF.ViewModel
                             OnPropertyChanged(nameof(Registers));
                         });
                     }
-                    Thread.Sleep(50);
+                    Thread.Sleep(10);
                 }
                 catch (Exception ex)
                 {

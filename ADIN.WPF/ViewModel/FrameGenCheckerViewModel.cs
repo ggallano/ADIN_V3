@@ -207,6 +207,8 @@ namespace ADIN.WPF.ViewModel
             }));
         }
 
+        public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             OnPropertyChanged(nameof(SelectedFrameContent));
@@ -219,6 +221,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(EnableMacAddress));
             OnPropertyChanged(nameof(EnableContinuousMode));
             OnPropertyChanged(nameof(FrameGeneratorButtonText));
+            OnPropertyChanged(nameof(IsDeviceSelected));
         }
     }
 }

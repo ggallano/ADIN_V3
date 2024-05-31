@@ -28,7 +28,7 @@ namespace ADIN.WPF.Commands
         public override void Execute(object parameter)
         {
             var resetType = (ResetType)Enum.Parse(typeof(ResetType), parameter.ToString());
-            _selectedDeviceStore.SelectedDevice.FirmwareAPI.ResetPhy(resetType);
+            _selectedDeviceStore.SelectedDevice.FwAPI.ResetPhy(resetType);
         }
 
         private void _extraCommandsViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

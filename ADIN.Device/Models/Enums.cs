@@ -220,6 +220,7 @@
 
     public enum ResetType
     {
+        SubSysPin,
         SubSys,
         Phy
     }

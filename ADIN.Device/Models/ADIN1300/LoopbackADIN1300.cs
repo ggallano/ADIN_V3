@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ADIN.Device.Models.ADIN1200
+namespace ADIN.Device.Models.ADIN1300
 {
-    public class LoopbackADIN1200 : ILoopback
+    public class LoopbackADIN1300 : ILoopback
     {
-        public LoopbackADIN1200()
+        public LoopbackADIN1300()
         {
             LpBck_None = new LoopbackListingModel();
             LpBck_None.Name = "OFF";

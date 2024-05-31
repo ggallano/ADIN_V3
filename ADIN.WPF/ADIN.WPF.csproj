@@ -133,7 +133,6 @@
     <Compile Include="Commands\AutoNegCommand.cs" />
     <Compile Include="Commands\ClearLogCommand.cs" />
     <Compile Include="Commands\RemoteLoopbackCommand.cs" />
-    <Compile Include="Commands\LoopbackCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\DisableLinkCommand.cs" />
     <Compile Include="Commands\ExecuteFrameCheckerCommand.cs" />
@@ -142,6 +141,7 @@
     <Compile Include="Commands\ClockPinControlCommand.cs" />
     <Compile Include="Commands\ReadRegisterCommand.cs" />
     <Compile Include="Commands\RegisterActionCommand.cs" />
+    <Compile Include="Commands\ResetCommand.cs" />
     <Compile Include="Commands\ResetFrameDeviceCheckerCommnad.cs" />
     <Compile Include="Commands\SoftwarePowerDownCommand.cs" />
     <Compile Include="Commands\TestModeCommand.cs" />
@@ -256,11 +256,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\ListBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\NumericUpDownStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\PropertyGridStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\ScrollBarStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\SliderStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

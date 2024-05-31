@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 
@@ -21,6 +22,8 @@ namespace ADIN.WPF.ViewModel
         private string _linkStatus = "-";
         private string _masterSlaveStatus = "-";
         private string _mseValue = "-";
+        private List<string> _localAdvertisedSpeeds = new List<string>();
+        private List<string> _remoteAdvertisedSpeeds = new List<string>();
         private BackgroundWorker _readRegisterWorker;
         private SelectedDeviceStore _selectedDeviceStore;
         private object _thisLock;
@@ -61,11 +64,22 @@ namespace ADIN.WPF.ViewModel
 
         public string Generator
         {
-            get { return _generator; }
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    return _generator;
+                }
+                return "-";
+            }
+
             set
             {
-                _generator = value;
-                OnPropertyChanged(nameof(Generator));
+                if (value != _generator)
+                {
+                    _generator = value;
+                    OnPropertyChanged(nameof(Generator));
+                }
             }
         }
 
@@ -81,7 +95,14 @@ namespace ADIN.WPF.ViewModel
 
         public string LinkStatus
         {
-            get { return _linkStatus; }
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    return _linkStatus;
+                }
+                return "-";
+            }
             set
             {
                 switch ((EthPhyState)Enum.Parse(typeof(EthPhyState), value))
@@ -108,8 +129,11 @@ namespace ADIN.WPF.ViewModel
                     default:
                         break;
                 }
-                _linkStatus = value;
-                OnPropertyChanged(nameof(LinkStatus));
+                if (value != _linkStatus)
+                {
+                    _linkStatus = value;
+                    OnPropertyChanged(nameof(LinkStatus));
+                }
             }
         }
 
@@ -125,11 +149,22 @@ namespace ADIN.WPF.ViewModel
 
         public string MseValue
         {
-            get { return _mseValue; }
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    return _mseValue;
+                }
+                return "-";
+            }
+            
             set
             {
-                _mseValue = value;
-                OnPropertyChanged(nameof(MseValue));
+                if (value != _mseValue)
+                {
+                    _mseValue = value;
+                    OnPropertyChanged(nameof(MseValue));
+                }
             }
         }
 
@@ -147,6 +182,31 @@ namespace ADIN.WPF.ViewModel
         //}
 
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
+
+        public List<string> LocalAdvertisedSpeeds
+        {
+            get { return _localAdvertisedSpeeds; }
+            set
+            {
+                if (!value.SequenceEqual(_localAdvertisedSpeeds))
+                {
+                    _localAdvertisedSpeeds = value;
+                    OnPropertyChanged(nameof(LocalAdvertisedSpeeds));
+                }
+            }
+        }
+        public List<string> RemoteAdvertisedSpeeds
+        {
+            get { return _remoteAdvertisedSpeeds; }
+            set
+            {
+                if (!value.SequenceEqual(_remoteAdvertisedSpeeds))
+                {
+                    _remoteAdvertisedSpeeds = value;
+                    OnPropertyChanged(nameof(RemoteAdvertisedSpeeds));
+                }
+            }
+        }
 
         protected override void Dispose()
         {
@@ -183,15 +243,17 @@ namespace ADIN.WPF.ViewModel
                             //MasterSlaveStatus = _selectedDevice.FwAPI.GetMasterSlaveStatus();
                             //TxLevelStatus = _selectedDevice.FwAPI.GetTxLevelStatus();
                             MseValue = _selectedDevice.FwAPI.GetMseValue();
-
                             _selectedDevice.FwAPI.GetFrameCheckerStatus();
                             Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
+                            LocalAdvertisedSpeeds = _selectedDevice.FwAPI.LocalAdvertisedSpeedList();
+                            RemoteAdvertisedSpeeds = _selectedDevice.FwAPI.RemoteAdvertisedSpeedList();
                         }
 
-                        System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            OnPropertyChanged(nameof(LinkStatus));
-                        });
+                        OnPropertyChanged(nameof(LinkStatus));
+                        //System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                        //{
+                        //    OnPropertyChanged(nameof(LinkStatus));
+                        //});
                     }
 
                     Thread.Sleep(50);
@@ -237,11 +299,13 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(LinkStatus));
             //OnPropertyChanged(nameof(AnStatus));
             //OnPropertyChanged(nameof(MasterSlaveStatus));
+            OnPropertyChanged(nameof(Generator));
             OnPropertyChanged(nameof(MseValue));
             //OnPropertyChanged(nameof(TxLevelStatus));
             OnPropertyChanged(nameof(DeviceType));
             OnPropertyChanged(nameof(PhyAddress));
-            //OnPropertyChanged(nameof(AdvertisedSpeed));
+            OnPropertyChanged(nameof(LocalAdvertisedSpeeds));
+            OnPropertyChanged(nameof(RemoteAdvertisedSpeeds));
             OnPropertyChanged(nameof(Checker));
         }
 

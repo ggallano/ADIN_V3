@@ -71,9 +71,12 @@ namespace ADIN.WPF.ViewModel
             set { _writeValue = value; }
         }
 
+        public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             IsEnable = true;
+            OnPropertyChanged(nameof(IsDeviceSelected));
         }
     }
 }

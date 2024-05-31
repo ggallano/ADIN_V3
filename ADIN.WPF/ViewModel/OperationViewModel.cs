@@ -27,13 +27,6 @@ namespace ADIN.WPF.ViewModel
             TestModeVM = new TestModeViewModel(_selectedDeviceStore);
             DeviceStatusVM = new DeviceStatusViewModel(selectedDeviceStore, ftdiService);
             RegisterAccessVM = new RegisterAccessViewModel(selectedDeviceStore, navigationStore);
-
-            _navigationStore.CurrentViewModelChanged += _navigationStore_CurrentViewModelChanged;
-        }
-
-        private void _navigationStore_CurrentViewModelChanged1()
-        {
-            throw new System.NotImplementedException();
         }
 
         public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
@@ -48,9 +41,5 @@ namespace ADIN.WPF.ViewModel
         public DeviceStatusViewModel DeviceStatusVM { get; set; }
         public LogActivityViewModel LogActivityVM { get; set; }
         public RegisterAccessViewModel RegisterAccessVM { get; set; }
-        private void _navigationStore_CurrentViewModelChanged()
-        {
-            OnPropertyChanged(nameof(CurrentViewModel));
-        }
     }
 }

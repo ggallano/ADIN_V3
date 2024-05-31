@@ -40,6 +40,31 @@
                 </StackPanel>
             </Border>
 
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Style="{StaticResource BorderSyle}" Grid.Column="0">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Local" Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                        <telerik:RadListBox ItemsSource="{Binding LocalAdvertisedSpeeds}"
+                                            Style="{StaticResource ListBoxStyle}"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource BorderSyle}" Grid.Column="2">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="Remote" Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                        <telerik:RadListBox ItemsSource="{Binding RemoteAdvertisedSpeeds}"
+                                            Style="{StaticResource ListBoxStyle}"/>
+                    </StackPanel>
+                </Border>
+
+            </Grid>
+
         </StackPanel>
 
     </Grid>

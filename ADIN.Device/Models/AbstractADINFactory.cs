@@ -1,5 +1,6 @@
 ﻿using ADI.Register.Models;
 using ADIN.Device.Services;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace ADIN.Device.Models
@@ -9,6 +10,7 @@ namespace ADIN.Device.Models
         public string BoardName { get; set; }
         public string SerialNumber { get; set; }
         public uint PhyAddress { get; set; }
+        public List<string> AdvertisedSpeeds { get; set; }
         public BoardType DeviceType { get; set; }
         public abstract IFirmwareAPI FirmwareAPI { get; set; }
         public ILinkProperties LinkProperties { get; set; }
