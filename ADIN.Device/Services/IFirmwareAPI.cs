@@ -23,6 +23,7 @@ namespace ADIN.Device.Services
         string GetMseValue();
         void GetFrameCheckerStatus();
         string GetFrameGeneratorStatus();
+        string GetSpeedMode();
         List<string> LocalAdvertisedSpeedList();
         List<string> RemoteAdvertisedSpeedList();
         void SoftwarePowerdown(bool isSoftwarePowerdown);

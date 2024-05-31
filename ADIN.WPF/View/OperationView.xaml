@@ -62,9 +62,9 @@
                     <TabItem Header="Loopback" Style="{StaticResource TabItemStyle}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="4*" MinWidth="600"/>
+                                <ColumnDefinition Width="4*" MinWidth="660"/>
                                 <ColumnDefinition Width="3"/>
-                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="3*"/>
                             </Grid.ColumnDefinitions>
                             <local:LoopbackView Grid.Column="0" DataContext="{Binding LoopbackVM}"/>
                             <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />

@@ -22,8 +22,21 @@ namespace ADIN.WPF.ViewModel
         private string _linkStatus = "-";
         private string _masterSlaveStatus = "-";
         private string _mseValue = "-";
+        private string _speedMode = "-";
+        private bool _isVisibleSpeedList = true;
         private List<string> _localAdvertisedSpeeds = new List<string>();
         private List<string> _remoteAdvertisedSpeeds = new List<string>();
+        private List<string> _advertisedSpeedList = new List<string>()
+        {
+            "SPEED_1000BASE_T_FD_SPEED",
+            "SPEED_1000BASE_T_HD_SPEED",
+            "SPEED_1000BASE_EEE_SPEED",
+            "SPEED_100BASE_TX_FD_SPEED",
+            "SPEED_100BASE_TX_HD_SPEED",
+            "SPEED_100BASE_EEE_SPEED",
+            "SPEED_10BASE_T_FD_SPEED",
+            "SPEED_10BASE_T_HD_SPEED"
+        };
         private BackgroundWorker _readRegisterWorker;
         private SelectedDeviceStore _selectedDeviceStore;
         private object _thisLock;
@@ -42,6 +55,21 @@ namespace ADIN.WPF.ViewModel
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerResetDisplay += _selectedDeviceStore_FrameGenCheckerResetDisplay;
+        }
+
+        public string AdvertisedSpeed
+        {
+            get
+            {
+                foreach(var speed in _advertisedSpeedList)
+                {
+                    if (_localAdvertisedSpeeds.Contains(speed) && _remoteAdvertisedSpeeds.Contains(speed))
+                    {
+                        return speed;
+                    }
+                }
+                return "-";
+            }
         }
 
         public string BoardName => _selectedDeviceStore.SelectedDevice?.BoardName ?? "No Device";
@@ -192,6 +220,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     _localAdvertisedSpeeds = value;
                     OnPropertyChanged(nameof(LocalAdvertisedSpeeds));
+                    OnPropertyChanged(nameof(AdvertisedSpeed));
                 }
             }
         }
@@ -204,8 +233,36 @@ namespace ADIN.WPF.ViewModel
                 {
                     _remoteAdvertisedSpeeds = value;
                     OnPropertyChanged(nameof(RemoteAdvertisedSpeeds));
+                    OnPropertyChanged(nameof(AdvertisedSpeed));
                 }
             }
+        }
+
+        public string SpeedMode
+        {
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    return _speedMode;
+                }
+                return "-";
+            }
+
+            set
+            {
+                if (value != _speedMode)
+                {
+                    _speedMode = value;
+                    OnPropertyChanged(nameof(SpeedMode));
+                    OnPropertyChanged(nameof(IsVisibleSpeedList));
+                }
+            }
+        }
+
+        public bool IsVisibleSpeedList
+        {
+            get { return _speedMode == "Advertised"; }
         }
 
         protected override void Dispose()
@@ -243,6 +300,7 @@ namespace ADIN.WPF.ViewModel
                             //MasterSlaveStatus = _selectedDevice.FwAPI.GetMasterSlaveStatus();
                             //TxLevelStatus = _selectedDevice.FwAPI.GetTxLevelStatus();
                             MseValue = _selectedDevice.FwAPI.GetMseValue();
+                            SpeedMode = _selectedDevice.FwAPI.GetSpeedMode();
                             _selectedDevice.FwAPI.GetFrameCheckerStatus();
                             Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
                             LocalAdvertisedSpeeds = _selectedDevice.FwAPI.LocalAdvertisedSpeedList();
@@ -306,6 +364,9 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(PhyAddress));
             OnPropertyChanged(nameof(LocalAdvertisedSpeeds));
             OnPropertyChanged(nameof(RemoteAdvertisedSpeeds));
+            OnPropertyChanged(nameof(AdvertisedSpeed));
+            OnPropertyChanged(nameof(SpeedMode));
+            OnPropertyChanged(nameof(IsVisibleSpeedList));
             OnPropertyChanged(nameof(Checker));
         }
 

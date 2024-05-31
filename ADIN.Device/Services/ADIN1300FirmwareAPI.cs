@@ -251,6 +251,18 @@ namespace ADIN.Device.Services
             return _phyState = EthPhyState.LinkUp;
         }
 
+        public string GetSpeedMode()
+        {
+            if (ReadYogaRg("AutonegEn") == "1")
+            {
+                return "Advertised";
+            }
+            else
+            {
+                return "Forced";
+            }
+        }
+
         public List<string> LocalAdvertisedSpeedList()
         {
             List<string> localSpeeds = new List<string>();

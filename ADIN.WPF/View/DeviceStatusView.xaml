@@ -11,6 +11,8 @@
     <UserControl.Resources>
         <converter:LinkStateForegroundConverter x:Key="LinkStateForegroundConverter"/>
         <converter:MSEForegroundConverter x:Key="MSEForegroundConverter"/>
+        <FrameworkElement x:Key="ProxyElement" DataContext="{Binding}"/>
+        <telerik:BooleanToVisibilityConverter x:Key="booleanVisibilityConverter"/>
     </UserControl.Resources>
     <Grid>
         <StackPanel>
@@ -24,23 +26,62 @@
                                Style="{StaticResource DeviceStatusValueStyle}"/>
                 </StackPanel>
             </Border>
-            <Border Style="{StaticResource BorderSyle}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Phy Address: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
-                    <TextBlock Text="{Binding PhyAddress}" 
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Style="{StaticResource BorderSyle}" Grid.Column="0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Phy Address: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                        <TextBlock Text="{Binding PhyAddress}" 
                                Style="{StaticResource DeviceStatusValueStyle}"/>
-                </StackPanel>
-            </Border>
-            <Border Style="{StaticResource BorderSyle}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Link Status: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
-                    <TextBlock Text="{Binding LinkStatus}" 
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource BorderSyle}" Grid.Column="2">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Link Status: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                        <TextBlock Text="{Binding LinkStatus}" 
                                Foreground="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource LinkStateForegroundConverter}}" 
                                Style="{StaticResource DeviceStatusValueStyle}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Style="{StaticResource BorderSyle}" Grid.Column="0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Advertised Speed: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                        <TextBlock Text="{Binding AdvertisedSpeed}" 
+                   Style="{StaticResource DeviceStatusValueStyle}"/>
+                    </StackPanel>
+                </Border>
+                <Border Style="{StaticResource BorderSyle}" Grid.Column="2">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Speed Mode: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                        <TextBlock Text="{Binding SpeedMode}" 
+                   Style="{StaticResource DeviceStatusValueStyle}"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Border Style="{StaticResource BorderSyle}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="MSE: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                    <TextBlock Text="{Binding MseValue}" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
                 </StackPanel>
             </Border>
 
-            <Grid>
+            <Grid Visibility="{Binding IsVisibleSpeedList, Converter={StaticResource booleanVisibilityConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="3"/>
@@ -62,7 +103,6 @@
                                             Style="{StaticResource ListBoxStyle}"/>
                     </StackPanel>
                 </Border>
-
             </Grid>
 
         </StackPanel>
