@@ -74,7 +74,7 @@
                         <Border Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Width="40" Style="{StaticResource BorderSyle}" >
                             <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Text='{Binding ElementName=SliderFrameLength, Path=Value}' Style="{StaticResource TextBlockstyle}"/>
                         </Border>
-                        <telerik:RadSlider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name='SliderFrameLength' Value="{Binding TestModeFrameLengthValue}" Minimum="64" SmallChange="1" Maximum="1530" TickFrequency='1' IsSnapToTickEnabled='True' />
+                        <Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name='SliderFrameLength' Value="{Binding TestModeFrameLengthValue}" Minimum="64" SmallChange="1" Maximum="1530" TickFrequency='1' IsSnapToTickEnabled='True' />
                     </Grid>
                 </StackPanel>
                 <Grid>

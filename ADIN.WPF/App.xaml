@@ -32,6 +32,7 @@
                 <ResourceDictionary Source="Themes/ComboBoxStyle.xaml"/>
                 <ResourceDictionary Source="Themes/ListBoxStyle.xaml"/>
                 <ResourceDictionary Source="Themes/NumericUpDownStyle.xaml"/>
+                <ResourceDictionary Source="Themes/SliderStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
