@@ -218,8 +218,8 @@ namespace ADIN.Device.Services
             //if (_boardRev == BoardRevision.Rev0)
             //    return "N/A";
 
-            //if (_phyState != EthPhyState.LinkUp)
-            //    return "N/A";
+            if (_phyState != EthPhyState.LinkUp)
+                return "N/A";
 
             // Formula:
             // where mse is the value from the register, and sym_pwr_exp is a constant 0.64423.
