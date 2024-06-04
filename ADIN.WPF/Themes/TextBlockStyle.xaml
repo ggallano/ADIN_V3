@@ -5,7 +5,7 @@
     <Style x:Key="BorderSyle" TargetType="{x:Type Border}">
         <Setter Property="BorderBrush" Value="{StaticResource hmc.color.layout.divider.default}"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Margin" Value="2.5"/>
         <Setter Property="CornerRadius" Value="4"/>
         <Setter Property="Padding" Value="5"/>
     </Style>
@@ -101,7 +101,7 @@
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="FontFamily" Value="Barlow"/>
         <Setter Property="Height" Value="24px"/>
-        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontSize" Value="14"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="BorderBrush" Value="{StaticResource hmc.color.layout.divider.default}"/>
         <Setter Property="Template">

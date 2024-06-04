@@ -21,7 +21,7 @@ namespace ADIN.Device.Models.ADIN1300
             SpeedMode = SpeedModes[0];
 
             IsAdvertise_1000BASE_T_FD = true;
-            IsAdvertise_1000BASE_T_HD = true;
+            IsAdvertise_1000BASE_T_HD = false;
             IsAdvertise_100BASE_TX_FD = true;
             IsAdvertise_100BASE_TX_HD = true;
             IsAdvertise_10BASE_T_FD = true;

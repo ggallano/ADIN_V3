@@ -26,6 +26,7 @@ namespace ADIN.Device.Services
         private IRegisterService _registerService;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
+        private List<string> _localAdvertisedSpeeds = new List<string>();
 
         public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
         {
@@ -214,8 +215,8 @@ namespace ADIN.Device.Services
 
         public string GetMseValue()
         {
-            if (_boardRev == BoardRevision.Rev0)
-                return "N/A";
+            //if (_boardRev == BoardRevision.Rev0)
+            //    return "N/A";
 
             if (_phyState != EthPhyState.LinkUp)
                 return "N/A";
@@ -251,6 +252,18 @@ namespace ADIN.Device.Services
             return _phyState = EthPhyState.LinkUp;
         }
 
+        public string GetSpeedMode()
+        {
+            if (ReadYogaRg("AutonegEn") == "1")
+            {
+                return "Advertised";
+            }
+            else
+            {
+                return "Forced";
+            }
+        }
+
         public List<string> LocalAdvertisedSpeedList()
         {
             List<string> localSpeeds = new List<string>();
@@ -277,7 +290,14 @@ namespace ADIN.Device.Services
                 localSpeeds.Add(string.Empty);
             }
 
-            localSpeeds.Add(string.Empty);
+            if (this.ReadYogaRg("Eee100Adv") == "1")
+            {
+                localSpeeds.Add("SPEED_100BASE_EEE_SPEED");
+            }
+            else
+            {
+                localSpeeds.Add(string.Empty);
+            }
 
             if (this.ReadYogaRg("Fd10Adv") == "1")
             {
@@ -291,15 +311,6 @@ namespace ADIN.Device.Services
             if (this.ReadYogaRg("Hd10Adv") == "1")
             {
                 localSpeeds.Add("SPEED_10BASE_T_HD_SPEED");
-            }
-            else
-            {
-                localSpeeds.Add(string.Empty);
-            }
-
-            if (this.ReadYogaRg("EeeAdv") == "1")
-            {
-                localSpeeds.Add("SPEED_100BASE_EEE_SPEED");
             }
             else
             {

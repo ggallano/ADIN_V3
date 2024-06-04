@@ -32,7 +32,7 @@ namespace ADIN.Device.Services
             _ftdiService = ftdiService;
             _registers = registers;
             _phyAddress = phyAddress;
-            //_mainLock = mainLock;
+            _mainLock = mainLock;
         }
 
         public event EventHandler<FrameType> FrameContentChanged;
@@ -214,8 +214,8 @@ namespace ADIN.Device.Services
 
         public string GetMseValue()
         {
-            if (_boardRev == BoardRevision.Rev0)
-                return "N/A";
+            //if (_boardRev == BoardRevision.Rev0)
+            //    return "N/A";
 
             if (_phyState != EthPhyState.LinkUp)
                 return "N/A";
@@ -249,6 +249,18 @@ namespace ADIN.Device.Services
             }
 
             return _phyState = EthPhyState.LinkUp;
+        }
+
+        public string GetSpeedMode()
+        {
+            if (ReadYogaRg("AutonegEn") == "1")
+            {
+                return "Advertised";
+            }
+            else
+            {
+                return "Forced";
+            }
         }
 
         public List<string> LocalAdvertisedSpeedList()

@@ -23,6 +23,13 @@
                     <TextBlock Text="{Binding LinkStatus}" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource LinkStateForegroundConverter}}"/>
                 </StackPanel>
             </Border>
+            <Border Style="{StaticResource BorderSyle}" Grid.Column="0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Advertised Speed: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                    <TextBlock Text="{Binding AdvertisedSpeed}" 
+                   Style="{StaticResource DeviceStatusValueStyle}"/>
+                </StackPanel>
+            </Border>
             <!--<Border Style="{StaticResource BorderSyle}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Advertised Speed: " Style="{StaticResource LabelStyle}"/>
