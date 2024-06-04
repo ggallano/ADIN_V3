@@ -314,7 +314,7 @@ namespace ADIN.WPF.ViewModel
                         //});
                     }
 
-                    Thread.Sleep(50);
+                    Thread.Sleep(500);
                 }
                 catch (Exception ex)
                 {
