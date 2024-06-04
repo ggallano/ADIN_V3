@@ -214,8 +214,8 @@ namespace ADIN.Device.Services
 
         public string GetMseValue()
         {
-            if (_boardRev == BoardRevision.Rev0)
-                return "N/A";
+            //if (_boardRev == BoardRevision.Rev0)
+            //    return "N/A";
 
             if (_phyState != EthPhyState.LinkUp)
                 return "N/A";
