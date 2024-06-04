@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Models\ActiveLinkModel.cs" />
     <Compile Include="Models\ADIN1100Model.cs" />
+    <Compile Include="Models\ADIN1100\LinkPropertiesADIN1100.cs" />
     <Compile Include="Models\ADIN1200Model.cs" />
     <Compile Include="Models\ADIN1200\DeviceStatusADIN1200.cs" />
     <Compile Include="Models\ADIN1200\FrameGenCheckerADIN1200.cs" />
@@ -147,9 +148,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\ADIN1100\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
