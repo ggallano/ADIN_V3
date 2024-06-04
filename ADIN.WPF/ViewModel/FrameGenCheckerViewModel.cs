@@ -121,16 +121,16 @@ namespace ADIN.WPF.ViewModel
             {
                 if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1100FirmwareAPI fwADIN1100API)
                 {
-                    return fwADIN1100API.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+                    return fwADIN1100API?.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
                 }
                 else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1200FirmwareAPI fwADIN1200API)
                 {
-                    return fwADIN1200API.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+                    return fwADIN1200API?.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
                 }
                 else /*(_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1300FirmwareAPI fwADIN1300API)*/
                 {
                     ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice?.FwAPI as ADIN1300FirmwareAPI;
-                    return fwADIN1300API.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+                    return fwADIN1300API?.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
                 }
                 //return _selectedDeviceStore.SelectedDevice?.FwAPI.isFrameGenCheckerOngoing ==  true ? "Terminate" : "Generate";
             }
