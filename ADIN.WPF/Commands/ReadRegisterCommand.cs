@@ -42,7 +42,7 @@ namespace ADIN.WPF.Commands
             }
 
             _viewModel.ReadOutput = _selectedDeviceStore.SelectedDevice.FwAPI.RegisterRead(value);
-            _selectedDeviceStore.OnViewModelErrorOccured($"[Register Read] Register Address: 0x{_viewModel.ReadInput.ToLower()}, Value: 0x{_viewModel.ReadOutput}", Helper.Feedback.FeedbackType.Info);
+            _selectedDeviceStore.OnViewModelErrorOccured($"[Register Read] Register Address: 0x{_viewModel.ReadInput.ToUpper()}, Value: 0x{_viewModel.ReadOutput}", Helper.Feedback.FeedbackType.Info);
         }
 
         private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
