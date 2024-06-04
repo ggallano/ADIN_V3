@@ -15,6 +15,5 @@ namespace ADIN.Device.Services
 
         string RegisterRead(uint regAddress);
         string RegisterWrite(uint regAddress, uint data);
-
     }
 }

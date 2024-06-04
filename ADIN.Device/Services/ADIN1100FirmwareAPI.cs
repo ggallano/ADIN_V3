@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace ADIN.Device.Services
 {
-    public class ADIN1100FirmwareAPI : IFirmwareAPI
+    public class ADIN1100FirmwareAPI : IADIN1100API
     {
         private IFTDIServices _ftdiService;
         private ObservableCollection<RegisterModel> _registers;
@@ -28,47 +28,14 @@ namespace ADIN.Device.Services
             _mainLock = mainLock;
         }
 
-        public event EventHandler<FrameType> FrameContentChanged;
-
-        public event EventHandler<string> FrameGenCheckerTextStatusChanged;
-
-        public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
+        public bool isFrameGenCheckerOngoing { get; set; }
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
-
-        public bool isFrameGenCheckerOngoing { get; set; } = false;
-
-        public void AdvertisedForcedSpeed(string advFrcSpd)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AutoMDIXMode(string autoMDIXmod)
-        {
-            throw new NotImplementedException();
-        }
+        public event EventHandler<string> FrameGenCheckerTextStatusChanged;
+        public event EventHandler<FrameType> FrameContentChanged;
+        public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
 
         public void DisableLinking(bool isDisabledLinking)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DownSpeed100Hd(bool dwnSpd100Hd)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DownSpeed10Hd(bool dwnSpd10Hd)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DownSpeedRetriesSetVal(uint dwnSpdRtryVal)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void EnableEnergyDetectPowerDown(string enEnergyDetect)
         {
             throw new NotImplementedException();
         }
@@ -104,11 +71,6 @@ namespace ADIN.Device.Services
         }
 
         public List<string> LocalAdvertisedSpeedList()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void LogAdvertisedSpeed(List<string> listAdvSpd)
         {
             throw new NotImplementedException();
         }
@@ -213,17 +175,7 @@ namespace ADIN.Device.Services
             throw new NotImplementedException();
         }
 
-        public void SetForcedSpeed(string advFrcSpd)
-        {
-            throw new NotImplementedException();
-        }
-
         public void SetFrameCheckerSetting(FrameGenCheckerModel frameContent)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetGpClkPinControl(string gpClkPinCtrl)
         {
             throw new NotImplementedException();
         }
@@ -239,46 +191,6 @@ namespace ADIN.Device.Services
         }
 
         public void SoftwarePowerdown(bool isSoftwarePowerdown)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Speed1000EEEAdvertisement(bool spd1000EEEAdv_st)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Speed1000FdAdvertisement(bool spd1000FdAdv_st)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Speed1000HdAdvertisement(bool spd1000HdAdv_st)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Speed100EEEAdvertisement(bool spd100EEEAdv_st)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Speed100FdAdvertisement(bool spd100FdAdv_st)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Speed100HdAdvertisement(bool spd100HdAdv_st)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Speed10FdAdvertisement(bool spd10FdAdv_st)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Speed10HdAdvertisement(bool spd10HdAdv_st)
         {
             throw new NotImplementedException();
         }

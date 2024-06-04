@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace ADIN.Device.Services
 {
-    public interface IFirmwareAPI : IADIN1300API, IADIN1200API, IADIN1100API
+    public interface IFirmwareAPI
     {
         event EventHandler<FeedbackModel> WriteProcessCompleted;
 

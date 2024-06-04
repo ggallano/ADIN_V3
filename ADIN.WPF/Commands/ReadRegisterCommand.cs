@@ -1,4 +1,6 @@
-﻿using ADIN.WPF.Stores;
+﻿using ADIN.Device.Models;
+using ADIN.Device.Services;
+using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 using Helper.ReadAccessValidate;
 
@@ -41,7 +43,19 @@ namespace ADIN.WPF.Commands
                 return;
             }
 
-            _viewModel.ReadOutput = _selectedDeviceStore.SelectedDevice.FwAPI.RegisterRead(value);
+            if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI fwADIN1100API)
+            {
+                _viewModel.ReadOutput = fwADIN1100API.RegisterRead(value);
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI fwADIN1200API)
+            {
+                _viewModel.ReadOutput = fwADIN1200API.RegisterRead(value);
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI fwADIN1300API)
+            {
+                _viewModel.ReadOutput = fwADIN1300API.RegisterRead(value);
+            }
+            //_viewModel.ReadOutput = _selectedDeviceStore.SelectedDevice.FwAPI.RegisterRead(value);
             _selectedDeviceStore.OnViewModelErrorOccured($"[Register Read] Register Address: 0x{_viewModel.ReadInput.ToUpper()}, Value: 0x{_viewModel.ReadOutput}", Helper.Feedback.FeedbackType.Info);
         }
 

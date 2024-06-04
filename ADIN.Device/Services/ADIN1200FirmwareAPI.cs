@@ -14,7 +14,7 @@ using System.Threading;
 
 namespace ADIN.Device.Services
 {
-    public class ADIN1200FirmwareAPI : IFirmwareAPI
+    public class ADIN1200FirmwareAPI : IADIN1200API
     {
         private BoardRevision _boardRev;
         private string _feedbackMessage;

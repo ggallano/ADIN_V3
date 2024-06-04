@@ -1,6 +1,8 @@
 ﻿using ADIN.Device.Models;
+using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
+using SciChart.Data.Model;
 
 namespace ADIN.WPF.Commands
 {
@@ -27,7 +29,19 @@ namespace ADIN.WPF.Commands
         public override void Execute(object parameter)
         {
             LoopbackListingModel remoteLoopback = new LoopbackListingModel() { EnumLoopbackType = LoopBackMode.MacRemote };
-            _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(remoteLoopback);
+            if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI fwADIN1100API)
+            {
+                fwADIN1100API.SetLoopbackSetting(remoteLoopback);
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI fwADIN1200API)
+            {
+                fwADIN1200API.SetLoopbackSetting(remoteLoopback);
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI fwADIN1300API)
+            {
+                fwADIN1300API.SetLoopbackSetting(remoteLoopback);
+            }
+            //_selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(remoteLoopback);
         }
 
         private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
