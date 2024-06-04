@@ -206,6 +206,16 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsEEEAdvertisementVisible { get; set; } = true;
 
+        public bool IsADIN1200Board_ADIN1300Board
+        {
+            get { return ((_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1300) || (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1200)); }
+        }
+
+        public bool IsADIN1100Board
+        {
+            get { return _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100; }
+        }
+
         public string SelectedSpeedMode
         {
             get { return _linkProperties?.SpeedMode; }
@@ -326,6 +336,8 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
             OnPropertyChanged(nameof(SetDownSpeedRetries));
             OnPropertyChanged(nameof(IsDeviceSelected));
+            OnPropertyChanged(nameof(IsADIN1200Board_ADIN1300Board));
+            OnPropertyChanged(nameof(IsADIN1100Board));
         }
     }
 }
