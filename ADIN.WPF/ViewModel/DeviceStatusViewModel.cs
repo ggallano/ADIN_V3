@@ -51,7 +51,7 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiService = ftdiService;
 
-            SetBackgroundWroker();
+            //SetBackgroundWroker();
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerResetDisplay += _selectedDeviceStore_FrameGenCheckerResetDisplay;

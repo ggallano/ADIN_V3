@@ -32,7 +32,7 @@ namespace ADIN.Device.Services
             _ftdiService = ftdiService;
             _registers = registers;
             _phyAddress = phyAddress;
-            //_mainLock = mainLock;
+            _mainLock = mainLock;
         }
 
         public event EventHandler<FrameType> FrameContentChanged;
