@@ -43,7 +43,7 @@ namespace ADIN.WPF.Commands
             }
 
             _selectedDeviceStore.SelectedDevice.FwAPI.RegisterWrite(register, value);
-            _selectedDeviceStore.OnViewModelErrorOccured($"[Register Write] Register Address: 0x{_viewModel.WriteInput.ToLower()}, Value: 0x{_viewModel.WriteValue.ToLower()}", Helper.Feedback.FeedbackType.Info);
+            _selectedDeviceStore.OnViewModelErrorOccured($"[Register Write] Register Address: 0x{_viewModel.WriteInput.ToUpper()}, Value: 0x{_viewModel.WriteValue.ToUpper()}", Helper.Feedback.FeedbackType.Info);
         }
 
         private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

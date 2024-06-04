@@ -13,6 +13,8 @@ namespace ADIN.WPF.ViewModel
     public class TestModeViewModel : ViewModelBase
     {
         private SelectedDeviceStore _selectedDeviceStore;
+        private TestModeListingModel _TM_NoDevice { get; set; }
+        private List<TestModeListingModel> _testModeList_NoDeviceSelected { get; set; }
 
         public TestModeViewModel(SelectedDeviceStore selectedDeviceStore)
         {
@@ -20,7 +22,16 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
 
             TestModeCmd = new TestModeCommand(this, _selectedDeviceStore);
-        }
+            _TM_NoDevice = new TestModeListingModel()
+            {
+                Name1 = "No test mode available",
+                Description = ""
+            };
+            _testModeList_NoDeviceSelected = new List<TestModeListingModel>()
+            { 
+                _TM_NoDevice 
+            };
+    }
 
         public ICommand TestModeCmd { get; set; }
 
@@ -44,7 +55,16 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public List<TestModeListingModel> TestModes => _testMode?.TestModes;
+        public List<TestModeListingModel> TestModes
+        {
+            get 
+            {
+                if (_testMode != null)
+                    return _testMode.TestModes;
+                return _testModeList_NoDeviceSelected;
+            }
+        }
+
         private ITestMode _testMode => _selectedDeviceStore.SelectedDevice?.TestMode;
 
         public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
