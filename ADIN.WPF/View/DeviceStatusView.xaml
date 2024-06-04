@@ -90,7 +90,7 @@
 
                 <Border Style="{StaticResource BorderSyle}" Grid.Column="0">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Local" Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                        <TextBlock Text="Local:" Style="{StaticResource DeviceStatusTextBlockstyle}"/>
                         <telerik:RadListBox ItemsSource="{Binding LocalAdvertisedSpeeds}"
                                             Style="{StaticResource ListBoxStyle}"/>
                     </StackPanel>
@@ -98,7 +98,7 @@
 
                 <Border Style="{StaticResource BorderSyle}" Grid.Column="2">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Remote" Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                        <TextBlock Text="Remote:" Style="{StaticResource DeviceStatusTextBlockstyle}"/>
                         <telerik:RadListBox ItemsSource="{Binding RemoteAdvertisedSpeeds}"
                                             Style="{StaticResource ListBoxStyle}"/>
                     </StackPanel>
