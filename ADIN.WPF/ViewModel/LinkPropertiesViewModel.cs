@@ -567,7 +567,7 @@ namespace ADIN.WPF.ViewModel
                 if (_selectedDeviceStore.SelectedDevice != null)
                 {
                     _linkProperties.MasterSlaveAdvertise = value;
-                    //((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).;
+                    ((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).SetMasterSlave(_linkProperties.MasterSlaveAdvertise);
                 }
                 OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
             }
@@ -583,7 +583,7 @@ namespace ADIN.WPF.ViewModel
                 if (_selectedDeviceStore.SelectedDevice != null)
                 {
                     _linkProperties.TxAdvertise = value;
-                    //((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).;
+                    ((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).SetTxLevel(_linkProperties.TxAdvertise);
                 }
                 OnPropertyChanged(nameof(SelectedTxLevel));
             }

@@ -109,6 +109,7 @@
     <Compile Include="Services\IAdvertisedSpeedAPI.cs" />
     <Compile Include="Services\IFrameGenCheckerAPI.cs" />
     <Compile Include="Services\ILoopbackAPI.cs" />
+    <Compile Include="Services\IMasterSlaveSettingsAPI.cs" />
     <Compile Include="Services\ITestModeAPI.cs" />
     <Compile Include="Services\IAutoMDIXAPI.cs" />
     <Compile Include="Services\ICableDiagnostic.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Services\IEnergyDetectAPI.cs" />
     <Compile Include="Services\IFirmwareAPI.cs" />
     <Compile Include="Services\IMDIOAPI.cs" />
+    <Compile Include="Services\ITxLevelAPI.cs" />
     <Compile Include="Services\ScriptService.cs" />
   </ItemGroup>
   <ItemGroup>
