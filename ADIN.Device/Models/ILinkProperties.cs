@@ -31,5 +31,10 @@ namespace ADIN.Device.Models
 
         bool IsAdvertise_EEE_1000BASE_T { get; set; }
         bool IsAdvertise_EEE_100BASE_TX { get; set; }
+
+        string MasterSlaveAdvertise { get; set; }
+        List<string> MasterSlaveAdvertises { get; set; }
+        string TxAdvertise { get; set; }
+        List<string> TxAdvertises { get; set; }
     }
 }
