@@ -287,7 +287,7 @@ namespace ADIN.Device.Services
 
             if (this.ReadYogaRg("Eee1000Adv") == "1")
             {
-                localSpeeds.Add("EEE_1000BASE_T");
+                localSpeeds.Add("SPEED_1000BASE_EEE_SPEED");
             }
             else
             {
@@ -314,7 +314,7 @@ namespace ADIN.Device.Services
 
             if (this.ReadYogaRg("Eee100Adv") == "1")
             {
-                localSpeeds.Add("EEE_100BASE_T");
+                localSpeeds.Add("SPEED_100BASE_EEE_SPEED");
             }
             else
             {
