@@ -63,10 +63,10 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                if (_selectedDevice.DeviceType == BoardType.ADIN1100)
-                    return "10BASE-T1L";
+                if (_selectedDevice?.DeviceType == BoardType.ADIN1100)
+                    return _localAdvertisedSpeeds[0];
 
-                if (_selectedDevice.DeviceType == BoardType.ADIN1200 || _selectedDevice.DeviceType == BoardType.ADIN1300)
+                if (_selectedDevice?.DeviceType == BoardType.ADIN1200 || _selectedDevice?.DeviceType == BoardType.ADIN1300)
                     foreach (var speed in _advertisedSpeedList)
                     {
                         if (_localAdvertisedSpeeds.Contains(speed) && _remoteAdvertisedSpeeds.Contains(speed))
@@ -314,9 +314,12 @@ namespace ADIN.WPF.ViewModel
                         //_selectedDevice.FirmwareAPI.GetLoopbackInitialization(true);
                         //_selectedDevice.FirmwareAPI.GetFrameContentInitialization(true);
 
-                        // Device Status
+                        // Common ADIN Device Status
                         LinkStatus = _selectedDevice.FwAPI.GetLinkStatus();
                         MseValue = _selectedDevice.FwAPI.GetMseValue();
+                        LocalAdvertisedSpeeds = _selectedDevice.FwAPI.LocalAdvertisedSpeedList();
+
+                        // Specific ADIN Device Status
                         if (_selectedDevice.FwAPI is ADIN1100FirmwareAPI)
                         {
                             var fwAPI = _selectedDevice.FwAPI as ADIN1100FirmwareAPI;
@@ -329,7 +332,6 @@ namespace ADIN.WPF.ViewModel
                             SpeedMode = _selectedDevice.FwAPI.GetSpeedMode();
                             _selectedDevice.FwAPI.GetFrameCheckerStatus();
                             Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
-                            LocalAdvertisedSpeeds = _selectedDevice.FwAPI.LocalAdvertisedSpeedList();
                             RemoteAdvertisedSpeeds = _selectedDevice.FwAPI.RemoteAdvertisedSpeedList();
                         }
 

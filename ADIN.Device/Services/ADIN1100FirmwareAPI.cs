@@ -221,7 +221,8 @@ namespace ADIN.Device.Services
 
         public List<string> LocalAdvertisedSpeedList()
         {
-            throw new NotImplementedException();
+            return new List<string>() { "10Base-T1L" };
+            //throw new NotImplementedException();
         }
 
         public string MdioReadCl22(uint regAddress)
