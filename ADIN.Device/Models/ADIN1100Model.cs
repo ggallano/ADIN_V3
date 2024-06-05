@@ -24,6 +24,8 @@ namespace ADIN.Device.Models
 
             LinkProperties = new LinkPropertiesADIN1100();
             GetLinkPropertiesValue();
+
+            TestMode = new TestModeADIN1100();
         }
 
         /// <summary>

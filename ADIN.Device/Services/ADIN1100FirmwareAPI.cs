@@ -441,5 +441,10 @@ namespace ADIN.Device.Services
             else
                 return "Disabled";
         }
+
+        public string GetMasterSlaveStatus()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

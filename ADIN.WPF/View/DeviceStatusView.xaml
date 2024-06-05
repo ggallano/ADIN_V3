@@ -60,15 +60,15 @@
                 </Border>
                 <Border Style="{StaticResource BorderSyle}" Grid.Column="2">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Speed Mode: " Style="{StaticResource DeviceStatusTextBlockstyle}" Visibility="{Binding IsAnStatusVisible, Converter={StaticResource invertedBooleanVisibilityConverter}}"/>
-                        <TextBlock Text="{Binding SpeedMode}" Style="{StaticResource DeviceStatusValueStyle}" Visibility="{Binding IsAnStatusVisible, Converter={StaticResource invertedBooleanVisibilityConverter}}"/>
-                        <TextBlock Text="An Status: " Style="{StaticResource DeviceStatusTextBlockstyle}" Visibility="{Binding IsAnStatusVisible, Converter={StaticResource booleanVisibilityConverter}}"/>
-                        <TextBlock Text="{Binding AnStatus}" Style="{StaticResource DeviceStatusValueStyle}" Visibility="{Binding IsAnStatusVisible, Converter={StaticResource booleanVisibilityConverter}}"/>
+                        <TextBlock Text="Speed Mode: " Style="{StaticResource DeviceStatusTextBlockstyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource invertedBooleanVisibilityConverter}}"/>
+                        <TextBlock Text="{Binding SpeedMode}" Style="{StaticResource DeviceStatusValueStyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource invertedBooleanVisibilityConverter}}"/>
+                        <TextBlock Text="An Status: " Style="{StaticResource DeviceStatusTextBlockstyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}"/>
+                        <TextBlock Text="{Binding AnStatus}" Style="{StaticResource DeviceStatusValueStyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}"/>
                     </StackPanel>
                 </Border>
             </Grid>
 
-            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsAnStatusVisible, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+            <Border Style="{StaticResource BorderSyle}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Advertised Speed: " Style="{StaticResource DeviceStatusTextBlockstyle}" />
                     <TextBlock Text="{Binding AdvertisedSpeed}" Style="{StaticResource DeviceStatusValueStyle}"/>

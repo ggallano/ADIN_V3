@@ -63,13 +63,18 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                foreach(var speed in _advertisedSpeedList)
-                {
-                    if (_localAdvertisedSpeeds.Contains(speed) && _remoteAdvertisedSpeeds.Contains(speed))
+                if (_selectedDevice.DeviceType == BoardType.ADIN1100)
+                    return "10BASE-T1L";
+
+                if (_selectedDevice.DeviceType == BoardType.ADIN1200 || _selectedDevice.DeviceType == BoardType.ADIN1300)
+                    foreach (var speed in _advertisedSpeedList)
                     {
-                        return speed;
+                        if (_localAdvertisedSpeeds.Contains(speed) && _remoteAdvertisedSpeeds.Contains(speed))
+                        {
+                            return speed;
+                        }
                     }
-                }
+
                 return "-";
             }
         }
@@ -133,14 +138,14 @@ namespace ADIN.WPF.ViewModel
         //    }
         //}
 
-        public bool IsAnStatusVisible
+        public bool Is1100Visible
         {
             get { return _selectedDevice?.DeviceType == BoardType.ADIN1100; }
         }
 
         public bool IsVisibleSpeedList
         {
-            get { return _speedMode == "Advertised"; }
+            get { return _speedMode == "Advertised" && _selectedDevice?.DeviceType != BoardType.ADIN1100; }
         }
 
         public string LinkStatus
@@ -187,15 +192,15 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        //public string MasterSlaveStatus
-        //{
-        //    get { return _masterSlaveStatus; }
-        //    set
-        //    {
-        //        _masterSlaveStatus = value;
-        //        OnPropertyChanged(nameof(MasterSlaveStatus));
-        //    }
-        //}
+        public string MasterSlaveStatus
+        {
+            get { return _masterSlaveStatus; }
+            set
+            {
+                _masterSlaveStatus = value;
+                OnPropertyChanged(nameof(MasterSlaveStatus));
+            }
+        }
 
         public List<string> LocalAdvertisedSpeeds
         {
@@ -221,7 +226,7 @@ namespace ADIN.WPF.ViewModel
                 }
                 return "-";
             }
-            
+
             set
             {
                 if (value != _mseValue)
@@ -297,47 +302,37 @@ namespace ADIN.WPF.ViewModel
             {
                 try
                 {
-                    //lock (_thisLock)
+                    if (_selectedDevice != null && _ftdiService.IsComOpen)
                     {
-                        if (_selectedDevice != null && _ftdiService.IsComOpen)
+                        //_selectedDevice.FwAPI.ReadRegsiters();
+                        //_selectedDeviceStore.OnRegistersValueChanged();
+
+                        // UI Control Update
+                        //_selectedDevice.FirmwareAPI.GetNegotiationMasterSlaveInitialization(true);
+                        //_selectedDevice.FirmwareAPI.GetPeakVoltageInitialization(true);
+                        //_selectedDevice.FirmwareAPI.GetTestModeInitialization(true);
+                        //_selectedDevice.FirmwareAPI.GetLoopbackInitialization(true);
+                        //_selectedDevice.FirmwareAPI.GetFrameContentInitialization(true);
+
+                        // Device Status
+                        LinkStatus = _selectedDevice.FwAPI.GetLinkStatus();
+                        MseValue = _selectedDevice.FwAPI.GetMseValue();
+                        if (_selectedDevice.FwAPI is ADIN1100FirmwareAPI)
                         {
-                            //_selectedDevice.FwAPI.ReadRegsiters();
-                            //_selectedDeviceStore.OnRegistersValueChanged();
-
-                            // UI Control Update
-                            //_selectedDevice.FirmwareAPI.GetNegotiationMasterSlaveInitialization(true);
-                            //_selectedDevice.FirmwareAPI.GetPeakVoltageInitialization(true);
-                            //_selectedDevice.FirmwareAPI.GetTestModeInitialization(true);
-                            //_selectedDevice.FirmwareAPI.GetLoopbackInitialization(true);
-                            //_selectedDevice.FirmwareAPI.GetFrameContentInitialization(true);
-
-                            // Device Status
-                            LinkStatus = _selectedDevice.FwAPI.GetLinkStatus();
-                            MseValue = _selectedDevice.FwAPI.GetMseValue();
-                            if (_selectedDevice.FwAPI is ADIN1100FirmwareAPI)
-                            {
-                                var fwAPI = _selectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                                AnStatus = fwAPI.GetAnStatus();
-                                //MasterSlaveStatus = _selectedDevice.FwAPI.GetMasterSlaveStatus();
-                                //TxLevelStatus = _selectedDevice.FwAPI.GetTxLevelStatus();
-                                
-                            }
-                            else
-                            {
-                                SpeedMode = _selectedDevice.FwAPI.GetSpeedMode();
-                                _selectedDevice.FwAPI.GetFrameCheckerStatus();
-                                Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
-                                LocalAdvertisedSpeeds = _selectedDevice.FwAPI.LocalAdvertisedSpeedList();
-                                RemoteAdvertisedSpeeds = _selectedDevice.FwAPI.RemoteAdvertisedSpeedList();
-                            }
-                            
+                            var fwAPI = _selectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                            AnStatus = fwAPI.GetAnStatus();
+                            //MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
+                            //TxLevelStatus = _selectedDevice.FwAPI.GetTxLevelStatus();
+                        }
+                        else
+                        {
+                            SpeedMode = _selectedDevice.FwAPI.GetSpeedMode();
+                            _selectedDevice.FwAPI.GetFrameCheckerStatus();
+                            Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
+                            LocalAdvertisedSpeeds = _selectedDevice.FwAPI.LocalAdvertisedSpeedList();
+                            RemoteAdvertisedSpeeds = _selectedDevice.FwAPI.RemoteAdvertisedSpeedList();
                         }
 
-                        //OnPropertyChanged(nameof(LinkStatus));
-                        //System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                        //{
-                        //    OnPropertyChanged(nameof(LinkStatus));
-                        //});
                     }
 
                     Thread.Sleep(500);
@@ -382,7 +377,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(SerialNumber));
             OnPropertyChanged(nameof(LinkStatus));
             OnPropertyChanged(nameof(AnStatus));
-            OnPropertyChanged(nameof(IsAnStatusVisible));
+            OnPropertyChanged(nameof(Is1100Visible));
             //OnPropertyChanged(nameof(MasterSlaveStatus));
             OnPropertyChanged(nameof(Generator));
             OnPropertyChanged(nameof(MseValue));
