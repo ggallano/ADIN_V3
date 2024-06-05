@@ -254,15 +254,15 @@ namespace ADIN.WPF.ViewModel
 
         public string SerialNumber => _selectedDeviceStore.SelectedDevice?.SerialNumber ?? "-";
 
-        //public string TxLevelStatus
-        //{
-        //    get { return _txLevelStatus; }
-        //    set
-        //    {
-        //        _txLevelStatus = value;
-        //        OnPropertyChanged(nameof(TxLevelStatus));
-        //    }
-        //}
+        public string TxLevelStatus
+        {
+            get { return _txLevelStatus; }
+            set
+            {
+                _txLevelStatus = value;
+                OnPropertyChanged(nameof(TxLevelStatus));
+            }
+        }
 
         public string SpeedMode
         {
@@ -321,8 +321,8 @@ namespace ADIN.WPF.ViewModel
                         {
                             var fwAPI = _selectedDevice.FwAPI as ADIN1100FirmwareAPI;
                             AnStatus = fwAPI.GetAnStatus();
-                            //MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
-                            //TxLevelStatus = _selectedDevice.FwAPI.GetTxLevelStatus();
+                            MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
+                            TxLevelStatus = fwAPI.GetTxLevelStatus();
                         }
                         else
                         {

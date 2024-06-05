@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ADIN.Device.Models;
 
 namespace ADIN.Device.Services
 {
@@ -10,5 +6,7 @@ namespace ADIN.Device.Services
     {
         string GetAnStatus();
         string GetMasterSlaveStatus();
+        string GetTxLevelStatus();
+        BoardRevision GetRevNum();
     }
 }
