@@ -46,6 +46,12 @@ namespace ADIN.Device.Models
             ClockPinControl = new ClockPinControlADIN1200();
             TestMode = new TestModeADIN1200();
 
+            GetLinkPropertiesInitialValue();
+        }
+
+        private void GetLinkPropertiesInitialValue()
+        {
+            LinkProperties.IsAdvertise_100BASE_TX_FD = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("Fd100Adv") == "1" ? true : false;
         }
 
         public override IFirmwareAPI FirmwareAPI { get; set; }

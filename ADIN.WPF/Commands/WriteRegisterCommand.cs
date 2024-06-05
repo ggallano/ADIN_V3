@@ -43,16 +43,19 @@ namespace ADIN.WPF.Commands
                 return;
             }
 
-            if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI fwADIN1100API)
+            if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
             {
+                ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
                 fwADIN1100API.RegisterWrite(register, value);
             }
-            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI fwADIN1200API)
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
             {
+                ADIN1200FirmwareAPI fwADIN1200API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
                 fwADIN1200API.RegisterWrite(register, value);
             }
-            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI fwADIN1300API)
+            else /*if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)*/
             {
+                ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                 fwADIN1300API.RegisterWrite(register, value);
             }
             //_selectedDeviceStore.SelectedDevice.FwAPI.RegisterWrite(register, value);

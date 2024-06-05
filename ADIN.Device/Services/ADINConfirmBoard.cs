@@ -15,7 +15,6 @@ namespace ADIN.Device.Services
             "DEMO-ADIN1100-DIZ",
 
             //"EVAL-ADIN1110EBZ",
-            
             //"EVAL-ADIN2111EBZ",
 
             "ADIN1300 MDIO DONGLE",

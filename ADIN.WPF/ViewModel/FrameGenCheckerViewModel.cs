@@ -119,13 +119,15 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1100FirmwareAPI fwADIN1100API)
+                if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1100FirmwareAPI)
                 {
-                    return fwADIN1100API?.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+                    ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                    return fwADIN1100API.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
                 }
-                else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1200FirmwareAPI fwADIN1200API)
+                else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1200FirmwareAPI)
                 {
-                    return fwADIN1200API?.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+                    ADIN1200FirmwareAPI fwADIN1200API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
+                    return fwADIN1200API.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
                 }
                 else /*(_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1300FirmwareAPI fwADIN1300API)*/
                 {
