@@ -166,17 +166,23 @@ namespace ADIN.Device.Services
 
         public ObservableCollection<RegisterModel> ReadRegsiters()
         {
-            throw new NotImplementedException();
+            foreach (var register in _registers)
+            {
+                register.Value = ReadYodaRg(register.Address);
+            }
+            Debug.WriteLine("ReadRegisters Done");
+
+            return _registers;
         }
 
         public string RegisterRead(uint regAddress)
         {
-            throw new NotImplementedException();
+            return ReadYodaRg(regAddress);
         }
 
         public string RegisterWrite(uint regAddress, uint data)
         {
-            throw new NotImplementedException();
+            return WriteYodaRg(regAddress, data);
         }
 
         public List<string> RemoteAdvertisedSpeedList()
@@ -426,6 +432,14 @@ namespace ADIN.Device.Services
         public string RegisterRead(string register)
         {
             return ReadYodaRg(register);
+        }
+
+        public string GetAnStatus()
+        {
+            if (ReadYodaRg("AN_EN") == "1")
+                return "Enabled";
+            else
+                return "Disabled";
         }
     }
 }

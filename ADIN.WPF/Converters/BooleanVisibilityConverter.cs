@@ -7,15 +7,24 @@ namespace ADIN.WPF.Converters
 {
     public class BooleanVisibilityConverter : IValueConverter
     {
+        public bool IsInversed { get; set; }
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             try
             {
-                var boolValue = (bool)value;
-                if (boolValue) 
+                var val = System.Convert.ToBoolean(value);
+                if (IsInversed)
+                {
+                    val = !val;
+                }
+
+                if (val)
+                {
                     return Visibility.Visible;
-                else 
-                    return Visibility.Collapsed;
+                }
+
+                return Visibility.Collapsed;
             }
             catch (Exception ex)
             {
