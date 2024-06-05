@@ -28,12 +28,14 @@ namespace ADIN.WPF.Commands
 
         public override void Execute(object parameter)
         {
-           if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI fwADIN1200API)
+           if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
             {
+                ADIN1200FirmwareAPI fwADIN1200API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
                 fwADIN1200API.SetGpClkPinControl((string)parameter);
             }
-            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI fwADIN1300API)
+            else /*if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)*/
             {
+                ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                 fwADIN1300API.SetGpClkPinControl((string)parameter);
             }
             //_selectedDeviceStore.SelectedDevice.FwAPI.SetGpClkPinControl((string)parameter);
