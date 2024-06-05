@@ -108,5 +108,11 @@ namespace ADIN.Device.Models.ADIN1200
         public List<string> ForcedSpeeds { get; set; }
 
         public List<string> AdvertisedSpeeds { get; set; }
+
+
+        public List<string> MasterSlaveAdvertises { get; set; }
+        public string MasterSlaveAdvertise { get; set; }
+        public string TxAdvertise { get; set; }
+        public List<string> TxAdvertises { get; set; }
     }
 }

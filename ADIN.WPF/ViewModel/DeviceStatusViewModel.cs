@@ -1,4 +1,5 @@
 ﻿using ADIN.Device.Models;
+using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
 using System;
@@ -296,18 +297,26 @@ namespace ADIN.WPF.ViewModel
 
                             // Device Status
                             LinkStatus = _selectedDevice.FwAPI.GetLinkStatus();
-                            //AnStatus = _selectedDevice.FwAPI.GetAnStatus();
-                            //MasterSlaveStatus = _selectedDevice.FwAPI.GetMasterSlaveStatus();
-                            //TxLevelStatus = _selectedDevice.FwAPI.GetTxLevelStatus();
                             MseValue = _selectedDevice.FwAPI.GetMseValue();
-                            SpeedMode = _selectedDevice.FwAPI.GetSpeedMode();
-                            _selectedDevice.FwAPI.GetFrameCheckerStatus();
-                            Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
-                            LocalAdvertisedSpeeds = _selectedDevice.FwAPI.LocalAdvertisedSpeedList();
-                            RemoteAdvertisedSpeeds = _selectedDevice.FwAPI.RemoteAdvertisedSpeedList();
+                            if (_selectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                            {
+                                //AnStatus = _selectedDevice.FwAPI.GetAnStatus();
+                                //MasterSlaveStatus = _selectedDevice.FwAPI.GetMasterSlaveStatus();
+                                //TxLevelStatus = _selectedDevice.FwAPI.GetTxLevelStatus();
+                                
+                            }
+                            else
+                            {
+                                SpeedMode = _selectedDevice.FwAPI.GetSpeedMode();
+                                _selectedDevice.FwAPI.GetFrameCheckerStatus();
+                                Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
+                                LocalAdvertisedSpeeds = _selectedDevice.FwAPI.LocalAdvertisedSpeedList();
+                                RemoteAdvertisedSpeeds = _selectedDevice.FwAPI.RemoteAdvertisedSpeedList();
+                            }
+                            
                         }
 
-                        OnPropertyChanged(nameof(LinkStatus));
+                        //OnPropertyChanged(nameof(LinkStatus));
                         //System.Windows.Application.Current.Dispatcher.Invoke(() =>
                         //{
                         //    OnPropertyChanged(nameof(LinkStatus));

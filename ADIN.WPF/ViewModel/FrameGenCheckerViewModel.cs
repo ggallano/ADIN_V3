@@ -1,7 +1,10 @@
 ﻿using ADIN.Device.Models;
+using ADIN.Device.Services;
 using ADIN.WPF.Commands;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
+using Microsoft.Win32;
+using SciChart.Data.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -116,7 +119,22 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                return _selectedDeviceStore.SelectedDevice?.FwAPI.isFrameGenCheckerOngoing ==  true ? "Terminate" : "Generate";
+                if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1100FirmwareAPI)
+                {
+                    ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                    return fwADIN1100API.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+                }
+                else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1200FirmwareAPI)
+                {
+                    ADIN1200FirmwareAPI fwADIN1200API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
+                    return fwADIN1200API.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+                }
+                else /*(_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1300FirmwareAPI fwADIN1300API)*/
+                {
+                    ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice?.FwAPI as ADIN1300FirmwareAPI;
+                    return fwADIN1300API?.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+                }
+                //return _selectedDeviceStore.SelectedDevice?.FwAPI.isFrameGenCheckerOngoing ==  true ? "Terminate" : "Generate";
             }
             set
             {
