@@ -422,5 +422,10 @@ namespace ADIN.Device.Services
                 return MdioWriteCl45(registerAddress, value);
             }
         }
+
+        public string RegisterRead(string register)
+        {
+            return ReadYodaRg(register);
+        }
     }
 }

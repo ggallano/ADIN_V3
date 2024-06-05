@@ -4,6 +4,7 @@ namespace ADIN.Device.Models
 {
     public interface ILinkProperties
     {
+        #region ADIN1200 ADIN1300
         List<string> EnergyDetectPowerDownModes { get; set; }
         List<string> MasterSlaves { get; set; }
         List<string> MDIXs { get; set; }
@@ -16,7 +17,6 @@ namespace ADIN.Device.Models
         string MDIX { get; set; }
         string SpeedMode { get; set; }
         string ForcedSpeed { get; set; }
-
 
         uint DownSpeedRetries { get; set; }
         bool IsDownSpeed_10BASE_T_HD { get; set; }
@@ -31,10 +31,13 @@ namespace ADIN.Device.Models
 
         bool IsAdvertise_EEE_1000BASE_T { get; set; }
         bool IsAdvertise_EEE_100BASE_TX { get; set; }
+        #endregion
 
+        #region ADIN1100
         string MasterSlaveAdvertise { get; set; }
         List<string> MasterSlaveAdvertises { get; set; }
         string TxAdvertise { get; set; }
         List<string> TxAdvertises { get; set; }
+        #endregion
     }
 }
