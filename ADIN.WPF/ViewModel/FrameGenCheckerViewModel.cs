@@ -132,7 +132,7 @@ namespace ADIN.WPF.ViewModel
                 else /*(_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1300FirmwareAPI fwADIN1300API)*/
                 {
                     ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice?.FwAPI as ADIN1300FirmwareAPI;
-                    return fwADIN1300API.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+                    return fwADIN1300API?.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
                 }
                 //return _selectedDeviceStore.SelectedDevice?.FwAPI.isFrameGenCheckerOngoing ==  true ? "Terminate" : "Generate";
             }

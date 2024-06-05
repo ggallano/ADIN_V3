@@ -80,7 +80,7 @@ namespace ADIN.WPF.ViewModel
                     }
                     else /*if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)*/
                     {
-                        ADIN1200FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
+                        ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                         fwADIN1300API.SetLoopbackSetting(_loopback.SelectedLoopback);
                     }
                     //_selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.SelectedLoopback);
