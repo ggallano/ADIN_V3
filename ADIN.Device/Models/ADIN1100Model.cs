@@ -1,4 +1,5 @@
 ﻿using ADI.Register.Services;
+using ADIN.Device.Models.ADIN1100;
 using ADIN.Device.Services;
 using FTDIChip.Driver.Services;
 using System;
@@ -22,6 +23,8 @@ namespace ADIN.Device.Models
             DeviceType = BoardType.ADIN1100;
 
             FirmwareAPI = new ADIN1100FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
+
+            LinkProperties = new LinkPropertiesADIN1100();
         }
 
         public override IFirmwareAPI FirmwareAPI { get; set; }
