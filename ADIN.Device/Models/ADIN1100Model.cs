@@ -2,6 +2,7 @@
 using ADIN.Device.Models.ADIN1100;
 using ADIN.Device.Services;
 using FTDIChip.Driver.Services;
+using System;
 using System.IO;
 
 namespace ADIN.Device.Models
@@ -18,17 +19,33 @@ namespace ADIN.Device.Models
             PhyAddress = 0;
             DeviceType = BoardType.ADIN1100;
 
-            Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1100_S2.json"));
-            
-
             FirmwareAPI = new ADIN1100FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
             BoardRev = ((ADIN1100FirmwareAPI)FirmwareAPI).GetRevNum();
 
+            switch (BoardRev)
+            {
+                case BoardRevision.Rev0:
+                    Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1100_S1.json"));
+                    Registers = registerService.GetAdditionalRegisterSetRev0(Registers);
+                    break;
+                case BoardRevision.Rev1:
+                    Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1100_S2.json"));
+                    Registers = registerService.GetAdditionalRegisterSetRev1(Registers);
+                    break;
+                default:
+                    break;
+            }
 
             LinkProperties = new LinkPropertiesADIN1100();
             GetLinkPropertiesValue();
 
             TestMode = new TestModeADIN1100();
+            //GetTestModeValue();
+        }
+
+        private void GetTestModeValue()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

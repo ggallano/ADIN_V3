@@ -34,28 +34,24 @@ namespace ADIN.Device.Services
 
         public BoardRevision GetRevNum()
         {
-            int i;
-            for (i = 0; i < 8; i++)
+            var value = MdioReadCl45(Convert.ToUInt32(0x1E0003));
+            var revNum = Convert.ToUInt32(value, 16) & 0x03;
+
+            switch (revNum)
             {
-                var value = MdioReadCl45(Convert.ToUInt32(0x1E0003));
-                var revNum = Convert.ToUInt32(value, 16) & 0x03;
+                case 1:
+                    _boardRev = BoardRevision.Rev1;
+                    break;
 
-                switch (revNum)
-                {
-                    case 1:
-                        _boardRev = BoardRevision.Rev1;
-                        break;
+                case 0:
+                    _boardRev = BoardRevision.Rev0;
+                    break;
 
-                    case 0:
-                        _boardRev = BoardRevision.Rev0;
-                        break;
-
-                    default:
-                        _boardRev = BoardRevision.Rev1;
-                        break;
-                }
-                break;
+                default:
+                    _boardRev = BoardRevision.Rev1;
+                    break;
             }
+
             return _boardRev;
         }
 
