@@ -49,11 +49,11 @@ namespace ADIN.Device.Models.ADIN1300
             SelectedLoopback.RxSuppression = false;
         }
 
-        public LoopbackListingModel LpBck_None { get; set; }
-        public LoopbackListingModel LpBck_Digital { get; set; }
-        public LoopbackListingModel LpBck_LineDriver { get; set; }
-        public LoopbackListingModel LpBck_ExtCable { get; set; }
-        public LoopbackListingModel LpBck_Remote { get; set; }
+        private LoopbackListingModel LpBck_None { get; set; }
+        private LoopbackListingModel LpBck_Digital { get; set; }
+        private LoopbackListingModel LpBck_LineDriver { get; set; }
+        private LoopbackListingModel LpBck_ExtCable { get; set; }
+        private LoopbackListingModel LpBck_Remote { get; set; }
 
         public LoopbackListingModel SelectedLoopback { get; set; }
         public List<LoopbackListingModel> Loopbacks { get; set; }
