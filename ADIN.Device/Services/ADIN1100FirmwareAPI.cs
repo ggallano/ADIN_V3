@@ -15,12 +15,14 @@ namespace ADIN.Device.Services
 {
     public class ADIN1100FirmwareAPI : IADIN1100API
     {
+        private bool _autoNegotiationStatus = false;
         private string _feedbackMessage;
         private IFTDIServices _ftdiService;
         private object _mainLock;
         private uint _phyAddress;
-        private ObservableCollection<RegisterModel> _registers;
         private EthPhyState _phyState;
+        private ObservableCollection<RegisterModel> _registers;
+        private BoardRevision _boardRev;
 
         public ADIN1100FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
         {
@@ -28,6 +30,29 @@ namespace ADIN.Device.Services
             _registers = registers;
             _phyAddress = phyAddress;
             _mainLock = mainLock;
+        }
+
+        public BoardRevision GetRevNum()
+        {
+            var value = MdioReadCl45(Convert.ToUInt32(0x1E0003));
+            var revNum = Convert.ToUInt32(value, 16) & 0x03;
+
+            switch (revNum)
+            {
+                case 1:
+                    _boardRev = BoardRevision.Rev1;
+                    break;
+
+                case 0:
+                    _boardRev = BoardRevision.Rev0;
+                    break;
+
+                default:
+                    _boardRev = BoardRevision.Rev1;
+                    break;
+            }
+
+            return _boardRev;
         }
 
         public event EventHandler<FrameType> FrameContentChanged;
@@ -44,6 +69,20 @@ namespace ADIN.Device.Services
             throw new NotImplementedException();
         }
 
+        public string GetAnStatus()
+        {
+            if (ReadYodaRg("AN_EN") == "1")
+            {
+                _autoNegotiationStatus = true;
+                return "Enabled";
+            }
+            else
+            {
+                _autoNegotiationStatus = false;
+                return "Disabled";
+            }
+        }
+
         public void GetFrameCheckerStatus()
         {
             throw new NotImplementedException();
@@ -57,6 +96,40 @@ namespace ADIN.Device.Services
         public string GetLinkStatus()
         {
             return GetPhyState().ToString();
+        }
+
+        public string GetMasterSlaveStatus()
+        {
+            string masterSlaveStatus = "Configuration fault";
+
+            if (_autoNegotiationStatus)
+            {
+                switch (ReadYodaRg("AN_MS_CONFIG_RSLTN"))
+                {
+                    case "0":
+                    case "1":
+                        masterSlaveStatus = "Configuration fault";
+                        break;
+
+                    case "2":
+                        masterSlaveStatus = "Slave";
+                        break;
+
+                    case "3":
+                        masterSlaveStatus = "Master";
+                        break;
+
+                    default:
+                        masterSlaveStatus = "Undetermine";
+                        break;
+                }
+            }
+            else
+            {
+                masterSlaveStatus = ReadYodaRg("CFG_MST") == "1" ? "Master" : "Slave";
+            }
+
+            return masterSlaveStatus;
         }
 
         public string GetMseValue()
@@ -94,9 +167,58 @@ namespace ADIN.Device.Services
             throw new NotImplementedException();
         }
 
+        public string GetTxLevelStatus()
+        {
+            if (_boardRev == BoardRevision.Rev1)
+            {
+                switch (ReadYodaRg("AN_TX_LVL_RSLTN"))
+                {
+                    case "0":
+                        return "N/A";
+
+                    case "2":
+                        return $"{1.0.ToString()} Vpk-pk";
+
+                    case "3":
+                        return $"{2.4.ToString()} Vpk-pk";
+
+                    default:
+                        return "-";
+                }
+            }
+            else /*if (_boardRev == BoardRevision.Rev0)*/
+            {
+                string hi_req = ReadYodaRg("AN_ADV_B10L_TX_LVL_HI_REQ");
+                string hi_abl = ReadYodaRg("AN_ADV_B10L_TX_LVL_HI_ABL");
+
+                string lp_hi_req = ReadYodaRg("AN_LP_ADV_B10L_TX_LVL_HI_REQ");
+                string lp_hi_abl = ReadYodaRg("AN_LP_ADV_B10L_TX_LVL_HI_ABL");
+
+                if ((hi_abl != "1") || (lp_hi_abl != "1"))
+                {
+                    /* One or both sides cannot do HI, therfore must be low*/
+                    return "1.0 Vpk-pk";
+                }
+                else
+                if ((hi_req == "0") && (lp_hi_req == "0"))
+                {
+                    // Both can manage HI, but neither are requesting it
+                    return "1.0 Vpk-pk";
+                }
+                else
+                {
+                    // Both can manage HI, and one or both are requesting it
+                    return "2.4 Vpk-pk";
+                }
+            }
+
+            //throw new NotImplementedException();
+        }
+
         public List<string> LocalAdvertisedSpeedList()
         {
-            throw new NotImplementedException();
+            return new List<string>() { "10Base-T1L" };
+            //throw new NotImplementedException();
         }
 
         public string MdioReadCl22(uint regAddress)
@@ -166,17 +288,28 @@ namespace ADIN.Device.Services
 
         public ObservableCollection<RegisterModel> ReadRegsiters()
         {
-            throw new NotImplementedException();
+            foreach (var register in _registers)
+            {
+                register.Value = ReadYodaRg(register.Address);
+            }
+            Debug.WriteLine("ReadRegisters Done");
+
+            return _registers;
         }
 
         public string RegisterRead(uint regAddress)
         {
-            throw new NotImplementedException();
+            return ReadYodaRg(regAddress);
+        }
+
+        public string RegisterRead(string register)
+        {
+            return ReadYodaRg(register);
         }
 
         public string RegisterWrite(uint regAddress, uint data)
         {
-            throw new NotImplementedException();
+            return WriteYodaRg(regAddress, data);
         }
 
         public List<string> RemoteAdvertisedSpeedList()
@@ -421,11 +554,6 @@ namespace ADIN.Device.Services
             {
                 return MdioWriteCl45(registerAddress, value);
             }
-        }
-
-        public string RegisterRead(string register)
-        {
-            return ReadYodaRg(register);
         }
     }
 }
