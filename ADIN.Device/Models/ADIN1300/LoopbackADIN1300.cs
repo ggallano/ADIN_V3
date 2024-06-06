@@ -43,10 +43,6 @@ namespace ADIN.Device.Models.ADIN1300
                 LpBck_ExtCable,
                 LpBck_Remote
             };
-
-            SelectedLoopback = Loopbacks[0];
-            SelectedLoopback.TxSuppression = true;
-            SelectedLoopback.RxSuppression = false;
         }
 
         private LoopbackListingModel LpBck_None { get; set; }

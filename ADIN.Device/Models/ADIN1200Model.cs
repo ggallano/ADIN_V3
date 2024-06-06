@@ -83,23 +83,28 @@ namespace ADIN.Device.Models
                     LinkProperties.EnergyDetectPowerDownMode = LinkProperties.EnergyDetectPowerDownModes[2];
 
             var SpeedSelLsb = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("SpeedSelLsb") == "1" ? true : false;
+            var SpeedSelMsb = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("SpeedSelMsb") == "1" ? true : false;
             var DplxMode = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("DplxMode") == "1" ? true : false;
 
             if (SpeedSelLsb)
-                if (DplxMode)
-                    LinkProperties.ForcedSpeed = LinkProperties.ForcedSpeeds[3];
+                if (SpeedSelMsb)
+                    if (DplxMode)
+                        LinkProperties.ForcedSpeed = LinkProperties.ForcedSpeeds[3];
 
             if (SpeedSelLsb)
-                if (!DplxMode)
-                    LinkProperties.ForcedSpeed = LinkProperties.ForcedSpeeds[2];
+                if (SpeedSelMsb)
+                    if (!DplxMode)
+                        LinkProperties.ForcedSpeed = LinkProperties.ForcedSpeeds[2];
 
             if (!SpeedSelLsb)
-                if (DplxMode)
-                    LinkProperties.ForcedSpeed = LinkProperties.ForcedSpeeds[1];
+                if (!SpeedSelMsb)
+                    if (DplxMode)
+                        LinkProperties.ForcedSpeed = LinkProperties.ForcedSpeeds[1];
 
             if (!SpeedSelLsb)
-                if (!DplxMode)
-                    LinkProperties.ForcedSpeed = LinkProperties.ForcedSpeeds[0];
+                if (!SpeedSelMsb)
+                    if (!DplxMode)
+                        LinkProperties.ForcedSpeed = LinkProperties.ForcedSpeeds[0];
 
             var AutoMdiEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("AutoMdiEn") == "1" ? true : false;
             var ManMdix = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("ManMdix") == "1" ? true : false;
