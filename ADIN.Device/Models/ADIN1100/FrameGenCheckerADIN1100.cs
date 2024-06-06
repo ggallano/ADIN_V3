@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ADIN.Device.Models.ADIN1200
+namespace ADIN.Device.Models.ADIN1100
 {
-    public class FrameGenCheckerADIN1200 : IFrameGenChecker
+    public class FrameGenCheckerADIN1100 : IFrameGenChecker
     {
-        public FrameGenCheckerADIN1200()
+        public FrameGenCheckerADIN1100()
         {
+            EnableContinuousMode = false;
             EnableMacAddress = false;
+            FrameBurst = 64001;
+            FrameLength = 1250;
 
             FrameContents = new List<FrameContentModel>()
             {
@@ -35,6 +38,7 @@ namespace ADIN.Device.Models.ADIN1200
                     FrameContentType = FrameType.Alt10s
                 }
             };
+            FrameContent = FrameContents[0];
 
             SrcMacAddress = null;
             DestMacAddress = null;

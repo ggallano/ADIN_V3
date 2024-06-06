@@ -52,7 +52,7 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                return _selectedDevice.Registers;
+                return _selectedDevice?.Registers;
             }
             //set
             //{
@@ -104,10 +104,13 @@ namespace ADIN.WPF.ViewModel
                         if (_selectedDevice != null && _ftdiService.IsComOpen)
                             _selectedDevice.FwAPI.ReadRegsiters();
 
-                        System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                        if (Registers != null)
                         {
-                            OnPropertyChanged(nameof(Registers));
-                        });
+                            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                OnPropertyChanged(nameof(Registers));
+                            });
+                        }
                     }
                     Thread.Sleep(10);
                 }

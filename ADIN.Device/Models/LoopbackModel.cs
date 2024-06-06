@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ADIN.Device.Models
 {
     public class LoopbackModel
     {
-        public LoopbackModel()
-        {
-            Loopbacks = new List<LoopbackListingModel>();
-        }
-
-        public LoopbackListingModel Loopback { get; set; }
-        public List<LoopbackListingModel> Loopbacks { get; set; }
+        public string Name { get; set; }
+        public string ImagePath { get; set; }
+        public LoopBackMode EnumLoopbackType { get; set; }
     }
 }
