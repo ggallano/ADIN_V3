@@ -24,6 +24,13 @@ namespace ADIN.Device.Services
         private ObservableCollection<RegisterModel> _registers;
         private BoardRevision _boardRev;
 
+        public ADIN1100FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
+        {
+            _ftdiService = ftdiService;
+            _phyAddress = phyAddress;
+            _mainLock = mainLock;
+        }
+
         public ADIN1100FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;

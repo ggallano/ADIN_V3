@@ -30,15 +30,13 @@
                 <Border Style="{StaticResource BorderSyle}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Device Type: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
-                        <TextBlock Text="{Binding DeviceType}" 
-                   Style="{StaticResource DeviceStatusValueStyle}"/>
+                        <TextBlock Text="{Binding DeviceType}" Style="{StaticResource DeviceStatusValueStyle}"/>
                     </StackPanel>
                 </Border>
                 <Border Style="{StaticResource BorderSyle}" Grid.Column="2">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Phy Address: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
-                        <TextBlock Text="{Binding PhyAddress}" 
-                   Style="{StaticResource DeviceStatusValueStyle}"/>
+                        <TextBlock Text="{Binding PhyAddress}" Style="{StaticResource DeviceStatusValueStyle}"/>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -78,14 +76,14 @@
             <Border Style="{StaticResource BorderSyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Master/Slave: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
-                    <TextBlock Text="{Binding MasterSlaveStatus}" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
+                    <TextBlock Text="{Binding MasterSlaveStatus}" Style="{StaticResource DeviceStatusValueStyle}"/>
                 </StackPanel>
             </Border>
 
             <Border Style="{StaticResource BorderSyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Tx Level: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
-                    <TextBlock Text="{Binding TxLevelStatus}" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
+                    <TextBlock Text="{Binding TxLevelStatus}" Style="{StaticResource DeviceStatusValueStyle}"/>
                 </StackPanel>
             </Border>
 

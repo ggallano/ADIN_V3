@@ -54,7 +54,9 @@
   <ItemGroup>
     <Compile Include="Models\ActiveLinkModel.cs" />
     <Compile Include="Models\ADIN1100Model.cs" />
+    <Compile Include="Models\ADIN1100\FrameGenCheckerADIN1100.cs" />
     <Compile Include="Models\ADIN1100\LinkPropertiesADIN1100.cs" />
+    <Compile Include="Models\ADIN1100\LoopbackADIN1100.cs" />
     <Compile Include="Models\ADIN1100\TestModeADIN1100.cs" />
     <Compile Include="Models\ADIN1200Model.cs" />
     <Compile Include="Models\ADIN1200\DeviceStatusADIN1200.cs" />
@@ -91,7 +93,6 @@
     <Compile Include="Models\LinkPropertyModel.cs" />
     <Compile Include="Models\LocalRangeModel.cs" />
     <Compile Include="Models\LoopbackListingModel.cs" />
-    <Compile Include="Models\LoopbackModel.cs" />
     <Compile Include="Models\PeakModel.cs" />
     <Compile Include="Models\RegisterAccessModel.cs" />
     <Compile Include="Models\ScriptModel.cs" />
