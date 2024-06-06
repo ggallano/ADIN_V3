@@ -47,8 +47,6 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.FrameContentChanged += _selectedDeviceStore_FrameContentChanged;
         }
 
-        public ICommand RemoteLoopbackCommand { get; set; }
-
         public string DestMacAddress
         {
             get { return _frameGenChecker?.DestMacAddress ?? ":::::"; }
@@ -163,6 +161,13 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsADIN1100Board
+        {
+            get { return _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100; }
+        }
+
+        public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+        public ICommand RemoteLoopbackCommand { get; set; }
         public ICommand ResetFrameCheckerCommnad { get; set; }
 
         public FrameContentModel SelectedFrameContent
@@ -224,9 +229,6 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(FrameGeneratorButtonText));
             }));
         }
-
-        public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
-
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             OnPropertyChanged(nameof(SelectedFrameContent));
@@ -240,6 +242,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(EnableContinuousMode));
             OnPropertyChanged(nameof(FrameGeneratorButtonText));
             OnPropertyChanged(nameof(IsDeviceSelected));
+            OnPropertyChanged(nameof(IsADIN1100Board));
         }
     }
 }

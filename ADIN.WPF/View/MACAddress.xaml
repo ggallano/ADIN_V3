@@ -30,6 +30,56 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="LPane" TargetType="{x:Type TextBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBoxBase">
+                        <Border BorderThickness="{TemplateBinding Border.BorderThickness}" 
+                                BorderBrush="{TemplateBinding Border.BorderBrush}" 
+                                Background="{TemplateBinding Panel.Background}" 
+                                CornerRadius="4 0 0 4"
+                                Name="border" 
+                                SnapsToDevicePixels="True">
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden" 
+                                          VerticalScrollBarVisibility="Hidden" 
+                                          Name="PART_ContentHost" 
+                                          Focusable="False" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="border" Value="0.56" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="RPane" TargetType="{x:Type TextBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBoxBase">
+                        <Border BorderThickness="{TemplateBinding Border.BorderThickness}" 
+                                BorderBrush="{TemplateBinding Border.BorderBrush}" 
+                                Background="{TemplateBinding Panel.Background}" 
+                                CornerRadius="0 4 4 0"
+                                Name="border" 
+                                SnapsToDevicePixels="True">
+                            <ScrollViewer HorizontalScrollBarVisibility="Hidden" 
+                                          VerticalScrollBarVisibility="Hidden" 
+                                          Name="PART_ContentHost" 
+                                          Focusable="False" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" TargetName="border" Value="0.56" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -53,7 +103,7 @@
         </Grid.ColumnDefinitions>
 
         <TextBox x:Name="FirstSegment" Grid.Column="0" TextAlignment="Center" MaxLength="3" BorderThickness="1,1,0,1" VerticalContentAlignment="Center" 
-                 TextChanged="TextBoxBase_OnTextChanged" PreviewKeyDown="UIElement_OnPreviewKeyDown" DataObject.Pasting="DataObject_OnPasting" />
+                 TextChanged="TextBoxBase_OnTextChanged" PreviewKeyDown="UIElement_OnPreviewKeyDown" DataObject.Pasting="DataObject_OnPasting" Style="{StaticResource LPane}"/>
         <TextBox Grid.Column="1" Text=":" TextAlignment="Center" IsReadOnly="True" Focusable="False" BorderThickness="0,1,0,1" VerticalContentAlignment="Center"
                  IsReadOnlyCaretVisible="False"/>
 
@@ -78,6 +128,6 @@
                  IsReadOnlyCaretVisible="False" />
 
         <TextBox x:Name="LastSegment" Grid.Column="10" TextAlignment="Center" MaxLength="3" BorderThickness="0,1,1,1" VerticalContentAlignment="Center"
-                 TextChanged="TextBoxBase_OnTextChanged" PreviewKeyDown="UIElement_OnPreviewKeyDown" DataObject.Pasting="DataObject_OnPasting" />
+                 TextChanged="TextBoxBase_OnTextChanged" PreviewKeyDown="UIElement_OnPreviewKeyDown" DataObject.Pasting="DataObject_OnPasting" Style="{StaticResource RPane}"/>
     </Grid>
 </UserControl>

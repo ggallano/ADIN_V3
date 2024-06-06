@@ -19,7 +19,7 @@ namespace ADIN.Device.Models
             PhyAddress = 0;
             DeviceType = BoardType.ADIN1100;
 
-            FirmwareAPI = new ADIN1100FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
+            FirmwareAPI = new ADIN1100FirmwareAPI(_ftdiService, PhyAddress, mainLock);
             BoardRev = ((ADIN1100FirmwareAPI)FirmwareAPI).GetRevNum();
 
             switch (BoardRev)
@@ -36,11 +36,16 @@ namespace ADIN.Device.Models
                     break;
             }
 
+            FirmwareAPI = new ADIN1100FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
+
             LinkProperties = new LinkPropertiesADIN1100();
             GetLinkPropertiesValue();
 
             TestMode = new TestModeADIN1100();
             //GetTestModeValue();
+
+            FrameGenChecker = new FrameGenCheckerADIN1100();
+            Loopback = new LoopbackADIN1100();
         }
 
         private void GetTestModeValue()

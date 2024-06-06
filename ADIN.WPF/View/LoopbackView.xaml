@@ -5,57 +5,77 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:telerik='http://schemas.telerik.com/2008/xaml/presentation'
              xmlns:local="clr-namespace:ADIN.WPF.View"
+             xmlns:converters="clr-namespace:ADIN.WPF.Converters"
              xmlns:enum="clr-namespace:ADIN.Device.Models;assembly=ADIN.Device"
                           mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450">
     <UserControl.Resources>
         <ResourceDictionary>
+            <converters:BooleanVisibilityConverter x:Key="booleanVisibilityConverter" IsInversed="False"/>
+            <converters:BooleanVisibilityConverter x:Key="invertedBooleanVisibilityConverter" IsInversed="True"/>
+            
             <Style x:Key="TextBlockSuppressionStyle" TargetType="{x:Type TextBlock}">
                 <Setter Property="Margin" Value="5 0 0 0 "/>
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Margin="5">
-        <StackPanel Orientation="Vertical" IsEnabled="{Binding IsDeviceSelected}">
-            <WrapPanel HorizontalAlignment='Left'  Orientation='Horizontal'>
+    <StackPanel Orientation="Vertical">
+        <Grid Margin="5" Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+            <StackPanel Orientation="Vertical" IsEnabled="{Binding IsDeviceSelected}">
+                <WrapPanel HorizontalAlignment='Left'  Orientation='Horizontal'>
 
-                <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="None" IsChecked="{Binding IsLoopback_None}"/>
-                <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="All Digital" IsChecked="{Binding IsLoopback_Digital}"/>
-                <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Line Driver" IsChecked="{Binding IsLoopback_LineDriver}"/>
-                <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="External Cable" IsChecked="{Binding IsLoopback_ExtCable}"/>
-                <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Remote" IsChecked="{Binding IsLoopback_Remote}"/>
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="None" IsChecked="{Binding IsLoopback_None}"/>
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="All Digital" IsChecked="{Binding IsLoopback_Digital}"/>
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Line Driver" IsChecked="{Binding IsLoopback_LineDriver}"/>
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="External Cable" IsChecked="{Binding IsLoopback_ExtCable}"/>
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Remote" IsChecked="{Binding IsLoopback_Remote}"/>
 
-                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Margin="10 3 0 0">
-                    <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
-                        <CheckBox IsChecked="{Binding IsRxSuppression}" Content="Rx Suppression" Style="{StaticResource CheckBoxStyle}"/>
-                        <!--<CheckBox IsChecked="{Binding IsRxSuppression}"/>
+                    <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Margin="10 3 0 0">
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                            <CheckBox IsChecked="{Binding IsRxSuppression}" Content="Rx Suppression" Style="{StaticResource CheckBoxStyle}"/>
+                            <!--<CheckBox IsChecked="{Binding IsRxSuppression}"/>
                         <TextBlock Text="Rx Suppression" Style="{StaticResource TextBlockstyle}"/>-->
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox IsChecked="{Binding IsTxSuppression}" Content="Tx Suppression" Style="{StaticResource CheckBoxStyle}"/>
-                        <!--<CheckBox IsChecked="{Binding IsTxSuppression}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsTxSuppression}" Content="Tx Suppression" Style="{StaticResource CheckBoxStyle}"/>
+                            <!--<CheckBox IsChecked="{Binding IsTxSuppression}"/>
                         <TextBlock Text="Tx Suppression" Style="{StaticResource TextBlockstyle}"/>-->
+                        </StackPanel>
                     </StackPanel>
+                </WrapPanel>
+                <!--<Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="20" Source="{Binding ImagePath}" VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Height="300" Width="600"/>-->
+            </StackPanel>
+        </Grid>
+
+        <Grid Margin="5" Visibility="{Binding IsADIN1100Board, Converter={StaticResource booleanVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".5*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ComboBox Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Loopbacks}" SelectedItem="{Binding SelectedLoopback, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Style="{StaticResource ComboBoxFlatStyle}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Margin="10 0 0 0">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding IsRxSuppression}" Content="Rx Suppression" Style="{StaticResource CheckBoxStyle}"/>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox IsChecked="{Binding IsTxSuppression}" Content="Tx Suppression" Style="{StaticResource CheckBoxStyle}"/>
+                </StackPanel>
+            </StackPanel>
+            <!--<Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 20" Source="{Binding ImagePath}" VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Height="300" Width="600"/>-->
+        </Grid>
 
-            </WrapPanel>
+        <Grid>
+            <Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 20" Source="{Binding ImagePath}" VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Height="300" Width="600"/>
+        </Grid>
+    </StackPanel>
 
-            <Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="20" Source="{Binding ImagePath}" VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Height="300" Width="600"/>
-        </StackPanel>
-
-        <!--<Grid.ColumnDefinitions>
-            <ColumnDefinition Width=".5*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <ComboBox Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Loopbacks}" SelectedItem="{Binding SelectedLoopback, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>-->
-    </Grid>
 </UserControl>
