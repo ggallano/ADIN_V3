@@ -52,7 +52,7 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                return _selectedDevice.Registers;
+                return _selectedDevice?.Registers;
             }
             //set
             //{
