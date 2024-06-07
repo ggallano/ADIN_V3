@@ -112,7 +112,7 @@
                     <Grid Grid.Row="0" Grid.Column="0">
                         <Border Height="100" Width="130" Background="#0067B9" CornerRadius="7" BorderThickness="0"/>
                         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                            <TextBlock Text="TDR Engine" HorizontalAlignment="Center" Foreground="#FFD8D8D8" FontSize="20"/>
+                            <TextBlock Text="TDR Engine" HorizontalAlignment="Center" Foreground="{StaticResource hmc.color.content.inverse}" Style="{StaticResource TextBlockstyle}" FontSize="20"/>
                             <telerik:RadButton Content="Start" Command="{Binding FaultDetectCommand}" Style="{StaticResource FaultDetectorStartButtonStyle}" ToolTip="Start TDR Fault Detector"/>
                         </StackPanel>
                     </Grid>
@@ -122,7 +122,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Grid>
                                 <Rectangle Height="50" Width="20" Fill="#FF599343" />
-                                <TextBlock Text="MDI" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFD8D8D8" FontSize="10" RenderTransformOrigin="0.5,0.5">
+                                <TextBlock Text="MDI" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource hmc.color.content.inverse}" FontSize="10" RenderTransformOrigin="0.5,0.5">
                                     <TextBlock.RenderTransform>
                                         <TransformGroup>
                                             <ScaleTransform/>
@@ -165,15 +165,15 @@
                                 </StackPanel>
                             </Grid>
                             <Grid VerticalAlignment="Center">
-                                <Rectangle Height="30" Width="200" Fill="Black" HorizontalAlignment="Left"/>
+                                <Rectangle Height="30" Width="200" Fill="{StaticResource hmc.color.content.default}" HorizontalAlignment="Left"/>
                             </Grid>
                         </StackPanel>
                         <TextBlock Margin="50 180 0 0"
                            Visibility="{Binding IsFaultVisibility, Converter={StaticResource boolvis}}"
-                           FontSize="22">
-                    <Run Text="Fault at "/>
-                    <Run Text="{Binding DistToFault, StringFormat={}{0:0.000}}"/>
-                    <Run Text="m"/>
+                           FontSize="20" FontFamily="Barlow" Foreground="{StaticResource hmc.color.content.default}">
+                            <Run Text="Fault at "/>
+                            <Run Text="{Binding DistToFault, StringFormat={}{0:0.000}}"/>
+                            <Run Text="m"/>
                         </TextBlock>
                         <Line Stretch="Fill" Stroke="Black" X2="1" Margin="0 120 0 0" Height="5" Width="Auto"
                       Visibility="{Binding IsFaultVisibility, Converter={StaticResource boolvis}}"/>
