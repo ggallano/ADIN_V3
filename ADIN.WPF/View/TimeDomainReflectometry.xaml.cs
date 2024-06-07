@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ADIN.WPF.View
 {
     /// <summary>
-    /// Interaction logic for CableDiagnosticsView.xaml
+    /// Interaction logic for TimeDomainReflectometry.xaml
     /// </summary>
-    public partial class CableDiagnosticsView : UserControl
+    public partial class TimeDomainReflectometry : UserControl
     {
-        public CableDiagnosticsView()
+        public TimeDomainReflectometry()
         {
             InitializeComponent();
         }
