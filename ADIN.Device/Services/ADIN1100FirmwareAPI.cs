@@ -627,6 +627,9 @@ namespace ADIN.Device.Services
                     //this.Info("    SPE PHY Loopback NOT configured - use one of PMA / PCS / MAC Interface / MAC Interface Remote / External MII/RMII");
                     break;
             }
+
+            WriteYodaRg("MAC_IF_LB_TX_SUP_EN", txSuppression ? (uint)1 : (uint)0);
+            WriteYodaRg("MAC_IF_REM_LB_RX_SUP_EN", rxSuppression ? (uint)1 : (uint)0);
         }
 
         public void SetMasterSlave(string masterSlaveAdvertise)

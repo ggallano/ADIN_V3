@@ -293,8 +293,8 @@ namespace ADIN.WPF.ViewModel
                     _loopback.RxSuppression = _isRxSuppression;
                     _loopback.TxSuppression = _isTxSuppression;
 
-                    //ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                    //fwADIN1100API.SetLoopbackSetting(_loopback.SelectedLoopback);
+                    ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                    fwADIN1100API.SetLoopbackSetting(_loopback.SelectedLoopback, IsTxSuppression, IsRxSuppression);
                 }
                 OnPropertyChanged(nameof(SelectedLoopback));
                 OnPropertyChanged(nameof(ImagePath));
