@@ -103,7 +103,7 @@
 
                 <Border Style="{StaticResource BorderSyle}" Grid.Column="0">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Autonegotiation Advertisement:" Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                        <TextBlock Text="Autonegotiation Advertisement:" Style="{StaticResource DeviceStatusTextBlockstyle}" Margin="0 3 0 0"/>
                         <telerik:RadListBox ItemsSource="{Binding LocalAdvertisedSpeeds}"
                                             Style="{StaticResource ListBoxStyle}"/>
                     </StackPanel>
@@ -111,7 +111,7 @@
 
                 <Border Style="{StaticResource BorderSyle}" Grid.Column="2">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Autonegotiation Link Partner:" Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                        <TextBlock Text="Autonegotiation Link Partner:" Style="{StaticResource DeviceStatusTextBlockstyle}" Margin="0 3 0 0"/>
                         <telerik:RadListBox ItemsSource="{Binding RemoteAdvertisedSpeeds}"
                                             Style="{StaticResource ListBoxStyle}"/>
                     </StackPanel>

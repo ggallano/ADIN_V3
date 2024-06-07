@@ -12,10 +12,8 @@
         <converters:BooleanVisibilityConverter x:Key="booleanVisibilityConverter" IsInversed="False"/>
         <converters:BooleanVisibilityConverter x:Key="invertedBooleanVisibilityConverter" IsInversed="True"/>
     </UserControl.Resources>
-    <Grid Margin="5">
-
-        <StackPanel HorizontalAlignment='Stretch' Margin='10' IsEnabled="{Binding IsDeviceSelected}">
-
+    <Grid Margin="0 10 0 0">
+        <StackPanel HorizontalAlignment='Stretch' IsEnabled="{Binding IsDeviceSelected}">
             <GroupBox Header='Enable Remote Loopback in Link Partner' Style="{StaticResource GroupBoxStyle}" Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
                 <StackPanel Margin="0">
                     <TextBlock TextWrapping='Wrap' Text="Loopback can be conveniently enabled on a remote device to loopback frames for the frame checker to check." Style="{StaticResource TextBlockstyle}"   />
