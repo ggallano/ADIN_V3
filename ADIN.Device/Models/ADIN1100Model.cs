@@ -27,13 +27,13 @@ namespace ADIN.Device.Models
                     Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1100_S1.json"));
                     Registers = registerService.GetAdditionalRegisterSetRev0(Registers);
                     BoardRev = BoardRevision.Rev0;
-                    DeviceType = BoardType.ADIN1100;
+                    DeviceType = BoardType.ADIN1100_S1;
                     break;
                 case BoardRevision.Rev1:
                     Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1100_S2.json"));
                     Registers = registerService.GetAdditionalRegisterSetRev1(Registers);
                     BoardRev = BoardRevision.Rev1;
-                    DeviceType = BoardType.ADIN1100_S1;
+                    DeviceType = BoardType.ADIN1100;
                     break;
                 default:
                     break;
