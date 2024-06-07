@@ -10,10 +10,7 @@ namespace ADIN.Device.Models.ADIN1300
     {
         public FrameGenCheckerADIN1300()
         {
-            EnableContinuousMode = false;
             EnableMacAddress = false;
-            FrameBurst = 64001;
-            FrameLength = 1250;
 
             FrameContents = new List<FrameContentModel>()
             {
@@ -38,7 +35,6 @@ namespace ADIN.Device.Models.ADIN1300
                     FrameContentType = FrameType.Alt10s
                 }
             };
-            FrameContent = FrameContents[0];
 
             SrcMacAddress = null;
             DestMacAddress = null;

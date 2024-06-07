@@ -15,6 +15,7 @@ namespace ADIN.Device.Services
 {
     public class ADIN1100FirmwareAPI : IADIN1100API
     {
+        private static ADIN1100FirmwareAPI fwAPI;
         private bool _autoNegotiationStatus = false;
         private string _feedbackMessage;
         private IFTDIServices _ftdiService;
@@ -22,13 +23,16 @@ namespace ADIN.Device.Services
         private uint _phyAddress;
         private EthPhyState _phyState;
         private ObservableCollection<RegisterModel> _registers;
-        private BoardRevision _boardRev;
+        private uint checkedFrames = 0;
+        private uint checkedFramesErrors = 0;
 
         public ADIN1100FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
             _phyAddress = phyAddress;
             _mainLock = mainLock;
+
+            fwAPI = this;
         }
 
         public ADIN1100FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
@@ -39,29 +43,6 @@ namespace ADIN.Device.Services
             _mainLock = mainLock;
         }
 
-        public BoardRevision GetRevNum()
-        {
-            var value = MdioReadCl45(Convert.ToUInt32(0x1E0003));
-            var revNum = Convert.ToUInt32(value, 16) & 0x03;
-
-            switch (revNum)
-            {
-                case 1:
-                    _boardRev = BoardRevision.Rev1;
-                    break;
-
-                case 0:
-                    _boardRev = BoardRevision.Rev0;
-                    break;
-
-                default:
-                    _boardRev = BoardRevision.Rev1;
-                    break;
-            }
-
-            return _boardRev;
-        }
-
         public event EventHandler<FrameType> FrameContentChanged;
 
         public event EventHandler<string> FrameGenCheckerTextStatusChanged;
@@ -70,7 +51,27 @@ namespace ADIN.Device.Services
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
 
+        public BoardRevision boardRev { get; set; }
+
         public bool isFrameGenCheckerOngoing { get; set; }
+
+        public static BoardRevision GetRevNum()
+        {
+            var value = fwAPI.ReadYodaRg(Convert.ToUInt32(0x1E0003));
+            var revNum = Convert.ToUInt32(value, 16) & 0x03;
+
+            switch (revNum)
+            {
+                case 1:
+                    return BoardRevision.Rev1;
+
+                case 0:
+                    return BoardRevision.Rev0;
+
+                default:
+                    return BoardRevision.Rev1;
+            }
+        }
         public void DisableLinking(bool isDisabledLinking)
         {
             throw new NotImplementedException();
@@ -176,7 +177,7 @@ namespace ADIN.Device.Services
 
         public string GetTxLevelStatus()
         {
-            if (_boardRev == BoardRevision.Rev1)
+            if (boardRev == BoardRevision.Rev1)
             {
                 switch (ReadYodaRg("AN_TX_LVL_RSLTN"))
                 {
@@ -326,7 +327,10 @@ namespace ADIN.Device.Services
 
         public void ResetFrameGenCheckerStatistics()
         {
-            throw new NotImplementedException();
+            checkedFrames = 0;
+            checkedFramesErrors = 0;
+
+            OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames} frames, {checkedFramesErrors} errors");
         }
 
         public void ResetPhy(ResetType reset)
@@ -341,12 +345,215 @@ namespace ADIN.Device.Services
 
         public void SetFrameCheckerSetting(FrameGenCheckerModel frameContent)
         {
-            throw new NotImplementedException();
+            checkedFrames = 0;
+            checkedFramesErrors = 0;
+
+            bool fgEn_st = ReadYodaRg("FG_EN") == "1" ? true : false;
+
+            if (fgEn_st)
+            {
+                WriteYodaRg("FG_EN", 0);
+                //OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Generator disabled", FeedBackType = FeedbackType.Info });
+                isFrameGenCheckerOngoing = false;
+                OnFrameGenCheckerStatusChanged("Generate");
+            }
+            else
+            {
+                WriteYodaRg("CRSM_FRM_GEN_DIAG_CLK_EN", 1);
+                SetFrameLength(frameContent.FrameLength);
+                SetContinuousMode(frameContent.EnableContinuousMode, frameContent.FrameBurst);
+                SetFrameContent(frameContent.SelectedFrameContent);
+                SetMacAddresses(frameContent.EnableMacAddress, frameContent.SrcOctet, frameContent.DestOctet);
+
+                WriteYodaRg("FG_EN", 1);
+                isFrameGenCheckerOngoing = true;
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"- Started transmission of {frameContent.FrameBurst} frames -", FeedBackType = FeedbackType.Info });
+            }
+        }
+
+        private void SetContinuousMode(bool isEnable, uint frameBurst)
+        {
+            if (isEnable)
+            {
+                WriteYodaRg("FG_CONT_MODE_EN", 1);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frames will be sent continuously until terminated.", FeedBackType = FeedbackType.Info });
+            }
+            else
+            {
+                uint numFramesH = frameBurst / 65536;
+                uint numFramesL = frameBurst - (numFramesH * 65536);
+                WriteYodaRg("FG_NFRM_L", numFramesL);
+                WriteYodaRg("FG_NFRM_H", numFramesH);
+                WriteYodaRg("FG_CONT_MODE_EN", 0);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Num Frames set to {frameBurst}", FeedBackType = FeedbackType.Info });
+            }
+        }
+
+        private void SetFrameContent(FrameType frameContent)
+        {
+            switch (frameContent)
+            {
+                case FrameType.Random:
+                    WriteYodaRg("FG_CNTRL", 1);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as random", FeedBackType = FeedbackType.Info });
+                    break;
+
+                case FrameType.All0s:
+                    WriteYodaRg("FG_CNTRL", 2);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as all zeros", FeedBackType = FeedbackType.Info });
+                    break;
+
+                case FrameType.All1s:
+                    WriteYodaRg("FG_CNTRL", 3);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as all ones", FeedBackType = FeedbackType.Info });
+                    break;
+
+                case FrameType.Alt10s:
+                    WriteYodaRg("FG_CNTRL", 4);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as alternating 1 0", FeedBackType = FeedbackType.Info });
+                    break;
+
+                case FrameType.Decrement:
+                    WriteYodaRg("FG_CNTRL", 5);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as decrementing byte", FeedBackType = FeedbackType.Info });
+                    break;
+
+                default:
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type Not Configured - Use one of  Random / A000s / A111s / Alt10", FeedBackType = FeedbackType.Info });
+                    break;
+            }
+        }
+
+        private void SetFrameLength(uint framLength)
+        {
+            if (framLength <= 0xFFFF)
+            {
+                WriteYodaRg("FG_FRM_LEN", framLength);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Length set to {framLength}", FeedBackType = FeedbackType.Info });
+            }
+            else
+            {
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Length Not set - value must be less than 65535", FeedBackType = FeedbackType.Info });
+            }
+        }
+
+        private void SetMacAddresses(bool isEnable, string src, string dest)
+        {
+            if (isEnable)
+            {
+                if (src != null)
+                {
+                    WriteYodaRg("FgSa", Convert.ToUInt32(src, 16));
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0x{src}", FeedBackType = FeedbackType.Info });
+                }
+
+                if (dest != null)
+                {
+                    WriteYodaRg("FgDa5Emi", Convert.ToUInt32(dest, 16));
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Destination MAC Address set to 0x{dest}", FeedBackType = FeedbackType.Info });
+                }
+            }
+            else
+            {
+                WriteYodaRg("FgSa", 0xE1);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0xE1", FeedBackType = FeedbackType.Info });
+                WriteYodaRg("FgDa5Emi", 0x01);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0x01", FeedBackType = FeedbackType.Info });
+            }
         }
 
         public void SetLoopbackSetting(LoopbackModel loopback, bool txSuppression, bool rxSuppression)
         {
-            throw new NotImplementedException();
+            switch (loopback.EnumLoopbackType)
+            {
+                // PCS
+                case LoopBackMode.Digital:
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_EN", 0);
+                    WriteYodaRg("AN_FRC_MODE_EN", 1);
+                    WriteYodaRg("B10L_LB_PMA_LOC_EN", 0);
+                    WriteYodaRg("B10L_LB_PCS_EN", 1);
+                    WriteYodaRg("MAC_IF_LB_EN", 0);
+                    WriteYodaRg("MAC_IF_REM_LB_EN", 0);
+                    WriteYodaRg("RMII_TXD_CHK_EN", 0);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    FeedbackLog($"Loopback Mode: {loopback.Name} Loopback Mode", FeedbackType.Info);
+                    break;
+
+                //PMA
+                case LoopBackMode.LineDriver:
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_EN", 0);
+                    WriteYodaRg("AN_FRC_MODE_EN", 1);
+                    WriteYodaRg("B10L_LB_PMA_LOC_EN", 1);
+                    WriteYodaRg("B10L_LB_PCS_EN", 0);
+                    WriteYodaRg("MAC_IF_LB_EN", 0);
+                    WriteYodaRg("MAC_IF_REM_LB_EN", 0);
+                    WriteYodaRg("RMII_TXD_CHK_EN", 0);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    FeedbackLog($"Loopback Mode: {loopback.Name} Loopback Mode", FeedbackType.Info);
+                    break;
+
+                //ExtMII,RMII
+                case LoopBackMode.ExtCable:
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+
+                    WriteYodaRg("AN_EN", 1);
+                    WriteYodaRg("AN_FRC_MODE_EN", 0);
+
+                    WriteYodaRg("B10L_LB_PMA_LOC_EN", 0);
+                    WriteYodaRg("B10L_LB_PCS_EN", 0);
+                    WriteYodaRg("MAC_IF_LB_EN", 0);
+                    WriteYodaRg("MAC_IF_REM_LB_EN", 0);
+                    WriteYodaRg("RMII_TXD_CHK_EN", 1);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    FeedbackLog($"Loopback Mode: {loopback.Name} Loopback Mode", FeedbackType.Info);
+                    break;
+
+                //MAC IF Remote
+                case LoopBackMode.MacRemote:
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_EN", 1);
+                    WriteYodaRg("AN_FRC_MODE_EN", 0);
+                    WriteYodaRg("B10L_LB_PMA_LOC_EN", 0);
+                    WriteYodaRg("B10L_LB_PCS_EN", 0);
+                    WriteYodaRg("MAC_IF_LB_EN", 0);
+                    WriteYodaRg("MAC_IF_REM_LB_EN", 1);
+                    WriteYodaRg("RMII_TXD_CHK_EN", 0);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    FeedbackLog($"Loopback Mode: {loopback.Name} Loopback Mode", FeedbackType.Info);
+                    break;
+
+                case LoopBackMode.MAC:
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_EN", 1);
+                    WriteYodaRg("AN_FRC_MODE_EN", 0);
+                    WriteYodaRg("B10L_LB_PMA_LOC_EN", 0);
+                    WriteYodaRg("B10L_LB_PCS_EN", 0);
+                    WriteYodaRg("MAC_IF_LB_EN", 1);
+                    WriteYodaRg("MAC_IF_REM_LB_EN", 0);
+                    WriteYodaRg("RMII_TXD_CHK_EN", 0);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    FeedbackLog($"Loopback Mode: {loopback.Name} Loopback Mode", FeedbackType.Info);
+                    break;
+
+                case LoopBackMode.OFF:
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_EN", 1);
+                    WriteYodaRg("AN_FRC_MODE_EN", 0);
+                    WriteYodaRg("B10L_LB_PMA_LOC_EN", 0);
+                    WriteYodaRg("B10L_LB_PCS_EN", 0);
+                    WriteYodaRg("MAC_IF_LB_EN", 0);
+                    WriteYodaRg("MAC_IF_REM_LB_EN", 0);
+                    WriteYodaRg("RMII_TXD_CHK_EN", 0);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    FeedbackLog($"Loopback Mode: {loopback.Name} Loopback Mode", FeedbackType.Info);
+                    break;
+
+                default:
+                    //this.Info("    SPE PHY Loopback NOT configured - use one of PMA / PCS / MAC Interface / MAC Interface Remote / External MII/RMII");
+                    break;
+            }
         }
 
         public void SetMasterSlave(string masterSlaveAdvertise)
@@ -561,6 +768,16 @@ namespace ADIN.Device.Services
             {
                 return MdioWriteCl45(registerAddress, value);
             }
+        }
+
+        protected virtual void OnFrameGenCheckerStatusChanged(string status)
+        {
+            FrameGenCheckerTextStatusChanged?.Invoke(this, status);
+        }
+
+        protected virtual void OnResetFrameGenCheckerStatisticsChanged(string status)
+        {
+            ResetFrameGenCheckerStatisticsChanged?.Invoke(this, status);
         }
     }
 }

@@ -146,6 +146,9 @@
     <Compile Include="Commands\SoftwarePowerDownCommand.cs" />
     <Compile Include="Commands\TestModeCommand.cs" />
     <Compile Include="Commands\WriteRegisterCommand.cs" />
+    <Compile Include="Components\MACAddress.xaml.cs">
+      <DependentUpon>MACAddress.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\NavigationBar.xaml.cs">
       <DependentUpon>NavigationBar.xaml</DependentUpon>
     </Compile>
@@ -192,9 +195,6 @@
     <Compile Include="View\LoopbackView.xaml.cs">
       <DependentUpon>LoopbackView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\MACAddress.xaml.cs">
-      <DependentUpon>MACAddress.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\TestModeView.xaml.cs">
       <DependentUpon>TestModeView.xaml</DependentUpon>
     </Compile>
@@ -213,6 +213,9 @@
     <Compile Include="View\RegisterListingView.xaml.cs">
       <DependentUpon>RegisterListingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\TimeDomainReflectometry.xaml.cs">
+      <DependentUpon>TimeDomainReflectometry.xaml</DependentUpon>
+    </Compile>
     <Page Include="AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -220,6 +223,10 @@
     <Page Include="Components\DeviceListing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\MACAddress.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Components\NavigationBar.xaml">
       <SubType>Designer</SubType>
@@ -312,10 +319,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\MACAddress.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\TestModeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -337,6 +340,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\RegisterListingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TimeDomainReflectometry.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

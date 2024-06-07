@@ -12,10 +12,8 @@
         <converters:BooleanVisibilityConverter x:Key="booleanVisibilityConverter" IsInversed="False"/>
         <converters:BooleanVisibilityConverter x:Key="invertedBooleanVisibilityConverter" IsInversed="True"/>
     </UserControl.Resources>
-    <Grid Margin="5">
-
-        <StackPanel HorizontalAlignment='Stretch' Margin='10' IsEnabled="{Binding IsDeviceSelected}">
-
+    <Grid Margin="0 10 0 0">
+        <StackPanel HorizontalAlignment='Stretch' IsEnabled="{Binding IsDeviceSelected}">
             <GroupBox Header='Enable Remote Loopback in Link Partner' Style="{StaticResource GroupBoxStyle}" Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
                 <StackPanel Margin="0">
                     <TextBlock TextWrapping='Wrap' Text="Loopback can be conveniently enabled on a remote device to loopback frames for the frame checker to check." Style="{StaticResource TextBlockstyle}"   />
@@ -36,8 +34,8 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Column="0" Text="Number of Frames in Burst" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" Style="{StaticResource TextBlockstyle}"/>
-                        <TextBox Grid.Column="1" Text="{Binding ElementName=SliderFrameNumber, Path=Value, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" BorderThickness="0.5" Background="Transparent" Width="50" HorizontalAlignment="Right" HorizontalContentAlignment="Center"/>
-                        <Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}"  x:Name="SliderFrameNumber" Value="{Binding FrameBurst}" Maximum="65535" TickFrequency="50" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}"/>
+                        <TextBox Grid.Column="1" Text="{Binding FrameBurst_Value, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" BorderThickness="0.5" Background="Transparent" Width="100" HorizontalAlignment="Right" HorizontalContentAlignment="Center"/>
+                        <Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}"  x:Name="SliderFrameNumber" Value="{Binding FrameBurst_Slider}" Maximum="256" TickFrequency="1" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}"/>
                     </Grid>
 
                     <Grid Margin="0 5">

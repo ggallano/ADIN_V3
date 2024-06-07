@@ -16,6 +16,7 @@
 
     public enum BoardType
     {
+        ADIN1100_S1,
         ADIN1100,
         ADIN1110,
         ADIN1200,

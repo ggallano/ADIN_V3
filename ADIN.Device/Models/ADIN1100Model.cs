@@ -17,26 +17,30 @@ namespace ADIN.Device.Models
             _ftdiService = ftdiService;
             _registerService = registerService;
             PhyAddress = 0;
-            DeviceType = BoardType.ADIN1100;
+            
 
             FirmwareAPI = new ADIN1100FirmwareAPI(_ftdiService, PhyAddress, mainLock);
-            BoardRev = ((ADIN1100FirmwareAPI)FirmwareAPI).GetRevNum();
 
-            switch (BoardRev)
+            switch (ADIN1100FirmwareAPI.GetRevNum())
             {
                 case BoardRevision.Rev0:
                     Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1100_S1.json"));
                     Registers = registerService.GetAdditionalRegisterSetRev0(Registers);
+                    BoardRev = BoardRevision.Rev0;
+                    DeviceType = BoardType.ADIN1100_S1;
                     break;
                 case BoardRevision.Rev1:
                     Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1100_S2.json"));
                     Registers = registerService.GetAdditionalRegisterSetRev1(Registers);
+                    BoardRev = BoardRevision.Rev1;
+                    DeviceType = BoardType.ADIN1100;
                     break;
                 default:
                     break;
             }
 
             FirmwareAPI = new ADIN1100FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
+            ((ADIN1100FirmwareAPI)FirmwareAPI).boardRev = BoardRev;
 
             LinkProperties = new LinkPropertiesADIN1100();
             GetLinkPropertiesValue();
