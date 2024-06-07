@@ -93,6 +93,16 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsVisibleDisableLink
+        {
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1100FirmwareAPI)
+                    return false;
+                return true;
+            }
+        }
+
         public ICommand PhyResetCommand { get; set; }
         public ICommand SoftwarePowerDownCommand { get; set; }
         public ICommand SubSysResetCommand { get; set; }
@@ -132,6 +142,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(LinkStatus));
             OnPropertyChanged(nameof(IsPoweredUp));
             OnPropertyChanged(nameof(IsVisibleSubSysPin));
+            OnPropertyChanged(nameof(IsVisibleDisableLink));
         }
     }
 }
