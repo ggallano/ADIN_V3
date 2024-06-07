@@ -339,9 +339,11 @@ namespace ADIN.WPF.ViewModel
 
                     Thread.Sleep(500);
                 }
-                catch (Exception ex)
+                catch (NotImplementedException)
                 {
+                    _selectedDeviceStore.OnViewModelFeedbackLog("This function is not implemented for this board.", Helper.Feedback.FeedbackType.Info);
                 }
+
                 e.Result = "Done";
             }
         }

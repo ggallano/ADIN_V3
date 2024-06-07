@@ -92,7 +92,7 @@
     <Compile Include="Models\ClockPinControlModel.cs" />
     <Compile Include="Models\LinkPropertyModel.cs" />
     <Compile Include="Models\LocalRangeModel.cs" />
-    <Compile Include="Models\LoopbackListingModel.cs" />
+    <Compile Include="Models\LoopbackModel.cs" />
     <Compile Include="Models\PeakModel.cs" />
     <Compile Include="Models\RegisterAccessModel.cs" />
     <Compile Include="Models\ScriptModel.cs" />

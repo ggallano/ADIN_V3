@@ -344,7 +344,7 @@ namespace ADIN.Device.Services
             throw new NotImplementedException();
         }
 
-        public void SetLoopbackSetting(LoopbackListingModel loopback)
+        public void SetLoopbackSetting(LoopbackModel loopback, bool txSuppression, bool rxSuppression)
         {
             throw new NotImplementedException();
         }

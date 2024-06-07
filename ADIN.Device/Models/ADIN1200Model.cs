@@ -144,8 +144,8 @@ namespace ADIN.Device.Models
                 if (((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("LbRemoteEn") == "1")
                     Loopback.SelectedLoopback = Loopback.Loopbacks[4];
 
-            Loopback.SelectedLoopback.RxSuppression = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("IsolateRx") == "1" ? true : false;
-            Loopback.SelectedLoopback.TxSuppression = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("LbTxSup") == "1" ? true : false;
+            Loopback.RxSuppression = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("IsolateRx") == "1" ? true : false;
+            Loopback.TxSuppression = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("LbTxSup") == "1" ? true : false;
         }
 
         private void GetInitialValuesFrameGenChecker()
