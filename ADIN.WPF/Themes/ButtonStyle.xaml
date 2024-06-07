@@ -361,7 +361,6 @@
 
     <Style x:Key="FaultDetectorCalibrateButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource ButtonStyle}">
         <Setter Property="Width" Value="70"/>
-        <Setter Property="Margin" Value="4"/>
     </Style>
 
     <Style x:Key="FaultDetectorOkButtonStyle" TargetType="{x:Type telerik:RadButton}" BasedOn="{StaticResource ButtonStyle}">
