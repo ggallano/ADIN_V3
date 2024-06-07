@@ -15,6 +15,7 @@ namespace ADIN.Device.Services
 {
     public class ADIN1100FirmwareAPI : IADIN1100API
     {
+        private static ADIN1100FirmwareAPI fwAPI;
         private bool _autoNegotiationStatus = false;
         private string _feedbackMessage;
         private IFTDIServices _ftdiService;
@@ -22,13 +23,14 @@ namespace ADIN.Device.Services
         private uint _phyAddress;
         private EthPhyState _phyState;
         private ObservableCollection<RegisterModel> _registers;
-        private BoardRevision _boardRev;
 
         public ADIN1100FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
             _phyAddress = phyAddress;
             _mainLock = mainLock;
+
+            fwAPI = this;
         }
 
         public ADIN1100FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
@@ -39,29 +41,6 @@ namespace ADIN.Device.Services
             _mainLock = mainLock;
         }
 
-        public BoardRevision GetRevNum()
-        {
-            var value = MdioReadCl45(Convert.ToUInt32(0x1E0003));
-            var revNum = Convert.ToUInt32(value, 16) & 0x03;
-
-            switch (revNum)
-            {
-                case 1:
-                    _boardRev = BoardRevision.Rev1;
-                    break;
-
-                case 0:
-                    _boardRev = BoardRevision.Rev0;
-                    break;
-
-                default:
-                    _boardRev = BoardRevision.Rev1;
-                    break;
-            }
-
-            return _boardRev;
-        }
-
         public event EventHandler<FrameType> FrameContentChanged;
 
         public event EventHandler<string> FrameGenCheckerTextStatusChanged;
@@ -70,7 +49,27 @@ namespace ADIN.Device.Services
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
 
+        public BoardRevision boardRev { get; set; }
+
         public bool isFrameGenCheckerOngoing { get; set; }
+
+        public static BoardRevision GetRevNum()
+        {
+            var value = fwAPI.ReadYodaRg(Convert.ToUInt32(0x1E0003));
+            var revNum = Convert.ToUInt32(value, 16) & 0x03;
+
+            switch (revNum)
+            {
+                case 1:
+                    return BoardRevision.Rev1;
+
+                case 0:
+                    return BoardRevision.Rev0;
+
+                default:
+                    return BoardRevision.Rev1;
+            }
+        }
         public void DisableLinking(bool isDisabledLinking)
         {
             throw new NotImplementedException();
@@ -176,7 +175,7 @@ namespace ADIN.Device.Services
 
         public string GetTxLevelStatus()
         {
-            if (_boardRev == BoardRevision.Rev1)
+            if (boardRev == BoardRevision.Rev1)
             {
                 switch (ReadYodaRg("AN_TX_LVL_RSLTN"))
                 {
