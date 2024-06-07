@@ -10,7 +10,7 @@
              xmlns:view="clr-namespace:ADIN.WPF.View"
              xmlns:converter="clr-namespace:ADIN.WPF.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="820" d:DesignWidth="1200">
+             d:DesignHeight="1500" d:DesignWidth="1200">
     <UserControl.Resources>
         <ResourceDictionary>
             <converter:BooleanVisibilityConverter x:Key="booleanVisibilityConverter" IsInversed="False"/>
@@ -54,7 +54,7 @@
                                 <ColumnDefinition Width="3"/>
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
-                            <local:LinkPropertiesView Grid.Column="0" DataContext="{Binding LinkPropertiesVM}" Margin="0 0 10 0"/>
+                            <local:LinkPropertiesView Grid.Column="0" DataContext="{Binding LinkPropertiesVM}" Margin="0 0 15 0"/>
                             <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />
                             <Grid Grid.Column="2">
                                 <components:DeviceStatusView DataContext="{Binding DeviceStatusVM}" Margin="10 0 0 0"/>
