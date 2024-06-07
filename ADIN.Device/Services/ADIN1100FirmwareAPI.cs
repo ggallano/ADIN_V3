@@ -464,7 +464,96 @@ namespace ADIN.Device.Services
 
         public void SetLoopbackSetting(LoopbackModel loopback, bool txSuppression, bool rxSuppression)
         {
-            throw new NotImplementedException();
+            switch (loopback.EnumLoopbackType)
+            {
+                // PCS
+                case LoopBackMode.Digital:
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_EN", 0);
+                    WriteYodaRg("AN_FRC_MODE_EN", 1);
+                    WriteYodaRg("B10L_LB_PMA_LOC_EN", 0);
+                    WriteYodaRg("B10L_LB_PCS_EN", 1);
+                    WriteYodaRg("MAC_IF_LB_EN", 0);
+                    WriteYodaRg("MAC_IF_REM_LB_EN", 0);
+                    WriteYodaRg("RMII_TXD_CHK_EN", 0);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    FeedbackLog($"Loopback Mode: {loopback.Name} Loopback Mode", FeedbackType.Info);
+                    break;
+
+                //PMA
+                case LoopBackMode.LineDriver:
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_EN", 0);
+                    WriteYodaRg("AN_FRC_MODE_EN", 1);
+                    WriteYodaRg("B10L_LB_PMA_LOC_EN", 1);
+                    WriteYodaRg("B10L_LB_PCS_EN", 0);
+                    WriteYodaRg("MAC_IF_LB_EN", 0);
+                    WriteYodaRg("MAC_IF_REM_LB_EN", 0);
+                    WriteYodaRg("RMII_TXD_CHK_EN", 0);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    FeedbackLog($"Loopback Mode: {loopback.Name} Loopback Mode", FeedbackType.Info);
+                    break;
+
+                //ExtMII,RMII
+                case LoopBackMode.ExtCable:
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+
+                    WriteYodaRg("AN_EN", 1);
+                    WriteYodaRg("AN_FRC_MODE_EN", 0);
+
+                    WriteYodaRg("B10L_LB_PMA_LOC_EN", 0);
+                    WriteYodaRg("B10L_LB_PCS_EN", 0);
+                    WriteYodaRg("MAC_IF_LB_EN", 0);
+                    WriteYodaRg("MAC_IF_REM_LB_EN", 0);
+                    WriteYodaRg("RMII_TXD_CHK_EN", 1);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    FeedbackLog($"Loopback Mode: {loopback.Name} Loopback Mode", FeedbackType.Info);
+                    break;
+
+                //MAC IF Remote
+                case LoopBackMode.MacRemote:
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_EN", 1);
+                    WriteYodaRg("AN_FRC_MODE_EN", 0);
+                    WriteYodaRg("B10L_LB_PMA_LOC_EN", 0);
+                    WriteYodaRg("B10L_LB_PCS_EN", 0);
+                    WriteYodaRg("MAC_IF_LB_EN", 0);
+                    WriteYodaRg("MAC_IF_REM_LB_EN", 1);
+                    WriteYodaRg("RMII_TXD_CHK_EN", 0);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    FeedbackLog($"Loopback Mode: {loopback.Name} Loopback Mode", FeedbackType.Info);
+                    break;
+
+                case LoopBackMode.MAC:
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_EN", 1);
+                    WriteYodaRg("AN_FRC_MODE_EN", 0);
+                    WriteYodaRg("B10L_LB_PMA_LOC_EN", 0);
+                    WriteYodaRg("B10L_LB_PCS_EN", 0);
+                    WriteYodaRg("MAC_IF_LB_EN", 1);
+                    WriteYodaRg("MAC_IF_REM_LB_EN", 0);
+                    WriteYodaRg("RMII_TXD_CHK_EN", 0);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    FeedbackLog($"Loopback Mode: {loopback.Name} Loopback Mode", FeedbackType.Info);
+                    break;
+
+                case LoopBackMode.OFF:
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_EN", 1);
+                    WriteYodaRg("AN_FRC_MODE_EN", 0);
+                    WriteYodaRg("B10L_LB_PMA_LOC_EN", 0);
+                    WriteYodaRg("B10L_LB_PCS_EN", 0);
+                    WriteYodaRg("MAC_IF_LB_EN", 0);
+                    WriteYodaRg("MAC_IF_REM_LB_EN", 0);
+                    WriteYodaRg("RMII_TXD_CHK_EN", 0);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    FeedbackLog($"Loopback Mode: {loopback.Name} Loopback Mode", FeedbackType.Info);
+                    break;
+
+                default:
+                    //this.Info("    SPE PHY Loopback NOT configured - use one of PMA / PCS / MAC Interface / MAC Interface Remote / External MII/RMII");
+                    break;
+            }
         }
 
         public void SetMasterSlave(string masterSlaveAdvertise)
