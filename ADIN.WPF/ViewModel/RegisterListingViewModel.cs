@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 
 namespace ADIN.WPF.ViewModel
@@ -26,7 +27,6 @@ namespace ADIN.WPF.ViewModel
         {
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiService = ftdiService;
-
 
             SetRegsiterWorker();
             //SaveRegisterDataCommand = new RegisterSaveDataCommand(this);
@@ -50,9 +50,9 @@ namespace ADIN.WPF.ViewModel
         //public ObservableCollection<RegisterModel> Registers => _selectedDevice?.Registers;
         public ObservableCollection<RegisterModel> Registers
         {
-            get 
-            { 
-                return _selectedDevice?.Registers; 
+            get
+            {
+                return _selectedDevice?.Registers;
             }
             //set
             //{
@@ -104,10 +104,13 @@ namespace ADIN.WPF.ViewModel
                         if (_selectedDevice != null && _ftdiService.IsComOpen)
                             _selectedDevice.FwAPI.ReadRegsiters();
 
-                        System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                        if (Registers != null)
                         {
-                            OnPropertyChanged(nameof(Registers));
-                        });
+                            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                OnPropertyChanged(nameof(Registers));
+                            });
+                        }
                     }
                     Thread.Sleep(10);
                 }
@@ -135,7 +138,11 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
-            OnPropertyChanged(nameof(this.Registers));
+            OnPropertyChanged(nameof(Registers));
+            //Application.Current.Dispatcher.Invoke(new Action(() =>
+            //{
+            //    OnPropertyChanged(nameof(Registers));
+            //}));
         }
 
         private void SetRegsiterWorker()

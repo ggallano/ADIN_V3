@@ -1,4 +1,6 @@
-﻿using ADIN.WPF.Stores;
+﻿using ADIN.Device.Models;
+using ADIN.Device.Services;
+using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 using Helper.ReadAccessValidate;
 using System.Linq.Expressions;
@@ -26,7 +28,17 @@ namespace ADIN.WPF.Commands
 
         public override void Execute(object parameter)
         {
-            _selectedDeviceStore.SelectedDevice.FwAPI.SetGpClkPinControl((string)parameter);
+           if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
+            {
+                ADIN1200FirmwareAPI fwADIN1200API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
+                fwADIN1200API.SetGpClkPinControl((string)parameter);
+            }
+            else /*if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)*/
+            {
+                ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
+                fwADIN1300API.SetGpClkPinControl((string)parameter);
+            }
+            //_selectedDeviceStore.SelectedDevice.FwAPI.SetGpClkPinControl((string)parameter);
             _viewModel.SelectedGpClk = (string)parameter;
         }
 

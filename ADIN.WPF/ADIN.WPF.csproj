@@ -146,6 +146,9 @@
     <Compile Include="Commands\SoftwarePowerDownCommand.cs" />
     <Compile Include="Commands\TestModeCommand.cs" />
     <Compile Include="Commands\WriteRegisterCommand.cs" />
+    <Compile Include="Components\MACAddress.xaml.cs">
+      <DependentUpon>MACAddress.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\NavigationBar.xaml.cs">
       <DependentUpon>NavigationBar.xaml</DependentUpon>
     </Compile>
@@ -174,6 +177,9 @@
     <Compile Include="ViewModel\RegisterListingViewModel.cs" />
     <Compile Include="ViewModel\TestModeViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\CableDiagnosticsView.xaml.cs">
+      <DependentUpon>CableDiagnosticsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FrameGenCheckerStatusView.xaml.cs">
       <DependentUpon>FrameGenCheckerStatusView.xaml</DependentUpon>
     </Compile>
@@ -191,9 +197,6 @@
     </Compile>
     <Compile Include="View\LoopbackView.xaml.cs">
       <DependentUpon>LoopbackView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\MACAddress.xaml.cs">
-      <DependentUpon>MACAddress.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TestModeView.xaml.cs">
       <DependentUpon>TestModeView.xaml</DependentUpon>
@@ -220,6 +223,10 @@
     <Page Include="Components\DeviceListing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\MACAddress.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Components\NavigationBar.xaml">
       <SubType>Designer</SubType>
@@ -288,6 +295,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\CableDiagnosticsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\FrameGenCheckerStatusView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -309,10 +320,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\LoopbackView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\MACAddress.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

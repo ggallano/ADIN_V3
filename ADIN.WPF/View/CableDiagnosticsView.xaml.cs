@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ADIN.WPF.Components
+namespace ADIN.WPF.View
 {
     /// <summary>
-    /// Interaction logic for FrameGenChecker.xaml
+    /// Interaction logic for CableDiagnosticsView.xaml
     /// </summary>
-    public partial class FrameGenChecker : UserControl
+    public partial class CableDiagnosticsView : UserControl
     {
-        public FrameGenChecker()
+        public CableDiagnosticsView()
         {
             InitializeComponent();
         }

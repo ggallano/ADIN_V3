@@ -14,7 +14,7 @@ using System.Threading;
 
 namespace ADIN.Device.Services
 {
-    public class ADIN1200FirmwareAPI : IFirmwareAPI
+    public class ADIN1200FirmwareAPI : IADIN1200API
     {
         private BoardRevision _boardRev;
         private string _feedbackMessage;
@@ -736,7 +736,7 @@ namespace ADIN.Device.Services
             FeedbackLog(_feedbackMessage, FeedbackType.Info);
         }
 
-        public void SetLoopbackSetting(LoopbackListingModel loopback)
+        public void SetLoopbackSetting(LoopbackModel loopback, bool txSuppression, bool rxSuppression)
         {
             switch (loopback.EnumLoopbackType)
             {
@@ -752,7 +752,7 @@ namespace ADIN.Device.Services
                     this.WriteYodaRg("LbLdSel", 0);
                     this.WriteYodaRg("LbExtEn", 0);
                     this.WriteYodaRg("Loopback", 1);
-                    if (loopback.TxSuppression)
+                    if (txSuppression)
                     {
                         this.WriteYodaRg("LbTxSup", 1);
                         FeedbackLog("PHY Loopback configured as Digital loopback - Tx suppressed", FeedbackType.Info);
@@ -798,7 +798,7 @@ namespace ADIN.Device.Services
                     throw new NotImplementedException();
             }
 
-            if (loopback.EnumLoopbackType != LoopBackMode.MacRemote && loopback.RxSuppression)
+            if (loopback.EnumLoopbackType != LoopBackMode.MacRemote && rxSuppression)
             {
                 this.WriteYodaRg("IsolateRx", 1);
                 FeedbackLog("Rx data suppressed", FeedbackType.Info);
@@ -1325,6 +1325,11 @@ namespace ADIN.Device.Services
             {
                 return MdioWriteCl45(registerAddress, value);
             }
+        }
+
+        public string RegisterRead(string register)
+        {
+            return ReadYogaRg(register);
         }
     }
 }

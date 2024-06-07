@@ -5,23 +5,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              xmlns:local="clr-namespace:ADIN.WPF.Components"
+             xmlns:converters="clr-namespace:ADIN.WPF.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="600">
+             d:DesignHeight="1500" d:DesignWidth="600">
     <UserControl.Resources>
-        
+        <converters:BooleanVisibilityConverter x:Key="booleanVisibilityConverter" IsInversed="False"/>
+        <converters:BooleanVisibilityConverter x:Key="invertedBooleanVisibilityConverter" IsInversed="True"/>
     </UserControl.Resources>
-    <Grid Margin="5">
-
-        <StackPanel HorizontalAlignment='Stretch' Margin='10' IsEnabled="{Binding IsDeviceSelected}">
-
-            <GroupBox Header='Enable Remote Loopback in Link Partner' Style="{StaticResource GroupBoxStyle}">
+    <Grid Margin="0 10 0 0">
+        <StackPanel HorizontalAlignment='Stretch' IsEnabled="{Binding IsDeviceSelected}">
+            <GroupBox Header='Enable Remote Loopback in Link Partner' Style="{StaticResource GroupBoxStyle}" Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
                 <StackPanel Margin="0">
                     <TextBlock TextWrapping='Wrap' Text="Loopback can be conveniently enabled on a remote device to loopback frames for the frame checker to check." Style="{StaticResource TextBlockstyle}"   />
                     <telerik:RadButton Style="{StaticResource FramGenButtonStyle}" Content="Remote Loopback" ToolTip='Loops the data received from the remote PHY back to the remote PHY using all of the digital and analog circuitry.' Command="{Binding RemoteLoopbackCommand}" x:Name="RemoteLoopback"/>
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox x:Name="GroupHeader" Header="Frame Generator in Local PHY" Style="{StaticResource GroupBoxStyle}" Margin="0 10 0 0">
+            <GroupBox Header="Frame Generator in Local PHY" Style="{StaticResource GroupBoxStyle}" Margin="0 10 0 0" Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
                 <StackPanel Margin="0">
                     <CheckBox IsEnabled="{Binding FrameGenRunning}" ToolTip='Enable this to send a continuous stream of frames. Alternative is to send a burst of frames of a certain length.' x:Name='chkContinuous' IsChecked="{Binding EnableContinuousMode}" Style="{StaticResource CheckBoxStyle}">Continuous Mode until terminated.</CheckBox>
                     <Grid Margin="0 10 0 5">
@@ -37,7 +37,7 @@
                         <TextBox Grid.Column="1" Text="{Binding ElementName=SliderFrameNumber, Path=Value, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" BorderThickness="0.5" Background="Transparent" Width="50" HorizontalAlignment="Right" HorizontalContentAlignment="Center"/>
                         <Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}"  x:Name="SliderFrameNumber" Value="{Binding FrameBurst}" Maximum="65535" TickFrequency="50" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}"/>
                     </Grid>
-                    
+
                     <Grid Margin="0 5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
@@ -66,17 +66,76 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                     </Grid>
-
-                    <!--<CheckBox x:Name="chkEnableMacAddress" Margin="2 10 8 2"  IsChecked="{Binding EnableMacAddress}">Change MAC Address</CheckBox>-->
-                    <!--<TextBlock Text="Source MAC Address" Style="{StaticResource LabelStyle}"/>-->
-                    <!--<local:MACAddress x:Name="txtSrcMacAddress" Address="{Binding SrcMacAddress}" IsEnabled="{Binding ElementName=chkEnableMacAddress, Path=IsChecked, UpdateSourceTrigger=PropertyChanged}"/>-->
-
-                    <!--<TextBlock Text="Destination MAC Address" Style="{StaticResource LabelStyle}"/>-->
-                    <!--<local:MACAddress x:Name="txtDestMacAddress" Address="{Binding DestMacAddress}" IsEnabled="{Binding ElementName=chkEnableMacAddress, Path=IsChecked, UpdateSourceTrigger=PropertyChanged}"/>-->
-
-                    <!--<CheckBox Name='chkEnableChecker' Content='Enable Checker' IsChecked='True' Margin="2 2 8 2"    Visibility='Collapsed'  />-->
                     <telerik:RadButton Content="Clear Results" ToolTip='Reset all frame checker settings to defaults.'  Command="{Binding ResetFrameCheckerCommnad}" x:Name="ResetSettings" Style="{StaticResource FramGenButtonStyle}"/>
                     <telerik:RadButton Content="{Binding FrameGeneratorButtonText}" ToolTip='Start generatting frames.'  Command="{Binding ExecuteFrameCheckerCommand}" x:Name="GenerateFrames" Style="{StaticResource FramGenButtonStyle}"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox x:Name="GroupHeader" Header="Frame Generator in Local PHY" Style="{StaticResource GroupBoxStyle}" Margin="0 10 0 0" Visibility="{Binding IsADIN1100Board, Converter={StaticResource booleanVisibilityConverter}}">
+                <StackPanel Margin="0">
+                    <CheckBox IsEnabled="{Binding FrameGenRunning}" ToolTip='Enable this to send a continuous stream of frames. Alternative is to send a burst of frames of a certain length.' x:Name='chkContinuous2' IsChecked="{Binding EnableContinuousMode}" Style="{StaticResource CheckBoxStyle}">Continuous Mode until terminated.</CheckBox>
+                    <Grid Margin="0 10 0 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Text="Number of Frames in Burst" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" Style="{StaticResource TextBlockstyle}"/>
+                        <TextBox Grid.Column="1" Text="{Binding ElementName=SliderFrameNumber2, Path=Value, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" BorderThickness="0.5" Background="Transparent" Width="50" HorizontalAlignment="Right" HorizontalContentAlignment="Center"/>
+                        <Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}"  x:Name="SliderFrameNumber2" Value="{Binding FrameBurst}" Maximum="65535" TickFrequency="50" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}"/>
+                    </Grid>
+
+                    <Grid Margin="0 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Text="Frame Length" Style="{StaticResource TextBlockstyle}"/>
+                        <TextBox Grid.Column="1" HorizontalAlignment="Right" Text="{Binding ElementName=SliderFrameLength2, Path=Value, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Background="Transparent" Width="50" HorizontalContentAlignment="Center"/>
+                        <Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" x:Name="SliderFrameLength2" Value="{Binding FrameLength}" Maximum="65500" TickFrequency="50" IsSnapToTickEnabled="True"/>
+                    </Grid>
+
+                    <Grid Margin="0 5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Frame Content" Style="{StaticResource TextBlockstyle}" />
+                        <ComboBox Name="FrameContent2" Grid.Row="1" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" ItemsSource="{Binding FrameContents}" SelectedItem="{Binding SelectedFrameContent}" Style="{StaticResource ComboBoxFlatStyle}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+
+                    <CheckBox x:Name="chkEnableMacAddress" IsChecked="{Binding EnableMacAddress}" Style="{StaticResource CheckBoxStyle}" Margin="0 10">Change MAC Address</CheckBox>
+
+                    <Grid Margin="0 0 0 10">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Source MAC Address" Style="{StaticResource TextBlockstyle}"/>
+                            <local:MACAddress x:Name="txtSrcMacAddress" Address="{Binding SrcMacAddress}" IsEnabled="{Binding ElementName=chkEnableMacAddress, Path=IsChecked, UpdateSourceTrigger=PropertyChanged}" Height="24"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid Margin="0 0 0 10">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Destination MAC Address" Style="{StaticResource TextBlockstyle}"/>
+                            <local:MACAddress x:Name="txtDestMacAddress" Address="{Binding DestMacAddress}" IsEnabled="{Binding ElementName=chkEnableMacAddress, Path=IsChecked, UpdateSourceTrigger=PropertyChanged}" Height="24"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <CheckBox Name='chkEnableChecker' Content='Enable Checker' IsChecked='True' Margin="2 2 8 2"    Visibility='Collapsed'  />
+                    <telerik:RadButton Content="Clear Results" ToolTip='Reset all frame checker settings to defaults.'  Command="{Binding ResetFrameCheckerCommnad}" x:Name="ResetSettings2" Style="{StaticResource FramGenButtonStyle}"/>
+                    <telerik:RadButton Content="{Binding FrameGeneratorButtonText}" ToolTip='Start generatting frames.'  Command="{Binding ExecuteFrameCheckerCommand}" x:Name="GenerateFrames2" Style="{StaticResource FramGenButtonStyle}"/>
                 </StackPanel>
             </GroupBox>
         </StackPanel>

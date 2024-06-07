@@ -8,6 +8,22 @@ namespace ADIN.Device.Models.ADIN1100
 {
     public class LinkPropertiesADIN1100 : ILinkProperties
     {
+        public LinkPropertiesADIN1100()
+        {
+            MasterSlaveAdvertises = new List<string>();
+            MasterSlaveAdvertises.Add("Prefer_Master");
+            MasterSlaveAdvertises.Add("Prefer_Slave");
+            MasterSlaveAdvertises.Add("Forced_Master");
+            MasterSlaveAdvertises.Add("Forced_Slave");
+            MasterSlaveAdvertise = MasterSlaveAdvertises[0];
+
+            TxAdvertises = new List<string>();
+            TxAdvertises.Add("Capable2p4Volts_Requested2p4Volts");
+            TxAdvertises.Add("Capable2p4Volts_Requested1Volt");
+            TxAdvertises.Add("Capable1Volt");
+            TxAdvertise = TxAdvertises[0];
+        }
+        #region ADIN1300_ADIN1200 Properties
         public List<string> AdvertisedSpeeds { get; set; }
 
         public uint DownSpeedRetries { get; set; }
@@ -44,7 +60,7 @@ namespace ADIN.Device.Models.ADIN1100
 
         public string MasterSlave { get; set; }
 
-        public string MasterSlaveAdvertise { get; set; }
+        public List<string> MasterSlaves { get; set; }
 
         public string MDIX { get; set; }
 
@@ -53,14 +69,11 @@ namespace ADIN.Device.Models.ADIN1100
         public string SpeedMode { get; set; }
 
         public List<string> SpeedModes { get; set; }
+        #endregion
 
-
+        public string MasterSlaveAdvertise { get; set; }
         public List<string> MasterSlaveAdvertises { get; set; }
-
-        public List<string> MasterSlaves { get; set; }
-
         public string TxAdvertise { get; set; }
-
         public List<string> TxAdvertises { get; set; }
     }
 }
