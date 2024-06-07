@@ -7,6 +7,5 @@ namespace ADIN.Device.Services
         string GetAnStatus();
         string GetMasterSlaveStatus();
         string GetTxLevelStatus();
-        BoardRevision GetRevNum();
     }
 }
