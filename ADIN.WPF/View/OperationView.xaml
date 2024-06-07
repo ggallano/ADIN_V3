@@ -116,7 +116,18 @@
                         </Grid>
                     </TabItem>-->
                     <TabItem Header="Cable Diagnostics" Style="{StaticResource TabItemStyle}" Visibility="{Binding IsCableDiagVisible, Converter={StaticResource booleanVisibilityConverter}}">
-                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" MinWidth="400"/>
+                                <ColumnDefinition Width="3"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <local:CableDiagnosticsView Grid.Column="0" DataContext="{Binding TestModeVM}" Margin="0 0 10 0"/>
+                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />
+                            <Grid Grid.Column="2">
+                                <components:DeviceStatusView DataContext="{Binding DeviceStatusVM}" Margin="10 0 0 0"/>
+                            </Grid>
+                        </Grid>
                     </TabItem>
                 </TabControl>
             </Grid>
