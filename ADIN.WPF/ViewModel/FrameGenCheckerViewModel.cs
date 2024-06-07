@@ -97,7 +97,26 @@ namespace ADIN.WPF.ViewModel
 
         public ICommand ExecuteFrameCheckerCommand { get; set; }
 
-        public uint FrameBurst
+        public double FrameBurst_Slider
+        {
+            get 
+            {
+                double frameBurstSlider = 8 * Math.Log((_frameGenChecker?.FrameBurst ?? 1) + 1) / Math.Log(2);
+                return frameBurstSlider;
+            }
+            set
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _frameBurst = Convert.ToUInt32(Math.Pow(2,value/8) - 1);
+                    _frameGenChecker.FrameBurst = _frameBurst;
+                }
+                OnPropertyChanged(nameof(FrameBurst_Slider));
+                OnPropertyChanged(nameof(FrameBurst_Value));
+            }
+        }
+
+        public uint FrameBurst_Value
         {
             get { return _frameGenChecker?.FrameBurst ?? 0; }
             set
@@ -107,7 +126,8 @@ namespace ADIN.WPF.ViewModel
                     _frameBurst = value;
                     _frameGenChecker.FrameBurst = value;
                 }
-                OnPropertyChanged(nameof(FrameBurst));
+                OnPropertyChanged(nameof(FrameBurst_Value));
+                OnPropertyChanged(nameof(FrameBurst_Slider));
             }
         }
 
@@ -233,7 +253,8 @@ namespace ADIN.WPF.ViewModel
         {
             OnPropertyChanged(nameof(SelectedFrameContent));
             OnPropertyChanged(nameof(FrameGenRunning));
-            OnPropertyChanged(nameof(FrameBurst));
+            OnPropertyChanged(nameof(FrameBurst_Slider));
+            OnPropertyChanged(nameof(FrameBurst_Value));
             OnPropertyChanged(nameof(FrameLength));
             OnPropertyChanged(nameof(FrameContents));
             OnPropertyChanged(nameof(SrcMacAddress));
