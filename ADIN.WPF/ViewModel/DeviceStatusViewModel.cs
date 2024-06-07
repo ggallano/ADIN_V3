@@ -34,7 +34,7 @@ namespace ADIN.WPF.ViewModel
         private bool _isVisibleSpeedList = true;
         private string _linkLength;
         private string _linkStatus = "-";
-        private List<string> _localAdvertisedSpeeds = new List<string>();
+        private List<string> _localAdvertisedSpeeds = new List<string>() { "" };
         private string _masterSlaveStatus = "-";
         private string _mseValue = "-";
         private BackgroundWorker _readRegisterWorker;

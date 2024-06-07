@@ -1,4 +1,5 @@
 ﻿using ADIN.Device.Models;
+using ADIN.Device.Services;
 using ADIN.WPF.Commands;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
@@ -82,6 +83,16 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsVisibleSubSysPin
+        {
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1100FirmwareAPI)
+                    return false;
+                return true;
+            }
+        }
+
         public ICommand PhyResetCommand { get; set; }
         public ICommand SoftwarePowerDownCommand { get; set; }
         public ICommand SubSysResetCommand { get; set; }
@@ -120,6 +131,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(PowerDownStatus));
             OnPropertyChanged(nameof(LinkStatus));
             OnPropertyChanged(nameof(IsPoweredUp));
+            OnPropertyChanged(nameof(IsVisibleSubSysPin));
         }
     }
 }
