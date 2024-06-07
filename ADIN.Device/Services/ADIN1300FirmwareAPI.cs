@@ -95,7 +95,16 @@ namespace ADIN.Device.Services
 
         public void DownSpeed100Hd(bool dwnSpd100Hd)
         {
-            throw new NotImplementedException();
+            if (dwnSpd100Hd)
+            {
+                this.WriteYodaRg("DnSpeedTo100En", 1);
+                FeedbackLog("enabled downspeed to 10BASE-T", FeedbackType.Info);
+            }
+            else
+            {
+                this.WriteYodaRg("DnSpeedTo100En", 0);
+                FeedbackLog("disabled downspeed to 10BASE-T", FeedbackType.Info);
+            }
         }
 
         public void DownSpeed10Hd(bool dwnSpd10Hd)
@@ -686,14 +695,20 @@ namespace ADIN.Device.Services
         {
             switch (setFrcdSpd)
             {
+                case "SPEED_1000BASE_T_FD":
+                    this.WriteYodaRg("SpeedSelMsb", 2);
+                    this.WriteYodaRg("SpeedSelLsb", 2);
+                    this.WriteYodaRg("DplxMode", 1);
+                    this.FeedbackLog("10BASE-T full duplex forced speed selected", FeedbackType.Info);
+                    break;
                 case "SPEED_100BASE_TX_FD":
-                    this.WriteYodaRg("SpeedSelMsb", 0);
+                    this.WriteYodaRg("SpeedSelMsb", 1);
                     this.WriteYodaRg("SpeedSelLsb", 1);
                     this.WriteYodaRg("DplxMode", 1);
                     this.FeedbackLog("100BASE-TX full duplex forced speed selected", FeedbackType.Info);
                     break;
                 case "SPEED_100BASE_TX_HD":
-                    this.WriteYodaRg("SpeedSelMsb", 0);
+                    this.WriteYodaRg("SpeedSelMsb", 1);
                     this.WriteYodaRg("SpeedSelLsb", 1);
                     this.WriteYodaRg("DplxMode", 0);
                     this.FeedbackLog("100BASE-TX half duplex forced speed selected", FeedbackType.Info);

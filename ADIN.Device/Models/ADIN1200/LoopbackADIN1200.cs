@@ -44,7 +44,6 @@ namespace ADIN.Device.Models.ADIN1200
                 LpBck_Remote
             };
         }
-
         public LoopbackModel LpBck_None { get; set; }
         public LoopbackModel LpBck_Digital { get; set; }
         public LoopbackModel LpBck_LineDriver { get; set; }

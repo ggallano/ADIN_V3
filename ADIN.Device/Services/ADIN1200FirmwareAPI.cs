@@ -646,13 +646,13 @@ namespace ADIN.Device.Services
             switch (setFrcdSpd)
             {
                 case "SPEED_100BASE_TX_FD":
-                    this.WriteYodaRg("SpeedSelMsb", 0);
+                    this.WriteYodaRg("SpeedSelMsb", 1);
                     this.WriteYodaRg("SpeedSelLsb", 1);
                     this.WriteYodaRg("DplxMode", 1);
                     this.FeedbackLog("100BASE-TX full duplex forced speed selected", FeedbackType.Info);
                     break;
                 case "SPEED_100BASE_TX_HD":
-                    this.WriteYodaRg("SpeedSelMsb", 0);
+                    this.WriteYodaRg("SpeedSelMsb", 1);
                     this.WriteYodaRg("SpeedSelLsb", 1);
                     this.WriteYodaRg("DplxMode", 0);
                     this.FeedbackLog("100BASE-TX half duplex forced speed selected", FeedbackType.Info);
