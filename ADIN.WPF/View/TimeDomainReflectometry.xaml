@@ -43,8 +43,8 @@
                         </TextBlock>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="4*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -57,7 +57,7 @@
                             <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load"  Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding LoadCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
                             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Style="{StaticResource StackPanelStyle}" HorizontalAlignment="Right">
                                 <TextBlock Text="Offset: " VerticalAlignment="Center" Style="{StaticResource TextBlockstyle}"/>
-                                <telerik:RadNumericUpDown Height="25" Value="{Binding OffsetValue, UpdateSourceTrigger=PropertyChanged}"/>
+                                <telerik:RadNumericUpDown Height="24" Width="90" Value="{Binding OffsetValue, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                             <telerik:RadButton Grid.Row="3" Grid.Column="1" Content="Ok"  Style="{StaticResource FaultDetectorOkButtonStyle}" Width="70" Command="{Binding ManualCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
                         </Grid>
@@ -76,8 +76,8 @@
                         </TextBlock>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="4*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
@@ -90,7 +90,7 @@
                             <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load"  Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding LoadCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}"/>
                             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Style="{StaticResource StackPanelStyle}" HorizontalAlignment="Right">
                                 <TextBlock Text="NVP: " VerticalAlignment="Center" Style="{StaticResource TextBlockstyle}"/>
-                                <telerik:RadNumericUpDown Height="25" Value="{Binding NvpValue, UpdateSourceTrigger=PropertyChanged}" SmallChange="0.01"/>
+                                <telerik:RadNumericUpDown Height="24" Width="90" Value="{Binding NvpValue, UpdateSourceTrigger=PropertyChanged}" SmallChange="0.01"/>
                             </StackPanel>
                             <telerik:RadButton Grid.Row="3" Grid.Column="1" Content="Ok"  Style="{StaticResource FaultDetectorOkButtonStyle}" Width="70" Command="{Binding ManualCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}"/>
                         </Grid>

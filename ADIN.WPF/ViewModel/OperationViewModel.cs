@@ -77,7 +77,7 @@ namespace ADIN.WPF.ViewModel
                 else
                     IsCableDiagVisible = false;
             }
-            
+
         }
     }
 }
