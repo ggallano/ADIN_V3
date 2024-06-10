@@ -48,31 +48,6 @@ namespace ADIN.WPF.Commands.CableDiag
                 {
                     ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
 
-                    //var loopbackState = _selectedDeviceStore.SelectedDevice.FwAPI.GetLoopbackState();
-                    //var testmodeState = _selectedDeviceStore.SelectedDevice.FwAPI.GetTestModeState();
-
-                    //if (loopbackState != LoopBackMode.OFF)
-                    //{
-                    //    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    //    {
-                    //        _viewModel.BusyContent = "Loopback Reset";
-                    //    }));
-                    //    _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_selectedDeviceStore.SelectedDevice.Loopback.Loopbacks[0]);
-                    //    _selectedDeviceStore.OnLoopbackStateChanged(_selectedDeviceStore.SelectedDevice.Loopback.Loopbacks[0]);
-                    //}
-                    //Thread.Sleep(250);
-
-                    //if (testmodeState != TestModeType.Normal)
-                    //{
-                    //    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                    //    {
-                    //        _viewModel.BusyContent = "Testmode Reset";
-                    //    }));
-                    //    _selectedDeviceStore.SelectedDevice.FwAPI.SetTestModeSetting(_selectedDeviceStore.SelectedDevice.TestMode.TestModes[0]);
-                    //    _selectedDeviceStore.OnTestModeStateChanged(_selectedDeviceStore.SelectedDevice.TestMode.TestModes[0]);
-                    //}
-                    //Thread.Sleep(250);
-
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
                         _viewModel.BusyContent = "Running TDR";

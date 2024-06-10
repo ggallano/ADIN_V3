@@ -51,6 +51,12 @@ namespace ADIN.Device.Models
             FrameGenChecker = new FrameGenCheckerADIN1100();
             Loopback = new LoopbackADIN1100();
             TimeDomainReflectometry = new TimeDomainReflectometryADIN1100();
+            GetTDRValue();
+        }
+
+        private void GetTDRValue()
+        {
+            throw new NotImplementedException();
         }
 
         private void GetTestModeValue()

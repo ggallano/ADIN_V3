@@ -4,6 +4,11 @@ namespace ADIN.Device.Models.ADIN1100
 {
     public class TimeDomainReflectometryADIN1100 : ITimeDomainReflectometry
     {
+        public TimeDomainReflectometryADIN1100()
+        {
+            TimeDomainReflectometry = new TDRModel();
+        }
+
         public Brush CableBackgroundBrush { get; set; }
         public string CableFileName { get; set; }
         public string DistToFault { get; set; }
