@@ -26,6 +26,7 @@ namespace ADIN.Device.Services
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
         private decimal _faultDistance;
+        private const string EXTRACTNUMBER_REGEX = @"(?<=\=)(\d+\.?\d*)";
 
         public ADIN1100FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
         {
@@ -797,17 +798,77 @@ namespace ADIN.Device.Services
 
         public string GetNvp()
         {
-            throw new NotImplementedException();
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+
+                command = "tdrgetnvp\n";
+                
+                    _ftdiService.Purge();
+                    _ftdiService.SendData(command);
+                    response = _ftdiService.ReadCommandResponse().Trim();
+
+                if (response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrgetnvp] {response}", FeedBackType = FeedbackType.Info });
+                return response;
+            }
         }
 
         public string GetOffset()
         {
-            throw new NotImplementedException();
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+                command = "tdrgetoffset\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                if (response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrgetoffset] {response}", FeedBackType = FeedbackType.Info });
+                return response;
+            }
         }
 
         public string PerformCableCalibration(decimal length)
         {
-            throw new NotImplementedException();
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+
+                command = $"tdrcablecal {length}\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response);
+                if (res.Count == 1)
+                    response = res[0].ToString();
+
+                if (response == "" || res.Count == 0 || response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = $"[tdrcablecal] {response}", FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrcablecal] NVP={response}", FeedBackType = FeedbackType.Info });
+                return response;
+            }
         }
 
         public FaultType PerformFaultDetection()
@@ -849,22 +910,115 @@ namespace ADIN.Device.Services
 
         public string PerformOffsetCalibration()
         {
-            throw new NotImplementedException();
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+
+                command = $"tdroffsetcal\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response);
+                if (res.Count == 1)
+                    response = res[0].ToString();
+
+                if (response == "" || res.Count == 0 || response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = $"[tdroffsetcal] {response}", FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdroffsetcal] Offset={response}", FeedBackType = FeedbackType.Info });
+                return response;
+            }
         }
 
         public List<string> SetNvp(decimal nvpValue)
         {
-            throw new NotImplementedException();
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+                List<string> resList = new List<string>();
+                command = $"tdrsetnvp {nvpValue}\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response);
+                if (res.Count >= 1)
+                {
+                    resList.Add(res[0].ToString());
+                    resList.Add(res[1].ToString());
+                }
+
+                if (response == "" || res.Count == 0 || response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = $"[tdrsetnvp] {response}", FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrsetnvp] {response}", FeedBackType = FeedbackType.Info });
+                return resList;
+            }
         }
 
         public string SetOffset(decimal offset)
         {
-            throw new NotImplementedException();
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+
+                command = $"tdrsetoffset {offset}\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response);
+                if (res.Count == 1)
+                    response = res[0].ToString();
+
+                if (response == "" || res.Count == 0 || response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = $"[tdrsetoffset] {response}", FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException("[Offset Calibration]" + response);
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[Offset Calibration] Offset={response}", FeedBackType = FeedbackType.Info });
+                return response;
+            }
         }
 
         public void TDRInit()
         {
-            throw new NotImplementedException();
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+                try
+                {
+                    command = $"tdrinit\n";
+
+                    _ftdiService.Purge();
+                    _ftdiService.SendData(command);
+                    response = _ftdiService.ReadCommandResponse().Trim();
+
+                    if (response.Contains("ERROR"))
+                        throw new ApplicationException(response);
+
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrinit] TDR Initialized", FeedBackType = FeedbackType.Info });
+                }
+                catch (ApplicationException ex)
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = ex.Message, FeedBackType = FeedbackType.Error });
+                }
+            }
         }
 
         public decimal GetFaultDistance()
@@ -874,17 +1028,96 @@ namespace ADIN.Device.Services
 
         public List<string> SetCoeff(decimal nvp, decimal coeff0, decimal coeffi)
         {
-            throw new NotImplementedException();
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+                List<string> coeffs = new List<string>();
+
+                command = $"tdrsetcoeff {nvp},{coeff0},{coeffi}\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response, EXTRACTNUMBER_REGEX);
+                if (res.Count >= 1)
+                {
+                    coeffs.Add(res[0].ToString("f6", CultureInfo.InvariantCulture));
+                    coeffs.Add(res[1].ToString("f6", CultureInfo.InvariantCulture));
+                    coeffs.Add(res[2].ToString("f6", CultureInfo.InvariantCulture));
+                }
+
+                if (response == "" || res.Count == 0)
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = $"[Cable Calibration] {response}", FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException($"[Cable Calibration] {response}");
+                }
+
+                var res1 = RegexService.ExtractNVP(response);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[Cable Calibration] {res1}", FeedBackType = FeedbackType.Info });
+                return coeffs;
+            }
         }
 
         public void SetMode(CalibrationMode mode)
         {
-            throw new NotImplementedException();
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+
+                command = $"tdrsetmode {(int)mode}\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response);
+                if (res.Count == 1)
+                    response = res[0].ToString();
+
+                if (response == "" || res.Count == 0)
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = $"[tdrsetmode] {response}", FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
+
+                //OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrsetmode] {response}", FeedBackType = FeedbackType.Info });
+            }
         }
 
         public List<string> GetCoeff()
         {
-            throw new NotImplementedException();
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+                List<string> coeffs = new List<string>();
+
+                command = "tdrgetcoeff\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response);
+                if (res.Count >= 1)
+                {
+                    coeffs.Add(res[0].ToString("f6", CultureInfo.InvariantCulture));
+                    coeffs.Add(res[1].ToString("f6", CultureInfo.InvariantCulture));
+                    coeffs.Add(res[2].ToString("f6", CultureInfo.InvariantCulture));
+                }
+
+                if (response == "" || res.Count == 0)
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = $"[tdrgetcoeff] {response}", FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrgetcoeff] {response}", FeedBackType = FeedbackType.Info });
+                return coeffs;
+            }
         }
     }
 }
