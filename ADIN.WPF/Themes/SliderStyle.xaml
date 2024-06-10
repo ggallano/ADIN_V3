@@ -49,9 +49,10 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TickBar Name="TopTick" SnapsToDevicePixels="True" Placement="Top"
-                    Fill="{StaticResource UI.boderBrush}"
-                    Height="4"
-                    Visibility="Collapsed" />
+                    TickFrequency="32"
+                    Fill="Black"
+                    Height="8"
+                    Visibility="Visible" />
             <Border Name="TrackBackground"
                     Margin="0"
                     CornerRadius="2" 

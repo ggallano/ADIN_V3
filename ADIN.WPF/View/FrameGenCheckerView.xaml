@@ -31,11 +31,36 @@
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Column="0" Text="Number of Frames in Burst" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" Style="{StaticResource TextBlockstyle}"/>
                         <TextBox Grid.Column="1" Text="{Binding FrameBurst_Value, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" BorderThickness="0.5" Background="Transparent" Width="100" HorizontalAlignment="Right" HorizontalContentAlignment="Center"/>
-                        <Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}"  x:Name="SliderFrameNumber" Value="{Binding FrameBurst_Slider}" Maximum="256" TickFrequency="1" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}"/>
+                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 0 -10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label HorizontalAlignment="Center" Grid.Column="0" Content="1"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="2" Content="15"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="3" Content="255"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="4" Content="4,095"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="5" Content="65,535"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="6" Content="1,048,575"/>
+                                <!--<Label HorizontalAlignment="Center" Grid.Column="7" Content="16,777,215"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="8" Content="268,435,455"/>-->
+                            </Grid>
+                        </StackPanel>
+                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}"  x:Name="SliderFrameNumber" Value="{Binding FrameBurst_Slider}" Maximum="256" TickFrequency="16" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}"/>
                     </Grid>
 
                     <Grid Margin="0 5">
@@ -45,11 +70,36 @@
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Column="0" Text="Frame Length" Style="{StaticResource TextBlockstyle}"/>
-                        <TextBox Grid.Column="1" HorizontalAlignment="Right" Text="{Binding ElementName=SliderFrameLength, Path=Value, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Background="Transparent" Width="50" HorizontalContentAlignment="Center"/>
-                        <Slider Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" x:Name="SliderFrameLength" Value="{Binding FrameLength}" Maximum="65500" TickFrequency="50" IsSnapToTickEnabled="True"/>
+                        <TextBox Grid.Column="1" HorizontalAlignment="Right" Text="{Binding FrameLength_Value, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Background="Transparent" Width="50" HorizontalContentAlignment="Center"/>
+                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 0 -10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label HorizontalAlignment="Center" Grid.Column="0" Content="1"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="2" Content="3"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="3" Content="15"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="4" Content="63"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="5" Content="255"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="6" Content="1,023"/>
+                                <!--<Label HorizontalAlignment="Center" Grid.Column="7" Content="4,095"/>-->
+                                <!--<Label HorizontalAlignment="Center" Grid.Column="8" Content="16,383"/>-->
+                            </Grid>
+                        </StackPanel>
+                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" x:Name="SliderFrameLength" Value="{Binding FrameLength_Slider}" Maximum="256" TickFrequency="16" IsSnapToTickEnabled="True"/>
                     </Grid>
 
                     <Grid Margin="0 5">
