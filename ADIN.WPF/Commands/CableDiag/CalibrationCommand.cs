@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace ADIN.WPF.Commands
+namespace ADIN.WPF.Commands.CableDiag
 {
     public class CalibrationCommand : CommandBase
     {
         private SelectedDeviceStore _selectedDeviceStore;
         private object _thisLock;
-        private FaultDetectorViewModel _viewModel;
+        private TimeDomainReflectometryViewModel _viewModel;
 
-        public CalibrationCommand(FaultDetectorViewModel viewModel, SelectedDeviceStore selectedDeviceStore, object thisLock)
+        public CalibrationCommand(TimeDomainReflectometryViewModel viewModel, SelectedDeviceStore selectedDeviceStore, object thisLock)
         {
             _viewModel = viewModel;
             _selectedDeviceStore = selectedDeviceStore;
@@ -73,7 +73,7 @@ namespace ADIN.WPF.Commands
 
                             try
                             {
-                                result = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FirmwareAPI.PerformOffsetCalibration());
+                                result = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FwAPI.PerformOffsetCalibration());
                                 Application.Current.Dispatcher.Invoke(() =>
                                 {
                                     _viewModel.OffsetValue = result;
@@ -140,7 +140,7 @@ namespace ADIN.WPF.Commands
                                     cableLengthInput = Convert.ToDecimal(cableDialog.txtCableLength.Value);
                                 });
 
-                                result = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FirmwareAPI.PerformCableCalibration(cableLengthInput));
+                                result = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FwAPI.PerformCableCalibration(cableLengthInput));
                                 Application.Current.Dispatcher.Invoke(() =>
                                 {
                                     _viewModel.NvpValue = result;
@@ -185,28 +185,28 @@ namespace ADIN.WPF.Commands
 
         private void CheckLoopbackState()
         {
-            var loopbackState = _selectedDeviceStore.SelectedDevice.FirmwareAPI.GetLoopbackState();
+            var loopbackState = _selectedDeviceStore.SelectedDevice.FwAPI.GetLoopbackState();
             if (loopbackState != LoopBackMode.OFF)
             {
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     _viewModel.BusyContent = "Loopback Reset";
                 }));
-                _selectedDeviceStore.SelectedDevice.FirmwareAPI.SetLoopbackSetting(_selectedDeviceStore.SelectedDevice.Loopback.Loopbacks[0]);
+                _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_selectedDeviceStore.SelectedDevice.Loopback.Loopbacks[0]);
                 _selectedDeviceStore.OnLoopbackStateChanged(_selectedDeviceStore.SelectedDevice.Loopback.Loopbacks[0]);
             }
         }
 
         private void CheckTestModeState()
         {
-            var testmodeState = _selectedDeviceStore.SelectedDevice.FirmwareAPI.GetTestModeState();
+            var testmodeState = _selectedDeviceStore.SelectedDevice.FwAPI.GetTestModeState();
             if (testmodeState != TestModeType.Normal)
             {
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     _viewModel.BusyContent = "Testmode Reset";
                 }));
-                _selectedDeviceStore.SelectedDevice.FirmwareAPI.SetTestModeSetting(_selectedDeviceStore.SelectedDevice.TestMode.TestModes[0]);
+                _selectedDeviceStore.SelectedDevice.FwAPI.SetTestModeSetting(_selectedDeviceStore.SelectedDevice.TestMode.TestModes[0]);
                 _selectedDeviceStore.OnTestModeStateChanged(_selectedDeviceStore.SelectedDevice.TestMode.TestModes[0]);
             }
         }
@@ -217,7 +217,7 @@ namespace ADIN.WPF.Commands
             {
                 _viewModel.BusyContent = "Software Reset";
             });
-            _selectedDeviceStore.SelectedDevice.FirmwareAPI.ResetPhy(ResetType.Phy);
+            _selectedDeviceStore.SelectedDevice.FwAPI.ResetPhy(ResetType.Phy);
         }
     }
 }

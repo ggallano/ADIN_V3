@@ -3,14 +3,14 @@ using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 using System;
 
-namespace ADIN.WPF.Commands
+namespace ADIN.WPF.Commands.CableDiag
 {
     public class TDRManualCommand : CommandBase
     {
         private SelectedDeviceStore _selectedDeviceStore;
-        private FaultDetectorViewModel _viewModel;
+        private TimeDomainReflectometryViewModel _viewModel;
 
-        public TDRManualCommand(FaultDetectorViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
+        public TDRManualCommand(TimeDomainReflectometryViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
         {
             _viewModel = viewModel;
             _selectedDeviceStore = selectedDeviceStore;
@@ -32,11 +32,11 @@ namespace ADIN.WPF.Commands
                 switch ((CalibrateType)Enum.Parse(typeof(CalibrateType), parameter.ToString()))
                 {
                     case CalibrateType.Offset:
-                        _viewModel.OffsetValue = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FirmwareAPI.SetOffset(_selectedDeviceStore.SelectedDevice.FaultDetector.CableDiagnostics.CableOffset));
+                        _viewModel.OffsetValue = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.FaultDetector.CableDiagnostics.CableOffset));
                         break;
 
                     case CalibrateType.Cable:
-                        var result = _selectedDeviceStore.SelectedDevice.FirmwareAPI.SetNvp(_selectedDeviceStore.SelectedDevice.FaultDetector.CableDiagnostics.NVP);
+                        var result = _selectedDeviceStore.SelectedDevice.FwAPI.SetNvp(_selectedDeviceStore.SelectedDevice.FaultDetector.CableDiagnostics.NVP);
                         _viewModel.NvpValue = Decimal.Parse(result[0]);
                         _selectedDeviceStore.SelectedDevice.FaultDetector.CableDiagnostics.Mode = (CalibrationMode)Enum.Parse(typeof(CalibrationMode), result[1]);
                         break;

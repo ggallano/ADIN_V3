@@ -131,6 +131,12 @@
       <DependentUpon>AutoVersionIncrement.tt</DependentUpon>
     </Compile>
     <Compile Include="Commands\AutoNegCommand.cs" />
+    <Compile Include="Commands\CableDiag\CalibrationCommand.cs" />
+    <Compile Include="Commands\CableDiag\InitializedCommand.cs" />
+    <Compile Include="Commands\CableDiag\TDRFaultDetectorCommand.cs" />
+    <Compile Include="Commands\CableDiag\TDRLoadCommand.cs" />
+    <Compile Include="Commands\CableDiag\TDRManualCommand.cs" />
+    <Compile Include="Commands\CableDiag\TDRSaveCommand.cs" />
     <Compile Include="Commands\ClearLogCommand.cs" />
     <Compile Include="Commands\RemoteLoopbackCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
@@ -176,6 +182,7 @@
     <Compile Include="ViewModel\RegisterAccessViewModel.cs" />
     <Compile Include="ViewModel\RegisterListingViewModel.cs" />
     <Compile Include="ViewModel\TestModeViewModel.cs" />
+    <Compile Include="ViewModel\TimeDomainReflectometryViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\FrameGenCheckerStatusView.xaml.cs">
       <DependentUpon>FrameGenCheckerStatusView.xaml</DependentUpon>

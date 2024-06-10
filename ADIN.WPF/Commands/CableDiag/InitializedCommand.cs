@@ -3,14 +3,14 @@ using ADIN.WPF.ViewModel;
 using System;
 using System.Windows.Media;
 
-namespace ADIN.WPF.Commands
+namespace ADIN.WPF.Commands.CableDiag
 {
     public class InitializedCommand : CommandBase
     {
         private SelectedDeviceStore _selectedDeviceStore;
-        private FaultDetectorViewModel _viewModel;
+        private TimeDomainReflectometryViewModel _viewModel;
 
-        public InitializedCommand(FaultDetectorViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
+        public InitializedCommand(TimeDomainReflectometryViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
         {
             _viewModel = viewModel;
             _selectedDeviceStore = selectedDeviceStore;
@@ -27,9 +27,9 @@ namespace ADIN.WPF.Commands
 
         public override void Execute(object parameter)
         {
-            _selectedDeviceStore.SelectedDevice.FirmwareAPI.TDRInit();
-            _viewModel.OffsetValue = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FirmwareAPI.GetOffset());
-            _viewModel.NvpValue = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FirmwareAPI.GetNvp());
+            _selectedDeviceStore.SelectedDevice.FwAPI.TDRInit();
+            _viewModel.OffsetValue = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FwAPI.GetOffset());
+            _viewModel.NvpValue = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FwAPI.GetNvp());
             _viewModel.OffsetBackgroundBrush = new SolidColorBrush(Colors.Transparent);
             _viewModel.CableBackgroundBrush = new SolidColorBrush(Colors.Transparent);
             _viewModel.CableFileName = "-";

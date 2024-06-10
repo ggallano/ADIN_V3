@@ -7,14 +7,14 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ADIN.WPF.Commands
+namespace ADIN.WPF.Commands.CableDiag
 {
     public class TDRSaveCommand : CommandBase
     {
         private SelectedDeviceStore _selectedDeviceStore;
-        private FaultDetectorViewModel _viewModel;
+        private TimeDomainReflectometryViewModel _viewModel;
 
-        public TDRSaveCommand(FaultDetectorViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
+        public TDRSaveCommand(TimeDomainReflectometryViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
         {
             _viewModel = viewModel;
             _selectedDeviceStore = selectedDeviceStore;
@@ -41,7 +41,7 @@ namespace ADIN.WPF.Commands
                 {
                     case CalibrateType.Offset:
                         saveFileDialog.Filter = "Calibrate Offset file (*.cof)|*.cof";
-                        var result = _selectedDeviceStore.SelectedDevice.FirmwareAPI.GetOffset();
+                        var result = _selectedDeviceStore.SelectedDevice.FwAPI.GetOffset();
 
                         if (saveFileDialog.ShowDialog() == true)
                         {
@@ -55,7 +55,7 @@ namespace ADIN.WPF.Commands
 
                     case CalibrateType.Cable:
                         saveFileDialog.Filter = "Calibrate Cable file (*.ccf)|*.ccf";
-                        var results = _selectedDeviceStore.SelectedDevice.FirmwareAPI.GetCoeff();
+                        var results = _selectedDeviceStore.SelectedDevice.FwAPI.GetCoeff();
 
                         if (saveFileDialog.ShowDialog() == true)
                         {
