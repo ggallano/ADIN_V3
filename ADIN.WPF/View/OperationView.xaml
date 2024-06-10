@@ -87,7 +87,7 @@
                             <components:FrameGenCheckerStatusView Grid.Column="2" DataContext="{Binding DeviceStatusVM}" Margin="10 0 0 0"/>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Test Modes" Style="{StaticResource TabItemStyle}">
+                    <TabItem Header="Test Modes" Style="{StaticResource TabItemStyle}" IsSelected="{Binding IsTestModeSelected}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*" MinWidth="400"/>
@@ -101,7 +101,7 @@
                             </Grid>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Cable Diagnostics" Style="{StaticResource TabItemStyle}" Visibility="{Binding IsCableDiagVisible, Converter={StaticResource booleanVisibilityConverter}}">
+                    <TabItem Header="Cable Diagnostics" Style="{StaticResource TabItemStyle}" IsSelected="{Binding IsCableDiagSelected}" Visibility="{Binding IsCableDiagVisible, Converter={StaticResource booleanVisibilityConverter}}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*" MinWidth="400"/>

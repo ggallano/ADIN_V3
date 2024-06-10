@@ -50,19 +50,12 @@ namespace ADIN.Device.Models
 
             FrameGenChecker = new FrameGenCheckerADIN1100();
             Loopback = new LoopbackADIN1100();
+
             TimeDomainReflectometry = new TimeDomainReflectometryADIN1100();
             GetTDRValue();
         }
 
-        private void GetTDRValue()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void GetTestModeValue()
-        {
-            throw new NotImplementedException();
-        }
+        public override IFirmwareAPI FirmwareAPI { get; set; }
 
         /// <summary>
         /// retrieves the value of the eval board for link properties
@@ -104,6 +97,15 @@ namespace ADIN.Device.Models
                     LinkProperties.TxAdvertise = "Capable1Volt";
         }
 
-        public override IFirmwareAPI FirmwareAPI { get; set; }
+        private void GetTDRValue()
+        {
+            TimeDomainReflectometry.TimeDomainReflectometry.CableOffset = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetOffset());
+            TimeDomainReflectometry.TimeDomainReflectometry.NVP = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetNvp());
+        }
+
+        private void GetTestModeValue()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

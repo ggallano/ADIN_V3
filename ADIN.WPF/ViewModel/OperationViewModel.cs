@@ -13,7 +13,10 @@ namespace ADIN.WPF.ViewModel
         private readonly NavigationStore _navigationStore;
         private readonly SelectedDeviceStore _selectedDeviceStore;
 
+        private bool _isCableDiagSelected;
         private bool _isCableDiagVisible;
+
+        private bool _isTestModeSelected = false;
 
         public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore, IRegisterService registerService, object mainLock)
         {
@@ -36,19 +39,21 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
         }
 
-        public TimeDomainReflectometryViewModel TDRVM { get; set; }
-
         public ClockPinControlViewModel ClockPinControlVM { get; set; }
-
         public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
-
         public DeviceListingViewModel DeviceListingVM { get; }
-
         public DeviceStatusViewModel DeviceStatusVM { get; set; }
-
         public ExtraCommandsViewModel ExtraCommandsVM { get; set; }
-
         public FrameGenCheckerViewModel FrameGenCheckerVM { get; set; }
+        public bool IsCableDiagSelected
+        {
+            get { return _isCableDiagSelected; }
+            set
+            {
+                _isCableDiagSelected = value;
+                OnPropertyChanged(nameof(IsCableDiagSelected));
+            }
+        }
 
         public bool IsCableDiagVisible
         {
@@ -59,28 +64,39 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsCableDiagVisible));
             }
         }
+
+        public bool IsTestModeSelected
+        {
+            get { return _isTestModeSelected; }
+            set
+            {
+                _isTestModeSelected = value;
+                OnPropertyChanged(nameof(IsTestModeSelected));
+            }
+        }
+
         public LinkPropertiesViewModel LinkPropertiesVM { get; set; }
-
         public LogActivityViewModel LogActivityVM { get; set; }
-
         public LoopbackViewModel LoopbackVM { get; set; }
-
         public RegisterAccessViewModel RegisterAccessVM { get; set; }
-
         public RegisterListingViewModel RegisterListingVM { get; set; }
-
+        public TimeDomainReflectometryViewModel TDRVM { get; set; }
         public TestModeViewModel TestModeVM { get; set; }
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
-            if (_selectedDeviceStore.SelectedDevice != null)
-            {
-                if (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100)
-                    IsCableDiagVisible = true;
-                else
-                    IsCableDiagVisible = false;
-            }
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
 
+            if (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100)
+                IsCableDiagVisible = true;
+            else
+                IsCableDiagVisible = false;
+
+            if ((!IsCableDiagVisible) && IsCableDiagSelected)
+            {
+                IsTestModeSelected = true;
+            }
         }
     }
 }
