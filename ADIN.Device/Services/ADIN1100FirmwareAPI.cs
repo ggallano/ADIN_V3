@@ -356,7 +356,9 @@ namespace ADIN.Device.Services
 
         public void RestartAutoNegotiation()
         {
-            throw new NotImplementedException();
+            WriteYodaRg("AN_RESTART", 1);
+            OnWriteProcessCompleted(new FeedbackModel() { Message = "Restart auto negotiation", FeedBackType = FeedbackType.Info });
+            Debug.WriteLine("Restart Auto Negotiation");
         }
 
         public void SetFrameCheckerSetting(FrameGenCheckerModel frameContent)
@@ -640,7 +642,10 @@ namespace ADIN.Device.Services
 
         public void SoftwarePowerdown(bool isSoftwarePowerdown)
         {
-            throw new NotImplementedException();
+            if (isSoftwarePowerdown)
+                WriteYodaRg("CRSM_SFT_PD", 1);
+            else
+                WriteYodaRg("CRSM_SFT_PD", 0);
         }
         protected virtual void OnWriteProcessCompleted(FeedbackModel feedback)
         {

@@ -6,16 +6,22 @@
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              xmlns:local="clr-namespace:ADIN.WPF.View"
              xmlns:enum="clr-namespace:ADIN.Device.Models;assembly=ADIN.Device"
+             xmlns:converters="clr-namespace:ADIN.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converters:BooleanVisibilityConverter x:Key="booleanVisibilityConverter" IsInversed="False"/>
+        <converters:BooleanVisibilityConverter x:Key="invertedBooleanVisibilityConverter" IsInversed="True"/>
+    </UserControl.Resources>
     <Grid>
         <StackPanel Orientation="Vertical">
             <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="{Binding PowerDownStatus}" Command="{Binding SoftwarePowerDownCommand}" />
-            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="{Binding LinkStatus}" Command="{Binding DisableLinkCommand}" IsEnabled="{Binding IsPoweredUp}"/>
-            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Restart Linking" Command="{Binding AutoNegCommand}" IsEnabled="{Binding IsPoweredUp}"/>
+            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="{Binding LinkStatus}" Command="{Binding DisableLinkCommand}" IsEnabled="{Binding IsPoweredUp}" Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}"/>
+            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Restart Linking" Command="{Binding AutoNegCommand}" IsEnabled="{Binding IsPoweredUp}" Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}"/>
+            <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Auto-Neg Restart" Command="{Binding AutoNegCommand}" IsEnabled="{Binding IsPoweredUp}" Visibility="{Binding IsADIN1100Board, Converter={StaticResource booleanVisibilityConverter}}"/>
             <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Save Registers" Command="{Binding RegisterActionCommand}" CommandParameter="{x:Static enum:RegisterActionType.Save}"/>
             <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Load Registers" Command="{Binding RegisterActionCommand}" CommandParameter="{x:Static enum:RegisterActionType.Load}"/>
-            <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys (Pin)" Command="{Binding SubSysResetCommand}" CommandParameter="{x:Static enum:ResetType.SubSysPin}"/>
+            <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys (Pin)" Command="{Binding SubSysResetCommand}" CommandParameter="{x:Static enum:ResetType.SubSysPin}" Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}"/>
             <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys" Command="{Binding SubSysResetCommand}" CommandParameter="{x:Static enum:ResetType.SubSys}"/>
             <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: PHY" Command="{Binding PhyResetCommand}" CommandParameter="{x:Static enum:ResetType.Phy}"/>
         </StackPanel>

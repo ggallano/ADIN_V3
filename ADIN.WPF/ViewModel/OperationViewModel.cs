@@ -33,7 +33,7 @@ namespace ADIN.WPF.ViewModel
             ClockPinControlVM = new ClockPinControlViewModel(_navigationStore, _selectedDeviceStore);
             TestModeVM = new TestModeViewModel(_selectedDeviceStore);
             DeviceStatusVM = new DeviceStatusViewModel(selectedDeviceStore, ftdiService);
-            RegisterAccessVM = new RegisterAccessViewModel(selectedDeviceStore, navigationStore);
+            RegisterAccessVM = new RegisterAccessViewModel(_selectedDeviceStore, navigationStore);
             TDRVM = new TimeDomainReflectometryViewModel(_selectedDeviceStore, mainLock);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
