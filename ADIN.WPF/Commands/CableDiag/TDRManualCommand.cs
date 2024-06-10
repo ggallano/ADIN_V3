@@ -1,4 +1,5 @@
 ﻿using ADIN.Device.Models;
+using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 using System;
@@ -29,16 +30,22 @@ namespace ADIN.WPF.Commands.CableDiag
         {
             try
             {
+                ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+
                 switch ((CalibrateType)Enum.Parse(typeof(CalibrateType), parameter.ToString()))
                 {
                     case CalibrateType.Offset:
-                        _viewModel.OffsetValue = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.FaultDetector.CableDiagnostics.CableOffset));
+                        
+
+                        _viewModel.OffsetValue = Decimal.Parse(fwADIN1100API.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.TimeDomainReflectometry.CableOffset));
                         break;
 
                     case CalibrateType.Cable:
-                        var result = _selectedDeviceStore.SelectedDevice.FwAPI.SetNvp(_selectedDeviceStore.SelectedDevice.FaultDetector.CableDiagnostics.NVP);
+                        fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+
+                        var result = fwADIN1100API.SetNvp(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.TimeDomainReflectometry.NVP);
                         _viewModel.NvpValue = Decimal.Parse(result[0]);
-                        _selectedDeviceStore.SelectedDevice.FaultDetector.CableDiagnostics.Mode = (CalibrationMode)Enum.Parse(typeof(CalibrationMode), result[1]);
+                        _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.TimeDomainReflectometry.Mode = (CalibrationMode)Enum.Parse(typeof(CalibrationMode), result[1]);
                         break;
 
                     default:

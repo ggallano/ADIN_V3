@@ -27,5 +27,6 @@ namespace ADIN.Device.Models
         public ITestMode TestMode => Device.TestMode;
         public ObservableCollection<RegisterModel> Registers => Device.Registers;
         public IDeviceStatus DeviceStatus => Device.DeviceStatus;
+        public ITimeDomainReflectometry TimeDomainReflectometry => Device.TimeDomainReflectometry;
     }
 }

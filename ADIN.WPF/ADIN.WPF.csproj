@@ -152,11 +152,17 @@
     <Compile Include="Commands\SoftwarePowerDownCommand.cs" />
     <Compile Include="Commands\TestModeCommand.cs" />
     <Compile Include="Commands\WriteRegisterCommand.cs" />
+    <Compile Include="Components\CableManualDialog.xaml.cs">
+      <DependentUpon>CableManualDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\MACAddress.xaml.cs">
       <DependentUpon>MACAddress.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\NavigationBar.xaml.cs">
       <DependentUpon>NavigationBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\OffsetManualDialog.xaml.cs">
+      <DependentUpon>OffsetManualDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\ActiveLinkTextConverter.cs" />
     <Compile Include="Converters\BooleanVisibilityConverter.cs" />
@@ -227,6 +233,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Components\CableManualDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Components\DeviceListing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -238,6 +248,10 @@
     <Page Include="Components\NavigationBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\OffsetManualDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

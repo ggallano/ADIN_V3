@@ -1,4 +1,5 @@
 ﻿using ADIN.Device.Models;
+using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 using System;
@@ -45,30 +46,32 @@ namespace ADIN.WPF.Commands.CableDiag
 
                 try
                 {
-                    var loopbackState = _selectedDeviceStore.SelectedDevice.FwAPI.GetLoopbackState();
-                    var testmodeState = _selectedDeviceStore.SelectedDevice.FwAPI.GetTestModeState();
+                    ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
 
-                    if (loopbackState != LoopBackMode.OFF)
-                    {
-                        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            _viewModel.BusyContent = "Loopback Reset";
-                        }));
-                        _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_selectedDeviceStore.SelectedDevice.Loopback.Loopbacks[0]);
-                        _selectedDeviceStore.OnLoopbackStateChanged(_selectedDeviceStore.SelectedDevice.Loopback.Loopbacks[0]);
-                    }
-                    Thread.Sleep(250);
+                    //var loopbackState = _selectedDeviceStore.SelectedDevice.FwAPI.GetLoopbackState();
+                    //var testmodeState = _selectedDeviceStore.SelectedDevice.FwAPI.GetTestModeState();
 
-                    if (testmodeState != TestModeType.Normal)
-                    {
-                        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            _viewModel.BusyContent = "Testmode Reset";
-                        }));
-                        _selectedDeviceStore.SelectedDevice.FwAPI.SetTestModeSetting(_selectedDeviceStore.SelectedDevice.TestMode.TestModes[0]);
-                        _selectedDeviceStore.OnTestModeStateChanged(_selectedDeviceStore.SelectedDevice.TestMode.TestModes[0]);
-                    }
-                    Thread.Sleep(250);
+                    //if (loopbackState != LoopBackMode.OFF)
+                    //{
+                    //    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    //    {
+                    //        _viewModel.BusyContent = "Loopback Reset";
+                    //    }));
+                    //    _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_selectedDeviceStore.SelectedDevice.Loopback.Loopbacks[0]);
+                    //    _selectedDeviceStore.OnLoopbackStateChanged(_selectedDeviceStore.SelectedDevice.Loopback.Loopbacks[0]);
+                    //}
+                    //Thread.Sleep(250);
+
+                    //if (testmodeState != TestModeType.Normal)
+                    //{
+                    //    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    //    {
+                    //        _viewModel.BusyContent = "Testmode Reset";
+                    //    }));
+                    //    _selectedDeviceStore.SelectedDevice.FwAPI.SetTestModeSetting(_selectedDeviceStore.SelectedDevice.TestMode.TestModes[0]);
+                    //    _selectedDeviceStore.OnTestModeStateChanged(_selectedDeviceStore.SelectedDevice.TestMode.TestModes[0]);
+                    //}
+                    //Thread.Sleep(250);
 
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
@@ -76,7 +79,7 @@ namespace ADIN.WPF.Commands.CableDiag
                     }));
                     Thread.Sleep(250);
 
-                    fault = _selectedDeviceStore.SelectedDevice.FwAPI.PerformFaultDetection();
+                    fault = fwADIN1100API.PerformFaultDetection();
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         switch (fault)
@@ -92,7 +95,7 @@ namespace ADIN.WPF.Commands.CableDiag
 
                                 _viewModel.FaultState = "Open";
                                 _viewModel.FaultBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
-                                _viewModel.DistToFault = _selectedDeviceStore.SelectedDevice.FwAPI.GetFaultDistance().ToString();
+                                _viewModel.DistToFault = fwADIN1100API.GetFaultDistance().ToString();
                                 _viewModel.IsFaultVisibility = true;
 
                                 break;
@@ -100,7 +103,7 @@ namespace ADIN.WPF.Commands.CableDiag
                             case FaultType.Short:
                                 _viewModel.FaultState = "Short";
                                 _viewModel.FaultBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
-                                _viewModel.DistToFault = _selectedDeviceStore.SelectedDevice.FwAPI.GetFaultDistance().ToString();
+                                _viewModel.DistToFault = fwADIN1100API.GetFaultDistance().ToString();
                                 _viewModel.IsFaultVisibility = true;
                                 break;
 

@@ -25,6 +25,7 @@ namespace ADIN.Device.Services
         private ObservableCollection<RegisterModel> _registers;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
+        private decimal _faultDistance;
 
         public ADIN1100FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
         {
@@ -335,7 +336,21 @@ namespace ADIN.Device.Services
 
         public void ResetPhy(ResetType reset)
         {
-            throw new NotImplementedException();
+            switch (reset)
+            {
+                case ResetType.SubSys:
+                    WriteYodaRg("CRSM_PHY_SUBSYS_RST", 1);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = "SubSys reset", FeedBackType = FeedbackType.Info });
+                    break;
+
+                case ResetType.Phy:
+                    WriteYodaRg("CRSM_SFT_RST", 1);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = "Phy reset", FeedBackType = FeedbackType.Info });
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         public void RestartAutoNegotiation()
@@ -778,6 +793,98 @@ namespace ADIN.Device.Services
         protected virtual void OnResetFrameGenCheckerStatisticsChanged(string status)
         {
             ResetFrameGenCheckerStatisticsChanged?.Invoke(this, status);
+        }
+
+        public string GetNvp()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetOffset()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string PerformCableCalibration(decimal length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public FaultType PerformFaultDetection()
+        {
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+                FaultType fault = FaultType.None;
+
+                command = $"tdrfaultdet\n";
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response);
+                if (res.Count == 1)
+                {
+                    _faultDistance = res[0];
+                    var faultResult = RegexService.ExtractFaultType(response);
+                    if (faultResult == "open")
+                    {
+                        fault = FaultType.Open;
+                    }
+                    else
+                    {
+                        fault = FaultType.Short;
+                    }
+                }
+                else
+                {
+                    fault = FaultType.None;
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrfaultdet] Fault = {fault.ToString()}", FeedBackType = FeedbackType.Info });
+                return fault;
+            }
+        }
+
+        public string PerformOffsetCalibration()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> SetNvp(decimal nvpValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string SetOffset(decimal offset)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void TDRInit()
+        {
+            throw new NotImplementedException();
+        }
+
+        public decimal GetFaultDistance()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> SetCoeff(decimal nvp, decimal coeff0, decimal coeffi)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetMode(CalibrationMode mode)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> GetCoeff()
+        {
+            throw new NotImplementedException();
         }
     }
 }

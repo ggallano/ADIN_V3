@@ -1,4 +1,5 @@
 ﻿using ADIN.Device.Models;
+using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 using Helper.ReadFile;
@@ -40,6 +41,8 @@ namespace ADIN.WPF.Commands.CableDiag
 
             try
             {
+                ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+
                 switch ((CalibrateType)Enum.Parse(typeof(CalibrateType), parameter.ToString()))
                 {
                     case CalibrateType.Offset:
@@ -51,7 +54,7 @@ namespace ADIN.WPF.Commands.CableDiag
                             Task.Run(() =>
                             {
                                 values = ReadContent.Read(openFileDialog.FileName);
-                                var res = _selectedDeviceStore.SelectedDevice.FwAPI.SetOffset(Decimal.Parse(values[0], CultureInfo.InvariantCulture));
+                                var res = fwADIN1100API.SetOffset(Decimal.Parse(values[0], CultureInfo.InvariantCulture));
 
                                 Application.Current.Dispatcher.Invoke(() =>
                                 {
@@ -76,8 +79,8 @@ namespace ADIN.WPF.Commands.CableDiag
                                 var nvp = Decimal.Parse(values[0], CultureInfo.InvariantCulture);
                                 var coeff0 = Decimal.Parse(values[0], CultureInfo.InvariantCulture);
                                 var coeffi = Decimal.Parse(values[0], CultureInfo.InvariantCulture);
-                                var res = _selectedDeviceStore.SelectedDevice.FwAPI.SetCoeff(nvp, coeff0, coeffi);
-                                _selectedDeviceStore.SelectedDevice.FwAPI.SetMode(CalibrationMode.Optimized);
+                                var res = fwADIN1100API.SetCoeff(nvp, coeff0, coeffi);
+                                fwADIN1100API.SetMode(CalibrationMode.Optimized);
 
                                 Application.Current.Dispatcher.Invoke(() =>
                                 {

@@ -1,4 +1,5 @@
-﻿using ADIN.WPF.Stores;
+﻿using ADIN.Device.Services;
+using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 using System;
 using System.Windows.Media;
@@ -27,9 +28,11 @@ namespace ADIN.WPF.Commands.CableDiag
 
         public override void Execute(object parameter)
         {
-            _selectedDeviceStore.SelectedDevice.FwAPI.TDRInit();
-            _viewModel.OffsetValue = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FwAPI.GetOffset());
-            _viewModel.NvpValue = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FwAPI.GetNvp());
+            ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+
+            fwADIN1100API.TDRInit();
+            _viewModel.OffsetValue = Decimal.Parse(fwADIN1100API.GetOffset());
+            _viewModel.NvpValue = Decimal.Parse(fwADIN1100API.GetNvp());
             _viewModel.OffsetBackgroundBrush = new SolidColorBrush(Colors.Transparent);
             _viewModel.CableBackgroundBrush = new SolidColorBrush(Colors.Transparent);
             _viewModel.CableFileName = "-";
