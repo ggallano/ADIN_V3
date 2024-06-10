@@ -869,7 +869,7 @@ namespace ADIN.Device.Services
 
         public decimal GetFaultDistance()
         {
-            throw new NotImplementedException();
+            return _faultDistance;
         }
 
         public List<string> SetCoeff(decimal nvp, decimal coeff0, decimal coeffi)
