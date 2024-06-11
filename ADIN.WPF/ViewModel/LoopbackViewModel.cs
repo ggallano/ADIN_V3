@@ -44,11 +44,8 @@ namespace ADIN.WPF.ViewModel
             {
                 if (value)
                 {
-                    _isTxSuppression = IsTxSuppression;
-                    _isRxSuppression = IsRxSuppression;
                     _loopback.SelectedLoopback = Loopbacks[1];
-                    _loopback.TxSuppression = IsTxSuppression;
-                    _loopback.RxSuppression = IsRxSuppression;
+
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
                     {
                         ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
@@ -64,7 +61,6 @@ namespace ADIN.WPF.ViewModel
                         ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                         fwADIN1300API.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
                     }
-                    //_selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.SelectedLoopback);
                 }
                 OnPropertyChanged(nameof(IsLoopback_None));
                 OnPropertyChanged(nameof(IsLoopback_Digital));
@@ -82,11 +78,8 @@ namespace ADIN.WPF.ViewModel
             {
                 if (value)
                 {
-                    _isTxSuppression = IsTxSuppression;
-                    _isRxSuppression = IsRxSuppression;
                     _loopback.SelectedLoopback = Loopbacks[3];
-                    _loopback.TxSuppression = _isTxSuppression;
-                    _loopback.RxSuppression = _isRxSuppression;
+
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
                     {
                         ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
@@ -102,7 +95,6 @@ namespace ADIN.WPF.ViewModel
                         ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                         fwADIN1300API.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
                     }
-                    //_selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.SelectedLoopback);
                 }
                 OnPropertyChanged(nameof(IsLoopback_None));
                 OnPropertyChanged(nameof(IsLoopback_Digital));
@@ -120,11 +112,8 @@ namespace ADIN.WPF.ViewModel
             {
                 if (value)
                 {
-                    _isTxSuppression = IsTxSuppression;
-                    _isRxSuppression = IsRxSuppression;
                     _loopback.SelectedLoopback = Loopbacks[2];
-                    _loopback.TxSuppression = _isTxSuppression;
-                    _loopback.RxSuppression = _isRxSuppression;
+
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
                     {
                         ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
@@ -140,7 +129,6 @@ namespace ADIN.WPF.ViewModel
                         ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                         fwADIN1300API.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
                     }
-                    //_selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.SelectedLoopback);
                 }
                 OnPropertyChanged(nameof(IsLoopback_None));
                 OnPropertyChanged(nameof(IsLoopback_Digital));
@@ -158,11 +146,8 @@ namespace ADIN.WPF.ViewModel
             {
                 if (value)
                 {
-                    _isTxSuppression = IsTxSuppression;
-                    _isRxSuppression = IsRxSuppression;
                     _loopback.SelectedLoopback = Loopbacks[0];
-                    _loopback.TxSuppression = _isTxSuppression;
-                    _loopback.RxSuppression = _isRxSuppression;
+
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
                     {
                         ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
@@ -178,7 +163,6 @@ namespace ADIN.WPF.ViewModel
                         ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                         fwADIN1300API.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
                     }
-                    //_selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.SelectedLoopback);
                 }
                 OnPropertyChanged(nameof(IsLoopback_None));
                 OnPropertyChanged(nameof(IsLoopback_Digital));
@@ -196,11 +180,8 @@ namespace ADIN.WPF.ViewModel
             {
                 if (value)
                 {
-                    _isTxSuppression = IsTxSuppression;
-                    _isRxSuppression = IsRxSuppression;
                     _loopback.SelectedLoopback = Loopbacks[4];
-                    _loopback.TxSuppression = _isTxSuppression;
-                    _loopback.RxSuppression = _isRxSuppression;
+
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
                     {
                         ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
@@ -216,7 +197,6 @@ namespace ADIN.WPF.ViewModel
                         ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                         fwADIN1300API.SetLoopbackSetting(_loopback.SelectedLoopback, _isTxSuppression, _isRxSuppression);
                     }
-                    //_selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_loopback.SelectedLoopback);
                 }
                 OnPropertyChanged(nameof(IsLoopback_None));
                 OnPropertyChanged(nameof(IsLoopback_Digital));
