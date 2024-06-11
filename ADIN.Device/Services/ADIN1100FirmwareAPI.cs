@@ -25,6 +25,7 @@ namespace ADIN.Device.Services
         private uint _phyAddress;
         private EthPhyState _phyState;
         private ObservableCollection<RegisterModel> _registers;
+        private TestModeType _testmodeState = TestModeType.Normal;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
         public ADIN1100FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
@@ -132,12 +133,68 @@ namespace ADIN.Device.Services
 
         public void GetFrameCheckerStatus()
         {
-            throw new NotImplementedException();
+            uint fcEn_st = Convert.ToUInt32(ReadYodaRg("FC_EN"));
+            uint fcTxSel_st = Convert.ToUInt32(ReadYodaRg("FC_TX_SEL"));
+
+            if (fcEn_st == 0)
+            {
+                OnResetFrameGenCheckerStatisticsChanged("Disabled");
+                return;
+            }
+
+            uint errCnt = Convert.ToUInt32(ReadYodaRg("RX_ERR_CNT"));
+            uint fCntL = Convert.ToUInt32(ReadYodaRg("FC_FRM_CNT_L"));
+            uint fCntH = Convert.ToUInt32(ReadYodaRg("FC_FRM_CNT_H"));
+            uint fCnt = (65536 * fCntH) + fCntL;
+
+            if (fCnt == 0)
+            {
+                OnResetFrameGenCheckerStatisticsChanged("-");
+                //return;
+            }
+
+            checkedFrames += fCnt;
+            checkedFramesErrors += errCnt;
+
+            if (fcTxSel_st == 0)
+            {
+                OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames} frames, {checkedFramesErrors} errors");
+                return;
+            }
+
+            OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames} Tx Side with {checkedFramesErrors} errors");
         }
 
         public string GetFrameGeneratorStatus()
         {
-            throw new NotImplementedException();
+            uint fgEn_st = Convert.ToUInt32(ReadYodaRg("FG_EN"), 16);
+            //uint fcTxSel_st = Convert.ToUInt32(ReadYodaRg("FC_TX_SEL"), 16);
+            uint fgContModeEn_st = Convert.ToUInt32(ReadYodaRg("FG_CONT_MODE_EN"), 16);
+
+            if (fgEn_st == 0)
+                return "Not Enabled";
+
+            if (fgContModeEn_st == 1)
+            {
+                isFrameGenCheckerOngoing = true;
+                OnFrameGenCheckerStatusChanged("Terminate");
+                return "Frame Transmission in progress";
+            }
+
+            uint fgDone_st = Convert.ToUInt32(ReadYodaRg("FG_DONE"), 16);
+            if (fgDone_st != 0)
+            {
+                WriteYodaRg("FG_EN", 0);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Transmission completed", FeedBackType = FeedbackType.Info });
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Generator disabled", FeedBackType = FeedbackType.Info });
+                isFrameGenCheckerOngoing = false;
+                OnFrameGenCheckerStatusChanged("Generate");
+                return "Frame Transmission completed";
+            }
+
+            isFrameGenCheckerOngoing = true;
+            OnFrameGenCheckerStatusChanged("Terminate");
+            return "Frame Transmission in progress";
         }
 
         public string GetLinkStatus()
@@ -696,6 +753,9 @@ namespace ADIN.Device.Services
                     //this.Info("    SPE PHY Loopback NOT configured - use one of PMA / PCS / MAC Interface / MAC Interface Remote / External MII/RMII");
                     break;
             }
+
+            WriteYodaRg("MAC_IF_LB_TX_SUP_EN", txSuppression ? (uint)1 : (uint)0);
+            WriteYodaRg("MAC_IF_REM_LB_RX_SUP_EN", rxSuppression ? (uint)1 : (uint)0);
         }
 
         public void SetMasterSlave(string masterSlaveAdvertise)
@@ -823,7 +883,71 @@ namespace ADIN.Device.Services
 
         public void SetTestMode(TestModeListingModel testMode, uint framelength)
         {
-            throw new NotImplementedException();
+            switch (testMode.Name1)
+            {
+                case "10BASE-T1L Normal Mode":
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("B10L_TX_TEST_MODE", 0);
+                    WriteYodaRg("B10L_TX_DIS_MODE_EN", 0);
+                    WriteYodaRg("AN_FRC_MODE_EN", 0);
+                    WriteYodaRg("AN_EN", 1);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    _testmodeState = TestModeType.Normal;
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = "Test Mode: 10BASE-T1L Normal Mode", FeedBackType = FeedbackType.Info });
+                    Debug.WriteLine($"Test Mode Selected, {testMode.Name1}:{testMode.Name2}");
+                    break;
+
+                case "10BASE-T1L Test Mode 1:":
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_EN", 0);
+                    WriteYodaRg("AN_FRC_MODE_EN", 1);
+                    WriteYodaRg("B10L_TX_TEST_MODE", 1);
+                    WriteYodaRg("B10L_TX_DIS_MODE_EN", 0);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    _testmodeState = TestModeType.Test1;
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = "Test Mode: 10BASE-T1L Test Mode 1", FeedBackType = FeedbackType.Info });
+                    Debug.WriteLine($"Test Mode Selected, {testMode.Name1}:{testMode.Name2}");
+                    break;
+
+                case "10BASE-T1L Test Mode 2:":
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_EN", 0);
+                    WriteYodaRg("AN_FRC_MODE_EN", 1);
+                    WriteYodaRg("B10L_TX_TEST_MODE", 2);
+                    WriteYodaRg("B10L_TX_DIS_MODE_EN", 0);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    _testmodeState = TestModeType.Test2;
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = "Test Mode: 10BASE-T1L Test Mode 2", FeedBackType = FeedbackType.Info });
+                    Debug.WriteLine($"Test Mode Selected, {testMode.Name1} : {testMode.Name2}");
+                    break;
+
+                case "10BASE-T1L Test Mode 3:":
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_EN", 0);
+                    WriteYodaRg("AN_FRC_MODE_EN", 1);
+                    WriteYodaRg("B10L_TX_TEST_MODE", 3);
+                    WriteYodaRg("B10L_TX_DIS_MODE_EN", 0);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    _testmodeState = TestModeType.Test3;
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = "Test Mode: 10BASE-T1L Test Mode 3", FeedBackType = FeedbackType.Info });
+                    Debug.WriteLine($"Test Mode Selected, {testMode.Name1} : {testMode.Name2}");
+                    break;
+
+                case "10BASE-T1L Transmit Disable:":
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_EN", 0);
+                    WriteYodaRg("AN_FRC_MODE_EN", 1);
+                    WriteYodaRg("B10L_TX_TEST_MODE", 0);
+                    WriteYodaRg("B10L_TX_DIS_MODE_EN", 0);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    _testmodeState = TestModeType.Transmit;
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = "Test Mode: 10BASE-T1L Transmit Disable", FeedBackType = FeedbackType.Info });
+                    Debug.WriteLine($"Test Mode Selected, {testMode.Name1} : {testMode.Name2}");
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         public void SetTxLevel(string txLevel)

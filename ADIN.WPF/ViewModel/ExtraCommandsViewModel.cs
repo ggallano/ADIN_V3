@@ -1,4 +1,5 @@
 ﻿using ADIN.Device.Models;
+using ADIN.Device.Services;
 using ADIN.WPF.Commands;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;

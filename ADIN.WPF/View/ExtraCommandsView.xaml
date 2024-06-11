@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              xmlns:local="clr-namespace:ADIN.WPF.View"
+             xmlns:converters="clr-namespace:ADIN.WPF.Converters"
              xmlns:enum="clr-namespace:ADIN.Device.Models;assembly=ADIN.Device"
              xmlns:converters="clr-namespace:ADIN.WPF.Converters"
              mc:Ignorable="d" 

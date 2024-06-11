@@ -167,7 +167,26 @@ namespace ADIN.WPF.ViewModel
 
         public bool FrameGenRunning => true;
 
-        public uint FrameLength
+        public double FrameLength_Slider
+        {
+            get
+            {
+                double frameLengthSlider = 16 * Math.Log((_frameGenChecker?.FrameLength ?? 1) + 1) / Math.Log(2);
+                return frameLengthSlider;
+            }
+            set
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _frameLength = Convert.ToUInt32(Math.Pow(2,value/16) - 1);
+                    _frameGenChecker.FrameLength = _frameLength;
+                }
+                OnPropertyChanged(nameof(FrameLength_Slider));
+                OnPropertyChanged(nameof(FrameLength_Value));
+            }
+        }
+
+        public uint FrameLength_Value
         {
             get { return _frameGenChecker?.FrameLength ?? 0; }
             set
@@ -177,7 +196,8 @@ namespace ADIN.WPF.ViewModel
                     _frameLength = value;
                     _frameGenChecker.FrameLength = value;
                 }
-                OnPropertyChanged(nameof(FrameLength));
+                OnPropertyChanged(nameof(FrameLength_Value));
+                OnPropertyChanged(nameof(FrameLength_Slider));
             }
         }
 
@@ -255,7 +275,8 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(FrameGenRunning));
             OnPropertyChanged(nameof(FrameBurst_Slider));
             OnPropertyChanged(nameof(FrameBurst_Value));
-            OnPropertyChanged(nameof(FrameLength));
+            OnPropertyChanged(nameof(FrameLength_Slider));
+            OnPropertyChanged(nameof(FrameLength_Value));
             OnPropertyChanged(nameof(FrameContents));
             OnPropertyChanged(nameof(SrcMacAddress));
             OnPropertyChanged(nameof(DestMacAddress));

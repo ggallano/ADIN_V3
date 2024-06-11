@@ -31,7 +31,7 @@ namespace ADIN.WPF.Commands
 
             frameGenChecker.EnableContinuousMode = _viewModel.EnableContinuousMode;
             frameGenChecker.FrameBurst = _viewModel.FrameBurst_Value;
-            frameGenChecker.FrameLength = _viewModel.FrameLength;
+            frameGenChecker.FrameLength = _viewModel.FrameLength_Value;
             frameGenChecker.SelectedFrameContent = _viewModel.SelectedFrameContent.FrameContentType;
             frameGenChecker.EnableMacAddress = _viewModel.EnableMacAddress;
             frameGenChecker.SrcMacAddress = _viewModel.SrcMacAddress;
