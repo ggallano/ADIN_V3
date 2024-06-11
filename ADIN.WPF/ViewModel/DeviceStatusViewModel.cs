@@ -347,6 +347,9 @@ namespace ADIN.WPF.ViewModel
                 {
                     _selectedDeviceStore.OnViewModelFeedbackLog("This function is not implemented for this board.", Helper.Feedback.FeedbackType.Info);
                 }
+                catch (FormatException)
+                {
+                }
 
                 e.Result = "Done";
             }
