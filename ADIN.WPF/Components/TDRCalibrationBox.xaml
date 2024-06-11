@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="ADIN.WPF.Components.TDRCalibrationBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:enum="clr-namespace:ADIN.Device.Models;assembly=ADIN.Device"
+             xmlns:local="clr-namespace:ADIN.WPF.Components"
+             
+             mc:Ignorable="d" d:DesignWidth="260" Height="170">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="StackPanelStyle" TargetType="{x:Type StackPanel}">
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type UserControl}}}">
+        <GroupBox Header="{Binding Header}" Style="{StaticResource TDRGroupStyle}" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock >
+                <Run Text="Filename: "/>
+                <Run Text="{Binding FileName}"/>
+                </TextBlock>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="6*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <telerik:RadButton Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Content="Calibrate" Style="{StaticResource FaultDetectorCalibrateButtonStyle}" Width="90" Command="{Binding CalibrateCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}" ToolTip="Perform offset calibration"/>
+                    <telerik:RadButton Grid.Row="1" Grid.Column="1" Content="Save" Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding SaveCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
+                    <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load"  Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding LoadCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
+                    <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Style="{StaticResource StackPanelStyle}" HorizontalAlignment="Right">
+                        <TextBlock Text="{Binding ValueText}" VerticalAlignment="Center" Style="{StaticResource TextBlockstyle}"/>
+                        <telerik:RadNumericUpDown Height="24" Width="90" Value="{Binding ValueBox, UpdateSourceTrigger=PropertyChanged}" SmallChange="{Binding SmallChangeValue}"/>
+                    </StackPanel>
+                    <telerik:RadButton Grid.Row="3" Grid.Column="1" Content="Ok"  Style="{StaticResource FaultDetectorOkButtonStyle}" Width="70" Command="{Binding ManualCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
+                </Grid>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>
