@@ -130,6 +130,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AutoVersionIncrement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Commands\AboutCommand.cs" />
     <Compile Include="Commands\AutoNegCommand.cs" />
     <Compile Include="Commands\CableDiag\CalibrationCommand.cs" />
     <Compile Include="Commands\CableDiag\InitializedCommand.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="ViewModel\LinkPropertiesViewModel.cs" />
     <Compile Include="ViewModel\LogActivityViewModel.cs" />
     <Compile Include="ViewModel\LoopbackViewModel.cs" />
+    <Compile Include="ViewModel\MenuItemViewModel.cs" />
     <Compile Include="ViewModel\NavigationBarViewModel.cs" />
     <Compile Include="ViewModel\OperationViewModel.cs" />
     <Compile Include="ViewModel\RegisterAccessViewModel.cs" />

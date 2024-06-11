@@ -40,7 +40,7 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsADIN1100Board
         {
-            get { return _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100 || _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100_S1; }
+            get { return _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100 || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1; }
         }
 
         public bool IsPoweredUp

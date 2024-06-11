@@ -23,6 +23,7 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore = selectedDeviceStore;
             _navigationStore = navigationStore;
 
+            MenuItemVM = new MenuItemViewModel();
             LogActivityVM = new LogActivityViewModel(_selectedDeviceStore);
             DeviceListingVM = new DeviceListingViewModel(_selectedDeviceStore, ftdiService, registerService, LogActivityVM, mainLock);
             ExtraCommandsVM = new ExtraCommandsViewModel(_selectedDeviceStore, ftdiService);
@@ -32,7 +33,7 @@ namespace ADIN.WPF.ViewModel
             FrameGenCheckerVM = new FrameGenCheckerViewModel(_selectedDeviceStore, mainLock, ftdiService);
             ClockPinControlVM = new ClockPinControlViewModel(_navigationStore, _selectedDeviceStore);
             TestModeVM = new TestModeViewModel(_selectedDeviceStore);
-            DeviceStatusVM = new DeviceStatusViewModel(selectedDeviceStore, ftdiService);
+            DeviceStatusVM = new DeviceStatusViewModel(selectedDeviceStore, ftdiService, mainLock);
             RegisterAccessVM = new RegisterAccessViewModel(_selectedDeviceStore, navigationStore);
             TDRVM = new TimeDomainReflectometryViewModel(_selectedDeviceStore, mainLock);
 
@@ -98,5 +99,7 @@ namespace ADIN.WPF.ViewModel
                 IsTestModeSelected = true;
             }
         }
+
+        public MenuItemViewModel MenuItemVM { get; set; }
     }
 }

@@ -19,6 +19,7 @@ namespace ADIN.Device.Services
         private BoardRevision _boardRev;
         private string _feedbackMessage;
         private IFTDIServices _ftdiService;
+        private List<string> _localAdvertisedSpeeds = new List<string>();
         private object _mainLock = new object();
         private uint _phyAddress;
         private EthPhyState _phyState;
@@ -26,8 +27,6 @@ namespace ADIN.Device.Services
         private IRegisterService _registerService;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
-        private List<string> _localAdvertisedSpeeds = new List<string>();
-
         public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
@@ -230,6 +229,11 @@ namespace ADIN.Device.Services
 
             //OnMseValueChanged(mse_db.ToString("0.00") + " dB");
             return $"{mse_db.ToString("0.00")} dB";
+        }
+
+        public string GetMseValue(BoardRevision boardRev)
+        {
+            throw new NotImplementedException();
         }
 
         public EthPhyState GetPhyState()
@@ -515,6 +519,11 @@ namespace ADIN.Device.Services
         public string RegisterRead(uint regAddress)
         {
             return ReadYodaRg(regAddress);
+        }
+
+        public string RegisterRead(string register)
+        {
+            return ReadYogaRg(register);
         }
 
         public string RegisterWrite(uint regAddress, uint data)
@@ -1325,11 +1334,6 @@ namespace ADIN.Device.Services
             {
                 return MdioWriteCl45(registerAddress, value);
             }
-        }
-
-        public string RegisterRead(string register)
-        {
-            return ReadYogaRg(register);
         }
     }
 }

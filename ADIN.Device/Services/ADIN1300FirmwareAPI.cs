@@ -240,6 +240,11 @@ namespace ADIN.Device.Services
             return $"{mse_db.ToString("0.00")} dB";
         }
 
+        public string GetMseValue(BoardRevision boardRev)
+        {
+            throw new NotImplementedException();
+        }
+
         public EthPhyState GetPhyState()
         {
             if (ReadYodaRg("SftPd") == "1")
