@@ -17,8 +17,8 @@ namespace ADIN.WPF.ViewModel
         private string _faultState;
         private bool _isFaultVisibility;
         private bool _isOngoingCalibration;
-        private bool _isVisibleCableCalibration;
-        private bool _isVisibleOffsetCalibration;
+        private bool _isVisibleCableCalibration = false;
+        private bool _isVisibleOffsetCalibration = false;
         private decimal _nvpValue;
         private Brush _offsetBackgroundBrush;
         private string _offsetCalibrationMessage;
@@ -56,10 +56,11 @@ namespace ADIN.WPF.ViewModel
         }
         public string CableCalibrationMessage
         {
-            get { return _cableCalibrationMessage; }
+            get { return _selectedDevice?.TimeDomainReflectometry.CableCalibrationMessage; }
             set
             {
                 _cableCalibrationMessage = value;
+                _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.CableCalibrationMessage = value;
                 OnPropertyChanged(nameof(CableCalibrationMessage));
             }
         }
@@ -137,20 +138,22 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsVisibleCableCalibration
         {
-            get { return _isVisibleCableCalibration; }
+            get { return _selectedDevice.TimeDomainReflectometry.IsVisibleCableCalibration; }
             set
             {
                 _isVisibleCableCalibration = value;
+                _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.IsVisibleCableCalibration = value;
                 OnPropertyChanged(nameof(IsVisibleCableCalibration));
             }
         }
 
         public bool IsVisibleOffsetCalibration
         {
-            get { return _isVisibleOffsetCalibration; }
+            get { return _selectedDevice.TimeDomainReflectometry.IsVisibleOffsetCalibration; }
             set
             {
                 _isVisibleOffsetCalibration = value;
+                _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.IsVisibleOffsetCalibration = value;
                 OnPropertyChanged(nameof(IsVisibleOffsetCalibration));
             }
         }
@@ -174,10 +177,11 @@ namespace ADIN.WPF.ViewModel
 
         public string OffsetCalibrationMessage
         {
-            get { return _offsetCalibrationMessage; }
+            get { return _selectedDevice.TimeDomainReflectometry.OffsetCalibrationMessage; }
             set
             {
                 _offsetCalibrationMessage = value;
+                _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.OffsetCalibrationMessage = value;
                 OnPropertyChanged(nameof(OffsetCalibrationMessage));
             }
         }
@@ -221,6 +225,10 @@ namespace ADIN.WPF.ViewModel
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             OnPropertyChanged(nameof(FaultBackgroundBrush));
+            OnPropertyChanged(nameof(IsVisibleCableCalibration));
+            OnPropertyChanged(nameof(CableCalibrationMessage));
+            OnPropertyChanged(nameof(IsVisibleOffsetCalibration));
+            OnPropertyChanged(nameof(OffsetCalibrationMessage));
 
             OnPropertyChanged(nameof(OffsetValue));
             OnPropertyChanged(nameof(NvpValue));

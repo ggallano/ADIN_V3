@@ -19,5 +19,9 @@ namespace ADIN.Device.Models.ADIN1100
         public Brush OffsetBackgroundBrush { get; set; }
         public string OffsetFileName { get; set; }
         public TDRModel TimeDomainReflectometry { get; set; }
+        public bool IsVisibleCableCalibration { get; set; }
+        public bool IsVisibleOffsetCalibration { get; set; }
+        public string OffsetCalibrationMessage { get; set; }
+        public string CableCalibrationMessage { get; set; }
     }
 }

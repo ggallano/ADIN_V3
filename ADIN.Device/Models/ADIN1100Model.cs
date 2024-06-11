@@ -105,7 +105,40 @@ namespace ADIN.Device.Models
 
         private void GetTestModeValue()
         {
-            throw new NotImplementedException();
+            var B10L_TX_TEST_MODE = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("CRSM_SFT_PD");
+            var B10L_TX_DIS_MODE_EN = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("B10L_TX_TEST_MODE") == "1" ? true : false;
+            var AN_FRC_MODE_EN = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_FRC_MODE_EN") == "1" ? true : false;
+            var AN_EN = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_EN") == "1" ? true : false;
+
+            if (B10L_TX_TEST_MODE == "0")
+                if (!B10L_TX_DIS_MODE_EN)
+                    if (!AN_FRC_MODE_EN)
+                        if (AN_EN)
+                            TestMode.TestMode = TestMode.TestModes[0];
+
+            if (!AN_EN)
+                if (AN_FRC_MODE_EN)
+                    if (B10L_TX_TEST_MODE == "1")
+                        if (!B10L_TX_DIS_MODE_EN)
+                            TestMode.TestMode = TestMode.TestModes[1];
+
+            if (!AN_EN)
+                if (AN_FRC_MODE_EN)
+                    if (B10L_TX_TEST_MODE == "2")
+                        if (!B10L_TX_DIS_MODE_EN)
+                            TestMode.TestMode = TestMode.TestModes[2];
+
+            if (!AN_EN)
+                if (AN_FRC_MODE_EN)
+                    if (B10L_TX_TEST_MODE == "3")
+                        if (!B10L_TX_DIS_MODE_EN)
+                            TestMode.TestMode = TestMode.TestModes[3];
+
+            if (!AN_EN)
+                if (AN_FRC_MODE_EN)
+                    if (B10L_TX_TEST_MODE == "0")
+                        if (!B10L_TX_DIS_MODE_EN)
+                            TestMode.TestMode = TestMode.TestModes[4];
         }
     }
 }

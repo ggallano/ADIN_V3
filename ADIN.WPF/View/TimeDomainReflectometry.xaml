@@ -57,7 +57,7 @@
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Orientation="Vertical" VerticalAlignment="Center">
                                 <telerik:RadButton  Content="Calibrate" Style="{StaticResource FaultDetectorCalibrateButtonStyle}" Width="90" Command="{Binding CalibrateCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}" ToolTip="Perform offset calibration"/>
-                                <TextBlock Text="{Binding OffsetCalibrationMessage}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}" Style="{StaticResource TextBlockstyle}" FontSize="11" HorizontalAlignment="Center" Visibility="{Binding IsVisibleOffsetCalibration, Converter={StaticResource booleanHiddenConverter}}"/>
+                                <TextBlock Text="{Binding OffsetCalibrationMessage}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}" Style="{StaticResource TextBlockstyle}" FontSize="12" HorizontalAlignment="Center" Visibility="{Binding IsVisibleOffsetCalibration, Converter={StaticResource booleanHiddenConverter}}"/>
                             </StackPanel>
                             <telerik:RadButton Grid.Row="1" Grid.Column="1" Content="Save" Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding SaveCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
                             <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load"  Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding LoadCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
@@ -93,7 +93,7 @@
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Orientation="Vertical" VerticalAlignment="Center">
                                 <telerik:RadButton  Content="Calibrate" Style="{StaticResource FaultDetectorCalibrateButtonStyle}" Width="90" Command="{Binding CalibrateCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}" ToolTip="Perform cable calibration"/>
-                                <TextBlock Text="{Binding CableCalibrationMessage}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}" Style="{StaticResource TextBlockstyle}" FontSize="11" HorizontalAlignment="Center" Visibility="{Binding IsVisibleCableCalibration, Converter={StaticResource booleanHiddenConverter}}"/>
+                                <TextBlock Text="{Binding CableCalibrationMessage}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}" Style="{StaticResource TextBlockstyle}" FontSize="12" HorizontalAlignment="Center" Visibility="{Binding IsVisibleCableCalibration, Converter={StaticResource booleanHiddenConverter}}"/>
                             </StackPanel>
                             <telerik:RadButton Grid.Row="1" Grid.Column="1" Content="Save" Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding SaveCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}"/>
                             <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load"  Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding LoadCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}"/>
