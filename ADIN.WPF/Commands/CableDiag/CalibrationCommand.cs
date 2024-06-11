@@ -53,11 +53,11 @@ namespace ADIN.WPF.Commands.CableDiag
 
                         Task.Run(() =>
                         {
-                            Application.Current.Dispatcher.Invoke(() =>
+                            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                             {
                                 _viewModel.BusyContent = "Executing offset calibration.";
-                            });
-                            Thread.Sleep(500);
+                            }));
+                            Thread.Sleep(2000);
 
                             //PerformResetPhy();
                             //Thread.Sleep(1000);
@@ -79,12 +79,12 @@ namespace ADIN.WPF.Commands.CableDiag
                                 result = Decimal.Parse(fwADIN1100API.PerformOffsetCalibration());
                                 //result = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FwAPI.PerformOffsetCalibration());
 
-                                Application.Current.Dispatcher.Invoke(() =>
+                                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                                 {
                                     _viewModel.OffsetValue = result;
                                     _viewModel.OffsetCalibrationMessage = "Calibration Success";
                                     _viewModel.IsVisibleOffsetCalibration = true;
-                                });
+                                }));
                             }
                             catch (ApplicationException ex)
                             {
@@ -118,13 +118,15 @@ namespace ADIN.WPF.Commands.CableDiag
                     if (cableDialog.ShowDialog() == true)
                     {
                         _viewModel.IsOngoingCalibration = true;
+                        _viewModel.IsVisibleCableCalibration = false;
+
                         Task.Run(() =>
                         {
                             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                             {
                                 _viewModel.BusyContent = "Executing cable calibration.";
                             }));
-                            Thread.Sleep(500);
+                            Thread.Sleep(2000);
 
                             //PerformResetPhy();
                             //Thread.Sleep(1000);
