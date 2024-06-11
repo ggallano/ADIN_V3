@@ -30,7 +30,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <Menu x:Name="menu" DataContext="{Binding MenuItemViewModel}" Grid.Row="0">
+        <Menu x:Name="menu" DataContext="{Binding MenuItemVM}" Grid.Row="0">
             <MenuItem Header="File">
                 <MenuItem Name="MenuFileExit" Header="Exit" Click="MenuFileExit_Click"/>
             </MenuItem>

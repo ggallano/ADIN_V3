@@ -1,16 +1,17 @@
-﻿using ADIN.WPF.Stores;
+﻿using ADIN.Device.Services;
+using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 using System;
 using System.Windows.Media;
 
-namespace ADIN.WPF.Commands
+namespace ADIN.WPF.Commands.CableDiag
 {
     public class InitializedCommand : CommandBase
     {
         private SelectedDeviceStore _selectedDeviceStore;
-        private FaultDetectorViewModel _viewModel;
+        private TimeDomainReflectometryViewModel _viewModel;
 
-        public InitializedCommand(FaultDetectorViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
+        public InitializedCommand(TimeDomainReflectometryViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
         {
             _viewModel = viewModel;
             _selectedDeviceStore = selectedDeviceStore;
@@ -27,9 +28,11 @@ namespace ADIN.WPF.Commands
 
         public override void Execute(object parameter)
         {
-            _selectedDeviceStore.SelectedDevice.FirmwareAPI.TDRInit();
-            _viewModel.OffsetValue = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FirmwareAPI.GetOffset());
-            _viewModel.NvpValue = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FirmwareAPI.GetNvp());
+            ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+
+            fwADIN1100API.TDRInit();
+            _viewModel.OffsetValue = Decimal.Parse(fwADIN1100API.GetOffset());
+            _viewModel.NvpValue = Decimal.Parse(fwADIN1100API.GetNvp());
             _viewModel.OffsetBackgroundBrush = new SolidColorBrush(Colors.Transparent);
             _viewModel.CableBackgroundBrush = new SolidColorBrush(Colors.Transparent);
             _viewModel.CableFileName = "-";

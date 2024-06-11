@@ -1,4 +1,5 @@
 ﻿using ADIN.Device.Models;
+using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 using System;
@@ -7,14 +8,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace ADIN.WPF.Commands
+namespace ADIN.WPF.Commands.CableDiag
 {
     public class TDRFaultDetectorCommand : CommandBase
     {
         private SelectedDeviceStore _selectedDeviceStore;
-        private FaultDetectorViewModel _viewModel;
+        private TimeDomainReflectometryViewModel _viewModel;
 
-        public TDRFaultDetectorCommand(FaultDetectorViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
+        public TDRFaultDetectorCommand(TimeDomainReflectometryViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
         {
             _viewModel = viewModel;
             _selectedDeviceStore = selectedDeviceStore;
@@ -40,35 +41,12 @@ namespace ADIN.WPF.Commands
                 {
                     _viewModel.BusyContent = "Software Reset";
                 }));
-                _selectedDeviceStore.SelectedDevice.FirmwareAPI.ResetPhy(ResetType.Phy);
+                _selectedDeviceStore.SelectedDevice.FwAPI.ResetPhy(ResetType.Phy);
                 Thread.Sleep(1000);
 
                 try
                 {
-                    var loopbackState = _selectedDeviceStore.SelectedDevice.FirmwareAPI.GetLoopbackState();
-                    var testmodeState = _selectedDeviceStore.SelectedDevice.FirmwareAPI.GetTestModeState();
-
-                    if (loopbackState != LoopBackMode.OFF)
-                    {
-                        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            _viewModel.BusyContent = "Loopback Reset";
-                        }));
-                        _selectedDeviceStore.SelectedDevice.FirmwareAPI.SetLoopbackSetting(_selectedDeviceStore.SelectedDevice.Loopback.Loopbacks[0]);
-                        _selectedDeviceStore.OnLoopbackStateChanged(_selectedDeviceStore.SelectedDevice.Loopback.Loopbacks[0]);
-                    }
-                    Thread.Sleep(250);
-
-                    if (testmodeState != TestModeType.Normal)
-                    {
-                        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                        {
-                            _viewModel.BusyContent = "Testmode Reset";
-                        }));
-                        _selectedDeviceStore.SelectedDevice.FirmwareAPI.SetTestModeSetting(_selectedDeviceStore.SelectedDevice.TestMode.TestModes[0]);
-                        _selectedDeviceStore.OnTestModeStateChanged(_selectedDeviceStore.SelectedDevice.TestMode.TestModes[0]);
-                    }
-                    Thread.Sleep(250);
+                    ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
 
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
@@ -76,7 +54,7 @@ namespace ADIN.WPF.Commands
                     }));
                     Thread.Sleep(250);
 
-                    fault = _selectedDeviceStore.SelectedDevice.FirmwareAPI.PerformFaultDetection();
+                    fault = fwADIN1100API.PerformFaultDetection();
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         switch (fault)
@@ -92,7 +70,7 @@ namespace ADIN.WPF.Commands
 
                                 _viewModel.FaultState = "Open";
                                 _viewModel.FaultBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
-                                _viewModel.DistToFault = _selectedDeviceStore.SelectedDevice.FirmwareAPI.GetFaultDistance().ToString();
+                                _viewModel.DistToFault = fwADIN1100API.GetFaultDistance().ToString();
                                 _viewModel.IsFaultVisibility = true;
 
                                 break;
@@ -100,7 +78,7 @@ namespace ADIN.WPF.Commands
                             case FaultType.Short:
                                 _viewModel.FaultState = "Short";
                                 _viewModel.FaultBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
-                                _viewModel.DistToFault = _selectedDeviceStore.SelectedDevice.FirmwareAPI.GetFaultDistance().ToString();
+                                _viewModel.DistToFault = fwADIN1100API.GetFaultDistance().ToString();
                                 _viewModel.IsFaultVisibility = true;
                                 break;
 

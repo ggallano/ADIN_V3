@@ -90,7 +90,7 @@
                             <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load"  Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding LoadCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}"/>
                             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Style="{StaticResource StackPanelStyle}" HorizontalAlignment="Right">
                                 <TextBlock Text="NVP: " VerticalAlignment="Center" Style="{StaticResource TextBlockstyle}"/>
-                                <telerik:RadNumericUpDown Height="24" Width="90" Value="{Binding NvpValue, UpdateSourceTrigger=PropertyChanged}" SmallChange="0.01"/>
+                                <telerik:RadNumericUpDown Height="24" Width="90" Value="{Binding NvpValue}" SmallChange="0.01"/>
                             </StackPanel>
                             <telerik:RadButton Grid.Row="3" Grid.Column="1" Content="Ok"  Style="{StaticResource FaultDetectorOkButtonStyle}" Width="70" Command="{Binding ManualCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}"/>
                         </Grid>
@@ -194,8 +194,8 @@
                                 </Line.RenderTransform>
                             </Line>
                             <Grid Margin="-32">
-                                <Border Height="100" Width="30" Background="BlueViolet" CornerRadius="5"/>
-                                <TextBlock Text="{Binding FaultState}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFD8D8D8" FontSize="15" RenderTransformOrigin="0.5,0.5">
+                                <Border Height="100" Width="30" Background="{Binding FaultBackgroundBrush}" CornerRadius="4"/>
+                                <TextBlock Text="{Binding FaultState}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource hmc.color.content.inverse}" FontSize="14" RenderTransformOrigin="0.5,0.5">
                                     <TextBlock.RenderTransform>
                                         <TransformGroup>
                                             <ScaleTransform/>

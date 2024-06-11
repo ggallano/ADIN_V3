@@ -1,12 +1,12 @@
 ﻿using ADIN.Device.Models;
-using ADIN.WPF.Commands;
+using ADIN.WPF.Commands.CableDiag;
 using ADIN.WPF.Stores;
 using System.Windows.Input;
 using System.Windows.Media;
 
 namespace ADIN.WPF.ViewModel
 {
-    public class FaultDetectorViewModel : ViewModelBase
+    public class TimeDomainReflectometryViewModel : ViewModelBase
     {
         private string _busyContent;
         private Brush _cableBackgroundBrush;
@@ -23,7 +23,8 @@ namespace ADIN.WPF.ViewModel
         private SelectedDeviceStore _selectedDeviceStore;
         private object _thisLock;
 
-        public FaultDetectorViewModel(SelectedDeviceStore selectedDeviceStore, object thisLock)
+
+        public TimeDomainReflectometryViewModel(SelectedDeviceStore selectedDeviceStore, object thisLock)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _thisLock = thisLock;
@@ -52,7 +53,7 @@ namespace ADIN.WPF.ViewModel
 
         public Brush CableBackgroundBrush
         {
-            get { return _selectedDevice?.FaultDetector.CableBackgroundBrush ?? new SolidColorBrush(Colors.Transparent); }
+            get { return _selectedDevice?.TimeDomainReflectometry.CableBackgroundBrush ?? new SolidColorBrush(Colors.Transparent); }
             set
             {
                 _cableBackgroundBrush = value;
@@ -63,7 +64,7 @@ namespace ADIN.WPF.ViewModel
 
         public string CableFileName
         {
-            get { return _selectedDevice?.FaultDetector.CableFileName ?? "-"; }
+            get { return _selectedDevice?.TimeDomainReflectometry.CableFileName ?? "-"; }
             set
             {
                 _cableFileName = value;
@@ -76,7 +77,7 @@ namespace ADIN.WPF.ViewModel
 
         public string DistToFault
         {
-            get { return _selectedDevice?.FaultDetector.DistToFault ?? "0.00"; }
+            get { return _selectedDevice?.TimeDomainReflectometry.DistToFault ?? "0.00"; }
             set
             {
                 _distToFault = value;
@@ -87,7 +88,7 @@ namespace ADIN.WPF.ViewModel
 
         public Brush FaultBackgroundBrush
         {
-            get { return _selectedDevice?.FaultDetector.FaultBackgroundBrush ?? new SolidColorBrush(Colors.LightGray); }
+            get { return _selectedDevice?.TimeDomainReflectometry.FaultBackgroundBrush ?? new SolidColorBrush(Colors.LightGray); }
             set
             {
                 _faultBackgroundBrush = value;
@@ -100,7 +101,7 @@ namespace ADIN.WPF.ViewModel
 
         public string FaultState
         {
-            get { return _selectedDevice?.FaultDetector.FaultState ?? ""; }
+            get { return _selectedDevice?.TimeDomainReflectometry.FaultState ?? ""; }
             set
             {
                 _faultState = value;
@@ -113,7 +114,7 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsFaultVisibility
         {
-            get { return _selectedDevice?.FaultDetector.IsFaultVisibility ?? false; }
+            get { return _selectedDevice?.TimeDomainReflectometry.IsFaultVisibility ?? false; }
             set
             {
                 _isFaultVisibility = value;
@@ -151,7 +152,7 @@ namespace ADIN.WPF.ViewModel
 
         public Brush OffsetBackgroundBrush
         {
-            get { return _selectedDevice?.FaultDetector.OffsetBackgroundBrush ?? new SolidColorBrush(Colors.Transparent); }
+            get { return _selectedDevice?.TimeDomainReflectometry.OffsetBackgroundBrush ?? new SolidColorBrush(Colors.Transparent); }
             set
             {
                 _offsetBackgroundBrush = value;
@@ -162,7 +163,7 @@ namespace ADIN.WPF.ViewModel
 
         public string OffsetFileName
         {
-            get { return _selectedDevice?.FaultDetector.OffsetFileName ?? "-"; }
+            get { return _selectedDevice?.TimeDomainReflectometry.OffsetFileName ?? "-"; }
             set
             {
                 _offsetFileName = value;
@@ -186,9 +187,9 @@ namespace ADIN.WPF.ViewModel
         }
 
         public ICommand SaveCommand { get; set; }
-        private TDRModel _cableDiagnostic => _selectedDevice?.FaultDetector.CableDiagnostics;
-        private FaultDetectorModel _faultDetector => _selectedDevice.FaultDetector;
-        private ADINDeviceModel _selectedDevice => _selectedDeviceStore.SelectedDevice;
+        private TDRModel _cableDiagnostic => _selectedDevice?.TimeDomainReflectometry.TimeDomainReflectometry;
+        private ITimeDomainReflectometry _faultDetector => _selectedDevice.TimeDomainReflectometry;
+        private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
 
         protected override void Dispose()
         {

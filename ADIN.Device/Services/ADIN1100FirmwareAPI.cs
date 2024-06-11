@@ -15,8 +15,10 @@ namespace ADIN.Device.Services
 {
     public class ADIN1100FirmwareAPI : IADIN1100API
     {
+        private const string EXTRACTNUMBER_REGEX = @"(?<=\=)(\d+\.?\d*)";
         private static ADIN1100FirmwareAPI fwAPI;
         private bool _autoNegotiationStatus = false;
+        private decimal _faultDistance;
         private string _feedbackMessage;
         private IFTDIServices _ftdiService;
         private object _mainLock;
@@ -26,7 +28,6 @@ namespace ADIN.Device.Services
         private TestModeType _testmodeState = TestModeType.Normal;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
-
         public ADIN1100FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
@@ -90,6 +91,44 @@ namespace ADIN.Device.Services
                 _autoNegotiationStatus = false;
                 return "Disabled";
             }
+        }
+
+        public List<string> GetCoeff()
+        {
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+                List<string> coeffs = new List<string>();
+
+                command = "tdrgetcoeff\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response);
+                if (res.Count >= 1)
+                {
+                    coeffs.Add(res[0].ToString("f6", CultureInfo.InvariantCulture));
+                    coeffs.Add(res[1].ToString("f6", CultureInfo.InvariantCulture));
+                    coeffs.Add(res[2].ToString("f6", CultureInfo.InvariantCulture));
+                }
+
+                if (response == "" || res.Count == 0)
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = $"[tdrgetcoeff] {response}", FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrgetcoeff] {response}", FeedBackType = FeedbackType.Info });
+                return coeffs;
+            }
+        }
+
+        public decimal GetFaultDistance()
+        {
+            return _faultDistance;
         }
 
         public void GetFrameCheckerStatus()
@@ -197,23 +236,77 @@ namespace ADIN.Device.Services
             return masterSlaveStatus;
         }
 
+        public string GetMseValue(BoardRevision boardRev)
+        {
+            switch (boardRev)
+            {
+                case BoardRevision.Rev0:
+                    return "N/A";
+                case BoardRevision.Rev1:
+                    // Formula:
+                    // where mse is the value from the register, and sym_pwr_exp is a constant 0.64423.
+                    // mse_db = 10 * log10((mse / 218) / sym_pwr_exp)
+                    double mse = Convert.ToUInt32(ReadYodaRg("MSE_VAL"), 16);
+                    double sym_pwr_exp = 0.64423;
+                    double mse_db = 10 * Math.Log10((mse / Math.Pow(2, 18)) / sym_pwr_exp);
+
+                    //OnMseValueChanged(mse_db.ToString("0.00") + " dB");
+                    return $"{mse_db.ToString("0.00")} dB";
+                default:
+                    return "N/A";
+            }
+        }
+
         public string GetMseValue()
         {
-            //if (_boardRev == BoardRevision.Rev0)
-            //    return "N/A";
+            throw new NotImplementedException();
+        }
 
-            if (_phyState != EthPhyState.LinkUp)
-                return "N/A";
+        public string GetNvp()
+        {
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
 
-            // Formula:
-            // where mse is the value from the register, and sym_pwr_exp is a constant 0.64423.
-            // mse_db = 10 * log10((mse / 218) / sym_pwr_exp)
-            double mse = Convert.ToUInt32(ReadYodaRg("MSE_VAL"), 16);
-            double sym_pwr_exp = 0.64423;
-            double mse_db = 10 * Math.Log10((mse / Math.Pow(2, 18)) / sym_pwr_exp);
+                command = "tdrgetnvp\n";
 
-            //OnMseValueChanged(mse_db.ToString("0.00") + " dB");
-            return $"{mse_db.ToString("0.00")} dB";
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                if (response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrgetnvp] {response}", FeedBackType = FeedbackType.Info });
+                return response;
+            }
+        }
+
+        public string GetOffset()
+        {
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+                command = "tdrgetoffset\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                if (response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrgetoffset] {response}", FeedBackType = FeedbackType.Info });
+                return response;
+            }
         }
 
         public EthPhyState GetPhyState()
@@ -262,28 +355,25 @@ namespace ADIN.Device.Services
                 if ((hi_abl != "1") || (lp_hi_abl != "1"))
                 {
                     /* One or both sides cannot do HI, therfore must be low*/
-                    return "1.0 Vpk-pk";
+                    return $"{1.0.ToString()} Vpk-pk";
                 }
                 else
                 if ((hi_req == "0") && (lp_hi_req == "0"))
                 {
                     // Both can manage HI, but neither are requesting it
-                    return "1.0 Vpk-pk";
+                    return $"{1.0.ToString()} Vpk-pk";
                 }
                 else
                 {
                     // Both can manage HI, and one or both are requesting it
-                    return "2.4 Vpk-pk";
+                    return $"{2.4.ToString()} Vpk-pk";
                 }
             }
-
-            //throw new NotImplementedException();
         }
 
         public List<string> LocalAdvertisedSpeedList()
         {
             return new List<string>() { "10Base-T1L" };
-            //throw new NotImplementedException();
         }
 
         public string MdioReadCl22(uint regAddress)
@@ -347,6 +437,99 @@ namespace ADIN.Device.Services
                 Debug.WriteLine($"Command:{command.TrimEnd()}");
                 Debug.WriteLine($"Response:{response}");
 
+                return response;
+            }
+        }
+
+        public string PerformCableCalibration(decimal length)
+        {
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+
+                command = $"tdrcablecal {length}\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response);
+                if (res.Count == 1)
+                    response = res[0].ToString();
+
+                if (response == "" || res.Count == 0 || response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = $"[tdrcablecal] {response}", FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrcablecal] NVP={response}", FeedBackType = FeedbackType.Info });
+                return response;
+            }
+        }
+
+        public FaultType PerformFaultDetection()
+        {
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+                FaultType fault = FaultType.None;
+
+                command = $"tdrfaultdet\n";
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response);
+                if (res.Count == 1)
+                {
+                    _faultDistance = res[0];
+                    var faultResult = RegexService.ExtractFaultType(response);
+                    if (faultResult == "open")
+                    {
+                        fault = FaultType.Open;
+                    }
+                    else
+                    {
+                        fault = FaultType.Short;
+                    }
+                }
+                else
+                {
+                    fault = FaultType.None;
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrfaultdet] Fault = {fault.ToString()}", FeedBackType = FeedbackType.Info });
+                return fault;
+            }
+        }
+
+        public string PerformOffsetCalibration()
+        {
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+
+                command = $"tdroffsetcal\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response);
+                if (res.Count == 1)
+                    response = res[0].ToString();
+
+                if (response == "" || res.Count == 0 || response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = $"[tdroffsetcal] {response}", FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdroffsetcal] Offset={response}", FeedBackType = FeedbackType.Info });
                 return response;
             }
         }
@@ -416,6 +599,40 @@ namespace ADIN.Device.Services
             Debug.WriteLine("Restart Auto Negotiation");
         }
 
+        public List<string> SetCoeff(decimal nvp, decimal coeff0, decimal coeffi)
+        {
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+                List<string> coeffs = new List<string>();
+
+                command = $"tdrsetcoeff {nvp},{coeff0},{coeffi}\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response, EXTRACTNUMBER_REGEX);
+                if (res.Count >= 1)
+                {
+                    coeffs.Add(res[0].ToString("f6", CultureInfo.InvariantCulture));
+                    coeffs.Add(res[1].ToString("f6", CultureInfo.InvariantCulture));
+                    coeffs.Add(res[2].ToString("f6", CultureInfo.InvariantCulture));
+                }
+
+                if (response == "" || res.Count == 0)
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = $"[Cable Calibration] {response}", FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException($"[Cable Calibration] {response}");
+                }
+
+                var res1 = RegexService.ExtractNVP(response);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[Cable Calibration] {res1}", FeedBackType = FeedbackType.Info });
+                return coeffs;
+            }
+        }
+
         public void SetFrameCheckerSetting(FrameGenCheckerModel frameContent)
         {
             checkedFrames = 0;
@@ -441,97 +658,6 @@ namespace ADIN.Device.Services
                 WriteYodaRg("FG_EN", 1);
                 isFrameGenCheckerOngoing = true;
                 OnWriteProcessCompleted(new FeedbackModel() { Message = $"- Started transmission of {frameContent.FrameBurst} frames -", FeedBackType = FeedbackType.Info });
-            }
-        }
-
-        private void SetContinuousMode(bool isEnable, uint frameBurst)
-        {
-            if (isEnable)
-            {
-                WriteYodaRg("FG_CONT_MODE_EN", 1);
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frames will be sent continuously until terminated.", FeedBackType = FeedbackType.Info });
-            }
-            else
-            {
-                uint numFramesH = frameBurst / 65536;
-                uint numFramesL = frameBurst - (numFramesH * 65536);
-                WriteYodaRg("FG_NFRM_L", numFramesL);
-                WriteYodaRg("FG_NFRM_H", numFramesH);
-                WriteYodaRg("FG_CONT_MODE_EN", 0);
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Num Frames set to {frameBurst}", FeedBackType = FeedbackType.Info });
-            }
-        }
-
-        private void SetFrameContent(FrameType frameContent)
-        {
-            switch (frameContent)
-            {
-                case FrameType.Random:
-                    WriteYodaRg("FG_CNTRL", 1);
-                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as random", FeedBackType = FeedbackType.Info });
-                    break;
-
-                case FrameType.All0s:
-                    WriteYodaRg("FG_CNTRL", 2);
-                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as all zeros", FeedBackType = FeedbackType.Info });
-                    break;
-
-                case FrameType.All1s:
-                    WriteYodaRg("FG_CNTRL", 3);
-                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as all ones", FeedBackType = FeedbackType.Info });
-                    break;
-
-                case FrameType.Alt10s:
-                    WriteYodaRg("FG_CNTRL", 4);
-                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as alternating 1 0", FeedBackType = FeedbackType.Info });
-                    break;
-
-                case FrameType.Decrement:
-                    WriteYodaRg("FG_CNTRL", 5);
-                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as decrementing byte", FeedBackType = FeedbackType.Info });
-                    break;
-
-                default:
-                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type Not Configured - Use one of  Random / A000s / A111s / Alt10", FeedBackType = FeedbackType.Info });
-                    break;
-            }
-        }
-
-        private void SetFrameLength(uint framLength)
-        {
-            if (framLength <= 0xFFFF)
-            {
-                WriteYodaRg("FG_FRM_LEN", framLength);
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Length set to {framLength}", FeedBackType = FeedbackType.Info });
-            }
-            else
-            {
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Length Not set - value must be less than 65535", FeedBackType = FeedbackType.Info });
-            }
-        }
-
-        private void SetMacAddresses(bool isEnable, string src, string dest)
-        {
-            if (isEnable)
-            {
-                if (src != null)
-                {
-                    WriteYodaRg("FgSa", Convert.ToUInt32(src, 16));
-                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0x{src}", FeedBackType = FeedbackType.Info });
-                }
-
-                if (dest != null)
-                {
-                    WriteYodaRg("FgDa5Emi", Convert.ToUInt32(dest, 16));
-                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Destination MAC Address set to 0x{dest}", FeedBackType = FeedbackType.Info });
-                }
-            }
-            else
-            {
-                WriteYodaRg("FgSa", 0xE1);
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0xE1", FeedBackType = FeedbackType.Info });
-                WriteYodaRg("FgDa5Emi", 0x01);
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0x01", FeedBackType = FeedbackType.Info });
             }
         }
 
@@ -669,6 +795,92 @@ namespace ADIN.Device.Services
             }
         }
 
+        public void SetMode(CalibrationMode mode)
+        {
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+
+                command = $"tdrsetmode {(int)mode}\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response);
+                if (res.Count == 1)
+                    response = res[0].ToString();
+
+                if (response == "" || res.Count == 0)
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = $"[tdrsetmode] {response}", FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
+
+                //OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrsetmode] {response}", FeedBackType = FeedbackType.Info });
+            }
+        }
+
+        public List<string> SetNvp(decimal nvpValue)
+        {
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+                List<string> resList = new List<string>();
+                command = $"tdrsetnvp {nvpValue}\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response);
+                if (res.Count >= 1)
+                {
+                    resList.Add(res[0].ToString());
+                    resList.Add(res[1].ToString());
+                }
+
+                if (response == "" || res.Count == 0 || response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = $"[tdrsetnvp] {response}", FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException(response);
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrsetnvp] {response}", FeedBackType = FeedbackType.Info });
+                return resList;
+            }
+        }
+
+        public string SetOffset(decimal offset)
+        {
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+
+                command = $"tdrsetoffset {offset}\n";
+
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+
+                var res = RegexService.ExtractNumberData(response);
+                if (res.Count == 1)
+                    response = res[0].ToString();
+
+                if (response == "" || res.Count == 0 || response.Contains("ERROR"))
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = $"[tdrsetoffset] {response}", FeedBackType = FeedbackType.Error });
+                    throw new ApplicationException("[Offset Calibration]" + response);
+                }
+
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[Offset Calibration] Offset={response}", FeedBackType = FeedbackType.Info });
+                return response;
+            }
+        }
+
         public void SetTestMode(TestModeListingModel testMode, uint framelength)
         {
             switch (testMode.Name1)
@@ -769,6 +981,43 @@ namespace ADIN.Device.Services
             else
                 WriteYodaRg("CRSM_SFT_PD", 0);
         }
+
+        public void TDRInit()
+        {
+            lock (_mainLock)
+            {
+                string command = string.Empty;
+                string response = string.Empty;
+                try
+                {
+                    command = $"tdrinit\n";
+
+                    _ftdiService.Purge();
+                    _ftdiService.SendData(command);
+                    response = _ftdiService.ReadCommandResponse().Trim();
+
+                    if (response.Contains("ERROR"))
+                        throw new ApplicationException(response);
+
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrinit] TDR Initialized", FeedBackType = FeedbackType.Info });
+                }
+                catch (ApplicationException ex)
+                {
+                    //OnErrorOccured(new FeedbackModel() { Message = ex.Message, FeedBackType = FeedbackType.Error });
+                }
+            }
+        }
+
+        protected virtual void OnFrameGenCheckerStatusChanged(string status)
+        {
+            FrameGenCheckerTextStatusChanged?.Invoke(this, status);
+        }
+
+        protected virtual void OnResetFrameGenCheckerStatisticsChanged(string status)
+        {
+            ResetFrameGenCheckerStatisticsChanged?.Invoke(this, status);
+        }
+
         protected virtual void OnWriteProcessCompleted(FeedbackModel feedback)
         {
             WriteProcessCompleted?.Invoke(this, feedback);
@@ -849,6 +1098,96 @@ namespace ADIN.Device.Services
             return value;
         }
 
+        private void SetContinuousMode(bool isEnable, uint frameBurst)
+        {
+            if (isEnable)
+            {
+                WriteYodaRg("FG_CONT_MODE_EN", 1);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frames will be sent continuously until terminated.", FeedBackType = FeedbackType.Info });
+            }
+            else
+            {
+                uint numFramesH = frameBurst / 65536;
+                uint numFramesL = frameBurst - (numFramesH * 65536);
+                WriteYodaRg("FG_NFRM_L", numFramesL);
+                WriteYodaRg("FG_NFRM_H", numFramesH);
+                WriteYodaRg("FG_CONT_MODE_EN", 0);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Num Frames set to {frameBurst}", FeedBackType = FeedbackType.Info });
+            }
+        }
+
+        private void SetFrameContent(FrameType frameContent)
+        {
+            switch (frameContent)
+            {
+                case FrameType.Random:
+                    WriteYodaRg("FG_CNTRL", 1);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as random", FeedBackType = FeedbackType.Info });
+                    break;
+
+                case FrameType.All0s:
+                    WriteYodaRg("FG_CNTRL", 2);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as all zeros", FeedBackType = FeedbackType.Info });
+                    break;
+
+                case FrameType.All1s:
+                    WriteYodaRg("FG_CNTRL", 3);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as all ones", FeedBackType = FeedbackType.Info });
+                    break;
+
+                case FrameType.Alt10s:
+                    WriteYodaRg("FG_CNTRL", 4);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as alternating 1 0", FeedBackType = FeedbackType.Info });
+                    break;
+
+                case FrameType.Decrement:
+                    WriteYodaRg("FG_CNTRL", 5);
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type configured as decrementing byte", FeedBackType = FeedbackType.Info });
+                    break;
+
+                default:
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Type Not Configured - Use one of  Random / A000s / A111s / Alt10", FeedBackType = FeedbackType.Info });
+                    break;
+            }
+        }
+
+        private void SetFrameLength(uint framLength)
+        {
+            if (framLength <= 0xFFFF)
+            {
+                WriteYodaRg("FG_FRM_LEN", framLength);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Length set to {framLength}", FeedBackType = FeedbackType.Info });
+            }
+            else
+            {
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Frame Length Not set - value must be less than 65535", FeedBackType = FeedbackType.Info });
+            }
+        }
+
+        private void SetMacAddresses(bool isEnable, string src, string dest)
+        {
+            if (isEnable)
+            {
+                if (src != null)
+                {
+                    WriteYodaRg("FgSa", Convert.ToUInt32(src, 16));
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0x{src}", FeedBackType = FeedbackType.Info });
+                }
+
+                if (dest != null)
+                {
+                    WriteYodaRg("FgDa5Emi", Convert.ToUInt32(dest, 16));
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"Destination MAC Address set to 0x{dest}", FeedBackType = FeedbackType.Info });
+                }
+            }
+            else
+            {
+                WriteYodaRg("FgSa", 0xE1);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0xE1", FeedBackType = FeedbackType.Info });
+                WriteYodaRg("FgDa5Emi", 0x01);
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0x01", FeedBackType = FeedbackType.Info });
+            }
+        }
         private RegisterModel SetRegisterValue(string name, uint value)
         {
             RegisterModel register = new RegisterModel();
@@ -911,16 +1250,6 @@ namespace ADIN.Device.Services
             {
                 return MdioWriteCl45(registerAddress, value);
             }
-        }
-
-        protected virtual void OnFrameGenCheckerStatusChanged(string status)
-        {
-            FrameGenCheckerTextStatusChanged?.Invoke(this, status);
-        }
-
-        protected virtual void OnResetFrameGenCheckerStatisticsChanged(string status)
-        {
-            ResetFrameGenCheckerStatisticsChanged?.Invoke(this, status);
         }
     }
 }

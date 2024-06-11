@@ -1,4 +1,5 @@
 ﻿using ADIN.Device.Models;
+using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 using Helper.ReadFile;
@@ -11,14 +12,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace ADIN.WPF.Commands
+namespace ADIN.WPF.Commands.CableDiag
 {
     public class TDRLoadCommand : CommandBase
     {
         private SelectedDeviceStore _selectedDeviceStore;
-        private FaultDetectorViewModel _viewModel;
+        private TimeDomainReflectometryViewModel _viewModel;
 
-        public TDRLoadCommand(FaultDetectorViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
+        public TDRLoadCommand(TimeDomainReflectometryViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
         {
             _viewModel = viewModel;
             _selectedDeviceStore = selectedDeviceStore;
@@ -40,6 +41,8 @@ namespace ADIN.WPF.Commands
 
             try
             {
+                ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+
                 switch ((CalibrateType)Enum.Parse(typeof(CalibrateType), parameter.ToString()))
                 {
                     case CalibrateType.Offset:
@@ -51,7 +54,7 @@ namespace ADIN.WPF.Commands
                             Task.Run(() =>
                             {
                                 values = ReadContent.Read(openFileDialog.FileName);
-                                var res = _selectedDeviceStore.SelectedDevice.FirmwareAPI.SetOffset(Decimal.Parse(values[0], CultureInfo.InvariantCulture));
+                                var res = fwADIN1100API.SetOffset(Decimal.Parse(values[0], CultureInfo.InvariantCulture));
 
                                 Application.Current.Dispatcher.Invoke(() =>
                                 {
@@ -76,8 +79,8 @@ namespace ADIN.WPF.Commands
                                 var nvp = Decimal.Parse(values[0], CultureInfo.InvariantCulture);
                                 var coeff0 = Decimal.Parse(values[0], CultureInfo.InvariantCulture);
                                 var coeffi = Decimal.Parse(values[0], CultureInfo.InvariantCulture);
-                                var res = _selectedDeviceStore.SelectedDevice.FirmwareAPI.SetCoeff(nvp, coeff0, coeffi);
-                                _selectedDeviceStore.SelectedDevice.FirmwareAPI.SetMode(CalibrationMode.Optimized);
+                                var res = fwADIN1100API.SetCoeff(nvp, coeff0, coeffi);
+                                fwADIN1100API.SetMode(CalibrationMode.Optimized);
 
                                 Application.Current.Dispatcher.Invoke(() =>
                                 {
