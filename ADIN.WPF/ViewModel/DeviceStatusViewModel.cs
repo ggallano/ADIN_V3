@@ -34,7 +34,7 @@ namespace ADIN.WPF.ViewModel
         private bool _isVisibleSpeedList = true;
         private string _linkLength;
         private string _linkStatus = "-";
-        private List<string> _localAdvertisedSpeeds = new List<string>();
+        private List<string> _localAdvertisedSpeeds = new List<string>() { "" };
         private string _masterSlaveStatus = "-";
         private string _mseValue = "-";
         private BackgroundWorker _readRegisterWorker;
@@ -67,13 +67,17 @@ namespace ADIN.WPF.ViewModel
                     return _localAdvertisedSpeeds[0];
 
                 if (_selectedDevice?.DeviceType == BoardType.ADIN1200 || _selectedDevice?.DeviceType == BoardType.ADIN1300)
-                    foreach (var speed in _advertisedSpeedList)
+                {
+                    List<string> matchingSpeed = 
+                        (from localSpeed in _localAdvertisedSpeeds
+                        where (localSpeed != "") && _remoteAdvertisedSpeeds.Contains(localSpeed)
+                        select localSpeed).ToList();
+
+                    if (matchingSpeed.Count > 0)
                     {
-                        if (_localAdvertisedSpeeds.Contains(speed) && _remoteAdvertisedSpeeds.Contains(speed))
-                        {
-                            return speed;
-                        }
+                        return matchingSpeed[0];
                     }
+                }
 
                 return "-";
             }
@@ -342,6 +346,9 @@ namespace ADIN.WPF.ViewModel
                 catch (NotImplementedException)
                 {
                     _selectedDeviceStore.OnViewModelFeedbackLog("This function is not implemented for this board.", Helper.Feedback.FeedbackType.Info);
+                }
+                catch (FormatException)
+                {
                 }
 
                 e.Result = "Done";

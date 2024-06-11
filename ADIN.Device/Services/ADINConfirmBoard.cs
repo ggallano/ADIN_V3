@@ -34,7 +34,7 @@ namespace ADIN.Device.Services
 
         public static ADINDevice GetADINBoard(string BoardName, IFTDIServices ftdtService, IRegisterService _registerService, object mainLock)
         {
-            if (BoardName == "EVAL-ADIN1100EBZ" || BoardName == "EVAL-ADIN1100FMCZ" || BoardName == "DEMO-ADIN1100-DIZ")
+            if (BoardName == "EVAL-ADIN1100EBZ" || BoardName == "EVAL-ADIN1100FMCZ" || BoardName == "DEMO-ADIN1100-DIZ" || BoardName == "DEMO-ADIN1100D2Z")
             {
                 return new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock));
             }
