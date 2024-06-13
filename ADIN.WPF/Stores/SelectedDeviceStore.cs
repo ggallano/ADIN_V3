@@ -16,13 +16,14 @@ namespace ADIN.WPF.Stores
         public event Action<string> FrameGenCheckerStatusChanged;
         public event Action RegisterListingValueChanged;
         public event Action<string> LinkStatusChanged;
-        public event Action<LoopBackMode> LoopbackChanged;
-        public event Action<LoopbackModel> LoopbackStateChanged;
+        //public event Action<LoopBackMode> LoopbackChanged;
+        //public event Action<LoopbackModel> LoopbackStateChanged;
         public event Action SelectedDeviceChanged;
         public event Action<string> SoftwarePowerDownChanged;
         public event Action<FeedbackModel> ProcessCompleted;
-        public event Action<FeedbackModel> ErrorOccured;
+        //public event Action<FeedbackModel> ErrorOccured;
         public event Action<FeedbackModel> ViewModelErrorOccured;
+        public event Action<bool> TDRStatusChanged;
 
         public ADINDevice SelectedDevice
         {
@@ -36,6 +37,7 @@ namespace ADIN.WPF.Stores
                     _selectedDevice.FwAPI.ResetFrameGenCheckerStatisticsChanged -= FirmwareAPI_ResetFrameGenCheckerStatisticsChanged;
                     //_selectedDevice.FwAPI.ErrorOccured -= FirmwareAPI_ErrorOccured;
                     _selectedDevice.FwAPI.FrameContentChanged -= FirmwareAPI_FrameContentChanged;
+                    _selectedDevice.FwAPI.TDRStatusChanged -= FwAPI_TDRStatusChanged;
                 }
 
                 if(value != null)
@@ -46,6 +48,7 @@ namespace ADIN.WPF.Stores
                     _selectedDevice.FwAPI.ResetFrameGenCheckerStatisticsChanged += FirmwareAPI_ResetFrameGenCheckerStatisticsChanged;
                     //_selectedDevice.FwAPI.ErrorOccured += FirmwareAPI_ErrorOccured;
                     _selectedDevice.FwAPI.FrameContentChanged += FirmwareAPI_FrameContentChanged;
+                    _selectedDevice.FwAPI.TDRStatusChanged += FwAPI_TDRStatusChanged;
                     SelectedDeviceChanged?.Invoke();
                 }
 
@@ -55,6 +58,11 @@ namespace ADIN.WPF.Stores
                     SelectedDeviceChanged?.Invoke();
                 }
             }
+        }
+
+        private void FwAPI_TDRStatusChanged(object sender, bool status)
+        {
+            TDRStatusChanged?.Invoke(status);
         }
 
         public void OnRegistersValueChanged()

@@ -42,7 +42,7 @@ namespace ADIN.WPF.Commands.CableDiag
                     _viewModel.BusyContent = "Software Reset";
                 }));
                 _selectedDeviceStore.SelectedDevice.FwAPI.ResetPhy(ResetType.Phy);
-                Thread.Sleep(1000);
+                Thread.Sleep(1500);
 
                 try
                 {
@@ -52,7 +52,7 @@ namespace ADIN.WPF.Commands.CableDiag
                     {
                         _viewModel.BusyContent = "Running TDR";
                     }));
-                    Thread.Sleep(250);
+                    Thread.Sleep(1000);
 
                     fault = fwADIN1100API.PerformFaultDetection();
                     Application.Current.Dispatcher.Invoke(() =>

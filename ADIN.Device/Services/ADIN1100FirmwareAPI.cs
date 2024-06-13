@@ -53,13 +53,15 @@ namespace ADIN.Device.Services
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
 
+        public event EventHandler<bool> TDRStatusChanged;
+
         public BoardRevision boardRev { get; set; }
 
         public bool isFrameGenCheckerOngoing { get; set; }
 
-        public static BoardRevision GetRevNum()
+        public static BoardRevision GetRevNum(uint register)
         {
-            var value = fwAPI.ReadYodaRg(Convert.ToUInt32(0x1E0003));
+            var value = fwAPI.ReadYodaRg(Convert.ToUInt32(register));
             var revNum = Convert.ToUInt32(value, 16) & 0x03;
 
             switch (revNum)
@@ -480,6 +482,7 @@ namespace ADIN.Device.Services
                 command = $"tdrfaultdet\n";
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
+                TDRStatusChanged?.Invoke(this, true);
                 response = _ftdiService.ReadCommandResponse().Trim();
 
                 var res = RegexService.ExtractNumberData(response);
@@ -502,6 +505,7 @@ namespace ADIN.Device.Services
                 }
 
                 OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrfaultdet] Fault = {fault.ToString()}", FeedBackType = FeedbackType.Info });
+                TDRStatusChanged?.Invoke(this, false);
                 return fault;
             }
         }
