@@ -16,8 +16,6 @@ namespace ADIN.Device.Services
 
         event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
 
-        event EventHandler<bool> TDRStatusChanged;
-
         event EventHandler<FeedbackModel> WriteProcessCompleted;
 
         void DisableLinking(bool isDisabledLinking);

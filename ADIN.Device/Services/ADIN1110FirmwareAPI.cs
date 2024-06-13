@@ -13,10 +13,10 @@ using System.Linq;
 
 namespace ADIN.Device.Services
 {
-    public class ADIN1100FirmwareAPI : IADIN1100API
+    public class ADIN1110FirmwareAPI : IADIN1100API
     {
         private const string EXTRACTNUMBER_REGEX = @"(?<=\=)(\d+\.?\d*)";
-        private static ADIN1100FirmwareAPI fwAPI;
+        private static ADIN1110FirmwareAPI fwAPI;
         private bool _autoNegotiationStatus = false;
         private decimal _faultDistance;
         private string _feedbackMessage;
@@ -28,7 +28,8 @@ namespace ADIN.Device.Services
         private TestModeType _testmodeState = TestModeType.Normal;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
-        public ADIN1100FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
+
+        public ADIN1110FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
             _phyAddress = phyAddress;
@@ -37,7 +38,7 @@ namespace ADIN.Device.Services
             fwAPI = this;
         }
 
-        public ADIN1100FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
+        public ADIN1110FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
             _registers = registers;
@@ -389,7 +390,8 @@ namespace ADIN.Device.Services
                 string command = string.Empty;
                 string command2 = string.Empty;
 
-                command = $"mdiord_cl45 {_phyAddress},{regAddress.ToString("X")}\n";
+                //command = $"mdiord_cl45 {_phyAddress},{regAddress.ToString("X")}\n";
+                command = $"phyread {regAddress.ToString("X")}\n";
 
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
@@ -421,7 +423,7 @@ namespace ADIN.Device.Services
                 string response = string.Empty;
                 string command = string.Empty;
 
-                command = $"mdiowr_cl45 {_phyAddress},{regAddress.ToString("X")},{data.ToString("X")}\n";
+                command = $"phywrite {regAddress.ToString("X")},{data.ToString("X")}\n";
 
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);

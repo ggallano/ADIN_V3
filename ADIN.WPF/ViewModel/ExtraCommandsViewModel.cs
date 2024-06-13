@@ -33,7 +33,6 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.SoftwarePowerDownChanged += _selectedDeviceStore_PowerDownStateStatusChanged;
             _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStateStatusChanged;
-            _selectedDeviceStore.TDRStatusChanged += _selectedDeviceStore_TDRStatusChanged;
         }
 
         public ICommand AutoNegCommand { get; set; }
@@ -131,11 +130,6 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(LinkStatus));
             OnPropertyChanged(nameof(IsPoweredUp));
             OnPropertyChanged(nameof(IsADIN1100Board));
-        }
-
-        private void _selectedDeviceStore_TDRStatusChanged(bool status)
-        {
-            Application.Current.Dispatcher.BeginInvoke(new Action(() => { IsPoweredUp = !status; }));
         }
     }
 }
