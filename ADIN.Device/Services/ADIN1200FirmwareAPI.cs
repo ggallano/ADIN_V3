@@ -42,9 +42,6 @@ namespace ADIN.Device.Services
         public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
-
-        public event EventHandler<bool> TDRStatusChanged;
-
         public bool isFrameGenCheckerOngoing { get; set; } = false;
 
         public void AdvertisedForcedSpeed(string advFrcSpd)

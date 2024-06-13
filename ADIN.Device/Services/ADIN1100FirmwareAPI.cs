@@ -53,8 +53,6 @@ namespace ADIN.Device.Services
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
 
-        public event EventHandler<bool> TDRStatusChanged;
-
         public BoardRevision boardRev { get; set; }
 
         public bool isFrameGenCheckerOngoing { get; set; }
@@ -482,7 +480,6 @@ namespace ADIN.Device.Services
                 command = $"tdrfaultdet\n";
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
-                TDRStatusChanged?.Invoke(this, true);
                 response = _ftdiService.ReadCommandResponse().Trim();
 
                 var res = RegexService.ExtractNumberData(response);
