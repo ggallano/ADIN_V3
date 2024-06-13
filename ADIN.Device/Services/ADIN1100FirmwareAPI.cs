@@ -502,7 +502,6 @@ namespace ADIN.Device.Services
                 }
 
                 OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrfaultdet] Fault = {fault.ToString()}", FeedBackType = FeedbackType.Info });
-                TDRStatusChanged?.Invoke(this, false);
                 return fault;
             }
         }
