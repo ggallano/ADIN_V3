@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ADIN1110Model.cs" />
     <Compile Include="Models\ADIN1100Model.cs" />
     <Compile Include="Models\ADIN1100\FrameGenCheckerADIN1100.cs" />
     <Compile Include="Models\ADIN1100\LinkPropertiesADIN1100.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Models\FrameGenCheckerModel.cs" />
     <Compile Include="Models\IADINDevice.cs" />
     <Compile Include="Models\AbstractADINFactory.cs" />
+    <Compile Include="Services\ADIN1110FirmwareAPI.cs" />
     <Compile Include="Services\ITimeDomainReflectometryAPI.cs" />
     <Compile Include="Models\LoopbackModel.cs" />
     <Compile Include="Models\RegisterAccessModel.cs" />
