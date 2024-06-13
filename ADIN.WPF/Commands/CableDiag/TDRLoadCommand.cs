@@ -60,7 +60,6 @@ namespace ADIN.WPF.Commands.CableDiag
                                 {
                                     _viewModel.OffsetValue = Decimal.Parse(res, CultureInfo.InvariantCulture);
                                     _viewModel.OffsetFileName = Path.GetFileName(openFileDialog.FileName);
-                                    _viewModel.OffsetBackgroundBrush = new SolidColorBrush(Color.FromRgb(40, 158, 8));
                                 });
                             });
                         }
@@ -86,7 +85,6 @@ namespace ADIN.WPF.Commands.CableDiag
                                 {
                                     _viewModel.NvpValue = Decimal.Parse(res[0], CultureInfo.InvariantCulture);
                                     _viewModel.CableFileName = Path.GetFileName(openFileDialog.FileName);
-                                    _viewModel.CableBackgroundBrush = new SolidColorBrush(Color.FromRgb(40, 158, 8));
                                 });
                             });
                         }
@@ -101,11 +99,9 @@ namespace ADIN.WPF.Commands.CableDiag
                 switch ((CalibrateType)Enum.Parse(typeof(CalibrateType), parameter.ToString()))
                 {
                     case CalibrateType.Offset:
-                        _viewModel.OffsetBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
                         break;
 
                     case CalibrateType.Cable:
-                        _viewModel.CableBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
                         break;
 
                     default:

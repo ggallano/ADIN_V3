@@ -49,14 +49,15 @@ namespace ADIN.WPF.Commands.CableDiag
                     if (offsetDialog.ShowDialog() == true)
                     {
                         _viewModel.IsOngoingCalibration = true;
+                        _viewModel.IsVisibleOffsetCalibration = false;
 
                         Task.Run(() =>
                         {
-                            Application.Current.Dispatcher.Invoke(() =>
+                            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                             {
                                 _viewModel.BusyContent = "Executing offset calibration.";
-                            });
-                            Thread.Sleep(500);
+                            }));
+                            Thread.Sleep(2000);
 
                             //PerformResetPhy();
                             //Thread.Sleep(1000);
@@ -78,17 +79,19 @@ namespace ADIN.WPF.Commands.CableDiag
                                 result = Decimal.Parse(fwADIN1100API.PerformOffsetCalibration());
                                 //result = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FwAPI.PerformOffsetCalibration());
 
-                                Application.Current.Dispatcher.Invoke(() =>
+                                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                                 {
                                     _viewModel.OffsetValue = result;
-                                    _viewModel.OffsetBackgroundBrush = new SolidColorBrush(Color.FromRgb(40, 158, 8));
-                                });
+                                    _viewModel.OffsetCalibrationMessage = "Calibration Success";
+                                    _viewModel.IsVisibleOffsetCalibration = true;
+                                }));
                             }
                             catch (ApplicationException ex)
                             {
                                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                                 {
-                                    _viewModel.OffsetBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
+                                    _viewModel.OffsetCalibrationMessage = "Calibration Failed";
+                                    _viewModel.IsVisibleOffsetCalibration = true;
                                 }));
                             }
                             finally
@@ -115,13 +118,15 @@ namespace ADIN.WPF.Commands.CableDiag
                     if (cableDialog.ShowDialog() == true)
                     {
                         _viewModel.IsOngoingCalibration = true;
+                        _viewModel.IsVisibleCableCalibration = false;
+
                         Task.Run(() =>
                         {
                             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                             {
                                 _viewModel.BusyContent = "Executing cable calibration.";
                             }));
-                            Thread.Sleep(500);
+                            Thread.Sleep(2000);
 
                             //PerformResetPhy();
                             //Thread.Sleep(1000);
@@ -151,21 +156,22 @@ namespace ADIN.WPF.Commands.CableDiag
                                 Application.Current.Dispatcher.Invoke(() =>
                                 {
                                     _viewModel.NvpValue = result;
-                                    _viewModel.CableBackgroundBrush = new SolidColorBrush(Color.FromRgb(40, 158, 8));
+                                    _viewModel.CableCalibrationMessage = "Calibration Success";
+                                    _viewModel.IsVisibleCableCalibration = true;
                                 });
                             }
                             catch (ApplicationException ex)
                             {
                                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                                 {
-                                    _viewModel.CableBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
+                                    _viewModel.CableCalibrationMessage = "Calibration Failed";
+                                    _viewModel.IsVisibleCableCalibration = true;
                                 }));
                             }
                             catch (Exception ex)
                             {
                                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                                 {
-                                    _viewModel.CableBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
                                     _selectedDeviceStore.OnViewModelErrorOccured($"{ex.Message}");
                                 }));
                             }

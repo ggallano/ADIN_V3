@@ -18,22 +18,22 @@ namespace ADIN.WPF.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var message = value.ToString();
-            if (message.Contains("[Error]"))
+            if (message.Contains("[Error]") || message.Contains("Failed"))
             {
-                return new SolidColorBrush(Colors.Red);
+                return (SolidColorBrush)(new BrushConverter().ConvertFrom("#C81A28"));
             }
 
             if (message.Contains("[Warning]"))
             {
-                return new SolidColorBrush(Colors.Blue);
+                return (SolidColorBrush)(new BrushConverter().ConvertFrom("#E76423"));
             }
 
-            if (message.Contains("[VerboseInfo]"))
+            if (message.Contains("[VerboseInfo]") || message.Contains("Success"))
             {
-                return new SolidColorBrush(Colors.Green);
+                return (SolidColorBrush)(new BrushConverter().ConvertFrom("#2E9E6F"));
             }
 
-            return new SolidColorBrush(Colors.Black);
+            return (SolidColorBrush)(new BrushConverter().ConvertFrom("#101820"));
         }
 
         /// <summary>

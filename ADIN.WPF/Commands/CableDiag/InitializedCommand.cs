@@ -33,8 +33,6 @@ namespace ADIN.WPF.Commands.CableDiag
             fwADIN1100API.TDRInit();
             _viewModel.OffsetValue = Decimal.Parse(fwADIN1100API.GetOffset());
             _viewModel.NvpValue = Decimal.Parse(fwADIN1100API.GetNvp());
-            _viewModel.OffsetBackgroundBrush = new SolidColorBrush(Colors.Transparent);
-            _viewModel.CableBackgroundBrush = new SolidColorBrush(Colors.Transparent);
             _viewModel.CableFileName = "-";
             _viewModel.OffsetFileName = "-";
 

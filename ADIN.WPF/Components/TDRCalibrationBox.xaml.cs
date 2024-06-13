@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using ADIN.Device.Models;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -56,6 +57,66 @@ namespace ADIN.WPF.Components
             set
             {
                 SetValue(CalibrateCommandProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty CalibrateTypeProperty =
+            DependencyProperty.Register("CalibrateType", typeof(CalibrateType), typeof(TDRCalibrationBox));
+
+        public CalibrateType CalibrateType
+        {
+            get
+            {
+                return (CalibrateType)GetValue(CalibrateTypeProperty);
+            }
+            set
+            {
+                SetValue(CalibrateTypeProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty TDRToolTipProperty =
+            DependencyProperty.Register("TDRToolTip", typeof(string), typeof(TDRCalibrationBox));
+
+        public string TDRToolTip
+        {
+            get
+            {
+                return (string)GetValue(TDRToolTipProperty);
+            }
+            set
+            {
+                SetValue(TDRToolTipProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty MessageProperty =
+            DependencyProperty.Register("Message", typeof(string), typeof(TDRCalibrationBox));
+
+        public string Message
+        {
+            get
+            {
+                return (string)GetValue(MessageProperty);
+            }
+            set
+            {
+                SetValue(MessageProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty IsVisibleCalibrationProperty =
+            DependencyProperty.Register("IsVisibleCalibration", typeof(bool), typeof(TDRCalibrationBox));
+
+        public bool IsVisibleCalibration
+        {
+            get
+            {
+                return (bool)GetValue(IsVisibleCalibrationProperty);
+            }
+            set
+            {
+                SetValue(IsVisibleCalibrationProperty, value);
             }
         }
 

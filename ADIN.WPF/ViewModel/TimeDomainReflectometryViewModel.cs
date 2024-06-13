@@ -10,14 +10,18 @@ namespace ADIN.WPF.ViewModel
     {
         private string _busyContent;
         private Brush _cableBackgroundBrush;
+        private string _cableCalibrationMessage;
         private string _cableFileName;
         private string _distToFault;
         private Brush _faultBackgroundBrush = new SolidColorBrush(Colors.LightGray);
         private string _faultState;
         private bool _isFaultVisibility;
         private bool _isOngoingCalibration;
+        private bool _isVisibleCableCalibration = false;
+        private bool _isVisibleOffsetCalibration = false;
         private decimal _nvpValue;
         private Brush _offsetBackgroundBrush;
+        private string _offsetCalibrationMessage;
         private string _offsetFileName;
         private decimal _offsetValue;
         private SelectedDeviceStore _selectedDeviceStore;
@@ -50,15 +54,14 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(BusyContent));
             }
         }
-
-        public Brush CableBackgroundBrush
+        public string CableCalibrationMessage
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.CableBackgroundBrush ?? new SolidColorBrush(Colors.Transparent); }
+            get { return _selectedDevice?.TimeDomainReflectometry.CableCalibrationMessage; }
             set
             {
-                _cableBackgroundBrush = value;
-                _faultDetector.CableBackgroundBrush = value;
-                OnPropertyChanged(nameof(CableBackgroundBrush));
+                _cableCalibrationMessage = value;
+                _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.CableCalibrationMessage = value;
+                OnPropertyChanged(nameof(CableCalibrationMessage));
             }
         }
 
@@ -133,7 +136,29 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsVisibleCableCalibration
+        {
+            get { return _selectedDevice?.TimeDomainReflectometry.IsVisibleCableCalibration == true; }
+            set
+            {
+                _isVisibleCableCalibration = value;
+                _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.IsVisibleCableCalibration = value;
+                OnPropertyChanged(nameof(IsVisibleCableCalibration));
+            }
+        }
+
+        public bool IsVisibleOffsetCalibration
+        {
+            get { return _selectedDevice?.TimeDomainReflectometry.IsVisibleOffsetCalibration == true; }
+            set
+            {
+                _isVisibleOffsetCalibration = value;
+                _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.IsVisibleOffsetCalibration = value;
+                OnPropertyChanged(nameof(IsVisibleOffsetCalibration));
+            }
+        }
         public ICommand LoadCommand { get; set; }
+
         public ICommand ManualCommand { get; set; }
 
         public decimal NvpValue
@@ -150,14 +175,14 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public Brush OffsetBackgroundBrush
+        public string OffsetCalibrationMessage
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.OffsetBackgroundBrush ?? new SolidColorBrush(Colors.Transparent); }
+            get { return _selectedDevice?.TimeDomainReflectometry.OffsetCalibrationMessage; }
             set
             {
-                _offsetBackgroundBrush = value;
-                _faultDetector.OffsetBackgroundBrush = value;
-                OnPropertyChanged(nameof(OffsetBackgroundBrush));
+                _offsetCalibrationMessage = value;
+                _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.OffsetCalibrationMessage = value;
+                OnPropertyChanged(nameof(OffsetCalibrationMessage));
             }
         }
 
@@ -200,8 +225,10 @@ namespace ADIN.WPF.ViewModel
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             OnPropertyChanged(nameof(FaultBackgroundBrush));
-            OnPropertyChanged(nameof(OffsetBackgroundBrush));
-            OnPropertyChanged(nameof(CableBackgroundBrush));
+            OnPropertyChanged(nameof(IsVisibleCableCalibration));
+            OnPropertyChanged(nameof(CableCalibrationMessage));
+            OnPropertyChanged(nameof(IsVisibleOffsetCalibration));
+            OnPropertyChanged(nameof(OffsetCalibrationMessage));
 
             OnPropertyChanged(nameof(OffsetValue));
             OnPropertyChanged(nameof(NvpValue));

@@ -6,11 +6,14 @@
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              xmlns:enum="clr-namespace:ADIN.Device.Models;assembly=ADIN.Device"
              xmlns:local="clr-namespace:ADIN.WPF.Components"
-             
+             xmlns:converter="clr-namespace:ADIN.WPF.Converters"
              mc:Ignorable="d" d:DesignWidth="260" Height="170">
     
     <UserControl.Resources>
         <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="boolvis"/>
+            <converter:BooleanVisibilityConverter x:Key="booleanHiddenConverter" IsInversed="False" IsHidden="True"/>
+            <converter:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
             <Style x:Key="StackPanelStyle" TargetType="{x:Type StackPanel}">
                 <Setter Property="HorizontalAlignment" Value="Center"/>
             </Style>
@@ -39,7 +42,10 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <telerik:RadButton Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Content="Calibrate" Style="{StaticResource FaultDetectorCalibrateButtonStyle}" Width="90" Command="{Binding CalibrateCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}" ToolTip="Perform offset calibration"/>
+                    <StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Orientation="Vertical" VerticalAlignment="Center">
+                        <telerik:RadButton  Content="Calibrate" Style="{StaticResource FaultDetectorCalibrateButtonStyle}" Width="90" Command="{Binding CalibrateCommand}" CommandParameter="{Binding CalibrateType}" ToolTip="{Binding TDRToolTip}"/>
+                        <TextBlock Text="{Binding Message}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}" Style="{StaticResource TextBlockstyle}" FontSize="12" HorizontalAlignment="Center" Visibility="{Binding IsVisibleCalibration, Converter={StaticResource booleanHiddenConverter}}"/>
+                    </StackPanel>
                     <telerik:RadButton Grid.Row="1" Grid.Column="1" Content="Save" Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding SaveCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
                     <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load"  Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding LoadCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
                     <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Style="{StaticResource StackPanelStyle}" HorizontalAlignment="Right">
