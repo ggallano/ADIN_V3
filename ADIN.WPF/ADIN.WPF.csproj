@@ -168,7 +168,6 @@
     <Compile Include="Components\TDRCalibrationBox.xaml.cs">
       <DependentUpon>TDRCalibrationBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Components\TDRCalibrationBoxHelpers.cs" />
     <Compile Include="Components\TDRDiagram.xaml.cs">
       <DependentUpon>TDRDiagram.xaml</DependentUpon>
     </Compile>

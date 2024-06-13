@@ -62,7 +62,12 @@
                     ValueText="NVP: "
                     ValueBox="{Binding NvpValue}"
                     SmallChangeValue="0.01"/>
-                <local:TDRDiagram Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
+                <local:TDRDiagram Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center"
+                    FaultDetectCommand="{Binding FaultDetectCommand}"
+                    IsFaultVisibility="{Binding IsFaultVisibility}"
+                    DistToFault="{Binding DistToFault}"
+                    FaultBackgroundBrush="{Binding FaultBackgroundBrush}"
+                    FaultState="{Binding FaultState}"/>
             </Grid>
         </telerik:RadBusyIndicator>
     </Grid>

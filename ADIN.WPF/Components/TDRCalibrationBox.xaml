@@ -52,7 +52,7 @@
                         <TextBlock Text="{Binding ValueText}" VerticalAlignment="Center" Style="{StaticResource TextBlockstyle}"/>
                         <telerik:RadNumericUpDown Height="24" Width="90" Value="{Binding ValueBox, UpdateSourceTrigger=PropertyChanged}" SmallChange="{Binding SmallChangeValue}"/>
                     </StackPanel>
-                    <telerik:RadButton Grid.Row="3" Grid.Column="1" Content="Ok"  Style="{StaticResource FaultDetectorOkButtonStyle}" Width="70" Command="{Binding ManualCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
+                    <telerik:RadButton Grid.Row="3" Grid.Column="1" Content="Ok" Style="{StaticResource FaultDetectorOkButtonStyle}" Width="70" Command="{Binding ManualCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
                 </Grid>
             </Grid>
         </GroupBox>
