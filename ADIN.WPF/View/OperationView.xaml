@@ -78,9 +78,9 @@
                     <TabItem Header="FrameGenerator/Checker" Style="{StaticResource TabItemStyle}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" MinWidth="500"/>
+                                <ColumnDefinition Width="7*" MinWidth="500"/>
                                 <ColumnDefinition Width="3"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="3*"/>
                             </Grid.ColumnDefinitions>
                             <local:FrameGenCheckerView DataContext="{Binding FrameGenCheckerVM}" Margin="0 0 15 0"/>
                             <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />
