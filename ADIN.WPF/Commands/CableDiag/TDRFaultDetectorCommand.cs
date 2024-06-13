@@ -37,16 +37,20 @@ namespace ADIN.WPF.Commands.CableDiag
             _viewModel.IsOngoingCalibration = true;
             Task.Run(() =>
             {
-                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                if ((_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100)
+                 || (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100_S1))
                 {
-                    _viewModel.BusyContent = "Software Reset";
-                }));
-                _selectedDeviceStore.SelectedDevice.FwAPI.ResetPhy(ResetType.Phy);
-                Thread.Sleep(1500);
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        _viewModel.BusyContent = "Software Reset";
+                    }));
+                    _selectedDeviceStore.SelectedDevice.FwAPI.ResetPhy(ResetType.Phy);
+                    Thread.Sleep(1500);
+                }
 
                 try
                 {
-                    ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                    //ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
 
                     Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                     {
@@ -54,7 +58,17 @@ namespace ADIN.WPF.Commands.CableDiag
                     }));
                     Thread.Sleep(1000);
 
-                    fault = fwADIN1100API.PerformFaultDetection();
+                    if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                    {
+                        ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                        fault = fwADIN1100API.PerformFaultDetection();
+                    }
+                    else
+                    {
+                        ADIN1110FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                        fault = fwADIN1100API.PerformFaultDetection();
+                    }
+
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         switch (fault)
@@ -70,7 +84,16 @@ namespace ADIN.WPF.Commands.CableDiag
 
                                 _viewModel.FaultState = "Open";
                                 _viewModel.FaultBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
-                                _viewModel.DistToFault = fwADIN1100API.GetFaultDistance().ToString();
+                                if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                                {
+                                    ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                                    _viewModel.DistToFault = fwADIN1100API.GetFaultDistance().ToString();
+                                }
+                                else
+                                {
+                                    ADIN1110FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                                    _viewModel.DistToFault = fwADIN1100API.GetFaultDistance().ToString();
+                                }
                                 _viewModel.IsFaultVisibility = true;
 
                                 break;
@@ -78,7 +101,16 @@ namespace ADIN.WPF.Commands.CableDiag
                             case FaultType.Short:
                                 _viewModel.FaultState = "Short";
                                 _viewModel.FaultBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
-                                _viewModel.DistToFault = fwADIN1100API.GetFaultDistance().ToString();
+                                if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                                {
+                                    ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                                    _viewModel.DistToFault = fwADIN1100API.GetFaultDistance().ToString();
+                                }
+                                else
+                                {
+                                    ADIN1110FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                                    _viewModel.DistToFault = fwADIN1100API.GetFaultDistance().ToString();
+                                }
                                 _viewModel.IsFaultVisibility = true;
                                 break;
 
