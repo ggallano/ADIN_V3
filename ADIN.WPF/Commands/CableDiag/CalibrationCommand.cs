@@ -75,8 +75,17 @@ namespace ADIN.WPF.Commands.CableDiag
 
                             try
                             {
-                                ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                                result = Decimal.Parse(fwADIN1100API.PerformOffsetCalibration());
+                                if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                                {
+                                    ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                                    result = Decimal.Parse(fwADIN1100API.PerformOffsetCalibration());
+                                }
+                                else
+                                {
+                                    ADIN1110FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                                    result = Decimal.Parse(fwADIN1100API.PerformOffsetCalibration());
+                                }
+
                                 //result = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FwAPI.PerformOffsetCalibration());
 
                                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
@@ -149,8 +158,16 @@ namespace ADIN.WPF.Commands.CableDiag
                                     cableLengthInput = Convert.ToDecimal(cableDialog.txtCableLength.Value);
                                 });
 
-                                ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                                result = Decimal.Parse(fwADIN1100API.PerformCableCalibration(cableLengthInput));
+                                if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                                {
+                                    ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                                    result = Decimal.Parse(fwADIN1100API.PerformCableCalibration(cableLengthInput));
+                                }
+                                else
+                                {
+                                    ADIN1110FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                                    result = Decimal.Parse(fwADIN1100API.PerformCableCalibration(cableLengthInput));
+                                }
                                 //result = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FwAPI.PerformCableCalibration(cableLengthInput));
 
                                 Application.Current.Dispatcher.Invoke(() =>

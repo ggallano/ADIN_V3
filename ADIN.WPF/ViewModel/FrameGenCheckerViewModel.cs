@@ -99,7 +99,7 @@ namespace ADIN.WPF.ViewModel
 
         public double FrameBurst_Slider
         {
-            get 
+            get
             {
                 double frameBurstSlider = 8 * Math.Log((_frameGenChecker?.FrameBurst ?? 1) + 1) / Math.Log(2);
                 return frameBurstSlider;
@@ -108,7 +108,7 @@ namespace ADIN.WPF.ViewModel
             {
                 if (_selectedDeviceStore.SelectedDevice != null)
                 {
-                    _frameBurst = Convert.ToUInt32(Math.Pow(2,value/8) - 1);
+                    _frameBurst = Convert.ToUInt32(Math.Pow(2, value / 8) - 1);
                     _frameGenChecker.FrameBurst = _frameBurst;
                 }
                 OnPropertyChanged(nameof(FrameBurst_Slider));
@@ -139,18 +139,23 @@ namespace ADIN.WPF.ViewModel
             {
                 if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1100FirmwareAPI)
                 {
-                    ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                    return fwADIN1100API.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+                    ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                    return fwAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+                }
+                else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1110FirmwareAPI)
+                {
+                    ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                    return fwAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
                 }
                 else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1200FirmwareAPI)
                 {
-                    ADIN1200FirmwareAPI fwADIN1200API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
-                    return fwADIN1200API.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+                    ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
+                    return fwAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
                 }
                 else /*(_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1300FirmwareAPI fwADIN1300API)*/
                 {
-                    ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice?.FwAPI as ADIN1300FirmwareAPI;
-                    return fwADIN1300API?.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+                    ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice?.FwAPI as ADIN1300FirmwareAPI;
+                    return fwAPI?.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
                 }
                 //return _selectedDeviceStore.SelectedDevice?.FwAPI.isFrameGenCheckerOngoing ==  true ? "Terminate" : "Generate";
             }
@@ -178,7 +183,7 @@ namespace ADIN.WPF.ViewModel
             {
                 if (_selectedDeviceStore.SelectedDevice != null)
                 {
-                    _frameLength = Convert.ToUInt32(Math.Pow(2,value/16) - 1);
+                    _frameLength = Convert.ToUInt32(Math.Pow(2, value / 16) - 1);
                     _frameGenChecker.FrameLength = _frameLength;
                 }
                 OnPropertyChanged(nameof(FrameLength_Slider));
@@ -203,7 +208,12 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsADIN1100Board
         {
-            get { return (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100) || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1); }
+            get
+            {
+                return (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100)
+                  || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1)
+                  || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110);
+            }
         }
 
         public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
@@ -243,7 +253,7 @@ namespace ADIN.WPF.ViewModel
         }
 
         public string SrcOctet { get; set; }
-        
+
         private IFrameGenChecker _frameGenChecker => _selectedDeviceStore.SelectedDevice?.FrameGenChecker;
 
         protected override void Dispose()

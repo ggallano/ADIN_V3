@@ -65,15 +65,18 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                if ((_selectedDevice?.DeviceType == BoardType.ADIN1100) || (_selectedDevice?.DeviceType == BoardType.ADIN1100_S1))
+                if ((_selectedDevice?.DeviceType == BoardType.ADIN1100)
+                 || (_selectedDevice?.DeviceType == BoardType.ADIN1100_S1)
+                 || (_selectedDevice?.DeviceType == BoardType.ADIN1110))
                     return _localAdvertisedSpeeds[0];
 
-                if (_selectedDevice?.DeviceType == BoardType.ADIN1200 || _selectedDevice?.DeviceType == BoardType.ADIN1300)
+                if (_selectedDevice?.DeviceType == BoardType.ADIN1200
+                 || _selectedDevice?.DeviceType == BoardType.ADIN1300)
                 {
-                    List<string> matchingSpeed = 
+                    List<string> matchingSpeed =
                         (from localSpeed in _localAdvertisedSpeeds
-                        where (localSpeed != "") && _remoteAdvertisedSpeeds.Contains(localSpeed)
-                        select localSpeed).ToList();
+                         where (localSpeed != "") && _remoteAdvertisedSpeeds.Contains(localSpeed)
+                         select localSpeed).ToList();
 
                     if (matchingSpeed.Count > 0)
                     {
@@ -146,12 +149,23 @@ namespace ADIN.WPF.ViewModel
 
         public bool Is1100Visible
         {
-            get { return (_selectedDevice?.DeviceType == BoardType.ADIN1100) || (_selectedDevice?.DeviceType == BoardType.ADIN1100_S1); }
+            get
+            {
+                return (_selectedDevice?.DeviceType == BoardType.ADIN1100)
+                    || (_selectedDevice?.DeviceType == BoardType.ADIN1100_S1)
+                    || (_selectedDevice?.DeviceType == BoardType.ADIN1110);
+            }
         }
 
         public bool IsVisibleSpeedList
         {
-            get { return _speedMode == "Advertised" && ((_selectedDevice?.DeviceType != BoardType.ADIN1100) && (_selectedDevice?.DeviceType != BoardType.ADIN1100_S1)); }
+            get
+            {
+                return _speedMode == "Advertised"
+                    && ((_selectedDevice?.DeviceType != BoardType.ADIN1100)
+                    && (_selectedDevice?.DeviceType != BoardType.ADIN1100_S1)
+                    && (_selectedDevice?.DeviceType != BoardType.ADIN1110));
+            }
         }
 
         public string LinkStatus
@@ -244,6 +258,7 @@ namespace ADIN.WPF.ViewModel
         }
 
         public string PhyAddress => _selectedDeviceStore.SelectedDevice?.PhyAddress.ToString() ?? "-";
+
         public List<string> RemoteAdvertisedSpeeds
         {
             get { return _remoteAdvertisedSpeeds; }
@@ -293,6 +308,7 @@ namespace ADIN.WPF.ViewModel
         }
 
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
+
         protected override void Dispose()
         {
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
@@ -330,6 +346,14 @@ namespace ADIN.WPF.ViewModel
                             if (_selectedDevice.FwAPI is ADIN1100FirmwareAPI)
                             {
                                 var fwAPI = _selectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                                AnStatus = fwAPI.GetAnStatus();
+                                MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
+                                TxLevelStatus = fwAPI.GetTxLevelStatus();
+                                MseValue = _selectedDevice.FwAPI.GetMseValue(_selectedDevice.BoardRev);
+                            }
+                            else if (_selectedDevice.FwAPI is ADIN1110FirmwareAPI)
+                            {
+                                var fwAPI = _selectedDevice.FwAPI as ADIN1110FirmwareAPI;
                                 AnStatus = fwAPI.GetAnStatus();
                                 MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
                                 TxLevelStatus = fwAPI.GetTxLevelStatus();
