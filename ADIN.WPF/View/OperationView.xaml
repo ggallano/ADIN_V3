@@ -78,7 +78,7 @@
                     <TabItem Header="FrameGenerator/Checker" Style="{StaticResource TabItemStyle}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" MinWidth="500"/>
+                                <ColumnDefinition Width="2*" MinWidth="500"/>
                                 <ColumnDefinition Width="3"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>

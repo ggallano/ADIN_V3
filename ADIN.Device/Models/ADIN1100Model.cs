@@ -21,7 +21,7 @@ namespace ADIN.Device.Models
 
             FirmwareAPI = new ADIN1100FirmwareAPI(_ftdiService, PhyAddress, mainLock);
 
-            switch (ADIN1100FirmwareAPI.GetRevNum())
+            switch (ADIN1100FirmwareAPI.GetRevNum(0x1E0003))
             {
                 case BoardRevision.Rev0:
                     Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1100_S1.json"));
@@ -46,7 +46,7 @@ namespace ADIN.Device.Models
             GetLinkPropertiesValue();
 
             TestMode = new TestModeADIN1100();
-            //GetTestModeValue();
+            GetTestModeValue();
 
             FrameGenChecker = new FrameGenCheckerADIN1100();
             Loopback = new LoopbackADIN1100();

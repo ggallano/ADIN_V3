@@ -29,7 +29,7 @@ namespace ADIN.WPF.ViewModel
             LogWindowSaveCommand = new LogWindowSaveCommand(this, selectedDeviceStore);
 
             _selectedDeviceStore.ProcessCompleted += _selectedDeviceStore_ProcessCompleted;
-            _selectedDeviceStore.ErrorOccured += _selectedDeviceStore_ErrorOccured;
+            //_selectedDeviceStore.ErrorOccured += _selectedDeviceStore_ErrorOccured;
             _selectedDeviceStore.ViewModelErrorOccured += _selectedDeviceStore_ViewModelErrorOccured;
         }
 

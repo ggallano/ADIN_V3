@@ -33,6 +33,7 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.SoftwarePowerDownChanged += _selectedDeviceStore_PowerDownStateStatusChanged;
             _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStateStatusChanged;
+            _selectedDeviceStore.TDRStatusChanged += _selectedDeviceStore_TDRStatusChanged;
         }
 
         public ICommand AutoNegCommand { get; set; }
@@ -90,11 +91,14 @@ namespace ADIN.WPF.ViewModel
                 }
             }
         }
+
         public ICommand RegisterActionCommand { get; set; }
+
         public ICommand SoftwarePowerDownCommand { get; set; }
+
         public ICommand SubSysPinResetCommand { get; set; }
+
         public ICommand SubSysResetCommand { get; set; }
-        //private IDeviceStatus _deviceStatus => _selectedDeviceStore.SelectedDevice?.DeviceStatus;
 
         protected override void Dispose()
         {
@@ -104,6 +108,7 @@ namespace ADIN.WPF.ViewModel
             base.Dispose();
         }
 
+        //private IDeviceStatus _deviceStatus => _selectedDeviceStore.SelectedDevice?.DeviceStatus;
         private void _selectedDeviceStore_LinkStateStatusChanged(string linkStatus)
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
@@ -119,12 +124,18 @@ namespace ADIN.WPF.ViewModel
                 PowerDownStatus = powerDownStatus;
             }));
         }
+
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             OnPropertyChanged(nameof(PowerDownStatus));
             OnPropertyChanged(nameof(LinkStatus));
             OnPropertyChanged(nameof(IsPoweredUp));
             OnPropertyChanged(nameof(IsADIN1100Board));
+        }
+
+        private void _selectedDeviceStore_TDRStatusChanged(bool status)
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() => { IsPoweredUp = !status; }));
         }
     }
 }
