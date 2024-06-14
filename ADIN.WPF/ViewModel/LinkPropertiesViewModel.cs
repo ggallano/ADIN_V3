@@ -38,7 +38,8 @@ namespace ADIN.WPF.ViewModel
             {
                 return (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100)
                     || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1)
-                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110);
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110)
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111);
             }
         }
 

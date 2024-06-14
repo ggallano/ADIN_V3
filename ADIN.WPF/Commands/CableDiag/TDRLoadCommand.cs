@@ -62,9 +62,14 @@ namespace ADIN.WPF.Commands.CableDiag
                                     ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
                                     result = fwADIN1100API.SetOffset(Decimal.Parse(values[0], CultureInfo.InvariantCulture));
                                 }
-                                else
+                                else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
                                 {
                                     ADIN1110FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                                    result = fwADIN1100API.SetOffset(Decimal.Parse(values[0], CultureInfo.InvariantCulture));
+                                }
+                                else //if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
+                                {
+                                    ADIN2111FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
                                     result = fwADIN1100API.SetOffset(Decimal.Parse(values[0], CultureInfo.InvariantCulture));
                                 }
                                 //var result = fwADIN1100API.SetOffset(Decimal.Parse(values[0], CultureInfo.InvariantCulture));
@@ -97,9 +102,15 @@ namespace ADIN.WPF.Commands.CableDiag
                                     results = fwADIN1100API.SetCoeff(nvp, coeff0, coeffi);
                                     fwADIN1100API.SetMode(CalibrationMode.Optimized);
                                 }
-                                else
+                                else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
                                 {
                                     ADIN1110FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                                    results = fwADIN1100API.SetCoeff(nvp, coeff0, coeffi);
+                                    fwADIN1100API.SetMode(CalibrationMode.Optimized);
+                                }
+                                else //if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
+                                {
+                                    ADIN2111FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
                                     results = fwADIN1100API.SetCoeff(nvp, coeff0, coeffi);
                                     fwADIN1100API.SetMode(CalibrationMode.Optimized);
                                 }

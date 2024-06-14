@@ -16,7 +16,7 @@ namespace ADIN.Device.Services
             "DEMO-ADIN1100D2Z",
 
             "EVAL-ADIN1110EBZ",
-            //"EVAL-ADIN2111EBZ",
+            "EVAL-ADIN2111EBZ",
 
             "ADIN1300 MDIO DONGLE",
             "EVAL-ADIN1300",
@@ -45,6 +45,11 @@ namespace ADIN.Device.Services
             if (BoardName == "EVAL-ADIN1110EBZ")
             {
                 return new ADINDevice(new ADIN1110Model(ftdtService, _registerService, mainLock));
+            }
+
+            if (BoardName == "EVAL-ADIN2111EBZ")
+            {
+                return new ADINDevice(new ADIN2111Model(ftdtService, _registerService, mainLock));
             }
 
             if (BoardName == "EVAL-ADIN1300" 

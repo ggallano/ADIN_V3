@@ -39,6 +39,11 @@ namespace ADIN.WPF.Commands
                 ADIN1110FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
                 fwADIN1100API.SetLoopbackSetting(remoteLoopback, false, false);
             }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
+            {
+                ADIN2111FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+                fwADIN1100API.SetLoopbackSetting(remoteLoopback, false, false);
+            }
             else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
             {
                 ADIN1200FirmwareAPI fwADIN1200API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;

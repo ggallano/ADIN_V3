@@ -90,7 +90,8 @@ namespace ADIN.WPF.ViewModel
                 return;
 
             if ((_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100)
-             || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110))
+             || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110)
+             || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111))
                 IsCableDiagVisible = true;
             else
                 IsCableDiagVisible = false;
