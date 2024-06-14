@@ -1,6 +1,8 @@
 ﻿using ADIN.WPF.Commands;
 using ADIN.WPF.Service;
 using ADIN.WPF.Stores;
+using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace ADIN.WPF.ViewModel
@@ -13,6 +15,7 @@ namespace ADIN.WPF.ViewModel
         private string _readOutput = string.Empty;
         private string _writeInput = string.Empty;
         private string _writeValue = string.Empty;
+        private bool _isOnGoingCalibration = false;
 
         public RegisterAccessViewModel(SelectedDeviceStore selectedDeviceStore, NavigationStore navigationStore)
         {
@@ -23,6 +26,7 @@ namespace ADIN.WPF.ViewModel
             WriteRegisterCommand = new WriteRegisterCommand(this, selectedDeviceStore);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
         }
 
         public bool IsEnable
@@ -72,6 +76,27 @@ namespace ADIN.WPF.ViewModel
         }
 
         public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+
+        public bool IsOngoingCalibrationStatus
+        {
+            get { return _isOnGoingCalibration; }
+            set
+            {
+                _isOnGoingCalibration = value;
+                OnPropertyChanged(nameof(IsOngoingCalibrationStatus));
+            }
+        }
+
+        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(string onGoingCalibration)
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (onGoingCalibration == "Calibrating")
+                    IsOngoingCalibrationStatus = true;
+                else
+                    IsOngoingCalibrationStatus = false;
+            }));
+        }
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {

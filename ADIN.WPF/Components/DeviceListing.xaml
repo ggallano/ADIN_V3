@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Margin="5">
         <Border Style="{StaticResource BorderSyle}" Margin="-2" Padding="1">
-            <ListView ItemsSource="{Binding DeviceListingItemViewModels}" SelectedItem="{Binding SelectedDeviceListingItemViewModel}" BorderThickness="0">
+            <ListView ItemsSource="{Binding DeviceListingItemViewModels}" SelectedItem="{Binding SelectedDeviceListingItemViewModel}" BorderThickness="0" IsEnabled="{Binding IsNotOngoingCalibrationStatus}">
                 <telerik:RadContextMenu.ContextMenu>
                     <telerik:RadContextMenu>
                         <telerik:RadMenuItem Command="{Binding RefreshCommand}" Header="Refresh" />

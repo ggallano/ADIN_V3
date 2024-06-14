@@ -3,8 +3,10 @@ using ADIN.Device.Models;
 using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
+using System;
 using System.Globalization;
 using System.Threading;
+using System.Windows;
 
 namespace ADIN.WPF.ViewModel
 {
@@ -17,6 +19,8 @@ namespace ADIN.WPF.ViewModel
         private bool _isCableDiagVisible;
 
         private bool _isTestModeSelected = false;
+
+        private bool _isNotOnGoingCalibration = true;
 
         public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore, IRegisterService registerService, object mainLock)
         {
@@ -38,6 +42,7 @@ namespace ADIN.WPF.ViewModel
             TDRVM = new TimeDomainReflectometryViewModel(_selectedDeviceStore, mainLock);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
         }
 
         public ClockPinControlViewModel ClockPinControlVM { get; set; }
@@ -76,6 +81,16 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsNotOngoingCalibrationStatus
+        {
+            get { return _isNotOnGoingCalibration; }
+            set
+            {
+                _isNotOnGoingCalibration = value;
+                OnPropertyChanged(nameof(IsNotOngoingCalibrationStatus));
+            }
+        }
+
         public LinkPropertiesViewModel LinkPropertiesVM { get; set; }
         public LogActivityViewModel LogActivityVM { get; set; }
         public LoopbackViewModel LoopbackVM { get; set; }
@@ -100,6 +115,17 @@ namespace ADIN.WPF.ViewModel
             {
                 IsTestModeSelected = true;
             }
+        }
+
+        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(string onGoingCalibration)
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (onGoingCalibration == "Calibrating")
+                    IsNotOngoingCalibrationStatus = false;
+                else
+                    IsNotOngoingCalibrationStatus = true;
+            }));
         }
 
         public MenuItemViewModel MenuItemVM { get; set; }

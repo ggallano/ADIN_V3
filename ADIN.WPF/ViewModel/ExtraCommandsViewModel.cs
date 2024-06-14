@@ -15,6 +15,7 @@ namespace ADIN.WPF.ViewModel
         private bool _isPoweredUp = false;
         private string _linkStatus = "Disable Linking";
         private string _powerDownStatus = "Software Power Down";
+        private bool _isOnGoingCalibration = false;
         private SelectedDeviceStore _selectedDeviceStore;
 
         public ExtraCommandsViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
@@ -33,6 +34,7 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.SoftwarePowerDownChanged += _selectedDeviceStore_PowerDownStateStatusChanged;
             _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStateStatusChanged;
+            _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
         }
 
         public ICommand AutoNegCommand { get; set; }
@@ -94,6 +96,16 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsOngoingCalibrationStatus
+        {
+            get { return _isOnGoingCalibration; }
+            set
+            {
+                _isOnGoingCalibration = value;
+                OnPropertyChanged(nameof(IsOngoingCalibrationStatus));
+            }
+        }
+
         public ICommand RegisterActionCommand { get; set; }
 
         public ICommand SoftwarePowerDownCommand { get; set; }
@@ -107,6 +119,8 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.SoftwarePowerDownChanged -= _selectedDeviceStore_PowerDownStateStatusChanged;
             _selectedDeviceStore.LinkStatusChanged -= _selectedDeviceStore_LinkStateStatusChanged;
+            _selectedDeviceStore.OnGoingCalibrationStatusChanged -= _selectedDeviceStore_OnGoingCalibrationStatusChanged;
+
             base.Dispose();
         }
 
@@ -124,6 +138,17 @@ namespace ADIN.WPF.ViewModel
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 PowerDownStatus = powerDownStatus;
+            }));
+        }
+
+        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(string onGoingCalibration)
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (onGoingCalibration == "Calibrating")
+                    IsOngoingCalibrationStatus = true;
+                else
+                    IsOngoingCalibrationStatus = false;
             }));
         }
 

@@ -40,6 +40,8 @@ namespace ADIN.WPF.ViewModel
         private object _mainLock;
         private uint _phyAddress;
 
+        private bool _isNotOnGoingCalibration = true;
+
         /// <summary>
         /// creates new instance
         /// </summary>
@@ -73,6 +75,8 @@ namespace ADIN.WPF.ViewModel
             _removeWatcher = new ManagementEventWatcher(_removeQuery);
             _removeWatcher.EventArrived += _removeWatcher_EventArrived;
             _removeWatcher.Start();
+
+            _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
         }
 
         /// <summary>
@@ -292,6 +296,27 @@ namespace ADIN.WPF.ViewModel
                     _deviceListingViewModels.Remove(removeDevice[0]);
                 }));
             }
+        }
+
+        public bool IsNotOngoingCalibrationStatus
+        {
+            get { return _isNotOnGoingCalibration; }
+            set
+            {
+                _isNotOnGoingCalibration = value;
+                OnPropertyChanged(nameof(IsNotOngoingCalibrationStatus));
+            }
+        }
+
+        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(string onGoingCalibration)
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (onGoingCalibration == "Calibrating")
+                    IsNotOngoingCalibrationStatus = false;
+                else
+                    IsNotOngoingCalibrationStatus = true;
+            }));
         }
     }
 }

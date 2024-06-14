@@ -56,7 +56,7 @@ namespace ADIN.WPF.ViewModel
         }
         public string CableCalibrationMessage
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.CableCalibrationMessage; }
+            get { return _selectedDevice?.TimeDomainReflectometry?.CableCalibrationMessage; }
             set
             {
                 _cableCalibrationMessage = value;
@@ -67,7 +67,7 @@ namespace ADIN.WPF.ViewModel
 
         public string CableFileName
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.CableFileName ?? "-"; }
+            get { return _selectedDevice?.TimeDomainReflectometry?.CableFileName ?? "-"; }
             set
             {
                 _cableFileName = value;
@@ -80,7 +80,7 @@ namespace ADIN.WPF.ViewModel
 
         public string DistToFault
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.DistToFault ?? "0.00"; }
+            get { return _selectedDevice?.TimeDomainReflectometry?.DistToFault ?? "0.00"; }
             set
             {
                 _distToFault = value;
@@ -91,7 +91,7 @@ namespace ADIN.WPF.ViewModel
 
         public Brush FaultBackgroundBrush
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.FaultBackgroundBrush ?? new SolidColorBrush(Colors.LightGray); }
+            get { return _selectedDevice?.TimeDomainReflectometry?.FaultBackgroundBrush ?? new SolidColorBrush(Colors.LightGray); }
             set
             {
                 _faultBackgroundBrush = value;
@@ -104,7 +104,7 @@ namespace ADIN.WPF.ViewModel
 
         public string FaultState
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.FaultState ?? ""; }
+            get { return _selectedDevice?.TimeDomainReflectometry?.FaultState ?? ""; }
             set
             {
                 _faultState = value;
@@ -117,7 +117,7 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsFaultVisibility
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.IsFaultVisibility ?? false; }
+            get { return _selectedDevice?.TimeDomainReflectometry?.IsFaultVisibility ?? false; }
             set
             {
                 _isFaultVisibility = value;
@@ -132,13 +132,17 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _isOngoingCalibration = value;
+                if (_isOngoingCalibration)
+                    _selectedDeviceStore.OnOngoingCalibrationStatusChanged("Calibrating");
+                else
+                    _selectedDeviceStore.OnOngoingCalibrationStatusChanged("NotCalibrating");
                 OnPropertyChanged(nameof(IsOngoingCalibration));
             }
         }
 
         public bool IsVisibleCableCalibration
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.IsVisibleCableCalibration == true; }
+            get { return _selectedDevice?.TimeDomainReflectometry?.IsVisibleCableCalibration == true; }
             set
             {
                 _isVisibleCableCalibration = value;
@@ -149,7 +153,7 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsVisibleOffsetCalibration
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.IsVisibleOffsetCalibration == true; }
+            get { return _selectedDevice?.TimeDomainReflectometry?.IsVisibleOffsetCalibration == true; }
             set
             {
                 _isVisibleOffsetCalibration = value;
@@ -177,7 +181,7 @@ namespace ADIN.WPF.ViewModel
 
         public string OffsetCalibrationMessage
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.OffsetCalibrationMessage; }
+            get { return _selectedDevice?.TimeDomainReflectometry?.OffsetCalibrationMessage; }
             set
             {
                 _offsetCalibrationMessage = value;
@@ -188,7 +192,7 @@ namespace ADIN.WPF.ViewModel
 
         public string OffsetFileName
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.OffsetFileName ?? "-"; }
+            get { return _selectedDevice?.TimeDomainReflectometry?.OffsetFileName ?? "-"; }
             set
             {
                 _offsetFileName = value;
@@ -212,7 +216,7 @@ namespace ADIN.WPF.ViewModel
         }
 
         public ICommand SaveCommand { get; set; }
-        private TDRModel _cableDiagnostic => _selectedDevice?.TimeDomainReflectometry.TimeDomainReflectometry;
+        private TDRModel _cableDiagnostic => _selectedDevice?.TimeDomainReflectometry?.TimeDomainReflectometry;
         private ITimeDomainReflectometry _faultDetector => _selectedDevice.TimeDomainReflectometry;
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
 

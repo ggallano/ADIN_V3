@@ -29,7 +29,8 @@ namespace ADIN.WPF.Commands
 
         public override bool CanExecute(object parameter)
         {
-            if (_selectedDeviceStore.SelectedDevice == null)
+            if (_selectedDeviceStore.SelectedDevice == null ||
+                _viewModel.IsOngoingCalibrationStatus)
                 return false;
             return base.CanExecute(parameter);
         }
