@@ -49,6 +49,7 @@ namespace ADIN.Device.Models
             GetInitialValuesLinkProperties();
             GetInitialValuesLoopback();
             GetInitialValuesFrameGenChecker();
+            GetInitialValuesTestMode();
         }
 
         private void GetInitialValuesLinkProperties()
@@ -167,6 +168,103 @@ namespace ADIN.Device.Models
                 FrameGenChecker.FrameContent = FrameGenChecker.FrameContents[3];
             if (FgCntrl == "5")
                 FrameGenChecker.FrameContent = FrameGenChecker.FrameContents[4];
+        }
+
+        private void GetInitialValuesTestMode()
+        {
+            var AutonegEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("AutonegEn") == "1" ? true : false;
+            var SpeedSelMsb = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("SpeedSelMsb") == "1" ? true : false;
+            var SpeedSelLsb = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("SpeedSelLsb") == "1" ? true : false;
+            var AutoMdiEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("AutoMdiEn") == "1" ? true : false;
+            var ManMdix = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("ManMdix") == "1" ? true : false;
+            var LbTxSup = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("LbTxSup") == "1" ? true : false;
+            var LoopbackEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("Loopback") == "1" ? true : false;
+            var LinkEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("LinkEn") == "1" ? true : false;
+            var DiagClkEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("DiagClkEn") == "1" ? true : false;
+            var FgFrmLen = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgFrmLen");
+            var FgContModeEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgContModeEn") == "1" ? true : false;
+            var FgCntrl = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgCntrl");
+            var FgNoHdr = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgNoHdr") == "1" ? true : false;
+            var FgNoFcs = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgNoFcs") == "1" ? true : false;
+            var FgEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgEn") == "1" ? true : false;
+            var B10TxTstMode = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("B10TxTstMode");
+
+            if (!AutonegEn)
+                if (!SpeedSelMsb)
+                    if (SpeedSelLsb)
+                        if (!AutoMdiEn)
+                            if (!ManMdix)
+                                if (LinkEn)
+                                    TestMode.TestMode = TestMode.TestModes[0];
+
+            if (!AutonegEn)
+                if (!SpeedSelMsb)
+                    if (!SpeedSelLsb)
+                        if (!AutoMdiEn)
+                            if (!ManMdix)
+                                if (!LbTxSup)
+                                    if (LoopbackEn)
+                                        if (LinkEn)
+                                            TestMode.TestMode = TestMode.TestModes[1];
+
+            if (!AutonegEn)
+                if (!SpeedSelMsb)
+                    if (!SpeedSelLsb)
+                        if (!AutoMdiEn)
+                            if (!ManMdix)
+                                if (!LbTxSup)
+                                    if (LoopbackEn)
+                                        if (LinkEn)
+                                            if (DiagClkEn)
+                                                if (FgContModeEn)
+                                                    if (FgEn)
+                                                        TestMode.TestMode = TestMode.TestModes[2];
+
+            if (!AutonegEn)
+                if (!SpeedSelMsb)
+                    if (!SpeedSelLsb)
+                        if (!AutoMdiEn)
+                            if (!ManMdix)
+                                if (!LbTxSup)
+                                    if (LoopbackEn)
+                                        if (LinkEn)
+                                            if (DiagClkEn)
+                                                if (FgContModeEn)
+                                                    if (FgCntrl == "3")
+                                                        if (FgNoHdr)
+                                                            if (FgNoFcs)
+                                                                if (FgEn)
+                                                                    TestMode.TestMode = TestMode.TestModes[3];
+
+            if (!AutonegEn)
+                if (!SpeedSelMsb)
+                    if (!SpeedSelLsb)
+                        if (!AutoMdiEn)
+                            if (!ManMdix)
+                                if (!LbTxSup)
+                                    if (LoopbackEn)
+                                        if (LinkEn)
+                                            if (DiagClkEn)
+                                                if (FgContModeEn)
+                                                    if (FgCntrl == "1")
+                                                        if (FgNoHdr)
+                                                            if (FgNoFcs)
+                                                                if (FgEn)
+                                                                    TestMode.TestMode = TestMode.TestModes[4];
+
+            if (B10TxTstMode == "4")
+                TestMode.TestMode = TestMode.TestModes[5];
+
+            if (B10TxTstMode == "2")
+                TestMode.TestMode = TestMode.TestModes[6];
+
+            if (B10TxTstMode == "3")
+                TestMode.TestMode = TestMode.TestModes[7];
+
+            if (B10TxTstMode == "1")
+                TestMode.TestMode = TestMode.TestModes[8];
+
+            TestMode.TestModeFrameLength = Convert.ToUInt32(FgFrmLen);
         }
 
         public override IFirmwareAPI FirmwareAPI { get; set; }
