@@ -433,6 +433,7 @@ namespace ADIN.WPF.ViewModel
         {
             get { return _linkProperties?.SpeedMode == "Forced"; }
         }
+        public List<string> MasterSlaveAdvertises => _linkProperties?.MasterSlaveAdvertises;
         public List<string> MDIXs => _linkProperties?.MDIXs;
 
         public string SelectedEnergyDetectPowerDownMode
@@ -480,6 +481,20 @@ namespace ADIN.WPF.ViewModel
                     //_selectedDeviceStore.SelectedDevice.FwAPI.SetForcedSpeed(value);
                 }
                 OnPropertyChanged(nameof(SelectedForcedSpeed));
+            }
+        }
+
+        public string SelectedMasterSlaveAdvertise
+        {
+            get { return _linkProperties?.MasterSlaveAdvertise; }
+            set
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _linkProperties.MasterSlaveAdvertise = value;
+                    ((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).SetMasterSlave(_linkProperties.MasterSlaveAdvertise);
+                }
+                OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
             }
         }
 
@@ -534,6 +549,20 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public string SelectedTxLevel
+        {
+            get { return _linkProperties?.TxAdvertise; }
+            set
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _linkProperties.TxAdvertise = value;
+                    ((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).SetTxLevel(_linkProperties.TxAdvertise);
+                }
+                OnPropertyChanged(nameof(SelectedTxLevel));
+            }
+        }
+
         public uint SetDownSpeedRetries
         {
             get { return _linkProperties?.DownSpeedRetries ?? 0; }
@@ -556,72 +585,54 @@ namespace ADIN.WPF.ViewModel
         }
 
         public List<string> SpeedModes => _linkProperties?.SpeedModes;
-
-        public List<string> MasterSlaveAdvertises => _linkProperties?.MasterSlaveAdvertises;
-
-        public string SelectedMasterSlaveAdvertise
-        {
-            get { return _linkProperties?.MasterSlaveAdvertise; }
-            set
-            {
-                if (_selectedDeviceStore.SelectedDevice != null)
-                {
-                    _linkProperties.MasterSlaveAdvertise = value;
-                    ((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).SetMasterSlave(_linkProperties.MasterSlaveAdvertise);
-                }
-                OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
-            }
-        }
-
         public List<string> TxLevels => _linkProperties?.TxAdvertises;
-
-        public string SelectedTxLevel
-        {
-            get { return _linkProperties?.TxAdvertise; }
-            set
-            {
-                if (_selectedDeviceStore.SelectedDevice != null)
-                {
-                    _linkProperties.TxAdvertise = value;
-                    ((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).SetTxLevel(_linkProperties.TxAdvertise);
-                }
-                OnPropertyChanged(nameof(SelectedTxLevel));
-            }
-        }
-
         private ILinkProperties _linkProperties => _selectedDeviceStore.SelectedDevice?.LinkProperties;
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
-            OnPropertyChanged(nameof(SpeedModes));
-            OnPropertyChanged(nameof(SelectedSpeedMode));
             OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
             OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
             OnPropertyChanged(nameof(IsForcedSpeedVisible));
-            OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
-            OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
-            OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
-            OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
-            OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
-            OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
-            OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
-            OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
-            OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
-            OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
-            OnPropertyChanged(nameof(SetDownSpeedRetries));
-            OnPropertyChanged(nameof(ForcedSpeeds));
-            OnPropertyChanged(nameof(SelectedForcedSpeed));
-            OnPropertyChanged(nameof(MDIXs));
-            OnPropertyChanged(nameof(SelectedMDIX));
-            OnPropertyChanged(nameof(EnergyDetectPowerDownModes));
-            OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
-            OnPropertyChanged(nameof(SetDownSpeedRetries));
             OnPropertyChanged(nameof(IsDeviceSelected));
             OnPropertyChanged(nameof(IsADIN1100Board));
-            OnPropertyChanged(nameof(MasterSlaveAdvertises));
-            OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
-            OnPropertyChanged(nameof(TxLevels));
-            OnPropertyChanged(nameof(SelectedTxLevel));
+
+            switch (_selectedDeviceStore.SelectedDevice.DeviceType)
+            {
+                case BoardType.ADIN1100_S1:
+                case BoardType.ADIN1100:
+                case BoardType.ADIN1110:
+                case BoardType.ADIN2111:
+                    OnPropertyChanged(nameof(MasterSlaveAdvertises));
+                    OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
+                    OnPropertyChanged(nameof(TxLevels));
+                    OnPropertyChanged(nameof(SelectedTxLevel));
+                    break;
+                case BoardType.ADIN1200:
+                case BoardType.ADIN1300:
+                    OnPropertyChanged(nameof(SpeedModes));
+                    OnPropertyChanged(nameof(SelectedSpeedMode));
+                    OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
+                    OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
+                    OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
+                    OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
+                    OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
+                    OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
+                    OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
+                    OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
+                    OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
+                    OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
+                    OnPropertyChanged(nameof(SetDownSpeedRetries));
+                    OnPropertyChanged(nameof(ForcedSpeeds));
+                    OnPropertyChanged(nameof(SelectedForcedSpeed));
+                    OnPropertyChanged(nameof(MDIXs));
+                    OnPropertyChanged(nameof(SelectedMDIX));
+                    OnPropertyChanged(nameof(EnergyDetectPowerDownModes));
+                    OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
+                    OnPropertyChanged(nameof(SetDownSpeedRetries));
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
