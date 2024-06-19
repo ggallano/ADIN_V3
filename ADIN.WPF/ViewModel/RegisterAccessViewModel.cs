@@ -15,7 +15,7 @@ namespace ADIN.WPF.ViewModel
         private string _readOutput = string.Empty;
         private string _writeInput = string.Empty;
         private string _writeValue = string.Empty;
-        private bool _isOnGoingCalibration = false;
+        private bool _disableButton = false;
 
         public RegisterAccessViewModel(SelectedDeviceStore selectedDeviceStore, NavigationStore navigationStore)
         {
@@ -77,24 +77,21 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
 
-        public bool IsOngoingCalibrationStatus
+        public bool DisableButton
         {
-            get { return _isOnGoingCalibration; }
+            get { return _disableButton; }
             set
             {
-                _isOnGoingCalibration = value;
-                OnPropertyChanged(nameof(IsOngoingCalibrationStatus));
+                _disableButton = value;
+                OnPropertyChanged(nameof(DisableButton));
             }
         }
 
-        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(string onGoingCalibration)
+        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                if (onGoingCalibration == "Calibrating")
-                    IsOngoingCalibrationStatus = true;
-                else
-                    IsOngoingCalibrationStatus = false;
+                DisableButton = onGoingCalibrationStatus;
             }));
         }
 

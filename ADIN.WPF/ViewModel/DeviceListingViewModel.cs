@@ -40,7 +40,7 @@ namespace ADIN.WPF.ViewModel
         private object _mainLock;
         private uint _phyAddress;
 
-        private bool _isNotOnGoingCalibration = true;
+        private bool _enableSelectDevice = true;
 
         /// <summary>
         /// creates new instance
@@ -134,6 +134,9 @@ namespace ADIN.WPF.ViewModel
         {
             _insertWatcher.EventArrived -= _insertWatcher_EventArrived;
             _removeWatcher.EventArrived -= _removeWatcher_EventArrived;
+
+            _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
+
             base.Dispose();
         }
 
@@ -298,24 +301,21 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public bool IsNotOngoingCalibrationStatus
+        public bool EnableSelectDevice
         {
-            get { return _isNotOnGoingCalibration; }
+            get { return _enableSelectDevice; }
             set
             {
-                _isNotOnGoingCalibration = value;
-                OnPropertyChanged(nameof(IsNotOngoingCalibrationStatus));
+                _enableSelectDevice = value;
+                OnPropertyChanged(nameof(EnableSelectDevice));
             }
         }
 
-        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(string onGoingCalibration)
+        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                if (onGoingCalibration == "Calibrating")
-                    IsNotOngoingCalibrationStatus = false;
-                else
-                    IsNotOngoingCalibrationStatus = true;
+                EnableSelectDevice = !onGoingCalibrationStatus;
             }));
         }
     }

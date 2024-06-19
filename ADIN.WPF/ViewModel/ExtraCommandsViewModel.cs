@@ -119,7 +119,7 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.SoftwarePowerDownChanged -= _selectedDeviceStore_PowerDownStateStatusChanged;
             _selectedDeviceStore.LinkStatusChanged -= _selectedDeviceStore_LinkStateStatusChanged;
-            //_selectedDeviceStore.OnGoingCalibrationStatusChanged -= _selectedDeviceStore_OnGoingCalibrationStatusChanged;
+            _selectedDeviceStore.OnGoingCalibrationStatusChanged -= _selectedDeviceStore_OnGoingCalibrationStatusChanged;
 
             base.Dispose();
         }

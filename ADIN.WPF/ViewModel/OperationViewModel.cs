@@ -20,7 +20,7 @@ namespace ADIN.WPF.ViewModel
 
         private bool _isTestModeSelected = false;
 
-        private bool _isNotOnGoingCalibration = true;
+        private bool _enableTabs = true;
 
         public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore, IRegisterService registerService, object mainLock)
         {
@@ -81,13 +81,13 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public bool IsNotOngoingCalibrationStatus
+        public bool EnableTabs
         {
-            get { return _isNotOnGoingCalibration; }
+            get { return _enableTabs; }
             set
             {
-                _isNotOnGoingCalibration = value;
-                OnPropertyChanged(nameof(IsNotOngoingCalibrationStatus));
+                _enableTabs = value;
+                OnPropertyChanged(nameof(EnableTabs));
             }
         }
 
@@ -117,14 +117,11 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(string onGoingCalibration)
+        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                if (onGoingCalibration == "Calibrating")
-                    IsNotOngoingCalibrationStatus = false;
-                else
-                    IsNotOngoingCalibrationStatus = true;
+                EnableTabs = !onGoingCalibrationStatus;
             }));
         }
 
