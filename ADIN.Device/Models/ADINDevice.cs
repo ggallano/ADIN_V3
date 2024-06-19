@@ -11,12 +11,13 @@ namespace ADIN.Device.Models
         public ADINDevice(AbstractADINFactory device)
         {
             Device = device;
+            PhyAddress = device.PhyAddress;
         }
 
         public string SerialNumber => Device.SerialNumber;
         public string BoardName => Device.BoardName;
         public BoardRevision BoardRev => Device.BoardRev;
-        public uint PhyAddress => Device.PhyAddress;
+        public uint PhyAddress { get; set; }
         public List<string> AdvertisedSpeeds => Device.AdvertisedSpeeds;
         public BoardType DeviceType => Device.DeviceType;
         public IFirmwareAPI FwAPI => Device.FirmwareAPI;

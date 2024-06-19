@@ -257,7 +257,18 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public string PhyAddress => _selectedDeviceStore.SelectedDevice?.PhyAddress.ToString() ?? "-";
+        //public string PhyAddress => _selectedDeviceStore.SelectedDevice?.PhyAddress.ToString() ?? "-";
+
+        public uint PhyAddress
+        {
+            get { return _selectedDeviceStore.SelectedDevice.PhyAddress; }
+            set
+            {
+                _selectedDeviceStore.SelectedDevice.PhyAddress = value;
+                OnPropertyChanged(nameof(PhyAddress));
+            }
+        }
+
 
         public List<string> RemoteAdvertisedSpeeds
         {
