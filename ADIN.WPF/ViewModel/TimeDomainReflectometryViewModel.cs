@@ -228,6 +228,10 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            if ((_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1200)
+             || (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1300))
+                return;
+
             OnPropertyChanged(nameof(FaultBackgroundBrush));
             OnPropertyChanged(nameof(IsVisibleCableCalibration));
             OnPropertyChanged(nameof(CableCalibrationMessage));
