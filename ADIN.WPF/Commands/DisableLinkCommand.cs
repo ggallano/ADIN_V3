@@ -26,7 +26,7 @@ namespace ADIN.WPF.Commands
         {
             if (_selectedDeviceStore.SelectedDevice == null ||
                 !_extraCommandsViewModel.IsPoweredUp ||
-                _extraCommandsViewModel.IsOngoingCalibrationStatus)
+                _extraCommandsViewModel.DisableButton)
                 return false;
             return base.CanExecute(parameter);
         }

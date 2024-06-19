@@ -30,7 +30,7 @@ namespace ADIN.WPF.Commands
         public override bool CanExecute(object parameter)
         {
             if (_selectedDeviceStore.SelectedDevice == null ||
-                _viewModel.IsOngoingCalibrationStatus)
+                _viewModel.DisableButton)
                 return false;
             return base.CanExecute(parameter);
         }
