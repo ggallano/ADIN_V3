@@ -1,4 +1,5 @@
 ﻿using ADIN.Device.Models;
+using ADIN.Device.Services;
 using ADIN.WPF.Components;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
@@ -8,15 +9,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace ADIN.WPF.Commands
+namespace ADIN.WPF.Commands.CableDiag
 {
     public class CalibrationCommand : CommandBase
     {
         private SelectedDeviceStore _selectedDeviceStore;
         private object _thisLock;
-        private FaultDetectorViewModel _viewModel;
+        private TimeDomainReflectometryViewModel _viewModel;
 
-        public CalibrationCommand(FaultDetectorViewModel viewModel, SelectedDeviceStore selectedDeviceStore, object thisLock)
+        public CalibrationCommand(TimeDomainReflectometryViewModel viewModel, SelectedDeviceStore selectedDeviceStore, object thisLock)
         {
             _viewModel = viewModel;
             _selectedDeviceStore = selectedDeviceStore;
@@ -25,7 +26,7 @@ namespace ADIN.WPF.Commands
             _viewModel.PropertyChanged += _viewModel_PropertyChanged;
         }
 
-        private TDRModel _cablediagnostic => _selectedDeviceStore.SelectedDevice.FaultDetector.CableDiagnostics;
+        private TDRModel _cablediagnostic => _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.TimeDomainReflectometry;
 
         public override bool CanExecute(object parameter)
         {
@@ -48,23 +49,24 @@ namespace ADIN.WPF.Commands
                     if (offsetDialog.ShowDialog() == true)
                     {
                         _viewModel.IsOngoingCalibration = true;
+                        _viewModel.IsVisibleOffsetCalibration = false;
 
                         Task.Run(() =>
                         {
-                            Application.Current.Dispatcher.Invoke(() =>
+                            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                             {
                                 _viewModel.BusyContent = "Executing offset calibration.";
-                            });
-                            Thread.Sleep(500);
+                            }));
+                            Thread.Sleep(2000);
 
-                            PerformResetPhy();
-                            Thread.Sleep(1000);
+                            //PerformResetPhy();
+                            //Thread.Sleep(1000);
 
-                            CheckLoopbackState();
-                            Thread.Sleep(250);
+                            //CheckLoopbackState();
+                            //Thread.Sleep(250);
 
-                            CheckTestModeState();
-                            Thread.Sleep(250);
+                            //CheckTestModeState();
+                            //Thread.Sleep(250);
 
                             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                             {
@@ -73,18 +75,32 @@ namespace ADIN.WPF.Commands
 
                             try
                             {
-                                result = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FirmwareAPI.PerformOffsetCalibration());
-                                Application.Current.Dispatcher.Invoke(() =>
+                                if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                                {
+                                    ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                                    result = Decimal.Parse(fwADIN1100API.PerformOffsetCalibration());
+                                }
+                                else
+                                {
+                                    ADIN1110FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                                    result = Decimal.Parse(fwADIN1100API.PerformOffsetCalibration());
+                                }
+
+                                //result = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FwAPI.PerformOffsetCalibration());
+
+                                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                                 {
                                     _viewModel.OffsetValue = result;
-                                    _viewModel.OffsetBackgroundBrush = new SolidColorBrush(Color.FromRgb(40, 158, 8));
-                                });
+                                    _viewModel.OffsetCalibrationMessage = "Calibration Success";
+                                    _viewModel.IsVisibleOffsetCalibration = true;
+                                }));
                             }
                             catch (ApplicationException ex)
                             {
                                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                                 {
-                                    _viewModel.OffsetBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
+                                    _viewModel.OffsetCalibrationMessage = "Calibration Failed";
+                                    _viewModel.IsVisibleOffsetCalibration = true;
                                 }));
                             }
                             finally
@@ -111,22 +127,24 @@ namespace ADIN.WPF.Commands
                     if (cableDialog.ShowDialog() == true)
                     {
                         _viewModel.IsOngoingCalibration = true;
+                        _viewModel.IsVisibleCableCalibration = false;
+
                         Task.Run(() =>
                         {
                             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                             {
                                 _viewModel.BusyContent = "Executing cable calibration.";
                             }));
-                            Thread.Sleep(500);
+                            Thread.Sleep(2000);
 
-                            PerformResetPhy();
-                            Thread.Sleep(1000);
+                            //PerformResetPhy();
+                            //Thread.Sleep(1000);
 
-                            CheckLoopbackState();
-                            Thread.Sleep(250);
+                            //CheckLoopbackState();
+                            //Thread.Sleep(250);
 
-                            CheckTestModeState();
-                            Thread.Sleep(250);
+                            //CheckTestModeState();
+                            //Thread.Sleep(250);
 
                             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                             {
@@ -140,25 +158,37 @@ namespace ADIN.WPF.Commands
                                     cableLengthInput = Convert.ToDecimal(cableDialog.txtCableLength.Value);
                                 });
 
-                                result = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FirmwareAPI.PerformCableCalibration(cableLengthInput));
+                                if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                                {
+                                    ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                                    result = Decimal.Parse(fwADIN1100API.PerformCableCalibration(cableLengthInput));
+                                }
+                                else
+                                {
+                                    ADIN1110FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                                    result = Decimal.Parse(fwADIN1100API.PerformCableCalibration(cableLengthInput));
+                                }
+                                //result = Decimal.Parse(_selectedDeviceStore.SelectedDevice.FwAPI.PerformCableCalibration(cableLengthInput));
+
                                 Application.Current.Dispatcher.Invoke(() =>
                                 {
                                     _viewModel.NvpValue = result;
-                                    _viewModel.CableBackgroundBrush = new SolidColorBrush(Color.FromRgb(40, 158, 8));
+                                    _viewModel.CableCalibrationMessage = "Calibration Success";
+                                    _viewModel.IsVisibleCableCalibration = true;
                                 });
                             }
                             catch (ApplicationException ex)
                             {
                                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                                 {
-                                    _viewModel.CableBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
+                                    _viewModel.CableCalibrationMessage = "Calibration Failed";
+                                    _viewModel.IsVisibleCableCalibration = true;
                                 }));
                             }
                             catch (Exception ex)
                             {
                                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                                 {
-                                    _viewModel.CableBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
                                     _selectedDeviceStore.OnViewModelErrorOccured($"{ex.Message}");
                                 }));
                             }
@@ -183,41 +213,41 @@ namespace ADIN.WPF.Commands
             OnCanExecuteChanged();
         }
 
-        private void CheckLoopbackState()
-        {
-            var loopbackState = _selectedDeviceStore.SelectedDevice.FirmwareAPI.GetLoopbackState();
-            if (loopbackState != LoopBackMode.OFF)
-            {
-                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    _viewModel.BusyContent = "Loopback Reset";
-                }));
-                _selectedDeviceStore.SelectedDevice.FirmwareAPI.SetLoopbackSetting(_selectedDeviceStore.SelectedDevice.Loopback.Loopbacks[0]);
-                _selectedDeviceStore.OnLoopbackStateChanged(_selectedDeviceStore.SelectedDevice.Loopback.Loopbacks[0]);
-            }
-        }
+        //private void CheckLoopbackState()
+        //{
+        //    var loopbackState = _selectedDeviceStore.SelectedDevice.FwAPI.GetLoopbackState();
+        //    if (loopbackState != LoopBackMode.OFF)
+        //    {
+        //        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+        //        {
+        //            _viewModel.BusyContent = "Loopback Reset";
+        //        }));
+        //        _selectedDeviceStore.SelectedDevice.FwAPI.SetLoopbackSetting(_selectedDeviceStore.SelectedDevice.Loopback.Loopbacks[0]);
+        //        _selectedDeviceStore.OnLoopbackStateChanged(_selectedDeviceStore.SelectedDevice.Loopback.Loopbacks[0]);
+        //    }
+        //}
 
-        private void CheckTestModeState()
-        {
-            var testmodeState = _selectedDeviceStore.SelectedDevice.FirmwareAPI.GetTestModeState();
-            if (testmodeState != TestModeType.Normal)
-            {
-                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    _viewModel.BusyContent = "Testmode Reset";
-                }));
-                _selectedDeviceStore.SelectedDevice.FirmwareAPI.SetTestModeSetting(_selectedDeviceStore.SelectedDevice.TestMode.TestModes[0]);
-                _selectedDeviceStore.OnTestModeStateChanged(_selectedDeviceStore.SelectedDevice.TestMode.TestModes[0]);
-            }
-        }
+        //private void CheckTestModeState()
+        //{
+        //    var testmodeState = _selectedDeviceStore.SelectedDevice.FwAPI.GetTestModeState();
+        //    if (testmodeState != TestModeType.Normal)
+        //    {
+        //        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+        //        {
+        //            _viewModel.BusyContent = "Testmode Reset";
+        //        }));
+        //        _selectedDeviceStore.SelectedDevice.FwAPI.SetTestModeSetting(_selectedDeviceStore.SelectedDevice.TestMode.TestModes[0]);
+        //        _selectedDeviceStore.OnTestModeStateChanged(_selectedDeviceStore.SelectedDevice.TestMode.TestModes[0]);
+        //    }
+        //}
 
-        private void PerformResetPhy()
-        {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                _viewModel.BusyContent = "Software Reset";
-            });
-            _selectedDeviceStore.SelectedDevice.FirmwareAPI.ResetPhy(ResetType.Phy);
-        }
+        //private void PerformResetPhy()
+        //{
+        //    Application.Current.Dispatcher.Invoke(() =>
+        //    {
+        //        _viewModel.BusyContent = "Software Reset";
+        //    });
+        //    _selectedDeviceStore.SelectedDevice.FwAPI.ResetPhy(ResetType.Phy);
+        //}
     }
 }

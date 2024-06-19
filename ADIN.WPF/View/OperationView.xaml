@@ -78,7 +78,7 @@
                     <TabItem Header="FrameGenerator/Checker" Style="{StaticResource TabItemStyle}">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" MinWidth="500"/>
+                                <ColumnDefinition Width="2*" MinWidth="500"/>
                                 <ColumnDefinition Width="3"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
@@ -87,7 +87,7 @@
                             <components:FrameGenCheckerStatusView Grid.Column="2" DataContext="{Binding DeviceStatusVM}" Margin="10 0 0 0"/>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Test Modes" Style="{StaticResource TabItemStyle}">
+                    <TabItem Header="Test Modes" Style="{StaticResource TabItemStyle}" IsSelected="{Binding IsTestModeSelected}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*" MinWidth="400"/>
@@ -95,6 +95,20 @@
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
                             <local:TestModeView Grid.Column="0" DataContext="{Binding TestModeVM}" Margin="0 0 10 0"/>
+                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />
+                            <Grid Grid.Column="2">
+                                <components:DeviceStatusView DataContext="{Binding DeviceStatusVM}" Margin="10 0 0 0"/>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Cable Diagnostics" Style="{StaticResource TabItemStyle}" IsSelected="{Binding IsCableDiagSelected}" Visibility="{Binding IsCableDiagVisible, Converter={StaticResource booleanVisibilityConverter}}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" MinWidth="400"/>
+                                <ColumnDefinition Width="3"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <local:TimeDomainReflectometry Grid.Column="0" DataContext="{Binding TDRVM}" Margin="0 0 10 0"/>
                             <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />
                             <Grid Grid.Column="2">
                                 <components:DeviceStatusView DataContext="{Binding DeviceStatusVM}" Margin="10 0 0 0"/>
@@ -115,20 +129,6 @@
                             --><!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />--><!--
                         </Grid>
                     </TabItem>-->
-                    <TabItem Header="Cable Diagnostics" Style="{StaticResource TabItemStyle}" Visibility="{Binding IsCableDiagVisible, Converter={StaticResource booleanVisibilityConverter}}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="2*" MinWidth="400"/>
-                                <ColumnDefinition Width="3"/>
-                                <ColumnDefinition Width="2*"/>
-                            </Grid.ColumnDefinitions>
-                            <local:TimeDomainReflectometry Grid.Column="0" DataContext="{Binding TestModeVM}" Margin="0 0 10 0"/>
-                            <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />
-                            <Grid Grid.Column="2">
-                                <components:DeviceStatusView DataContext="{Binding DeviceStatusVM}" Margin="10 0 0 0"/>
-                            </Grid>
-                        </Grid>
-                    </TabItem>
                 </TabControl>
             </Grid>
             <Grid Grid.ColumnSpan="2" Grid.Row="2" Margin="0 10 0 0">

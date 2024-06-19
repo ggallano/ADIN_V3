@@ -1,20 +1,22 @@
 ﻿using ADIN.Device.Models;
+using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 using Helper.SaveToFile;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ADIN.WPF.Commands
+namespace ADIN.WPF.Commands.CableDiag
 {
     public class TDRSaveCommand : CommandBase
     {
         private SelectedDeviceStore _selectedDeviceStore;
-        private FaultDetectorViewModel _viewModel;
+        private TimeDomainReflectometryViewModel _viewModel;
 
-        public TDRSaveCommand(FaultDetectorViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
+        public TDRSaveCommand(TimeDomainReflectometryViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
         {
             _viewModel = viewModel;
             _selectedDeviceStore = selectedDeviceStore;
@@ -34,14 +36,28 @@ namespace ADIN.WPF.Commands
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             StringBuilder content = new StringBuilder();
             AbstractFileWriter writer = new CsvFileWriter();
+            string result = string.Empty;
+            List<string> results;
 
             try
             {
+                //ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+
                 switch ((CalibrateType)Enum.Parse(typeof(CalibrateType), parameter.ToString()))
                 {
                     case CalibrateType.Offset:
                         saveFileDialog.Filter = "Calibrate Offset file (*.cof)|*.cof";
-                        var result = _selectedDeviceStore.SelectedDevice.FirmwareAPI.GetOffset();
+                        if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                        {
+                            ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                            result = fwADIN1100API.GetOffset();
+                        }
+                        else
+                        {
+                            ADIN1110FirmwareAPI fwADIN1110API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                            result = fwADIN1110API.GetOffset();
+                        }
+                        //var result = fwADIN1100API.GetOffset();
 
                         if (saveFileDialog.ShowDialog() == true)
                         {
@@ -55,7 +71,17 @@ namespace ADIN.WPF.Commands
 
                     case CalibrateType.Cable:
                         saveFileDialog.Filter = "Calibrate Cable file (*.ccf)|*.ccf";
-                        var results = _selectedDeviceStore.SelectedDevice.FirmwareAPI.GetCoeff();
+                        if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                        {
+                            ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                            results = fwADIN1100API.GetCoeff();
+                        }
+                        else
+                        {
+                            ADIN1110FirmwareAPI fwADIN1110API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                            results = fwADIN1110API.GetCoeff();
+                        }
+                        //var results = fwADIN1100API.GetCoeff();
 
                         if (saveFileDialog.ShowDialog() == true)
                         {

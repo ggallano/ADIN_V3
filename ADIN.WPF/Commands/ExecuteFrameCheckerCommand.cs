@@ -31,7 +31,7 @@ namespace ADIN.WPF.Commands
 
             frameGenChecker.EnableContinuousMode = _viewModel.EnableContinuousMode;
             frameGenChecker.FrameBurst = _viewModel.FrameBurst_Value;
-            frameGenChecker.FrameLength = _viewModel.FrameLength;
+            frameGenChecker.FrameLength = _viewModel.FrameLength_Value;
             frameGenChecker.SelectedFrameContent = _viewModel.SelectedFrameContent.FrameContentType;
             frameGenChecker.EnableMacAddress = _viewModel.EnableMacAddress;
             frameGenChecker.SrcMacAddress = _viewModel.SrcMacAddress;
@@ -42,6 +42,11 @@ namespace ADIN.WPF.Commands
             if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
             {
                 ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                fwADIN1100API.SetFrameCheckerSetting(frameGenChecker);
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
+            {
+                ADIN1110FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
                 fwADIN1100API.SetFrameCheckerSetting(frameGenChecker);
             }
             else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)

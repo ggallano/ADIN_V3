@@ -10,25 +10,38 @@ namespace ADIN.Device.Services
 {
     public interface IFirmwareAPI
     {
-        event EventHandler<FeedbackModel> WriteProcessCompleted;
+        event EventHandler<FrameType> FrameContentChanged;
 
         event EventHandler<string> FrameGenCheckerTextStatusChanged;
 
-        event EventHandler<FrameType> FrameContentChanged;
-
         event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
-        ObservableCollection<RegisterModel> ReadRegsiters();
-        EthPhyState GetPhyState();
-        string GetLinkStatus();
-        string GetMseValue();
-        void GetFrameCheckerStatus();
-        string GetFrameGeneratorStatus();
-        string GetSpeedMode();
-        List<string> LocalAdvertisedSpeedList();
-        List<string> RemoteAdvertisedSpeedList();
-        void SoftwarePowerdown(bool isSoftwarePowerdown);
+
+        event EventHandler<FeedbackModel> WriteProcessCompleted;
+
         void DisableLinking(bool isDisabledLinking);
-        void RestartAutoNegotiation();
+
+        void GetFrameCheckerStatus();
+
+        string GetFrameGeneratorStatus();
+
+        string GetLinkStatus();
+
+        string GetMseValue();
+
+        string GetMseValue(BoardRevision boardRev);
+
+        EthPhyState GetPhyState();
+
+        string GetSpeedMode();
+
+        List<string> LocalAdvertisedSpeedList();
+
+        ObservableCollection<RegisterModel> ReadRegsiters();
+        List<string> RemoteAdvertisedSpeedList();
         void ResetPhy(ResetType reset);
+
+        void RestartAutoNegotiation();
+
+        void SoftwarePowerdown(bool isSoftwarePowerdown);
     }
 }

@@ -16,12 +16,12 @@ namespace ADIN.WPF.Stores
         public event Action<string> FrameGenCheckerStatusChanged;
         public event Action RegisterListingValueChanged;
         public event Action<string> LinkStatusChanged;
-        public event Action<LoopBackMode> LoopbackChanged;
-        public event Action<LoopbackModel> LoopbackStateChanged;
+        //public event Action<LoopBackMode> LoopbackChanged;
+        //public event Action<LoopbackModel> LoopbackStateChanged;
         public event Action SelectedDeviceChanged;
         public event Action<string> SoftwarePowerDownChanged;
         public event Action<FeedbackModel> ProcessCompleted;
-        public event Action<FeedbackModel> ErrorOccured;
+        //public event Action<FeedbackModel> ErrorOccured;
         public event Action<FeedbackModel> ViewModelErrorOccured;
 
         public ADINDevice SelectedDevice

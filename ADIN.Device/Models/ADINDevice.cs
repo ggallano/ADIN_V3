@@ -15,6 +15,7 @@ namespace ADIN.Device.Models
 
         public string SerialNumber => Device.SerialNumber;
         public string BoardName => Device.BoardName;
+        public BoardRevision BoardRev => Device.BoardRev;
         public uint PhyAddress => Device.PhyAddress;
         public List<string> AdvertisedSpeeds => Device.AdvertisedSpeeds;
         public BoardType DeviceType => Device.DeviceType;
@@ -27,5 +28,6 @@ namespace ADIN.Device.Models
         public ITestMode TestMode => Device.TestMode;
         public ObservableCollection<RegisterModel> Registers => Device.Registers;
         public IDeviceStatus DeviceStatus => Device.DeviceStatus;
+        public ITimeDomainReflectometry TimeDomainReflectometry => Device.TimeDomainReflectometry;
     }
 }

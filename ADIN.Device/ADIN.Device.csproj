@@ -52,12 +52,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\ActiveLinkModel.cs" />
+    <Compile Include="Models\ADIN1110Model.cs" />
     <Compile Include="Models\ADIN1100Model.cs" />
     <Compile Include="Models\ADIN1100\FrameGenCheckerADIN1100.cs" />
     <Compile Include="Models\ADIN1100\LinkPropertiesADIN1100.cs" />
     <Compile Include="Models\ADIN1100\LoopbackADIN1100.cs" />
     <Compile Include="Models\ADIN1100\TestModeADIN1100.cs" />
+    <Compile Include="Models\ADIN1100\TimeDomainReflectometryADIN1100.cs" />
     <Compile Include="Models\ADIN1200Model.cs" />
     <Compile Include="Models\ADIN1200\DeviceStatusADIN1200.cs" />
     <Compile Include="Models\ADIN1200\FrameGenCheckerADIN1200.cs" />
@@ -71,7 +72,6 @@
     <Compile Include="Models\ADIN1300\FrameGenCheckerADIN1300.cs" />
     <Compile Include="Models\ADIN1300\LoopbackADIN1300.cs" />
     <Compile Include="Models\ADIN1300\TestModeADIN1300.cs" />
-    <Compile Include="Models\DeviceStatusModel.cs" />
     <Compile Include="Models\IClockPinControl.cs" />
     <Compile Include="Models\IDeviceStatus.cs" />
     <Compile Include="Models\IFrameGenChecker.cs" />
@@ -80,20 +80,15 @@
     <Compile Include="Models\ILinkProperties.cs" />
     <Compile Include="Models\ADIN1300\LinkPropertiesADIN1300.cs" />
     <Compile Include="Models\ADINDevice.cs" />
-    <Compile Include="Models\AutoNegAdvertisementBase.cs" />
-    <Compile Include="Models\AutoNegMasterSlaveAdvertisementModel.cs" />
-    <Compile Include="Models\AutoNegTxLevelAdvertisementModel.cs" />
     <Compile Include="Models\Enums.cs" />
-    <Compile Include="Models\FaultDetectorModel.cs" />
+    <Compile Include="Models\ITimeDomainReflectometry.cs" />
     <Compile Include="Models\FrameContentModel.cs" />
     <Compile Include="Models\FrameGenCheckerModel.cs" />
     <Compile Include="Models\IADINDevice.cs" />
     <Compile Include="Models\AbstractADINFactory.cs" />
-    <Compile Include="Models\ClockPinControlModel.cs" />
-    <Compile Include="Models\LinkPropertyModel.cs" />
-    <Compile Include="Models\LocalRangeModel.cs" />
+    <Compile Include="Services\ADIN1110FirmwareAPI.cs" />
+    <Compile Include="Services\ITimeDomainReflectometryAPI.cs" />
     <Compile Include="Models\LoopbackModel.cs" />
-    <Compile Include="Models\PeakModel.cs" />
     <Compile Include="Models\RegisterAccessModel.cs" />
     <Compile Include="Models\ScriptModel.cs" />
     <Compile Include="Models\ScriptSet.cs" />

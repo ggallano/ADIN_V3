@@ -34,7 +34,7 @@ namespace ADIN.WPF.ViewModel
         private bool _isVisibleSpeedList = true;
         private string _linkLength;
         private string _linkStatus = "-";
-        private List<string> _localAdvertisedSpeeds = new List<string>();
+        private List<string> _localAdvertisedSpeeds = new List<string>() { "" };
         private string _masterSlaveStatus = "-";
         private string _mseValue = "-";
         private BackgroundWorker _readRegisterWorker;
@@ -43,15 +43,17 @@ namespace ADIN.WPF.ViewModel
         private string _speedMode = "-";
         private object _thisLock;
         private string _txLevelStatus = "-";
+        private object _mainLock;
 
         /// <summary>
         /// creates new instance
         /// </summary>
         /// <param name="selectedDeviceStore">selected device store</param>
-        public DeviceStatusViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
+        public DeviceStatusViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, object mainLock)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiService = ftdiService;
+            _mainLock = mainLock;
 
             SetBackgroundWroker();
 
@@ -63,17 +65,24 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                if (_selectedDevice?.DeviceType == BoardType.ADIN1100)
+                if ((_selectedDevice?.DeviceType == BoardType.ADIN1100)
+                 || (_selectedDevice?.DeviceType == BoardType.ADIN1100_S1)
+                 || (_selectedDevice?.DeviceType == BoardType.ADIN1110))
                     return _localAdvertisedSpeeds[0];
 
-                if (_selectedDevice?.DeviceType == BoardType.ADIN1200 || _selectedDevice?.DeviceType == BoardType.ADIN1300)
-                    foreach (var speed in _advertisedSpeedList)
+                if (_selectedDevice?.DeviceType == BoardType.ADIN1200
+                 || _selectedDevice?.DeviceType == BoardType.ADIN1300)
+                {
+                    List<string> matchingSpeed =
+                        (from localSpeed in _localAdvertisedSpeeds
+                         where (localSpeed != "") && _remoteAdvertisedSpeeds.Contains(localSpeed)
+                         select localSpeed).ToList();
+
+                    if (matchingSpeed.Count > 0)
                     {
-                        if (_localAdvertisedSpeeds.Contains(speed) && _remoteAdvertisedSpeeds.Contains(speed))
-                        {
-                            return speed;
-                        }
+                        return matchingSpeed[0];
                     }
+                }
 
                 return "-";
             }
@@ -140,12 +149,23 @@ namespace ADIN.WPF.ViewModel
 
         public bool Is1100Visible
         {
-            get { return _selectedDevice?.DeviceType == BoardType.ADIN1100; }
+            get
+            {
+                return (_selectedDevice?.DeviceType == BoardType.ADIN1100)
+                    || (_selectedDevice?.DeviceType == BoardType.ADIN1100_S1)
+                    || (_selectedDevice?.DeviceType == BoardType.ADIN1110);
+            }
         }
 
         public bool IsVisibleSpeedList
         {
-            get { return _speedMode == "Advertised" && _selectedDevice?.DeviceType != BoardType.ADIN1100; }
+            get
+            {
+                return _speedMode == "Advertised"
+                    && ((_selectedDevice?.DeviceType != BoardType.ADIN1100)
+                    && (_selectedDevice?.DeviceType != BoardType.ADIN1100_S1)
+                    && (_selectedDevice?.DeviceType != BoardType.ADIN1110));
+            }
         }
 
         public string LinkStatus
@@ -238,6 +258,7 @@ namespace ADIN.WPF.ViewModel
         }
 
         public string PhyAddress => _selectedDeviceStore.SelectedDevice?.PhyAddress.ToString() ?? "-";
+
         public List<string> RemoteAdvertisedSpeeds
         {
             get { return _remoteAdvertisedSpeeds; }
@@ -287,6 +308,7 @@ namespace ADIN.WPF.ViewModel
         }
 
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
+
         protected override void Dispose()
         {
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
@@ -302,46 +324,59 @@ namespace ADIN.WPF.ViewModel
             {
                 try
                 {
-                    if (_selectedDevice != null && _ftdiService.IsComOpen)
-                    {
-                        //_selectedDevice.FwAPI.ReadRegsiters();
-                        //_selectedDeviceStore.OnRegistersValueChanged();
-
-                        // UI Control Update
-                        //_selectedDevice.FirmwareAPI.GetNegotiationMasterSlaveInitialization(true);
-                        //_selectedDevice.FirmwareAPI.GetPeakVoltageInitialization(true);
-                        //_selectedDevice.FirmwareAPI.GetTestModeInitialization(true);
-                        //_selectedDevice.FirmwareAPI.GetLoopbackInitialization(true);
-                        //_selectedDevice.FirmwareAPI.GetFrameContentInitialization(true);
-
-                        // Common ADIN Device Status
-                        LinkStatus = _selectedDevice.FwAPI.GetLinkStatus();
-                        MseValue = _selectedDevice.FwAPI.GetMseValue();
-                        LocalAdvertisedSpeeds = _selectedDevice.FwAPI.LocalAdvertisedSpeedList();
-
-                        // Specific ADIN Device Status
-                        if (_selectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                    lock (_mainLock)
+                        if (_selectedDevice != null && _ftdiService.IsComOpen)
                         {
-                            var fwAPI = _selectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                            AnStatus = fwAPI.GetAnStatus();
-                            MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
-                            TxLevelStatus = fwAPI.GetTxLevelStatus();
-                        }
-                        else
-                        {
-                            SpeedMode = _selectedDevice.FwAPI.GetSpeedMode();
-                            _selectedDevice.FwAPI.GetFrameCheckerStatus();
-                            Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
-                            RemoteAdvertisedSpeeds = _selectedDevice.FwAPI.RemoteAdvertisedSpeedList();
-                        }
 
-                    }
+                            //_selectedDevice.FwAPI.ReadRegsiters();
+                            //_selectedDeviceStore.OnRegistersValueChanged();
+
+                            // UI Control Update
+                            //_selectedDevice.FirmwareAPI.GetNegotiationMasterSlaveInitialization(true);
+                            //_selectedDevice.FirmwareAPI.GetPeakVoltageInitialization(true);
+                            //_selectedDevice.FirmwareAPI.GetTestModeInitialization(true);
+                            //_selectedDevice.FirmwareAPI.GetLoopbackInitialization(true);
+                            //_selectedDevice.FirmwareAPI.GetFrameContentInitialization(true);
+
+                            // Common ADIN Device Status
+                            LinkStatus = _selectedDevice.FwAPI.GetLinkStatus();
+                            LocalAdvertisedSpeeds = _selectedDevice.FwAPI.LocalAdvertisedSpeedList();
+
+                            // Specific ADIN Device Status
+                            if (_selectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                            {
+                                var fwAPI = _selectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                                AnStatus = fwAPI.GetAnStatus();
+                                MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
+                                TxLevelStatus = fwAPI.GetTxLevelStatus();
+                                MseValue = _selectedDevice.FwAPI.GetMseValue(_selectedDevice.BoardRev);
+                            }
+                            else if (_selectedDevice.FwAPI is ADIN1110FirmwareAPI)
+                            {
+                                var fwAPI = _selectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                                AnStatus = fwAPI.GetAnStatus();
+                                MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
+                                TxLevelStatus = fwAPI.GetTxLevelStatus();
+                                MseValue = _selectedDevice.FwAPI.GetMseValue(_selectedDevice.BoardRev);
+                            }
+                            else
+                            {
+                                MseValue = _selectedDevice.FwAPI.GetMseValue();
+                                SpeedMode = _selectedDevice.FwAPI.GetSpeedMode();
+                                _selectedDevice.FwAPI.GetFrameCheckerStatus();
+                                Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
+                                RemoteAdvertisedSpeeds = _selectedDevice.FwAPI.RemoteAdvertisedSpeedList();
+                            }
+                        }
 
                     Thread.Sleep(500);
                 }
                 catch (NotImplementedException)
                 {
                     _selectedDeviceStore.OnViewModelFeedbackLog("This function is not implemented for this board.", Helper.Feedback.FeedbackType.Info);
+                }
+                catch (FormatException)
+                {
                 }
 
                 e.Result = "Done";

@@ -8,6 +8,7 @@ namespace ADIN.WPF.Converters
     public class BooleanVisibilityConverter : IValueConverter
     {
         public bool IsInversed { get; set; }
+        public bool IsHidden { get; set; } = false;
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -23,6 +24,9 @@ namespace ADIN.WPF.Converters
                 {
                     return Visibility.Visible;
                 }
+
+                if (IsHidden)
+                    return Visibility.Hidden;
 
                 return Visibility.Collapsed;
             }

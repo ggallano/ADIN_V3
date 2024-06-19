@@ -6,11 +6,14 @@
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              xmlns:enum="clr-namespace:ADIN.Device.Models;assembly=ADIN.Device"
              xmlns:local="clr-namespace:ADIN.WPF.View"
+             xmlns:converter="clr-namespace:ADIN.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="boolvis"/>
+            <converter:BooleanVisibilityConverter x:Key="booleanHiddenConverter" IsInversed="False" IsHidden="True"/>
+            <converter:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
             <Style x:Key="StackPanelStyle" TargetType="{x:Type StackPanel}">
                 <Setter Property="HorizontalAlignment" Value="Center"/>
             </Style>
@@ -52,7 +55,10 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <telerik:RadButton Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Content="Calibrate" Style="{StaticResource FaultDetectorCalibrateButtonStyle}" Width="90" Command="{Binding CalibrateCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}" ToolTip="Perform offset calibration"/>
+                            <StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Orientation="Vertical" VerticalAlignment="Center">
+                                <telerik:RadButton  Content="Calibrate" Style="{StaticResource FaultDetectorCalibrateButtonStyle}" Width="90" Command="{Binding CalibrateCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}" ToolTip="Perform offset calibration"/>
+                                <TextBlock Text="{Binding OffsetCalibrationMessage}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}" Style="{StaticResource TextBlockstyle}" FontSize="12" HorizontalAlignment="Center" Visibility="{Binding IsVisibleOffsetCalibration, Converter={StaticResource booleanHiddenConverter}}"/>
+                            </StackPanel>
                             <telerik:RadButton Grid.Row="1" Grid.Column="1" Content="Save" Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding SaveCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
                             <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load"  Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding LoadCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
                             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Style="{StaticResource StackPanelStyle}" HorizontalAlignment="Right">
@@ -85,12 +91,15 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <telerik:RadButton Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Content="Calibrate" Style="{StaticResource FaultDetectorCalibrateButtonStyle}" Width="90" Command="{Binding CalibrateCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}" ToolTip="Perform cable calibration"/>
+                            <StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Orientation="Vertical" VerticalAlignment="Center">
+                                <telerik:RadButton  Content="Calibrate" Style="{StaticResource FaultDetectorCalibrateButtonStyle}" Width="90" Command="{Binding CalibrateCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}" ToolTip="Perform cable calibration"/>
+                                <TextBlock Text="{Binding CableCalibrationMessage}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}" Style="{StaticResource TextBlockstyle}" FontSize="12" HorizontalAlignment="Center" Visibility="{Binding IsVisibleCableCalibration, Converter={StaticResource booleanHiddenConverter}}"/>
+                            </StackPanel>
                             <telerik:RadButton Grid.Row="1" Grid.Column="1" Content="Save" Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding SaveCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}"/>
                             <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load"  Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding LoadCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}"/>
                             <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Style="{StaticResource StackPanelStyle}" HorizontalAlignment="Right">
                                 <TextBlock Text="NVP: " VerticalAlignment="Center" Style="{StaticResource TextBlockstyle}"/>
-                                <telerik:RadNumericUpDown Height="24" Width="90" Value="{Binding NvpValue, UpdateSourceTrigger=PropertyChanged}" SmallChange="0.01"/>
+                                <telerik:RadNumericUpDown Height="24" Width="90" Value="{Binding NvpValue}" SmallChange="0.01"/>
                             </StackPanel>
                             <telerik:RadButton Grid.Row="3" Grid.Column="1" Content="Ok"  Style="{StaticResource FaultDetectorOkButtonStyle}" Width="70" Command="{Binding ManualCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}"/>
                         </Grid>
@@ -112,7 +121,7 @@
                     <Grid Grid.Row="0" Grid.Column="0">
                         <Border Height="100" Width="130" Background="#0067B9" CornerRadius="7" BorderThickness="0"/>
                         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                            <TextBlock Text="TDR Engine" HorizontalAlignment="Center" Foreground="#FFD8D8D8" FontSize="20"/>
+                            <TextBlock Text="TDR Engine" HorizontalAlignment="Center" Foreground="{StaticResource hmc.color.content.inverse}" Style="{StaticResource TextBlockstyle}" FontSize="20"/>
                             <telerik:RadButton Content="Start" Command="{Binding FaultDetectCommand}" Style="{StaticResource FaultDetectorStartButtonStyle}" ToolTip="Start TDR Fault Detector"/>
                         </StackPanel>
                     </Grid>
@@ -122,7 +131,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Grid>
                                 <Rectangle Height="50" Width="20" Fill="#FF599343" />
-                                <TextBlock Text="MDI" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFD8D8D8" FontSize="10" RenderTransformOrigin="0.5,0.5">
+                                <TextBlock Text="MDI" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource hmc.color.content.inverse}" FontSize="10" RenderTransformOrigin="0.5,0.5">
                                     <TextBlock.RenderTransform>
                                         <TransformGroup>
                                             <ScaleTransform/>
@@ -165,15 +174,15 @@
                                 </StackPanel>
                             </Grid>
                             <Grid VerticalAlignment="Center">
-                                <Rectangle Height="30" Width="200" Fill="Black" HorizontalAlignment="Left"/>
+                                <Rectangle Height="30" Width="200" Fill="{StaticResource hmc.color.content.default}" HorizontalAlignment="Left"/>
                             </Grid>
                         </StackPanel>
                         <TextBlock Margin="50 180 0 0"
                            Visibility="{Binding IsFaultVisibility, Converter={StaticResource boolvis}}"
-                           FontSize="22">
-                    <Run Text="Fault at "/>
-                    <Run Text="{Binding DistToFault, StringFormat={}{0:0.000}}"/>
-                    <Run Text="m"/>
+                           FontSize="20" FontFamily="Barlow" Foreground="{StaticResource hmc.color.content.default}">
+                            <Run Text="Fault at "/>
+                            <Run Text="{Binding DistToFault, StringFormat={}{0:0.000}}"/>
+                            <Run Text="m"/>
                         </TextBlock>
                         <Line Stretch="Fill" Stroke="Black" X2="1" Margin="0 120 0 0" Height="5" Width="Auto"
                       Visibility="{Binding IsFaultVisibility, Converter={StaticResource boolvis}}"/>
@@ -194,8 +203,8 @@
                                 </Line.RenderTransform>
                             </Line>
                             <Grid Margin="-32">
-                                <Border Height="100" Width="30" Background="BlueViolet" CornerRadius="5"/>
-                                <TextBlock Text="{Binding FaultState}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFD8D8D8" FontSize="15" RenderTransformOrigin="0.5,0.5">
+                                <Border Height="100" Width="30" Background="{Binding FaultBackgroundBrush}" CornerRadius="4"/>
+                                <TextBlock Text="{Binding FaultState}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource hmc.color.content.inverse}" FontSize="14" RenderTransformOrigin="0.5,0.5">
                                     <TextBlock.RenderTransform>
                                         <TransformGroup>
                                             <ScaleTransform/>

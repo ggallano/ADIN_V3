@@ -1,9 +1,11 @@
 ﻿using ADIN.Device.Models;
+using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 using Helper.ReadFile;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
@@ -11,14 +13,14 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace ADIN.WPF.Commands
+namespace ADIN.WPF.Commands.CableDiag
 {
     public class TDRLoadCommand : CommandBase
     {
         private SelectedDeviceStore _selectedDeviceStore;
-        private FaultDetectorViewModel _viewModel;
+        private TimeDomainReflectometryViewModel _viewModel;
 
-        public TDRLoadCommand(FaultDetectorViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
+        public TDRLoadCommand(TimeDomainReflectometryViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
         {
             _viewModel = viewModel;
             _selectedDeviceStore = selectedDeviceStore;
@@ -37,9 +39,13 @@ namespace ADIN.WPF.Commands
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             string[] values = null;
+            string result = string.Empty;
+            List<string> results;
 
             try
             {
+                //ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+
                 switch ((CalibrateType)Enum.Parse(typeof(CalibrateType), parameter.ToString()))
                 {
                     case CalibrateType.Offset:
@@ -51,13 +57,22 @@ namespace ADIN.WPF.Commands
                             Task.Run(() =>
                             {
                                 values = ReadContent.Read(openFileDialog.FileName);
-                                var res = _selectedDeviceStore.SelectedDevice.FirmwareAPI.SetOffset(Decimal.Parse(values[0], CultureInfo.InvariantCulture));
+                                if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                                {
+                                    ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                                    result = fwADIN1100API.SetOffset(Decimal.Parse(values[0], CultureInfo.InvariantCulture));
+                                }
+                                else
+                                {
+                                    ADIN1110FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                                    result = fwADIN1100API.SetOffset(Decimal.Parse(values[0], CultureInfo.InvariantCulture));
+                                }
+                                //var result = fwADIN1100API.SetOffset(Decimal.Parse(values[0], CultureInfo.InvariantCulture));
 
                                 Application.Current.Dispatcher.Invoke(() =>
                                 {
-                                    _viewModel.OffsetValue = Decimal.Parse(res, CultureInfo.InvariantCulture);
+                                    _viewModel.OffsetValue = Decimal.Parse(result, CultureInfo.InvariantCulture);
                                     _viewModel.OffsetFileName = Path.GetFileName(openFileDialog.FileName);
-                                    _viewModel.OffsetBackgroundBrush = new SolidColorBrush(Color.FromRgb(40, 158, 8));
                                 });
                             });
                         }
@@ -76,14 +91,25 @@ namespace ADIN.WPF.Commands
                                 var nvp = Decimal.Parse(values[0], CultureInfo.InvariantCulture);
                                 var coeff0 = Decimal.Parse(values[0], CultureInfo.InvariantCulture);
                                 var coeffi = Decimal.Parse(values[0], CultureInfo.InvariantCulture);
-                                var res = _selectedDeviceStore.SelectedDevice.FirmwareAPI.SetCoeff(nvp, coeff0, coeffi);
-                                _selectedDeviceStore.SelectedDevice.FirmwareAPI.SetMode(CalibrationMode.Optimized);
+                                if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                                {
+                                    ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                                    results = fwADIN1100API.SetCoeff(nvp, coeff0, coeffi);
+                                    fwADIN1100API.SetMode(CalibrationMode.Optimized);
+                                }
+                                else
+                                {
+                                    ADIN1110FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                                    results = fwADIN1100API.SetCoeff(nvp, coeff0, coeffi);
+                                    fwADIN1100API.SetMode(CalibrationMode.Optimized);
+                                }
+                                //var results = fwADIN1100API.SetCoeff(nvp, coeff0, coeffi);
+                                //fwADIN1100API.SetMode(CalibrationMode.Optimized);
 
                                 Application.Current.Dispatcher.Invoke(() =>
                                 {
-                                    _viewModel.NvpValue = Decimal.Parse(res[0], CultureInfo.InvariantCulture);
+                                    _viewModel.NvpValue = Decimal.Parse(results[0], CultureInfo.InvariantCulture);
                                     _viewModel.CableFileName = Path.GetFileName(openFileDialog.FileName);
-                                    _viewModel.CableBackgroundBrush = new SolidColorBrush(Color.FromRgb(40, 158, 8));
                                 });
                             });
                         }
@@ -98,11 +124,9 @@ namespace ADIN.WPF.Commands
                 switch ((CalibrateType)Enum.Parse(typeof(CalibrateType), parameter.ToString()))
                 {
                     case CalibrateType.Offset:
-                        _viewModel.OffsetBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
                         break;
 
                     case CalibrateType.Cable:
-                        _viewModel.CableBackgroundBrush = new SolidColorBrush(Color.FromRgb(168, 3, 3));
                         break;
 
                     default:

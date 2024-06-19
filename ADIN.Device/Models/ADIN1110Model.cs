@@ -7,40 +7,35 @@ using System.IO;
 
 namespace ADIN.Device.Models
 {
-    public class ADIN1100Model : AbstractADINFactory
+    public class ADIN1110Model : AbstractADINFactory
     {
         private IFTDIServices _ftdiService;
         private IRegisterService _registerService;
 
-        public ADIN1100Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock)
+        public ADIN1110Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
             PhyAddress = 0;
             
 
-            FirmwareAPI = new ADIN1100FirmwareAPI(_ftdiService, PhyAddress, mainLock);
+            FirmwareAPI = new ADIN1110FirmwareAPI(_ftdiService, PhyAddress, mainLock);
 
-            switch (ADIN1100FirmwareAPI.GetRevNum(0x1E0003))
+            switch (ADIN1110FirmwareAPI.GetRevNum(0x1E0003))
             {
                 case BoardRevision.Rev0:
-                    Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1100_S1.json"));
-                    Registers = registerService.GetAdditionalRegisterSetRev0(Registers);
-                    BoardRev = BoardRevision.Rev0;
-                    DeviceType = BoardType.ADIN1100_S1;
-                    break;
                 case BoardRevision.Rev1:
                     Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1100_S2.json"));
                     Registers = registerService.GetAdditionalRegisterSetRev1(Registers);
                     BoardRev = BoardRevision.Rev1;
-                    DeviceType = BoardType.ADIN1100;
+                    DeviceType = BoardType.ADIN1110;
                     break;
                 default:
                     break;
             }
 
-            FirmwareAPI = new ADIN1100FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
-            ((ADIN1100FirmwareAPI)FirmwareAPI).boardRev = BoardRev;
+            FirmwareAPI = new ADIN1110FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
+            ((ADIN1110FirmwareAPI)FirmwareAPI).boardRev = BoardRev;
 
             LinkProperties = new LinkPropertiesADIN1100();
             GetLinkPropertiesValue();
@@ -62,8 +57,8 @@ namespace ADIN.Device.Models
         /// </summary>
         private void GetLinkPropertiesValue()
         {
-            var AN_ADV_MST = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_MST") == "1" ? true : false;
-            var AN_ADV_FORCE_MS = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_FORCE_MS") == "1" ? true : false;
+            var AN_ADV_MST = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_MST") == "1" ? true : false;
+            var AN_ADV_FORCE_MS = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_FORCE_MS") == "1" ? true : false;
 
             if (AN_ADV_MST)
                 if (!AN_ADV_FORCE_MS)
@@ -81,8 +76,8 @@ namespace ADIN.Device.Models
                 if (AN_ADV_FORCE_MS)
                     LinkProperties.MasterSlaveAdvertise = "Forced_Slave";
 
-            var TX_LVL_HI_ABL = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_B10L_TX_LVL_HI_ABL") == "1" ? true : false;
-            var TX_LVL_HI_REQ = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_B10L_TX_LVL_HI_REQ") == "1" ? true : false;
+            var TX_LVL_HI_ABL = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_B10L_TX_LVL_HI_ABL") == "1" ? true : false;
+            var TX_LVL_HI_REQ = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_B10L_TX_LVL_HI_REQ") == "1" ? true : false;
 
             if (TX_LVL_HI_ABL)
                 if (TX_LVL_HI_REQ)
@@ -99,16 +94,16 @@ namespace ADIN.Device.Models
 
         private void GetTDRValue()
         {
-            TimeDomainReflectometry.TimeDomainReflectometry.CableOffset = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetOffset());
-            TimeDomainReflectometry.TimeDomainReflectometry.NVP = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetNvp());
+            TimeDomainReflectometry.TimeDomainReflectometry.CableOffset = decimal.Parse(((ADIN1110FirmwareAPI)FirmwareAPI).GetOffset());
+            TimeDomainReflectometry.TimeDomainReflectometry.NVP = decimal.Parse(((ADIN1110FirmwareAPI)FirmwareAPI).GetNvp());
         }
 
         private void GetTestModeValue()
         {
-            var B10L_TX_TEST_MODE = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("CRSM_SFT_PD");
-            var B10L_TX_DIS_MODE_EN = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("B10L_TX_TEST_MODE") == "1" ? true : false;
-            var AN_FRC_MODE_EN = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_FRC_MODE_EN") == "1" ? true : false;
-            var AN_EN = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_EN") == "1" ? true : false;
+            var B10L_TX_TEST_MODE = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("CRSM_SFT_PD");
+            var B10L_TX_DIS_MODE_EN = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("B10L_TX_TEST_MODE") == "1" ? true : false;
+            var AN_FRC_MODE_EN = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("AN_FRC_MODE_EN") == "1" ? true : false;
+            var AN_EN = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("AN_EN") == "1" ? true : false;
 
             if (B10L_TX_TEST_MODE == "0")
                 if (!B10L_TX_DIS_MODE_EN)

@@ -130,7 +130,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AutoVersionIncrement.tt</DependentUpon>
     </Compile>
+    <Compile Include="Commands\AboutCommand.cs" />
     <Compile Include="Commands\AutoNegCommand.cs" />
+    <Compile Include="Commands\CableDiag\CalibrationCommand.cs" />
+    <Compile Include="Commands\CableDiag\InitializedCommand.cs" />
+    <Compile Include="Commands\CableDiag\TDRFaultDetectorCommand.cs" />
+    <Compile Include="Commands\CableDiag\TDRLoadCommand.cs" />
+    <Compile Include="Commands\CableDiag\TDRManualCommand.cs" />
+    <Compile Include="Commands\CableDiag\TDRSaveCommand.cs" />
     <Compile Include="Commands\ClearLogCommand.cs" />
     <Compile Include="Commands\RemoteLoopbackCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
@@ -146,11 +153,17 @@
     <Compile Include="Commands\SoftwarePowerDownCommand.cs" />
     <Compile Include="Commands\TestModeCommand.cs" />
     <Compile Include="Commands\WriteRegisterCommand.cs" />
+    <Compile Include="Components\CableManualDialog.xaml.cs">
+      <DependentUpon>CableManualDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Components\MACAddress.xaml.cs">
       <DependentUpon>MACAddress.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\NavigationBar.xaml.cs">
       <DependentUpon>NavigationBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\OffsetManualDialog.xaml.cs">
+      <DependentUpon>OffsetManualDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\ActiveLinkTextConverter.cs" />
     <Compile Include="Converters\BooleanVisibilityConverter.cs" />
@@ -171,11 +184,13 @@
     <Compile Include="ViewModel\LinkPropertiesViewModel.cs" />
     <Compile Include="ViewModel\LogActivityViewModel.cs" />
     <Compile Include="ViewModel\LoopbackViewModel.cs" />
+    <Compile Include="ViewModel\MenuItemViewModel.cs" />
     <Compile Include="ViewModel\NavigationBarViewModel.cs" />
     <Compile Include="ViewModel\OperationViewModel.cs" />
     <Compile Include="ViewModel\RegisterAccessViewModel.cs" />
     <Compile Include="ViewModel\RegisterListingViewModel.cs" />
     <Compile Include="ViewModel\TestModeViewModel.cs" />
+    <Compile Include="ViewModel\TimeDomainReflectometryViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\FrameGenCheckerStatusView.xaml.cs">
       <DependentUpon>FrameGenCheckerStatusView.xaml</DependentUpon>
@@ -220,6 +235,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Components\CableManualDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Components\DeviceListing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -231,6 +250,10 @@
     <Page Include="Components\NavigationBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\OffsetManualDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

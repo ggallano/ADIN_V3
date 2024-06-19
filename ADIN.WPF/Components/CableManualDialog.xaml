@@ -31,8 +31,8 @@
                                           Maximum="2000"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="OK" Width="80" Margin="0 0 10 0" Click="OkButton_Click"/>
-                <Button Content="Cancel" Width="80" Click="CancelButton_Click"/>
+                <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="OK" Width="80" Margin="0 0 10 0" Click="OkButton_Click"/>
+                <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Cancel" Width="80" Click="CancelButton_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>
