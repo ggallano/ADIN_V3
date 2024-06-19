@@ -133,9 +133,9 @@ namespace ADIN.WPF.ViewModel
             {
                 _isOngoingCalibration = value;
                 if (_isOngoingCalibration)
-                    _selectedDeviceStore.OnOngoingCalibrationStatusChanged("Calibrating");
+                    _selectedDeviceStore.OnOngoingCalibrationStatusChanged(value);
                 else
-                    _selectedDeviceStore.OnOngoingCalibrationStatusChanged("NotCalibrating");
+                    _selectedDeviceStore.OnOngoingCalibrationStatusChanged(value);
                 OnPropertyChanged(nameof(IsOngoingCalibration));
             }
         }

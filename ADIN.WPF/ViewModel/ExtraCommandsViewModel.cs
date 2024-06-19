@@ -15,7 +15,7 @@ namespace ADIN.WPF.ViewModel
         private bool _isPoweredUp = false;
         private string _linkStatus = "Disable Linking";
         private string _powerDownStatus = "Software Power Down";
-        private bool _isOnGoingCalibration = false;
+        private bool _disableButton = false;
         private SelectedDeviceStore _selectedDeviceStore;
 
         public ExtraCommandsViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
@@ -96,13 +96,13 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public bool IsOngoingCalibrationStatus
+        public bool DisableButton
         {
-            get { return _isOnGoingCalibration; }
+            get { return _disableButton; }
             set
             {
-                _isOnGoingCalibration = value;
-                OnPropertyChanged(nameof(IsOngoingCalibrationStatus));
+                _disableButton = value;
+                OnPropertyChanged(nameof(DisableButton));
             }
         }
 
@@ -119,7 +119,7 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.SoftwarePowerDownChanged -= _selectedDeviceStore_PowerDownStateStatusChanged;
             _selectedDeviceStore.LinkStatusChanged -= _selectedDeviceStore_LinkStateStatusChanged;
-            _selectedDeviceStore.OnGoingCalibrationStatusChanged -= _selectedDeviceStore_OnGoingCalibrationStatusChanged;
+            //_selectedDeviceStore.OnGoingCalibrationStatusChanged -= _selectedDeviceStore_OnGoingCalibrationStatusChanged;
 
             base.Dispose();
         }
@@ -141,14 +141,11 @@ namespace ADIN.WPF.ViewModel
             }));
         }
 
-        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(string onGoingCalibration)
+        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                if (onGoingCalibration == "Calibrating")
-                    IsOngoingCalibrationStatus = true;
-                else
-                    IsOngoingCalibrationStatus = false;
+                DisableButton = onGoingCalibrationStatus;
             }));
         }
 
