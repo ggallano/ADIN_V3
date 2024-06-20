@@ -43,5 +43,7 @@ namespace ADIN.Device.Services
         void RestartAutoNegotiation();
 
         void SoftwarePowerdown(bool isSoftwarePowerdown);
+
+        void SetPhyAddress(int address);
     }
 }
