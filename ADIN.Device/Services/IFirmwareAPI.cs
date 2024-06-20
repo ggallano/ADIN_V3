@@ -44,6 +44,8 @@ namespace ADIN.Device.Services
 
         void SoftwarePowerdown(bool isSoftwarePowerdown);
 
-        void SetPhyAddress(int address);
+        void SetPhyAddress(uint address);
+
+        uint GetPhyAddress();
     }
 }

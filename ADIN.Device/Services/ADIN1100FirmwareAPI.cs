@@ -1252,9 +1252,14 @@ namespace ADIN.Device.Services
             }
         }
 
-        public void SetPhyAddress(int address)
+        public void SetPhyAddress(uint address)
         {
-            throw new NotImplementedException();
+            _phyAddress = address;
+        }
+
+        public uint GetPhyAddress()
+        {
+            return _phyAddress;
         }
     }
 }

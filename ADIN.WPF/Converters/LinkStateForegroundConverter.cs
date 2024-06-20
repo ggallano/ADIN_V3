@@ -19,7 +19,7 @@ namespace ADIN.WPF.Converters
                     return new SolidColorBrush(Colors.Black);
 
                 case EthPhyState.Standby:
-                    return new SolidColorBrush(Colors.OrangeRed);
+                    return new SolidColorBrush(Colors.Orange);
 
                 case EthPhyState.LinkDown:
                     return new SolidColorBrush(Colors.Red);

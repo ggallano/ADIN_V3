@@ -38,7 +38,7 @@
                         <TextBlock Text="Phy Address: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
                         <!--<TextBlock Text="{Binding PhyAddress}" Style="{StaticResource DeviceStatusValueStyle}"/>-->
                         <telerik:RadNumericUpDown Value="{Binding PhyAddress}" Minimum="0" Maximum="7" SmallChange="1"  NumberDecimalDigits="0" IsEditable="False" AutoReverse="True" Style="{StaticResource RadNumericUpDownValueStyle}"/>
-                        <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Set" Width="40" Margin="10 0 0 0" Command="" />
+                        <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Set" Width="40" Margin="10 0 0 0" Command="{Binding SetPhyAddressCommand}" />
                     </StackPanel>
                 </Border>
             </Grid>

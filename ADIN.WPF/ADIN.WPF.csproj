@@ -150,6 +150,7 @@
     <Compile Include="Commands\RegisterActionCommand.cs" />
     <Compile Include="Commands\ResetCommand.cs" />
     <Compile Include="Commands\ResetFrameDeviceCheckerCommnad.cs" />
+    <Compile Include="Commands\SetPhyAddressCommand.cs" />
     <Compile Include="Commands\SoftwarePowerDownCommand.cs" />
     <Compile Include="Commands\TestModeCommand.cs" />
     <Compile Include="Commands\WriteRegisterCommand.cs" />

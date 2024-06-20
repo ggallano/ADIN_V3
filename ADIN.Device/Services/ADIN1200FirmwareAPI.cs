@@ -1335,5 +1335,15 @@ namespace ADIN.Device.Services
                 return MdioWriteCl45(registerAddress, value);
             }
         }
+
+        public void SetPhyAddress(uint address)
+        {
+            _phyAddress = address;
+        }
+
+        public uint GetPhyAddress()
+        {
+            return _phyAddress;
+        }
     }
 }

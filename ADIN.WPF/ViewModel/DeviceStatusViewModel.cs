@@ -1,5 +1,6 @@
 ﻿using ADIN.Device.Models;
 using ADIN.Device.Services;
+using ADIN.WPF.Commands;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
 using System;
@@ -9,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ADIN.WPF.ViewModel
 {
@@ -35,6 +37,7 @@ namespace ADIN.WPF.ViewModel
         private string _linkLength;
         private string _linkStatus = "-";
         private List<string> _localAdvertisedSpeeds = new List<string>() { "" };
+        private object _mainLock;
         private string _masterSlaveStatus = "-";
         private string _mseValue = "-";
         private BackgroundWorker _readRegisterWorker;
@@ -43,8 +46,6 @@ namespace ADIN.WPF.ViewModel
         private string _speedMode = "-";
         private object _thisLock;
         private string _txLevelStatus = "-";
-        private object _mainLock;
-
         /// <summary>
         /// creates new instance
         /// </summary>
@@ -56,6 +57,8 @@ namespace ADIN.WPF.ViewModel
             _mainLock = mainLock;
 
             SetBackgroundWroker();
+
+            SetPhyAddressCommand = new SetPhyAddressCommand(this, _selectedDeviceStore);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerResetDisplay += _selectedDeviceStore_FrameGenCheckerResetDisplay;
@@ -99,7 +102,6 @@ namespace ADIN.WPF.ViewModel
         }
 
         public string BoardName => _selectedDeviceStore.SelectedDevice?.BoardName ?? "No Device";
-
         public string Checker
         {
             get { return _selectedDevice?.Checker ?? "-"; }
@@ -115,7 +117,6 @@ namespace ADIN.WPF.ViewModel
         }
 
         public string DeviceType => _selectedDeviceStore.SelectedDevice?.DeviceType.ToString() ?? "-";
-
         public string Generator
         {
             get
@@ -137,16 +138,6 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        //public string LinkLength
-        //{
-        //    get { return _linkLength; }
-        //    set
-        //    {
-        //        _linkLength = value;
-        //        OnPropertyChanged(nameof(LinkLength));
-        //    }
-        //}
-
         public bool Is1100Visible
         {
             get
@@ -157,6 +148,15 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        //public string LinkLength
+        //{
+        //    get { return _linkLength; }
+        //    set
+        //    {
+        //        _linkLength = value;
+        //        OnPropertyChanged(nameof(LinkLength));
+        //    }
+        //}
         public bool IsVisibleSpeedList
         {
             get
@@ -212,16 +212,6 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public string MasterSlaveStatus
-        {
-            get { return _masterSlaveStatus; }
-            set
-            {
-                _masterSlaveStatus = value;
-                OnPropertyChanged(nameof(MasterSlaveStatus));
-            }
-        }
-
         public List<string> LocalAdvertisedSpeeds
         {
             get { return _localAdvertisedSpeeds; }
@@ -233,6 +223,16 @@ namespace ADIN.WPF.ViewModel
                     OnPropertyChanged(nameof(LocalAdvertisedSpeeds));
                     OnPropertyChanged(nameof(AdvertisedSpeed));
                 }
+            }
+        }
+
+        public string MasterSlaveStatus
+        {
+            get { return _masterSlaveStatus; }
+            set
+            {
+                _masterSlaveStatus = value;
+                OnPropertyChanged(nameof(MasterSlaveStatus));
             }
         }
 
@@ -257,8 +257,6 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        //public string PhyAddress => _selectedDeviceStore.SelectedDevice?.PhyAddress.ToString() ?? "-";
-
         public uint PhyAddress
         {
             get { return _selectedDeviceStore.SelectedDevice.PhyAddress; }
@@ -269,7 +267,7 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-
+        //public string PhyAddress => _selectedDeviceStore.SelectedDevice?.PhyAddress.ToString() ?? "-";
         public List<string> RemoteAdvertisedSpeeds
         {
             get { return _remoteAdvertisedSpeeds; }
@@ -285,17 +283,7 @@ namespace ADIN.WPF.ViewModel
         }
 
         public string SerialNumber => _selectedDeviceStore.SelectedDevice?.SerialNumber ?? "-";
-
-        public string TxLevelStatus
-        {
-            get { return _txLevelStatus; }
-            set
-            {
-                _txLevelStatus = value;
-                OnPropertyChanged(nameof(TxLevelStatus));
-            }
-        }
-
+        public ICommand SetPhyAddressCommand { get; set; }
         public string SpeedMode
         {
             get
@@ -318,6 +306,15 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public string TxLevelStatus
+        {
+            get { return _txLevelStatus; }
+            set
+            {
+                _txLevelStatus = value;
+                OnPropertyChanged(nameof(TxLevelStatus));
+            }
+        }
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
 
         protected override void Dispose()
