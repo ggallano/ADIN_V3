@@ -15,7 +15,7 @@ namespace ADIN.WPF.ViewModel
         private bool _isPoweredUp = false;
         private string _linkStatus = "Disable Linking";
         private string _powerDownStatus = "Software Power Down";
-        private bool _disableButton = false;
+        private bool _enableButton = true;
         private bool _isPortNumVisible = false;
         private SelectedDeviceStore _selectedDeviceStore;
 
@@ -130,13 +130,13 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public bool DisableButton
+        public bool EnableButton
         {
-            get { return _disableButton; }
+            get { return _enableButton; }
             set
             {
-                _disableButton = value;
-                OnPropertyChanged(nameof(DisableButton));
+                _enableButton = value;
+                OnPropertyChanged(nameof(EnableButton));
             }
         }
 
@@ -179,7 +179,7 @@ namespace ADIN.WPF.ViewModel
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                DisableButton = onGoingCalibrationStatus;
+                EnableButton = !onGoingCalibrationStatus;
             }));
         }
 
@@ -192,6 +192,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(IsPortNumVisible));
             OnPropertyChanged(nameof(IsPort1));
             OnPropertyChanged(nameof(IsPort2));
+            OnPropertyChanged(nameof(EnableButton));
         }
     }
 }

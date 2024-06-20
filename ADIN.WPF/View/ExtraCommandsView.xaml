@@ -30,9 +30,9 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <telerik:RadRadioButton Grid.Column="0" Style="{StaticResource RadioButtonStyle}" Content="Port 1" Width="Auto" Margin="3" GroupName="PortNumber" 
-                                        Visibility="{Binding IsPortNumVisible, Converter={StaticResource booleanVisibilityConverter}}" IsChecked="{Binding IsPort1}"/>
+                                        Visibility="{Binding IsPortNumVisible, Converter={StaticResource booleanVisibilityConverter}}" IsChecked="{Binding IsPort1}" IsEnabled="{Binding EnableButton}"/>
                 <telerik:RadRadioButton Grid.Column="1" Style="{StaticResource RadioButtonStyle}" Content="Port 2" Width="Auto" Margin="3" GroupName="PortNumber" 
-                                        Visibility="{Binding IsPortNumVisible, Converter={StaticResource booleanVisibilityConverter}}" IsChecked="{Binding IsPort2}"/>
+                                        Visibility="{Binding IsPortNumVisible, Converter={StaticResource booleanVisibilityConverter}}" IsChecked="{Binding IsPort2}" IsEnabled="{Binding EnableButton}"/>
             </Grid>
         </StackPanel>
     </Grid>

@@ -46,18 +46,18 @@ namespace ADIN.WPF.Commands
 
             if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
             {
-                ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                fwADIN1100API.RegisterWrite(register, value);
+                ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                fwAPI.RegisterWrite(register, value);
             }
             else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
             {
-                ADIN1200FirmwareAPI fwADIN1200API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
-                fwADIN1200API.RegisterWrite(register, value);
+                ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
+                fwAPI.RegisterWrite(register, value);
             }
             else /*if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)*/
             {
-                ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
-                fwADIN1300API.RegisterWrite(register, value);
+                ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
+                fwAPI.RegisterWrite(register, value);
             }
             //_selectedDeviceStore.SelectedDevice.FwAPI.RegisterWrite(register, value);
             _selectedDeviceStore.OnViewModelErrorOccured($"[Register Write] Register Address: 0x{_viewModel.WriteInput.ToUpper()}, Value: 0x{_viewModel.WriteValue.ToUpper()}", Helper.Feedback.FeedbackType.Info);

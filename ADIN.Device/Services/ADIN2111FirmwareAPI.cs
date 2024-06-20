@@ -127,7 +127,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException(response);
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrgetcoeff] {response}", FeedBackType = FeedbackType.Info });
+                FeedbackLog($"[tdrgetcoeff] {response}", FeedbackType.Info);
                 return coeffs;
             }
         }
@@ -317,7 +317,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException(response);
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrgetnvp] {response}", FeedBackType = FeedbackType.Info });
+                FeedbackLog($"[tdrgetnvp] {response}", FeedbackType.Info);
                 return response;
             }
         }
@@ -340,7 +340,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException(response);
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrgetoffset] {response}", FeedBackType = FeedbackType.Info });
+                FeedbackLog($"[tdrgetoffset] {response}", FeedbackType.Info);
                 return response;
             }
         }
@@ -562,7 +562,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException(response);
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrcablecal] NVP={response}", FeedBackType = FeedbackType.Info });
+                FeedbackLog($"[tdrcablecal] NVP={response}", FeedbackType.Info);
                 return response;
             }
         }
@@ -627,7 +627,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException(response);
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdroffsetcal] Offset={response}", FeedBackType = FeedbackType.Info });
+                FeedbackLog($"[tdroffsetcal] Offset={response}", FeedbackType.Info);
                 return response;
             }
         }
@@ -894,7 +894,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException(response);
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrsetnvp] {response}", FeedBackType = FeedbackType.Info });
+                FeedbackLog($"[tdrsetnvp] {response}", FeedbackType.Info);
                 return resList;
             }
         }
@@ -922,7 +922,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException("[Offset Calibration]" + response);
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[Offset Calibration] Offset={response}", FeedBackType = FeedbackType.Info });
+                FeedbackLog($"[Offset Calibration] Offset={response}", FeedbackType.Info);
                 return response;
             }
         }
@@ -1104,7 +1104,7 @@ namespace ADIN.Device.Services
                     if (response.Contains("ERROR"))
                         throw new ApplicationException(response);
 
-                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrinit] TDR Initialized", FeedBackType = FeedbackType.Info });
+                    FeedbackLog($"[tdrinit] TDR Initialized={response}", FeedbackType.Info);
                 }
                 catch (ApplicationException ex)
                 {

@@ -41,28 +41,28 @@ namespace ADIN.WPF.Commands
 
             if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
             {
-                ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                fwADIN1100API.SetFrameCheckerSetting(frameGenChecker);
+                ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                fwAPI.SetFrameCheckerSetting(frameGenChecker);
             }
             else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
             {
-                ADIN1110FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
-                fwADIN1100API.SetFrameCheckerSetting(frameGenChecker);
+                ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                fwAPI.SetFrameCheckerSetting(frameGenChecker);
             }
             else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
             {
-                ADIN2111FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-                fwADIN1100API.SetFrameCheckerSetting(frameGenChecker);
+                ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+                fwAPI.SetFrameCheckerSetting(frameGenChecker);
             }
             else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
             {
-                ADIN1200FirmwareAPI fwADIN1200API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
-                fwADIN1200API.SetFrameCheckerSetting(frameGenChecker);
+                ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
+                fwAPI.SetFrameCheckerSetting(frameGenChecker);
             }
             else /*if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)*/
             {
-                ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
-                fwADIN1300API.SetFrameCheckerSetting(frameGenChecker);
+                ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
+                fwAPI.SetFrameCheckerSetting(frameGenChecker);
             }
 
             //_selectedDeviceStore.SelectedDevice.FwAPI.SetFrameCheckerSetting(frameGenChecker);

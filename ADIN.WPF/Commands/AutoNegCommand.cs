@@ -20,7 +20,7 @@ namespace ADIN.WPF.Commands
         {
             if (_selectedDeviceStore.SelectedDevice == null ||
                 !_extraCommandsViewModel.IsPoweredUp ||
-                _extraCommandsViewModel.DisableButton)
+                !_extraCommandsViewModel.EnableButton)
                 return false;
             return base.CanExecute(parameter);
         }
