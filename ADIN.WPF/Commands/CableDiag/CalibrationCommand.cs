@@ -26,7 +26,7 @@ namespace ADIN.WPF.Commands.CableDiag
             _viewModel.PropertyChanged += _viewModel_PropertyChanged;
         }
 
-        private TDRModel _cablediagnostic => _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.TimeDomainReflectometry;
+        private TDRModel _cablediagnostic => _selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry;
 
         public override bool CanExecute(object parameter)
         {

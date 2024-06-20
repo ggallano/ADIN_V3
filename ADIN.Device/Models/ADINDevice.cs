@@ -17,7 +17,7 @@ namespace ADIN.Device.Models
         public string BoardName => Device.BoardName;
         public BoardRevision BoardRev => Device.BoardRev;
         public uint PhyAddress => Device.PhyAddress;
-        public List<string> AdvertisedSpeeds => Device.AdvertisedSpeeds;
+        public uint PortNumber { get; set; } = 1;
         public BoardType DeviceType => Device.DeviceType;
         public IFirmwareAPI FwAPI => Device.FirmwareAPI;
         public string Checker { get; set; }
@@ -28,6 +28,7 @@ namespace ADIN.Device.Models
         public ITestMode TestMode => Device.TestMode;
         public ObservableCollection<RegisterModel> Registers => Device.Registers;
         public IDeviceStatus DeviceStatus => Device.DeviceStatus;
-        public ITimeDomainReflectometry TimeDomainReflectometry => Device.TimeDomainReflectometry;
+        public ITimeDomainReflectometry TimeDomainReflectometryPort1 => Device.TimeDomainReflectometryPort1;
+        public ITimeDomainReflectometry TimeDomainReflectometryPort2 => Device.TimeDomainReflectometryPort2;
     }
 }

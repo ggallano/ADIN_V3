@@ -17,6 +17,7 @@ namespace ADIN.WPF.Stores
         public event Action RegisterListingValueChanged;
         public event Action<string> LinkStatusChanged;
         public event Action<bool> OnGoingCalibrationStatusChanged;
+        public event Action PortNumChanged;
         //public event Action<LoopBackMode> LoopbackChanged;
         //public event Action<LoopbackModel> LoopbackStateChanged;
         public event Action SelectedDeviceChanged;
@@ -73,6 +74,10 @@ namespace ADIN.WPF.Stores
         public void OnOngoingCalibrationStatusChanged(bool OnGoingCalibrationStatus)
         {
             OnGoingCalibrationStatusChanged?.Invoke(OnGoingCalibrationStatus);
+        }
+        public void OnPortNumChanged()
+        {
+            PortNumChanged?.Invoke();
         }
         private void FirmwareAPI_ResetFrameGenCheckerStatisticsChanged(object sender, string status)
         {

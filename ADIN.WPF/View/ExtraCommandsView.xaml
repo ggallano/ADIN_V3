@@ -8,7 +8,7 @@
              xmlns:converters="clr-namespace:ADIN.WPF.Converters"
              xmlns:enum="clr-namespace:ADIN.Device.Models;assembly=ADIN.Device"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="340" d:DesignWidth="300">
     <UserControl.Resources>
         <converters:BooleanVisibilityConverter x:Key="booleanVisibilityConverter" IsInversed="False"/>
         <converters:BooleanVisibilityConverter x:Key="invertedBooleanVisibilityConverter" IsInversed="True"/>
@@ -24,6 +24,16 @@
             <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys (Pin)" Command="{Binding SubSysResetCommand}" CommandParameter="{x:Static enum:ResetType.SubSysPin}" Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}"/>
             <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys" Command="{Binding SubSysResetCommand}" CommandParameter="{x:Static enum:ResetType.SubSys}"/>
             <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: PHY" Command="{Binding PhyResetCommand}" CommandParameter="{x:Static enum:ResetType.Phy}"/>
+            <Grid Margin="0 15 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <telerik:RadRadioButton Grid.Column="0" Style="{StaticResource RadioButtonStyle}" Content="Port 1" Width="Auto" Margin="3" GroupName="PortNumber" 
+                                        Visibility="{Binding IsPortNumVisible, Converter={StaticResource booleanVisibilityConverter}}" IsChecked="{Binding IsPort1}"/>
+                <telerik:RadRadioButton Grid.Column="1" Style="{StaticResource RadioButtonStyle}" Content="Port 2" Width="Auto" Margin="3" GroupName="PortNumber" 
+                                        Visibility="{Binding IsPortNumVisible, Converter={StaticResource booleanVisibilityConverter}}" IsChecked="{Binding IsPort2}"/>
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>

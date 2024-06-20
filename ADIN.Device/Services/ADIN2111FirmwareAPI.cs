@@ -16,7 +16,7 @@ using Helper.RegularExpression;
 
 namespace ADIN.Device.Services
 {
-    public class ADIN2111FirmwareAPI : IADIN1100API
+    public class ADIN2111FirmwareAPI : IADIN2111API
     {
         private const string EXTRACTNUMBER_REGEX = @"(?<=\=)(\d+\.?\d*)";
         private static ADIN2111FirmwareAPI fwAPI;
@@ -534,7 +534,7 @@ namespace ADIN.Device.Services
         private void FeedbackLog(string message, FeedbackType feedbackType)
         {
             FeedbackModel feedback = new FeedbackModel();
-            feedback.Message = message;
+            feedback.Message = "Port" + this.portNumber.ToString() + " " + message;
             feedback.FeedBackType = feedbackType;
             OnWriteProcessCompleted(feedback);
         }
@@ -1431,9 +1431,14 @@ namespace ADIN.Device.Services
             FeedbackLog("restart auto negotiation", FeedbackType.Info);
         }
 
-        public void SetPortNumber(uint setPortNumber)
+        public uint GetPortNum()
         {
-            this.portNumber = setPortNumber;
+            return this.portNumber;
+        }
+
+        public void SetPortNum(uint portNum)
+        {
+            this.portNumber = portNum;
         }
     }
 }
