@@ -46,7 +46,7 @@
                     LoadCommand="{Binding LoadCommand}"
                     ManualCommand="{Binding ManualCommand}"
                     ValueText="Offset: "
-                    ValueBox="{Binding OffsetValue}"
+                    ValueBox="{Binding OffsetValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                     SmallChangeValue="1"/>
                 <local:TDRCalibrationBox Grid.Column="1" Grid.Row="1" 
                     Header="Cable Calibration" 
@@ -60,7 +60,7 @@
                     LoadCommand="{Binding LoadCommand}"
                     ManualCommand="{Binding ManualCommand}"
                     ValueText="NVP: "
-                    ValueBox="{Binding NvpValue}"
+                    ValueBox="{Binding NvpValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                     SmallChangeValue="0.01"/>
                 <local:TDRDiagram Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center"
                     FaultDetectCommand="{Binding FaultDetectCommand}"

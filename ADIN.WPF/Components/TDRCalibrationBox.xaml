@@ -46,13 +46,13 @@
                         <telerik:RadButton  Content="Calibrate" Style="{StaticResource FaultDetectorCalibrateButtonStyle}" Width="90" Command="{Binding CalibrateCommand}" CommandParameter="{Binding CalibrateType}" ToolTip="{Binding TDRToolTip}"/>
                         <TextBlock Text="{Binding Message}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}" Style="{StaticResource TextBlockstyle}" FontSize="12" HorizontalAlignment="Center" Visibility="{Binding IsVisibleCalibration, Converter={StaticResource booleanHiddenConverter}}"/>
                     </StackPanel>
-                    <telerik:RadButton Grid.Row="1" Grid.Column="1" Content="Save" Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding SaveCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
-                    <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load"  Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding LoadCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
+                    <telerik:RadButton Grid.Row="1" Grid.Column="1" Content="Save" Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding SaveCommand}" CommandParameter="{Binding CalibrateType}"/>
+                    <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load"  Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding LoadCommand}" CommandParameter="{Binding CalibrateType}"/>
                     <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Style="{StaticResource StackPanelStyle}" HorizontalAlignment="Right">
                         <TextBlock Text="{Binding ValueText}" VerticalAlignment="Center" Style="{StaticResource TextBlockstyle}"/>
                         <telerik:RadNumericUpDown Height="24" Width="90" Value="{Binding ValueBox, UpdateSourceTrigger=PropertyChanged}" SmallChange="{Binding SmallChangeValue}"/>
                     </StackPanel>
-                    <telerik:RadButton Grid.Row="3" Grid.Column="1" Content="Ok" Style="{StaticResource FaultDetectorOkButtonStyle}" Width="70" Command="{Binding ManualCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
+                    <telerik:RadButton Grid.Row="3" Grid.Column="1" Content="Ok" Style="{StaticResource FaultDetectorOkButtonStyle}" Width="70" Command="{Binding ManualCommand}" CommandParameter="{Binding CalibrateType}"/>
                 </Grid>
             </Grid>
         </GroupBox>
