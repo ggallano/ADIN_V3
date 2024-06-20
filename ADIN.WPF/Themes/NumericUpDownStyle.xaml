@@ -167,6 +167,16 @@
     </Style>
     <Style TargetType="telerikInput:RadNumericUpDown" BasedOn="{StaticResource RadNumericUpDownStyle}"/>
 
+    <Style x:Key="RadNumericUpDownValueStyle" TargetType="telerikInput:RadNumericUpDown" BasedOn="{StaticResource RadNumericUpDownStyle}">
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Foreground" Value="{StaticResource deviceStatus.foreground}"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <!--<Setter Property="Height" Value="30"/>-->
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
 
             
 </ResourceDictionary>

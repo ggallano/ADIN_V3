@@ -7,7 +7,7 @@
              xmlns:converter="clr-namespace:ADIN.WPF.Converters"
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="300">
+             d:DesignHeight="600" d:DesignWidth="500">
     <UserControl.Resources>
         <converter:LinkStateForegroundConverter x:Key="LinkStateForegroundConverter"/>
         <converter:MSEForegroundConverter x:Key="MSEForegroundConverter"/>
@@ -37,7 +37,8 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Phy Address: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
                         <!--<TextBlock Text="{Binding PhyAddress}" Style="{StaticResource DeviceStatusValueStyle}"/>-->
-                        <telerik:RadNumericUpDown Grid.Row="2" Grid.Column="1" Value="{Binding PhyAddress}" Minimum="0" Maximum="7" SmallChange="1"  NumberDecimalDigits="0" IsEditable="False" AutoReverse="True" Style="{StaticResource RadNumericUpDownStyle}"/>
+                        <telerik:RadNumericUpDown Value="{Binding PhyAddress}" Minimum="0" Maximum="7" SmallChange="1"  NumberDecimalDigits="0" IsEditable="False" AutoReverse="True" Style="{StaticResource RadNumericUpDownValueStyle}"/>
+                        <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Set" Width="40" Margin="10 0 0 0" Command="" />
                     </StackPanel>
                 </Border>
             </Grid>
