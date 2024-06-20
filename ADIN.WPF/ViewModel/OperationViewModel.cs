@@ -17,6 +17,7 @@ namespace ADIN.WPF.ViewModel
 
         private bool _isCableDiagSelected;
         private bool _isCableDiagVisible;
+        private bool _isAdin2111 = false;
 
         private bool _isTestModeSelected = false;
 
@@ -51,6 +52,17 @@ namespace ADIN.WPF.ViewModel
         public DeviceStatusViewModel DeviceStatusVM { get; set; }
         public ExtraCommandsViewModel ExtraCommandsVM { get; set; }
         public FrameGenCheckerViewModel FrameGenCheckerVM { get; set; }
+        
+        public bool IsADIN2111
+        {
+            get { return _isAdin2111; }
+            set
+            {
+                _isAdin2111 = value;
+                OnPropertyChanged(nameof(IsADIN2111));
+            }
+        }
+        
         public bool IsCableDiagSelected
         {
             get { return _isCableDiagSelected; }
@@ -110,6 +122,11 @@ namespace ADIN.WPF.ViewModel
                 IsCableDiagVisible = true;
             else
                 IsCableDiagVisible = false;
+
+            if (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
+                IsADIN2111 = true;
+            else
+                IsADIN2111 = false;
 
             if ((!IsCableDiagVisible) && IsCableDiagSelected)
             {
