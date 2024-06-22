@@ -138,7 +138,7 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsVisibleCableCalibration
         {
-            get { return _selectedDevice.TimeDomainReflectometry.IsVisibleCableCalibration; }
+            get { return _selectedDevice?.TimeDomainReflectometry.IsVisibleCableCalibration ?? false; }
             set
             {
                 _isVisibleCableCalibration = value;
@@ -149,7 +149,7 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsVisibleOffsetCalibration
         {
-            get { return _selectedDevice.TimeDomainReflectometry.IsVisibleOffsetCalibration; }
+            get { return _selectedDevice?.TimeDomainReflectometry.IsVisibleOffsetCalibration ?? false; }
             set
             {
                 _isVisibleOffsetCalibration = value;
@@ -177,7 +177,7 @@ namespace ADIN.WPF.ViewModel
 
         public string OffsetCalibrationMessage
         {
-            get { return _selectedDevice.TimeDomainReflectometry.OffsetCalibrationMessage; }
+            get { return _selectedDevice?.TimeDomainReflectometry.OffsetCalibrationMessage ?? string.Empty; }
             set
             {
                 _offsetCalibrationMessage = value;
@@ -224,6 +224,9 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             if ((_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1200)
              || (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1300))
                 return;

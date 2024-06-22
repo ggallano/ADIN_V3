@@ -248,21 +248,28 @@ namespace ADIN.WPF.ViewModel
 
                 _ftdiService.Open(currentNewDevice.SerialNumber);
 
-                ADINDevice adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService, _registerService, _mainLock);
-                if (adin != null)
+                var adinDevices = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService, _registerService, _mainLock);
+                if (adinDevices != null)
                 {
-                    adin.Device.SerialNumber = currentNewDevice.SerialNumber;
-                    adin.Device.BoardName = currentNewDevice.Description;
+                    foreach (var adin in adinDevices)
+                    {
+                        adin.Device.SerialNumber = currentNewDevice.SerialNumber;
+                        adin.Device.BoardName = currentNewDevice.Description;
+                    }
                 }
 
                 _ftdiService.Close();
 
-                Application.Current.Dispatcher.Invoke(new Action (() =>
+                Application.Current.Dispatcher.Invoke(new Action(() =>
                 {
-                    _deviceListingViewModels.Add(new DeviceListingItemViewModel(adin));
-                    _feedback.Message = $"Device Added: {adin.SerialNumber}";
-                    _feedback.FeedBackType = FeedbackType.Info;
-                    _logActivityViewModel.SetFeedback(_feedback, false);
+                    if (adinDevices != null)
+                        foreach (var adin in adinDevices)
+                        {
+                            _deviceListingViewModels.Add(new DeviceListingItemViewModel(adin));
+                            _feedback.Message = $"Device Added: {adin.SerialNumber}";
+                            _feedback.FeedBackType = FeedbackType.Info;
+                            _logActivityViewModel.SetFeedback(_feedback, false);
+                        }
                 }));
             }
         }
