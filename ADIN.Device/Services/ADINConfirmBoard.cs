@@ -32,67 +32,31 @@ namespace ADIN.Device.Services
             return false;
         }
 
-        //public static ADINDevice GetADINBoard(string BoardName, IFTDIServices ftdtService, IRegisterService _registerService, object mainLock)
-        //{
-        //    if (BoardName == "EVAL-ADIN1100EBZ" 
-        //     || BoardName == "EVAL-ADIN1100FMCZ" 
-        //     || BoardName == "DEMO-ADIN1100-DIZ" 
-        //     || BoardName == "DEMO-ADIN1100D2Z")
-        //    {
-        //        return new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock));
-        //    }
-
-        //    if (BoardName == "EVAL-ADIN1110EBZ")
-        //    {
-        //        return new ADINDevice(new ADIN1110Model(ftdtService, _registerService, mainLock));
-        //    }
-
-        //    if (BoardName == "EVAL-ADIN1300" 
-        //     || BoardName == "ADIN1300 MDIO DONGLE")
-        //    {
-        //        return new ADINDevice(new ADIN1300Model(ftdtService, _registerService, mainLock));
-        //    }
-
-        //    if (BoardName == "EVAL-ADIN1200" 
-        //     || BoardName == "ADIN1200 MDIO DONGLE")
-        //    {
-        //        return new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock));
-        //    }
-
-        //    return null;
-        //}
-
-        public static List<ADINDevice> GetADINBoard(string BoardName, IFTDIServices ftdtService, IRegisterService _registerService, object mainLock)
+        public static ADINDevice GetADINBoard(string BoardName, IFTDIServices ftdtService, IRegisterService _registerService, object mainLock)
         {
-            List<ADINDevice> devices = new List<ADINDevice>();
-            if (BoardName == "EVAL-ADIN1100EBZ"
-             || BoardName == "EVAL-ADIN1100FMCZ"
-             || BoardName == "DEMO-ADIN1100-DIZ"
+            if (BoardName == "EVAL-ADIN1100EBZ" 
+             || BoardName == "EVAL-ADIN1100FMCZ" 
+             || BoardName == "DEMO-ADIN1100-DIZ" 
              || BoardName == "DEMO-ADIN1100D2Z")
             {
-                devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock)));
-                devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock)));
-
-                return devices;
+                return new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock));
             }
 
             if (BoardName == "EVAL-ADIN1110EBZ")
             {
-                devices.Add(new ADINDevice(new ADIN1110Model(ftdtService, _registerService, mainLock)));
-
-                return devices;
+                return new ADINDevice(new ADIN1110Model(ftdtService, _registerService, mainLock));
             }
 
-            if (BoardName == "EVAL-ADIN1300"
+            if (BoardName == "EVAL-ADIN1300" 
              || BoardName == "ADIN1300 MDIO DONGLE")
             {
-                devices.Add(new ADINDevice(new ADIN1300Model(ftdtService, _registerService, mainLock)));
+                return new ADINDevice(new ADIN1300Model(ftdtService, _registerService, mainLock));
             }
 
-            if (BoardName == "EVAL-ADIN1200"
+            if (BoardName == "EVAL-ADIN1200" 
              || BoardName == "ADIN1200 MDIO DONGLE")
             {
-                devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock)));
+                return new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock));
             }
 
             return null;

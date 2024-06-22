@@ -15,6 +15,5 @@ namespace ADIN.WPF.ViewModel
         public string ImagePath { get; }
         public string Name => Device.Device.BoardName;
         public string SerialNumber => Device.Device.SerialNumber;
-        public string ADINChip => Device.Device.DeviceType.ToString();
     }
 }
