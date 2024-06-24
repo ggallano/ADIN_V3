@@ -264,20 +264,6 @@ namespace ADIN.WPF.ViewModel
                     }));
                 }
 
-                //if (adin != null)
-                //{
-                //    adin[0].Device.SerialNumber = currentNewDevice.SerialNumber;
-                //    adin[0].Device.BoardName = currentNewDevice.Description;
-                //}
-
-                //Application.Current.Dispatcher.Invoke(new Action (() =>
-                //{
-                //    _deviceListingViewModels.Add(new DeviceListingItemViewModel(adin[0]));
-                //    _feedback.Message = $"Device Added: {adin[0].SerialNumber}";
-                //    _feedback.FeedBackType = FeedbackType.Info;
-                //    _logActivityViewModel.SetFeedback(_feedback, false);
-                //}));
-
                 _ftdiService.Close();
             }
         }

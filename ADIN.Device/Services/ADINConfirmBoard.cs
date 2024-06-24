@@ -19,9 +19,7 @@ namespace ADIN.Device.Services
             //"EVAL-ADIN2111EBZ",
 
             "ADIN1300 MDIO DONGLE",
-            "EVAL-ADIN1300",
             "ADIN1200 MDIO DONGLE",
-            "EVAL-ADIN1200",
         };
 
         public static bool ConfirmADINBoard(string boardName)
@@ -36,30 +34,30 @@ namespace ADIN.Device.Services
         {
             List<ADINDevice> devices = new List<ADINDevice>();
 
-            if (BoardName == "EVAL-ADIN1100EBZ" 
-             || BoardName == "EVAL-ADIN1100FMCZ" 
-             || BoardName == "DEMO-ADIN1100-DIZ" 
-             || BoardName == "DEMO-ADIN1100D2Z")
+            switch (BoardName)
             {
-                devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock)));
-            }
-
-            if (BoardName == "EVAL-ADIN1110EBZ")
-            {
-                devices.Add(new ADINDevice(new ADIN1110Model(ftdtService, _registerService, mainLock)));
-            }
-
-            if (BoardName == "EVAL-ADIN1300" 
-             || BoardName == "ADIN1300 MDIO DONGLE")
-            {
-                devices.Add(new ADINDevice(new ADIN1300Model(ftdtService, _registerService, mainLock)));
-            }
-
-            if (BoardName == "EVAL-ADIN1200" 
-             || BoardName == "ADIN1200 MDIO DONGLE"
-             || BoardName == "DEMO-ADIN1100D2Z")
-            {
-                devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock)));
+                case "EVAL-ADIN1100EBZ":
+                case "EVAL-ADIN1100FMCZ":
+                case "DEMO-ADIN1100-DIZ":
+                case "DEMO-ADIN1100D2Z":
+                    devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock)));
+                    devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock)));
+                    break;
+                case "ADIN1200 MDIO DONGLE":
+                    devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock)));
+                    break;
+                case "ADIN1300 MDIO DONGLE":
+                    devices.Add(new ADINDevice(new ADIN1300Model(ftdtService, _registerService, mainLock)));
+                    break;
+                case "EVAL-ADIN1110EBZ":
+                    devices.Add(new ADINDevice(new ADIN1110Model(ftdtService, _registerService, mainLock)));
+                    break;
+                //case "EVAL-ADIN2111EBZ":
+                //    devices.Add(new ADINDevice(new ADIN2111Model(ftdtService, _registerService, mainLock)));
+                //    break;
+                default:
+                    // No board matching the list
+                    break;
             }
 
             return devices;
