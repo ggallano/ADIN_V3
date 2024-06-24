@@ -138,7 +138,7 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsVisibleCableCalibration
         {
-            get { return _selectedDevice.TimeDomainReflectometry.IsVisibleCableCalibration; }
+            get { return _selectedDevice?.TimeDomainReflectometry.IsVisibleCableCalibration == true; }
             set
             {
                 _isVisibleCableCalibration = value;
@@ -149,7 +149,7 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsVisibleOffsetCalibration
         {
-            get { return _selectedDevice.TimeDomainReflectometry.IsVisibleOffsetCalibration; }
+            get { return _selectedDevice?.TimeDomainReflectometry.IsVisibleOffsetCalibration == true; }
             set
             {
                 _isVisibleOffsetCalibration = value;
@@ -177,7 +177,7 @@ namespace ADIN.WPF.ViewModel
 
         public string OffsetCalibrationMessage
         {
-            get { return _selectedDevice.TimeDomainReflectometry.OffsetCalibrationMessage; }
+            get { return _selectedDevice?.TimeDomainReflectometry.OffsetCalibrationMessage; }
             set
             {
                 _offsetCalibrationMessage = value;
