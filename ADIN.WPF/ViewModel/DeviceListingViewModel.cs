@@ -248,22 +248,37 @@ namespace ADIN.WPF.ViewModel
 
                 _ftdiService.Open(currentNewDevice.SerialNumber);
 
-                ADINDevice adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService, _registerService, _mainLock);
-                if (adin != null)
+                List<ADINDevice> adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService, _registerService, _mainLock);
+
+                foreach (var adinSubDevice in adin)
                 {
-                    adin.Device.SerialNumber = currentNewDevice.SerialNumber;
-                    adin.Device.BoardName = currentNewDevice.Description;
+                    adinSubDevice.Device.SerialNumber = currentNewDevice.SerialNumber;
+                    adinSubDevice.Device.BoardName = currentNewDevice.Description;
+
+                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                    {
+                        _deviceListingViewModels.Add(new DeviceListingItemViewModel(adinSubDevice));
+                        _feedback.Message = $"Device Added: {adinSubDevice.SerialNumber}";
+                        _feedback.FeedBackType = FeedbackType.Info;
+                        _logActivityViewModel.SetFeedback(_feedback, false);
+                    }));
                 }
 
-                _ftdiService.Close();
+                //if (adin != null)
+                //{
+                //    adin[0].Device.SerialNumber = currentNewDevice.SerialNumber;
+                //    adin[0].Device.BoardName = currentNewDevice.Description;
+                //}
 
-                Application.Current.Dispatcher.Invoke(new Action (() =>
-                {
-                    _deviceListingViewModels.Add(new DeviceListingItemViewModel(adin));
-                    _feedback.Message = $"Device Added: {adin.SerialNumber}";
-                    _feedback.FeedBackType = FeedbackType.Info;
-                    _logActivityViewModel.SetFeedback(_feedback, false);
-                }));
+                //Application.Current.Dispatcher.Invoke(new Action (() =>
+                //{
+                //    _deviceListingViewModels.Add(new DeviceListingItemViewModel(adin[0]));
+                //    _feedback.Message = $"Device Added: {adin[0].SerialNumber}";
+                //    _feedback.FeedBackType = FeedbackType.Info;
+                //    _logActivityViewModel.SetFeedback(_feedback, false);
+                //}));
+
+                _ftdiService.Close();
             }
         }
 
