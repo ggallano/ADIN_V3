@@ -147,6 +147,11 @@ namespace ADIN.WPF.ViewModel
                     ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
                     return fwAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
                 }
+                else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN2111FirmwareAPI)
+                {
+                    ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+                    return fwAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+                }
                 else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1200FirmwareAPI)
                 {
                     ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
@@ -212,7 +217,8 @@ namespace ADIN.WPF.ViewModel
             {
                 return (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100)
                   || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1)
-                  || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110);
+                  || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110)
+                  || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111);
             }
         }
 

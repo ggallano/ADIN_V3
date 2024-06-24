@@ -1,6 +1,8 @@
 ﻿using ADIN.WPF.Commands;
 using ADIN.WPF.Service;
 using ADIN.WPF.Stores;
+using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace ADIN.WPF.ViewModel
@@ -13,6 +15,7 @@ namespace ADIN.WPF.ViewModel
         private string _readOutput = string.Empty;
         private string _writeInput = string.Empty;
         private string _writeValue = string.Empty;
+        private bool _disableButton = false;
 
         public RegisterAccessViewModel(SelectedDeviceStore selectedDeviceStore, NavigationStore navigationStore)
         {
@@ -23,6 +26,7 @@ namespace ADIN.WPF.ViewModel
             WriteRegisterCommand = new WriteRegisterCommand(this, selectedDeviceStore);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
         }
 
         public bool IsEnable
@@ -72,6 +76,24 @@ namespace ADIN.WPF.ViewModel
         }
 
         public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+
+        public bool DisableButton
+        {
+            get { return _disableButton; }
+            set
+            {
+                _disableButton = value;
+                OnPropertyChanged(nameof(DisableButton));
+            }
+        }
+
+        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                DisableButton = onGoingCalibrationStatus;
+            }));
+        }
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {

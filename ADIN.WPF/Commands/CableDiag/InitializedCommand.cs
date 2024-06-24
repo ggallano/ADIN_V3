@@ -28,11 +28,11 @@ namespace ADIN.WPF.Commands.CableDiag
 
         public override void Execute(object parameter)
         {
-            ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+            ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
 
-            fwADIN1100API.TDRInit();
-            _viewModel.OffsetValue = Decimal.Parse(fwADIN1100API.GetOffset());
-            _viewModel.NvpValue = Decimal.Parse(fwADIN1100API.GetNvp());
+            fwAPI.TDRInit();
+            _viewModel.OffsetValue = Decimal.Parse(fwAPI.GetOffset());
+            _viewModel.NvpValue = Decimal.Parse(fwAPI.GetNvp());
             _viewModel.CableFileName = "-";
             _viewModel.OffsetFileName = "-";
 

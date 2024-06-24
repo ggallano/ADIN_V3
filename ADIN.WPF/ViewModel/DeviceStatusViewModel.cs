@@ -67,7 +67,8 @@ namespace ADIN.WPF.ViewModel
             {
                 if ((_selectedDevice?.DeviceType == BoardType.ADIN1100)
                  || (_selectedDevice?.DeviceType == BoardType.ADIN1100_S1)
-                 || (_selectedDevice?.DeviceType == BoardType.ADIN1110))
+                 || (_selectedDevice?.DeviceType == BoardType.ADIN1110)
+                 || (_selectedDevice?.DeviceType == BoardType.ADIN2111))
                     return _localAdvertisedSpeeds[0];
 
                 if (_selectedDevice?.DeviceType == BoardType.ADIN1200
@@ -153,7 +154,8 @@ namespace ADIN.WPF.ViewModel
             {
                 return (_selectedDevice?.DeviceType == BoardType.ADIN1100)
                     || (_selectedDevice?.DeviceType == BoardType.ADIN1100_S1)
-                    || (_selectedDevice?.DeviceType == BoardType.ADIN1110);
+                    || (_selectedDevice?.DeviceType == BoardType.ADIN1110)
+                    || (_selectedDevice?.DeviceType == BoardType.ADIN2111);
             }
         }
 
@@ -164,7 +166,8 @@ namespace ADIN.WPF.ViewModel
                 return _speedMode == "Advertised"
                     && ((_selectedDevice?.DeviceType != BoardType.ADIN1100)
                     && (_selectedDevice?.DeviceType != BoardType.ADIN1100_S1)
-                    && (_selectedDevice?.DeviceType != BoardType.ADIN1110));
+                    && (_selectedDevice?.DeviceType != BoardType.ADIN1110)
+                    && (_selectedDevice?.DeviceType != BoardType.ADIN2111));
             }
         }
 
@@ -354,6 +357,14 @@ namespace ADIN.WPF.ViewModel
                             else if (_selectedDevice.FwAPI is ADIN1110FirmwareAPI)
                             {
                                 var fwAPI = _selectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                                AnStatus = fwAPI.GetAnStatus();
+                                MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
+                                TxLevelStatus = fwAPI.GetTxLevelStatus();
+                                MseValue = _selectedDevice.FwAPI.GetMseValue(_selectedDevice.BoardRev);
+                            }
+                            else if (_selectedDevice.FwAPI is ADIN2111FirmwareAPI)
+                            {
+                                var fwAPI = _selectedDevice.FwAPI as ADIN2111FirmwareAPI;
                                 AnStatus = fwAPI.GetAnStatus();
                                 MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
                                 TxLevelStatus = fwAPI.GetTxLevelStatus();
