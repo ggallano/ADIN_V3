@@ -30,8 +30,8 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Column="0" Grid.Row="1" Margin="0 5 5 0">
                 <Button Style="{DynamicResource AdiLogoStyle}"/>
-                <TextBlock Text="Local Devices" FontWeight="Bold" FontSize="18" Margin="0 20 0 5"/>
-                <components:DeviceListing DataContext="{Binding DeviceListingVM}" Height="150"/>
+                <TextBlock Text="Local Devices" FontWeight="Bold" FontSize="18" Margin="4 20 0 5"/>
+                <components:DeviceListing DataContext="{Binding DeviceListingVM}" Height="200"/>
                 <!--<local:ADINButtonsView/>-->
                 <local:ExtraCommandsView DataContext="{Binding ExtraCommandsVM}" Height="300"/>
             </StackPanel>
