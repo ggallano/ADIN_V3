@@ -23,6 +23,7 @@ namespace ADIN.WPF.ViewModel
         private BackgroundWorker _readRegisterWorker;
         private SelectedDeviceStore _selectedDeviceStore;
         private RegisterModel _selectedRegister;
+        private bool _loggedOneError = false;
         public RegisterListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
         {
             _selectedDeviceStore = selectedDeviceStore;
@@ -112,7 +113,14 @@ namespace ADIN.WPF.ViewModel
                             });
                         }
                     }
+                    _loggedOneError = false;
                     Thread.Sleep(10);
+                }
+                catch (ApplicationException)
+                {
+                    if (!_loggedOneError)
+                        _selectedDeviceStore.OnViewModelFeedbackLog("Error at reading registers.", Helper.Feedback.FeedbackType.Error);
+                    _loggedOneError = true;
                 }
                 catch (Exception ex)
                 {
