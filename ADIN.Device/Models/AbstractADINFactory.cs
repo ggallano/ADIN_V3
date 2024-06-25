@@ -21,6 +21,7 @@ namespace ADIN.Device.Models
         public ITestMode TestMode { get; set; }
         public ObservableCollection<RegisterModel> Registers { get; set; }
         public IDeviceStatus DeviceStatus { get; set; }
-        public ITimeDomainReflectometry TimeDomainReflectometry { get; set; }
+        public ITimeDomainReflectometry TimeDomainReflectometryPort1 { get; set; }
+        public ITimeDomainReflectometry TimeDomainReflectometryPort2 { get; set; }
     }
 }

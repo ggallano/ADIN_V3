@@ -1,6 +1,9 @@
 ﻿using ADIN.Device.Models;
 using ADIN.WPF.Commands.CableDiag;
 using ADIN.WPF.Stores;
+using ADIN.WPF.View;
+using System;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -43,6 +46,7 @@ namespace ADIN.WPF.ViewModel
             FaultDetectCommand = new TDRFaultDetectorCommand(this, _selectedDeviceStore);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.PortNumChanged += _selectedDeviceStore_PortNumChanged;
         }
 
         public string BusyContent
@@ -56,22 +60,40 @@ namespace ADIN.WPF.ViewModel
         }
         public string CableCalibrationMessage
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.CableCalibrationMessage; }
+            get 
+            { 
+                if (_selectedDevice?.PortNumber == 1)
+                    return _faultDetectorPort1?.CableCalibrationMessage; 
+                else
+                    return _faultDetectorPort2?.CableCalibrationMessage; 
+            }
             set
             {
                 _cableCalibrationMessage = value;
-                _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.CableCalibrationMessage = value;
+                if (_selectedDevice?.PortNumber == 1)
+                    _faultDetectorPort1.CableCalibrationMessage = value;
+                else
+                    _faultDetectorPort2.CableCalibrationMessage = value;
                 OnPropertyChanged(nameof(CableCalibrationMessage));
             }
         }
 
         public string CableFileName
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.CableFileName ?? "-"; }
+            get
+            {
+                if (_selectedDevice?.PortNumber == 1)
+                    return _faultDetectorPort1?.CableFileName ?? "-"; 
+                else
+                    return _faultDetectorPort2?.CableFileName ?? "-"; 
+            }
             set
             {
                 _cableFileName = value;
-                _faultDetector.CableFileName = value;
+                if (_selectedDevice?.PortNumber == 1)
+                    _faultDetectorPort1.CableFileName = value;
+                else
+                    _faultDetectorPort2.CableFileName = value;
                 OnPropertyChanged(nameof(CableFileName));
             }
         }
@@ -80,22 +102,40 @@ namespace ADIN.WPF.ViewModel
 
         public string DistToFault
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.DistToFault ?? "0.00"; }
+            get
+            {
+                if (_selectedDevice?.PortNumber == 1)
+                    return _faultDetectorPort1?.DistToFault ?? "0.00"; 
+                else
+                    return _faultDetectorPort2?.DistToFault ?? "0.00"; 
+            }
             set
             {
                 _distToFault = value;
-                _faultDetector.DistToFault = value;
+                if (_selectedDevice?.PortNumber == 1)
+                    _faultDetectorPort1.DistToFault = value;
+                else
+                    _faultDetectorPort2.DistToFault = value;
                 OnPropertyChanged(nameof(DistToFault));
             }
         }
 
         public Brush FaultBackgroundBrush
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.FaultBackgroundBrush ?? new SolidColorBrush(Colors.LightGray); }
+            get
+            {
+                if (_selectedDevice?.PortNumber == 1)
+                    return _faultDetectorPort1?.FaultBackgroundBrush ?? new SolidColorBrush(Colors.LightGray); 
+                else
+                    return _faultDetectorPort2?.FaultBackgroundBrush ?? new SolidColorBrush(Colors.LightGray); 
+            }
             set
             {
                 _faultBackgroundBrush = value;
-                _faultDetector.FaultBackgroundBrush = value;
+                if (_selectedDevice?.PortNumber == 1)
+                    _faultDetectorPort1.FaultBackgroundBrush = value;
+                else
+                    _faultDetectorPort2.FaultBackgroundBrush = value;
                 OnPropertyChanged(nameof(FaultBackgroundBrush));
             }
         }
@@ -104,11 +144,20 @@ namespace ADIN.WPF.ViewModel
 
         public string FaultState
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.FaultState ?? ""; }
+            get
+            {
+                if (_selectedDevice?.PortNumber == 1)
+                    return _faultDetectorPort1?.FaultState ?? ""; 
+                else
+                    return _faultDetectorPort2?.FaultState ?? ""; 
+            }
             set
             {
                 _faultState = value;
-                _faultDetector.FaultState = value;
+                if (_selectedDevice?.PortNumber == 1)
+                    _faultDetectorPort1.FaultState = value;
+                else
+                    _faultDetectorPort2.FaultState = value;
                 OnPropertyChanged(nameof(FaultState));
             }
         }
@@ -117,11 +166,20 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsFaultVisibility
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.IsFaultVisibility ?? false; }
+            get
+            {
+                if (_selectedDevice?.PortNumber == 1)
+                    return _faultDetectorPort1?.IsFaultVisibility ?? false; 
+                else
+                    return _faultDetectorPort2?.IsFaultVisibility ?? false; 
+            }
             set
             {
                 _isFaultVisibility = value;
-                _faultDetector.IsFaultVisibility = value;
+                if (_selectedDevice?.PortNumber == 1)
+                    _faultDetectorPort1.IsFaultVisibility = value;
+                else
+                    _faultDetectorPort2.IsFaultVisibility = value;
                 OnPropertyChanged(nameof(IsFaultVisibility));
             }
         }
@@ -132,28 +190,50 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _isOngoingCalibration = value;
+                if (_isOngoingCalibration)
+                    _selectedDeviceStore.OnOngoingCalibrationStatusChanged(value);
+                else
+                    _selectedDeviceStore.OnOngoingCalibrationStatusChanged(value);
                 OnPropertyChanged(nameof(IsOngoingCalibration));
             }
         }
 
         public bool IsVisibleCableCalibration
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.IsVisibleCableCalibration == true; }
+            get
+            {
+                if (_selectedDevice?.PortNumber == 1)
+                    return _faultDetectorPort1?.IsVisibleCableCalibration == true; 
+                else
+                    return _faultDetectorPort2?.IsVisibleCableCalibration == true; 
+            }
             set
             {
                 _isVisibleCableCalibration = value;
-                _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.IsVisibleCableCalibration = value;
+                if (_selectedDevice?.PortNumber == 1)
+                    _selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.IsVisibleCableCalibration = value;
+                else
+                    _selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort2.IsVisibleCableCalibration = value;
                 OnPropertyChanged(nameof(IsVisibleCableCalibration));
             }
         }
 
         public bool IsVisibleOffsetCalibration
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.IsVisibleOffsetCalibration == true; }
+            get
+            {
+                if (_selectedDevice?.PortNumber == 1)
+                    return _faultDetectorPort1?.IsVisibleOffsetCalibration == true; 
+                else
+                    return _faultDetectorPort2?.IsVisibleOffsetCalibration == true; 
+            }
             set
             {
                 _isVisibleOffsetCalibration = value;
-                _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.IsVisibleOffsetCalibration = value;
+                if (_selectedDevice?.PortNumber == 1)
+                    _selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.IsVisibleOffsetCalibration = value;
+                else
+                    _selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort2.IsVisibleOffsetCalibration = value;
                 OnPropertyChanged(nameof(IsVisibleOffsetCalibration));
             }
         }
@@ -163,13 +243,22 @@ namespace ADIN.WPF.ViewModel
 
         public decimal NvpValue
         {
-            get { return _cableDiagnostic?.NVP ?? 0.0M; }
+            get
+            {
+                if (_selectedDevice?.PortNumber == 1)
+                    return _cableDiagnosticPort1?.NVP ?? 0.0M; 
+                else
+                    return _cableDiagnosticPort2?.NVP ?? 0.0M; 
+            }
             set
             {
                 if (_selectedDevice != null)
                 {
                     _nvpValue = value;
-                    _cableDiagnostic.NVP = value;
+                    if (_selectedDevice?.PortNumber == 1)
+                        _cableDiagnosticPort1.NVP = value;
+                    else
+                        _cableDiagnosticPort2.NVP = value;
                 }
                 OnPropertyChanged(nameof(NvpValue));
             }
@@ -177,48 +266,97 @@ namespace ADIN.WPF.ViewModel
 
         public string OffsetCalibrationMessage
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.OffsetCalibrationMessage; }
+            get
+            {
+                if (_selectedDevice?.PortNumber == 1)
+                    return _faultDetectorPort1?.OffsetCalibrationMessage; 
+                else
+                    return _faultDetectorPort2?.OffsetCalibrationMessage; 
+            }
             set
             {
                 _offsetCalibrationMessage = value;
-                _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.OffsetCalibrationMessage = value;
+                if (_selectedDevice?.PortNumber == 1)
+                    _faultDetectorPort1.OffsetCalibrationMessage = value;
+                else
+                    _faultDetectorPort2.OffsetCalibrationMessage = value;
                 OnPropertyChanged(nameof(OffsetCalibrationMessage));
             }
         }
 
         public string OffsetFileName
         {
-            get { return _selectedDevice?.TimeDomainReflectometry.OffsetFileName ?? "-"; }
+            get
+            {
+                if (_selectedDevice?.PortNumber == 1)
+                    return _faultDetectorPort1?.OffsetFileName ?? "-"; 
+                else
+                    return _faultDetectorPort2?.OffsetFileName ?? "-"; 
+            }
             set
             {
                 _offsetFileName = value;
-                _faultDetector.OffsetFileName = value;
+                if (_selectedDevice?.PortNumber == 1)
+                    _faultDetectorPort1.OffsetFileName = value;
+                else
+                    _faultDetectorPort2.OffsetFileName = value;
                 OnPropertyChanged(nameof(OffsetFileName));
             }
         }
 
         public decimal OffsetValue
         {
-            get { return _cableDiagnostic?.CableOffset ?? 0.0M; }
+            get
+            {
+                if (_selectedDevice?.PortNumber == 1)
+                    return _cableDiagnosticPort1?.CableOffset ?? 0.0M; 
+                else
+                    return _cableDiagnosticPort2?.CableOffset ?? 0.0M; 
+            }
             set
             {
                 if (_selectedDevice != null)
                 {
                     _offsetValue = value;
-                    _cableDiagnostic.CableOffset = value;
+                    if (_selectedDevice?.PortNumber == 1)
+                        _cableDiagnosticPort1.CableOffset = value;
+                    else
+                        _cableDiagnosticPort2.CableOffset = value;
                 }
                 OnPropertyChanged(nameof(OffsetValue));
             }
         }
 
+        private void _selectedDeviceStore_PortNumChanged()
+        {
+            OnPropertyChanged(nameof(FaultBackgroundBrush));
+            OnPropertyChanged(nameof(IsVisibleCableCalibration));
+            OnPropertyChanged(nameof(CableCalibrationMessage));
+            OnPropertyChanged(nameof(IsVisibleOffsetCalibration));
+            OnPropertyChanged(nameof(OffsetCalibrationMessage));
+
+            OnPropertyChanged(nameof(OffsetValue));
+            OnPropertyChanged(nameof(NvpValue));
+            OnPropertyChanged(nameof(IsFaultVisibility));
+            OnPropertyChanged(nameof(IsOngoingCalibration));
+            OnPropertyChanged(nameof(BusyContent));
+            OnPropertyChanged(nameof(CableFileName));
+            OnPropertyChanged(nameof(OffsetFileName));
+            OnPropertyChanged(nameof(DistToFault));
+            OnPropertyChanged(nameof(FaultState));
+        }
+
         public ICommand SaveCommand { get; set; }
-        private TDRModel _cableDiagnostic => _selectedDevice?.TimeDomainReflectometry.TimeDomainReflectometry;
-        private ITimeDomainReflectometry _faultDetector => _selectedDevice.TimeDomainReflectometry;
+        private TDRModel _cableDiagnosticPort1 => _selectedDevice?.TimeDomainReflectometryPort1?.TimeDomainReflectometry;
+        private TDRModel _cableDiagnosticPort2 => _selectedDevice?.TimeDomainReflectometryPort2?.TimeDomainReflectometry;
+        private ITimeDomainReflectometry _faultDetectorPort1 => _selectedDevice?.TimeDomainReflectometryPort1;
+        private ITimeDomainReflectometry _faultDetectorPort2 => _selectedDevice?.TimeDomainReflectometryPort2;
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
 
         protected override void Dispose()
         {
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.PortNumChanged -= _selectedDeviceStore_PortNumChanged;
             base.Dispose();
         }
 

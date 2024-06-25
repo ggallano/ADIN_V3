@@ -51,7 +51,7 @@ namespace ADIN.Device.Models
             FrameGenChecker = new FrameGenCheckerADIN1100();
             Loopback = new LoopbackADIN1100();
 
-            TimeDomainReflectometry = new TimeDomainReflectometryADIN1100();
+            TimeDomainReflectometryPort1 = new TimeDomainReflectometryADIN1100();
             GetTDRValue();
         }
 
@@ -99,8 +99,8 @@ namespace ADIN.Device.Models
 
         private void GetTDRValue()
         {
-            TimeDomainReflectometry.TimeDomainReflectometry.CableOffset = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetOffset());
-            TimeDomainReflectometry.TimeDomainReflectometry.NVP = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetNvp());
+            TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetOffset());
+            TimeDomainReflectometryPort1.TimeDomainReflectometry.NVP = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetNvp());
         }
 
         private void GetTestModeValue()

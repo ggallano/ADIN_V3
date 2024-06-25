@@ -49,13 +49,18 @@ namespace ADIN.WPF.Commands.CableDiag
                         saveFileDialog.Filter = "Calibrate Offset file (*.cof)|*.cof";
                         if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
                         {
-                            ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                            result = fwADIN1100API.GetOffset();
+                            ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                            result = fwAPI.GetOffset();
                         }
-                        else
+                        else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
                         {
-                            ADIN1110FirmwareAPI fwADIN1110API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
-                            result = fwADIN1110API.GetOffset();
+                            ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                            result = fwAPI.GetOffset();
+                        }
+                        else //if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
+                        {
+                            ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+                            result = fwAPI.GetOffset();
                         }
                         //var result = fwADIN1100API.GetOffset();
 
@@ -73,13 +78,18 @@ namespace ADIN.WPF.Commands.CableDiag
                         saveFileDialog.Filter = "Calibrate Cable file (*.ccf)|*.ccf";
                         if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
                         {
-                            ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                            results = fwADIN1100API.GetCoeff();
+                            ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                            results = fwAPI.GetCoeff();
                         }
-                        else
+                        else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
                         {
-                            ADIN1110FirmwareAPI fwADIN1110API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
-                            results = fwADIN1110API.GetCoeff();
+                            ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                            results = fwAPI.GetCoeff();
+                        }
+                        else //if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
+                        {
+                            ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+                            results = fwAPI.GetCoeff();
                         }
                         //var results = fwADIN1100API.GetCoeff();
 

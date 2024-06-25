@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              xmlns:enum="clr-namespace:ADIN.Device.Models;assembly=ADIN.Device"
-             xmlns:local="clr-namespace:ADIN.WPF.View"
+             xmlns:local="clr-namespace:ADIN.WPF.Components"
              xmlns:converter="clr-namespace:ADIN.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
@@ -33,191 +33,41 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TextBlockHeader1Style}" Text="Time Domain Reflectometry - Open/Short Detector" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 15"/>
-                <GroupBox Grid.Column="0" Grid.Row="1" Header="Offset Calibration" Style="{StaticResource TDRGroupStyle}" Margin="5">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock >
-                                <Run Text="Filename: "/>
-                                <Run Text="{Binding OffsetFileName}"/>
-                        </TextBlock>
-                        <Grid Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="6*"/>
-                                <ColumnDefinition Width="4*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Orientation="Vertical" VerticalAlignment="Center">
-                                <telerik:RadButton  Content="Calibrate" Style="{StaticResource FaultDetectorCalibrateButtonStyle}" Width="90" Command="{Binding CalibrateCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}" ToolTip="Perform offset calibration"/>
-                                <TextBlock Text="{Binding OffsetCalibrationMessage}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}" Style="{StaticResource TextBlockstyle}" FontSize="12" HorizontalAlignment="Center" Visibility="{Binding IsVisibleOffsetCalibration, Converter={StaticResource booleanHiddenConverter}}"/>
-                            </StackPanel>
-                            <telerik:RadButton Grid.Row="1" Grid.Column="1" Content="Save" Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding SaveCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
-                            <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load"  Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding LoadCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
-                            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Style="{StaticResource StackPanelStyle}" HorizontalAlignment="Right">
-                                <TextBlock Text="Offset: " VerticalAlignment="Center" Style="{StaticResource TextBlockstyle}"/>
-                                <telerik:RadNumericUpDown Height="24" Width="90" Value="{Binding OffsetValue, UpdateSourceTrigger=PropertyChanged}"/>
-                            </StackPanel>
-                            <telerik:RadButton Grid.Row="3" Grid.Column="1" Content="Ok"  Style="{StaticResource FaultDetectorOkButtonStyle}" Width="70" Command="{Binding ManualCommand}" CommandParameter="{x:Static enum:CalibrateType.Offset}"/>
-                        </Grid>
-                    </Grid>
-                </GroupBox>
-                <GroupBox Grid.Column="1" Grid.Row="1" Style="{StaticResource TDRGroupStyle}" Header="Cable Calibration" Margin="5">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Style="{StaticResource TextBlockstyle}">
-                            <Run Text="Filename: "/>
-                            <Run Text="{Binding CableFileName}"/>
-                        </TextBlock>
-                        <Grid Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="6*"/>
-                                <ColumnDefinition Width="4*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <StackPanel Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Orientation="Vertical" VerticalAlignment="Center">
-                                <telerik:RadButton  Content="Calibrate" Style="{StaticResource FaultDetectorCalibrateButtonStyle}" Width="90" Command="{Binding CalibrateCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}" ToolTip="Perform cable calibration"/>
-                                <TextBlock Text="{Binding CableCalibrationMessage}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}" Style="{StaticResource TextBlockstyle}" FontSize="12" HorizontalAlignment="Center" Visibility="{Binding IsVisibleCableCalibration, Converter={StaticResource booleanHiddenConverter}}"/>
-                            </StackPanel>
-                            <telerik:RadButton Grid.Row="1" Grid.Column="1" Content="Save" Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding SaveCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}"/>
-                            <telerik:RadButton Grid.Row="2" Grid.Column="1" Content="Load"  Style="{StaticResource ButtonStyle}" Width="70" Command="{Binding LoadCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}"/>
-                            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Style="{StaticResource StackPanelStyle}" HorizontalAlignment="Right">
-                                <TextBlock Text="NVP: " VerticalAlignment="Center" Style="{StaticResource TextBlockstyle}"/>
-                                <telerik:RadNumericUpDown Height="24" Width="90" Value="{Binding NvpValue}" SmallChange="0.01"/>
-                            </StackPanel>
-                            <telerik:RadButton Grid.Row="3" Grid.Column="1" Content="Ok"  Style="{StaticResource FaultDetectorOkButtonStyle}" Width="70" Command="{Binding ManualCommand}" CommandParameter="{x:Static enum:CalibrateType.Cable}"/>
-                        </Grid>
-                    </Grid>
-                </GroupBox>
-                <telerik:RadButton Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Content="Initialized TDR" Style="{StaticResource ButtonStyle}" Command="{Binding InitializedCommand}" Margin="0 15 0 5" ToolTip="Initialized" Visibility="Collapsed"/>
-                <Grid Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0 -90 0 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="300"/>
-                    </Grid.RowDefinitions>
-
-                    <!--Col 0-->
-                    <Grid Grid.Row="0" Grid.Column="0">
-                        <Border Height="100" Width="130" Background="#0067B9" CornerRadius="7" BorderThickness="0"/>
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                            <TextBlock Text="TDR Engine" HorizontalAlignment="Center" Foreground="{StaticResource hmc.color.content.inverse}" Style="{StaticResource TextBlockstyle}" FontSize="20"/>
-                            <telerik:RadButton Content="Start" Command="{Binding FaultDetectCommand}" Style="{StaticResource FaultDetectorStartButtonStyle}" ToolTip="Start TDR Fault Detector"/>
-                        </StackPanel>
-                    </Grid>
-
-                    <!--Col 1-->
-                    <Grid Grid.Row="0" Grid.Column="1">
-                        <StackPanel Orientation="Horizontal">
-                            <Grid>
-                                <Rectangle Height="50" Width="20" Fill="#FF599343" />
-                                <TextBlock Text="MDI" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource hmc.color.content.inverse}" FontSize="10" RenderTransformOrigin="0.5,0.5">
-                                    <TextBlock.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform/>
-                                            <SkewTransform/>
-                                            <RotateTransform Angle="-90"/>
-                                            <TranslateTransform/>
-                                        </TransformGroup>
-                                    </TextBlock.RenderTransform>
-                                </TextBlock>
-                            </Grid>
-                            <Line Margin="-50,170,-10,129" X1="10" X2="100" 
-                          StrokeThickness="1" Stroke="Black" 
-                          StrokeDashArray="2,2" RenderTransformOrigin="0.5,0.5" 
-                          Width="58" Visibility="{Binding IsFaultVisibility, Converter={StaticResource boolvis}}">
-                                <Line.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform/>
-                                        <RotateTransform Angle="-90"/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </Line.RenderTransform>
-                            </Line>
-                        </StackPanel>
-                    </Grid>
-
-                    <!--Col 2-->
-                    <Grid Grid.Row="0" Grid.Column="2" Margin="0 0 0 0">
-                        <StackPanel Orientation="Horizontal">
-                            <Grid Margin="0 0 0 0" VerticalAlignment="Center">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
-                                        <Rectangle Height="5" Width="6" Fill="#DD7229"/>
-                                        <Rectangle Height="9" Width="25" Fill="#FF599343" HorizontalAlignment="Right"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Margin="0">
-                                        <Rectangle Height="5" Width="6" Fill="#DD7229"/>
-                                        <Rectangle Height="9" Width="25" Fill="#DD7229"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Grid>
-                            <Grid VerticalAlignment="Center">
-                                <Rectangle Height="30" Width="200" Fill="{StaticResource hmc.color.content.default}" HorizontalAlignment="Left"/>
-                            </Grid>
-                        </StackPanel>
-                        <TextBlock Margin="50 180 0 0"
-                           Visibility="{Binding IsFaultVisibility, Converter={StaticResource boolvis}}"
-                           FontSize="20" FontFamily="Barlow" Foreground="{StaticResource hmc.color.content.default}">
-                            <Run Text="Fault at "/>
-                            <Run Text="{Binding DistToFault, StringFormat={}{0:0.000}}"/>
-                            <Run Text="m"/>
-                        </TextBlock>
-                        <Line Stretch="Fill" Stroke="Black" X2="1" Margin="0 120 0 0" Height="5" Width="Auto"
-                      Visibility="{Binding IsFaultVisibility, Converter={StaticResource boolvis}}"/>
-                    </Grid>
-
-                    <!--Col 3-->
-                    <Grid Grid.Row="0" Grid.Column="3">
-                        <StackPanel Orientation="Horizontal">
-                            <Line Margin="-50,170,0,129" X1="10" X2="100" StrokeThickness="1" Stroke="Black" StrokeDashArray="2,2" RenderTransformOrigin="0.5,0.5" Width="58"
-                          Visibility="{Binding IsFaultVisibility, Converter={StaticResource boolvis}}">
-                                <Line.RenderTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform/>
-                                        <SkewTransform/>
-                                        <RotateTransform Angle="-90"/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </Line.RenderTransform>
-                            </Line>
-                            <Grid Margin="-32">
-                                <Border Height="100" Width="30" Background="{Binding FaultBackgroundBrush}" CornerRadius="4"/>
-                                <TextBlock Text="{Binding FaultState}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource hmc.color.content.inverse}" FontSize="14" RenderTransformOrigin="0.5,0.5">
-                                    <TextBlock.RenderTransform>
-                                        <TransformGroup>
-                                            <ScaleTransform/>
-                                            <SkewTransform/>
-                                            <RotateTransform Angle="-90"/>
-                                            <TranslateTransform/>
-                                        </TransformGroup>
-                                    </TextBlock.RenderTransform>
-                                </TextBlock>
-                            </Grid>
-                        </StackPanel>
-                    </Grid>
-                </Grid>
+                <local:TDRCalibrationBox 
+                    Grid.Column="0" Grid.Row="1" 
+                    Header="Offset Calibration" 
+                    FileName="{Binding OffsetFileName}"
+                    CalibrateCommand="{Binding CalibrateCommand}"
+                    CalibrateType="{x:Static enum:CalibrateType.Offset}"
+                    TDRToolTip="Perform offset calibration"
+                    Message="{Binding OffsetCalibrationMessage}"
+                    IsVisibleCalibration="{Binding IsVisibleOffsetCalibration}"
+                    SaveCommand="{Binding SaveCommand}"
+                    LoadCommand="{Binding LoadCommand}"
+                    ManualCommand="{Binding ManualCommand}"
+                    ValueText="Offset: "
+                    ValueBox="{Binding OffsetValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    SmallChangeValue="1"/>
+                <local:TDRCalibrationBox Grid.Column="1" Grid.Row="1" 
+                    Header="Cable Calibration" 
+                    FileName="{Binding CableFileName}"
+                    CalibrateCommand="{Binding CalibrateCommand}"
+                    CalibrateType="{x:Static enum:CalibrateType.Cable}"
+                    TDRToolTip="Perform cable calibration"
+                    Message="{Binding CableCalibrationMessage}"
+                    IsVisibleCalibration="{Binding IsVisibleCableCalibration}"
+                    SaveCommand="{Binding SaveCommand}"
+                    LoadCommand="{Binding LoadCommand}"
+                    ManualCommand="{Binding ManualCommand}"
+                    ValueText="NVP: "
+                    ValueBox="{Binding NvpValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    SmallChangeValue="0.01"/>
+                <local:TDRDiagram Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center"
+                    FaultDetectCommand="{Binding FaultDetectCommand}"
+                    IsFaultVisibility="{Binding IsFaultVisibility}"
+                    DistToFault="{Binding DistToFault}"
+                    FaultBackgroundBrush="{Binding FaultBackgroundBrush}"
+                    FaultState="{Binding FaultState}"/>
             </Grid>
         </telerik:RadBusyIndicator>
     </Grid>

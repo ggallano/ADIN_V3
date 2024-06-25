@@ -19,7 +19,8 @@ namespace ADIN.WPF.Commands
 
         public override bool CanExecute(object parameter)
         {
-            if (_selectedDeviceStore.SelectedDevice == null)
+            if (_selectedDeviceStore.SelectedDevice == null ||
+                _viewModel.SelectedTestMode == null)
                 return false;
             return base.CanExecute(parameter);
         }
@@ -31,23 +32,28 @@ namespace ADIN.WPF.Commands
 
             if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
             {
-                ADIN1100FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                fwADIN1100API.SetTestMode(testmode, framelength);
+                ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                fwAPI.SetTestMode(testmode, framelength);
             }
             else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
             {
-                ADIN1110FirmwareAPI fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
-                fwADIN1100API.SetTestMode(testmode, framelength);
+                ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                fwAPI.SetTestMode(testmode, framelength);
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
+            {
+                ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+                fwAPI.SetTestMode(testmode, framelength);
             }
             else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
             {
-                ADIN1200FirmwareAPI fwADIN1200API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
-                fwADIN1200API.SetTestMode(testmode, framelength);
+                ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
+                fwAPI.SetTestMode(testmode, framelength);
             }
             else /*if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)*/
             {
-                ADIN1300FirmwareAPI fwADIN1300API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
-                fwADIN1300API.SetTestMode(testmode, framelength);
+                ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
+                fwAPI.SetTestMode(testmode, framelength);
             }
             //_selectedDeviceStore.SelectedDevice.FwAPI.SetTestMode(testmode, framelength);
         }

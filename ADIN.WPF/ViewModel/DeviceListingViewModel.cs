@@ -40,6 +40,8 @@ namespace ADIN.WPF.ViewModel
         private object _mainLock;
         private uint _phyAddress;
 
+        private bool _enableSelectDevice = true;
+
         /// <summary>
         /// creates new instance
         /// </summary>
@@ -73,6 +75,8 @@ namespace ADIN.WPF.ViewModel
             _removeWatcher = new ManagementEventWatcher(_removeQuery);
             _removeWatcher.EventArrived += _removeWatcher_EventArrived;
             _removeWatcher.Start();
+
+            _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
         }
 
         /// <summary>
@@ -130,6 +134,9 @@ namespace ADIN.WPF.ViewModel
         {
             _insertWatcher.EventArrived -= _insertWatcher_EventArrived;
             _removeWatcher.EventArrived -= _removeWatcher_EventArrived;
+
+            _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
+
             base.Dispose();
         }
 
@@ -293,6 +300,24 @@ namespace ADIN.WPF.ViewModel
                     _deviceListingViewModels.Remove(removeDevice[0]);
                 }));
             }
+        }
+
+        public bool EnableSelectDevice
+        {
+            get { return _enableSelectDevice; }
+            set
+            {
+                _enableSelectDevice = value;
+                OnPropertyChanged(nameof(EnableSelectDevice));
+            }
+        }
+
+        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                EnableSelectDevice = !onGoingCalibrationStatus;
+            }));
         }
     }
 }

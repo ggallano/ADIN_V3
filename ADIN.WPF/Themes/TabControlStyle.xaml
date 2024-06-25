@@ -57,6 +57,12 @@
                             <Setter TargetName="headerName" Property="TextBlock.FontWeight" Value="Bold"/>
                             <Setter TargetName="headerName" Property="TextBlock.Foreground" Value="{StaticResource hmc.color.interactive.primary.idle}"/>
                         </Trigger>
+                        <Trigger Property="IsEnabled"  Value="False">
+                            <Setter TargetName="Bar" Property="BorderThickness" Value="0 0 0 3"/>
+                            <!--<Setter TargetName="Bar" Property="BorderBrush" Value="{StaticResource hmc.color.interactive.subtle.disabled}"/>-->
+                            <Setter TargetName="headerName" Property="TextBlock.FontWeight" Value="Bold"/>
+                            <Setter TargetName="headerName" Property="TextBlock.Foreground" Value="{StaticResource hmc.color.interactive.subtle.disabled}"/>
+                        </Trigger>
                         <!--<Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Bar" Property="BorderThickness" Value="0 0 0 3"/>
                             <Setter TargetName="Bar" Property="BorderBrush" Value="{StaticResource hmc.color.interactive.primary.hover}"/>

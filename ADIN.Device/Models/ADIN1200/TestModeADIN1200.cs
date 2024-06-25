@@ -79,9 +79,6 @@ namespace ADIN.Device.Models.ADIN1200
                 TM10BaseTTx5MHzDim0,
                 TM10BaseTTx10MHzDim0
             };
-            TestMode = TestModes[0];
-
-            TestModeFrameLength = 1500;
         }
 
         public List<TestModeListingModel> TestModes { get; set; }
