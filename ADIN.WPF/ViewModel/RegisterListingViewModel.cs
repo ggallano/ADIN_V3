@@ -116,12 +116,6 @@ namespace ADIN.WPF.ViewModel
                     _loggedOneError = false;
                     Thread.Sleep(10);
                 }
-                catch (ApplicationException)
-                {
-                    if (!_loggedOneError)
-                        _selectedDeviceStore.OnViewModelFeedbackLog("Error at reading registers.", Helper.Feedback.FeedbackType.Error);
-                    _loggedOneError = true;
-                }
                 catch (Exception ex)
                 {
                 }

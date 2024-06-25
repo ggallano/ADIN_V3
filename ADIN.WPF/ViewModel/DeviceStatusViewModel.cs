@@ -388,10 +388,11 @@ namespace ADIN.WPF.ViewModel
                 {
                     _selectedDeviceStore.OnViewModelFeedbackLog("Function not implemented for this board.", Helper.Feedback.FeedbackType.Error);
                 }
-                catch (ApplicationException)
+                catch (ApplicationException ex)
                 {
+                    string errorMsg = ex.Message;
                     if (!_loggedOneError)
-                        _selectedDeviceStore.OnViewModelFeedbackLog("Invalid command being sent.", Helper.Feedback.FeedbackType.Error);
+                        _selectedDeviceStore.OnViewModelFeedbackLog(errorMsg, Helper.Feedback.FeedbackType.Error);
                     _loggedOneError = true;
                 }
                 catch (Exception)
