@@ -23,15 +23,12 @@ namespace ADIN.WPF.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool MultiChipSupport {
             get {
                 return ((bool)(this["MultiChipSupport"]));
-            }
-            set {
-                this["MultiChipSupport"] = value;
             }
         }
     }

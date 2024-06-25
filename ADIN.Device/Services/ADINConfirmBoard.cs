@@ -2,8 +2,10 @@
 using ADIN.Device.Models;
 using FTDIChip.Driver.Services;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Configuration;
 using System.Net.Http.Headers;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ADIN.Device.Services
 {
@@ -32,7 +34,7 @@ namespace ADIN.Device.Services
             return false;
         }
 
-        public static List<ADINDevice> GetADINBoard(string BoardName, IFTDIServices ftdtService, IRegisterService _registerService, object mainLock)
+        public static List<ADINDevice> GetADINBoard(string BoardName, IFTDIServices ftdtService, IRegisterService _registerService, object mainLock, bool isMultiChipSupported)
         {
             List<ADINDevice> devices = new List<ADINDevice>();
 
@@ -44,9 +46,9 @@ namespace ADIN.Device.Services
                 case "EVAL-ADIN1100EBZ":
                 case "DEMO-ADIN1100-DIZ":
                 case "DEMO-ADIN1100D2Z":
-                    var str = ConfigurationManager.AppSettings["MultiChipSupport"];
                     devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock), true));
-                    devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock), true));
+                    if (isMultiChipSupported)
+                        devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock), true));
                     break;
                 case "ADIN1200 MDIO DONGLE":
                     devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock)));

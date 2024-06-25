@@ -255,7 +255,8 @@ namespace ADIN.WPF.ViewModel
 
                 _ftdiService.Open(currentNewDevice.SerialNumber);
 
-                List<ADINDevice> adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService, _registerService, _mainLock);
+                var isMultiChipSupported = Properties.Settings.Default.MultiChipSupport;
+                List<ADINDevice> adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService, _registerService, _mainLock, isMultiChipSupported);
 
                 foreach (var adinSubDevice in adin)
                 {
