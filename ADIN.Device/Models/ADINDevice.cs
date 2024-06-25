@@ -8,9 +8,10 @@ namespace ADIN.Device.Models
     public class ADINDevice
     {
         public AbstractADINFactory Device { get; set; }
-        public ADINDevice(AbstractADINFactory device)
+        public ADINDevice(AbstractADINFactory device, bool isMultichipBoard = false)
         {
             Device = device;
+            IsMultichipBoard = isMultichipBoard;
         }
 
         public string SerialNumber => Device.SerialNumber;
@@ -18,6 +19,7 @@ namespace ADIN.Device.Models
         public BoardRevision BoardRev => Device.BoardRev;
         public uint PhyAddress => Device.PhyAddress;
         public List<string> AdvertisedSpeeds => Device.AdvertisedSpeeds;
+        public bool IsMultichipBoard { get; set; }
         public BoardType DeviceType => Device.DeviceType;
         public IFirmwareAPI FwAPI => Device.FirmwareAPI;
         public string Checker { get; set; }

@@ -40,8 +40,8 @@ namespace ADIN.Device.Services
                 case "EVAL-ADIN1100FMCZ":
                 case "DEMO-ADIN1100-DIZ":
                 case "DEMO-ADIN1100D2Z":
-                    devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock)));
-                    devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock)));
+                    devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock), true));
+                    devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock), true));
                     break;
                 case "ADIN1200 MDIO DONGLE":
                     devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock)));
