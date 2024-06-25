@@ -15,5 +15,18 @@ namespace ADIN.WPF.ViewModel
         public string ImagePath { get; }
         public string Name => Device.Device.BoardName;
         public string SerialNumber => Device.Device.SerialNumber;
+        public bool IsMultichipBoard => Device.IsMultichipBoard;
+        public BoardType BoardType => Device.DeviceType;
+
+        public string DeviceHeader
+        {
+            get
+            {
+                if (IsMultichipBoard)
+                    return SerialNumber + " - " + BoardType.ToString();
+                else
+                    return SerialNumber;
+            }
+        }
     }
 }
