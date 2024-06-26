@@ -80,11 +80,6 @@ namespace ADIN.Device.Services
         public event EventHandler<FeedbackModel> ReadProcessCompleted;
         public event EventHandler<TestModeType> TestModeChanged;
 
-        public void ExecuteSript(ScriptModel script)
-        {
-            throw new NotImplementedException();
-        }
-
         public string GetAnStatus()
         {
             if (ReadYodaRg("AN_EN") == "1")
@@ -1439,6 +1434,25 @@ namespace ADIN.Device.Services
         public void SetPortNum(uint portNum)
         {
             this.portNumber = portNum;
+        }
+
+        public void ExecuteSript(ScriptModel script)
+        {
+            foreach (var register in script.RegisterAccesses)
+            {
+                if (register.RegisterName != null)
+                {
+                    WriteYodaRg(register.RegisterName, uint.Parse(register.Value));
+                    continue;
+                }
+
+                if (register.RegisterAddress != null)
+                {
+                    WriteYodaRg(uint.Parse(register.RegisterAddress), uint.Parse(register.Value));
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"[{_ftdiService.GetSerialNumber()}] [Write] Address: 0x{uint.Parse(register.RegisterAddress).ToString("X")}, Value: {uint.Parse(register.Value).ToString("X")}", FeedBackType = FeedbackType.Info });
+                    continue;
+                }
+            }
         }
     }
 }

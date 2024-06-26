@@ -1253,5 +1253,24 @@ namespace ADIN.Device.Services
                 return MdioWriteCl45(registerAddress, value);
             }
         }
+
+        public void ExecuteSript(ScriptModel script)
+        {
+            foreach (var register in script.RegisterAccesses)
+            {
+                if (register.RegisterName != null)
+                {
+                    WriteYodaRg(register.RegisterName, uint.Parse(register.Value));
+                    continue;
+                }
+
+                if (register.RegisterAddress != null)
+                {
+                    WriteYodaRg(uint.Parse(register.RegisterAddress), uint.Parse(register.Value));
+                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"[{_ftdiService.GetSerialNumber()}] [Write] Address: 0x{uint.Parse(register.RegisterAddress).ToString("X")}, Value: {uint.Parse(register.Value).ToString("X")}", FeedBackType = FeedbackType.Info });
+                    continue;
+                }
+            }
+        }
     }
 }
