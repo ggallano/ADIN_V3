@@ -100,8 +100,16 @@ namespace ADIN.Device.Models
 
         private void GetTDRValue()
         {
-            TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetOffset(), CultureInfo.InvariantCulture);
-            TimeDomainReflectometryPort1.TimeDomainReflectometry.NVP = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetNvp(), CultureInfo.InvariantCulture);
+            try
+            {
+                TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetOffset(), CultureInfo.InvariantCulture);
+                TimeDomainReflectometryPort1.TimeDomainReflectometry.NVP = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetNvp(), CultureInfo.InvariantCulture);
+            }
+            catch (Exception ex)
+            {
+                TimeDomainReflectometryPort1 = null;
+            }
+            
         }
 
         private void GetTestModeValue()
