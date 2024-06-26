@@ -327,6 +327,25 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public ICommand SaveCommand { get; set; }
+
+        private TDRModel _cableDiagnosticPort1 => _selectedDevice?.TimeDomainReflectometryPort1?.TimeDomainReflectometry;
+
+        private TDRModel _cableDiagnosticPort2 => _selectedDevice?.TimeDomainReflectometryPort2?.TimeDomainReflectometry;
+
+        private ITimeDomainReflectometry _faultDetectorPort1 => _selectedDevice?.TimeDomainReflectometryPort1;
+
+        private ITimeDomainReflectometry _faultDetectorPort2 => _selectedDevice?.TimeDomainReflectometryPort2;
+
+        private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
+
+        protected override void Dispose()
+        {
+            _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.PortNumChanged -= _selectedDeviceStore_PortNumChanged;
+            base.Dispose();
+        }
+
         private void _selectedDeviceStore_PortNumChanged()
         {
             OnPropertyChanged(nameof(FaultBackgroundBrush));
@@ -345,21 +364,6 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(DistToFault));
             OnPropertyChanged(nameof(FaultState));
         }
-
-        public ICommand SaveCommand { get; set; }
-        private TDRModel _cableDiagnosticPort1 => _selectedDevice?.TimeDomainReflectometryPort1?.TimeDomainReflectometry;
-        private TDRModel _cableDiagnosticPort2 => _selectedDevice?.TimeDomainReflectometryPort2?.TimeDomainReflectometry;
-        private ITimeDomainReflectometry _faultDetectorPort1 => _selectedDevice?.TimeDomainReflectometryPort1;
-        private ITimeDomainReflectometry _faultDetectorPort2 => _selectedDevice?.TimeDomainReflectometryPort2;
-        private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
-
-        protected override void Dispose()
-        {
-            _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
-            _selectedDeviceStore.PortNumChanged -= _selectedDeviceStore_PortNumChanged;
-            base.Dispose();
-        }
-
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             if ((_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1200)
