@@ -829,7 +829,7 @@ namespace ADIN.Device.Services
                 string command = string.Empty;
                 string response = string.Empty;
                 List<string> resList = new List<string>();
-                command = $"tdrsetnvp {nvpValue}\n";
+                command = $"tdrsetnvp {nvpValue.ToString(CultureInfo.InvariantCulture)}\n";
 
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
@@ -838,8 +838,8 @@ namespace ADIN.Device.Services
                 var res = RegexService.ExtractNumberData(response);
                 if (res.Count >= 1)
                 {
-                    resList.Add(res[0].ToString());
-                    resList.Add(res[1].ToString());
+                    resList.Add(res[0].ToString(CultureInfo.InvariantCulture));
+                    resList.Add(res[1].ToString(CultureInfo.InvariantCulture));
                 }
 
                 if (response == "" || res.Count == 0 || response.Contains("ERROR"))
@@ -860,7 +860,7 @@ namespace ADIN.Device.Services
                 string command = string.Empty;
                 string response = string.Empty;
 
-                command = $"tdrsetoffset {offset}\n";
+                command = $"tdrsetoffset {offset.ToString(CultureInfo.InvariantCulture)}\n";
 
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
@@ -868,7 +868,7 @@ namespace ADIN.Device.Services
 
                 var res = RegexService.ExtractNumberData(response);
                 if (res.Count == 1)
-                    response = res[0].ToString();
+                    response = res[0].ToString(CultureInfo.InvariantCulture);
 
                 if (response == "" || res.Count == 0 || response.Contains("ERROR"))
                 {
