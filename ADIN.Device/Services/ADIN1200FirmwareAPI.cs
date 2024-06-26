@@ -405,8 +405,10 @@ namespace ADIN.Device.Services
             {
                 string response = string.Empty;
                 string command = string.Empty;
+                string command2 = string.Empty;
 
-                command = $"mdiord_cl45 {_phyAddress},{regAddress.ToString("X")}\n";
+                MdioWriteCl22(0x10, (regAddress & 0xFFFF));
+                command = $"mdioread {_phyAddress},11\n";
 
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
@@ -461,10 +463,13 @@ namespace ADIN.Device.Services
                 string command = string.Empty;
                 string command2 = string.Empty;
 
-                command = $"mdiowr_cl45 {_phyAddress},{regAddress.ToString("X")},{data.ToString("X")}\n";
+                command = $"mdiowrite {_phyAddress},10,{regAddress.ToString("X")}\n";
+                command2 = $"mdiowrite {_phyAddress},11,{data.ToString("X")}\n";
 
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+                _ftdiService.SendData(command2);
                 response = _ftdiService.ReadCommandResponse().Trim();
 
                 if (response.Contains("ERROR"))

@@ -20,16 +20,16 @@ namespace ADIN.Device.Models
         private IRegisterService _registerService;
         private string registerJsonFile;
         //private ObservableCollection<RegisterModel> registers;
-        private uint _phyAddress;
+        //private uint _phyAddress;
         private object _mainLock;
 
-        public ADIN1200Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock)
+        public ADIN1200Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock, uint phyAddress)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
             _mainLock = mainLock;
-            _phyAddress = 4;
-            PhyAddress = _phyAddress;
+            //_phyAddress = 4;
+            PhyAddress = phyAddress;
             DeviceType = BoardType.ADIN1200;
 
             //Retrieve Registers

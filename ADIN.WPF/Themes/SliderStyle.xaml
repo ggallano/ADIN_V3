@@ -52,7 +52,7 @@
                     TickFrequency="32"
                     Fill="Black"
                     Height="8"
-                    Visibility="Visible" />
+                    Visibility="Collapsed" />
             <Border Name="TrackBackground"
                     Margin="0"
                     CornerRadius="2" 
