@@ -875,7 +875,7 @@ namespace ADIN.Device.Services
                 string command = string.Empty;
                 string response = string.Empty;
                 List<string> resList = new List<string>();
-                command = $"tdrsetnvp {this.portNumber},{nvpValue}\n";
+                command = $"tdrsetnvp {this.portNumber},{nvpValue.ToString(CultureInfo.InvariantCulture)}\n";
 
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
@@ -884,8 +884,8 @@ namespace ADIN.Device.Services
                 var res = RegexService.ExtractNumberData(response);
                 if (res.Count >= 1)
                 {
-                    resList.Add(res[0].ToString());
-                    resList.Add(res[1].ToString());
+                    resList.Add(res[0].ToString(CultureInfo.InvariantCulture));
+                    resList.Add(res[1].ToString(CultureInfo.InvariantCulture));
                 }
 
                 if (response == "" || res.Count == 0 || response.Contains("ERROR"))
@@ -906,7 +906,7 @@ namespace ADIN.Device.Services
                 string command = string.Empty;
                 string response = string.Empty;
 
-                command = $"tdrsetoffset {this.portNumber},{offset}\n";
+                command = $"tdrsetoffset {this.portNumber},{offset.ToString(CultureInfo.InvariantCulture)}\n";
 
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
@@ -914,7 +914,7 @@ namespace ADIN.Device.Services
 
                 var res = RegexService.ExtractNumberData(response);
                 if (res.Count == 1)
-                    response = res[0].ToString();
+                    response = res[0].ToString(CultureInfo.InvariantCulture);
 
                 if (response == "" || res.Count == 0 || response.Contains("ERROR"))
                 {
@@ -1024,68 +1024,68 @@ namespace ADIN.Device.Services
             throw new NotImplementedException();
         }
 
-        public void Speed1000FdAdvertisement(bool spd1000FdAdv_st)
-        {
-            throw new NotImplementedException();
-        }
+        //public void Speed1000FdAdvertisement(bool spd1000FdAdv_st)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public void Speed1000HdAdvertisement(bool spd1000HdAdv_st)
-        {
-            throw new NotImplementedException();
-        }
+        //public void Speed1000HdAdvertisement(bool spd1000HdAdv_st)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public void Speed100FdAdvertisement(bool spd100FdAdv_st)
-        {
-            throw new NotImplementedException();
-        }
-        public void Speed100HdAdvertisement(bool spd100HdAdv_st)
-        {
-            throw new NotImplementedException();
-        }
-        public void Speed10FdAdvertisement(bool spd10FdAdv_st)
-        {
-            throw new NotImplementedException();
-        }
-        public void Speed10HdAdvertisement(bool spd10HdAdv_st)
-        {
-            throw new NotImplementedException();
-        }
-        public void Speed1000EEEAdvertisement(bool spd1000EEEAdv_st)
-        {
-            throw new NotImplementedException();
-        }
-        public void Speed100EEEAdvertisement(bool spd100EEEAdv_st)
-        {
-            throw new NotImplementedException();
-        }
-        public void AdvertisedForcedSpeed(string advFrcSpd)
-        {
-            throw new NotImplementedException();
-        }
-        public void DownSpeed100Hd(bool dwnSpd100Hd)
-        {
-            throw new NotImplementedException();
-        }
-        public void DownSpeed10Hd(bool dwnSpd10Hd)
-        {
-            throw new NotImplementedException();
-        }
-        public void DownSpeedRetriesSetVal(uint dwnSpdRtryVal)
-        {
-            throw new NotImplementedException();
-        }
-        public void AutoMDIXMode(string autoMDIXmod)
-        {
-            throw new NotImplementedException();
-        }
-        public void EnableEnergyDetectPowerDown(string enEnergyDetect)
-        {
-            throw new NotImplementedException();
-        }
-        public void SetGpClkPinControl(string gpClkPinCtrl)
-        {
-            throw new NotImplementedException();
-        }
+        //public void Speed100FdAdvertisement(bool spd100FdAdv_st)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public void Speed100HdAdvertisement(bool spd100HdAdv_st)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public void Speed10FdAdvertisement(bool spd10FdAdv_st)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public void Speed10HdAdvertisement(bool spd10HdAdv_st)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public void Speed1000EEEAdvertisement(bool spd1000EEEAdv_st)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public void Speed100EEEAdvertisement(bool spd100EEEAdv_st)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public void AdvertisedForcedSpeed(string advFrcSpd)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public void DownSpeed100Hd(bool dwnSpd100Hd)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public void DownSpeed10Hd(bool dwnSpd10Hd)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public void DownSpeedRetriesSetVal(uint dwnSpdRtryVal)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public void AutoMDIXMode(string autoMDIXmod)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public void EnableEnergyDetectPowerDown(string enEnergyDetect)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //public void SetGpClkPinControl(string gpClkPinCtrl)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public void TDRInit()
         {
