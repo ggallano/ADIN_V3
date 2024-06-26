@@ -1298,6 +1298,10 @@ namespace ADIN.Device.Services
                         }
                     }
                 }
+                else
+                {
+                    throw new ApplicationException($"No register/bitfield named {name}.");
+                }
             }
             else
             {
@@ -1345,17 +1349,24 @@ namespace ADIN.Device.Services
         {
             foreach (var register in script.RegisterAccesses)
             {
-                if (register.RegisterName != null)
+                try
                 {
-                    WriteYodaRg(register.RegisterName, uint.Parse(register.Value));
-                    continue;
-                }
+                    if (register.RegisterName != null)
+                    {
+                        WriteYodaRg(register.RegisterName, uint.Parse(register.Value));
+                        continue;
+                    }
 
-                if (register.RegisterAddress != null)
+                    if (register.RegisterAddress != null)
+                    {
+                        WriteYodaRg(uint.Parse(register.RegisterAddress), uint.Parse(register.Value));
+                        OnWriteProcessCompleted(new FeedbackModel() { Message = $"[{_ftdiService.GetSerialNumber()}] [Write] Address: 0x{uint.Parse(register.RegisterAddress).ToString("X")}, Value: {uint.Parse(register.Value).ToString("X")}", FeedBackType = FeedbackType.Info });
+                        continue;
+                    }
+                }
+                catch (ApplicationException ex)
                 {
-                    WriteYodaRg(uint.Parse(register.RegisterAddress), uint.Parse(register.Value));
-                    OnWriteProcessCompleted(new FeedbackModel() { Message = $"[{_ftdiService.GetSerialNumber()}] [Write] Address: 0x{uint.Parse(register.RegisterAddress).ToString("X")}, Value: {uint.Parse(register.Value).ToString("X")}", FeedBackType = FeedbackType.Info });
-                    continue;
+                    FeedbackLog(ex.Message, FeedbackType.Error);
                 }
             }
         }
