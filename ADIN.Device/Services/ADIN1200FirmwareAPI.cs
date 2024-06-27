@@ -1347,9 +1347,9 @@ namespace ADIN.Device.Services
 
         public void ExecuteSript(ScriptModel script)
         {
-            foreach (var register in script.RegisterAccesses)
+            try
             {
-                try
+                foreach (var register in script.RegisterAccesses)
                 {
                     if (register.RegisterName != null)
                     {
@@ -1359,15 +1359,21 @@ namespace ADIN.Device.Services
 
                     if (register.RegisterAddress != null)
                     {
-                        WriteYodaRg(uint.Parse(register.RegisterAddress), uint.Parse(register.Value));
-                        OnWriteProcessCompleted(new FeedbackModel() { Message = $"[{_ftdiService.GetSerialNumber()}] [Write] Address: 0x{uint.Parse(register.RegisterAddress).ToString("X")}, Value: {uint.Parse(register.Value).ToString("X")}", FeedBackType = FeedbackType.Info });
+                        uint regAddress = uint.Parse(register.RegisterAddress);
+                        uint regValue = uint.Parse(register.Value);
+                        WriteYodaRg(regAddress, regValue);
+                        FeedbackLog($"Register 0x{regAddress.ToString("X")} = {regValue.ToString("X")}", FeedbackType.Verbose);
                         continue;
                     }
                 }
-                catch (ApplicationException ex)
-                {
-                    FeedbackLog(ex.Message, FeedbackType.Error);
-                }
+            }
+            catch (ApplicationException ex)
+            {
+                FeedbackLog(ex.Message, FeedbackType.Error);
+            }
+            catch (NullReferenceException)
+            {
+                FeedbackLog("Script is empty/has invalid register address/input value.", FeedbackType.Error);
             }
         }
     }
