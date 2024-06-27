@@ -2,10 +2,7 @@
 using ADIN.WPF.Commands;
 using ADIN.WPF.Models;
 using ADIN.WPF.Stores;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 
 namespace ADIN.WPF.ViewModel
@@ -19,7 +16,6 @@ namespace ADIN.WPF.ViewModel
         public TestModeViewModel(SelectedDeviceStore selectedDeviceStore)
         {
             _selectedDeviceStore = selectedDeviceStore;
-            _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
 
             TestModeCmd = new TestModeCommand(this, _selectedDeviceStore);
             _TM_NoDevice = new TestModeListingModel()
@@ -31,7 +27,9 @@ namespace ADIN.WPF.ViewModel
             { 
                 _TM_NoDevice 
             };
-    }
+
+            _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+        }
 
         public ICommand TestModeCmd { get; set; }
 
@@ -71,6 +69,9 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             OnPropertyChanged(nameof(SelectedTestMode));
             OnPropertyChanged(nameof(TestModes));
             OnPropertyChanged(nameof(TestModeFrameLengthValue));

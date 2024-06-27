@@ -284,7 +284,8 @@ namespace ADIN.WPF.ViewModel
                     Application.Current.Dispatcher.Invoke(new Action(() =>
                     {
                         _deviceListingViewModels.Add(new DeviceListingItemViewModel(adinSubDevice));
-                        _feedback.Message = $"Device Added: {adinSubDevice.SerialNumber}";
+                        var tempstr = _deviceListingViewModels.Where(x => x.BoardType == adinSubDevice.DeviceType).Select(x => x.DeviceHeader).ToList();
+                        _feedback.Message = $"Device Added: {tempstr.Last()}";
                         _feedback.FeedBackType = FeedbackType.Info;
                         _logActivityViewModel.SetFeedback(_feedback, false);
                     }));

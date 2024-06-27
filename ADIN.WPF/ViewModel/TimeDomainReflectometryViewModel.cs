@@ -348,6 +348,9 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_PortNumChanged()
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             OnPropertyChanged(nameof(FaultBackgroundBrush));
             OnPropertyChanged(nameof(IsVisibleCableCalibration));
             OnPropertyChanged(nameof(CableCalibrationMessage));
@@ -366,6 +369,9 @@ namespace ADIN.WPF.ViewModel
         }
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             if ((_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1200)
              || (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1300))
                 return;

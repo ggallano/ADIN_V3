@@ -124,6 +124,9 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 EnableTabs = !onGoingCalibrationStatus;
@@ -160,6 +163,9 @@ namespace ADIN.WPF.ViewModel
 
         private void DeviceListingVM_HideCableDiagChanged(bool obj)
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             IsCableDiagVisible = !obj;
             IsTestModeSelected = obj;
         }
