@@ -403,6 +403,42 @@ namespace ADI.Register.Services
                     }
                 });
 
+            registers.Add(
+                new RegisterModel()
+                {
+                    Name = "SLCR_ERR_SPIKE_CNT",
+                    Address = 0x018305,
+                    BitFields = new List<BitFieldModel>()
+                    {
+                        new BitFieldModel()
+                        {
+                            Name = "SLCR_ERR_SPIKE_CNT",
+                            Start = 0,
+                            Width = 16,
+                            ResetValue = 0,
+                            Value = 0
+                        }
+                    }
+                });
+
+            registers.Add(
+                new RegisterModel()
+                {
+                    Name = "SLCR_ERR_MAX_ABS_VAL",
+                    Address = 0x018308,
+                    BitFields = new List<BitFieldModel>()
+                    {
+                        new BitFieldModel()
+                        {
+                            Name = "SLCR_ERR_MAX_ABS_VAL",
+                            Start = 0,
+                            Width = 16,
+                            ResetValue = 0,
+                            Value = 0
+                        }
+                    }
+                });
+
             return registers;
 
             #endregion Additional Register sets

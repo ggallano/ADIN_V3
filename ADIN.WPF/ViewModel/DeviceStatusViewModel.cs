@@ -239,7 +239,7 @@ namespace ADIN.WPF.ViewModel
         }
         public string MaxSlicerError
         {
-            get { return _selectedDeviceStore.SelectedDevice != null ? _maxSlicerError : "-"; }
+            get { return _selectedDeviceStore.SelectedDevice != null ? _maxSlicerError : "N/A"; }
             set
             {
                 _maxSlicerError = value;
@@ -310,7 +310,7 @@ namespace ADIN.WPF.ViewModel
 
         public string SpikeCount
         {
-            get { return _selectedDeviceStore.SelectedDevice != null ? _spikeCount : "-"; }
+            get { return _selectedDeviceStore.SelectedDevice != null ? _spikeCount : "N/A"; }
             set
             {
                 _spikeCount = value;
