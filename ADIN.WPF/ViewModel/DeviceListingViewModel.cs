@@ -28,20 +28,18 @@ namespace ADIN.WPF.ViewModel
         private readonly IRegisterService _registerService;
         private readonly SelectedDeviceStore _selectedDeviceStore;
         private ObservableCollection<DeviceListingItemViewModel> _deviceListingViewModels;
+        private bool _enableSelectDevice = true;
         private FeedbackModel _feedback;
         private IFTDIServices _ftdiService;
 
         private WqlEventQuery _insertQuery;
         private ManagementEventWatcher _insertWatcher;
         private LogActivityViewModel _logActivityViewModel;
+        private object _mainLock;
+        private uint _phyAddress;
         private WqlEventQuery _removeQuery;
         private ManagementEventWatcher _removeWatcher;
         private DeviceListingItemViewModel _selectedDeviceListingItemViewModel;
-        private object _mainLock;
-        private uint _phyAddress;
-
-        private bool _enableSelectDevice = true;
-
         /// <summary>
         /// creates new instance
         /// </summary>
@@ -79,10 +77,21 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
         }
 
+        public event Action<bool> HideCableDiagChanged;
         /// <summary>
         /// gets the device listing viewmodel
         /// </summary>
         public ObservableCollection<DeviceListingItemViewModel> DeviceListingItemViewModels => _deviceListingViewModels;
+
+        public bool EnableSelectDevice
+        {
+            get { return _enableSelectDevice; }
+            set
+            {
+                _enableSelectDevice = value;
+                OnPropertyChanged(nameof(EnableSelectDevice));
+            }
+        }
 
         public FeedbackModel Feedback
         {
@@ -111,6 +120,7 @@ namespace ADIN.WPF.ViewModel
                     if (value != null)
                     {
                         _selectedDeviceStore.SelectedDevice = _selectedDeviceListingItemViewModel.Device;
+                        SetCableDiagnosticVisibility();
                         _ftdiService.Open(_selectedDeviceStore.SelectedDevice.SerialNumber);
                     }
                     else
@@ -224,6 +234,14 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                EnableSelectDevice = !onGoingCalibrationStatus;
+            }));
+        }
+
         private List<string> GetConnectedDevices()
         {
             return (_ftdiService.GetDeviceList().ToList()).Select(y => y.SerialNumber).ToList();
@@ -255,22 +273,35 @@ namespace ADIN.WPF.ViewModel
 
                 _ftdiService.Open(currentNewDevice.SerialNumber);
 
-                ADINDevice adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService, _registerService, _mainLock);
-                if (adin != null)
+                var isMultiChipSupported = Properties.Settings.Default.MultiChipSupport;
+
+                try
                 {
-                    adin.Device.SerialNumber = currentNewDevice.SerialNumber;
-                    adin.Device.BoardName = currentNewDevice.Description;
+                    List<ADINDevice> adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService, _registerService, _mainLock, isMultiChipSupported);
+
+                    foreach (var adinSubDevice in adin)
+                    {
+                        adinSubDevice.Device.SerialNumber = currentNewDevice.SerialNumber;
+                        adinSubDevice.Device.BoardName = currentNewDevice.Description;
+
+                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            _deviceListingViewModels.Add(new DeviceListingItemViewModel(adinSubDevice));
+                            var tempstr = _deviceListingViewModels.Where(x => x.BoardType == adinSubDevice.DeviceType).Select(x => x.DeviceHeader).ToList();
+                            _feedback.Message = $"Device Added: {tempstr.Last()}";
+                            _feedback.FeedBackType = FeedbackType.Info;
+                            _logActivityViewModel.SetFeedback(_feedback, false);
+                        }));
+                    }
+                }
+                catch (ApplicationException)
+                {
+                    _feedback.Message = $" {currentNewDevice.SerialNumber} Board phyaddress is not set at zero(0).";
+                    _feedback.FeedBackType = FeedbackType.Error;
+                    _logActivityViewModel.SetFeedback(_feedback, false);
                 }
 
                 _ftdiService.Close();
-
-                Application.Current.Dispatcher.Invoke(new Action (() =>
-                {
-                    _deviceListingViewModels.Add(new DeviceListingItemViewModel(adin));
-                    _feedback.Message = $"Device Added: {adin.SerialNumber}";
-                    _feedback.FeedBackType = FeedbackType.Info;
-                    _logActivityViewModel.SetFeedback(_feedback, false);
-                }));
             }
         }
 
@@ -301,22 +332,23 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public bool EnableSelectDevice
+        private void SetCableDiagnosticVisibility()
         {
-            get { return _enableSelectDevice; }
-            set
+            if (!_selectedDeviceStore.SelectedDevice.IsCableDiagAvailable
+                         && !_selectedDeviceStore.SelectedDevice.CableDiagOneTimePopUp
+                         && _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100)
             {
-                _enableSelectDevice = value;
-                OnPropertyChanged(nameof(EnableSelectDevice));
+                _selectedDeviceStore.SelectedDevice.CableDiagOneTimePopUp = true;
+                _feedback.Message = $"[{_selectedDeviceStore.SelectedDevice.SerialNumber}] ADIN1100 board requires a firmware upgrade to enable TDR fault detector.";
+                _feedback.FeedBackType = FeedbackType.Warning;
+                _logActivityViewModel.SetFeedback(_feedback, false);
             }
-        }
 
-        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
-        {
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            if (!_selectedDeviceStore.SelectedDevice.IsCableDiagAvailable
+             && _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100)
             {
-                EnableSelectDevice = !onGoingCalibrationStatus;
-            }));
+                HideCableDiagChanged?.Invoke(true);
+            }
         }
     }
 }

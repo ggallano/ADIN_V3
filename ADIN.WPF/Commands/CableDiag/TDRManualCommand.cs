@@ -4,6 +4,7 @@ using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace ADIN.WPF.Commands.CableDiag
 {
@@ -41,20 +42,20 @@ namespace ADIN.WPF.Commands.CableDiag
                         if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
                         {
                             ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                            _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset));
+                            _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset), CultureInfo.InvariantCulture);
                         }
                         else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
                         {
                             ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
-                            _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset));
+                            _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset), CultureInfo.InvariantCulture);
                         }
                         else //if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
                         {
                             ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
                             if (_selectedDeviceStore.SelectedDevice.PortNumber == 1)
-                                _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset));
+                                _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset), CultureInfo.InvariantCulture);
                             else
-                                _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort2.TimeDomainReflectometry.CableOffset));
+                                _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort2.TimeDomainReflectometry.CableOffset), CultureInfo.InvariantCulture);
                         }
                         
                         break;
@@ -78,9 +79,8 @@ namespace ADIN.WPF.Commands.CableDiag
                             else
                                 results = fwAPI.SetNvp(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort2.TimeDomainReflectometry.NVP);
                         }
-                        //fwADIN1100API = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                        //var results = fwADIN1100API.SetNvp(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.TimeDomainReflectometry.NVP);
-                        _viewModel.NvpValue = Decimal.Parse(results[0]);
+
+                        _viewModel.NvpValue = Decimal.Parse(results[0], CultureInfo.InvariantCulture);
                         if (_selectedDeviceStore.SelectedDevice.PortNumber == 1)
                             _selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry.Mode = (CalibrationMode)Enum.Parse(typeof(CalibrationMode), results[1]);
                         else

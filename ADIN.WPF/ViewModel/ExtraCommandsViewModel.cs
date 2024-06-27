@@ -161,7 +161,7 @@ namespace ADIN.WPF.ViewModel
         //private IDeviceStatus _deviceStatus => _selectedDeviceStore.SelectedDevice?.DeviceStatus;
         private void _selectedDeviceStore_LinkStateStatusChanged(string linkStatus)
         {
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
             {
                 LinkStatus = linkStatus;
             }));
@@ -169,7 +169,7 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_PowerDownStateStatusChanged(string powerDownStatus)
         {
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
             {
                 PowerDownStatus = powerDownStatus;
             }));
@@ -185,6 +185,9 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             OnPropertyChanged(nameof(PowerDownStatus));
             OnPropertyChanged(nameof(LinkStatus));
             OnPropertyChanged(nameof(IsPoweredUp));

@@ -1,16 +1,8 @@
 ﻿using ADIN.Device.Models;
 using ADIN.WPF.Commands;
-using ADIN.WPF.Service;
 using ADIN.WPF.Stores;
-using FTDIChip.Driver.Services;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Data.Common;
-using System.Linq;
-using System.Windows;
 using System.Windows.Input;
-using Telerik.Windows.Controls;
 
 namespace ADIN.WPF.ViewModel
 {
@@ -23,7 +15,6 @@ namespace ADIN.WPF.ViewModel
         {
             _navigationStore = navigationStore;
             _selectedDeviceStore = selectedDeviceStore;
-            _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
 
             ClkPnCtrlCmd_None = new ClockPinControlCommand(this, selectedDeviceStore);
             ClkPnCtrlCmd_Rcvr125Mhz = new ClockPinControlCommand(this, selectedDeviceStore);
@@ -31,6 +22,8 @@ namespace ADIN.WPF.ViewModel
             ClkPnCtrlCmd_HrtRcvr = new ClockPinControlCommand(this, selectedDeviceStore);
             ClkPnCtrlCmd_HrtFree = new ClockPinControlCommand(this, selectedDeviceStore);
             ClkPnCtrlCmd_25Mhz = new ClockPinControlCommand(this, selectedDeviceStore);
+
+            _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
         }
 
         public ICommand ClkPnCtrlCmd_None { get; set; }
@@ -55,6 +48,9 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             OnPropertyChanged(nameof(SelectedGpClk));
             OnPropertyChanged(nameof(GpClkPinControls));
         }

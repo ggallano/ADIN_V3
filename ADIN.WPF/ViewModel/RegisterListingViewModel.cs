@@ -23,6 +23,7 @@ namespace ADIN.WPF.ViewModel
         private BackgroundWorker _readRegisterWorker;
         private SelectedDeviceStore _selectedDeviceStore;
         private RegisterModel _selectedRegister;
+        private bool _loggedOneError = false;
         public RegisterListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
         {
             _selectedDeviceStore = selectedDeviceStore;
@@ -112,6 +113,7 @@ namespace ADIN.WPF.ViewModel
                             });
                         }
                     }
+                    _loggedOneError = false;
                     Thread.Sleep(10);
                 }
                 catch (Exception ex)
@@ -138,11 +140,10 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             OnPropertyChanged(nameof(Registers));
-            //Application.Current.Dispatcher.Invoke(new Action(() =>
-            //{
-            //    OnPropertyChanged(nameof(Registers));
-            //}));
         }
 
         private void SetRegsiterWorker()

@@ -89,6 +89,9 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 DisableButton = onGoingCalibrationStatus;
@@ -97,6 +100,9 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             IsEnable = true;
             OnPropertyChanged(nameof(IsDeviceSelected));
         }

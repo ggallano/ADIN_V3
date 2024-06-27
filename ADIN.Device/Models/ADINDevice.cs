@@ -7,27 +7,32 @@ namespace ADIN.Device.Models
 {
     public class ADINDevice
     {
-        public AbstractADINFactory Device { get; set; }
-        public ADINDevice(AbstractADINFactory device)
+        public ADINDevice(AbstractADINFactory device, bool isMultichipBoard = false)
         {
             Device = device;
+            IsMultichipBoard = isMultichipBoard;
         }
 
-        public string SerialNumber => Device.SerialNumber;
+        public List<string> AdvertisedSpeeds => Device.AdvertisedSpeeds;
         public string BoardName => Device.BoardName;
         public BoardRevision BoardRev => Device.BoardRev;
-        public uint PhyAddress => Device.PhyAddress;
-        public uint PortNumber { get; set; } = 1;
-        public BoardType DeviceType => Device.DeviceType;
-        public IFirmwareAPI FwAPI => Device.FirmwareAPI;
+        public bool CableDiagOneTimePopUp { get; set; } = false;
         public string Checker { get; set; }
+        public IClockPinControl ClockPinControl => Device.ClockPinControl;
+        public AbstractADINFactory Device { get; set; }
+        public IDeviceStatus DeviceStatus => Device.DeviceStatus;
+        public BoardType DeviceType => Device.DeviceType;
+        public IFrameGenChecker FrameGenChecker => Device.FrameGenChecker;
+        public IFirmwareAPI FwAPI => Device.FirmwareAPI;
+        public bool IsCableDiagAvailable => TimeDomainReflectometryPort1 == null ? false : true;
+        public bool IsMultichipBoard { get; set; }
         public ILinkProperties LinkProperties => Device.LinkProperties;
         public ILoopback Loopback => Device.Loopback;
-        public IFrameGenChecker FrameGenChecker => Device.FrameGenChecker;
-        public IClockPinControl ClockPinControl => Device.ClockPinControl;
-        public ITestMode TestMode => Device.TestMode;
+        public uint PhyAddress => Device.PhyAddress;
+        public uint PortNumber { get; set; } = 1;
         public ObservableCollection<RegisterModel> Registers => Device.Registers;
-        public IDeviceStatus DeviceStatus => Device.DeviceStatus;
+        public string SerialNumber => Device.SerialNumber;
+        public ITestMode TestMode => Device.TestMode;
         public ITimeDomainReflectometry TimeDomainReflectometryPort1 => Device.TimeDomainReflectometryPort1;
         public ITimeDomainReflectometry TimeDomainReflectometryPort2 => Device.TimeDomainReflectometryPort2;
     }

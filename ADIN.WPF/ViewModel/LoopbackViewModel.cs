@@ -1,14 +1,8 @@
 ﻿using ADIN.Device.Models;
 using ADIN.Device.Services;
-using ADIN.WPF.Commands;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
-using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
 
 namespace ADIN.WPF.ViewModel
 {
@@ -298,6 +292,9 @@ namespace ADIN.WPF.ViewModel
         }
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             OnPropertyChanged(nameof(IsDeviceSelected));
             OnPropertyChanged(nameof(IsADIN1100Board));
 

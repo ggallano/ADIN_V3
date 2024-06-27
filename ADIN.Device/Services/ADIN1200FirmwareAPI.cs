@@ -389,7 +389,7 @@ namespace ADIN.Device.Services
                 if (response.Contains("ERROR"))
                 {
                     //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
-                    //throw new ApplicationException(response);
+                    throw new ApplicationException(response);
                 }
 
                 Debug.WriteLine($"Command:{command.TrimEnd()}");
@@ -405,8 +405,10 @@ namespace ADIN.Device.Services
             {
                 string response = string.Empty;
                 string command = string.Empty;
+                string command2 = string.Empty;
 
-                command = $"mdiord_cl45 {_phyAddress},{regAddress.ToString("X")}\n";
+                MdioWriteCl22(0x10, (regAddress & 0xFFFF));
+                command = $"mdioread {_phyAddress},11\n";
 
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
@@ -416,7 +418,7 @@ namespace ADIN.Device.Services
                 if (response.Contains("ERROR"))
                 {
                     //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
-                    //throw new ApplicationException(response);
+                    throw new ApplicationException(response);
                 }
 
                 Debug.WriteLine($"Command:{command.TrimEnd()}");
@@ -461,10 +463,13 @@ namespace ADIN.Device.Services
                 string command = string.Empty;
                 string command2 = string.Empty;
 
-                command = $"mdiowr_cl45 {_phyAddress},{regAddress.ToString("X")},{data.ToString("X")}\n";
+                command = $"mdiowrite {_phyAddress},10,{regAddress.ToString("X")}\n";
+                command2 = $"mdiowrite {_phyAddress},11,{data.ToString("X")}\n";
 
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
+                response = _ftdiService.ReadCommandResponse().Trim();
+                _ftdiService.SendData(command2);
                 response = _ftdiService.ReadCommandResponse().Trim();
 
                 if (response.Contains("ERROR"))
@@ -1293,6 +1298,10 @@ namespace ADIN.Device.Services
                         }
                     }
                 }
+                else
+                {
+                    throw new ApplicationException($"No register/bitfield named {name}.");
+                }
             }
             else
             {
@@ -1333,6 +1342,38 @@ namespace ADIN.Device.Services
             else
             {
                 return MdioWriteCl45(registerAddress, value);
+            }
+        }
+
+        public void ExecuteSript(ScriptModel script)
+        {
+            try
+            {
+                foreach (var register in script.RegisterAccesses)
+                {
+                    if (register.RegisterName != null)
+                    {
+                        WriteYodaRg(register.RegisterName, uint.Parse(register.Value));
+                        continue;
+                    }
+
+                    if (register.RegisterAddress != null)
+                    {
+                        uint regAddress = uint.Parse(register.RegisterAddress);
+                        uint regValue = uint.Parse(register.Value);
+                        WriteYodaRg(regAddress, regValue);
+                        FeedbackLog($"Register 0x{regAddress.ToString("X")} = {regValue.ToString("X")}", FeedbackType.Verbose);
+                        continue;
+                    }
+                }
+            }
+            catch (ApplicationException ex)
+            {
+                FeedbackLog(ex.Message, FeedbackType.Error);
+            }
+            catch (NullReferenceException)
+            {
+                FeedbackLog("Script is empty/has invalid register address/input value.", FeedbackType.Error);
             }
         }
     }
