@@ -416,11 +416,17 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_FrameGenCheckerResetDisplay(string status)
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             Checker = status;
         }
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             Debug.WriteLine($"[{SerialNumber}] Selected");
 
             OnPropertyChanged(nameof(BoardName));
