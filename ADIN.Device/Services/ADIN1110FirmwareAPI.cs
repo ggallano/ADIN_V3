@@ -390,7 +390,6 @@ namespace ADIN.Device.Services
                 string command = string.Empty;
                 string command2 = string.Empty;
 
-                //command = $"mdiord_cl45 {_phyAddress},{regAddress.ToString("X")}\n";
                 command = $"phyread {regAddress.ToString("X")}\n";
 
                 _ftdiService.Purge();
@@ -477,6 +476,7 @@ namespace ADIN.Device.Services
             {
                 string command = string.Empty;
                 string response = string.Empty;
+                string faultMessage = string.Empty;
                 FaultType fault = FaultType.None;
 
                 command = $"tdrfaultdet\n";
@@ -497,13 +497,15 @@ namespace ADIN.Device.Services
                     {
                         fault = FaultType.Short;
                     }
+                    faultMessage = $"[tdrfaultdet] Fault = {fault.ToString()} : Fault Distance = {_faultDistance}";
                 }
                 else
                 {
                     fault = FaultType.None;
+                    faultMessage = $"[tdrfaultdet] Fault = {fault.ToString()}";
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrfaultdet] Fault = {fault.ToString()}", FeedBackType = FeedbackType.Info });
+                OnWriteProcessCompleted(new FeedbackModel() { Message = faultMessage, FeedBackType = FeedbackType.Info });
                 return fault;
             }
         }
@@ -850,7 +852,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException(response);
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrsetnvp] {response}", FeedBackType = FeedbackType.Info });
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrsetnvp] NVP={res[0]}, Mode={res[1]}", FeedBackType = FeedbackType.Info });
                 return resList;
             }
         }
@@ -878,7 +880,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException("[Offset Calibration]" + response);
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[Offset Calibration] Offset={response}", FeedBackType = FeedbackType.Info });
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[Offset Calibration] Offset={res[0]}", FeedBackType = FeedbackType.Info });
                 return response;
             }
         }

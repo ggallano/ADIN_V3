@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ADI.Register.Models;
 using ADIN.Device.Models;
 using ADIN.WPF.Models;
@@ -11,7 +9,6 @@ using Helper.Feedback;
 using FTDIChip.Driver.Services;
 using System.Diagnostics;
 using System.Globalization;
-using Microsoft.Win32;
 using Helper.RegularExpression;
 
 namespace ADIN.Device.Services
@@ -31,7 +28,6 @@ namespace ADIN.Device.Services
         private TestModeType _testmodeState = TestModeType.Normal;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
-
         private uint portNumber = 0;
 
         public ADIN2111FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
@@ -43,14 +39,6 @@ namespace ADIN.Device.Services
             fwAPI = this;
         }
 
-        /// <summary>
-        /// creates new instance
-        /// </summary>
-        /// <param name="ftdiService"></param>
-        /// <param name="phyAddress"></param>
-        /// <param name="registers"></param>
-        /// <param name="boardRev"></param>
-        /// <param name="boardType"></param>
         public ADIN2111FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
@@ -59,11 +47,27 @@ namespace ADIN.Device.Services
             _mainLock = mainLock;
         }
 
+        public event EventHandler<FeedbackModel> ErrorOccured;
+
         public event EventHandler<FrameType> FrameContentChanged;
 
         public event EventHandler<string> FrameGenCheckerTextStatusChanged;
 
+        public event EventHandler<string> LinkLengthChanged;
+
+        public event EventHandler<LoopBackMode> LoopbackChanged;
+
+        public event EventHandler<string> MseValueChanged;
+
+        public event EventHandler<AutoNegMasterSlaveAdvertisementItem> NegotiationMasterSlaveChanged;
+
+        public event EventHandler<PeakVoltageAdvertisementItem> PeakVoltageChanged;
+
+        public event EventHandler<FeedbackModel> ReadProcessCompleted;
+
         public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
+
+        public event EventHandler<TestModeType> TestModeChanged;
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
 
@@ -71,14 +75,28 @@ namespace ADIN.Device.Services
 
         public bool isFrameGenCheckerOngoing { get; set; }
 
-        public event EventHandler<FeedbackModel> ErrorOccured;
-        public event EventHandler<string> LinkLengthChanged;
-        public event EventHandler<LoopBackMode> LoopbackChanged;
-        public event EventHandler<string> MseValueChanged;
-        public event EventHandler<AutoNegMasterSlaveAdvertisementItem> NegotiationMasterSlaveChanged;
-        public event EventHandler<PeakVoltageAdvertisementItem> PeakVoltageChanged;
-        public event EventHandler<FeedbackModel> ReadProcessCompleted;
-        public event EventHandler<TestModeType> TestModeChanged;
+        public static BoardRevision GetRevNum(uint register)
+        {
+            var value = fwAPI.ReadYodaRg(Convert.ToUInt32(register));
+            var revNum = Convert.ToUInt32(value, 16) & 0x03;
+
+            switch (revNum)
+            {
+                case 1:
+                    return BoardRevision.Rev1;
+
+                case 0:
+                    return BoardRevision.Rev0;
+
+                default:
+                    return BoardRevision.Rev1;
+            }
+        }
+
+        public void DisableLinking(bool isDisabledLinking)
+        {
+            throw new NotImplementedException();
+        }
 
         public string GetAnStatus()
         {
@@ -166,11 +184,6 @@ namespace ADIN.Device.Services
             OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames} Tx Side with {checkedFramesErrors} errors");
         }
 
-        public FrameType GetFrameContentInitialization(bool eventTrigger = false)
-        {
-            throw new NotImplementedException();
-        }
-
         public string GetFrameGeneratorStatus()
         {
             uint fgEn_st = Convert.ToUInt32(ReadYodaRg("FG_EN"), 16);
@@ -203,24 +216,9 @@ namespace ADIN.Device.Services
             return "Frame Transmission in progress";
         }
 
-        public string GetLinkLength()
-        {
-            throw new NotImplementedException();
-        }
-
         public string GetLinkStatus()
         {
             return GetPhyState().ToString();
-        }
-
-        public LoopBackMode GetLoopbackInitialization(bool eventTrigger = false)
-        {
-            throw new NotImplementedException();
-        }
-
-        public LoopBackMode GetLoopbackState()
-        {
-            throw new NotImplementedException();
         }
 
         public string GetMasterSlaveStatus()
@@ -257,11 +255,6 @@ namespace ADIN.Device.Services
             return masterSlaveStatus;
         }
 
-        public BoardType GetModelNum(out uint phyAddress)
-        {
-            throw new NotImplementedException();
-        }
-
         public string GetMseValue(BoardRevision boardRev)
         {
             switch (boardRev)
@@ -284,11 +277,6 @@ namespace ADIN.Device.Services
         }
 
         public string GetMseValue()
-        {
-            throw new NotImplementedException();
-        }
-
-        public AutoNegMasterSlaveAdvertisementItem GetNegotiationMasterSlaveInitialization(bool eventTrigger = false)
         {
             throw new NotImplementedException();
         }
@@ -340,11 +328,6 @@ namespace ADIN.Device.Services
             }
         }
 
-        public PeakVoltageAdvertisementItem GetPeakVoltageInitialization(bool eventTrigger = false)
-        {
-            throw new NotImplementedException();
-        }
-
         public EthPhyState GetPhyState()
         {
             if (ReadYodaRg("CRSM_SFT_PD") == "1")
@@ -356,40 +339,12 @@ namespace ADIN.Device.Services
             return _phyState = EthPhyState.LinkUp;
         }
 
-        public string GetRegisterJsonFile(BoardRevision revNum)
+        public uint GetPortNum()
         {
             throw new NotImplementedException();
         }
 
-        public static BoardRevision GetRevNum(uint register)
-        {
-            var value = fwAPI.ReadYodaRg(Convert.ToUInt32(register));
-            var revNum = Convert.ToUInt32(value, 16) & 0x03;
-
-            switch (revNum)
-            {
-                case 1:
-                    return BoardRevision.Rev1;
-
-                case 0:
-                    return BoardRevision.Rev0;
-
-                default:
-                    return BoardRevision.Rev1;
-            }
-        }
-
-        public ObservableCollection<RegisterModel> GetStatusRegisters()
-        {
-            throw new NotImplementedException();
-        }
-
-        public TestModeType GetTestModeInitialization(bool eventTrigger = false)
-        {
-            throw new NotImplementedException();
-        }
-
-        public TestModeType GetTestModeState()
+        public string GetSpeedMode()
         {
             throw new NotImplementedException();
         }
@@ -440,9 +395,9 @@ namespace ADIN.Device.Services
             }
         }
 
-        public void HardwareReset()
+        public List<string> LocalAdvertisedSpeedList()
         {
-            throw new NotImplementedException();
+            return new List<string>() { "10Base-T1L" };
         }
 
         public string MdioReadCl22(uint regAddress)
@@ -458,7 +413,6 @@ namespace ADIN.Device.Services
                 string command = string.Empty;
                 string command2 = string.Empty;
 
-                //command = $"mdiord_cl45 {_phyAddress},{regAddress.ToString("X")}\n";
                 command = $"phyread {this.portNumber},{regAddress.ToString("X")}\n";
 
                 _ftdiService.Purge();
@@ -511,29 +465,6 @@ namespace ADIN.Device.Services
             }
         }
 
-        protected virtual void OnFrameGenCheckerStatusChanged(string status)
-        {
-            FrameGenCheckerTextStatusChanged?.Invoke(this, status);
-        }
-
-        protected virtual void OnResetFrameGenCheckerStatisticsChanged(string status)
-        {
-            ResetFrameGenCheckerStatisticsChanged?.Invoke(this, status);
-        }
-
-        protected virtual void OnWriteProcessCompleted(FeedbackModel feedback)
-        {
-            WriteProcessCompleted?.Invoke(this, feedback);
-        }
-
-        private void FeedbackLog(string message, FeedbackType feedbackType)
-        {
-            FeedbackModel feedback = new FeedbackModel();
-            feedback.Message = "Port" + this.portNumber.ToString() + " " + message;
-            feedback.FeedBackType = feedbackType;
-            OnWriteProcessCompleted(feedback);
-        }
-
         public string PerformCableCalibration(decimal length)
         {
             lock (_mainLock)
@@ -568,6 +499,7 @@ namespace ADIN.Device.Services
             {
                 string command = string.Empty;
                 string response = string.Empty;
+                string faultMessage = string.Empty;
                 FaultType fault = FaultType.None;
 
                 command = $"tdrfaultdet {this.portNumber}\n";
@@ -588,13 +520,15 @@ namespace ADIN.Device.Services
                     {
                         fault = FaultType.Short;
                     }
+                    faultMessage = $"[tdrfaultdet] Fault = {fault.ToString()} : Fault Distance = {_faultDistance}";
                 }
                 else
                 {
                     fault = FaultType.None;
+                    faultMessage = $"[tdrfaultdet] Fault = {fault.ToString()}";
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrfaultdet] Fault = {fault.ToString()}", FeedBackType = FeedbackType.Info });
+                OnWriteProcessCompleted(new FeedbackModel() { Message = faultMessage, FeedBackType = FeedbackType.Info });
                 return fault;
             }
         }
@@ -636,6 +570,26 @@ namespace ADIN.Device.Services
             Debug.WriteLine("ReadRegisters Done");
 
             return _registers;
+        }
+
+        public string RegisterRead(uint regAddress)
+        {
+            return ReadYodaRg(regAddress);
+        }
+
+        public string RegisterRead(string register)
+        {
+            return ReadYodaRg(register);
+        }
+
+        public string RegisterWrite(uint regAddress, uint data)
+        {
+            return WriteYodaRg(regAddress, data);
+        }
+
+        public List<string> RemoteAdvertisedSpeedList()
+        {
+            throw new NotImplementedException();
         }
 
         public void ResetFrameGenCheckerStatistics()
@@ -831,6 +785,43 @@ namespace ADIN.Device.Services
             WriteYodaRg("MAC_IF_REM_LB_RX_SUP_EN", rxSuppression ? (uint)1 : (uint)0);
         }
 
+        public void SetMasterSlave(string masterSlaveAdvertise)
+        {
+            switch (masterSlaveAdvertise)
+            {
+                case "Prefer_Master":
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_ADV_MST", 1);
+                    WriteYodaRg("AN_ADV_FORCE_MS", 0);
+                    WriteYodaRg("AN_EN", 1);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    break;
+                case "Prefer_Slave":
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_ADV_MST", 0);
+                    WriteYodaRg("AN_ADV_FORCE_MS", 0);
+                    WriteYodaRg("AN_EN", 1);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    break;
+                case "Forced_Master":
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_ADV_MST", 1);
+                    WriteYodaRg("AN_ADV_FORCE_MS", 1);
+                    WriteYodaRg("AN_EN", 1);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    break;
+                case "Forced_Slave":
+                    WriteYodaRg("CRSM_SFT_PD", 1);
+                    WriteYodaRg("AN_ADV_MST", 0);
+                    WriteYodaRg("AN_ADV_FORCE_MS", 1);
+                    WriteYodaRg("AN_EN", 1);
+                    WriteYodaRg("CRSM_SFT_PD", 0);
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public void SetMode(CalibrationMode mode)
         {
             lock (_mainLock)
@@ -856,11 +847,6 @@ namespace ADIN.Device.Services
 
                 //OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrsetmode] {response}", FeedBackType = FeedbackType.Info });
             }
-        }
-
-        public void SetNegotiateMasterSlaveSetting(AutoNegMasterSlaveAdvertisementItem negotiateMasterSlave)
-        {
-            throw new NotImplementedException();
         }
 
         public List<string> SetNvp(decimal nvpValue)
@@ -889,7 +875,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException(response);
                 }
 
-                FeedbackLog($"[tdrsetnvp] {response}", FeedbackType.Info);
+                FeedbackLog($"[tdrsetnvp] NVP={res[0]}, Mode={res[1]}", FeedbackType.Info);
                 return resList;
             }
         }
@@ -922,14 +908,9 @@ namespace ADIN.Device.Services
             }
         }
 
-        public void SetPeakToPeakVoltageSetting(PeakVoltageAdvertisementItem pkpkVoltage)
+        public void SetPortNum(uint portNum)
         {
-            throw new NotImplementedException();
-        }
-
-        public void SetRxSuppressionSetting(bool isRxSuppression)
-        {
-            throw new NotImplementedException();
+            this.portNumber = portNum;
         }
 
         public void SetTestMode(TestModeListingModel testMode, uint framelength)
@@ -1001,9 +982,28 @@ namespace ADIN.Device.Services
             }
         }
 
-        public void SetTxSuppressionSetting(bool isTxSuppression)
+        public void SetTxLevel(string txLevel)
         {
-            throw new NotImplementedException();
+            switch (txLevel)
+            {
+                case "Capable2p4Volts_Requested2p4Volts":
+                    WriteYodaRg("AN_ADV_B10L_TX_LVL_HI_ABL", 1);
+                    WriteYodaRg("AN_ADV_B10L_TX_LVL_HI_REQ", 1);
+                    break;
+                case "Capable2p4Volts_Requested1Volt":
+                    WriteYodaRg("AN_ADV_B10L_TX_LVL_HI_ABL", 1);
+                    WriteYodaRg("AN_ADV_B10L_TX_LVL_HI_REQ", 0);
+                    break;
+                case "Capable1Volt":
+                    WriteYodaRg("AN_ADV_B10L_TX_LVL_HI_ABL", 0);
+                    WriteYodaRg("AN_ADV_B10L_TX_LVL_HI_REQ", 0);
+                    break;
+                default:
+                    break;
+            }
+
+            WriteYodaRg("AN_RESTART", 1);
+            FeedbackLog("restart auto negotiation", FeedbackType.Info);
         }
 
         public void SoftwarePowerdown(bool isSoftwarePowerdown)
@@ -1013,74 +1013,6 @@ namespace ADIN.Device.Services
             else
                 WriteYodaRg("CRSM_SFT_PD", 0);
         }
-
-        public void SoftwareReset()
-        {
-            throw new NotImplementedException();
-        }
-
-        //public void Speed1000FdAdvertisement(bool spd1000FdAdv_st)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public void Speed1000HdAdvertisement(bool spd1000HdAdv_st)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public void Speed100FdAdvertisement(bool spd100FdAdv_st)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public void Speed100HdAdvertisement(bool spd100HdAdv_st)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public void Speed10FdAdvertisement(bool spd10FdAdv_st)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public void Speed10HdAdvertisement(bool spd10HdAdv_st)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public void Speed1000EEEAdvertisement(bool spd1000EEEAdv_st)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public void Speed100EEEAdvertisement(bool spd100EEEAdv_st)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public void AdvertisedForcedSpeed(string advFrcSpd)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public void DownSpeed100Hd(bool dwnSpd100Hd)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public void DownSpeed10Hd(bool dwnSpd10Hd)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public void DownSpeedRetriesSetVal(uint dwnSpdRtryVal)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public void AutoMDIXMode(string autoMDIXmod)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public void EnableEnergyDetectPowerDown(string enEnergyDetect)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        //public void SetGpClkPinControl(string gpClkPinCtrl)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public void TDRInit()
         {
@@ -1106,6 +1038,29 @@ namespace ADIN.Device.Services
                     //OnErrorOccured(new FeedbackModel() { Message = ex.Message, FeedBackType = FeedbackType.Error });
                 }
             }
+        }
+
+        protected virtual void OnFrameGenCheckerStatusChanged(string status)
+        {
+            FrameGenCheckerTextStatusChanged?.Invoke(this, status);
+        }
+
+        protected virtual void OnResetFrameGenCheckerStatisticsChanged(string status)
+        {
+            ResetFrameGenCheckerStatisticsChanged?.Invoke(this, status);
+        }
+
+        protected virtual void OnWriteProcessCompleted(FeedbackModel feedback)
+        {
+            WriteProcessCompleted?.Invoke(this, feedback);
+        }
+
+        private void FeedbackLog(string message, FeedbackType feedbackType)
+        {
+            FeedbackModel feedback = new FeedbackModel();
+            feedback.Message = "Port" + this.portNumber.ToString() + " " + message;
+            feedback.FeedBackType = feedbackType;
+            OnWriteProcessCompleted(feedback);
         }
 
         private RegisterModel GetRegister(string name)
@@ -1173,74 +1128,6 @@ namespace ADIN.Device.Services
             }
 
             return value;
-        }
-
-        private RegisterModel SetRegisterValue(string name, uint value)
-        {
-            RegisterModel register = new RegisterModel();
-
-            var res = _registers.Where(x => x.Name == name).ToList();
-            if (res.Count == 0)
-            {
-                res = _registers.Where(r => r.BitFields.Any(b => b.Name == name)).ToList();
-                if (res.Count == 1)
-                {
-                    register = res[0];
-                    foreach (var bitField in res[0].BitFields)
-                    {
-                        if (bitField.Name == name)
-                        {
-                            bitField.Value = value;
-                            _feedbackMessage = "BitField \"" + bitField.Name + "\" = " + bitField.Value;
-                            FeedbackLog(_feedbackMessage, FeedbackType.Verbose);
-                        }
-                    }
-                }
-                else
-                {
-                    throw new ApplicationException($"No register/bitfield named {name}.");
-                }
-            }
-            else
-            {
-                register = res[0];
-                register.Value = value.ToString("X");
-                _feedbackMessage = "Register \"" + register.Name + "\" = " + register.Value;
-                FeedbackLog(_feedbackMessage, FeedbackType.Verbose);
-            }
-
-            return register;
-        }
-
-        private void WriteYodaRg(string name, uint value)
-        {
-            RegisterModel register = null;
-
-            register = SetRegisterValue(name, value);
-
-            uint pageNumber = register.Address >> 16;
-            uint pageAddr = register.Address & 0xFFFF;
-            if (pageNumber == 0)
-            {
-                MdioWriteCl22(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
-            }
-            else
-            {
-                MdioWriteCl45(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
-            }
-        }
-
-        private string WriteYodaRg(uint registerAddress, uint value)
-        {
-            uint pageNumber = registerAddress >> 16;
-            if (pageNumber == 0)
-            {
-                return MdioWriteCl22(registerAddress, value);
-            }
-            else
-            {
-                return MdioWriteCl45(registerAddress, value);
-            }
         }
 
         private void SetContinuousMode(bool isEnable, uint frameBurst)
@@ -1334,110 +1221,68 @@ namespace ADIN.Device.Services
             }
         }
 
-        public void DisableLinking(bool isDisabledLinking)
+        private RegisterModel SetRegisterValue(string name, uint value)
         {
-            throw new NotImplementedException();
-        }
+            RegisterModel register = new RegisterModel();
 
-        public string GetSpeedMode()
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<string> LocalAdvertisedSpeedList()
-        {
-            return new List<string>() { "10Base-T1L" };
-        }
-
-        public List<string> RemoteAdvertisedSpeedList()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string RegisterRead(uint regAddress)
-        {
-            return ReadYodaRg(regAddress);
-        }
-
-        public string RegisterRead(string register)
-        {
-            return ReadYodaRg(register);
-        }
-
-        public string RegisterWrite(uint regAddress, uint data)
-        {
-            return WriteYodaRg(regAddress, data);
-        }
-
-        public void SetMasterSlave(string masterSlaveAdvertise)
-        {
-            switch (masterSlaveAdvertise)
+            var res = _registers.Where(x => x.Name == name).ToList();
+            if (res.Count == 0)
             {
-                case "Prefer_Master":
-                    WriteYodaRg("CRSM_SFT_PD", 1);
-                    WriteYodaRg("AN_ADV_MST", 1);
-                    WriteYodaRg("AN_ADV_FORCE_MS", 0);
-                    WriteYodaRg("AN_EN", 1);
-                    WriteYodaRg("CRSM_SFT_PD", 0);
-                    break;
-                case "Prefer_Slave":
-                    WriteYodaRg("CRSM_SFT_PD", 1);
-                    WriteYodaRg("AN_ADV_MST", 0);
-                    WriteYodaRg("AN_ADV_FORCE_MS", 0);
-                    WriteYodaRg("AN_EN", 1);
-                    WriteYodaRg("CRSM_SFT_PD", 0);
-                    break;
-                case "Forced_Master":
-                    WriteYodaRg("CRSM_SFT_PD", 1);
-                    WriteYodaRg("AN_ADV_MST", 1);
-                    WriteYodaRg("AN_ADV_FORCE_MS", 1);
-                    WriteYodaRg("AN_EN", 1);
-                    WriteYodaRg("CRSM_SFT_PD", 0);
-                    break;
-                case "Forced_Slave":
-                    WriteYodaRg("CRSM_SFT_PD", 1);
-                    WriteYodaRg("AN_ADV_MST", 0);
-                    WriteYodaRg("AN_ADV_FORCE_MS", 1);
-                    WriteYodaRg("AN_EN", 1);
-                    WriteYodaRg("CRSM_SFT_PD", 0);
-                    break;
-                default:
-                    break;
+                res = _registers.Where(r => r.BitFields.Any(b => b.Name == name)).ToList();
+                if (res.Count == 1)
+                {
+                    register = res[0];
+                    foreach (var bitField in res[0].BitFields)
+                    {
+                        if (bitField.Name == name)
+                        {
+                            bitField.Value = value;
+                            _feedbackMessage = "BitField \"" + bitField.Name + "\" = " + bitField.Value;
+                            FeedbackLog(_feedbackMessage, FeedbackType.Verbose);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                register = res[0];
+                register.Value = value.ToString("X");
+                _feedbackMessage = "Register \"" + register.Name + "\" = " + register.Value;
+                FeedbackLog(_feedbackMessage, FeedbackType.Verbose);
+            }
+
+            return register;
+        }
+
+        private void WriteYodaRg(string name, uint value)
+        {
+            RegisterModel register = null;
+
+            register = SetRegisterValue(name, value);
+
+            uint pageNumber = register.Address >> 16;
+            uint pageAddr = register.Address & 0xFFFF;
+            if (pageNumber == 0)
+            {
+                MdioWriteCl22(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
+            }
+            else
+            {
+                MdioWriteCl45(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
             }
         }
 
-        public void SetTxLevel(string txLevel)
+        private string WriteYodaRg(uint registerAddress, uint value)
         {
-            switch (txLevel)
+            uint pageNumber = registerAddress >> 16;
+            if (pageNumber == 0)
             {
-                case "Capable2p4Volts_Requested2p4Volts":
-                    WriteYodaRg("AN_ADV_B10L_TX_LVL_HI_ABL", 1);
-                    WriteYodaRg("AN_ADV_B10L_TX_LVL_HI_REQ", 1);
-                    break;
-                case "Capable2p4Volts_Requested1Volt":
-                    WriteYodaRg("AN_ADV_B10L_TX_LVL_HI_ABL", 1);
-                    WriteYodaRg("AN_ADV_B10L_TX_LVL_HI_REQ", 0);
-                    break;
-                case "Capable1Volt":
-                    WriteYodaRg("AN_ADV_B10L_TX_LVL_HI_ABL", 0);
-                    WriteYodaRg("AN_ADV_B10L_TX_LVL_HI_REQ", 0);
-                    break;
-                default:
-                    break;
+                return MdioWriteCl22(registerAddress, value);
             }
-
-            WriteYodaRg("AN_RESTART", 1);
-            FeedbackLog("restart auto negotiation", FeedbackType.Info);
-        }
-
-        public uint GetPortNum()
-        {
-            return this.portNumber;
-        }
-
-        public void SetPortNum(uint portNum)
-        {
-            this.portNumber = portNum;
+            else
+            {
+                return MdioWriteCl45(registerAddress, value);
+            }
         }
 
         public void ExecuteSript(ScriptModel script)

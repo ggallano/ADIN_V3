@@ -28,6 +28,7 @@ namespace ADIN.Device.Services
         private TestModeType _testmodeState = TestModeType.Normal;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
+
         public ADIN1100FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
@@ -74,6 +75,7 @@ namespace ADIN.Device.Services
                     return BoardRevision.Rev1;
             }
         }
+
         public void DisableLinking(bool isDisabledLinking)
         {
             throw new NotImplementedException();
@@ -475,6 +477,7 @@ namespace ADIN.Device.Services
             {
                 string command = string.Empty;
                 string response = string.Empty;
+                string faultMessage = string.Empty;
                 FaultType fault = FaultType.None;
 
                 command = $"tdrfaultdet\n";
@@ -495,13 +498,15 @@ namespace ADIN.Device.Services
                     {
                         fault = FaultType.Short;
                     }
+                    faultMessage = $"[tdrfaultdet] Fault = {fault.ToString()} : Fault Distance = {_faultDistance}";
                 }
                 else
                 {
                     fault = FaultType.None;
+                    faultMessage = $"[tdrfaultdet] Fault = {fault.ToString()}";
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrfaultdet] Fault = {fault.ToString()}", FeedBackType = FeedbackType.Info });
+                OnWriteProcessCompleted(new FeedbackModel() { Message = faultMessage, FeedBackType = FeedbackType.Info });
                 return fault;
             }
         }
@@ -848,7 +853,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException(response);
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrsetnvp] {response}", FeedBackType = FeedbackType.Info });
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrsetnvp] NVP={res[0]}, Mode={res[1]}", FeedBackType = FeedbackType.Info });
                 return resList;
             }
         }
@@ -876,7 +881,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException("[Offset Calibration]" + response);
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[Offset Calibration] Offset={response}", FeedBackType = FeedbackType.Info });
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[Offset Calibration] Offset={res[0]}", FeedBackType = FeedbackType.Info });
                 return response;
             }
         }
@@ -1188,6 +1193,7 @@ namespace ADIN.Device.Services
                 OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0x01", FeedBackType = FeedbackType.Info });
             }
         }
+
         private RegisterModel SetRegisterValue(string name, uint value)
         {
             RegisterModel register = new RegisterModel();
