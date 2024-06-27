@@ -16,7 +16,6 @@ namespace ADIN.WPF.ViewModel
         private string _linkStatus = "Disable Linking";
         private string _powerDownStatus = "Software Power Down";
         private bool _enableButton = true;
-        private bool _isPortNumVisible = false;
         private SelectedDeviceStore _selectedDeviceStore;
 
         public ExtraCommandsViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
@@ -130,6 +129,18 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsResetButtonVisible
+        {
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110
+                    || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
+                    return false;
+                else
+                    return true;
+            }
+        }
+
         public bool EnableButton
         {
             get { return _enableButton; }
@@ -195,6 +206,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(IsPortNumVisible));
             OnPropertyChanged(nameof(IsPort1));
             OnPropertyChanged(nameof(IsPort2));
+            OnPropertyChanged(nameof(IsResetButtonVisible));
             OnPropertyChanged(nameof(EnableButton));
         }
     }

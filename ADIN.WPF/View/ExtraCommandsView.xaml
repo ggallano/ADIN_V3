@@ -22,8 +22,8 @@
             <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Save Registers" Command="{Binding RegisterActionCommand}" CommandParameter="{x:Static enum:RegisterActionType.Save}"/>
             <telerik:RadButton Style="{StaticResource TelerikButtonStyle}" Content="Load Registers" Command="{Binding RegisterActionCommand}" CommandParameter="{x:Static enum:RegisterActionType.Load}"/>
             <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys (Pin)" Command="{Binding SubSysResetCommand}" CommandParameter="{x:Static enum:ResetType.SubSysPin}" Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}"/>
-            <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys" Command="{Binding SubSysResetCommand}" CommandParameter="{x:Static enum:ResetType.SubSys}"/>
-            <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: PHY" Command="{Binding PhyResetCommand}" CommandParameter="{x:Static enum:ResetType.Phy}"/>
+            <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: SubSys" Command="{Binding SubSysResetCommand}" CommandParameter="{x:Static enum:ResetType.SubSys}" Visibility="{Binding IsResetButtonVisible, Converter={StaticResource booleanVisibilityConverter}}"/>
+            <telerik:RadButton Style="{StaticResource ResetPhyButtonStyle}" Content="Reset: PHY" Command="{Binding PhyResetCommand}" CommandParameter="{x:Static enum:ResetType.Phy}" Visibility="{Binding IsResetButtonVisible, Converter={StaticResource booleanVisibilityConverter}}"/>
             <TextBlock Text="10Base-T1L Ports" Visibility="{Binding IsPortNumVisible, Converter={StaticResource booleanVisibilityConverter}}" FontWeight="Bold" FontSize="18" Margin="4 15 0 5"/>
             <Grid Margin="0 0 0 0">
                 <Grid.ColumnDefinitions>
