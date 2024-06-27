@@ -35,17 +35,18 @@ namespace ADIN.WPF.ViewModel
         private string _linkLength;
         private string _linkStatus = "-";
         private List<string> _localAdvertisedSpeeds = new List<string>() { "" };
+        private bool _loggedOneError = false;
+        private object _mainLock;
         private string _masterSlaveStatus = "-";
+        private string _maxSlicerError;
         private string _mseValue = "-";
         private BackgroundWorker _readRegisterWorker;
         private List<string> _remoteAdvertisedSpeeds = new List<string>();
         private SelectedDeviceStore _selectedDeviceStore;
         private string _speedMode = "-";
+        private string _spikeCount;
         private object _thisLock;
         private string _txLevelStatus = "-";
-        private object _mainLock;
-        private bool _loggedOneError = false;
-
         /// <summary>
         /// creates new instance
         /// </summary>
@@ -160,6 +161,8 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsSpikeCountVisible => ((_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN2111) || (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1110));
+
         public bool IsVisibleSpeedList
         {
             get
@@ -216,16 +219,6 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public string MasterSlaveStatus
-        {
-            get { return _masterSlaveStatus; }
-            set
-            {
-                _masterSlaveStatus = value;
-                OnPropertyChanged(nameof(MasterSlaveStatus));
-            }
-        }
-
         public List<string> LocalAdvertisedSpeeds
         {
             get { return _localAdvertisedSpeeds; }
@@ -240,6 +233,28 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public string MasterSlaveStatus
+        {
+            get { return _masterSlaveStatus; }
+            set
+            {
+                _masterSlaveStatus = value;
+                OnPropertyChanged(nameof(MasterSlaveStatus));
+            }
+        }
+        
+        public string MaxSlicerError
+        {
+            get { return _selectedDeviceStore.SelectedDevice != null ? _maxSlicerError : "N/A"; }
+            set
+            {
+                if (value != _mseValue)
+                {
+                    _maxSlicerError = value;
+                    OnPropertyChanged(nameof(MaxSlicerError));
+                }
+            }
+        }
         public string MseValue
         {
             get
@@ -279,16 +294,6 @@ namespace ADIN.WPF.ViewModel
 
         public string SerialNumber => _selectedDeviceStore.SelectedDevice?.SerialNumber ?? "-";
 
-        public string TxLevelStatus
-        {
-            get { return _txLevelStatus; }
-            set
-            {
-                _txLevelStatus = value;
-                OnPropertyChanged(nameof(TxLevelStatus));
-            }
-        }
-
         public string SpeedMode
         {
             get
@@ -311,6 +316,25 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public string SpikeCount
+        {
+            get { return _selectedDeviceStore.SelectedDevice != null ? _spikeCount : "N/A"; }
+            set
+            {
+                _spikeCount = value;
+                OnPropertyChanged(nameof(SpikeCount));
+            }
+        }
+
+        public string TxLevelStatus
+        {
+            get { return _txLevelStatus; }
+            set
+            {
+                _txLevelStatus = value;
+                OnPropertyChanged(nameof(TxLevelStatus));
+            }
+        }
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
 
         protected override void Dispose()
@@ -353,7 +377,9 @@ namespace ADIN.WPF.ViewModel
                                 AnStatus = fwAPI.GetAnStatus();
                                 MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
                                 TxLevelStatus = fwAPI.GetTxLevelStatus();
-                                MseValue = _selectedDevice.FwAPI.GetMseValue(_selectedDevice.BoardRev);
+                                MseValue = fwAPI.GetMseValue(_selectedDevice.BoardRev);
+                                MaxSlicerError = fwAPI.GetMaxSlicer();
+                                SpikeCount = fwAPI.GetSpikeCount();
                             }
                             else if (_selectedDevice.FwAPI is ADIN1110FirmwareAPI)
                             {
@@ -361,7 +387,9 @@ namespace ADIN.WPF.ViewModel
                                 AnStatus = fwAPI.GetAnStatus();
                                 MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
                                 TxLevelStatus = fwAPI.GetTxLevelStatus();
-                                MseValue = _selectedDevice.FwAPI.GetMseValue(_selectedDevice.BoardRev);
+                                MseValue = fwAPI.GetMseValue(_selectedDevice.BoardRev);
+                                MaxSlicerError = fwAPI.GetMaxSlicer();
+                                SpikeCount = fwAPI.GetSpikeCount();
                             }
                             else if (_selectedDevice.FwAPI is ADIN2111FirmwareAPI)
                             {
@@ -369,7 +397,9 @@ namespace ADIN.WPF.ViewModel
                                 AnStatus = fwAPI.GetAnStatus();
                                 MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
                                 TxLevelStatus = fwAPI.GetTxLevelStatus();
-                                MseValue = _selectedDevice.FwAPI.GetMseValue(_selectedDevice.BoardRev);
+                                MseValue = fwAPI.GetMseValue(_selectedDevice.BoardRev);
+                                MaxSlicerError = fwAPI.GetMaxSlicer();
+                                SpikeCount = fwAPI.GetSpikeCount();
                             }
                             else
                             {
@@ -455,6 +485,9 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(SpeedMode));
             OnPropertyChanged(nameof(IsVisibleSpeedList));
             OnPropertyChanged(nameof(Checker));
+            OnPropertyChanged(nameof(IsSpikeCountVisible));
+            OnPropertyChanged(nameof(MaxSlicerError));
+            OnPropertyChanged(nameof(SpikeCount));
         }
 
         private void SetBackgroundWroker()
