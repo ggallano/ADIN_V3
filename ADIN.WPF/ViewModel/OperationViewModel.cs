@@ -20,7 +20,7 @@ namespace ADIN.WPF.ViewModel
         private bool _isCableDiagSelected;
         private bool _isCableDiagVisible;
         private bool _isTestModeSelected = false;
-        public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore, IRegisterService registerService, object mainLock)
+        public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore, IRegisterService registerService, ScriptService scriptService, object mainLock)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _navigationStore = navigationStore;
@@ -38,6 +38,7 @@ namespace ADIN.WPF.ViewModel
             DeviceStatusVM = new DeviceStatusViewModel(selectedDeviceStore, ftdiService, mainLock);
             RegisterAccessVM = new RegisterAccessViewModel(_selectedDeviceStore, navigationStore);
             TDRVM = new TimeDomainReflectometryViewModel(_selectedDeviceStore, mainLock);
+            StatusStripVM = new StatusStripViewModel(_selectedDeviceStore, scriptService);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
@@ -65,7 +66,8 @@ namespace ADIN.WPF.ViewModel
         public ExtraCommandsViewModel ExtraCommandsVM { get; set; }
 
         public FrameGenCheckerViewModel FrameGenCheckerVM { get; set; }
-
+        public StatusStripViewModel StatusStripVM { get; set; }
+        
         public bool IsADIN2111
         {
             get { return _isAdin2111; }

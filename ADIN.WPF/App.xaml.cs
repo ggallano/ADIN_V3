@@ -46,7 +46,7 @@ namespace ADIN.WPF
             {
                 Title = "Explore your Ethernet PHY!",
                 WindowStartupLocation=WindowStartupLocation.CenterScreen,
-                DataContext = new OperationViewModel(_selectedDeviceStore, _ftdiService, _navigationStore, _registerService, _mainLock)
+                DataContext = new OperationViewModel(_selectedDeviceStore, _ftdiService, _navigationStore, _registerService, _scriptService, _mainLock)
             };
 
             MainWindow.Show();
