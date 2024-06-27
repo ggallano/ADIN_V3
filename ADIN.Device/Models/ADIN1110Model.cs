@@ -3,6 +3,7 @@ using ADIN.Device.Models.ADIN1100;
 using ADIN.Device.Services;
 using FTDIChip.Driver.Services;
 using System;
+using System.Globalization;
 using System.IO;
 
 namespace ADIN.Device.Models
@@ -94,8 +95,8 @@ namespace ADIN.Device.Models
 
         private void GetTDRValue()
         {
-            TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset = decimal.Parse(((ADIN1110FirmwareAPI)FirmwareAPI).GetOffset());
-            TimeDomainReflectometryPort1.TimeDomainReflectometry.NVP = decimal.Parse(((ADIN1110FirmwareAPI)FirmwareAPI).GetNvp());
+            TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset = decimal.Parse(((ADIN1110FirmwareAPI)FirmwareAPI).GetOffset(), CultureInfo.InvariantCulture);
+            TimeDomainReflectometryPort1.TimeDomainReflectometry.NVP = decimal.Parse(((ADIN1110FirmwareAPI)FirmwareAPI).GetNvp(), CultureInfo.InvariantCulture);
         }
 
         private void GetTestModeValue()

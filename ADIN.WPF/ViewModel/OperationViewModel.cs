@@ -15,15 +15,12 @@ namespace ADIN.WPF.ViewModel
         private readonly NavigationStore _navigationStore;
         private readonly SelectedDeviceStore _selectedDeviceStore;
 
+        private bool _enableTabs = true;
+        private bool _isAdin2111 = false;
         private bool _isCableDiagSelected;
         private bool _isCableDiagVisible;
-        private bool _isAdin2111 = false;
-
         private bool _isTestModeSelected = false;
-
-        private bool _enableTabs = true;
-
-        public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore, IRegisterService registerService, object mainLock)
+        public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore, IRegisterService registerService, ScriptService scriptService, object mainLock)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _navigationStore = navigationStore;
@@ -41,17 +38,35 @@ namespace ADIN.WPF.ViewModel
             DeviceStatusVM = new DeviceStatusViewModel(selectedDeviceStore, ftdiService, mainLock);
             RegisterAccessVM = new RegisterAccessViewModel(_selectedDeviceStore, navigationStore);
             TDRVM = new TimeDomainReflectometryViewModel(_selectedDeviceStore, mainLock);
+            StatusStripVM = new StatusStripViewModel(_selectedDeviceStore, scriptService);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
+            DeviceListingVM.HideCableDiagChanged += DeviceListingVM_HideCableDiagChanged;
         }
 
         public ClockPinControlViewModel ClockPinControlVM { get; set; }
+
         public ViewModelBase CurrentViewModel => _navigationStore.CurrentViewModel;
+
         public DeviceListingViewModel DeviceListingVM { get; }
+
         public DeviceStatusViewModel DeviceStatusVM { get; set; }
+
+        public bool EnableTabs
+        {
+            get { return _enableTabs; }
+            set
+            {
+                _enableTabs = value;
+                OnPropertyChanged(nameof(EnableTabs));
+            }
+        }
+
         public ExtraCommandsViewModel ExtraCommandsVM { get; set; }
+
         public FrameGenCheckerViewModel FrameGenCheckerVM { get; set; }
+        public StatusStripViewModel StatusStripVM { get; set; }
         
         public bool IsADIN2111
         {
@@ -62,7 +77,7 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsADIN2111));
             }
         }
-        
+
         public bool IsCableDiagSelected
         {
             get { return _isCableDiagSelected; }
@@ -93,23 +108,32 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public bool EnableTabs
-        {
-            get { return _enableTabs; }
-            set
-            {
-                _enableTabs = value;
-                OnPropertyChanged(nameof(EnableTabs));
-            }
-        }
-
         public LinkPropertiesViewModel LinkPropertiesVM { get; set; }
+
         public LogActivityViewModel LogActivityVM { get; set; }
+
         public LoopbackViewModel LoopbackVM { get; set; }
+
+        public MenuItemViewModel MenuItemVM { get; set; }
+
         public RegisterAccessViewModel RegisterAccessVM { get; set; }
+
         public RegisterListingViewModel RegisterListingVM { get; set; }
+
         public TimeDomainReflectometryViewModel TDRVM { get; set; }
+
         public TestModeViewModel TestModeVM { get; set; }
+
+        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
+        {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                EnableTabs = !onGoingCalibrationStatus;
+            }));
+        }
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
@@ -124,7 +148,8 @@ namespace ADIN.WPF.ViewModel
             else
                 IsCableDiagVisible = false;
 
-            if (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
+            if ((_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
+             || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110))
             {
                 IsADIN2111 = true;
                 IsCableDiagSelected = true;
@@ -138,14 +163,13 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
+        private void DeviceListingVM_HideCableDiagChanged(bool obj)
         {
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                EnableTabs = !onGoingCalibrationStatus;
-            }));
-        }
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
 
-        public MenuItemViewModel MenuItemVM { get; set; }
+            IsCableDiagVisible = !obj;
+            IsTestModeSelected = obj;
+        }
     }
 }

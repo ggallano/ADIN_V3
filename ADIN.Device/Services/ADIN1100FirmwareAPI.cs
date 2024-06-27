@@ -28,6 +28,7 @@ namespace ADIN.Device.Services
         private TestModeType _testmodeState = TestModeType.Normal;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
+
         public ADIN1100FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
@@ -74,6 +75,7 @@ namespace ADIN.Device.Services
                     return BoardRevision.Rev1;
             }
         }
+
         public void DisableLinking(bool isDisabledLinking)
         {
             throw new NotImplementedException();
@@ -475,6 +477,7 @@ namespace ADIN.Device.Services
             {
                 string command = string.Empty;
                 string response = string.Empty;
+                string faultMessage = string.Empty;
                 FaultType fault = FaultType.None;
 
                 command = $"tdrfaultdet\n";
@@ -495,13 +498,15 @@ namespace ADIN.Device.Services
                     {
                         fault = FaultType.Short;
                     }
+                    faultMessage = $"[tdrfaultdet] Fault = {fault.ToString()} : Fault Distance = {_faultDistance}";
                 }
                 else
                 {
                     fault = FaultType.None;
+                    faultMessage = $"[tdrfaultdet] Fault = {fault.ToString()}";
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrfaultdet] Fault = {fault.ToString()}", FeedBackType = FeedbackType.Info });
+                OnWriteProcessCompleted(new FeedbackModel() { Message = faultMessage, FeedBackType = FeedbackType.Info });
                 return fault;
             }
         }
@@ -829,7 +834,7 @@ namespace ADIN.Device.Services
                 string command = string.Empty;
                 string response = string.Empty;
                 List<string> resList = new List<string>();
-                command = $"tdrsetnvp {nvpValue}\n";
+                command = $"tdrsetnvp {nvpValue.ToString(CultureInfo.InvariantCulture)}\n";
 
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
@@ -838,8 +843,8 @@ namespace ADIN.Device.Services
                 var res = RegexService.ExtractNumberData(response);
                 if (res.Count >= 1)
                 {
-                    resList.Add(res[0].ToString());
-                    resList.Add(res[1].ToString());
+                    resList.Add(res[0].ToString(CultureInfo.InvariantCulture));
+                    resList.Add(res[1].ToString(CultureInfo.InvariantCulture));
                 }
 
                 if (response == "" || res.Count == 0 || response.Contains("ERROR"))
@@ -848,7 +853,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException(response);
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrsetnvp] {response}", FeedBackType = FeedbackType.Info });
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrsetnvp] NVP={res[0]}, Mode={res[1]}", FeedBackType = FeedbackType.Info });
                 return resList;
             }
         }
@@ -860,7 +865,7 @@ namespace ADIN.Device.Services
                 string command = string.Empty;
                 string response = string.Empty;
 
-                command = $"tdrsetoffset {offset}\n";
+                command = $"tdrsetoffset {offset.ToString(CultureInfo.InvariantCulture)}\n";
 
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
@@ -868,7 +873,7 @@ namespace ADIN.Device.Services
 
                 var res = RegexService.ExtractNumberData(response);
                 if (res.Count == 1)
-                    response = res[0].ToString();
+                    response = res[0].ToString(CultureInfo.InvariantCulture);
 
                 if (response == "" || res.Count == 0 || response.Contains("ERROR"))
                 {
@@ -876,7 +881,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException("[Offset Calibration]" + response);
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[Offset Calibration] Offset={response}", FeedBackType = FeedbackType.Info });
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[Offset Calibration] Offset={res[0]}", FeedBackType = FeedbackType.Info });
                 return response;
             }
         }
@@ -1188,6 +1193,7 @@ namespace ADIN.Device.Services
                 OnWriteProcessCompleted(new FeedbackModel() { Message = $"Source MAC Address set to 0x01", FeedBackType = FeedbackType.Info });
             }
         }
+
         private RegisterModel SetRegisterValue(string name, uint value)
         {
             RegisterModel register = new RegisterModel();
@@ -1208,6 +1214,10 @@ namespace ADIN.Device.Services
                             FeedbackLog(_feedbackMessage, FeedbackType.Verbose);
                         }
                     }
+                }
+                else
+                {
+                    throw new ApplicationException($"No register/bitfield named {name}.");
                 }
             }
             else
@@ -1249,6 +1259,38 @@ namespace ADIN.Device.Services
             else
             {
                 return MdioWriteCl45(registerAddress, value);
+            }
+        }
+
+        public void ExecuteSript(ScriptModel script)
+        {
+            try
+            {
+                foreach (var register in script.RegisterAccesses)
+                {
+                    if (register.RegisterName != null)
+                    {
+                        WriteYodaRg(register.RegisterName, uint.Parse(register.Value));
+                        continue;
+                    }
+
+                    if (register.RegisterAddress != null)
+                    {
+                        uint regAddress = uint.Parse(register.RegisterAddress);
+                        uint regValue = uint.Parse(register.Value);
+                        WriteYodaRg(regAddress, regValue);
+                        FeedbackLog($"Register 0x{regAddress.ToString("X")} = {regValue.ToString("X")}", FeedbackType.Verbose);
+                        continue;
+                    }
+                }
+            }
+            catch (ApplicationException ex)
+            {
+                FeedbackLog(ex.Message, FeedbackType.Error);
+            }
+            catch (NullReferenceException)
+            {
+                FeedbackLog("Script is empty/has invalid register address/input value.", FeedbackType.Error);
             }
         }
     }

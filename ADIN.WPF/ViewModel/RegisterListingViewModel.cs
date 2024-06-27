@@ -140,11 +140,10 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             OnPropertyChanged(nameof(Registers));
-            //Application.Current.Dispatcher.Invoke(new Action(() =>
-            //{
-            //    OnPropertyChanged(nameof(Registers));
-            //}));
         }
 
         private void SetRegsiterWorker()

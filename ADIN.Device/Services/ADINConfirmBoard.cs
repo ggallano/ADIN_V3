@@ -48,10 +48,10 @@ namespace ADIN.Device.Services
                 case "DEMO-ADIN1100D2Z":
                     devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock), isMultiChipSupported));
                     if (isMultiChipSupported)
-                        devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock), isMultiChipSupported));
+                        devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock, 4), isMultiChipSupported));
                     break;
                 case "ADIN1200 MDIO DONGLE":
-                    devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock)));
+                    devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock, 0)));
                     break;
                 case "ADIN1300 MDIO DONGLE":
                     devices.Add(new ADINDevice(new ADIN1300Model(ftdtService, _registerService, mainLock)));

@@ -25,7 +25,7 @@ namespace ADIN.WPF.Commands
 
         public override void Execute(object parameter)
         {
-            _selectedDeviceStore.SelectedDevice.FirmwareAPI.ExecuteSript(_viewModel.SelectedScript);
+            _selectedDeviceStore.SelectedDevice.FwAPI.ExecuteSript(_viewModel.SelectedScript);
         }
 
         private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

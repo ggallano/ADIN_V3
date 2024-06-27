@@ -39,7 +39,7 @@
                         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 0 -10">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*" MinWidth="14"/>
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="5*"/>
                                     <ColumnDefinition Width="5*"/>
@@ -55,12 +55,12 @@
                                 <Label HorizontalAlignment="Center" Grid.Column="3" Content="255"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="4" Content="4,095"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="5" Content="65,535"/>
-                                <Label HorizontalAlignment="Center" Grid.Column="6" Content="1,048,575"/>
+                                <!--<Label HorizontalAlignment="Center" Grid.Column="6" Content="1,048,575"/>-->
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="7" Content="16,777,215"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="8" Content="268,435,455"/>-->
                             </Grid>
                         </StackPanel>
-                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}"  x:Name="SliderFrameNumber" Value="{Binding FrameBurst_Slider}" Maximum="256" TickFrequency="16" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}"/>
+                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" x:Name="SliderFrameNumber" Value="{Binding FrameBurst_Slider}" TickPlacement="TopLeft" Maximum="256" TickFrequency="16" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}"/>
                     </Grid>
 
                     <Grid Margin="0 5">
@@ -78,7 +78,7 @@
                         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 0 -10">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*" MinWidth="14"/>
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="5*"/>
                                     <ColumnDefinition Width="5*"/>
@@ -94,12 +94,12 @@
                                 <Label HorizontalAlignment="Center" Grid.Column="3" Content="15"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="4" Content="63"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="5" Content="255"/>
-                                <Label HorizontalAlignment="Center" Grid.Column="6" Content="1,023"/>
+                                <!--<Label HorizontalAlignment="Center" Grid.Column="6" Content="1,023"/>-->
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="7" Content="4,095"/>-->
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="8" Content="16,383"/>-->
                             </Grid>
                         </StackPanel>
-                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" x:Name="SliderFrameLength" Value="{Binding FrameLength_Slider}" Maximum="256" TickFrequency="16" IsSnapToTickEnabled="True"/>
+                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" x:Name="SliderFrameLength" Value="{Binding FrameLength_Slider}" TickPlacement="TopLeft" Maximum="256" TickFrequency="16" IsSnapToTickEnabled="True"/>
                     </Grid>
 
                     <Grid Margin="0 5">
@@ -139,7 +139,7 @@
                         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 0 -10">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*" MinWidth="14"/>
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="5*"/>
                                     <ColumnDefinition Width="5*"/>
@@ -155,12 +155,12 @@
                                 <Label HorizontalAlignment="Center" Grid.Column="3" Content="255"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="4" Content="4,095"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="5" Content="65,535"/>
-                                <Label HorizontalAlignment="Center" Grid.Column="6" Content="1,048,575"/>
+                                <!--<Label HorizontalAlignment="Center" Grid.Column="6" Content="1,048,575"/>-->
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="7" Content="16,777,215"/>
         <Label HorizontalAlignment="Center" Grid.Column="8" Content="268,435,455"/>-->
                             </Grid>
                         </StackPanel>
-                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}"  x:Name="SliderFrameNumber2" Value="{Binding FrameBurst_Slider}" Maximum="256" TickFrequency="16" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}"/>
+                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}"  x:Name="SliderFrameNumber2" Value="{Binding FrameBurst_Slider}" TickPlacement="TopLeft" Maximum="256" TickFrequency="16" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}"/>
                     </Grid>
 
                     <Grid Margin="0 5">
@@ -178,7 +178,7 @@
                         <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 0 -10">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*" MinWidth="14"/>
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="5*"/>
                                     <ColumnDefinition Width="5*"/>
@@ -194,12 +194,12 @@
                                 <Label HorizontalAlignment="Center" Grid.Column="3" Content="15"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="4" Content="63"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="5" Content="255"/>
-                                <Label HorizontalAlignment="Center" Grid.Column="6" Content="1,023"/>
+                                <!--<Label HorizontalAlignment="Center" Grid.Column="6" Content="1,023"/>-->
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="7" Content="4,095"/>-->
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="8" Content="16,383"/>-->
                             </Grid>
                         </StackPanel>
-                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" x:Name="SliderFrameLength2" Value="{Binding FrameLength_Slider}" Maximum="256" TickFrequency="16" IsSnapToTickEnabled="True"/>
+                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" x:Name="SliderFrameLength2" Value="{Binding FrameLength_Slider}" TickPlacement="TopLeft" Maximum="256" TickFrequency="16" IsSnapToTickEnabled="True"/>
                     </Grid>
 
                     <Grid Margin="0 5">

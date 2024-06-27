@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Helper.RegularExpression
@@ -10,7 +11,7 @@ namespace Helper.RegularExpression
         private static MatchCollection _matches;
         private static Match _match;
 
-        public static List<decimal> ExtractNumberData(string text, string expr = @"(\d+\.?\d*)|(?<=\=)(\d+\.?\d*)")
+        public static List<decimal> ExtractNumberData(string text, string expr = @"(\d+(\.|\,)?\d*)|(?<=\=)(\d+\.?\d*)")
         {
             List<decimal> result = new List<decimal>();
 
@@ -19,7 +20,7 @@ namespace Helper.RegularExpression
 
             foreach (var match in _matches)
             {
-                result.Add(decimal.Parse(match.ToString()));
+                result.Add(decimal.Parse(match.ToString(), CultureInfo.InvariantCulture));
             }
 
             return result;

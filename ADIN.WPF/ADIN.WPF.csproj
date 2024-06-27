@@ -166,6 +166,7 @@
     <Compile Include="Commands\RegisterActionCommand.cs" />
     <Compile Include="Commands\ResetCommand.cs" />
     <Compile Include="Commands\ResetFrameDeviceCheckerCommnad.cs" />
+    <Compile Include="Commands\ScriptApplyCommand.cs" />
     <Compile Include="Commands\SoftwarePowerDownCommand.cs" />
     <Compile Include="Commands\TestModeCommand.cs" />
     <Compile Include="Commands\WriteRegisterCommand.cs" />
@@ -216,6 +217,7 @@
     <Compile Include="ViewModel\OperationViewModel.cs" />
     <Compile Include="ViewModel\RegisterAccessViewModel.cs" />
     <Compile Include="ViewModel\RegisterListingViewModel.cs" />
+    <Compile Include="ViewModel\StatusStripViewModel.cs" />
     <Compile Include="ViewModel\TestModeViewModel.cs" />
     <Compile Include="ViewModel\TimeDomainReflectometryViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
@@ -236,6 +238,9 @@
     </Compile>
     <Compile Include="View\LoopbackView.xaml.cs">
       <DependentUpon>LoopbackView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StatusStripView.xaml.cs">
+      <DependentUpon>StatusStripView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TestModeView.xaml.cs">
       <DependentUpon>TestModeView.xaml</DependentUpon>
@@ -374,6 +379,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\LoopbackView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StatusStripView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

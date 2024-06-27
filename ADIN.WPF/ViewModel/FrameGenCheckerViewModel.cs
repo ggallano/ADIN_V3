@@ -3,8 +3,6 @@ using ADIN.Device.Services;
 using ADIN.WPF.Commands;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
-using Microsoft.Win32;
-using SciChart.Data.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -271,6 +269,9 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_FrameContentChanged(FrameType obj)
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 SelectedFrameContent = _frameGenChecker.FrameContents.Where(x => x.FrameContentType == obj).ToList()[0];
@@ -279,6 +280,9 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_FrameGenCheckerStatusChanged(string status)
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 //FrameGeneratorButtonText = status;
@@ -287,6 +291,9 @@ namespace ADIN.WPF.ViewModel
         }
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             OnPropertyChanged(nameof(SelectedFrameContent));
             OnPropertyChanged(nameof(FrameGenRunning));
             OnPropertyChanged(nameof(FrameBurst_Slider));
