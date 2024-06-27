@@ -8,6 +8,8 @@ namespace ADIN.Device.Services
         string GetAnStatus();
         string GetMasterSlaveStatus();
         string GetTxLevelStatus();
+        string GetMaxSlicer();
+        string GetSpikeCount();
 
         #region Cable Diag
         List<string> GetCoeff();

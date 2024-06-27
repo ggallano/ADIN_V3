@@ -158,6 +158,8 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsSpikeCountVisible => ((_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN2111) || (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1110));
+
         public bool IsVisibleSpeedList
         {
             get
@@ -242,8 +244,11 @@ namespace ADIN.WPF.ViewModel
             get { return _selectedDeviceStore.SelectedDevice != null ? _maxSlicerError : "N/A"; }
             set
             {
-                _maxSlicerError = value;
-                OnPropertyChanged(nameof(MaxSlicerError));
+                if (value != _mseValue)
+                {
+                    _maxSlicerError = value;
+                    OnPropertyChanged(nameof(MaxSlicerError));
+                }
             }
         }
 
@@ -307,7 +312,6 @@ namespace ADIN.WPF.ViewModel
                 }
             }
         }
-
         public string SpikeCount
         {
             get { return _selectedDeviceStore.SelectedDevice != null ? _spikeCount : "N/A"; }
@@ -369,7 +373,9 @@ namespace ADIN.WPF.ViewModel
                                 AnStatus = fwAPI.GetAnStatus();
                                 MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
                                 TxLevelStatus = fwAPI.GetTxLevelStatus();
-                                MseValue = _selectedDevice.FwAPI.GetMseValue(_selectedDevice.BoardRev);
+                                MseValue = fwAPI.GetMseValue(_selectedDevice.BoardRev);
+                                MaxSlicerError = fwAPI.GetMaxSlicer();
+                                SpikeCount = fwAPI.GetSpikeCount();
                             }
                             else if (_selectedDevice.FwAPI is ADIN1110FirmwareAPI)
                             {
@@ -377,7 +383,9 @@ namespace ADIN.WPF.ViewModel
                                 AnStatus = fwAPI.GetAnStatus();
                                 MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
                                 TxLevelStatus = fwAPI.GetTxLevelStatus();
-                                MseValue = _selectedDevice.FwAPI.GetMseValue(_selectedDevice.BoardRev);
+                                MseValue = fwAPI.GetMseValue(_selectedDevice.BoardRev);
+                                MaxSlicerError = fwAPI.GetMaxSlicer();
+                                SpikeCount = fwAPI.GetSpikeCount();
                             }
                             else if (_selectedDevice.FwAPI is ADIN2111FirmwareAPI)
                             {
@@ -385,7 +393,9 @@ namespace ADIN.WPF.ViewModel
                                 AnStatus = fwAPI.GetAnStatus();
                                 MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
                                 TxLevelStatus = fwAPI.GetTxLevelStatus();
-                                MseValue = _selectedDevice.FwAPI.GetMseValue(_selectedDevice.BoardRev);
+                                MseValue = fwAPI.GetMseValue(_selectedDevice.BoardRev);
+                                MaxSlicerError = fwAPI.GetMaxSlicer();
+                                SpikeCount = fwAPI.GetSpikeCount();
                             }
                             else
                             {
@@ -463,6 +473,9 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(SpeedMode));
             OnPropertyChanged(nameof(IsVisibleSpeedList));
             OnPropertyChanged(nameof(Checker));
+            OnPropertyChanged(nameof(IsSpikeCountVisible));
+            OnPropertyChanged(nameof(MaxSlicerError));
+            OnPropertyChanged(nameof(SpikeCount));
         }
 
         private void SetBackgroundWroker()
