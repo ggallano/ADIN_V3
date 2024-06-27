@@ -44,6 +44,7 @@ namespace ADIN.WPF.ViewModel
         private object _thisLock;
         private string _txLevelStatus = "-";
         private object _mainLock;
+        private bool _loggedOneError = false;
 
         /// <summary>
         /// creates new instance
@@ -380,13 +381,21 @@ namespace ADIN.WPF.ViewModel
                             }
                         }
 
+                    _loggedOneError = false;
                     Thread.Sleep(500);
                 }
                 catch (NotImplementedException)
                 {
-                    _selectedDeviceStore.OnViewModelFeedbackLog("This function is not implemented for this board.", Helper.Feedback.FeedbackType.Info);
+                    _selectedDeviceStore.OnViewModelFeedbackLog("Function not implemented for this board.", Helper.Feedback.FeedbackType.Error);
                 }
-                catch (FormatException)
+                catch (ApplicationException ex)
+                {
+                    string errorMsg = ex.Message;
+                    if (!_loggedOneError)
+                        _selectedDeviceStore.OnViewModelFeedbackLog(errorMsg, Helper.Feedback.FeedbackType.Error);
+                    _loggedOneError = true;
+                }
+                catch (Exception)
                 {
                 }
 

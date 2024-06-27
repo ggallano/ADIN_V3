@@ -389,7 +389,7 @@ namespace ADIN.Device.Services
                 if (response.Contains("ERROR"))
                 {
                     //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
-                    //throw new ApplicationException(response);
+                    throw new ApplicationException(response);
                 }
 
                 Debug.WriteLine($"Command:{command.TrimEnd()}");
@@ -418,7 +418,7 @@ namespace ADIN.Device.Services
                 if (response.Contains("ERROR"))
                 {
                     //OnErrorOccured(new FeedbackModel() { Message = response, FeedBackType = FeedbackType.Error });
-                    //throw new ApplicationException(response);
+                    throw new ApplicationException(response);
                 }
 
                 Debug.WriteLine($"Command:{command.TrimEnd()}");
