@@ -35,16 +35,15 @@ namespace ADIN.WPF.ViewModel
         private string _linkLength;
         private string _linkStatus = "-";
         private List<string> _localAdvertisedSpeeds = new List<string>() { "" };
+        private object _mainLock;
         private string _masterSlaveStatus = "-";
+        private string _maxSlicerError;
         private string _mseValue = "-";
-        private BackgroundWorker _readRegisterWorker;
         private List<string> _remoteAdvertisedSpeeds = new List<string>();
         private SelectedDeviceStore _selectedDeviceStore;
         private string _speedMode = "-";
-        private object _thisLock;
+        private string _spikeCount;
         private string _txLevelStatus = "-";
-        private object _mainLock;
-
         /// <summary>
         /// creates new instance
         /// </summary>
@@ -215,16 +214,6 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public string MasterSlaveStatus
-        {
-            get { return _masterSlaveStatus; }
-            set
-            {
-                _masterSlaveStatus = value;
-                OnPropertyChanged(nameof(MasterSlaveStatus));
-            }
-        }
-
         public List<string> LocalAdvertisedSpeeds
         {
             get { return _localAdvertisedSpeeds; }
@@ -236,6 +225,25 @@ namespace ADIN.WPF.ViewModel
                     OnPropertyChanged(nameof(LocalAdvertisedSpeeds));
                     OnPropertyChanged(nameof(AdvertisedSpeed));
                 }
+            }
+        }
+
+        public string MasterSlaveStatus
+        {
+            get { return _masterSlaveStatus; }
+            set
+            {
+                _masterSlaveStatus = value;
+                OnPropertyChanged(nameof(MasterSlaveStatus));
+            }
+        }
+        public string MaxSlicerError
+        {
+            get { return _selectedDeviceStore.SelectedDevice != null ? _maxSlicerError : "-"; }
+            set
+            {
+                _maxSlicerError = value;
+                OnPropertyChanged(nameof(MaxSlicerError));
             }
         }
 
@@ -278,16 +286,6 @@ namespace ADIN.WPF.ViewModel
 
         public string SerialNumber => _selectedDeviceStore.SelectedDevice?.SerialNumber ?? "-";
 
-        public string TxLevelStatus
-        {
-            get { return _txLevelStatus; }
-            set
-            {
-                _txLevelStatus = value;
-                OnPropertyChanged(nameof(TxLevelStatus));
-            }
-        }
-
         public string SpeedMode
         {
             get
@@ -310,6 +308,25 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public string SpikeCount
+        {
+            get { return _selectedDeviceStore.SelectedDevice != null ? _spikeCount : "-"; }
+            set
+            {
+                _spikeCount = value;
+                OnPropertyChanged(nameof(SpikeCount));
+            }
+        }
+
+        public string TxLevelStatus
+        {
+            get { return _txLevelStatus; }
+            set
+            {
+                _txLevelStatus = value;
+                OnPropertyChanged(nameof(TxLevelStatus));
+            }
+        }
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
 
         protected override void Dispose()
