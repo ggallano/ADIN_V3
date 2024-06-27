@@ -274,21 +274,31 @@ namespace ADIN.WPF.ViewModel
                 _ftdiService.Open(currentNewDevice.SerialNumber);
 
                 var isMultiChipSupported = Properties.Settings.Default.MultiChipSupport;
-                List<ADINDevice> adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService, _registerService, _mainLock, isMultiChipSupported);
 
-                foreach (var adinSubDevice in adin)
+                try
                 {
-                    adinSubDevice.Device.SerialNumber = currentNewDevice.SerialNumber;
-                    adinSubDevice.Device.BoardName = currentNewDevice.Description;
+                    List<ADINDevice> adin = ADINConfirmBoard.GetADINBoard(currentNewDevice.Description, _ftdiService, _registerService, _mainLock, isMultiChipSupported);
 
-                    Application.Current.Dispatcher.Invoke(new Action(() =>
+                    foreach (var adinSubDevice in adin)
                     {
-                        _deviceListingViewModels.Add(new DeviceListingItemViewModel(adinSubDevice));
-                        var tempstr = _deviceListingViewModels.Where(x => x.BoardType == adinSubDevice.DeviceType).Select(x => x.DeviceHeader).ToList();
-                        _feedback.Message = $"Device Added: {tempstr.Last()}";
-                        _feedback.FeedBackType = FeedbackType.Info;
-                        _logActivityViewModel.SetFeedback(_feedback, false);
-                    }));
+                        adinSubDevice.Device.SerialNumber = currentNewDevice.SerialNumber;
+                        adinSubDevice.Device.BoardName = currentNewDevice.Description;
+
+                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        {
+                            _deviceListingViewModels.Add(new DeviceListingItemViewModel(adinSubDevice));
+                            var tempstr = _deviceListingViewModels.Where(x => x.BoardType == adinSubDevice.DeviceType).Select(x => x.DeviceHeader).ToList();
+                            _feedback.Message = $"Device Added: {tempstr.Last()}";
+                            _feedback.FeedBackType = FeedbackType.Info;
+                            _logActivityViewModel.SetFeedback(_feedback, false);
+                        }));
+                    }
+                }
+                catch (ApplicationException)
+                {
+                    _feedback.Message = $" {currentNewDevice.SerialNumber} Board phyaddress is not set at zero(0).";
+                    _feedback.FeedBackType = FeedbackType.Error;
+                    _logActivityViewModel.SetFeedback(_feedback, false);
                 }
 
                 _ftdiService.Close();
