@@ -20,7 +20,7 @@ namespace ADIN.WPF.ViewModel
         private bool _isCableDiagSelected;
         private bool _isCableDiagVisible;
         private bool _isTestModeSelected = false;
-        public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore, IRegisterService registerService, object mainLock)
+        public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore, IRegisterService registerService, ScriptService scriptService, object mainLock)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _navigationStore = navigationStore;
