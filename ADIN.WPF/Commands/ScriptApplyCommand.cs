@@ -18,7 +18,8 @@ namespace ADIN.WPF.Commands
 
         public override bool CanExecute(object parameter)
         {
-            if (_selectedDeviceStore.SelectedDevice == null)
+            if (_selectedDeviceStore.SelectedDevice == null
+                || !_viewModel.EnableButton)
                 return false;
             return base.CanExecute(parameter);
         }
