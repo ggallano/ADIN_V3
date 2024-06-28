@@ -42,10 +42,10 @@
             <ListViewItem Content="Copyright © 2002-2018 Telerik. All rights reserved."/>
             <ListViewItem Content="For further details , See http://www.telerik.com"/>
             <ListViewItem Content=""/>
-            <ListViewItem Content="SciChart controls  are licensed for usage by this program only."/>
+            <!--<ListViewItem Content="SciChart controls  are licensed for usage by this program only."/>
             <ListViewItem Content="Copyright © 2018 SciChart. All rights reserved."/>
             <ListViewItem Content="For further details , See http://www.scichart.com"/>
-            <ListViewItem Content=""/>
+            <ListViewItem Content=""/>-->
             <ListViewItem Content="This application makes use of FTDI FTD2XX.dll"/>
             <ListViewItem Content="Copyright © 2007-2013 Future Technology Devices International Limited."/>
             <ListViewItem Content="For further details , See http://www.ftdi.com"/>
