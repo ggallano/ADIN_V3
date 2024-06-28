@@ -263,6 +263,7 @@ namespace ADIN.WPF.ViewModel
                     if (Convert.ToDouble(value) != _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort1)
                     {
                         _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort1 = Convert.ToDouble(value);
+                        OnPropertyChanged(nameof(MaxSlicerError));
                     }
                 }
                 else
@@ -270,9 +271,9 @@ namespace ADIN.WPF.ViewModel
                     if (Convert.ToDouble(value) != _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort2)
                     {
                         _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort2 = Convert.ToDouble(value);
+                        OnPropertyChanged(nameof(MaxSlicerError));
                     }
                 }
-                OnPropertyChanged(nameof(MaxSlicerError));
             }
         }
 
@@ -356,6 +357,7 @@ namespace ADIN.WPF.ViewModel
                     if (Convert.ToDouble(value) != _selectedDeviceStore.SelectedDevice.SpikeCountPortPort1)
                     {
                         _selectedDeviceStore.SelectedDevice.SpikeCountPortPort1 = Convert.ToDouble(value);
+                        OnPropertyChanged(nameof(SpikeCount));
                     }
                 }
                 else
@@ -363,9 +365,9 @@ namespace ADIN.WPF.ViewModel
                     if (Convert.ToDouble(value) != _selectedDeviceStore.SelectedDevice.SpikeCountPortPort2)
                     {
                         _selectedDeviceStore.SelectedDevice.SpikeCountPortPort2 = Convert.ToDouble(value);
+                        OnPropertyChanged(nameof(SpikeCount));
                     }
                 }
-                OnPropertyChanged(nameof(SpikeCount));
             }
         }
 
