@@ -2,7 +2,9 @@
 using ADIN.Device.Services;
 using ADIN.WPF.Commands;
 using ADIN.WPF.Stores;
+using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 
 namespace ADIN.WPF.ViewModel
@@ -11,6 +13,7 @@ namespace ADIN.WPF.ViewModel
     {
         private SelectedDeviceStore _selectedDeviceStore;
         private ScriptModel _selectedScript;
+        private bool _enableButton = true;
 
         public StatusStripViewModel(SelectedDeviceStore selectedDeviceStore, ScriptService scriptService)
         {
@@ -27,6 +30,7 @@ namespace ADIN.WPF.ViewModel
             }
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
         }
 
         public ICommand ScriptApplyCommand { get; set; }
@@ -43,15 +47,35 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool EnableButton
+        {
+            get { return _enableButton; }
+            set
+            {
+                _enableButton = value;
+                OnPropertyChanged(nameof(EnableButton));
+            }
+        }
+
         protected override void Dispose()
         {
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.OnGoingCalibrationStatusChanged -= _selectedDeviceStore_OnGoingCalibrationStatusChanged;
+        }
+
+        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
+        {
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                EnableButton = !onGoingCalibrationStatus;
+            }));
         }
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             OnPropertyChanged(nameof(SelectedScript));
             OnPropertyChanged(nameof(Scripts));
+            OnPropertyChanged(nameof(EnableButton));
         }
     }
 }
