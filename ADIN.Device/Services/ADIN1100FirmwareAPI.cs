@@ -28,6 +28,8 @@ namespace ADIN.Device.Services
         private TestModeType _testmodeState = TestModeType.Normal;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
+        private double highestMaxSlicer = 0.0d;
+        private double totalSpikeCount = 0.0d;
 
         public ADIN1100FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
         {
@@ -238,6 +240,18 @@ namespace ADIN.Device.Services
             return masterSlaveStatus;
         }
 
+        public string GetMaxSlicer()
+        {
+            var maxSlicer = Convert.ToDouble(ReadYodaRg("SLCR_ERR_MAX_ABS_VAL")) / 4096;
+
+            if (maxSlicer > highestMaxSlicer)
+            {
+                highestMaxSlicer = maxSlicer;
+            }
+
+            return highestMaxSlicer.ToString("0.00");
+        }
+
         public string GetMseValue(BoardRevision boardRev)
         {
             switch (boardRev)
@@ -325,6 +339,15 @@ namespace ADIN.Device.Services
         public string GetSpeedMode()
         {
             throw new NotImplementedException();
+        }
+
+        public string GetSpikeCount()
+        {
+            var spikeCount = Convert.ToDouble(ReadYodaRg("SLCR_ERR_SPIKE_CNT"));
+
+            totalSpikeCount += spikeCount;
+
+            return totalSpikeCount.ToString("0.00");
         }
 
         public string GetTxLevelStatus()
