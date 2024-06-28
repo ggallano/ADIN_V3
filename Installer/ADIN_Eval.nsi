@@ -264,9 +264,9 @@ Delete "$SMPROGRAMS\Analog Devices\ADIN\ADIN1300 User Guide.lnk"
 
 #Delete "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1200 Datasheet.lnk" 
 #Delete "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1200 User Guide.lnk"
-Delete "$SMPROGRAMS\Analog Devices\ADIN\Uninstall ${APP_NAME}.lnk"
 
 Delete "$DESKTOP\${APP_NAME}.lnk"
+Delete "$SMPROGRAMS\Analog Devices\ADIN\Uninstall ${APP_NAME}.lnk"
 
 RmDir "$SMPROGRAMS\Analog Devices\ADIN"
 !endif
