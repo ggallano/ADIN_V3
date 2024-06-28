@@ -9,14 +9,14 @@
 !define LICENSE_PDF "..\Licensing\${LICENSE_PDF_NAME}"
 !define LICENSE_RTF "..\Licensing\${LICENSE_RTF_NAME}"
 !define OLD_APP_NAME "ADIN Evaluation"
-!define APP_NAME "Analog Devices Ethernet PHY Evaluation"
+!define APP_NAME "Analog Devices T1L Ethernet PHY Evaluation"
 !define COMP_NAME "Analog Devices Inc.,"
 #!define VERSION "03.05.00.00"
 !define COPYRIGHT "Analog Devices Inc. � 2022"
 !define DESCRIPTION "Application"
 #!define INSTALLER_NAME "Analog Devices Ethernet PHY Installer_v${VERSION}.exe"
-!define INSTALLER_NAME "Analog Devices Ethernet PHY Installer.exe"
-!define MAIN_APP_EXE "ADIN_DeviceEval.exe"
+!define INSTALLER_NAME "Analog Devices T1L Ethernet PHY Installer.exe"
+!define MAIN_APP_EXE "ADIN_T1L_DeviceEval.exe"
 !define INSTALL_TYPE "SetShellVarContext current"
 !define REG_ROOT "HKCU"
 !define REG_APP_PATH "Software\Microsoft\Windows\CurrentVersion\App Paths\${MAIN_APP_EXE}"
@@ -41,7 +41,7 @@ OutFile "${INSTALLER_NAME}"
 BrandingText "${APP_NAME}"
 XPStyle on
 InstallDirRegKey "${REG_ROOT}" "${REG_APP_PATH}" ""
-InstallDir "C:\Analog Devices\ADIN"
+InstallDir "C:\Analog Devices\ADIN_T1L"
 
 ######################################################################
 
@@ -93,15 +93,15 @@ Call CheckAndDownloadDotNet45
 ${INSTALL_TYPE}
 SetOverwrite on
 SetOutPath "$INSTDIR"
-File "..\ADIN.WPF\bin\Release\ADIN_DeviceEval.exe"
-File "..\ADIN.WPF\bin\Release\ADI.Register.dll"
-File "..\ADIN.WPF\bin\Release\ADIN.Device.dll"
-File "..\ADIN.WPF\bin\Release\FTDI.Driver.dll"
-File "..\ADIN.WPF\bin\Release\FTDI2XX.dll"
-File "..\ADIN.WPF\bin\Release\Helper.dll"
-File "..\ADIN.WPF\bin\Release\ADIN_DeviceEval.exe.config"
-File "..\ADIN.WPF\bin\Release\Microsoft.Expression.Interactions.dll"
-File "..\ADIN.WPF\bin\Release\Newtonsoft.Json.dll"
+File "..\ADIN.WPF\bin\Release_T1L\ADIN_DeviceEval.exe"
+File "..\ADIN.WPF\bin\Release_T1L\ADI.Register.dll"
+File "..\ADIN.WPF\bin\Release_T1L\ADIN.Device.dll"
+File "..\ADIN.WPF\bin\Release_T1L\FTDI.Driver.dll"
+File "..\ADIN.WPF\bin\Release_T1L\FTDI2XX.dll"
+File "..\ADIN.WPF\bin\Release_T1L\Helper.dll"
+File "..\ADIN.WPF\bin\Release_T1L\ADIN_DeviceEval.exe.config"
+File "..\ADIN.WPF\bin\Release_T1L\Microsoft.Expression.Interactions.dll"
+File "..\ADIN.WPF\bin\Release_T1L\Newtonsoft.Json.dll"
 
 File "readme.rtf"
 File "${LICENSE_RTF}"
@@ -120,16 +120,16 @@ File "..\Telerik\Telerik.Windows.Data.dll"
 #File "..\SciChartLibraries\SciChart.Drawing.dll"
 
 SetOutPath "$INSTDIR\Registers"
-File "..\ADIN.WPF\bin\Release\Registers\registers_adin1100_S1.json"
-File "..\ADIN.WPF\bin\Release\Registers\registers_adin1100_S2.json"
-File "..\ADIN.WPF\bin\Release\Registers\registers_adin1300.json"
-File "..\ADIN.WPF\bin\Release\Registers\registers_adin1301.json"
-File "..\ADIN.WPF\bin\Release\Registers\registers_adin1200.json"
+File "..\ADIN.WPF\bin\Release_T1L\Registers\registers_adin1100_S1.json"
+File "..\ADIN.WPF\bin\Release_T1L\Registers\registers_adin1100_S2.json"
+File "..\ADIN.WPF\bin\Release_T1L\Registers\registers_adin1300.json"
+File "..\ADIN.WPF\bin\Release_T1L\Registers\registers_adin1301.json"
+File "..\ADIN.WPF\bin\Release_T1L\Registers\registers_adin1200.json"
 
 SetOutPath "$INSTDIR\Scripts"
-File "..\ADIN.WPF\bin\Release\Scripts\Enable Link LED_scripts.json"
-File "..\ADIN.WPF\bin\Release\Scripts\Reset Auto-Negotiation_scripts.json"
-File "..\ADIN.WPF\bin\Release\Scripts\SftPd Down&Up_scripts.json"
+File "..\ADIN.WPF\bin\Release_T1L\Scripts\Enable Link LED_scripts.json"
+File "..\ADIN.WPF\bin\Release_T1L\Scripts\Reset Auto-Negotiation_scripts.json"
+File "..\ADIN.WPF\bin\Release_T1L\Scripts\SftPd Down&Up_scripts.json"
 
 
 #SetOutPath "$INSTDIR\doc"
@@ -144,14 +144,14 @@ Section -Icons_Reg
 SetOutPath "$INSTDIR"
 WriteUninstaller "$INSTDIR\uninstall.exe"
 
-CreateDirectory "$SMPROGRAMS\Analog Devices\ADIN"
-CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}"
+CreateDirectory "$SMPROGRAMS\Analog Devices\ADIN_T1L"
+CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN_T1L\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}"
 CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}"
-CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN\Uninstall ${APP_NAME}.lnk" "$INSTDIR\uninstall.exe"
+CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN_T1L\Uninstall ${APP_NAME}.lnk" "$INSTDIR\uninstall.exe"
 
-CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN\ADIN1100 User Guide.lnk" "$INSTDIR\EVAL-ADIN1100FMCZ-UG-XXXX_RevPrA.pdf"
-CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN\ADIN1200 User Guide.lnk" "$INSTDIR\EVAL-ADIN1200FMCZ-UG-1673.pdf"
-CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN\ADIN1300 User Guide.lnk" "$INSTDIR\EVAL-ADIN1300FMCZ-UG-1635.pdf"
+CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN_T1L\ADIN1100 User Guide.lnk" "$INSTDIR\EVAL-ADIN1100FMCZ-UG-XXXX_RevPrA.pdf"
+#CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN_T1L\ADIN1200 User Guide.lnk" "$INSTDIR\EVAL-ADIN1200FMCZ-UG-1673.pdf"
+#CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN_T1L\ADIN1300 User Guide.lnk" "$INSTDIR\EVAL-ADIN1300FMCZ-UG-1635.pdf"
 
 #CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN\ADIN Schematics.lnk" "$INSTDIR\doc\02-063798-01-b_SCH_NDA.pdf"
 #CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN\ADIN PCB.lnk" "$INSTDIR\doc\08-063798-01-b_PCB_NDA.pdf"
@@ -170,8 +170,8 @@ WriteRegStr ${REG_ROOT} "${UNINSTALL_PATH}"  "Publisher" "${COMP_NAME}"
 
 # Delete the old shortcuts to avoid confusion
 Delete "$DESKTOP\${OLD_APP_NAME}.lnk"
-Delete "$SMPROGRAMS\Analog Devices\ADIN\${OLD_APP_NAME}.lnk"
-Delete "$SMPROGRAMS\Analog Devices\ADIN\Uninstall ${OLD_APP_NAME}.lnk"
+Delete "$SMPROGRAMS\Analog Devices\ADIN_T1L\${OLD_APP_NAME}.lnk"
+Delete "$SMPROGRAMS\Analog Devices\ADIN_T1L\Uninstall ${OLD_APP_NAME}.lnk"
 
 # Delete the ADIN1200 files , and files from the older installations to avoid confusion
 # "$INSTDIR\doc\EVAL-ADIN1100FMCZ-UG-XXXX_RevPrA.pdf"
@@ -252,12 +252,12 @@ RmDir "$SMPROGRAMS\$SM_Folder"
 !endif
 
 !ifndef REG_START_MENU
-Delete "$SMPROGRAMS\Analog Devices\ADIN\${APP_NAME}.lnk"
+Delete "$SMPROGRAMS\Analog Devices\ADIN_T1L\${APP_NAME}.lnk"
 #Delete "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1100_10BASE-T1L_PHY_PrD_NDA.lnk"
 #Delete "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1300 Datasheet.lnk" 
-Delete "$SMPROGRAMS\Analog Devices\ADIN\ADIN1100 User Guide.lnk"
-Delete "$SMPROGRAMS\Analog Devices\ADIN\ADIN1200 User Guide.lnk"
-Delete "$SMPROGRAMS\Analog Devices\ADIN\ADIN1300 User Guide.lnk"
+Delete "$SMPROGRAMS\Analog Devices\ADIN_T1L\ADIN1100 User Guide.lnk"
+#Delete "$SMPROGRAMS\Analog Devices\ADIN\ADIN1200 User Guide.lnk"
+#Delete "$SMPROGRAMS\Analog Devices\ADIN\ADIN1300 User Guide.lnk"
 #Delete "$SMPROGRAMS\Analog Devices\ADIN\ADIN1100 Schematics.lnk"
 #Delete "$SMPROGRAMS\Analog Devices\ADIN\ADIN1100 PCB.lnk"
 
@@ -266,9 +266,9 @@ Delete "$SMPROGRAMS\Analog Devices\ADIN\ADIN1300 User Guide.lnk"
 #Delete "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1200 User Guide.lnk"
 
 Delete "$DESKTOP\${APP_NAME}.lnk"
-Delete "$SMPROGRAMS\Analog Devices\ADIN\Uninstall ${APP_NAME}.lnk"
+Delete "$SMPROGRAMS\Analog Devices\ADIN_T1L\Uninstall ${APP_NAME}.lnk"
 
-RmDir "$SMPROGRAMS\Analog Devices\ADIN"
+RmDir "$SMPROGRAMS\Analog Devices\ADIN_T1L"
 !endif
 
 DeleteRegKey ${REG_ROOT} "${REG_APP_PATH}"

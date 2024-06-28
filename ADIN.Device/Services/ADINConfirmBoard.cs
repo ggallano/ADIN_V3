@@ -13,17 +13,19 @@ namespace ADIN.Device.Services
     {
         private static List<string> AcceptedBoardNames = new List<string>()
         {
+#if !DISABLE_T1L
             "EVAL-ADIN1100FMCZ",
-
             "EVAL-ADIN1100EBZ",
             "DEMO-ADIN1100-DIZ",
             "DEMO-ADIN1100D2Z",
-
             "EVAL-ADIN1110EBZ",
             "EVAL-ADIN2111EBZ",
+#endif
 
+#if !DISABLE_TSN
             "ADIN1300 MDIO DONGLE",
             "ADIN1200 MDIO DONGLE",
+#endif
         };
 
         public static bool ConfirmADINBoard(string boardName)
