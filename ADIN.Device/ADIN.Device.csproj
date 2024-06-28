@@ -35,11 +35,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_T1L|AnyCPU'">
     <OutputPath>bin\Debug_T1L\</OutputPath>
-    <DefineConstants>ENABLE_T1L</DefineConstants>
+    <DefineConstants>DISABLE_TSN</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_TSN|AnyCPU'">
     <OutputPath>bin\Debug_TSN\</OutputPath>
-    <DefineConstants>ENABLE_TSN</DefineConstants>
+    <DefineConstants>DISABLE_T1L</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_T1L|AnyCPU'">
     <OutputPath>bin\Release_T1L\</OutputPath>
