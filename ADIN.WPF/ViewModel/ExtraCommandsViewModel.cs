@@ -11,11 +11,11 @@ namespace ADIN.WPF.ViewModel
 {
     public class ExtraCommandsViewModel : ViewModelBase
     {
+        private bool _enableButton = true;
         private IFTDIServices _ftdiService;
         private bool _isPoweredUp = false;
         private string _linkStatus = "Disable Linking";
         private string _powerDownStatus = "Software Power Down";
-        private bool _enableButton = true;
         private SelectedDeviceStore _selectedDeviceStore;
 
         public ExtraCommandsViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
@@ -41,12 +41,55 @@ namespace ADIN.WPF.ViewModel
 
         public ICommand DisableLinkCommand { get; set; }
 
+        public bool EnableButton
+        {
+            get { return _enableButton; }
+            set
+            {
+                _enableButton = value;
+                OnPropertyChanged(nameof(EnableButton));
+            }
+        }
+
         public bool IsADIN1100Board
         {
             get { return _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100 
                     || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1
                     || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110
                     || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111; }
+        }
+
+        public bool IsPort1
+        {
+            get { return _selectedDeviceStore.SelectedDevice?.PortNumber == 1; }
+            set
+            {
+                ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+                fwAPI.SetPortNum(1);
+                _selectedDeviceStore.SelectedDevice.PortNumber = 1;
+                _selectedDeviceStore.OnPortNumChanged();
+                OnPropertyChanged(nameof(IsPort2));
+                OnPropertyChanged(nameof(IsPort1));
+            }
+        }
+
+        public bool IsPort2
+        {
+            get { return _selectedDeviceStore.SelectedDevice?.PortNumber == 2; }
+            set
+            {
+                ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+                fwAPI.SetPortNum(2);
+                _selectedDeviceStore.SelectedDevice.PortNumber = 2;
+                _selectedDeviceStore.OnPortNumChanged();
+                OnPropertyChanged(nameof(IsPort1));
+                OnPropertyChanged(nameof(IsPort2));
+            }
+        }
+
+        public bool IsPortNumVisible
+        {
+            get { return _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111; }
         }
 
         public bool IsPoweredUp
@@ -56,6 +99,18 @@ namespace ADIN.WPF.ViewModel
             {
                 _isPoweredUp = value;
                 OnPropertyChanged(nameof(IsPoweredUp));
+            }
+        }
+
+        public bool IsResetButtonVisible
+        {
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110
+                    || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
+                    return false;
+                else
+                    return true;
             }
         }
 
@@ -95,62 +150,6 @@ namespace ADIN.WPF.ViewModel
                 }
             }
         }
-
-        public bool IsPortNumVisible
-        {
-            get { return _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111; }
-        }
-
-        public bool IsPort1
-        {
-            get { return _selectedDeviceStore.SelectedDevice?.PortNumber == 1; }
-            set
-            {
-                ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-                fwAPI.SetPortNum(1);
-                _selectedDeviceStore.SelectedDevice.PortNumber = 1;
-                _selectedDeviceStore.OnPortNumChanged();
-                OnPropertyChanged(nameof(IsPort2));
-                OnPropertyChanged(nameof(IsPort1));
-            }
-        }
-
-        public bool IsPort2
-        {
-            get { return _selectedDeviceStore.SelectedDevice?.PortNumber == 2; }
-            set
-            {
-                ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-                fwAPI.SetPortNum(2);
-                _selectedDeviceStore.SelectedDevice.PortNumber = 2;
-                _selectedDeviceStore.OnPortNumChanged();
-                OnPropertyChanged(nameof(IsPort1));
-                OnPropertyChanged(nameof(IsPort2));
-            }
-        }
-
-        public bool IsResetButtonVisible
-        {
-            get
-            {
-                if (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110
-                    || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
-                    return false;
-                else
-                    return true;
-            }
-        }
-
-        public bool EnableButton
-        {
-            get { return _enableButton; }
-            set
-            {
-                _enableButton = value;
-                OnPropertyChanged(nameof(EnableButton));
-            }
-        }
-
         public ICommand RegisterActionCommand { get; set; }
 
         public ICommand SoftwarePowerDownCommand { get; set; }
@@ -178,14 +177,6 @@ namespace ADIN.WPF.ViewModel
             }));
         }
 
-        private void _selectedDeviceStore_PowerDownStateStatusChanged(string powerDownStatus)
-        {
-            Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                PowerDownStatus = powerDownStatus;
-            }));
-        }
-
         private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
@@ -194,6 +185,13 @@ namespace ADIN.WPF.ViewModel
             }));
         }
 
+        private void _selectedDeviceStore_PowerDownStateStatusChanged(string powerDownStatus)
+        {
+            Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                PowerDownStatus = powerDownStatus;
+            }));
+        }
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             if (_selectedDeviceStore.SelectedDevice == null)

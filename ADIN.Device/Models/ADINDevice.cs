@@ -35,5 +35,9 @@ namespace ADIN.Device.Models
         public ITestMode TestMode => Device.TestMode;
         public ITimeDomainReflectometry TimeDomainReflectometryPort1 => Device.TimeDomainReflectometryPort1;
         public ITimeDomainReflectometry TimeDomainReflectometryPort2 => Device.TimeDomainReflectometryPort2;
+        public double MaxSlicerErrorPort1 { get; set; }
+        public double SpikeCountPortPort1 { get; set; }
+        public double MaxSlicerErrorPort2 { get; set; }
+        public double SpikeCountPortPort2 { get; set; }
     }
 }

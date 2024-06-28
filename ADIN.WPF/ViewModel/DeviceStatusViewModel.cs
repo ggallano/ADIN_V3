@@ -47,6 +47,7 @@ namespace ADIN.WPF.ViewModel
         private string _spikeCount;
         private object _thisLock;
         private string _txLevelStatus = "-";
+
         /// <summary>
         /// creates new instance
         /// </summary>
@@ -61,6 +62,7 @@ namespace ADIN.WPF.ViewModel
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerResetDisplay += _selectedDeviceStore_FrameGenCheckerResetDisplay;
+            _selectedDeviceStore.PortNumChanged += _selectedDeviceStore_PortNumChanged;
         }
 
         public string AdvertisedSpeed
@@ -140,16 +142,6 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        //public string LinkLength
-        //{
-        //    get { return _linkLength; }
-        //    set
-        //    {
-        //        _linkLength = value;
-        //        OnPropertyChanged(nameof(LinkLength));
-        //    }
-        //}
-
         public bool Is1100Visible
         {
             get
@@ -161,6 +153,15 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        //public string LinkLength
+        //{
+        //    get { return _linkLength; }
+        //    set
+        //    {
+        //        _linkLength = value;
+        //        OnPropertyChanged(nameof(LinkLength));
+        //    }
+        //}
         public bool IsSpikeCountVisible => ((_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN2111) || (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1110));
 
         public bool IsVisibleSpeedList
@@ -242,19 +243,39 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(MasterSlaveStatus));
             }
         }
-        
+
         public string MaxSlicerError
         {
-            get { return _selectedDeviceStore.SelectedDevice != null ? _maxSlicerError : "N/A"; }
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice == null)
+                    return "N/A";
+
+                if (_selectedDevice.PortNumber == 1)
+                    return _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort1.ToString();
+                else
+                    return _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort2.ToString();
+            }
             set
             {
-                if (value != _mseValue)
+                if (_selectedDevice.PortNumber == 1)
                 {
-                    _maxSlicerError = value;
-                    OnPropertyChanged(nameof(MaxSlicerError));
+                    if (Convert.ToDouble(value) != _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort1)
+                    {
+                        _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort1 = Convert.ToDouble(value);
+                    }
                 }
+                else
+                {
+                    if (Convert.ToDouble(value) != _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort2)
+                    {
+                        _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort2 = Convert.ToDouble(value);
+                    }
+                }
+                OnPropertyChanged(nameof(MaxSlicerError));
             }
         }
+
         public string MseValue
         {
             get
@@ -318,10 +339,32 @@ namespace ADIN.WPF.ViewModel
 
         public string SpikeCount
         {
-            get { return _selectedDeviceStore.SelectedDevice != null ? _spikeCount : "N/A"; }
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice == null)
+                    return "N/A";
+
+                if (_selectedDevice.PortNumber == 1)
+                    return _selectedDeviceStore.SelectedDevice.SpikeCountPortPort1.ToString();
+                else
+                    return _selectedDeviceStore.SelectedDevice.SpikeCountPortPort2.ToString();
+            }
             set
             {
-                _spikeCount = value;
+                if (_selectedDevice.PortNumber == 1)
+                {
+                    if (Convert.ToDouble(value) != _selectedDeviceStore.SelectedDevice.SpikeCountPortPort1)
+                    {
+                        _selectedDeviceStore.SelectedDevice.SpikeCountPortPort1 = Convert.ToDouble(value);
+                    }
+                }
+                else
+                {
+                    if (Convert.ToDouble(value) != _selectedDeviceStore.SelectedDevice.SpikeCountPortPort2)
+                    {
+                        _selectedDeviceStore.SelectedDevice.SpikeCountPortPort2 = Convert.ToDouble(value);
+                    }
+                }
                 OnPropertyChanged(nameof(SpikeCount));
             }
         }
@@ -335,6 +378,7 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(TxLevelStatus));
             }
         }
+
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
 
         protected override void Dispose()
@@ -461,6 +505,14 @@ namespace ADIN.WPF.ViewModel
             Checker = status;
         }
 
+        private void _selectedDeviceStore_PortNumChanged()
+        {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
+            OnPropertyChanged(nameof(MaxSlicerError));
+            OnPropertyChanged(nameof(SpikeCount));
+        }
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             if (_selectedDeviceStore.SelectedDevice == null)
