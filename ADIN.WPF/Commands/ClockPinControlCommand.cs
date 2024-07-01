@@ -1,9 +1,11 @@
-﻿using ADIN.Device.Models;
+﻿// <copyright file="ClockPinControlCommand.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
 using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
-using Helper.ReadAccessValidate;
-using System.Linq.Expressions;
 
 namespace ADIN.WPF.Commands
 {

@@ -1,4 +1,9 @@
-﻿using ADI.Register.Models;
+﻿// <copyright file="RegisterActionCommand.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using ADI.Register.Models;
 using ADIN.Device.Models;
 using ADIN.Device.Services;
 using ADIN.WPF.Stores;
@@ -8,7 +13,6 @@ using Helper.FileToLoad;
 using Helper.SaveToFile;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace ADIN.WPF.Commands
 {

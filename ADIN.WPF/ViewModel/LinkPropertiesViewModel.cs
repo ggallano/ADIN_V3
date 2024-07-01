@@ -1,15 +1,12 @@
-﻿using ADIN.Device.Models;
+﻿// <copyright file="LinkPropertiesViewModel.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using ADIN.Device.Models;
 using ADIN.Device.Services;
-using ADIN.WPF.Commands;
-using ADIN.WPF.Service;
 using ADIN.WPF.Stores;
-using FTDIChip.Driver.Services;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
 
 namespace ADIN.WPF.ViewModel
 {

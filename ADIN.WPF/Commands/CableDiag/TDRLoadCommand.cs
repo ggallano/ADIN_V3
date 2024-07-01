@@ -1,4 +1,9 @@
-﻿using ADIN.Device.Models;
+﻿// <copyright file="TDRLoadCommand.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using ADIN.Device.Models;
 using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
@@ -11,7 +16,6 @@ using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 
 namespace ADIN.WPF.Commands.CableDiag
 {

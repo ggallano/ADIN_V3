@@ -1,8 +1,11 @@
-﻿using ADI.Register.Services;
+﻿// <copyright file="DeviceListingViewModel.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using ADI.Register.Services;
 using ADIN.Device.Models;
 using ADIN.Device.Services;
-using ADIN.WPF.Commands;
-using ADIN.WPF.Models;
 using ADIN.WPF.Stores;
 using FTD2XX_NET;
 using FTDIChip.Driver.Services;
@@ -11,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Management;
 using System.Windows;
