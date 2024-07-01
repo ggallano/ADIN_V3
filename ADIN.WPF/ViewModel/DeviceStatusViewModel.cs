@@ -415,6 +415,8 @@ namespace ADIN.WPF.ViewModel
                             // Common ADIN Device Status
                             LinkStatus = _selectedDevice.FwAPI.GetLinkStatus();
                             LocalAdvertisedSpeeds = _selectedDevice.FwAPI.LocalAdvertisedSpeedList();
+                            _selectedDevice.FwAPI.GetFrameCheckerStatus();
+                            Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
 
                             // Specific ADIN Device Status
 #if !DISABLE_T1L
@@ -455,8 +457,6 @@ namespace ADIN.WPF.ViewModel
                             {
                                 MseValue = _selectedDevice.FwAPI.GetMseValue();
                                 SpeedMode = _selectedDevice.FwAPI.GetSpeedMode();
-                                _selectedDevice.FwAPI.GetFrameCheckerStatus();
-                                Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
                                 RemoteAdvertisedSpeeds = _selectedDevice.FwAPI.RemoteAdvertisedSpeedList();
                             }
 #endif
