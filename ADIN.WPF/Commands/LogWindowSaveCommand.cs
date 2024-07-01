@@ -1,4 +1,9 @@
-﻿using ADIN.WPF.Stores;
+﻿// <copyright file="LogWindowSaveCommand.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 using Helper.Feedback;
 using Microsoft.Win32;

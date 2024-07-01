@@ -78,6 +78,7 @@
     <Compile Include="Services\RegisterService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Registers\registers_adin1100_S1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -93,7 +94,11 @@
     <None Include="Registers\registers_adin1301.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.118\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

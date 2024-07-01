@@ -1,11 +1,12 @@
-﻿using ADI.Register.Services;
+﻿// <copyright file="ADINConfirmBoard.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using ADI.Register.Services;
 using ADIN.Device.Models;
 using FTDIChip.Driver.Services;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.Net.Http.Headers;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ADIN.Device.Services
 {

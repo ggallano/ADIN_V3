@@ -1,5 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// <copyright file="CsvFileWriter.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using System;
 using System.IO;
 using System.Text;
 using ADI.Register.Models;

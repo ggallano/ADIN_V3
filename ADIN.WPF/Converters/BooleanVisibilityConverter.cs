@@ -1,4 +1,9 @@
-﻿using System;
+﻿// <copyright file="BooleanVisibilityConverter.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows;

@@ -1,9 +1,11 @@
-﻿using ADIN.Device.Models;
-using ADIN.WPF.Models;
+﻿// <copyright file="SelectedDeviceStore.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using ADIN.Device.Models;
 using Helper.Feedback;
 using System;
-using System.Windows;
-using System.Windows.Forms;
 
 namespace ADIN.WPF.Stores
 {

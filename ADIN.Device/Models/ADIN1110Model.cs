@@ -1,8 +1,12 @@
-﻿using ADI.Register.Services;
+﻿// <copyright file="ADIN1110Model.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using ADI.Register.Services;
 using ADIN.Device.Models.ADIN1100;
 using ADIN.Device.Services;
 using FTDIChip.Driver.Services;
-using System;
 using System.Globalization;
 using System.IO;
 

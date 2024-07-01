@@ -1,9 +1,11 @@
-﻿using ADIN.Device.Models;
+﻿// <copyright file="TimeDomainReflectometryViewModel.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using ADIN.Device.Models;
 using ADIN.WPF.Commands.CableDiag;
 using ADIN.WPF.Stores;
-using ADIN.WPF.View;
-using System;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="IMDIOAPI.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
 
 namespace ADIN.Device.Services
 {
@@ -12,7 +11,6 @@ namespace ADIN.Device.Services
         string MdioReadCl45(uint regAddress);
         string MdioWriteCl22(uint regAddress, uint data);
         string MdioWriteCl45(uint regAddress, uint data);
-
         string RegisterRead(uint regAddress);
         string RegisterRead(string register);
         string RegisterWrite(uint regAddress, uint data);
