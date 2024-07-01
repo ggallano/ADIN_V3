@@ -30,6 +30,7 @@ namespace ADIN.WPF.Commands
             TestModeListingModel testmode = _selectedDeviceStore.SelectedDevice.TestMode.TestMode;
             uint framelength = _selectedDeviceStore.SelectedDevice.TestMode.TestModeFrameLength;
 
+#if !DISABLE_T1L
             if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
             {
                 ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
@@ -45,17 +46,21 @@ namespace ADIN.WPF.Commands
                 ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
                 fwAPI.SetTestMode(testmode, framelength);
             }
-            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
+            else { } //Do nothing
+#endif
+#if !DISABLE_TSN
+            if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
             {
                 ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
                 fwAPI.SetTestMode(testmode, framelength);
             }
-            else /*if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)*/
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)
             {
                 ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                 fwAPI.SetTestMode(testmode, framelength);
             }
-            //_selectedDeviceStore.SelectedDevice.FwAPI.SetTestMode(testmode, framelength);
+            else { } //Do nothing
+#endif
         }
 
         private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

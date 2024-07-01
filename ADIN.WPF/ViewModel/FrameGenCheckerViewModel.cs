@@ -135,6 +135,7 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
+#if !DISABLE_T1L
                 if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1100FirmwareAPI)
                 {
                     ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
@@ -150,17 +151,22 @@ namespace ADIN.WPF.ViewModel
                     ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
                     return fwAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
                 }
-                else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1200FirmwareAPI)
+                else { } //Do nothing
+#endif
+#if !DISABLE_TSN
+                if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1200FirmwareAPI)
                 {
                     ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
                     return fwAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
                 }
-                else /*(_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1300FirmwareAPI fwADIN1300API)*/
+                else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1300FirmwareAPI)
                 {
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice?.FwAPI as ADIN1300FirmwareAPI;
                     return fwAPI?.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
                 }
-                //return _selectedDeviceStore.SelectedDevice?.FwAPI.isFrameGenCheckerOngoing ==  true ? "Terminate" : "Generate";
+                else { } //Do nothing
+#endif
+                return null;
             }
             set
             {

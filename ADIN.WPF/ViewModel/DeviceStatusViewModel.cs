@@ -417,6 +417,7 @@ namespace ADIN.WPF.ViewModel
                             LocalAdvertisedSpeeds = _selectedDevice.FwAPI.LocalAdvertisedSpeedList();
 
                             // Specific ADIN Device Status
+#if !DISABLE_T1L
                             if (_selectedDevice.FwAPI is ADIN1100FirmwareAPI)
                             {
                                 var fwAPI = _selectedDevice.FwAPI as ADIN1100FirmwareAPI;
@@ -447,7 +448,10 @@ namespace ADIN.WPF.ViewModel
                                 MaxSlicerError = fwAPI.GetMaxSlicer();
                                 SpikeCount = fwAPI.GetSpikeCount();
                             }
-                            else
+                            else { } //Do nothing
+#endif
+#if !DISABLE_TSN
+                            if (_selectedDevice.FwAPI is ADIN1200FirmwareAPI || _selectedDevice.FwAPI is ADIN1300FirmwareAPI)
                             {
                                 MseValue = _selectedDevice.FwAPI.GetMseValue();
                                 SpeedMode = _selectedDevice.FwAPI.GetSpeedMode();
@@ -455,6 +459,7 @@ namespace ADIN.WPF.ViewModel
                                 Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
                                 RemoteAdvertisedSpeeds = _selectedDevice.FwAPI.RemoteAdvertisedSpeedList();
                             }
+#endif
                         }
 
                     _loggedOneError = false;

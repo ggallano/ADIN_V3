@@ -102,21 +102,26 @@ namespace ADIN.WPF.Commands
                 foreach (var register in register_temp)
                 {
                     string response = string.Empty;
+#if !DISABLE_T1L
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
                     {
                         ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
                         response = fwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
                     }
-                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
+#endif
+#if !DISABLE_TSN
+                    if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
                     {
                         ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
                         response = fwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
                     }
-                    else /*if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)*/
+                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)
                     {
                         ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                         response = fwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
                     }
+                    else { } //Do nothing
+#endif
                     //var response = _selectedDevice.FwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
                     if (!response.Contains("OK"))
                     {
