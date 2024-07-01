@@ -49,6 +49,7 @@ namespace ADIN.WPF.Commands
                 return;
             }
 
+#if !DISABLE_T1L
             if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
             {
                 ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
@@ -64,17 +65,21 @@ namespace ADIN.WPF.Commands
                 ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
                 fwAPI.RegisterWrite(register, value);
             }
-            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
+            else { } //Do nothing
+#endif
+#if !DISABLE_TSN
+            if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
             {
                 ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
                 fwAPI.RegisterWrite(register, value);
             }
-            else /*if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)*/
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)
             {
                 ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                 fwAPI.RegisterWrite(register, value);
             }
-            //_selectedDeviceStore.SelectedDevice.FwAPI.RegisterWrite(register, value);
+            else { } //Do nothing
+#endif
             _selectedDeviceStore.OnViewModelErrorOccured($"[Register Write] Register Address: 0x{_viewModel.WriteInput.ToUpper()}, Value: 0x{_viewModel.WriteValue.ToUpper()}", Helper.Feedback.FeedbackType.Info);
         }
 

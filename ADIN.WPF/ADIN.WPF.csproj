@@ -55,15 +55,15 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_T1L|AnyCPU'">
     <OutputPath>bin\Debug_T1L\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants>DISABLE_TSN</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_TSN|AnyCPU'">
     <OutputPath>bin\Debug_TSN\</OutputPath>
+    <DefineConstants>DISABLE_T1L</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_T1L|AnyCPU'">
     <OutputPath>bin\Release_T1L\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;DISABLE_TSN</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -73,7 +73,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_TSN|AnyCPU'">
     <OutputPath>bin\Release_TSN\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;DISABLE_T1L</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>

@@ -36,6 +36,7 @@ namespace ADIN.WPF.Commands
 
         public override void Execute(object parameter)
         {
+#if !DISABLE_T1L
             if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
             {
                 ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
@@ -51,17 +52,21 @@ namespace ADIN.WPF.Commands
                 ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
                 fwAPI.ResetFrameGenCheckerStatistics();
             }
-            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
+            else { } //Do nothing
+#endif
+#if !DISABLE_TSN
+            if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
             {
                 ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
                 fwAPI.ResetFrameGenCheckerStatistics();
             }
-            else /*if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)*/
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)
             {
                 ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                 fwAPI.ResetFrameGenCheckerStatistics();
             }
-            //_selectedDeviceStore.SelectedDevice.FwAPI.ResetFrameGenCheckerStatistics();
+            else { } //Do nothing
+#endif
         }
 
         private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
