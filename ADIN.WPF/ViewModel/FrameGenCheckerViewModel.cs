@@ -300,8 +300,11 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(FrameGeneratorButtonText));
             }));
         }
+
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            OnPropertyChanged(nameof(IsDeviceSelected));
+
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 
@@ -317,7 +320,6 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(EnableMacAddress));
             OnPropertyChanged(nameof(EnableContinuousMode));
             OnPropertyChanged(nameof(FrameGeneratorButtonText));
-            OnPropertyChanged(nameof(IsDeviceSelected));
             OnPropertyChanged(nameof(IsADIN1100Board));
         }
     }

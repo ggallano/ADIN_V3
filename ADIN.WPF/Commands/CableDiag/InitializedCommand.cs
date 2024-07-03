@@ -22,6 +22,12 @@ namespace ADIN.WPF.Commands.CableDiag
             _selectedDeviceStore = selectedDeviceStore;
 
             _viewModel.PropertyChanged += _viewModel_PropertyChanged;
+            _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+        }
+
+        private void _selectedDeviceStore_SelectedDeviceChanged()
+        {
+            OnCanExecuteChanged();
         }
 
         public override bool CanExecute(object parameter)
