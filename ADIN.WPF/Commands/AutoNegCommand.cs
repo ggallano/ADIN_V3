@@ -19,6 +19,7 @@ namespace ADIN.WPF.Commands
             _selectedDeviceStore = selectedDeviceStore;
 
             _extraCommandsViewModel.PropertyChanged += _extraCommandsViewModel_PropertyChanged;
+            selectedDeviceStore.SelectedDeviceChanged += SelectedDeviceStore_SelectedDeviceChanged;
         }
 
         public override bool CanExecute(object parameter)
@@ -37,6 +38,14 @@ namespace ADIN.WPF.Commands
 
         private void _extraCommandsViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            OnCanExecuteChanged();
+        }
+
+        private void SelectedDeviceStore_SelectedDeviceChanged()
+        {
+            if (_selectedDeviceStore.SelectedDevice != null)
+                return;
+
             OnCanExecuteChanged();
         }
     }
