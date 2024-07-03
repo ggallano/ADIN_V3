@@ -40,6 +40,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>ADIN.WPF.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -49,6 +50,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>ADIN.WPF.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>applications_industrial_automation_ethernet_icon_oN6_icon.ico</ApplicationIcon>
@@ -56,10 +58,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_T1L|AnyCPU'">
     <OutputPath>bin\Debug_T1L\</OutputPath>
     <DefineConstants>DISABLE_TSN</DefineConstants>
+    <CodeAnalysisRuleSet>ADIN.WPF.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_TSN|AnyCPU'">
     <OutputPath>bin\Debug_TSN\</OutputPath>
     <DefineConstants>DISABLE_T1L</DefineConstants>
+    <CodeAnalysisRuleSet>ADIN.WPF.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_T1L|AnyCPU'">
     <OutputPath>bin\Release_T1L\</OutputPath>
@@ -70,6 +74,7 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <CodeAnalysisRuleSet>ADIN.WPF.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_TSN|AnyCPU'">
     <OutputPath>bin\Release_TSN\</OutputPath>
@@ -80,6 +85,7 @@
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <CodeAnalysisRuleSet>ADIN.WPF.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FTDI2XX, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -456,6 +462,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ADIN.WPF.ruleset" />
     <None Include="packages.config" />
     <AppDesigner Include="Properties\" />
     <None Include="Properties\Settings.settings">
