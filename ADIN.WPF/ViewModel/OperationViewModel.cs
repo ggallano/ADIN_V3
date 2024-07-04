@@ -9,6 +9,7 @@ using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using System.Windows;
@@ -25,6 +26,7 @@ namespace ADIN.WPF.ViewModel
         private bool _isCableDiagSelected;
         private bool _isCableDiagVisible;
         private bool _isTestModeSelected = false;
+
         public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore, IRegisterService registerService, ScriptService scriptService, object mainLock)
         {
             _selectedDeviceStore = selectedDeviceStore;
@@ -61,6 +63,7 @@ namespace ADIN.WPF.ViewModel
         public bool EnableTabs
         {
             get { return _enableTabs; }
+
             set
             {
                 _enableTabs = value;
@@ -68,14 +71,18 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsActiveLinkMonEnabled { get; } = Properties.Settings.Default.ActiveLinkMon;
+
         public ExtraCommandsViewModel ExtraCommandsVM { get; set; }
 
         public FrameGenCheckerViewModel FrameGenCheckerVM { get; set; }
+
         public StatusStripViewModel StatusStripVM { get; set; }
-        
+
         public bool IsADIN2111
         {
             get { return _isAdin2111; }
+
             set
             {
                 _isAdin2111 = value;
@@ -144,6 +151,8 @@ namespace ADIN.WPF.ViewModel
         {
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
+
+            OnPropertyChanged(nameof(IsActiveLinkMonEnabled));
 
             if (((_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100)
                 && (_selectedDeviceStore.SelectedDevice.BoardName != "DEMO-ADIN1100D2Z"))

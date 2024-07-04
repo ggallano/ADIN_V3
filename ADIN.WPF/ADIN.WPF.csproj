@@ -255,6 +255,9 @@
     <Compile Include="ViewModel\TestModeViewModel.cs" />
     <Compile Include="ViewModel\TimeDomainReflectometryViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\ActiveLinkMonitoringView.xaml.cs">
+      <DependentUpon>ActiveLinkMonitoringView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FrameGenCheckerStatusView.xaml.cs">
       <DependentUpon>FrameGenCheckerStatusView.xaml</DependentUpon>
     </Compile>
@@ -389,6 +392,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\WhiteTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ActiveLinkMonitoringView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

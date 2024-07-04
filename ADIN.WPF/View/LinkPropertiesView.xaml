@@ -144,7 +144,7 @@
                     </GroupBox>
                 </Grid>
 
-                <Grid Visibility="{Binding IsADIN1100Board, Converter={StaticResource InvertedBooleanConverter}}">
+                <Grid Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
                     <GroupBox Header="Forced Speed" Style="{StaticResource GroupBoxStyle}" 
 				  Visibility="{Binding DataContext.IsForcedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
 				  Margin="0 0 0 5">

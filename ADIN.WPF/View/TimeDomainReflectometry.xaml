@@ -14,9 +14,6 @@
             <BooleanToVisibilityConverter x:Key="boolvis"/>
             <converter:BooleanVisibilityConverter x:Key="booleanHiddenConverter" IsInversed="False" IsHidden="True"/>
             <converter:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
-            <Style x:Key="StackPanelStyle" TargetType="{x:Type StackPanel}">
-                <Setter Property="HorizontalAlignment" Value="Center"/>
-            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid Margin="0 10 0 0">

@@ -13,11 +13,13 @@
              d:DesignHeight="1500" d:DesignWidth="1200">
     <UserControl.Resources>
         <ResourceDictionary>
+            <FrameworkElement x:Key='ProxyElement' DataContext="{Binding}"/>
             <converter:BooleanVisibilityConverter x:Key="booleanVisibilityConverter" IsInversed="False"/>
             <converter:BooleanVisibilityConverter x:Key="invertedBooleanVisibilityConverter" IsInversed="True"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel>
+        <ContentControl Visibility="Visible" Content="{StaticResource ProxyElement}"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="210"/>
@@ -108,7 +110,15 @@
                                 <ColumnDefinition Width="3"/>
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
-                            <local:TimeDomainReflectometry Grid.Column="0" DataContext="{Binding TDRVM}" Margin="0 0 10 0"/>
+                            <local:TimeDomainReflectometry DataContext="{Binding TDRVM}" Grid.Column="0" Margin="0 0 10 0" Visibility="{Binding DataContext.IsActiveLinkMonEnabled, Converter={StaticResource invertedBooleanVisibilityConverter}, Source={StaticResource ProxyElement}}"/>
+                            <TabControl Style="{StaticResource TabStyle}" Grid.Column="0" Margin="0 0 10 0" Visibility="{Binding IsActiveLinkMonEnabled, Converter={StaticResource booleanVisibilityConverter}}">
+                                <TabItem Header="Fault Detector" Style="{StaticResource TabItemStyle}" IsSelected="True">
+                                    <local:TimeDomainReflectometry DataContext="{Binding TDRVM}"/>
+                                </TabItem>
+                                <TabItem Header="Active Link Monitoring" Style="{StaticResource TabItemStyle}">
+                                    <local:ActiveLinkMonitoringView/>
+                                </TabItem>
+                            </TabControl>
                             <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />
                             <Grid Grid.Column="2">
                                 <components:DeviceStatusView DataContext="{Binding DeviceStatusVM}" Margin="10 0 0 0"/>
@@ -126,7 +136,9 @@
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
                             <local:ClockPinControlView Grid.Column="0" DataContext="{Binding ClockPinControlVM}"/>
-                            --><!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />--><!--
+                            -->
+                    <!--<GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />-->
+                    <!--
                         </Grid>
                     </TabItem>-->
                 </TabControl>
