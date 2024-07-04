@@ -100,6 +100,7 @@ namespace ADIN.WPF.ViewModel
         public string AnStatus
         {
             get { return _anStatus; }
+
             set
             {
                 _anStatus = value;
@@ -112,6 +113,7 @@ namespace ADIN.WPF.ViewModel
         public string Checker
         {
             get { return _selectedDevice?.Checker ?? "-"; }
+
             set
             {
                 if (_selectedDevice != null)
@@ -190,6 +192,7 @@ namespace ADIN.WPF.ViewModel
                 }
                 return "-";
             }
+
             set
             {
                 switch ((EthPhyState)Enum.Parse(typeof(EthPhyState), value))
@@ -227,6 +230,7 @@ namespace ADIN.WPF.ViewModel
         public List<string> LocalAdvertisedSpeeds
         {
             get { return _localAdvertisedSpeeds; }
+
             set
             {
                 if (!value.SequenceEqual(_localAdvertisedSpeeds))
@@ -241,6 +245,7 @@ namespace ADIN.WPF.ViewModel
         public string MasterSlaveStatus
         {
             get { return _masterSlaveStatus; }
+
             set
             {
                 _masterSlaveStatus = value;
@@ -260,6 +265,7 @@ namespace ADIN.WPF.ViewModel
                 else
                     return _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort2.ToString();
             }
+
             set
             {
                 if (_selectedDevice.PortNumber == 1)
@@ -307,6 +313,7 @@ namespace ADIN.WPF.ViewModel
         public List<string> RemoteAdvertisedSpeeds
         {
             get { return _remoteAdvertisedSpeeds; }
+
             set
             {
                 if (!value.SequenceEqual(_remoteAdvertisedSpeeds))
@@ -354,6 +361,7 @@ namespace ADIN.WPF.ViewModel
                 else
                     return _selectedDeviceStore.SelectedDevice.SpikeCountPortPort2.ToString();
             }
+
             set
             {
                 if (_selectedDevice.PortNumber == 1)
@@ -378,6 +386,7 @@ namespace ADIN.WPF.ViewModel
         public string TxLevelStatus
         {
             get { return _txLevelStatus; }
+
             set
             {
                 _txLevelStatus = value;
@@ -524,11 +533,9 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(MaxSlicerError));
             OnPropertyChanged(nameof(SpikeCount));
         }
+
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
-            if (_selectedDeviceStore.SelectedDevice == null)
-                return;
-
             Debug.WriteLine($"[{SerialNumber}] Selected");
 
             OnPropertyChanged(nameof(BoardName));
