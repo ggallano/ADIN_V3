@@ -110,15 +110,25 @@
                                 <ColumnDefinition Width="3"/>
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
-                            <local:TimeDomainReflectometry DataContext="{Binding TDRVM}" Grid.Column="0" Margin="0 0 10 0" Visibility="{Binding DataContext.IsActiveLinkMonEnabled, Converter={StaticResource invertedBooleanVisibilityConverter}, Source={StaticResource ProxyElement}}"/>
-                            <TabControl Style="{StaticResource TabStyle}" Grid.Column="0" Margin="0 0 10 0" Visibility="{Binding IsActiveLinkMonEnabled, Converter={StaticResource booleanVisibilityConverter}}">
-                                <TabItem Header="Fault Detector" Style="{StaticResource TabItemStyle}" IsSelected="True">
-                                    <local:TimeDomainReflectometry DataContext="{Binding TDRVM}"/>
-                                </TabItem>
-                                <TabItem Header="Active Link Monitoring" Style="{StaticResource TabItemStyle}">
-                                    <local:ActiveLinkMonitoringView/>
-                                </TabItem>
-                            </TabControl>
+                            <!--ADIN1320-->
+                                <!--Insert View for ADIN1320-->
+                            <!--ADIN1300/1200-->
+                            <Grid Visibility="{Binding IsADIN1300Visible, Converter={StaticResource booleanVisibilityConverter}}">
+                                <local:RunCableDiagView Grid.Column="0" Margin="0 0 10 0" DataContext="{Binding RunCableDiagnosticVM}"/>
+                            </Grid>
+
+                            <!--ADIN1100-->
+                            <Grid  Visibility="{Binding IsADIN1100Visible, Converter={StaticResource booleanVisibilityConverter}}">
+                                <local:TimeDomainReflectometry DataContext="{Binding TDRVM}" Grid.Column="0" Margin="0 0 10 0" Visibility="{Binding DataContext.IsActiveLinkMonEnabled, Converter={StaticResource invertedBooleanVisibilityConverter}, Source={StaticResource ProxyElement}}"/>
+                                <TabControl Style="{StaticResource TabStyle}" Grid.Column="0" Margin="0 0 10 0" Visibility="{Binding IsActiveLinkMonEnabled, Converter={StaticResource booleanVisibilityConverter}}">
+                                    <TabItem Header="Fault Detector" Style="{StaticResource TabItemStyle}" IsSelected="True">
+                                        <local:TimeDomainReflectometry DataContext="{Binding TDRVM}"/>
+                                    </TabItem>
+                                    <TabItem Header="Active Link Monitoring" Style="{StaticResource TabItemStyle}">
+                                        <local:ActiveLinkMonitoringView/>
+                                    </TabItem>
+                                </TabControl>
+                            </Grid>
                             <GridSplitter Grid.Column="1" Style="{DynamicResource VerticalGridSplitterStyle}" />
                             <Grid Grid.Column="2">
                                 <components:DeviceStatusView DataContext="{Binding DeviceStatusVM}" Margin="10 0 0 0"/>

@@ -198,21 +198,22 @@ namespace ADIN.WPF.ViewModel
                 switch ((EthPhyState)Enum.Parse(typeof(EthPhyState), value))
                 {
                     case EthPhyState.Powerdown:
+                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.Powerdown);
                         _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Up");
                         break;
 
                     case EthPhyState.Standby:
-                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.Standby.ToString());
+                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.Standby);
                         _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Down");
                         break;
 
                     case EthPhyState.LinkDown:
-                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.LinkDown.ToString());
+                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.LinkDown);
                         _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Down");
                         break;
 
                     case EthPhyState.LinkUp:
-                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.LinkUp.ToString());
+                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.LinkUp);
                         _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Down");
                         break;
 

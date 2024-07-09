@@ -29,7 +29,8 @@ namespace ADIN.Device.Models
         public BoardType DeviceType => Device.DeviceType;
         public IFrameGenChecker FrameGenChecker => Device.FrameGenChecker;
         public IFirmwareAPI FwAPI => Device.FirmwareAPI;
-        public bool IsCableDiagAvailable => TimeDomainReflectometryPort1 == null ? false : true;
+        public bool IsADIN1100CableDiagAvailable => TimeDomainReflectometryPort1 == null ? false : true;
+        public bool IsADIN1300CableDiagAvailable => true;
         public bool IsMultichipBoard { get; set; }
         public ILinkProperties LinkProperties => Device.LinkProperties;
         public ILoopback Loopback => Device.Loopback;

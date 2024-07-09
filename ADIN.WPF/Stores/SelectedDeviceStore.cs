@@ -17,7 +17,7 @@ namespace ADIN.WPF.Stores
         public event Action<string> FrameGenCheckerResetDisplay;
         public event Action<string> FrameGenCheckerStatusChanged;
         public event Action RegisterListingValueChanged;
-        public event Action<string> LinkStatusChanged;
+        public event Action<EthPhyState> LinkStatusChanged;
         public event Action<bool> OnGoingCalibrationStatusChanged;
         public event Action PortNumChanged;
         //public event Action<LoopBackMode> LoopbackChanged;
@@ -65,7 +65,7 @@ namespace ADIN.WPF.Stores
         {
             RegisterListingValueChanged?.Invoke();
         }
-        public void OnLinkStatusChanged(string linkStatus)
+        public void OnLinkStatusChanged(EthPhyState linkStatus)
         {
             LinkStatusChanged?.Invoke(linkStatus);
         }

@@ -336,7 +336,7 @@ namespace ADIN.WPF.ViewModel
 
         private void SetCableDiagnosticVisibility()
         {
-            if (!_selectedDeviceStore.SelectedDevice.IsCableDiagAvailable
+            if (!_selectedDeviceStore.SelectedDevice.IsADIN1100CableDiagAvailable
                          && !_selectedDeviceStore.SelectedDevice.CableDiagOneTimePopUp
                          && _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100)
             {
@@ -346,7 +346,7 @@ namespace ADIN.WPF.ViewModel
                 _logActivityViewModel.SetFeedback(_feedback, false);
             }
 
-            if (!_selectedDeviceStore.SelectedDevice.IsCableDiagAvailable
+            if (!_selectedDeviceStore.SelectedDevice.IsADIN1100CableDiagAvailable
              && _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100)
             {
                 HideCableDiagChanged?.Invoke(true);

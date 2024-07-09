@@ -89,12 +89,12 @@ namespace ADIN.Device.Services
             if (isDisabledLinking)
             {
                 WriteYodaRg("LinkEn", 0);
-                FeedbackLog("disable Linking", FeedbackType.Info);
+                FeedbackLog("Disable linking", FeedbackType.Info);
             }
             else
             {
                 WriteYodaRg("LinkEn", 1);
-                FeedbackLog("enable Linking", FeedbackType.Info);
+                FeedbackLog("Enable linking", FeedbackType.Info);
             }
         }
 

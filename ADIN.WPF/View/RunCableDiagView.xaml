@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="ADIN.WPF.View.RunCableDiagView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:local="clr-namespace:ADIN.WPF.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <GroupBox Header="Run Cable Diagnostics" Style="{StaticResource GroupBoxStyle}" Margin="0 0 0 5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" TextWrapping="Wrap" Text="{Binding Description}" Style="{StaticResource TextBlockstyle}"/>
+                <telerik:RadButton Grid.Row="1" Style="{StaticResource TelerikButtonStyle}" Content="{Binding LinkStatus}" Command="{Binding DisableLinkCommand}"/>
+                <CheckBox Grid.Row="2" IsChecked="{Binding IsRxSuppression}" Content="Check for Cross Pair Faults" Style="{StaticResource CheckBoxStyle}"/>
+                <telerik:RadButton Grid.Row="3" Style="{StaticResource TelerikButtonStyle}" Content="Diagnose" Command="{Binding DiagnoseCommand}"/>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>
