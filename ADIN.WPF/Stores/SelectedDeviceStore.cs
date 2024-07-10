@@ -6,6 +6,7 @@
 using ADIN.Device.Models;
 using Helper.Feedback;
 using System;
+using System.Collections.Generic;
 
 namespace ADIN.WPF.Stores
 {
@@ -26,39 +27,45 @@ namespace ADIN.WPF.Stores
         public event Action<string> SoftwarePowerDownChanged;
         public event Action<FeedbackModel> ProcessCompleted;
         //public event Action<FeedbackModel> ErrorOccured;
+        public event Action<List<string>> GigabitCableDiagCompleted;
         public event Action<FeedbackModel> ViewModelErrorOccured;
 
         public ADINDevice SelectedDevice
         {
             get { return _selectedDevice; }
-            set 
+            set
             {
-                if(_selectedDevice != null)
+                if (_selectedDevice != null)
                 {
                     _selectedDevice.FwAPI.WriteProcessCompleted -= FirmwareAPI_WriteProcessCompleted;
                     _selectedDevice.FwAPI.FrameGenCheckerTextStatusChanged -= FirmwareAPI_FrameGenCheckerStatusCompleted;
                     _selectedDevice.FwAPI.ResetFrameGenCheckerStatisticsChanged -= FirmwareAPI_ResetFrameGenCheckerStatisticsChanged;
-                    //_selectedDevice.FwAPI.ErrorOccured -= FirmwareAPI_ErrorOccured;
                     _selectedDevice.FwAPI.FrameContentChanged -= FirmwareAPI_FrameContentChanged;
+                    _selectedDevice.FwAPI.GigabitCableDiagCompleted -= FwAPI_GigabitCableDiagCompleted;
                 }
 
-                if(value != null)
+                if (value != null)
                 {
                     _selectedDevice = value;
                     _selectedDevice.FwAPI.WriteProcessCompleted += FirmwareAPI_WriteProcessCompleted;
                     _selectedDevice.FwAPI.FrameGenCheckerTextStatusChanged += FirmwareAPI_FrameGenCheckerStatusCompleted;
                     _selectedDevice.FwAPI.ResetFrameGenCheckerStatisticsChanged += FirmwareAPI_ResetFrameGenCheckerStatisticsChanged;
-                    //_selectedDevice.FwAPI.ErrorOccured += FirmwareAPI_ErrorOccured;
                     _selectedDevice.FwAPI.FrameContentChanged += FirmwareAPI_FrameContentChanged;
+                    _selectedDevice.FwAPI.GigabitCableDiagCompleted += FwAPI_GigabitCableDiagCompleted;
                     SelectedDeviceChanged?.Invoke();
                 }
 
-                if(value == null)
+                if (value == null)
                 {
                     _selectedDevice = value;
                     SelectedDeviceChanged?.Invoke();
                 }
             }
+        }
+
+        private void FwAPI_GigabitCableDiagCompleted(object sender, List<string> results)
+        {
+            GigabitCableDiagCompleted?.Invoke(results);
         }
 
         public void OnRegistersValueChanged()

@@ -123,6 +123,7 @@
     <Compile Include="Services\ADIN1110FirmwareAPI.cs" />
     <Compile Include="Services\ADIN2111FirmwareAPI.cs" />
     <Compile Include="Services\IADIN2111API.cs" />
+    <Compile Include="Services\ICableDiagAPI.cs" />
     <Compile Include="Services\ITimeDomainReflectometryAPI.cs" />
     <Compile Include="Models\LoopbackModel.cs" />
     <Compile Include="Models\RegisterAccessModel.cs" />

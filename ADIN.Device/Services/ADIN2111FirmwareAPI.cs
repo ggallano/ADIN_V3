@@ -78,6 +78,8 @@ namespace ADIN.Device.Services
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
 
+        public event EventHandler<List<string>> GigabitCableDiagCompleted;
+
         public BoardRevision boardRev { get; set; }
 
         public bool isFrameGenCheckerOngoing { get; set; }

@@ -7,6 +7,7 @@ using ADIN.Device.Models;
 using ADIN.WPF.Commands;
 using ADIN.WPF.Stores;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 
@@ -32,9 +33,27 @@ namespace ADIN.WPF.ViewModel
 
         public string Description { get; } = "These Cable Diagnostics are only available when the PHY is in 'Stanby Mode'. Disable Linking by clicking the 'Disable Linking' button to enter 'Stanby Mode'.";
 
+        public bool IsOngoingDiag { get; set; }
+
+        public string BusyContent { get; set; }
+
         public ICommand DiagnoseCommand { get; set; }
 
         public ICommand DisableLinkCommand { get; set; }
+
+        private List<string> _cableDiagResults;
+
+        public List<string> CableDiagResults
+        {
+            get { return _cableDiagResults; }
+
+            set
+            {
+                _cableDiagResults = value;
+                OnPropertyChanged(nameof(CableDiagResults));
+            }
+        }
+
 
         public string LinkStatus
         {

@@ -30,7 +30,7 @@ namespace ADIN.WPF.Converters
 
             if (message.Contains("[Warning]"))
             {
-                return (SolidColorBrush)(new BrushConverter().ConvertFrom("#551E03"));
+                return (SolidColorBrush)(new BrushConverter().ConvertFrom("#E76423"));
             }
 
             if (message.Contains("[VerboseInfo]") || message.Contains("Success"))

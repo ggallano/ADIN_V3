@@ -47,6 +47,9 @@ namespace ADIN.Device.Services
         public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
+
+        public event EventHandler<List<string>> GigabitCableDiagCompleted;
+
         public bool isFrameGenCheckerOngoing { get; set; } = false;
 
         public void AdvertisedForcedSpeed(string advFrcSpd)
@@ -1263,6 +1266,7 @@ namespace ADIN.Device.Services
 
             return value;
         }
+
         private void SetContinuousMode(bool isEnable, uint frameBurst)
         {
             if (isEnable)
@@ -1426,6 +1430,71 @@ namespace ADIN.Device.Services
             catch (NullReferenceException)
             {
                 FeedbackLog("Script is empty/has invalid register address/input value.", FeedbackType.Error);
+            }
+        }
+
+        private bool cablediagnosticsRunning;
+
+        public void RunCableDiagnostics(bool enablecrosspairfaultchecking)
+        {
+            this.cablediagnosticsRunning = true;
+            if (enablecrosspairfaultchecking)
+            {
+                this.FeedbackLog("Cross Pair Checking enabled.", FeedbackType.Info);
+                this.WriteYodaRg("CdiagXpairDis", 0);
+            }
+            else
+            {
+                this.FeedbackLog("Cross Pair Checking disabled.", FeedbackType.Info);
+                this.WriteYodaRg("CdiagXpairDis", 1);
+            }
+
+            this.WriteYodaRg("CdiagRun", 1);
+            this.FeedbackLog("Running automated cable diagnostics", FeedbackType.Info);
+        }
+
+        public void CableDiagnosticsStatus()
+        {
+            uint cdi_st = uint.Parse(this.ReadYodaRg("CdiagRun"));
+            if (this.cablediagnosticsRunning && (cdi_st == 0))
+            {
+                this.cablediagnosticsRunning = false;
+                this.FeedbackLog("Cable Diagnostics have completed", FeedbackType.Info);
+
+                var diagInfoRegisters = new List<string>() { "CdiagRslt0Gd", "CdiagRslt1Gd", "CdiagRslt2Gd", "CdiagRslt3Gd" };
+                var pairs = new List<string>() { "0", "1", "2", "3" };
+
+                List<string> cableDiagnosticsStatus = new List<string>();
+
+                int idx = 0;
+                foreach (var bitField in diagInfoRegisters)
+                {
+                    uint bitFieldValue = uint.Parse(this.ReadYodaRg(bitField));
+
+                    if (bitFieldValue == 0x01)
+                    {
+                        cableDiagnosticsStatus.Add($"Pair{idx} is well terminated.");
+                    }
+                    idx++;
+                }
+
+                uint distance;
+                foreach (var pair in pairs)
+                {
+
+                    try
+                    {
+                        distance = uint.Parse(this.ReadYodaRg($"CdiagFltDist{pair}"));
+                        if (distance != 0xFF)
+                        {
+                            cableDiagnosticsStatus.Add(string.Format("Distance to fault on pair {0} is {1} m.", pair, distance));
+                        }
+                    }
+                    catch (ArgumentException e)
+                    {
+                        /* This register does not exist in this device */
+                    }
+                }
             }
         }
     }
