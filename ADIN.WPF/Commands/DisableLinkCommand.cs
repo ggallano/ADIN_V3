@@ -13,6 +13,7 @@ namespace ADIN.WPF.Commands
     {
         private ExtraCommandsViewModel _extraCommandsViewModel;
         private EthPhyState _phyState = EthPhyState.Standby;
+        private RunCableDiagViewModel _runCableDiagViewModel;
         private SelectedDeviceStore _selectedDeviceStore;
 
         public DisableLinkCommand(ExtraCommandsViewModel extraCommandsViewModel, SelectedDeviceStore selectedDeviceStore)
@@ -23,6 +24,21 @@ namespace ADIN.WPF.Commands
             _extraCommandsViewModel.PropertyChanged += _extraCommandsViewModel_PropertyChanged;
             _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStatusChanged;
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+        }
+
+        public DisableLinkCommand(RunCableDiagViewModel runCableDiagViewModel, SelectedDeviceStore selectedDeviceStore)
+        {
+            _runCableDiagViewModel = runCableDiagViewModel;
+            _selectedDeviceStore = selectedDeviceStore;
+
+            _runCableDiagViewModel.PropertyChanged += _runCableDiagViewModel_PropertyChanged;
+            _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStatusChanged;
+            _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+        }
+
+        private void _runCableDiagViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            OnCanExecuteChanged();
         }
 
         public override bool CanExecute(object parameter)

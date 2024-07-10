@@ -23,7 +23,8 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore = selectedDeviceStore;
             _thisLock = thisLock;
 
-            //DiagnoseCommand = new DiagnoseCommand(this, _selectedDeviceStore);
+            DisableLinkCommand = new DisableLinkCommand(this, _selectedDeviceStore);
+            DiagnoseCommand = new DiagnoseCommand(this, _selectedDeviceStore);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStatusChanged;
