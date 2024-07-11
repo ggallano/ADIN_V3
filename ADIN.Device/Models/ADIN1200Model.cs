@@ -45,9 +45,69 @@ namespace ADIN.Device.Models
             TestMode = new TestModeADIN1200();
 
             GetInitialValuesLinkProperties();
+            //GetInitialValuesClockPinControl();
             GetInitialValuesLoopback();
             GetInitialValuesFrameGenChecker();
             GetInitialValuesTestMode();
+        }
+
+        private void GetInitialValuesClockPinControl()
+        {
+            var GeClkRcvr125En = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("GeClkRcvr125En") == "1" ? true : false;
+            var GeClkFree125En = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("GeClkFree125En") == "1" ? true : false;
+            var GeClkHrtRcvrEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("GeClkHrtRcvrEn") == "1" ? true : false;
+            var GeClkHrtFreeEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("GeClkHrtFreeEn") == "1" ? true : false;
+            var GeClk25En = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("GeClk25En") == "1" ? true : false;
+
+            if (!GeClkRcvr125En)
+                if (!GeClkFree125En)
+                    if (!GeClkHrtRcvrEn)
+                        if (!GeClkHrtFreeEn)
+                            if (!GeClk25En)
+                                ClockPinControl.GpClkPinControl = ClockPinControl.GpClkPinControls[0];
+
+            if (GeClkRcvr125En)
+                if (!GeClkFree125En)
+                    if (!GeClkHrtRcvrEn)
+                        if (!GeClkHrtFreeEn)
+                            if (!GeClk25En)
+                                ClockPinControl.GpClkPinControl = ClockPinControl.GpClkPinControls[1];
+
+            if (!GeClkRcvr125En)
+                if (GeClkFree125En)
+                    if (GeClkHrtRcvrEn)
+                        if (GeClkHrtFreeEn)
+                            if (GeClk25En)
+                                ClockPinControl.GpClkPinControl = ClockPinControl.GpClkPinControls[2];
+
+            if (!GeClkRcvr125En)
+                if (!GeClkFree125En)
+                    if (GeClkHrtRcvrEn)
+                        if (!GeClkHrtFreeEn)
+                            if (!GeClk25En)
+                                ClockPinControl.GpClkPinControl = ClockPinControl.GpClkPinControls[3];
+
+            if (!GeClkRcvr125En)
+                if (!GeClkFree125En)
+                    if (!GeClkHrtRcvrEn)
+                        if (GeClkHrtFreeEn)
+                            if (!GeClk25En)
+                                ClockPinControl.GpClkPinControl = ClockPinControl.GpClkPinControls[4];
+
+            if (!GeClkRcvr125En)
+                if (!GeClkFree125En)
+                    if (!GeClkHrtRcvrEn)
+                        if (!GeClkHrtFreeEn)
+                            if (GeClk25En)
+                                ClockPinControl.GpClkPinControl = ClockPinControl.GpClkPinControls[5];
+
+
+            var GeRefClkEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("GeRefClkEn") == "1" ? true : false;
+
+            if (GeRefClkEn)
+                ClockPinControl.Clk25RefPnCtrl = ClockPinControl.Clk25RefPinControls[1];
+            else
+                ClockPinControl.Clk25RefPnCtrl = ClockPinControl.Clk25RefPinControls[0];
         }
 
         private void GetInitialValuesLinkProperties()
@@ -134,7 +194,7 @@ namespace ADIN.Device.Models
             if (LoopbackEn)
                 if (((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("LbLdSel") == "1")
                     Loopback.SelectedLoopback = Loopback.Loopbacks[2];
-            
+
             if (LoopbackEn)
                 if (((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("LbExtEn") == "1")
                     Loopback.SelectedLoopback = Loopback.Loopbacks[3];

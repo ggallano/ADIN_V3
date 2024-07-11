@@ -30,6 +30,7 @@ namespace ADIN.Device.Services
         private EthPhyState _phyState;
         private ObservableCollection<RegisterModel> _registers;
         private IRegisterService _registerService;
+        private bool cablediagnosticsRunning = false;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
         public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
@@ -44,12 +45,11 @@ namespace ADIN.Device.Services
 
         public event EventHandler<string> FrameGenCheckerTextStatusChanged;
 
+        public event EventHandler<List<string>> GigabitCableDiagCompleted;
+
         public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
-
-        public event EventHandler<List<string>> GigabitCableDiagCompleted;
-
         public bool isFrameGenCheckerOngoing { get; set; } = false;
 
         public void AdvertisedForcedSpeed(string advFrcSpd)
@@ -84,6 +84,52 @@ namespace ADIN.Device.Services
             {
                 this.WriteYodaRg("AutoMdiEn", 0);
                 this.WriteYodaRg("ManMdix", 1);
+            }
+        }
+
+        public void CableDiagnosticsStatus()
+        {
+            List<string> cableDiagnosticsStatus = new List<string>();
+            var diagInfoRegisters = new List<string>() { "CdiagRslt0Gd", "CdiagRslt1Gd" };
+            var pairs = new List<string>() { "0", "1" };
+
+            uint cdi_st = uint.Parse(this.ReadYodaRg("CdiagRun"));
+
+            if (this.cablediagnosticsRunning && (cdi_st == 0))
+            {
+                this.cablediagnosticsRunning = false;
+                this.FeedbackLog("Cable Diagnostics have completed", FeedbackType.Info);
+
+                int idx = 0;
+                foreach (var bitField in diagInfoRegisters)
+                {
+                    uint bitFieldValue = uint.Parse(this.ReadYodaRg(bitField));
+
+                    if (bitFieldValue == 0x01)
+                    {
+                        cableDiagnosticsStatus.Add($"Pair{idx} is well terminated.");
+                    }
+                    idx++;
+                }
+
+                uint distance;
+                foreach (var pair in pairs)
+                {
+
+                    try
+                    {
+                        distance = uint.Parse(this.ReadYodaRg($"CdiagFltDist{pair}"));
+                        if (distance != 0xFF)
+                        {
+                            cableDiagnosticsStatus.Add($"Distance to fault on pair {pair} is {distance} m.");
+                        }
+                    }
+                    catch (ArgumentException e)
+                    {
+                        /* This register does not exist in this device */
+                    }
+                }
+                GigabitCableDiagCompleted?.Invoke(this, cableDiagnosticsStatus);
             }
         }
 
@@ -147,6 +193,38 @@ namespace ADIN.Device.Services
             }
 
             FeedbackLog(_feedbackMessage, FeedbackType.Info);
+        }
+
+        public void ExecuteSript(ScriptModel script)
+        {
+            try
+            {
+                foreach (var register in script.RegisterAccesses)
+                {
+                    if (register.RegisterName != null)
+                    {
+                        WriteYodaRg(register.RegisterName, uint.Parse(register.Value));
+                        continue;
+                    }
+
+                    if (register.RegisterAddress != null)
+                    {
+                        uint regAddress = uint.Parse(register.RegisterAddress);
+                        uint regValue = uint.Parse(register.Value);
+                        WriteYodaRg(regAddress, regValue);
+                        FeedbackLog($"Register 0x{regAddress.ToString("X")} = {regValue.ToString("X")}", FeedbackType.Verbose);
+                        continue;
+                    }
+                }
+            }
+            catch (ApplicationException ex)
+            {
+                FeedbackLog(ex.Message, FeedbackType.Error);
+            }
+            catch (NullReferenceException)
+            {
+                FeedbackLog("Script is empty/has invalid register address/input value.", FeedbackType.Error);
+            }
         }
 
         public void GetFrameCheckerStatus()
@@ -663,6 +741,30 @@ namespace ADIN.Device.Services
             Debug.WriteLine("Restart Auto Negotiation");
         }
 
+        public void RunCableDiagnostics(bool enablecrosspairfaultchecking)
+        {
+            this.cablediagnosticsRunning = true;
+            if (enablecrosspairfaultchecking)
+            {
+                this.FeedbackLog("Cross Pair Checking enabled.", FeedbackType.Info);
+                this.WriteYodaRg("CdiagXpairDis", 0);
+            }
+            else
+            {
+                this.FeedbackLog("Cross Pair Checking disabled.", FeedbackType.Info);
+                this.WriteYodaRg("CdiagXpairDis", 1);
+            }
+
+            this.WriteYodaRg("CdiagRun", 1);
+            this.FeedbackLog("Running automated cable diagnostics", FeedbackType.Info);
+            Thread.Sleep(5000);
+        }
+
+        public void SetClk25RefPinControl(string clk25RefPinCtrl)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SetForcedSpeed(string setFrcdSpd)
         {
             switch (setFrcdSpd)
@@ -726,31 +828,56 @@ namespace ADIN.Device.Services
 
         public void SetGpClkPinControl(string gpClkPinCtrl)
         {
-            this.WriteYodaRg("GeClkCfg", 0);
+            //this.WriteYodaRg("GeClkCfg", 0);
 
             switch (gpClkPinCtrl)
             {
                 case "125 MHz PHY Recovered":
                     this.WriteYodaRg("GeClkRcvr125En", 1);
+                    this.WriteYodaRg("GeClkFree125En", 0);
+                    this.WriteYodaRg("GeClkHrtRcvrEn", 0);
+                    this.WriteYodaRg("GeClkHrtFreeEn", 0);
+                    this.WriteYodaRg("GeClk25En", 0);
                     _feedbackMessage = "PHY 125 MHz recovered clock output on GP_CLK pin";
                     break;
                 case "125 MHz PHY Free Running":
+                    this.WriteYodaRg("GeClkRcvr125En", 0);
                     this.WriteYodaRg("GeClkFree125En", 1);
+                    this.WriteYodaRg("GeClkHrtRcvrEn", 0);
+                    this.WriteYodaRg("GeClkHrtFreeEn", 0);
+                    this.WriteYodaRg("GeClk25En", 0);
                     _feedbackMessage = "PHY 125 MHz free-running clock output on GP_CLK pin";
                     break;
                 case "Recovered HeartBeat":
+                    this.WriteYodaRg("GeClkRcvr125En", 0);
+                    this.WriteYodaRg("GeClkFree125En", 0);
                     this.WriteYodaRg("GeClkHrtRcvrEn", 1);
+                    this.WriteYodaRg("GeClkHrtFreeEn", 0);
+                    this.WriteYodaRg("GeClk25En", 0);
                     _feedbackMessage = "PHY recovered heartbeat clock output on GP_CLK pin";
                     break;
                 case "Free Running HeartBeat":
+                    this.WriteYodaRg("GeClkRcvr125En", 0);
+                    this.WriteYodaRg("GeClkFree125En", 0);
+                    this.WriteYodaRg("GeClkHrtRcvrEn", 0);
                     this.WriteYodaRg("GeClkHrtFreeEn", 1);
+                    this.WriteYodaRg("GeClk25En", 0);
                     _feedbackMessage = "PHY free-running heartbeat clock output on GP_CLK pin";
                     break;
                 case "25 MHz Reference":
+                    this.WriteYodaRg("GeClkRcvr125En", 0);
+                    this.WriteYodaRg("GeClkFree125En", 0);
+                    this.WriteYodaRg("GeClkHrtRcvrEn", 0);
+                    this.WriteYodaRg("GeClkHrtFreeEn", 0);
                     this.WriteYodaRg("GeClk25En", 1);
                     _feedbackMessage = "PHY 25 MHz clock output on GP_CLK pin";
                     break;
                 default:
+                    this.WriteYodaRg("GeClkRcvr125En", 0);
+                    this.WriteYodaRg("GeClkFree125En", 0);
+                    this.WriteYodaRg("GeClkHrtRcvrEn", 0);
+                    this.WriteYodaRg("GeClkHrtFreeEn", 0);
+                    this.WriteYodaRg("GeClk25En", 0);
                     _feedbackMessage = "No clock output on GP_CLK pin";
                     break;
             }
@@ -1354,105 +1481,6 @@ namespace ADIN.Device.Services
             else
             {
                 return MdioWriteCl45(registerAddress, value);
-            }
-        }
-
-        public void ExecuteSript(ScriptModel script)
-        {
-            try
-            {
-                foreach (var register in script.RegisterAccesses)
-                {
-                    if (register.RegisterName != null)
-                    {
-                        WriteYodaRg(register.RegisterName, uint.Parse(register.Value));
-                        continue;
-                    }
-
-                    if (register.RegisterAddress != null)
-                    {
-                        uint regAddress = uint.Parse(register.RegisterAddress);
-                        uint regValue = uint.Parse(register.Value);
-                        WriteYodaRg(regAddress, regValue);
-                        FeedbackLog($"Register 0x{regAddress.ToString("X")} = {regValue.ToString("X")}", FeedbackType.Verbose);
-                        continue;
-                    }
-                }
-            }
-            catch (ApplicationException ex)
-            {
-                FeedbackLog(ex.Message, FeedbackType.Error);
-            }
-            catch (NullReferenceException)
-            {
-                FeedbackLog("Script is empty/has invalid register address/input value.", FeedbackType.Error);
-            }
-        }
-
-        private bool cablediagnosticsRunning = false;
-
-        public void RunCableDiagnostics(bool enablecrosspairfaultchecking)
-        {
-            this.cablediagnosticsRunning = true;
-            if (enablecrosspairfaultchecking)
-            {
-                this.FeedbackLog("Cross Pair Checking enabled.", FeedbackType.Info);
-                this.WriteYodaRg("CdiagXpairDis", 0);
-            }
-            else
-            {
-                this.FeedbackLog("Cross Pair Checking disabled.", FeedbackType.Info);
-                this.WriteYodaRg("CdiagXpairDis", 1);
-            }
-
-            this.WriteYodaRg("CdiagRun", 1);
-            this.FeedbackLog("Running automated cable diagnostics", FeedbackType.Info);
-            Thread.Sleep(5000);
-        }
-
-        public void CableDiagnosticsStatus()
-        {
-            List<string> cableDiagnosticsStatus = new List<string>();
-            var diagInfoRegisters = new List<string>() { "CdiagRslt0Gd", "CdiagRslt1Gd" };
-            var pairs = new List<string>() { "0", "1" };
-
-            uint cdi_st = uint.Parse(this.ReadYodaRg("CdiagRun"));
-
-            if (this.cablediagnosticsRunning && (cdi_st == 0))
-            {
-                this.cablediagnosticsRunning = false;
-                this.FeedbackLog("Cable Diagnostics have completed", FeedbackType.Info);
-
-                int idx = 0;
-                foreach (var bitField in diagInfoRegisters)
-                {
-                    uint bitFieldValue = uint.Parse(this.ReadYodaRg(bitField));
-
-                    if (bitFieldValue == 0x01)
-                    {
-                        cableDiagnosticsStatus.Add($"Pair{idx} is well terminated.");
-                    }
-                    idx++;
-                }
-
-                uint distance;
-                foreach (var pair in pairs)
-                {
-
-                    try
-                    {
-                        distance = uint.Parse(this.ReadYodaRg($"CdiagFltDist{pair}"));
-                        if (distance != 0xFF)
-                        {
-                            cableDiagnosticsStatus.Add($"Distance to fault on pair {pair} is {distance} m.");
-                        }
-                    }
-                    catch (ArgumentException e)
-                    {
-                        /* This register does not exist in this device */
-                    }
-                }
-                GigabitCableDiagCompleted?.Invoke(this, cableDiagnosticsStatus);
             }
         }
     }

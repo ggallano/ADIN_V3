@@ -126,6 +126,8 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsClkPinControlVisible => _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1300 || _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1200;
+
         public LinkPropertiesViewModel LinkPropertiesVM { get; set; }
 
         public LogActivityViewModel LogActivityVM { get; set; }
@@ -184,6 +186,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(IsActiveLinkMonEnabled));
             OnPropertyChanged(nameof(IsADIN1100Visible));
             OnPropertyChanged(nameof(IsADIN1300Visible));
+            OnPropertyChanged(nameof(IsClkPinControlVisible));
 
             if ((_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
              || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110))

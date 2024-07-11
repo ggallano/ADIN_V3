@@ -1497,5 +1497,22 @@ namespace ADIN.Device.Services
                 }
             }
         }
+
+        public void SetClk25RefPinControl(string clk25RefPinCtrl)
+        {
+            
+
+            switch (clk25RefPinCtrl)
+            {
+                case "25 MHz Reference":
+                    this.WriteYodaRg("GeRefClkEn", 1);
+                    _feedbackMessage = "PHY 25 MHz reference clock output on REF_CLK pin";
+                    break;
+                default:
+                    this.WriteYodaRg("GeRefClkEn", 0);
+                    _feedbackMessage = "clock output on REF_CLK disabled";
+                    break;
+            }
+        }
     }
 }

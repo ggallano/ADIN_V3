@@ -189,6 +189,7 @@
     <Compile Include="Commands\CableDiag\TDRManualCommand.cs" />
     <Compile Include="Commands\CableDiag\TDRSaveCommand.cs" />
     <Compile Include="Commands\ClearLogCommand.cs" />
+    <Compile Include="Commands\ClockRefPinControlCommand.cs" />
     <Compile Include="Commands\DiagnoseCommand.cs" />
     <Compile Include="Commands\RemoteLoopbackCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
