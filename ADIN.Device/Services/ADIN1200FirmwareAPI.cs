@@ -1389,7 +1389,7 @@ namespace ADIN.Device.Services
             }
         }
 
-        private bool cablediagnosticsRunning;
+        private bool cablediagnosticsRunning = false;
 
         public void RunCableDiagnostics(bool enablecrosspairfaultchecking)
         {
@@ -1407,6 +1407,7 @@ namespace ADIN.Device.Services
 
             this.WriteYodaRg("CdiagRun", 1);
             this.FeedbackLog("Running automated cable diagnostics", FeedbackType.Info);
+            Thread.Sleep(5000);
         }
 
         public void CableDiagnosticsStatus()

@@ -20,7 +20,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" TextWrapping="Wrap" Text="{Binding Description}" Style="{StaticResource TextBlockstyle}"/>
                     <telerik:RadButton Grid.Row="1" Style="{StaticResource TelerikButtonStyle}" Content="{Binding LinkStatus}" Command="{Binding DisableLinkCommand}"/>
-                    <CheckBox Grid.Row="2" IsChecked="{Binding IsRxSuppression}" Content="Check for Cross Pair Faults" Style="{StaticResource CheckBoxStyle}"/>
+                    <CheckBox Grid.Row="2" IsChecked="{Binding IsCrossPair}" Content="Check for Cross Pair Faults" Style="{StaticResource CheckBoxStyle}"/>
                     <telerik:RadButton Grid.Row="3" Style="{StaticResource TelerikButtonStyle}" Content="Diagnose" Command="{Binding DiagnoseCommand}"/>
                     <Border Style="{StaticResource BorderSyle}" Grid.Row="4">
                         <StackPanel Orientation="Vertical">

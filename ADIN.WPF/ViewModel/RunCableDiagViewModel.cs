@@ -41,19 +41,30 @@ namespace ADIN.WPF.ViewModel
 
         public ICommand DisableLinkCommand { get; set; }
 
+        public bool IsCrossPair
+        {
+            get { return _selectedDeviceStore.SelectedDevice.IsCrossPair; }
+
+            set
+            {
+                _selectedDeviceStore.SelectedDevice.IsCrossPair = value;
+                OnPropertyChanged(nameof(IsCrossPair));
+            }
+        }
+
         private List<string> _cableDiagResults;
 
         public List<string> CableDiagResults
         {
-            get { return _cableDiagResults; }
+            get { return _selectedDeviceStore.SelectedDevice?.CableDiagStatus; }
 
             set
             {
-                _cableDiagResults = value;
+                //_cableDiagResults = value;
+                _selectedDeviceStore.SelectedDevice.CableDiagStatus = value;
                 OnPropertyChanged(nameof(CableDiagResults));
             }
         }
-
 
         public string LinkStatus
         {
@@ -88,6 +99,8 @@ namespace ADIN.WPF.ViewModel
                 return;
 
             OnPropertyChanged(nameof(LinkStatus));
+            OnPropertyChanged(nameof(CableDiagResults));
+            OnPropertyChanged(nameof(IsCrossPair));
         }
     }
 }

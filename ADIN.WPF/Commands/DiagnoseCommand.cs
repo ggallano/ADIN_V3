@@ -83,7 +83,7 @@ namespace ADIN.WPF.Commands
 
         private void ExecuteCableDiag(ADIN1300FirmwareAPI fwAPI)
         {
-            fwAPI.RunCableDiagnostics(true);
+            fwAPI.RunCableDiagnostics(_runCableDiagViewModel.IsCrossPair);
             _runCableDiagViewModel.IsOngoingDiag = true;
 
             _runCableDiagViewModel.BusyContent = busyContent;
@@ -91,7 +91,7 @@ namespace ADIN.WPF.Commands
 
         private void ExecuteCableDiag(ADIN1200FirmwareAPI fwAPI)
         {
-            fwAPI.RunCableDiagnostics(true);
+            fwAPI.RunCableDiagnostics(_runCableDiagViewModel.IsCrossPair);
             _runCableDiagViewModel.IsOngoingDiag = true;
 
             _runCableDiagViewModel.BusyContent = busyContent;
