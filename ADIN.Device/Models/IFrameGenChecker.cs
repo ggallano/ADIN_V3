@@ -20,5 +20,6 @@ namespace ADIN.Device.Models
         FrameType SelectedFrameContent { get; set; }
         string SrcMacAddress { get; set; }
         string SrcOctet { get; set; }
+        string FrameGeneratorButtonText { get; set; }
     }
 }

@@ -184,7 +184,10 @@ namespace ADIN.Device.Services
             uint fgContModeEn_st = Convert.ToUInt32(ReadYodaRg("FG_CONT_MODE_EN"), 16);
 
             if (fgEn_st == 0)
+            {
+                OnFrameGenCheckerStatusChanged("Generate");
                 return "Not Enabled";
+            }
 
             if (fgContModeEn_st == 1)
             {
@@ -686,6 +689,7 @@ namespace ADIN.Device.Services
                 SetMacAddresses(frameContent.EnableMacAddress, frameContent.SrcOctet, frameContent.DestOctet);
 
                 WriteYodaRg("FG_EN", 1);
+                OnFrameGenCheckerStatusChanged("Terminate");
                 isFrameGenCheckerOngoing = true;
                 OnWriteProcessCompleted(new FeedbackModel() { Message = $"- Started transmission of {frameContent.FrameBurst} frames -", FeedBackType = FeedbackType.Info });
             }

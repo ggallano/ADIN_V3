@@ -22,7 +22,6 @@ namespace ADIN.WPF.ViewModel
         private bool _enableContinuousMode;
         private bool _enableMacAddress;
         private uint _frameBurst;
-        private string _frameGeneratorButtonText;
         private uint _frameLength;
         private IFTDIServices _ftdiService;
         private SelectedDeviceStore _selectedDeviceStore;
@@ -136,53 +135,71 @@ namespace ADIN.WPF.ViewModel
 
         public List<FrameContentModel> FrameContents => _frameGenChecker?.FrameContents;
 
+//        public string FrameGeneratorButtonText
+//        {
+//            get
+//            {
+//#if !DISABLE_T1L
+//                if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1100FirmwareAPI)
+//                {
+//                    ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+//                    return fwAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+//                }
+//                else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1110FirmwareAPI)
+//                {
+//                    ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+//                    return fwAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+//                }
+//                else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN2111FirmwareAPI)
+//                {
+//                    ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+//                    return fwAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+//                }
+//                else { } //Do nothing
+//#endif
+//#if !DISABLE_TSN
+//                if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1200FirmwareAPI)
+//                {
+//                    ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
+//                    return fwAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+//                }
+//                else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1300FirmwareAPI)
+//                {
+//                    ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice?.FwAPI as ADIN1300FirmwareAPI;
+//                    return fwAPI?.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
+//                }
+//                else { } //Do nothing
+//#endif
+//                return null;
+//            }
+//            set
+//            {
+//                if (value != null)
+//                {
+//                    _frameGeneratorButtonText = value;
+//                    //_selectedDevice.Checker = value;
+//                }
+//                OnPropertyChanged(nameof(FrameGeneratorButtonText));
+//            }
+//        }
+
         public string FrameGeneratorButtonText
         {
             get
             {
-#if !DISABLE_T1L
-                if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1100FirmwareAPI)
-                {
-                    ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                    return fwAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
-                }
-                else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1110FirmwareAPI)
-                {
-                    ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
-                    return fwAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
-                }
-                else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN2111FirmwareAPI)
-                {
-                    ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-                    return fwAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
-                }
-                else { } //Do nothing
-#endif
-#if !DISABLE_TSN
-                if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1200FirmwareAPI)
-                {
-                    ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
-                    return fwAPI.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
-                }
-                else if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1300FirmwareAPI)
-                {
-                    ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice?.FwAPI as ADIN1300FirmwareAPI;
-                    return fwAPI?.isFrameGenCheckerOngoing == true ? "Terminate" : "Generate";
-                }
-                else { } //Do nothing
-#endif
-                return null;
+                return _frameGenChecker.FrameGeneratorButtonText;
             }
+
             set
             {
                 if (value != null)
                 {
-                    _frameGeneratorButtonText = value;
-                    //_selectedDevice.Checker = value;
+                    _frameGenChecker.FrameGeneratorButtonText = value;
                 }
                 OnPropertyChanged(nameof(FrameGeneratorButtonText));
             }
         }
+
 
         public bool FrameGenRunning => true;
 
@@ -296,7 +313,7 @@ namespace ADIN.WPF.ViewModel
 
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                //FrameGeneratorButtonText = status;
+                FrameGeneratorButtonText = status;
                 OnPropertyChanged(nameof(FrameGeneratorButtonText));
             }));
         }

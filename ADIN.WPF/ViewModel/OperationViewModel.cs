@@ -212,7 +212,7 @@ namespace ADIN.WPF.ViewModel
                 return;
 
             IsCableDiagVisible = !obj;
-            IsTestModeSelected = obj;
+            //IsTestModeSelected = obj;
         }
     }
 }

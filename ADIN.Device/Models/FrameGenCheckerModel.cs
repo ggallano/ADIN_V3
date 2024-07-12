@@ -3,6 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 
 namespace ADIN.Device.Models
@@ -21,6 +22,7 @@ namespace ADIN.Device.Models
         public uint FrameBurst { get; set; }
         public FrameContentModel FrameContent { get; set; }
         public List<FrameContentModel> FrameContents { get; set; }
+        public string FrameGeneratorButtonText { get; set; }
         public uint FrameLength { get; set; }
         public FrameType SelectedFrameContent { get; set; }
         public string SrcMacAddress { get; set; }
