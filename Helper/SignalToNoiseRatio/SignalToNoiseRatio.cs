@@ -20,9 +20,8 @@ namespace Helper.SignalToNoiseRatio
             // where mse is the value from the register, and sym_pwr_exp is a constant 0.64423.
             // mse_db = 10 * log10((mse / 218) / sym_pwr_exp)
             double sym_pwr_exp = 0.64423;
-            double mse_db = 10 * Math.Log10((mseValue / Math.Pow(2, 18)) / sym_pwr_exp);
 
-            return mse_db;
+            return 10 * Math.Log10((mseValue / Math.Pow(2, 18)) / sym_pwr_exp);
         }
     }
 }
