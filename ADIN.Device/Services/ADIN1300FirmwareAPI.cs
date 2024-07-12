@@ -9,6 +9,7 @@ using ADIN.Device.Models;
 using ADIN.WPF.Models;
 using FTDIChip.Driver.Services;
 using Helper.Feedback;
+using Helper.SignalToNoiseRatio;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -231,6 +232,16 @@ namespace ADIN.Device.Services
 
         public string GetMseValue()
         {
+            double mseA_st = 0.0d;
+            double mseB_st = 0.0d;
+            double mseC_st = 0.0d;
+            double mseD_st = 0.0d;
+
+            double mseA_db = 0.0d;
+            double mseB_db = 0.0d;
+            double mseC_db = 0.0d;
+            double mseD_db = 0.0d;
+
             //if (_boardRev == BoardRevision.Rev0)
             //    return "N/A";
 
@@ -240,12 +251,26 @@ namespace ADIN.Device.Services
             // Formula:
             // where mse is the value from the register, and sym_pwr_exp is a constant 0.64423.
             // mse_db = 10 * log10((mse / 218) / sym_pwr_exp)
-            double mse = Convert.ToUInt32(ReadYodaRg("MseA"), 16);
-            double sym_pwr_exp = 0.64423;
-            double mse_db = 10 * Math.Log10((mse / Math.Pow(2, 18)) / sym_pwr_exp);
+            mseA_st = Convert.ToDouble(ReadYodaRg("MseA"));
+            mseA_db = SignalToNoiseRatio.GigabitCompute(mseA_st);
 
-            //OnMseValueChanged(mse_db.ToString("0.00") + " dB");
-            return $"{mse_db.ToString("0.00")} dB";
+            var resolvedHCD = (EthernetSpeeds)Convert.ToUInt32(ReadYodaRg("HcdTech"));
+
+            if ((resolvedHCD == EthernetSpeeds.SPEED_1000BASE_T_HD)
+             || (resolvedHCD == EthernetSpeeds.SPEED_1000BASE_T_FD))
+            {
+                mseB_st = Convert.ToUInt32(ReadYodaRg("MseB"), 16);
+                mseC_st = Convert.ToUInt32(ReadYodaRg("MseC"), 16);
+                mseD_st = Convert.ToUInt32(ReadYodaRg("MseD"), 16);
+
+                mseB_db = SignalToNoiseRatio.GigabitCompute(mseB_st);
+                mseC_db = SignalToNoiseRatio.GigabitCompute(mseC_st);
+                mseD_db = SignalToNoiseRatio.GigabitCompute(mseD_st);
+
+                return $"{mseA_db.ToString("0.00")} dB, {mseB_db.ToString("0.00")} dB, {mseC_db.ToString("0.00")} dB, {mseD_db.ToString("0.00")} dB";
+            }
+
+            return $"{mseA_db.ToString("0.00")} dB";
         }
 
         public string GetMseValue(BoardRevision boardRev)

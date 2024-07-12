@@ -9,6 +9,7 @@ using ADIN.WPF.Models;
 using FTDIChip.Driver.Services;
 using Helper.Feedback;
 using Helper.RegularExpression;
+using Helper.SignalToNoiseRatio;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -266,14 +267,8 @@ namespace ADIN.Device.Services
                 case BoardRevision.Rev0:
                     return "N/A";
                 case BoardRevision.Rev1:
-                    // Formula:
-                    // where mse is the value from the register, and sym_pwr_exp is a constant 0.64423.
-                    // mse_db = 10 * log10((mse / 218) / sym_pwr_exp)
-                    double mse = Convert.ToUInt32(ReadYodaRg("MSE_VAL"), 16);
-                    double sym_pwr_exp = 0.64423;
-                    double mse_db = 10 * Math.Log10((mse / Math.Pow(2, 18)) / sym_pwr_exp);
-
-                    //OnMseValueChanged(mse_db.ToString("0.00") + " dB");
+                    double mse_st = Convert.ToUInt32(ReadYodaRg("MSE_VAL"), 16);
+                    double mse_db = SignalToNoiseRatio.T1LCompute(mse_st);
                     return $"{mse_db.ToString("0.00")} dB";
                 default:
                     return "N/A";
