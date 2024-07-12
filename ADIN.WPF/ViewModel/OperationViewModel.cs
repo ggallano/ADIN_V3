@@ -75,9 +75,9 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsActiveLinkMonEnabled { get; } = Properties.Settings.Default.ActiveLinkMon;
 
-        public bool IsADIN1100Visible => !CheckGigabitBoard(_selectedDeviceStore.SelectedDevice.DeviceType);
+        public bool IsADIN1100Visible => !CheckGigabitBoard(_selectedDeviceStore.SelectedDevice?.DeviceType == null ? BoardType.ADIN1300 : BoardType.ADIN1100);
 
-        public bool IsADIN1300Visible => CheckGigabitBoard(_selectedDeviceStore.SelectedDevice.DeviceType);
+        public bool IsADIN1300Visible => CheckGigabitBoard(_selectedDeviceStore.SelectedDevice?.DeviceType == null ? BoardType.ADIN1300 : BoardType.ADIN1100);
 
         public bool IsADIN2111
         {
@@ -195,7 +195,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(IsClkPinControlVisible));
         }
 
-        private bool CheckGigabitBoard(BoardType boardType)
+        private bool CheckGigabitBoard(BoardType boardType = BoardType.ADIN1300)
         {
             bool result = false;
 
