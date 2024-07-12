@@ -9,9 +9,6 @@ using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
 using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.Threading;
 using System.Windows;
 
 namespace ADIN.WPF.ViewModel
@@ -169,6 +166,12 @@ namespace ADIN.WPF.ViewModel
 
             EnableTabs = true;
 
+            if (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1300
+             || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1200)
+            {
+                IsCableDiagVisible = _selectedDeviceStore.SelectedDevice.IsADIN1300CableDiagAvailable;
+            }
+
             if (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100
               || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1
               || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110
@@ -176,17 +179,6 @@ namespace ADIN.WPF.ViewModel
             {
                 IsCableDiagVisible = _selectedDeviceStore.SelectedDevice.IsADIN1100CableDiagAvailable;
             }
-
-            if (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1300
-              || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1200)
-            {
-                IsCableDiagVisible = _selectedDeviceStore.SelectedDevice.IsADIN1300CableDiagAvailable;
-            }
-
-            OnPropertyChanged(nameof(IsActiveLinkMonEnabled));
-            OnPropertyChanged(nameof(IsADIN1100Visible));
-            OnPropertyChanged(nameof(IsADIN1300Visible));
-            OnPropertyChanged(nameof(IsClkPinControlVisible));
 
             if ((_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
              || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110))
@@ -196,6 +188,11 @@ namespace ADIN.WPF.ViewModel
             }
             else
                 IsADIN2111 = false;
+
+            OnPropertyChanged(nameof(IsActiveLinkMonEnabled));
+            OnPropertyChanged(nameof(IsADIN1100Visible));
+            OnPropertyChanged(nameof(IsADIN1300Visible));
+            OnPropertyChanged(nameof(IsClkPinControlVisible));
         }
 
         private bool CheckGigabitBoard(BoardType boardType)

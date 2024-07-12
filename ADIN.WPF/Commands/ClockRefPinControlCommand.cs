@@ -13,11 +13,13 @@ namespace ADIN.WPF.Commands
     {
         private SelectedDeviceStore _selectedDeviceStore;
         private ClockPinControlViewModel _viewModel;
+        private object fwAPI;
 
         public ClockRefPinControlCommand(ClockPinControlViewModel clockPinControlViewModel, SelectedDeviceStore selectedDeviceStore)
         {
             _viewModel = clockPinControlViewModel;
             _selectedDeviceStore = selectedDeviceStore;
+
             _viewModel.PropertyChanged += _viewModel_PropertyChanged;
         }
 

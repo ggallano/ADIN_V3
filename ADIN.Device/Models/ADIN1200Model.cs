@@ -15,18 +15,16 @@ namespace ADIN.Device.Models
     public class ADIN1200Model : AbstractADINFactory
     {
         private IFTDIServices _ftdiService;
+        private ADIN1200FirmwareAPI _fwAPI;
+        private object _mainLock;
         private IRegisterService _registerService;
         private string registerJsonFile;
-        //private ObservableCollection<RegisterModel> registers;
-        //private uint _phyAddress;
-        private object _mainLock;
 
         public ADIN1200Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock, uint phyAddress)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
             _mainLock = mainLock;
-            //_phyAddress = 4;
             PhyAddress = phyAddress;
             DeviceType = BoardType.ADIN1200;
 
@@ -37,6 +35,7 @@ namespace ADIN.Device.Models
             DeviceStatus = new DeviceStatusADIN1200();
 
             FirmwareAPI = new ADIN1200FirmwareAPI(_ftdiService, Registers, PhyAddress, _mainLock);
+            _fwAPI = FirmwareAPI as ADIN1200FirmwareAPI;
 
             LinkProperties = new LinkPropertiesADIN1200();
             Loopback = new LoopbackADIN1200();
@@ -45,19 +44,21 @@ namespace ADIN.Device.Models
             TestMode = new TestModeADIN1200();
 
             GetInitialValuesLinkProperties();
-            //GetInitialValuesClockPinControl();
+            GetInitialValuesClockPinControl();
             GetInitialValuesLoopback();
             GetInitialValuesFrameGenChecker();
             GetInitialValuesTestMode();
         }
 
+        public override IFirmwareAPI FirmwareAPI { get; set; }
+
         private void GetInitialValuesClockPinControl()
         {
-            var GeClkRcvr125En = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("GeClkRcvr125En") == "1" ? true : false;
-            var GeClkFree125En = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("GeClkFree125En") == "1" ? true : false;
-            var GeClkHrtRcvrEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("GeClkHrtRcvrEn") == "1" ? true : false;
-            var GeClkHrtFreeEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("GeClkHrtFreeEn") == "1" ? true : false;
-            var GeClk25En = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("GeClk25En") == "1" ? true : false;
+            var GeClkRcvr125En = _fwAPI.RegisterRead("GeClkRcvr125En") == "1" ? true : false;
+            var GeClkFree125En = _fwAPI.RegisterRead("GeClkFree125En") == "1" ? true : false;
+            var GeClkHrtRcvrEn = _fwAPI.RegisterRead("GeClkHrtRcvrEn") == "1" ? true : false;
+            var GeClkHrtFreeEn = _fwAPI.RegisterRead("GeClkHrtFreeEn") == "1" ? true : false;
+            var GeClk25En = _fwAPI.RegisterRead("GeClk25En") == "1" ? true : false;
 
             if (!GeClkRcvr125En)
                 if (!GeClkFree125En)
@@ -100,26 +101,39 @@ namespace ADIN.Device.Models
                         if (!GeClkHrtFreeEn)
                             if (GeClk25En)
                                 ClockPinControl.GpClkPinControl = ClockPinControl.GpClkPinControls[5];
+        }
 
+        private void GetInitialValuesFrameGenChecker()
+        {
+            FrameGenChecker.EnableContinuousMode = _fwAPI.RegisterRead("FgContModeEn") == "1" ? true : false;
+            uint frameBurstH = Convert.ToUInt32(_fwAPI.RegisterRead("FgNfrmH")) * 65536;
+            uint frameBurstL = Convert.ToUInt32(_fwAPI.RegisterRead("FgNfrmL"));
+            FrameGenChecker.FrameBurst = frameBurstH + frameBurstL;
+            FrameGenChecker.FrameLength = Convert.ToUInt32(_fwAPI.RegisterRead("FgFrmLen"));
+            var FgCntrl = _fwAPI.RegisterRead("FgCntrl");
 
-            var GeRefClkEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("GeRefClkEn") == "1" ? true : false;
-
-            if (GeRefClkEn)
-                ClockPinControl.Clk25RefPnCtrl = ClockPinControl.Clk25RefPinControls[1];
-            else
-                ClockPinControl.Clk25RefPnCtrl = ClockPinControl.Clk25RefPinControls[0];
+            if (FgCntrl == "1")
+                FrameGenChecker.FrameContent = FrameGenChecker.FrameContents[0];
+            if (FgCntrl == "2")
+                FrameGenChecker.FrameContent = FrameGenChecker.FrameContents[1];
+            if (FgCntrl == "3")
+                FrameGenChecker.FrameContent = FrameGenChecker.FrameContents[2];
+            if (FgCntrl == "4")
+                FrameGenChecker.FrameContent = FrameGenChecker.FrameContents[3];
+            if (FgCntrl == "5")
+                FrameGenChecker.FrameContent = FrameGenChecker.FrameContents[4];
         }
 
         private void GetInitialValuesLinkProperties()
         {
-            LinkProperties.DownSpeedRetries = Convert.ToUInt32(((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("NumSpeedRetry"));
-            LinkProperties.IsAdvertise_100BASE_TX_FD = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("Fd100Adv") == "1" ? true : false;
-            LinkProperties.IsAdvertise_100BASE_TX_HD = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("Hd100Adv") == "1" ? true : false;
-            LinkProperties.IsAdvertise_10BASE_T_FD = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("Fd10Adv") == "1" ? true : false;
-            LinkProperties.IsAdvertise_10BASE_T_HD = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("Hd10Adv") == "1" ? true : false;
-            LinkProperties.IsAdvertise_EEE_100BASE_TX = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("Eee100Adv") == "1" ? true : false;
-            LinkProperties.IsDownSpeed_10BASE_T_HD = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("DnSpeedTo10En") == "1" ? true : false;
-            LinkProperties.SpeedMode = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("AutonegEn") == "1" ? LinkProperties.SpeedModes[0] : LinkProperties.SpeedModes[1];
+            LinkProperties.DownSpeedRetries = Convert.ToUInt32(_fwAPI.RegisterRead("NumSpeedRetry"));
+            LinkProperties.IsAdvertise_100BASE_TX_FD = _fwAPI.RegisterRead("Fd100Adv") == "1" ? true : false;
+            LinkProperties.IsAdvertise_100BASE_TX_HD = _fwAPI.RegisterRead("Hd100Adv") == "1" ? true : false;
+            LinkProperties.IsAdvertise_10BASE_T_FD = _fwAPI.RegisterRead("Fd10Adv") == "1" ? true : false;
+            LinkProperties.IsAdvertise_10BASE_T_HD = _fwAPI.RegisterRead("Hd10Adv") == "1" ? true : false;
+            LinkProperties.IsAdvertise_EEE_100BASE_TX = _fwAPI.RegisterRead("Eee100Adv") == "1" ? true : false;
+            LinkProperties.IsDownSpeed_10BASE_T_HD = _fwAPI.RegisterRead("DnSpeedTo10En") == "1" ? true : false;
+            LinkProperties.SpeedMode = _fwAPI.RegisterRead("AutonegEn") == "1" ? LinkProperties.SpeedModes[0] : LinkProperties.SpeedModes[1];
 
             LinkProperties.AdvertisedSpeeds.Add(LinkProperties.IsAdvertise_100BASE_TX_FD ? "SPEED_100BASE_TX_FD_SPEED" : "");
             LinkProperties.AdvertisedSpeeds.Add(LinkProperties.IsAdvertise_100BASE_TX_HD ? "SPEED_100BASE_TX_HD_SPEED" : "");
@@ -127,8 +141,8 @@ namespace ADIN.Device.Models
             LinkProperties.AdvertisedSpeeds.Add(LinkProperties.IsAdvertise_10BASE_T_HD ? "SPEED_10BASE_T_HD_SPEED" : "");
             LinkProperties.AdvertisedSpeeds.Add(LinkProperties.IsAdvertise_EEE_100BASE_TX ? "SPEED_100BASE_EEE_SPEED" : "");
 
-            var NrgPdEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("NrgPdEn") == "1" ? true : false;
-            var NrgPdTxEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("NrgPdTxEn") == "1" ? true : false;
+            var NrgPdEn = _fwAPI.RegisterRead("NrgPdEn") == "1" ? true : false;
+            var NrgPdTxEn = _fwAPI.RegisterRead("NrgPdTxEn") == "1" ? true : false;
 
             if (!NrgPdEn)
                 LinkProperties.EnergyDetectPowerDownMode = LinkProperties.EnergyDetectPowerDownModes[0];
@@ -141,9 +155,9 @@ namespace ADIN.Device.Models
                 if (NrgPdTxEn)
                     LinkProperties.EnergyDetectPowerDownMode = LinkProperties.EnergyDetectPowerDownModes[2];
 
-            var SpeedSelLsb = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("SpeedSelLsb") == "1" ? true : false;
-            var SpeedSelMsb = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("SpeedSelMsb") == "1" ? true : false;
-            var DplxMode = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("DplxMode") == "1" ? true : false;
+            var SpeedSelLsb = _fwAPI.RegisterRead("SpeedSelLsb") == "1" ? true : false;
+            var SpeedSelMsb = _fwAPI.RegisterRead("SpeedSelMsb") == "1" ? true : false;
+            var DplxMode = _fwAPI.RegisterRead("DplxMode") == "1" ? true : false;
 
             if (SpeedSelLsb)
                 if (SpeedSelMsb)
@@ -165,8 +179,8 @@ namespace ADIN.Device.Models
                     if (!DplxMode)
                         LinkProperties.ForcedSpeed = LinkProperties.ForcedSpeeds[0];
 
-            var AutoMdiEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("AutoMdiEn") == "1" ? true : false;
-            var ManMdix = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("ManMdix") == "1" ? true : false;
+            var AutoMdiEn = _fwAPI.RegisterRead("AutoMdiEn") == "1" ? true : false;
+            var ManMdix = _fwAPI.RegisterRead("ManMdix") == "1" ? true : false;
 
             if (AutoMdiEn)
                 LinkProperties.MDIX = LinkProperties.MDIXs[0];
@@ -182,70 +196,48 @@ namespace ADIN.Device.Models
 
         private void GetInitialValuesLoopback()
         {
-            var LoopbackEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("Loopback") == "1" ? true : false;
+            var LoopbackEn = _fwAPI.RegisterRead("Loopback") == "1" ? true : false;
 
             if (!LoopbackEn)
                 Loopback.SelectedLoopback = Loopback.Loopbacks[0];
 
             if (LoopbackEn)
-                if (((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("LbAllDigSel") == "1")
+                if (_fwAPI.RegisterRead("LbAllDigSel") == "1")
                     Loopback.SelectedLoopback = Loopback.Loopbacks[1];
 
             if (LoopbackEn)
-                if (((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("LbLdSel") == "1")
+                if (_fwAPI.RegisterRead("LbLdSel") == "1")
                     Loopback.SelectedLoopback = Loopback.Loopbacks[2];
 
             if (LoopbackEn)
-                if (((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("LbExtEn") == "1")
+                if (_fwAPI.RegisterRead("LbExtEn") == "1")
                     Loopback.SelectedLoopback = Loopback.Loopbacks[3];
 
             if (LoopbackEn)
-                if (((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("LbRemoteEn") == "1")
+                if (_fwAPI.RegisterRead("LbRemoteEn") == "1")
                     Loopback.SelectedLoopback = Loopback.Loopbacks[4];
 
-            Loopback.RxSuppression = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("IsolateRx") == "1" ? true : false;
-            Loopback.TxSuppression = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("LbTxSup") == "1" ? true : false;
+            Loopback.RxSuppression = _fwAPI.RegisterRead("IsolateRx") == "1" ? true : false;
+            Loopback.TxSuppression = _fwAPI.RegisterRead("LbTxSup") == "1" ? true : false;
         }
-
-        private void GetInitialValuesFrameGenChecker()
-        {
-            FrameGenChecker.EnableContinuousMode = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgContModeEn") == "1" ? true : false;
-            uint frameBurstH = Convert.ToUInt32(((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgNfrmH")) * 65536;
-            uint frameBurstL = Convert.ToUInt32(((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgNfrmL"));
-            FrameGenChecker.FrameBurst = frameBurstH + frameBurstL;
-            FrameGenChecker.FrameLength = Convert.ToUInt32(((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgFrmLen"));
-            var FgCntrl = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgCntrl");
-
-            if (FgCntrl == "1")
-                FrameGenChecker.FrameContent = FrameGenChecker.FrameContents[0];
-            if (FgCntrl == "2")
-                FrameGenChecker.FrameContent = FrameGenChecker.FrameContents[1];
-            if (FgCntrl == "3")
-                FrameGenChecker.FrameContent = FrameGenChecker.FrameContents[2];
-            if (FgCntrl == "4")
-                FrameGenChecker.FrameContent = FrameGenChecker.FrameContents[3];
-            if (FgCntrl == "5")
-                FrameGenChecker.FrameContent = FrameGenChecker.FrameContents[4];
-        }
-
         private void GetInitialValuesTestMode()
         {
-            var AutonegEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("AutonegEn") == "1" ? true : false;
-            var SpeedSelMsb = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("SpeedSelMsb") == "1" ? true : false;
-            var SpeedSelLsb = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("SpeedSelLsb") == "1" ? true : false;
-            var AutoMdiEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("AutoMdiEn") == "1" ? true : false;
-            var ManMdix = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("ManMdix") == "1" ? true : false;
-            var LbTxSup = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("LbTxSup") == "1" ? true : false;
-            var LoopbackEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("Loopback") == "1" ? true : false;
-            var LinkEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("LinkEn") == "1" ? true : false;
-            var DiagClkEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("DiagClkEn") == "1" ? true : false;
-            var FgFrmLen = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgFrmLen");
-            var FgContModeEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgContModeEn") == "1" ? true : false;
-            var FgCntrl = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgCntrl");
-            var FgNoHdr = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgNoHdr") == "1" ? true : false;
-            var FgNoFcs = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgNoFcs") == "1" ? true : false;
-            var FgEn = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("FgEn") == "1" ? true : false;
-            var B10TxTstMode = ((ADIN1200FirmwareAPI)FirmwareAPI).RegisterRead("B10TxTstMode");
+            var AutonegEn = _fwAPI.RegisterRead("AutonegEn") == "1" ? true : false;
+            var SpeedSelMsb = _fwAPI.RegisterRead("SpeedSelMsb") == "1" ? true : false;
+            var SpeedSelLsb = _fwAPI.RegisterRead("SpeedSelLsb") == "1" ? true : false;
+            var AutoMdiEn = _fwAPI.RegisterRead("AutoMdiEn") == "1" ? true : false;
+            var ManMdix = _fwAPI.RegisterRead("ManMdix") == "1" ? true : false;
+            var LbTxSup = _fwAPI.RegisterRead("LbTxSup") == "1" ? true : false;
+            var LoopbackEn = _fwAPI.RegisterRead("Loopback") == "1" ? true : false;
+            var LinkEn = _fwAPI.RegisterRead("LinkEn") == "1" ? true : false;
+            var DiagClkEn = _fwAPI.RegisterRead("DiagClkEn") == "1" ? true : false;
+            var FgFrmLen = _fwAPI.RegisterRead("FgFrmLen");
+            var FgContModeEn = _fwAPI.RegisterRead("FgContModeEn") == "1" ? true : false;
+            var FgCntrl = _fwAPI.RegisterRead("FgCntrl");
+            var FgNoHdr = _fwAPI.RegisterRead("FgNoHdr") == "1" ? true : false;
+            var FgNoFcs = _fwAPI.RegisterRead("FgNoFcs") == "1" ? true : false;
+            var FgEn = _fwAPI.RegisterRead("FgEn") == "1" ? true : false;
+            var B10TxTstMode = _fwAPI.RegisterRead("B10TxTstMode");
 
             if (!AutonegEn)
                 if (!SpeedSelMsb)
@@ -324,7 +316,5 @@ namespace ADIN.Device.Models
 
             TestMode.TestModeFrameLength = Convert.ToUInt32(FgFrmLen);
         }
-
-        public override IFirmwareAPI FirmwareAPI { get; set; }
     }
 }
