@@ -9,6 +9,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
     <UserControl.Resources>
+        <s:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+        
         <!--  DataContext is SeriesInfo for each legend row  -->
         <!--  This is not part of the example, but just to toggle features on and off such as  -->
         <!--  RenderableSeries.IsVisible and setting the SeriesValueModifier.IsSeriesValueModifierEnabled attached property  -->
@@ -60,11 +62,10 @@
         </DataTemplate>
 
         <Style x:Key="MajorGridLineStyle" TargetType="Line">
-            <Setter Property="Stroke" Value="#BFBFBF"/>
+            <Setter Property="Stroke" Value="{StaticResource chart.major.gridLine.stroke}"/>
         </Style>
         <Style x:Key="MinorGridLineStyle" TargetType="Line">
-            <!--<Setter Property="Stroke" Value="#55FFFFFF"/>-->
-            <Setter Property="Stroke" Value="#E4E4E4"/>
+            <Setter Property="Stroke" Value="{StaticResource chart.minor.gridLine.stroke}"/>
         </Style>
         <Style x:Key="MajorTickLineStyle" TargetType="Line">
             <Setter Property="Stroke" Value="Transparent"/>
