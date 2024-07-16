@@ -47,7 +47,6 @@ namespace ADIN.WPF.ViewModel
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
-            DeviceListingVM.HideCableDiagChanged += DeviceListingVM_HideCableDiagChanged;
         }
 
         public ClockPinControlViewModel ClockPinControlVM { get; set; }
@@ -178,6 +177,11 @@ namespace ADIN.WPF.ViewModel
               || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
             {
                 IsCableDiagVisible = _selectedDeviceStore.SelectedDevice.IsADIN1100CableDiagAvailable;
+
+                if (IsCableDiagVisible == false && IsCableDiagSelected == true)
+                {
+                    IsTestModeSelected = true;
+                }
             }
 
             if ((_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
@@ -204,15 +208,6 @@ namespace ADIN.WPF.ViewModel
                 result = true;
 
             return result;
-        }
-
-        private void DeviceListingVM_HideCableDiagChanged(bool obj)
-        {
-            if (_selectedDeviceStore.SelectedDevice == null)
-                return;
-
-            IsCableDiagVisible = !obj;
-            //IsTestModeSelected = obj;
         }
     }
 }
