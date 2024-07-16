@@ -26,7 +26,15 @@ namespace ADIN.Device.Models
         public ITestMode TestMode { get; set; }
         public ObservableCollection<RegisterModel> Registers { get; set; }
         public IDeviceStatus DeviceStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets ADIN1100 cable diag status results port 1.
+        /// </summary>
         public ITimeDomainReflectometry TimeDomainReflectometryPort1 { get; set; }
+
+        /// <summary>
+        /// Gets or sets ADIN1100 cable diag status results port 2.
+        /// </summary>
         public ITimeDomainReflectometry TimeDomainReflectometryPort2 { get; set; }
     }
 }

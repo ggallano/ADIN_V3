@@ -9,8 +9,6 @@ using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
 using System;
-using System.Globalization;
-using System.Threading;
 using System.Windows;
 
 namespace ADIN.WPF.ViewModel
@@ -23,8 +21,9 @@ namespace ADIN.WPF.ViewModel
         private bool _enableTabs = true;
         private bool _isAdin2111 = false;
         private bool _isCableDiagSelected;
-        private bool _isCableDiagVisible;
+        private bool _isCableDiagVisible = true;
         private bool _isTestModeSelected = false;
+
         public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore, IRegisterService registerService, ScriptService scriptService, object mainLock)
         {
             _selectedDeviceStore = selectedDeviceStore;
@@ -42,6 +41,7 @@ namespace ADIN.WPF.ViewModel
             TestModeVM = new TestModeViewModel(_selectedDeviceStore);
             DeviceStatusVM = new DeviceStatusViewModel(selectedDeviceStore, ftdiService, mainLock);
             RegisterAccessVM = new RegisterAccessViewModel(_selectedDeviceStore, navigationStore);
+            RunCableDiagnosticVM = new RunCableDiagViewModel(_selectedDeviceStore, mainLock);
             TDRVM = new TimeDomainReflectometryViewModel(_selectedDeviceStore, mainLock);
             StatusStripVM = new StatusStripViewModel(_selectedDeviceStore, scriptService);
 
@@ -61,6 +61,7 @@ namespace ADIN.WPF.ViewModel
         public bool EnableTabs
         {
             get { return _enableTabs; }
+
             set
             {
                 _enableTabs = value;
@@ -71,11 +72,17 @@ namespace ADIN.WPF.ViewModel
         public ExtraCommandsViewModel ExtraCommandsVM { get; set; }
 
         public FrameGenCheckerViewModel FrameGenCheckerVM { get; set; }
-        public StatusStripViewModel StatusStripVM { get; set; }
-        
+
+        public bool IsActiveLinkMonEnabled { get; } = Properties.Settings.Default.ActiveLinkMon;
+
+        public bool IsADIN1100Visible => !CheckGigabitBoard(_selectedDeviceStore.SelectedDevice.DeviceType);
+
+        public bool IsADIN1300Visible => CheckGigabitBoard(_selectedDeviceStore.SelectedDevice.DeviceType);
+
         public bool IsADIN2111
         {
             get { return _isAdin2111; }
+
             set
             {
                 _isAdin2111 = value;
@@ -86,6 +93,7 @@ namespace ADIN.WPF.ViewModel
         public bool IsCableDiagSelected
         {
             get { return _isCableDiagSelected; }
+
             set
             {
                 _isCableDiagSelected = value;
@@ -96,6 +104,7 @@ namespace ADIN.WPF.ViewModel
         public bool IsCableDiagVisible
         {
             get { return _isCableDiagVisible; }
+
             set
             {
                 _isCableDiagVisible = value;
@@ -106,12 +115,15 @@ namespace ADIN.WPF.ViewModel
         public bool IsTestModeSelected
         {
             get { return _isTestModeSelected; }
+
             set
             {
                 _isTestModeSelected = value;
                 OnPropertyChanged(nameof(IsTestModeSelected));
             }
         }
+
+        public bool IsClkPinControlVisible => _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1300 || _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1200;
 
         public LinkPropertiesViewModel LinkPropertiesVM { get; set; }
 
@@ -125,9 +137,13 @@ namespace ADIN.WPF.ViewModel
 
         public RegisterListingViewModel RegisterListingVM { get; set; }
 
+        public StatusStripViewModel StatusStripVM { get; set; }
+
         public TimeDomainReflectometryViewModel TDRVM { get; set; }
 
         public TestModeViewModel TestModeVM { get; set; }
+
+        public RunCableDiagViewModel RunCableDiagnosticVM { get; set; }
 
         private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
         {
@@ -143,15 +159,26 @@ namespace ADIN.WPF.ViewModel
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             if (_selectedDeviceStore.SelectedDevice == null)
+            {
+                EnableTabs = false;
                 return;
+            }
 
-            if (((_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100)
-                && (_selectedDeviceStore.SelectedDevice.BoardName != "DEMO-ADIN1100D2Z"))
-             || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110)
-             || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111))
-                IsCableDiagVisible = true;
-            else
-                IsCableDiagVisible = false;
+            EnableTabs = true;
+
+            if (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1300
+             || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1200)
+            {
+                IsCableDiagVisible = _selectedDeviceStore.SelectedDevice.IsADIN1300CableDiagAvailable;
+            }
+
+            if (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100
+              || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1
+              || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110
+              || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
+            {
+                IsCableDiagVisible = _selectedDeviceStore.SelectedDevice.IsADIN1100CableDiagAvailable;
+            }
 
             if ((_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
              || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110))
@@ -162,10 +189,21 @@ namespace ADIN.WPF.ViewModel
             else
                 IsADIN2111 = false;
 
-            if ((!IsCableDiagVisible) && IsCableDiagSelected)
-            {
-                IsTestModeSelected = true;
-            }
+            OnPropertyChanged(nameof(IsActiveLinkMonEnabled));
+            OnPropertyChanged(nameof(IsADIN1100Visible));
+            OnPropertyChanged(nameof(IsADIN1300Visible));
+            OnPropertyChanged(nameof(IsClkPinControlVisible));
+        }
+
+        private bool CheckGigabitBoard(BoardType boardType = BoardType.ADIN1300)
+        {
+            bool result = false;
+
+            if (boardType == BoardType.ADIN1300
+             || boardType == BoardType.ADIN1200)
+                result = true;
+
+            return result;
         }
 
         private void DeviceListingVM_HideCableDiagChanged(bool obj)

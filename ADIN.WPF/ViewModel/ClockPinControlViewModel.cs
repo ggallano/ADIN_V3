@@ -28,27 +28,70 @@ namespace ADIN.WPF.ViewModel
             ClkPnCtrlCmd_HrtFree = new ClockPinControlCommand(this, selectedDeviceStore);
             ClkPnCtrlCmd_25Mhz = new ClockPinControlCommand(this, selectedDeviceStore);
 
+            Clk25RefPnCtrlCmd_None = new ClockRefPinControlCommand(this, selectedDeviceStore);
+            Clk25RefPnCtrlCmd_25Mhz = new ClockRefPinControlCommand(this, selectedDeviceStore);
+
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
         }
 
-        public ICommand ClkPnCtrlCmd_None { get; set; }
-        public ICommand ClkPnCtrlCmd_Rcvr125Mhz { get; set; }
-        public ICommand ClkPnCtrlCmd_Free125Mhz { get; set; }
-        public ICommand ClkPnCtrlCmd_HrtRcvr { get; set; }
-        public ICommand ClkPnCtrlCmd_HrtFree { get; set; }
-        public ICommand ClkPnCtrlCmd_25Mhz { get; set; }
-
-        public string SelectedGpClk
+        public bool Clk25RefPinPresent
         {
-            get { return _clockPinControl?.GpClkPinControl; }
-            set
+            get
             {
-                _clockPinControl.GpClkPinControl = value;
-                OnPropertyChanged(nameof(SelectedGpClk));
+                return _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1300;
             }
         }
 
-        public List<string> GpClkPinControls => _clockPinControl?.GpClkPinControls;
+        public ICommand Clk25RefPnCtrlCmd_25Mhz { get; set; }
+
+        public ICommand Clk25RefPnCtrlCmd_None { get; set; }
+
+        public ICommand ClkPnCtrlCmd_25Mhz { get; set; }
+
+        public ICommand ClkPnCtrlCmd_Free125Mhz { get; set; }
+
+        public ICommand ClkPnCtrlCmd_HrtFree { get; set; }
+
+        public ICommand ClkPnCtrlCmd_HrtRcvr { get; set; }
+
+        public ICommand ClkPnCtrlCmd_None { get; set; }
+
+        public ICommand ClkPnCtrlCmd_Rcvr125Mhz { get; set; }
+
+        public bool IsClk25RefPnCtrlCmd_25Mhz { get; set; }
+
+        public bool IsClk25RefPnCtrlCmd_None { get; set; } = true;
+
+        public bool IsClkPnCtrlCmd_25Mhz { get; set; }
+
+        public bool IsClkPnCtrlCmd_Free125Mhz { get; set; }
+
+        public bool IsClkPnCtrlCmd_HrtFree { get; set; }
+
+        public bool IsClkPnCtrlCmd_HrtRcvr { get; set; }
+
+        public bool IsClkPnCtrlCmd_None { get; set; } = true;
+
+        public bool IsClkPnCtrlCmd_Rcvr125Mhz { get; set; }
+
+        public string SelectedClk25RefPnCtrl
+        {
+            set
+            {
+                _clockPinControl.Clk25RefPnCtrl = value;
+                SetClkRefPinCntrl(value);
+            }
+        }
+
+        public string SelectedGpClk
+        {
+            set
+            {
+                _clockPinControl.GpClkPinControl = value;
+                SetClkPinCntrl(value);
+            }
+        }
+
         private IClockPinControl _clockPinControl => _selectedDeviceStore.SelectedDevice?.ClockPinControl;
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
@@ -56,8 +99,93 @@ namespace ADIN.WPF.ViewModel
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 
-            OnPropertyChanged(nameof(SelectedGpClk));
-            OnPropertyChanged(nameof(GpClkPinControls));
+            if (_selectedDeviceStore.SelectedDevice.DeviceType != BoardType.ADIN1300
+             && _selectedDeviceStore.SelectedDevice.DeviceType != BoardType.ADIN1200)
+                return;
+
+            SetClkPinCntrl(_clockPinControl.GpClkPinControl);
+            SetClkRefPinCntrl(_clockPinControl.Clk25RefPnCtrl);
+            OnPropertyChanged(nameof(Clk25RefPinPresent));
+        }
+
+        private void SetClkPinCntrl(string clkPinCntrl)
+        {
+            switch (clkPinCntrl)
+            {
+                case "125 MHz PHY Recovered":
+                    IsClkPnCtrlCmd_25Mhz = false;
+                    IsClkPnCtrlCmd_Free125Mhz = false;
+                    IsClkPnCtrlCmd_HrtFree = false;
+                    IsClkPnCtrlCmd_HrtRcvr = false;
+                    IsClkPnCtrlCmd_None = false;
+                    IsClkPnCtrlCmd_Rcvr125Mhz = true;
+                    break;
+                case "125 MHz PHY Free Running":
+                    IsClkPnCtrlCmd_25Mhz = false;
+                    IsClkPnCtrlCmd_Free125Mhz = true;
+                    IsClkPnCtrlCmd_HrtFree = false;
+                    IsClkPnCtrlCmd_HrtRcvr = false;
+                    IsClkPnCtrlCmd_None = false;
+                    IsClkPnCtrlCmd_Rcvr125Mhz = false;
+                    break;
+                case "Recovered HeartBeat":
+                    IsClkPnCtrlCmd_25Mhz = false;
+                    IsClkPnCtrlCmd_Free125Mhz = false;
+                    IsClkPnCtrlCmd_HrtFree = false;
+                    IsClkPnCtrlCmd_HrtRcvr = true;
+                    IsClkPnCtrlCmd_None = false;
+                    IsClkPnCtrlCmd_Rcvr125Mhz = false;
+                    break;
+                case "Free Running HeartBeat":
+                    IsClkPnCtrlCmd_25Mhz = false;
+                    IsClkPnCtrlCmd_Free125Mhz = false;
+                    IsClkPnCtrlCmd_HrtFree = true;
+                    IsClkPnCtrlCmd_HrtRcvr = false;
+                    IsClkPnCtrlCmd_None = false;
+                    IsClkPnCtrlCmd_Rcvr125Mhz = false;
+                    break;
+                case "25 MHz Reference":
+                    IsClkPnCtrlCmd_25Mhz = true;
+                    IsClkPnCtrlCmd_Free125Mhz = false;
+                    IsClkPnCtrlCmd_HrtFree = false;
+                    IsClkPnCtrlCmd_HrtRcvr = false;
+                    IsClkPnCtrlCmd_None = false;
+                    IsClkPnCtrlCmd_Rcvr125Mhz = false;
+                    break;
+                default:
+                    IsClkPnCtrlCmd_25Mhz = false;
+                    IsClkPnCtrlCmd_Free125Mhz = false;
+                    IsClkPnCtrlCmd_HrtFree = false;
+                    IsClkPnCtrlCmd_HrtRcvr = false;
+                    IsClkPnCtrlCmd_None = true;
+                    IsClkPnCtrlCmd_Rcvr125Mhz = false;
+                    break;
+            }
+
+            OnPropertyChanged(nameof(IsClkPnCtrlCmd_None));
+            OnPropertyChanged(nameof(IsClkPnCtrlCmd_Rcvr125Mhz));
+            OnPropertyChanged(nameof(IsClkPnCtrlCmd_Free125Mhz));
+            OnPropertyChanged(nameof(IsClkPnCtrlCmd_HrtRcvr));
+            OnPropertyChanged(nameof(IsClkPnCtrlCmd_HrtFree));
+            OnPropertyChanged(nameof(IsClkPnCtrlCmd_25Mhz));
+        }
+
+        private void SetClkRefPinCntrl(string clkRefPinCntrl)
+        {
+            switch (clkRefPinCntrl)
+            {
+                case "25 MHz Reference":
+                    IsClk25RefPnCtrlCmd_None = false;
+                    IsClk25RefPnCtrlCmd_25Mhz = true;
+                    break;
+                default:
+                    IsClk25RefPnCtrlCmd_None = true;
+                    IsClk25RefPnCtrlCmd_25Mhz = false;
+                    break;
+            }
+
+            OnPropertyChanged(nameof(IsClk25RefPnCtrlCmd_25Mhz));
+            OnPropertyChanged(nameof(IsClk25RefPnCtrlCmd_None));
         }
     }
 }

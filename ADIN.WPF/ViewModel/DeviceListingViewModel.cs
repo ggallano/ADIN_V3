@@ -88,6 +88,7 @@ namespace ADIN.WPF.ViewModel
         public bool EnableSelectDevice
         {
             get { return _enableSelectDevice; }
+
             set
             {
                 _enableSelectDevice = value;
@@ -98,6 +99,7 @@ namespace ADIN.WPF.ViewModel
         public FeedbackModel Feedback
         {
             get { return _feedback; }
+
             set
             {
                 _feedback = value;
@@ -113,6 +115,7 @@ namespace ADIN.WPF.ViewModel
         public DeviceListingItemViewModel SelectedDeviceListingItemViewModel
         {
             get { return _selectedDeviceListingItemViewModel; }
+
             set
             {
                 lock (_mainLock)
@@ -122,7 +125,7 @@ namespace ADIN.WPF.ViewModel
                     if (value != null)
                     {
                         _selectedDeviceStore.SelectedDevice = _selectedDeviceListingItemViewModel.Device;
-                        SetCableDiagnosticVisibility();
+                        CheckCableDiagT1L();
                         _ftdiService.Open(_selectedDeviceStore.SelectedDevice.SerialNumber);
                     }
                     else
@@ -193,6 +196,7 @@ namespace ADIN.WPF.ViewModel
                         RemoveDevice();
                         return;
                     }
+
                     if (_ftdiService.GetSerialNumber() != string.Empty)
                     {
                         RemoveDevice();
@@ -334,9 +338,9 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        private void SetCableDiagnosticVisibility()
+        private void CheckCableDiagT1L()
         {
-            if (!_selectedDeviceStore.SelectedDevice.IsCableDiagAvailable
+            if (!_selectedDeviceStore.SelectedDevice.IsADIN1100CableDiagAvailable
                          && !_selectedDeviceStore.SelectedDevice.CableDiagOneTimePopUp
                          && _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100)
             {
@@ -346,7 +350,7 @@ namespace ADIN.WPF.ViewModel
                 _logActivityViewModel.SetFeedback(_feedback, false);
             }
 
-            if (!_selectedDeviceStore.SelectedDevice.IsCableDiagAvailable
+            if (!_selectedDeviceStore.SelectedDevice.IsADIN1100CableDiagAvailable
              && _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100)
             {
                 HideCableDiagChanged?.Invoke(true);

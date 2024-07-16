@@ -189,6 +189,8 @@
     <Compile Include="Commands\CableDiag\TDRManualCommand.cs" />
     <Compile Include="Commands\CableDiag\TDRSaveCommand.cs" />
     <Compile Include="Commands\ClearLogCommand.cs" />
+    <Compile Include="Commands\ClockRefPinControlCommand.cs" />
+    <Compile Include="Commands\DiagnoseCommand.cs" />
     <Compile Include="Commands\RemoteLoopbackCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\DisableLinkCommand.cs" />
@@ -251,10 +253,14 @@
     <Compile Include="ViewModel\OperationViewModel.cs" />
     <Compile Include="ViewModel\RegisterAccessViewModel.cs" />
     <Compile Include="ViewModel\RegisterListingViewModel.cs" />
+    <Compile Include="ViewModel\RunCableDiagViewModel.cs" />
     <Compile Include="ViewModel\StatusStripViewModel.cs" />
     <Compile Include="ViewModel\TestModeViewModel.cs" />
     <Compile Include="ViewModel\TimeDomainReflectometryViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="View\ActiveLinkMonitoringView.xaml.cs">
+      <DependentUpon>ActiveLinkMonitoringView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\FrameGenCheckerStatusView.xaml.cs">
       <DependentUpon>FrameGenCheckerStatusView.xaml</DependentUpon>
     </Compile>
@@ -272,6 +278,9 @@
     </Compile>
     <Compile Include="View\LoopbackView.xaml.cs">
       <DependentUpon>LoopbackView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RunCableDiagView.xaml.cs">
+      <DependentUpon>RunCableDiagView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\StatusStripView.xaml.cs">
       <DependentUpon>StatusStripView.xaml</DependentUpon>
@@ -392,6 +401,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\ActiveLinkMonitoringView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\FrameGenCheckerStatusView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -413,6 +426,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\LoopbackView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\RunCableDiagView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

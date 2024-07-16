@@ -76,6 +76,7 @@
     <Compile Include="SaveToFile\IFileWriter.cs" />
     <Compile Include="SaveToFile\CsvFileWriter.cs" />
     <Compile Include="SaveToFile\XmlFileWriter.cs" />
+    <Compile Include="SignalToNoiseRatio\SignalToNoiseRatio.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ADI.Register\ADI.Register.csproj">

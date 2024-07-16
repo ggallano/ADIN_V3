@@ -9,6 +9,7 @@ using ADIN.Device.Models;
 using ADIN.WPF.Models;
 using FTDIChip.Driver.Services;
 using Helper.Feedback;
+using Helper.SignalToNoiseRatio;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -47,6 +48,9 @@ namespace ADIN.Device.Services
         public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
+
+        public event EventHandler<List<string>> GigabitCableDiagCompleted;
+
         public bool isFrameGenCheckerOngoing { get; set; } = false;
 
         public void AdvertisedForcedSpeed(string advFrcSpd)
@@ -89,12 +93,12 @@ namespace ADIN.Device.Services
             if (isDisabledLinking)
             {
                 WriteYodaRg("LinkEn", 0);
-                FeedbackLog("disable Linking", FeedbackType.Info);
+                FeedbackLog("Disable linking", FeedbackType.Info);
             }
             else
             {
                 WriteYodaRg("LinkEn", 1);
-                FeedbackLog("enable Linking", FeedbackType.Info);
+                FeedbackLog("Enable linking", FeedbackType.Info);
             }
         }
 
@@ -228,6 +232,16 @@ namespace ADIN.Device.Services
 
         public string GetMseValue()
         {
+            double mseA_st = 0.0d;
+            double mseB_st = 0.0d;
+            double mseC_st = 0.0d;
+            double mseD_st = 0.0d;
+
+            double mseA_db = 0.0d;
+            double mseB_db = 0.0d;
+            double mseC_db = 0.0d;
+            double mseD_db = 0.0d;
+
             //if (_boardRev == BoardRevision.Rev0)
             //    return "N/A";
 
@@ -237,12 +251,26 @@ namespace ADIN.Device.Services
             // Formula:
             // where mse is the value from the register, and sym_pwr_exp is a constant 0.64423.
             // mse_db = 10 * log10((mse / 218) / sym_pwr_exp)
-            double mse = Convert.ToUInt32(ReadYodaRg("MseA"), 16);
-            double sym_pwr_exp = 0.64423;
-            double mse_db = 10 * Math.Log10((mse / Math.Pow(2, 18)) / sym_pwr_exp);
+            mseA_st = Convert.ToDouble(ReadYodaRg("MseA"));
+            mseA_db = SignalToNoiseRatio.GigabitCompute(mseA_st);
 
-            //OnMseValueChanged(mse_db.ToString("0.00") + " dB");
-            return $"{mse_db.ToString("0.00")} dB";
+            var resolvedHCD = (EthernetSpeeds)Convert.ToUInt32(ReadYodaRg("HcdTech"));
+
+            if ((resolvedHCD == EthernetSpeeds.SPEED_1000BASE_T_HD)
+             || (resolvedHCD == EthernetSpeeds.SPEED_1000BASE_T_FD))
+            {
+                mseB_st = Convert.ToUInt32(ReadYodaRg("MseB"), 16);
+                mseC_st = Convert.ToUInt32(ReadYodaRg("MseC"), 16);
+                mseD_st = Convert.ToUInt32(ReadYodaRg("MseD"), 16);
+
+                mseB_db = SignalToNoiseRatio.GigabitCompute(mseB_st);
+                mseC_db = SignalToNoiseRatio.GigabitCompute(mseC_st);
+                mseD_db = SignalToNoiseRatio.GigabitCompute(mseD_st);
+
+                return $"{mseA_db.ToString("0.00")} dB, {mseB_db.ToString("0.00")} dB, {mseC_db.ToString("0.00")} dB, {mseD_db.ToString("0.00")} dB";
+            }
+
+            return $"{mseA_db.ToString("0.00")} dB";
         }
 
         public string GetMseValue(BoardRevision boardRev)
@@ -1263,6 +1291,7 @@ namespace ADIN.Device.Services
 
             return value;
         }
+
         private void SetContinuousMode(bool isEnable, uint frameBurst)
         {
             if (isEnable)
@@ -1426,6 +1455,88 @@ namespace ADIN.Device.Services
             catch (NullReferenceException)
             {
                 FeedbackLog("Script is empty/has invalid register address/input value.", FeedbackType.Error);
+            }
+        }
+
+        private bool cablediagnosticsRunning;
+
+        public void RunCableDiagnostics(bool enablecrosspairfaultchecking)
+        {
+            this.cablediagnosticsRunning = true;
+            if (enablecrosspairfaultchecking)
+            {
+                this.FeedbackLog("Cross Pair Checking enabled.", FeedbackType.Info);
+                this.WriteYodaRg("CdiagXpairDis", 0);
+            }
+            else
+            {
+                this.FeedbackLog("Cross Pair Checking disabled.", FeedbackType.Info);
+                this.WriteYodaRg("CdiagXpairDis", 1);
+            }
+
+            this.WriteYodaRg("CdiagRun", 1);
+            this.FeedbackLog("Running automated cable diagnostics", FeedbackType.Info);
+        }
+
+        public void CableDiagnosticsStatus()
+        {
+            uint cdi_st = uint.Parse(this.ReadYodaRg("CdiagRun"));
+            if (this.cablediagnosticsRunning && (cdi_st == 0))
+            {
+                this.cablediagnosticsRunning = false;
+                this.FeedbackLog("Cable Diagnostics have completed", FeedbackType.Info);
+
+                var diagInfoRegisters = new List<string>() { "CdiagRslt0Gd", "CdiagRslt1Gd", "CdiagRslt2Gd", "CdiagRslt3Gd" };
+                var pairs = new List<string>() { "0", "1", "2", "3" };
+
+                List<string> cableDiagnosticsStatus = new List<string>();
+
+                int idx = 0;
+                foreach (var bitField in diagInfoRegisters)
+                {
+                    uint bitFieldValue = uint.Parse(this.ReadYodaRg(bitField));
+
+                    if (bitFieldValue == 0x01)
+                    {
+                        cableDiagnosticsStatus.Add($"Pair{idx} is well terminated.");
+                    }
+                    idx++;
+                }
+
+                uint distance;
+                foreach (var pair in pairs)
+                {
+
+                    try
+                    {
+                        distance = uint.Parse(this.ReadYodaRg($"CdiagFltDist{pair}"));
+                        if (distance != 0xFF)
+                        {
+                            cableDiagnosticsStatus.Add(string.Format("Distance to fault on pair {0} is {1} m.", pair, distance));
+                        }
+                    }
+                    catch (ArgumentException e)
+                    {
+                        /* This register does not exist in this device */
+                    }
+                }
+            }
+        }
+
+        public void SetClk25RefPinControl(string clk25RefPinCtrl)
+        {
+            
+
+            switch (clk25RefPinCtrl)
+            {
+                case "25 MHz Reference":
+                    this.WriteYodaRg("GeRefClkEn", 1);
+                    _feedbackMessage = "PHY 25 MHz reference clock output on REF_CLK pin";
+                    break;
+                default:
+                    this.WriteYodaRg("GeRefClkEn", 0);
+                    _feedbackMessage = "clock output on REF_CLK disabled";
+                    break;
             }
         }
     }
