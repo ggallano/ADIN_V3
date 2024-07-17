@@ -100,13 +100,13 @@ namespace ADIN.Device.Models
 
         private void GetLoopbackValue()
         {
-            var AN_EN = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_EN") == "1" ? true : false;
-            var AN_FRC_MODE_EN = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_FRC_MODE_EN") == "1" ? true : false;
-            var B10L_LB_PMA_LOC_EN = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("B10L_LB_PMA_LOC_EN") == "1" ? true : false;
-            var B10L_LB_PCS_EN = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("B10L_LB_PCS_EN") == "1" ? true : false;
-            var MAC_IF_LB_EN = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("MAC_IF_LB_EN") == "1" ? true : false;
-            var MAC_IF_REM_LB_EN = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("MAC_IF_REM_LB_EN") == "1" ? true : false;
-            var RMII_TXD_CHK_EN = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("RMII_TXD_CHK_EN") == "1" ? true : false;
+            var AN_EN = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("AN_EN") == "1" ? true : false;
+            var AN_FRC_MODE_EN = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("AN_FRC_MODE_EN") == "1" ? true : false;
+            var B10L_LB_PMA_LOC_EN = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("B10L_LB_PMA_LOC_EN") == "1" ? true : false;
+            var B10L_LB_PCS_EN = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("B10L_LB_PCS_EN") == "1" ? true : false;
+            var MAC_IF_LB_EN = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("MAC_IF_LB_EN") == "1" ? true : false;
+            var MAC_IF_REM_LB_EN = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("MAC_IF_REM_LB_EN") == "1" ? true : false;
+            var RMII_TXD_CHK_EN = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("RMII_TXD_CHK_EN") == "1" ? true : false;
 
             LoopbackModel result = null;
 
@@ -165,8 +165,8 @@ namespace ADIN.Device.Models
                                         result = Loopback.Loopbacks[0];
 
             Loopback.SelectedLoopback = result;
-            Loopback.TxSuppression = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("MAC_IF_LB_TX_SUP_EN") == "1" ? true : false;
-            Loopback.RxSuppression = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("MAC_IF_REM_LB_RX_SUP_EN") == "1" ? true : false;
+            Loopback.TxSuppression = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("MAC_IF_LB_TX_SUP_EN") == "1" ? true : false;
+            Loopback.RxSuppression = ((ADIN1110FirmwareAPI)FirmwareAPI).RegisterRead("MAC_IF_REM_LB_RX_SUP_EN") == "1" ? true : false;
         }
         private void GetTDRValue()
         {
