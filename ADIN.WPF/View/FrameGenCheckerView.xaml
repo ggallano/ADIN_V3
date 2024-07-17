@@ -36,10 +36,10 @@
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Column="0" Text="Number of Frames in Burst" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" Style="{StaticResource TextBlockstyle}"/>
                         <TextBox Grid.Column="1" Text="{Binding FrameBurst_Value, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" BorderThickness="0.5" Background="Transparent" Width="100" HorizontalAlignment="Right" HorizontalContentAlignment="Center"/>
-                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 0 -10">
+                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="-1.5 0 0 -10">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*" MinWidth="14"/>
+                                    <ColumnDefinition Width="1*" MinWidth="17"/>
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="5*"/>
                                     <ColumnDefinition Width="5*"/>
@@ -50,7 +50,7 @@
                                     <ColumnDefinition Width="5*"/>
                                     <ColumnDefinition Width="3*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label HorizontalAlignment="Center" Grid.Column="0" Content="1"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="0" Content="0"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="2" Content="15"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="3" Content="255"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="4" Content="4,095"/>
@@ -75,10 +75,10 @@
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Column="0" Text="Frame Length" Style="{StaticResource TextBlockstyle}"/>
                         <TextBox Grid.Column="1" HorizontalAlignment="Right" Text="{Binding FrameLength_Value, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Background="Transparent" Width="50" HorizontalContentAlignment="Center"/>
-                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 0 -10">
+                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="-1.5 0 0 -10">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*" MinWidth="14"/>
+                                    <ColumnDefinition Width="1*" MinWidth="17"/>
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="5*"/>
                                     <ColumnDefinition Width="5*"/>
@@ -89,7 +89,7 @@
                                     <ColumnDefinition Width="5*"/>
                                     <ColumnDefinition Width="3*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label HorizontalAlignment="Center" Grid.Column="0" Content="1"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="0" Content="0"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="2" Content="3"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="3" Content="15"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="4" Content="63"/>
@@ -136,10 +136,10 @@
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Column="0" Text="Number of Frames in Burst" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" Style="{StaticResource TextBlockstyle}"/>
                         <TextBox Grid.Column="1" Text="{Binding FrameBurst_Value, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" BorderThickness="0.5" Background="Transparent" Width="100" HorizontalAlignment="Right" HorizontalContentAlignment="Center"/>
-                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 0 -10">
+                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="-1.5 0 0 -10">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*" MinWidth="14"/>
+                                    <ColumnDefinition Width="1*" MinWidth="17"/>
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="5*"/>
                                     <ColumnDefinition Width="5*"/>
@@ -150,7 +150,7 @@
                                     <ColumnDefinition Width="5*"/>
                                     <ColumnDefinition Width="3*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label HorizontalAlignment="Center" Grid.Column="0" Content="1"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="0" Content="0"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="2" Content="15"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="3" Content="255"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="4" Content="4,095"/>
@@ -175,10 +175,10 @@
                         </Grid.RowDefinitions>
                         <TextBlock Grid.Column="0" Text="Frame Length" Style="{StaticResource TextBlockstyle}"/>
                         <TextBox Grid.Column="1" HorizontalAlignment="Right" Text="{Binding FrameLength_Value, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Background="Transparent" Width="50" HorizontalContentAlignment="Center"/>
-                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 0 -10">
+                        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="-1.5 0 0 -10">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1*" MinWidth="14"/>
+                                    <ColumnDefinition Width="1*" MinWidth="17"/>
                                     <ColumnDefinition Width="2*"/>
                                     <ColumnDefinition Width="5*"/>
                                     <ColumnDefinition Width="5*"/>
@@ -189,7 +189,7 @@
                                     <ColumnDefinition Width="5*"/>
                                     <ColumnDefinition Width="3*"/>
                                 </Grid.ColumnDefinitions>
-                                <Label HorizontalAlignment="Center" Grid.Column="0" Content="1"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="0" Content="0"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="2" Content="3"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="3" Content="15"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="4" Content="63"/>

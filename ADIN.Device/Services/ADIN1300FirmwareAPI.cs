@@ -316,7 +316,7 @@ namespace ADIN.Device.Services
 
             if (this.ReadYodaRg("Fd1000Adv") == "1")
             {
-                localSpeeds.Add("SPEED_1000BASE_TX_FD_SPEED");
+                localSpeeds.Add("SPEED_1000BASE_T_FD_SPEED");
             }
             else
             {
@@ -325,7 +325,7 @@ namespace ADIN.Device.Services
 
             if (this.ReadYodaRg("Hd1000Adv") == "1")
             {
-                localSpeeds.Add("SPEED_1000BASE_TX_HD_SPEED");
+                localSpeeds.Add("SPEED_1000BASE_T_HD_SPEED");
             }
             else
             {
