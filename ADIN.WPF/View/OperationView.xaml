@@ -139,7 +139,7 @@
                                         <local:TimeDomainReflectometry DataContext="{Binding TDRVM}"/>
                                     </TabItem>
                                     <TabItem Header="Active Link Monitoring" Style="{StaticResource TabItemStyle}">
-                                        <local:ActiveLinkMonitoringView/>
+                                        <local:ActiveLinkMonitoringView DataContext="{Binding ActiveLinkMonVM}"/>
                                     </TabItem>
                                 </TabControl>
                             </Grid>

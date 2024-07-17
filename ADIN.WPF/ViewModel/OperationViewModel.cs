@@ -43,11 +43,17 @@ namespace ADIN.WPF.ViewModel
             RegisterAccessVM = new RegisterAccessViewModel(_selectedDeviceStore, navigationStore);
             RunCableDiagnosticVM = new RunCableDiagViewModel(_selectedDeviceStore, mainLock);
             TDRVM = new TimeDomainReflectometryViewModel(_selectedDeviceStore, mainLock);
+
+            if (Properties.Settings.Default.ActiveLinkMon)
+                ActiveLinkMonVM = new ActiveLinkMonViewModel(_selectedDeviceStore, mainLock);
+
             StatusStripVM = new StatusStripViewModel(_selectedDeviceStore, scriptService);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
         }
+
+        public ActiveLinkMonViewModel ActiveLinkMonVM { get; set; }
 
         public ClockPinControlViewModel ClockPinControlVM { get; set; }
 

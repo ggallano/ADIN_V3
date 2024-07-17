@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
              xmlns:s="http://schemas.abtsoftware.co.uk/scichart"
+             xmlns:converter="clr-namespace:ADIN.WPF.Converters"
              xmlns:local="clr-namespace:ADIN.WPF.View"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
@@ -145,7 +146,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding TitleHeaderVisible}">
                     <TextBlock Style="{StaticResource TextBlockHeader1Style}" Text="Active Link Monitoring" Margin="0 0 0 15"/>
                 </Grid>
                 <Grid Grid.Column="0" Grid.Row="3">

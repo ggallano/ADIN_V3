@@ -51,6 +51,8 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.PortNumChanged += _selectedDeviceStore_PortNumChanged;
         }
 
+        public bool TitleHeaderVisible => !Properties.Settings.Default.ActiveLinkMon;
+
         public string BusyContent
         {
             get { return _busyContent; }
