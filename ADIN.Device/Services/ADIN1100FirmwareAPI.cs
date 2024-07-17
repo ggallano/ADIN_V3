@@ -571,6 +571,11 @@ namespace ADIN.Device.Services
         {
             foreach (var register in _registers)
             {
+                // This condition will skip reading the value for FG_DONE due to conflict in 
+                // FrameGenChecker operation it does not terminate properly because the flag was already at zero value.
+                if (register.Name == "FG_DONE")
+                    continue;
+
                 register.Value = ReadYodaRg(register.Address);
             }
             Debug.WriteLine("ReadRegisters Done");
