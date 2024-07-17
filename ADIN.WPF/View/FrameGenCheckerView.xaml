@@ -51,10 +51,13 @@
                                     <ColumnDefinition Width="3*"/>
                                 </Grid.ColumnDefinitions>
                                 <Label HorizontalAlignment="Center" Grid.Column="0" Content="0"/>
-                                <Label HorizontalAlignment="Center" Grid.Column="2" Content="15"/>
-                                <Label HorizontalAlignment="Center" Grid.Column="3" Content="255"/>
-                                <Label HorizontalAlignment="Center" Grid.Column="4" Content="4,095"/>
-                                <Label HorizontalAlignment="Center" Grid.Column="5" Content="65,535"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="2" Content="3"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="3" Content="15"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="4" Content="63"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="5" Content="255"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="6" Content="1023"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="7" Content="4095"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="8" Content="16383"/>
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="6" Content="1,048,575"/>-->
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="7" Content="16,777,215"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="8" Content="268,435,455"/>-->
@@ -94,6 +97,9 @@
                                 <Label HorizontalAlignment="Center" Grid.Column="3" Content="15"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="4" Content="63"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="5" Content="255"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="6" Content="1023"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="7" Content="4095"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="8" Content="16383"/>
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="6" Content="1,023"/>-->
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="7" Content="4,095"/>-->
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="8" Content="16,383"/>-->
@@ -151,10 +157,13 @@
                                     <ColumnDefinition Width="3*"/>
                                 </Grid.ColumnDefinitions>
                                 <Label HorizontalAlignment="Center" Grid.Column="0" Content="0"/>
-                                <Label HorizontalAlignment="Center" Grid.Column="2" Content="15"/>
-                                <Label HorizontalAlignment="Center" Grid.Column="3" Content="255"/>
-                                <Label HorizontalAlignment="Center" Grid.Column="4" Content="4,095"/>
-                                <Label HorizontalAlignment="Center" Grid.Column="5" Content="65,535"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="2" Content="3"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="3" Content="15"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="4" Content="63"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="5" Content="255"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="6" Content="1023"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="7" Content="4095"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="8" Content="16383"/>
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="6" Content="1,048,575"/>-->
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="7" Content="16,777,215"/>
         <Label HorizontalAlignment="Center" Grid.Column="8" Content="268,435,455"/>-->
@@ -194,6 +203,9 @@
                                 <Label HorizontalAlignment="Center" Grid.Column="3" Content="15"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="4" Content="63"/>
                                 <Label HorizontalAlignment="Center" Grid.Column="5" Content="255"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="6" Content="1023"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="7" Content="4095"/>
+                                <Label HorizontalAlignment="Center" Grid.Column="8" Content="16383"/>
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="6" Content="1,023"/>-->
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="7" Content="4,095"/>-->
                                 <!--<Label HorizontalAlignment="Center" Grid.Column="8" Content="16,383"/>-->

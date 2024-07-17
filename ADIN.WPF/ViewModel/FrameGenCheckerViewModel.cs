@@ -104,14 +104,14 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                double frameBurstSlider = 8 * Math.Log((_frameGenChecker?.FrameBurst ?? 1) + 1) / Math.Log(2);
+                double frameBurstSlider = 16 * Math.Log((_frameGenChecker?.FrameBurst ?? 1) + 1) / Math.Log(2);
                 return frameBurstSlider;
             }
             set
             {
                 if (_selectedDeviceStore.SelectedDevice != null)
                 {
-                    _frameBurst = Convert.ToUInt32(Math.Pow(2, value / 8) - 1);
+                    _frameBurst = Convert.ToUInt32(Math.Pow(2, value / 16) - 1);
                     _frameGenChecker.FrameBurst = _frameBurst;
                 }
                 OnPropertyChanged(nameof(FrameBurst_Slider));
