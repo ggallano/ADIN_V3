@@ -24,7 +24,6 @@ namespace ADIN.Device.Models
             _registerService = registerService;
             PhyAddress = 0;
 
-
             FirmwareAPI = new ADIN1100FirmwareAPI(_ftdiService, PhyAddress, mainLock);
 
             switch (ADIN1100FirmwareAPI.GetRevNum(0x1E0003))
@@ -55,13 +54,64 @@ namespace ADIN.Device.Models
             GetTestModeValue();
 
             FrameGenChecker = new FrameGenCheckerADIN1100();
-
+            //GetInitialValuesFrameGenChecker();
 
             Loopback = new LoopbackADIN1100();
             GetLoopbackValue();
 
             TimeDomainReflectometryPort1 = new TimeDomainReflectometryADIN1100();
             GetTDRValue();
+        }
+
+        private void GetInitialValuesFrameGenChecker()
+        {
+            var fwAPI = (ADIN1100FirmwareAPI)FirmwareAPI;
+            uint fCntL = Convert.ToUInt32(fwAPI.RegisterRead("FC_FRM_CNT_L"));
+            uint fCntH = Convert.ToUInt32(fwAPI.RegisterRead("FC_FRM_CNT_H"));
+
+            FrameGenChecker.FrameBurst = (65536 * fCntH) + fCntL;
+        }
+
+        public override IFirmwareAPI FirmwareAPI { get; set; }
+
+        /// <summary>
+        /// retrieves the value of the eval board for link properties
+        /// </summary>
+        private void GetLinkPropertiesValue()
+        {
+            var AN_ADV_MST = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_MST") == "1" ? true : false;
+            var AN_ADV_FORCE_MS = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_FORCE_MS") == "1" ? true : false;
+
+            if (AN_ADV_MST)
+                if (!AN_ADV_FORCE_MS)
+                    LinkProperties.MasterSlaveAdvertise = "Prefer_Master";
+
+            if (!AN_ADV_MST)
+                if (!AN_ADV_FORCE_MS)
+                    LinkProperties.MasterSlaveAdvertise = "Prefer_Slave";
+
+            if (AN_ADV_MST)
+                if (AN_ADV_FORCE_MS)
+                    LinkProperties.MasterSlaveAdvertise = "Forced_Master";
+
+            if (!AN_ADV_MST)
+                if (AN_ADV_FORCE_MS)
+                    LinkProperties.MasterSlaveAdvertise = "Forced_Slave";
+
+            var TX_LVL_HI_ABL = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_B10L_TX_LVL_HI_ABL") == "1" ? true : false;
+            var TX_LVL_HI_REQ = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_B10L_TX_LVL_HI_REQ") == "1" ? true : false;
+
+            if (TX_LVL_HI_ABL)
+                if (TX_LVL_HI_REQ)
+                    LinkProperties.TxAdvertise = "Capable2p4Volts_Requested2p4Volts";
+
+            if (TX_LVL_HI_ABL)
+                if (!TX_LVL_HI_REQ)
+                    LinkProperties.TxAdvertise = "Capable2p4Volts_Requested1Volt";
+
+            if (!TX_LVL_HI_ABL)
+                if (!TX_LVL_HI_REQ)
+                    LinkProperties.TxAdvertise = "Capable1Volt";
         }
 
         private void GetLoopbackValue()
@@ -131,48 +181,8 @@ namespace ADIN.Device.Models
                                         result = Loopback.Loopbacks[0];
 
             Loopback.SelectedLoopback = result;
-        }
-
-        public override IFirmwareAPI FirmwareAPI { get; set; }
-
-        /// <summary>
-        /// retrieves the value of the eval board for link properties
-        /// </summary>
-        private void GetLinkPropertiesValue()
-        {
-            var AN_ADV_MST = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_MST") == "1" ? true : false;
-            var AN_ADV_FORCE_MS = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_FORCE_MS") == "1" ? true : false;
-
-            if (AN_ADV_MST)
-                if (!AN_ADV_FORCE_MS)
-                    LinkProperties.MasterSlaveAdvertise = "Prefer_Master";
-
-            if (!AN_ADV_MST)
-                if (!AN_ADV_FORCE_MS)
-                    LinkProperties.MasterSlaveAdvertise = "Prefer_Slave";
-
-            if (AN_ADV_MST)
-                if (AN_ADV_FORCE_MS)
-                    LinkProperties.MasterSlaveAdvertise = "Forced_Master";
-
-            if (!AN_ADV_MST)
-                if (AN_ADV_FORCE_MS)
-                    LinkProperties.MasterSlaveAdvertise = "Forced_Slave";
-
-            var TX_LVL_HI_ABL = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_B10L_TX_LVL_HI_ABL") == "1" ? true : false;
-            var TX_LVL_HI_REQ = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("AN_ADV_B10L_TX_LVL_HI_REQ") == "1" ? true : false;
-
-            if (TX_LVL_HI_ABL)
-                if (TX_LVL_HI_REQ)
-                    LinkProperties.TxAdvertise = "Capable2p4Volts_Requested2p4Volts";
-
-            if (TX_LVL_HI_ABL)
-                if (!TX_LVL_HI_REQ)
-                    LinkProperties.TxAdvertise = "Capable2p4Volts_Requested1Volt";
-
-            if (!TX_LVL_HI_ABL)
-                if (!TX_LVL_HI_REQ)
-                    LinkProperties.TxAdvertise = "Capable1Volt";
+            Loopback.TxSuppression = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("MAC_IF_LB_TX_SUP_EN") == "1" ? true : false;
+            Loopback.RxSuppression = ((ADIN1100FirmwareAPI)FirmwareAPI).RegisterRead("MAC_IF_REM_LB_RX_SUP_EN") == "1" ? true : false;
         }
 
         private void GetTDRValue()
