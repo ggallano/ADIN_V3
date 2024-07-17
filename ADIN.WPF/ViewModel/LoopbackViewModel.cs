@@ -313,36 +313,6 @@ namespace ADIN.WPF.ViewModel
         }
         public List<LoopbackModel> Loopbacks => _loopback?.Loopbacks;
 
-        private ILoopback _loopback => _selectedDeviceStore.SelectedDevice?.Loopback;
-
-        protected override void Dispose()
-        {
-            _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
-            base.Dispose();
-        }
-        private void _selectedDeviceStore_SelectedDeviceChanged()
-        {
-            if (_selectedDeviceStore.SelectedDevice == null)
-                return;
-
-            OnPropertyChanged(nameof(IsDeviceSelected));
-            OnPropertyChanged(nameof(IsADIN1100Board));
-
-            OnPropertyChanged(nameof(IsLoopback_None));
-            OnPropertyChanged(nameof(IsLoopback_Digital));
-            OnPropertyChanged(nameof(IsLoopback_LineDriver));
-            OnPropertyChanged(nameof(IsLoopback_ExtCable));
-            OnPropertyChanged(nameof(IsLoopback_Remote));
-
-            OnPropertyChanged(nameof(SelectedLoopback));
-            OnPropertyChanged(nameof(Loopbacks));
-
-            OnPropertyChanged(nameof(IsTxSuppression));
-            OnPropertyChanged(nameof(IsRxSuppression));
-
-            OnPropertyChanged(nameof(ImagePath));
-        }
-
         public LoopbackModel SelectedLoopback
         {
             get { return _loopback?.SelectedLoopback; }
@@ -375,6 +345,38 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(SelectedLoopback));
                 OnPropertyChanged(nameof(ImagePath));
             }
+        }
+
+        private ILoopback _loopback => _selectedDeviceStore.SelectedDevice?.Loopback;
+
+        protected override void Dispose()
+        {
+            _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
+            base.Dispose();
+        }
+
+        private void _selectedDeviceStore_SelectedDeviceChanged()
+        {
+            OnPropertyChanged(nameof(IsDeviceSelected));
+
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
+            OnPropertyChanged(nameof(IsADIN1100Board));
+
+            OnPropertyChanged(nameof(IsLoopback_None));
+            OnPropertyChanged(nameof(IsLoopback_Digital));
+            OnPropertyChanged(nameof(IsLoopback_LineDriver));
+            OnPropertyChanged(nameof(IsLoopback_ExtCable));
+            OnPropertyChanged(nameof(IsLoopback_Remote));
+
+            OnPropertyChanged(nameof(SelectedLoopback));
+            OnPropertyChanged(nameof(Loopbacks));
+
+            OnPropertyChanged(nameof(IsTxSuppression));
+            OnPropertyChanged(nameof(IsRxSuppression));
+
+            OnPropertyChanged(nameof(ImagePath));
         }
     }
 }

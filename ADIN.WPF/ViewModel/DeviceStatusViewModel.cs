@@ -100,6 +100,7 @@ namespace ADIN.WPF.ViewModel
         public string AnStatus
         {
             get { return _anStatus; }
+
             set
             {
                 _anStatus = value;
@@ -112,6 +113,7 @@ namespace ADIN.WPF.ViewModel
         public string Checker
         {
             get { return _selectedDevice?.Checker ?? "-"; }
+
             set
             {
                 if (_selectedDevice != null)
@@ -190,26 +192,28 @@ namespace ADIN.WPF.ViewModel
                 }
                 return "-";
             }
+
             set
             {
                 switch ((EthPhyState)Enum.Parse(typeof(EthPhyState), value))
                 {
                     case EthPhyState.Powerdown:
+                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.Powerdown);
                         _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Up");
                         break;
 
                     case EthPhyState.Standby:
-                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.Standby.ToString());
+                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.Standby);
                         _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Down");
                         break;
 
                     case EthPhyState.LinkDown:
-                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.LinkDown.ToString());
+                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.LinkDown);
                         _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Down");
                         break;
 
                     case EthPhyState.LinkUp:
-                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.LinkUp.ToString());
+                        _selectedDeviceStore.OnLinkStatusChanged(EthPhyState.LinkUp);
                         _selectedDeviceStore.OnSoftwarePowerDownChanged("Software Power Down");
                         break;
 
@@ -227,6 +231,7 @@ namespace ADIN.WPF.ViewModel
         public List<string> LocalAdvertisedSpeeds
         {
             get { return _localAdvertisedSpeeds; }
+
             set
             {
                 if (!value.SequenceEqual(_localAdvertisedSpeeds))
@@ -241,6 +246,7 @@ namespace ADIN.WPF.ViewModel
         public string MasterSlaveStatus
         {
             get { return _masterSlaveStatus; }
+
             set
             {
                 _masterSlaveStatus = value;
@@ -260,6 +266,7 @@ namespace ADIN.WPF.ViewModel
                 else
                     return _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort2.ToString();
             }
+
             set
             {
                 if (_selectedDevice.PortNumber == 1)
@@ -307,6 +314,7 @@ namespace ADIN.WPF.ViewModel
         public List<string> RemoteAdvertisedSpeeds
         {
             get { return _remoteAdvertisedSpeeds; }
+
             set
             {
                 if (!value.SequenceEqual(_remoteAdvertisedSpeeds))
@@ -354,6 +362,7 @@ namespace ADIN.WPF.ViewModel
                 else
                     return _selectedDeviceStore.SelectedDevice.SpikeCountPortPort2.ToString();
             }
+
             set
             {
                 if (_selectedDevice.PortNumber == 1)
@@ -378,6 +387,7 @@ namespace ADIN.WPF.ViewModel
         public string TxLevelStatus
         {
             get { return _txLevelStatus; }
+
             set
             {
                 _txLevelStatus = value;
@@ -454,7 +464,10 @@ namespace ADIN.WPF.ViewModel
                                 MaxSlicerError = fwAPI.GetMaxSlicer();
                                 SpikeCount = fwAPI.GetSpikeCount();
                             }
-                            else { } //Do nothing
+                            else
+                            {
+                                // Do nothing
+                            }
 #endif
 #if !DISABLE_TSN
                             if (_selectedDevice.FwAPI is ADIN1200FirmwareAPI || _selectedDevice.FwAPI is ADIN1300FirmwareAPI)
@@ -462,6 +475,18 @@ namespace ADIN.WPF.ViewModel
                                 MseValue = _selectedDevice.FwAPI.GetMseValue();
                                 SpeedMode = _selectedDevice.FwAPI.GetSpeedMode();
                                 RemoteAdvertisedSpeeds = _selectedDevice.FwAPI.RemoteAdvertisedSpeedList();
+                            }
+
+                            if (_selectedDevice.FwAPI is ADIN1200FirmwareAPI)
+                            {
+                                var fwAPI = _selectedDevice.FwAPI as ADIN1200FirmwareAPI;
+                                fwAPI.CableDiagnosticsStatus();
+                            }
+
+                            if (_selectedDevice.FwAPI is ADIN1300FirmwareAPI)
+                            {
+                                var fwAPI = _selectedDevice.FwAPI as ADIN1300FirmwareAPI;
+                                fwAPI.CableDiagnosticsStatus();
                             }
 #endif
                         }
@@ -480,7 +505,7 @@ namespace ADIN.WPF.ViewModel
                         _selectedDeviceStore.OnViewModelFeedbackLog(errorMsg, Helper.Feedback.FeedbackType.Error);
                     _loggedOneError = true;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                 }
 
@@ -524,11 +549,9 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(MaxSlicerError));
             OnPropertyChanged(nameof(SpikeCount));
         }
+
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
-            if (_selectedDeviceStore.SelectedDevice == null)
-                return;
-
             Debug.WriteLine($"[{SerialNumber}] Selected");
 
             OnPropertyChanged(nameof(BoardName));

@@ -21,6 +21,7 @@ namespace ADIN.Device.Services
             "DEMO-ADIN1100D2Z",
             "EVAL-ADIN1110EBZ",
             "EVAL-ADIN2111EBZ",
+            "EVAL-ADIN2111D1Z",
 #endif
 
 #if !DISABLE_TSN

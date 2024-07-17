@@ -19,17 +19,25 @@
                 <StackPanel>
                     <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Margin='10' >Control the clock output on the GPCLK pin.</TextBlock>
                     <WrapPanel HorizontalAlignment='Left' Orientation='Horizontal'>
-                        <telerik:RadRadioButton Style="{StaticResource ClockPinRadioButtonStyle}" Content="None" Command="{Binding ClkPnCtrlCmd_None}" CommandParameter="None" IsChecked="True"/>
-                        <telerik:RadRadioButton Style="{StaticResource ClockPinRadioButtonStyle}" Content="125 MHz PHY Recovered" Command="{Binding ClkPnCtrlCmd_Rcvr125Mhz}" CommandParameter="125 MHz PHY Recovered"/>
-                        <telerik:RadRadioButton Style="{StaticResource ClockPinRadioButtonStyle}" Content="125 MHz PHY Free Running" Command="{Binding ClkPnCtrlCmd_Free125Mhz}" CommandParameter="125 MHz PHY Free Running"/>
-                        <telerik:RadRadioButton Style="{StaticResource ClockPinRadioButtonStyle}" Content="Recovered HeartBeat" Command="{Binding ClkPnCtrlCmd_HrtRcvr}" CommandParameter="Recovered HeartBeat"/>
-                        <telerik:RadRadioButton Style="{StaticResource ClockPinRadioButtonStyle}" Content="Free Running HeartBeat" Command="{Binding ClkPnCtrlCmd_HrtFree}" CommandParameter="Free Running HeartBeat"/>
-                        <telerik:RadRadioButton Style="{StaticResource ClockPinRadioButtonStyle}" Content="25 MHz Reference" Command="{Binding ClkPnCtrlCmd_25Mhz}" CommandParameter="25 MHz Reference"/>
+                        <telerik:RadRadioButton Style="{StaticResource ClockPinRadioButtonStyle}" Content="None" Command="{Binding ClkPnCtrlCmd_None}" CommandParameter="None" IsChecked="{Binding IsClkPnCtrlCmd_None}"/>
+                        <telerik:RadRadioButton Style="{StaticResource ClockPinRadioButtonStyle}" Content="125 MHz PHY Recovered" Command="{Binding ClkPnCtrlCmd_Rcvr125Mhz}" CommandParameter="125 MHz PHY Recovered" IsChecked="{Binding IsClkPnCtrlCmd_Rcvr125Mhz}"/>
+                        <telerik:RadRadioButton Style="{StaticResource ClockPinRadioButtonStyle}" Content="125 MHz PHY Free Running" Command="{Binding ClkPnCtrlCmd_Free125Mhz}" CommandParameter="125 MHz PHY Free Running" IsChecked="{Binding IsClkPnCtrlCmd_Free125Mhz}"/>
+                        <telerik:RadRadioButton Style="{StaticResource ClockPinRadioButtonStyle}" Content="Recovered HeartBeat" Command="{Binding ClkPnCtrlCmd_HrtRcvr}" CommandParameter="Recovered HeartBeat" IsChecked="{Binding IsClkPnCtrlCmd_HrtRcvr}"/>
+                        <telerik:RadRadioButton Style="{StaticResource ClockPinRadioButtonStyle}" Content="Free Running HeartBeat" Command="{Binding ClkPnCtrlCmd_HrtFree}" CommandParameter="Free Running HeartBeat" IsChecked="{Binding IsClkPnCtrlCmd_HrtFree}"/>
+                        <telerik:RadRadioButton Style="{StaticResource ClockPinRadioButtonStyle}" Content="25 MHz Reference" Command="{Binding ClkPnCtrlCmd_25Mhz}" CommandParameter="25 MHz Reference" IsChecked="{Binding IsClkPnCtrlCmd_25Mhz}"/>
                     </WrapPanel>
                 </StackPanel>
             </GroupBox>
-            <!--<TextBlock Text="GPCLK Pin Control" Margin="10 10" Style="{StaticResource TextBlockstyle}"/>
-            <telerik:RadButton Margin="10 10" Content="None" Command="{Binding IsGpClk_None}" Style="{StaticResource FaultDetectorInitializedButtonStyle}"/>-->
+
+            <GroupBox Header='CLK25REF Pin Control' Style="{StaticResource GroupBoxStyle}" Margin="0 10 0 0" Visibility="{Binding Clk25RefPinPresent, Converter={StaticResource booleanVisibilityConverter}}">
+                <StackPanel>
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" Margin='10' >Control the clock output on the CLK25_REF pin.</TextBlock>
+                    <WrapPanel HorizontalAlignment='Left' Orientation='Horizontal'>
+                        <telerik:RadRadioButton Style="{StaticResource ClockPinRadioButtonStyle}" Content="None" Command="{Binding Clk25RefPnCtrlCmd_None}" CommandParameter="None" IsChecked="{Binding IsClk25RefPnCtrlCmd_None}"/>
+                        <telerik:RadRadioButton Style="{StaticResource ClockPinRadioButtonStyle}" Content="25 MHz Reference" Command="{Binding Clk25RefPnCtrlCmd_25Mhz}" CommandParameter="25 MHz Reference" IsChecked="{Binding IsClk25RefPnCtrlCmd_25Mhz}"/>
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
         </StackPanel>
     </Grid>
 </UserControl>

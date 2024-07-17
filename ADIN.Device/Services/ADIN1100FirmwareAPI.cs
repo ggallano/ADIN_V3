@@ -9,6 +9,7 @@ using ADIN.WPF.Models;
 using FTDIChip.Driver.Services;
 using Helper.Feedback;
 using Helper.RegularExpression;
+using Helper.SignalToNoiseRatio;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -60,6 +61,8 @@ namespace ADIN.Device.Services
         public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
+
+        public event EventHandler<List<string>> GigabitCableDiagCompleted;
 
         public BoardRevision boardRev { get; set; }
 
@@ -181,7 +184,10 @@ namespace ADIN.Device.Services
             uint fgContModeEn_st = Convert.ToUInt32(ReadYodaRg("FG_CONT_MODE_EN"), 16);
 
             if (fgEn_st == 0)
+            {
+                OnFrameGenCheckerStatusChanged("Generate");
                 return "Not Enabled";
+            }
 
             if (fgContModeEn_st == 1)
             {
@@ -264,14 +270,8 @@ namespace ADIN.Device.Services
                 case BoardRevision.Rev0:
                     return "N/A";
                 case BoardRevision.Rev1:
-                    // Formula:
-                    // where mse is the value from the register, and sym_pwr_exp is a constant 0.64423.
-                    // mse_db = 10 * log10((mse / 218) / sym_pwr_exp)
-                    double mse = Convert.ToUInt32(ReadYodaRg("MSE_VAL"), 16);
-                    double sym_pwr_exp = 0.64423;
-                    double mse_db = 10 * Math.Log10((mse / Math.Pow(2, 18)) / sym_pwr_exp);
-
-                    //OnMseValueChanged(mse_db.ToString("0.00") + " dB");
+                    double mse_st = Convert.ToUInt32(ReadYodaRg("MSE_VAL"), 16);
+                    double mse_db = SignalToNoiseRatio.T1LCompute(mse_st);
                     return $"{mse_db.ToString("0.00")} dB";
                 default:
                     return "N/A";
@@ -571,6 +571,11 @@ namespace ADIN.Device.Services
         {
             foreach (var register in _registers)
             {
+                // This condition will skip reading the value for FG_DONE due to conflict in 
+                // FrameGenChecker operation it does not terminate properly because the flag was already at zero value.
+                if (register.Name == "FG_DONE")
+                    continue;
+
                 register.Value = ReadYodaRg(register.Address);
             }
             Debug.WriteLine("ReadRegisters Done");
@@ -689,6 +694,7 @@ namespace ADIN.Device.Services
                 SetMacAddresses(frameContent.EnableMacAddress, frameContent.SrcOctet, frameContent.DestOctet);
 
                 WriteYodaRg("FG_EN", 1);
+                OnFrameGenCheckerStatusChanged("Terminate");
                 isFrameGenCheckerOngoing = true;
                 OnWriteProcessCompleted(new FeedbackModel() { Message = $"- Started transmission of {frameContent.FrameBurst} frames -", FeedBackType = FeedbackType.Info });
             }

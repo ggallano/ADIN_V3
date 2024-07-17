@@ -156,8 +156,10 @@
     <Color x:Key="hmc.color.pink.1000">#571140</Color>
 
 
-    
-<!--System Colors Start-->
+    <SolidColorBrush x:Key="chart.major.gridLine.stroke" Color="{StaticResource hmc.color.gray.400}"/>
+    <SolidColorBrush x:Key="chart.minor.gridLine.stroke" Color="{StaticResource hmc.color.gray.200}"/>
+
+    <!--System Colors Start-->
     <!--Primary-->
     <SolidColorBrush x:Key="hmc.color.system.primary.default" Color="{StaticResource hmc.color.blue.700}"/>
     <SolidColorBrush x:Key="hmc.color.system.primary.faint" Color="{StaticResource hmc.color.blue.200}"/>

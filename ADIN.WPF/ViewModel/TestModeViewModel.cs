@@ -74,13 +74,14 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            OnPropertyChanged(nameof(IsDeviceSelected));
+
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 
             OnPropertyChanged(nameof(SelectedTestMode));
             OnPropertyChanged(nameof(TestModes));
             OnPropertyChanged(nameof(TestModeFrameLengthValue));
-            OnPropertyChanged(nameof(IsDeviceSelected));
         }
     }
 }

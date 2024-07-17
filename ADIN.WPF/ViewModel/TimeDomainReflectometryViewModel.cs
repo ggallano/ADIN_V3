@@ -51,6 +51,8 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.PortNumChanged += _selectedDeviceStore_PortNumChanged;
         }
 
+        public bool TitleHeaderVisible => !Properties.Settings.Default.ActiveLinkMon;
+
         public string BusyContent
         {
             get { return _busyContent; }
@@ -60,14 +62,15 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(BusyContent));
             }
         }
+
         public string CableCalibrationMessage
         {
-            get 
-            { 
+            get
+            {
                 if (_selectedDevice?.PortNumber == 1)
-                    return _faultDetectorPort1?.CableCalibrationMessage; 
+                    return _faultDetectorPort1?.CableCalibrationMessage;
                 else
-                    return _faultDetectorPort2?.CableCalibrationMessage; 
+                    return _faultDetectorPort2?.CableCalibrationMessage;
             }
             set
             {
@@ -85,9 +88,9 @@ namespace ADIN.WPF.ViewModel
             get
             {
                 if (_selectedDevice?.PortNumber == 1)
-                    return _faultDetectorPort1?.CableFileName ?? "-"; 
+                    return _faultDetectorPort1?.CableFileName ?? "-";
                 else
-                    return _faultDetectorPort2?.CableFileName ?? "-"; 
+                    return _faultDetectorPort2?.CableFileName ?? "-";
             }
             set
             {
@@ -101,15 +104,14 @@ namespace ADIN.WPF.ViewModel
         }
 
         public ICommand CalibrateCommand { get; set; }
-
         public string DistToFault
         {
             get
             {
                 if (_selectedDevice?.PortNumber == 1)
-                    return _faultDetectorPort1?.DistToFault ?? "0.00"; 
+                    return _faultDetectorPort1?.DistToFault ?? "0.00";
                 else
-                    return _faultDetectorPort2?.DistToFault ?? "0.00"; 
+                    return _faultDetectorPort2?.DistToFault ?? "0.00";
             }
             set
             {
@@ -127,9 +129,9 @@ namespace ADIN.WPF.ViewModel
             get
             {
                 if (_selectedDevice?.PortNumber == 1)
-                    return _faultDetectorPort1?.FaultBackgroundBrush ?? new SolidColorBrush(Colors.LightGray); 
+                    return _faultDetectorPort1?.FaultBackgroundBrush ?? new SolidColorBrush(Colors.LightGray);
                 else
-                    return _faultDetectorPort2?.FaultBackgroundBrush ?? new SolidColorBrush(Colors.LightGray); 
+                    return _faultDetectorPort2?.FaultBackgroundBrush ?? new SolidColorBrush(Colors.LightGray);
             }
             set
             {
@@ -143,15 +145,14 @@ namespace ADIN.WPF.ViewModel
         }
 
         public ICommand FaultDetectCommand { get; set; }
-
         public string FaultState
         {
             get
             {
                 if (_selectedDevice?.PortNumber == 1)
-                    return _faultDetectorPort1?.FaultState ?? ""; 
+                    return _faultDetectorPort1?.FaultState ?? "";
                 else
-                    return _faultDetectorPort2?.FaultState ?? ""; 
+                    return _faultDetectorPort2?.FaultState ?? "";
             }
             set
             {
@@ -165,7 +166,7 @@ namespace ADIN.WPF.ViewModel
         }
 
         public ICommand InitializedCommand { get; set; }
-
+        public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
         public bool IsFaultVisibility
         {
             get
@@ -350,6 +351,8 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_PortNumChanged()
         {
+            OnPropertyChanged(nameof(IsDeviceSelected));
+
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 
@@ -371,6 +374,8 @@ namespace ADIN.WPF.ViewModel
         }
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            OnPropertyChanged(nameof(IsDeviceSelected));
+
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 

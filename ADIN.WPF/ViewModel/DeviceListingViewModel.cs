@@ -79,15 +79,15 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
         }
 
-        public event Action<bool> HideCableDiagChanged;
         /// <summary>
-        /// gets the device listing viewmodel
+        /// gets the device listing viewmodel.
         /// </summary>
         public ObservableCollection<DeviceListingItemViewModel> DeviceListingItemViewModels => _deviceListingViewModels;
 
         public bool EnableSelectDevice
         {
             get { return _enableSelectDevice; }
+
             set
             {
                 _enableSelectDevice = value;
@@ -98,6 +98,7 @@ namespace ADIN.WPF.ViewModel
         public FeedbackModel Feedback
         {
             get { return _feedback; }
+
             set
             {
                 _feedback = value;
@@ -113,6 +114,7 @@ namespace ADIN.WPF.ViewModel
         public DeviceListingItemViewModel SelectedDeviceListingItemViewModel
         {
             get { return _selectedDeviceListingItemViewModel; }
+
             set
             {
                 lock (_mainLock)
@@ -122,7 +124,7 @@ namespace ADIN.WPF.ViewModel
                     if (value != null)
                     {
                         _selectedDeviceStore.SelectedDevice = _selectedDeviceListingItemViewModel.Device;
-                        SetCableDiagnosticVisibility();
+                        CheckCableDiagT1L();
                         _ftdiService.Open(_selectedDeviceStore.SelectedDevice.SerialNumber);
                     }
                     else
@@ -193,6 +195,7 @@ namespace ADIN.WPF.ViewModel
                         RemoveDevice();
                         return;
                     }
+
                     if (_ftdiService.GetSerialNumber() != string.Empty)
                     {
                         RemoveDevice();
@@ -334,22 +337,16 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        private void SetCableDiagnosticVisibility()
+        private void CheckCableDiagT1L()
         {
-            if (!_selectedDeviceStore.SelectedDevice.IsCableDiagAvailable
-                         && !_selectedDeviceStore.SelectedDevice.CableDiagOneTimePopUp
-                         && _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100)
+            if (!_selectedDeviceStore.SelectedDevice.IsADIN1100CableDiagAvailable
+             && !_selectedDeviceStore.SelectedDevice.CableDiagOneTimePopUp
+             && _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100)
             {
                 _selectedDeviceStore.SelectedDevice.CableDiagOneTimePopUp = true;
                 _feedback.Message = $"[{_selectedDeviceStore.SelectedDevice.SerialNumber}] ADIN1100 board requires a firmware upgrade to enable TDR fault detector.";
                 _feedback.FeedBackType = FeedbackType.Warning;
                 _logActivityViewModel.SetFeedback(_feedback, false);
-            }
-
-            if (!_selectedDeviceStore.SelectedDevice.IsCableDiagAvailable
-             && _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100)
-            {
-                HideCableDiagChanged?.Invoke(true);
             }
         }
     }

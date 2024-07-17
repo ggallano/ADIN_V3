@@ -14,8 +14,18 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel>
-            <TextBlock Text="{Binding BoardName}" Style="{StaticResource TextBlockHeader1Style}"/>
-            <TextBlock Text="{Binding SerialNumber}" Style="{StaticResource TextBlockHeader2Style}"/>
+            <Grid Margin="2.5 0 0 5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="{Binding BoardName}" Style="{StaticResource TextBlockHeader1Style}"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock Text=" [" FontStyle="Italic"/>
+                    <TextBlock  Text="{Binding SerialNumber}" Style="{StaticResource TextBlockHeader2Style}" FontStyle="Italic" />
+                    <TextBlock Text="]" FontStyle="Italic"/>
+                </StackPanel>
+            </Grid>
 
             <Border Style="{StaticResource BorderSyle}">
                 <StackPanel Orientation="Horizontal">

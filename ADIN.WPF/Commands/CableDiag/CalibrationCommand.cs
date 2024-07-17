@@ -28,6 +28,7 @@ namespace ADIN.WPF.Commands.CableDiag
             _thisLock = thisLock;
 
             _viewModel.PropertyChanged += _viewModel_PropertyChanged;
+            _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
         }
 
         private TDRModel _cablediagnostic => _selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry;
@@ -222,6 +223,10 @@ namespace ADIN.WPF.Commands.CableDiag
             }
         }
 
+        private void _selectedDeviceStore_SelectedDeviceChanged()
+        {
+            OnCanExecuteChanged();
+        }
         private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             OnCanExecuteChanged();

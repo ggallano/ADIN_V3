@@ -22,6 +22,8 @@ namespace ADIN.Device.Services
 
         event EventHandler<FeedbackModel> WriteProcessCompleted;
 
+        event EventHandler<List<string>> GigabitCableDiagCompleted;
+
         void DisableLinking(bool isDisabledLinking);
 
         void GetFrameCheckerStatus();
