@@ -17,7 +17,7 @@ namespace ADIN.Device.Models
         private IFTDIServices _ftdiService;
         private IRegisterService _registerService;
 
-        public ADIN2111Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock)
+        public ADIN2111Model(IFTDIServices ftdiService, IRegisterService registerService, uint portNum, object mainLock)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
@@ -44,24 +44,24 @@ namespace ADIN.Device.Models
             DeviceType = BoardType.ADIN2111;
 
             FirmwareAPI = new ADIN2111FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
-            ((ADIN2111FirmwareAPI)FirmwareAPI).SetPortNum(1);
+            ((ADIN2111FirmwareAPI)FirmwareAPI).SetPortNum(portNum);
             ((ADIN2111FirmwareAPI)FirmwareAPI).boardRev = BoardRev;
 
-            //LinkProperties = new LinkPropertiesADIN1100();
-            //GetLinkPropertiesValue();
+            LinkProperties = new LinkPropertiesADIN1100();
+            GetLinkPropertiesValue();
 
-            //TestMode = new TestModeADIN1100();
-            //GetTestModeValue();
+            TestMode = new TestModeADIN1100();
+            GetTestModeValue();
 
-            //FrameGenChecker = new FrameGenCheckerADIN1100();
+            FrameGenChecker = new FrameGenCheckerADIN1100();
 
-            //Loopback = new LoopbackADIN1100();
-            //GetLoopbackValue();
+            Loopback = new LoopbackADIN1100();
+            GetLoopbackValue();
 
             TimeDomainReflectometryPort1 = new TimeDomainReflectometryADIN1100();
             GetTDRValuePort1();
-            TimeDomainReflectometryPort2 = new TimeDomainReflectometryADIN1100();
-            GetTDRValuePort2();
+            //TimeDomainReflectometryPort2 = new TimeDomainReflectometryADIN1100();
+            //GetTDRValuePort2();
         }
 
         public override IFirmwareAPI FirmwareAPI { get; set; }
@@ -175,7 +175,7 @@ namespace ADIN.Device.Models
         }
         private void GetTDRValuePort1()
         {
-            ((ADIN2111FirmwareAPI)FirmwareAPI).SetPortNum(1);
+            //((ADIN2111FirmwareAPI)FirmwareAPI).SetPortNum(1);
             TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset = decimal.Parse(((ADIN2111FirmwareAPI)FirmwareAPI).GetOffset(), CultureInfo.InvariantCulture);
             TimeDomainReflectometryPort1.TimeDomainReflectometry.NVP = decimal.Parse(((ADIN2111FirmwareAPI)FirmwareAPI).GetNvp(), CultureInfo.InvariantCulture);
         }
