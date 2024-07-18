@@ -39,6 +39,7 @@ namespace ADIN.Device.Models.ADIN1200
 
             SrcMacAddress = null;
             DestMacAddress = null;
+            FrameGeneratorButtonText = "Generate";
         }
 
         public string DestMacAddress { get; set; }
@@ -48,6 +49,7 @@ namespace ADIN.Device.Models.ADIN1200
         public uint FrameBurst { get; set; }
         public FrameContentModel FrameContent { get; set; }
         public List<FrameContentModel> FrameContents { get; set; }
+        public string FrameGeneratorButtonText { get; set; }
         public uint FrameLength { get; set; }
         public FrameType SelectedFrameContent { get; set; }
         public string SrcMacAddress { get; set; }
