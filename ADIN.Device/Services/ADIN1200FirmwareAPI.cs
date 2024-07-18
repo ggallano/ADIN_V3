@@ -269,7 +269,10 @@ namespace ADIN.Device.Services
             uint fgContModeEn_st = Convert.ToUInt32(ReadYodaRg("FgContModeEn"), 16);
 
             if (fgEn_st == 0)
+            {
+                OnFrameGenCheckerStatusChanged("Generate");
                 return "Not Enabled";
+            }
 
             if (fgContModeEn_st == 1)
             {
@@ -625,6 +628,11 @@ namespace ADIN.Device.Services
         {
             foreach (var register in _registers)
             {
+                // This condition will skip reading the value for FG_DONE due to conflict in 
+                // FrameGenChecker operation it does not terminate properly because the flag was already at zero value.
+                if (register.Name == "FgDone")
+                    continue;
+
                 register.Value = ReadYodaRg(register.Address);
             }
             Debug.WriteLine("ReadRegisters Done");
@@ -846,6 +854,7 @@ namespace ADIN.Device.Services
                 //SetMacAddresses(frameContent.EnableMacAddress, frameContent.SrcOctet, frameContent.DestOctet);
 
                 WriteYodaRg("FgEn", 1);
+                OnFrameGenCheckerStatusChanged("Terminate");
                 isFrameGenCheckerOngoing = true;
                 OnWriteProcessCompleted(new FeedbackModel() { Message = $"- Started transmission of {frameContent.FrameBurst} frames -", FeedBackType = FeedbackType.Info });
             }
