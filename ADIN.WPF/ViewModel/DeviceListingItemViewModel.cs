@@ -29,6 +29,8 @@ namespace ADIN.WPF.ViewModel
             {
                 if (IsMultichipBoard)
                     return SerialNumber + " - " + BoardType.ToString();
+                else if (BoardType == BoardType.ADIN2111)
+                    return $"{SerialNumber} - [Port {Device.PortNumber}]";
                 else
                     return SerialNumber;
             }
