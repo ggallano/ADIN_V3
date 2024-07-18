@@ -915,7 +915,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException("[Offset Calibration]" + response);
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[Offset Calibration] Offset={res[0]}", FeedBackType = FeedbackType.Info });
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrsetoffset] Offset={res[0]}", FeedBackType = FeedbackType.Info });
                 return response;
             }
         }

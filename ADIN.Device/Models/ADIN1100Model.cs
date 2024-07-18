@@ -59,7 +59,7 @@ namespace ADIN.Device.Models
             Loopback = new LoopbackADIN1100();
             GetLoopbackValue();
 
-            TimeDomainReflectometryPort1 = new TimeDomainReflectometryADIN1100();
+            TimeDomainReflectometry = new TimeDomainReflectometryADIN1100();
             GetTDRValue();
         }
 
@@ -189,12 +189,12 @@ namespace ADIN.Device.Models
         {
             try
             {
-                TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetOffset(), CultureInfo.InvariantCulture);
-                TimeDomainReflectometryPort1.TimeDomainReflectometry.NVP = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetNvp(), CultureInfo.InvariantCulture);
+                TimeDomainReflectometry.TimeDomainReflectometry.CableOffset = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetOffset(), CultureInfo.InvariantCulture);
+                TimeDomainReflectometry.TimeDomainReflectometry.NVP = decimal.Parse(((ADIN1100FirmwareAPI)FirmwareAPI).GetNvp(), CultureInfo.InvariantCulture);
             }
             catch (Exception ex)
             {
-                TimeDomainReflectometryPort1 = null;
+                TimeDomainReflectometry = null;
             }
 
         }

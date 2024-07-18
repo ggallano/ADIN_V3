@@ -29,18 +29,17 @@ namespace ADIN.Device.Models
         public BoardType DeviceType => Device.DeviceType;
         public IFrameGenChecker FrameGenChecker => Device.FrameGenChecker;
         public IFirmwareAPI FwAPI => Device.FirmwareAPI;
-        public bool IsADIN1100CableDiagAvailable => TimeDomainReflectometryPort1 == null ? false : true;
+        public bool IsADIN1100CableDiagAvailable => TimeDomainReflectometry == null ? false : true;
         public bool IsADIN1300CableDiagAvailable => true;
         public bool IsMultichipBoard { get; set; }
         public ILinkProperties LinkProperties => Device.LinkProperties;
         public ILoopback Loopback => Device.Loopback;
         public uint PhyAddress => Device.PhyAddress;
-        public uint PortNumber { get; set; } = 1;
+        public uint PortNumber => Device.PortNum;
         public ObservableCollection<RegisterModel> Registers => Device.Registers;
         public string SerialNumber => Device.SerialNumber;
         public ITestMode TestMode => Device.TestMode;
-        public ITimeDomainReflectometry TimeDomainReflectometryPort1 => Device.TimeDomainReflectometryPort1;
-        public ITimeDomainReflectometry TimeDomainReflectometryPort2 => Device.TimeDomainReflectometryPort2;
+        public ITimeDomainReflectometry TimeDomainReflectometry => Device.TimeDomainReflectometry;
         public double MaxSlicerErrorPort1 { get; set; }
         public double SpikeCountPortPort1 { get; set; }
         public double MaxSlicerErrorPort2 { get; set; }
