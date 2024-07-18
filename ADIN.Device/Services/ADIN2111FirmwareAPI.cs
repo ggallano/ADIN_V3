@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Globalization;
 using Helper.RegularExpression;
 using Helper.SignalToNoiseRatio;
+using Helper.MSE;
 
 namespace ADIN.Device.Services
 {
@@ -293,6 +294,11 @@ namespace ADIN.Device.Services
         }
 
         public string GetMseValue()
+        {
+            throw new NotImplementedException();
+        }
+
+        public MseSnr GetMseSnrValue()
         {
             throw new NotImplementedException();
         }

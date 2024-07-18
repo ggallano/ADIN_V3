@@ -7,6 +7,8 @@ using ADIN.Device.Models;
 using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
+using Helper.MSE;
+using Helper.SignalToNoiseRatio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -44,6 +46,10 @@ namespace ADIN.WPF.ViewModel
         private string _masterSlaveStatus = "-";
         private string _maxSlicerError;
         private string _mseValue = "-";
+        private MseSnr _mseSnrValue = new MseSnr("-");
+        private MseSnr _mseSnrMax = new MseSnr("-");
+        private MseSnr _mseSnrCombined = new MseSnr("-");
+        private MseSnr _mseSnrdB = new MseSnr("-");
         private BackgroundWorker _readRegisterWorker;
         private List<string> _remoteAdvertisedSpeeds = new List<string>();
         private SelectedDeviceStore _selectedDeviceStore;
@@ -309,6 +315,84 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public MseSnr MseSnrValue
+        {
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _mseSnrCombined.MseA = _mseSnrValue.MseA + ", " + _mseSnrMax.MseA;
+                    _mseSnrCombined.MseB = _mseSnrValue.MseB + ", " + _mseSnrMax.MseB;
+                    _mseSnrCombined.MseC = _mseSnrValue.MseC + ", " + _mseSnrMax.MseC;
+                    _mseSnrCombined.MseD = _mseSnrValue.MseD + ", " + _mseSnrMax.MseD;
+                    return _mseSnrCombined;
+                }
+                return new MseSnr("-");
+            }
+
+            set
+            {
+                if (value != _mseSnrValue)
+                {
+                    _mseSnrValue = value;
+
+                    if (_mseSnrMax.MseA == "-" || _mseSnrValue.MseA == "-" 
+                        || Convert.ToUInt32(_mseSnrMax.MseA) <= Convert.ToUInt32(_mseSnrValue.MseA))
+                        _mseSnrMax.MseA = _mseSnrValue.MseA;
+
+                    if (_mseSnrMax.MseB == "-" || _mseSnrValue.MseB == "-" 
+                        || Convert.ToUInt32(_mseSnrMax.MseB) <= Convert.ToUInt32(_mseSnrValue.MseB))
+                        _mseSnrMax.MseB = _mseSnrValue.MseB;
+
+                    if (_mseSnrMax.MseC == "-" || _mseSnrValue.MseC == "-" 
+                        || Convert.ToUInt32(_mseSnrMax.MseC) <= Convert.ToUInt32(_mseSnrValue.MseC))
+                        _mseSnrMax.MseC = _mseSnrValue.MseC;
+
+                    if (_mseSnrMax.MseD == "-" || _mseSnrValue.MseD == "-" 
+                        || Convert.ToUInt32(_mseSnrMax.MseD) <= Convert.ToUInt32(_mseSnrValue.MseD))
+                        _mseSnrMax.MseD = _mseSnrValue.MseD;
+
+                    OnPropertyChanged(nameof(MseSnrValue));
+                    OnPropertyChanged(nameof(MseSnrdB));
+                }
+            }
+        }
+
+        public MseSnr MseSnrdB
+        {
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    try
+                    {
+                        _mseSnrdB.MseA = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mseSnrValue.MseA)).ToString("0.00") + " dB";
+                    }
+                    catch
+                    {
+                        _mseSnrdB.MseA = "-";
+                    }
+
+                    try
+                    {
+                        _mseSnrdB.MseB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mseSnrValue.MseB)).ToString("0.00") + " dB";
+                        _mseSnrdB.MseC = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mseSnrValue.MseC)).ToString("0.00") + " dB";
+                        _mseSnrdB.MseD = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mseSnrValue.MseD)).ToString("0.00") + " dB";
+                    }
+                    catch
+                    {
+                        _mseSnrdB.MseB = "-";
+                        _mseSnrdB.MseC = "-";
+                        _mseSnrdB.MseD = "-";
+                    }
+
+                    return _mseSnrdB;
+                }
+
+                return new MseSnr("-");
+            }
+        }
+
         public string PhyAddress => _selectedDeviceStore.SelectedDevice?.PhyAddress.ToString() ?? "-";
 
         public List<string> RemoteAdvertisedSpeeds
@@ -472,7 +556,8 @@ namespace ADIN.WPF.ViewModel
 #if !DISABLE_TSN
                             if (_selectedDevice.FwAPI is ADIN1200FirmwareAPI || _selectedDevice.FwAPI is ADIN1300FirmwareAPI)
                             {
-                                MseValue = _selectedDevice.FwAPI.GetMseValue();
+                                //MseValue = _selectedDevice.FwAPI.GetMseValue();
+                                MseSnrValue = _selectedDevice.FwAPI.GetMseSnrValue();
                                 SpeedMode = _selectedDevice.FwAPI.GetSpeedMode();
                                 RemoteAdvertisedSpeeds = _selectedDevice.FwAPI.RemoteAdvertisedSpeedList();
                             }
@@ -562,6 +647,8 @@ namespace ADIN.WPF.ViewModel
             //OnPropertyChanged(nameof(MasterSlaveStatus));
             OnPropertyChanged(nameof(Generator));
             OnPropertyChanged(nameof(MseValue));
+            OnPropertyChanged(nameof(MseSnrValue));
+            OnPropertyChanged(nameof(MseSnrdB));
             //OnPropertyChanged(nameof(TxLevelStatus));
             OnPropertyChanged(nameof(DeviceType));
             OnPropertyChanged(nameof(PhyAddress));

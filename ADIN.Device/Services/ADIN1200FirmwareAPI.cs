@@ -9,6 +9,7 @@ using ADIN.Device.Models;
 using ADIN.WPF.Models;
 using FTDIChip.Driver.Services;
 using Helper.Feedback;
+using Helper.MSE;
 using Helper.SignalToNoiseRatio;
 using System;
 using System.Collections.Generic;
@@ -343,6 +344,21 @@ namespace ADIN.Device.Services
             }
 
             return $"{mseA_db.ToString("0.00")} dB";
+        }
+
+        public MseSnr GetMseSnrValue()
+        {
+            if (_phyState != EthPhyState.LinkUp)
+                return new MseSnr("-");
+
+            MseSnr mseSnr = new MseSnr();
+
+            mseSnr.MseA = ReadYodaRg("MseA");
+            mseSnr.MseB = "-";
+            mseSnr.MseC = "-";
+            mseSnr.MseD = "-";
+
+            return mseSnr;
         }
 
         public string GetMseValue(BoardRevision boardRev)

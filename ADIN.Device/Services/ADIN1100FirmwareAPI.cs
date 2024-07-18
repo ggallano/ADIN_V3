@@ -8,6 +8,7 @@ using ADIN.Device.Models;
 using ADIN.WPF.Models;
 using FTDIChip.Driver.Services;
 using Helper.Feedback;
+using Helper.MSE;
 using Helper.RegularExpression;
 using Helper.SignalToNoiseRatio;
 using System;
@@ -273,6 +274,11 @@ namespace ADIN.Device.Services
                 default:
                     return "N/A";
             }
+        }
+
+        public MseSnr GetMseSnrValue()
+        {
+            throw new NotImplementedException();
         }
 
         public string GetMseValue()

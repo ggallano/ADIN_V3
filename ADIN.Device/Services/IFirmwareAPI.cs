@@ -6,6 +6,7 @@
 using ADI.Register.Models;
 using ADIN.Device.Models;
 using Helper.Feedback;
+using Helper.MSE;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,6 +34,8 @@ namespace ADIN.Device.Services
         string GetLinkStatus();
 
         string GetMseValue();
+
+        MseSnr GetMseSnrValue();
 
         string GetMseValue(BoardRevision boardRev);
 
