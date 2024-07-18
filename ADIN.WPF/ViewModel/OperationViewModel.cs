@@ -190,15 +190,6 @@ namespace ADIN.WPF.ViewModel
                 }
             }
 
-            if ((_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
-             || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110))
-            {
-                IsADIN2111 = true;
-                IsCableDiagSelected = true;
-            }
-            else
-                IsADIN2111 = false;
-
             OnPropertyChanged(nameof(IsActiveLinkMonEnabled));
             OnPropertyChanged(nameof(IsADIN1100Visible));
             OnPropertyChanged(nameof(IsADIN1300Visible));
