@@ -63,7 +63,7 @@
                             </Grid>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Clock Pin Control" Style="{StaticResource TabItemStyle}" Visibility="{Binding IsClkPinControlVisible, Converter={StaticResource booleanVisibilityConverter}}">
+                    <TabItem Header="Clock Pin Control" Style="{StaticResource TabItemStyle}" IsEnabled="{Binding EnableTabs}" Visibility="{Binding IsClkPinControlVisible, Converter={StaticResource booleanVisibilityConverter}}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*" MinWidth="400"/>

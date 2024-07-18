@@ -18,7 +18,7 @@ namespace ADIN.WPF.ViewModel
         private readonly NavigationStore _navigationStore;
         private readonly SelectedDeviceStore _selectedDeviceStore;
 
-        private bool _enableTabs = true;
+        private bool _enableTabs = false;
         private bool _isAdin2111 = false;
         private bool _isCableDiagSelected;
         private bool _isCableDiagVisible = true;
