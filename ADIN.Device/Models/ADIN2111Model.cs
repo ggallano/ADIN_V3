@@ -17,12 +17,11 @@ namespace ADIN.Device.Models
         private IFTDIServices _ftdiService;
         private IRegisterService _registerService;
 
-        public ADIN2111Model(IFTDIServices ftdiService, IRegisterService registerService, uint portNum, object mainLock)
+        public ADIN2111Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
             PhyAddress = 0;
-            PortNumber = portNum;
 
             FirmwareAPI = new ADIN2111FirmwareAPI(_ftdiService, PhyAddress, mainLock);
 
@@ -45,19 +44,19 @@ namespace ADIN.Device.Models
             DeviceType = BoardType.ADIN2111;
 
             FirmwareAPI = new ADIN2111FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
-            ((ADIN2111FirmwareAPI)FirmwareAPI).SetPortNum(portNum);
+            ((ADIN2111FirmwareAPI)FirmwareAPI).SetPortNum(1);
             ((ADIN2111FirmwareAPI)FirmwareAPI).boardRev = BoardRev;
 
-            LinkProperties = new LinkPropertiesADIN1100();
-            GetLinkPropertiesValue();
+            //LinkProperties = new LinkPropertiesADIN1100();
+            //GetLinkPropertiesValue();
 
-            TestMode = new TestModeADIN1100();
-            GetTestModeValue();
+            //TestMode = new TestModeADIN1100();
+            //GetTestModeValue();
 
-            FrameGenChecker = new FrameGenCheckerADIN1100();
+            //FrameGenChecker = new FrameGenCheckerADIN1100();
 
-            Loopback = new LoopbackADIN1100();
-            GetLoopbackValue();
+            //Loopback = new LoopbackADIN1100();
+            //GetLoopbackValue();
 
             TimeDomainReflectometryPort1 = new TimeDomainReflectometryADIN1100();
             GetTDRValuePort1();
@@ -174,20 +173,19 @@ namespace ADIN.Device.Models
             Loopback.TxSuppression = ((ADIN2111FirmwareAPI)FirmwareAPI).RegisterRead("MAC_IF_LB_TX_SUP_EN") == "1" ? true : false;
             Loopback.RxSuppression = ((ADIN2111FirmwareAPI)FirmwareAPI).RegisterRead("MAC_IF_REM_LB_RX_SUP_EN") == "1" ? true : false;
         }
-
         private void GetTDRValuePort1()
         {
-            //((ADIN2111FirmwareAPI)FirmwareAPI).SetPortNum(1);
+            ((ADIN2111FirmwareAPI)FirmwareAPI).SetPortNum(1);
             TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset = decimal.Parse(((ADIN2111FirmwareAPI)FirmwareAPI).GetOffset(), CultureInfo.InvariantCulture);
             TimeDomainReflectometryPort1.TimeDomainReflectometry.NVP = decimal.Parse(((ADIN2111FirmwareAPI)FirmwareAPI).GetNvp(), CultureInfo.InvariantCulture);
         }
 
         private void GetTDRValuePort2()
         {
-            //((ADIN2111FirmwareAPI)FirmwareAPI).SetPortNum(2);
+            ((ADIN2111FirmwareAPI)FirmwareAPI).SetPortNum(2);
             TimeDomainReflectometryPort2.TimeDomainReflectometry.CableOffset = decimal.Parse(((ADIN2111FirmwareAPI)FirmwareAPI).GetOffset(), CultureInfo.InvariantCulture);
             TimeDomainReflectometryPort2.TimeDomainReflectometry.NVP = decimal.Parse(((ADIN2111FirmwareAPI)FirmwareAPI).GetNvp(), CultureInfo.InvariantCulture);
-            //((ADIN2111FirmwareAPI)FirmwareAPI).SetPortNum(1);   // To reset back port number to port1 after getting initial values
+            ((ADIN2111FirmwareAPI)FirmwareAPI).SetPortNum(1);   // To reset back port number to port1 after getting initial values
         }
 
         private void GetTestModeValue()

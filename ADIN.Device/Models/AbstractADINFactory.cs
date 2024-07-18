@@ -26,7 +26,6 @@ namespace ADIN.Device.Models
         public ITestMode TestMode { get; set; }
         public ObservableCollection<RegisterModel> Registers { get; set; }
         public IDeviceStatus DeviceStatus { get; set; }
-        public uint PortNumber { get; set; }
 
         /// <summary>
         /// Gets or sets ADIN1100 cable diag status results port 1.

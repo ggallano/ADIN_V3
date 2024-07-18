@@ -35,7 +35,7 @@ namespace ADIN.Device.Models
         public ILinkProperties LinkProperties => Device.LinkProperties;
         public ILoopback Loopback => Device.Loopback;
         public uint PhyAddress => Device.PhyAddress;
-        public uint PortNumber => Device.PortNumber;
+        public uint PortNumber { get; set; } = 1;
         public ObservableCollection<RegisterModel> Registers => Device.Registers;
         public string SerialNumber => Device.SerialNumber;
         public ITestMode TestMode => Device.TestMode;

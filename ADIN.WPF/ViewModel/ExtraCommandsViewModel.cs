@@ -66,33 +66,33 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        //public bool IsPort1
-        //{
-        //    get { return _selectedDeviceStore.SelectedDevice?.PortNumber == 1; }
-        //    set
-        //    {
-        //        ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-        //        fwAPI.SetPortNum(1);
-        //        _selectedDeviceStore.SelectedDevice.PortNumber = 1;
-        //        _selectedDeviceStore.OnPortNumChanged();
-        //        OnPropertyChanged(nameof(IsPort2));
-        //        OnPropertyChanged(nameof(IsPort1));
-        //    }
-        //}
+        public bool IsPort1
+        {
+            get { return _selectedDeviceStore.SelectedDevice?.PortNumber == 1; }
+            set
+            {
+                ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+                fwAPI.SetPortNum(1);
+                _selectedDeviceStore.SelectedDevice.PortNumber = 1;
+                _selectedDeviceStore.OnPortNumChanged();
+                OnPropertyChanged(nameof(IsPort2));
+                OnPropertyChanged(nameof(IsPort1));
+            }
+        }
 
-        //public bool IsPort2
-        //{
-        //    get { return _selectedDeviceStore.SelectedDevice?.PortNumber == 2; }
-        //    set
-        //    {
-        //        ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-        //        fwAPI.SetPortNum(2);
-        //        _selectedDeviceStore.SelectedDevice.PortNumber = 2;
-        //        _selectedDeviceStore.OnPortNumChanged();
-        //        OnPropertyChanged(nameof(IsPort1));
-        //        OnPropertyChanged(nameof(IsPort2));
-        //    }
-        //}
+        public bool IsPort2
+        {
+            get { return _selectedDeviceStore.SelectedDevice?.PortNumber == 2; }
+            set
+            {
+                ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+                fwAPI.SetPortNum(2);
+                _selectedDeviceStore.SelectedDevice.PortNumber = 2;
+                _selectedDeviceStore.OnPortNumChanged();
+                OnPropertyChanged(nameof(IsPort1));
+                OnPropertyChanged(nameof(IsPort2));
+            }
+        }
 
         public bool IsPortNumVisible
         {
@@ -195,8 +195,8 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(LinkStatus));
             OnPropertyChanged(nameof(IsADIN1100Board));
             OnPropertyChanged(nameof(IsPortNumVisible));
-            //OnPropertyChanged(nameof(IsPort1));
-            //OnPropertyChanged(nameof(IsPort2));
+            OnPropertyChanged(nameof(IsPort1));
+            OnPropertyChanged(nameof(IsPort2));
             OnPropertyChanged(nameof(IsResetButtonVisible));
             OnPropertyChanged(nameof(EnableButton));
         }
