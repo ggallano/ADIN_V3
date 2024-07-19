@@ -8,7 +8,6 @@ using ADIN.Device.Models;
 using ADIN.WPF.Models;
 using FTDIChip.Driver.Services;
 using Helper.Feedback;
-using Helper.MSE;
 using Helper.RegularExpression;
 using Helper.SignalToNoiseRatio;
 using System;
@@ -35,6 +34,7 @@ namespace ADIN.Device.Services
         private TestModeType _testmodeState = TestModeType.Normal;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
+        private MseModel _mse = new MseModel("N/A");
         private double highestMaxSlicer = 0.0d;
         private double totalSpikeCount = 0.0d;
 
@@ -261,29 +261,23 @@ namespace ADIN.Device.Services
             return highestMaxSlicer.ToString("0.00");
         }
 
-        public string GetMseValue(BoardRevision boardRev)
+        public MseModel GetMseValue()
+        {
+            throw new NotImplementedException();
+        }
+
+        public MseModel GetMseValue(BoardRevision boardRev)
         {
             switch (boardRev)
             {
                 case BoardRevision.Rev0:
-                    return "N/A";
+                    return new MseModel("N/A");
                 case BoardRevision.Rev1:
-                    double mse_st = Convert.ToUInt32(ReadYodaRg("MSE_VAL"), 16);
-                    double mse_db = SignalToNoiseRatio.T1LCompute(mse_st);
-                    return $"{mse_db.ToString("0.00")} dB";
+                    _mse.MseA_dB = SignalToNoiseRatio.T1LCompute(Convert.ToUInt32(ReadYodaRg("MSE_VAL"), 16)).ToString("0.00") + "dB";
+                    return _mse;
                 default:
-                    return "N/A";
+                    return new MseModel("N/A");
             }
-        }
-
-        public MseSnr GetMseSnrValue()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetMseValue()
-        {
-            throw new NotImplementedException();
         }
 
         public string GetNvp()

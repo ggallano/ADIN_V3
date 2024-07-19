@@ -9,7 +9,6 @@ using ADIN.Device.Models;
 using ADIN.WPF.Models;
 using FTDIChip.Driver.Services;
 using Helper.Feedback;
-using Helper.MSE;
 using Helper.SignalToNoiseRatio;
 using System;
 using System.Collections.Generic;
@@ -35,6 +34,7 @@ namespace ADIN.Device.Services
         private bool cablediagnosticsRunning = false;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
+        private MseModel _mse = new MseModel("-");
         public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
@@ -303,65 +303,50 @@ namespace ADIN.Device.Services
             return GetPhyState().ToString();
         }
 
-        public string GetMseValue()
+        public MseModel GetMseValue()
         {
-            double mseA_st;
-            double mseB_st;
-            double mseC_st;
-            double mseD_st;
-
-            double mseA_db;
-            double mseB_db;
-            double mseC_db;
-            double mseD_db;
-
-            //if (_boardRev == BoardRevision.Rev0)
-            //    return "N/A";
-
             if (_phyState != EthPhyState.LinkUp)
-                return "N/A";
+                return new MseModel("-");
 
             // Formula:
             // where mse is the value from the register, and sym_pwr_exp is a constant 0.64423.
             // mse_db = 10 * log10((mse / 218) / sym_pwr_exp)
-            mseA_st = Convert.ToDouble(ReadYodaRg("MseA"));
-            mseA_db = SignalToNoiseRatio.GigabitCompute(mseA_st);
+
+            _mse.MseA_Raw = ReadYodaRg("MseA");
+            if (_mse.MseA_Max == "-" || Convert.ToUInt32(_mse.MseA_Max) < Convert.ToUInt32(_mse.MseA_Raw))
+                _mse.MseA_Max = _mse.MseA_Raw;
+            _mse.MseA_Combined = _mse.MseA_Raw + ", " + _mse.MseA_Max;
+            _mse.MseA_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseA_Raw)).ToString("0.00") + " dB";
 
             var resolvedHCD = (EthernetSpeeds)Convert.ToUInt32(ReadYodaRg("HcdTech"));
 
-            if ((resolvedHCD == EthernetSpeeds.SPEED_1000BASE_T_HD) 
+            if ((resolvedHCD == EthernetSpeeds.SPEED_1000BASE_T_HD)
              || (resolvedHCD == EthernetSpeeds.SPEED_1000BASE_T_FD))
             {
-                mseB_st = Convert.ToUInt32(ReadYodaRg("MseB"), 16);
-                mseC_st = Convert.ToUInt32(ReadYodaRg("MseC"), 16);
-                mseD_st = Convert.ToUInt32(ReadYodaRg("MseD"), 16);
+                _mse.MseB_Raw = ReadYodaRg("MseB");
+                _mse.MseC_Raw = ReadYodaRg("MseC");
+                _mse.MseD_Raw = ReadYodaRg("MseD");
 
-                mseB_db = SignalToNoiseRatio.GigabitCompute(mseB_st);
-                mseC_db = SignalToNoiseRatio.GigabitCompute(mseC_st);
-                mseD_db = SignalToNoiseRatio.GigabitCompute(mseD_st);
+                if (_mse.MseB_Max == "-" || Convert.ToUInt32(_mse.MseB_Max) < Convert.ToUInt32(_mse.MseB_Raw))
+                    _mse.MseB_Max = _mse.MseB_Raw;
+                if (_mse.MseC_Max == "-" || Convert.ToUInt32(_mse.MseC_Max) < Convert.ToUInt32(_mse.MseC_Raw))
+                    _mse.MseC_Max = _mse.MseC_Raw;
+                if (_mse.MseD_Max == "-" || Convert.ToUInt32(_mse.MseD_Max) < Convert.ToUInt32(_mse.MseD_Raw))
+                    _mse.MseD_Max = _mse.MseD_Raw;
 
-                return $"{mseA_db.ToString("0.00")} dB, {mseB_db.ToString("0.00")} dB, {mseC_db.ToString("0.00")} dB, {mseD_db.ToString("0.00")} dB";
+                _mse.MseB_Combined = _mse.MseB_Raw + ", " + _mse.MseB_Max;
+                _mse.MseC_Combined = _mse.MseC_Raw + ", " + _mse.MseC_Max;
+                _mse.MseD_Combined = _mse.MseD_Raw + ", " + _mse.MseD_Max;
+
+                _mse.MseB_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseB_Raw)).ToString("0.00") + " dB";
+                _mse.MseC_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseC_Raw)).ToString("0.00") + " dB";
+                _mse.MseD_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseD_Raw)).ToString("0.00") + " dB";
             }
 
-            return $"{mseA_db.ToString("0.00")} dB";
+            return _mse;
         }
 
-        public MseSnr GetMseSnrValue()
-        {
-            if (_phyState != EthPhyState.LinkUp)
-                return new MseSnr("-");
-
-            MseSnr mseSnr = new MseSnr();
-
-            mseSnr.MseA = ReadYodaRg("MseA");
-            mseSnr.MseB = "-";
-            mseSnr.MseC = "-";
-            mseSnr.MseD = "-";
-
-            return mseSnr;
-        }
-
-        public string GetMseValue(BoardRevision boardRev)
+        public MseModel GetMseValue(BoardRevision boardRev)
         {
             throw new NotImplementedException();
         }

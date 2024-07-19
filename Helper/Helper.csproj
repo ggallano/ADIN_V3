@@ -68,7 +68,6 @@
     <Compile Include="Feedback\FeedbackModel.cs" />
     <Compile Include="Feedback\FeedbackType.cs" />
     <Compile Include="FileToLoad\XmlFileLoader.cs" />
-    <Compile Include="MSE\MseSnr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadAccessValidate\RegisterAccessValidate.cs" />
     <Compile Include="ReadFile\ReadContent.cs" />

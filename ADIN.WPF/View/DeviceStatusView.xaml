@@ -99,7 +99,7 @@
             <Border Style="{StaticResource BorderSyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="MSE: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
-                    <TextBlock Text="{Binding MseValue}" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
+                    <TextBlock Text="{Binding MseValue.MseA_dB}" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
                 </StackPanel>
             </Border>
 
@@ -124,16 +124,16 @@
                     <TextBlock Text="D" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusTextBlockstyle}"/>
 
                     <TextBlock Text="MSE:" Grid.Row="1" Grid.Column="0" Style="{StaticResource DeviceStatusTextBlockstyle}"/>
-                    <TextBlock Text="{Binding MseSnrValue.MseA}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
-                    <TextBlock Text="{Binding MseSnrValue.MseB}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
-                    <TextBlock Text="{Binding MseSnrValue.MseC}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
-                    <TextBlock Text="{Binding MseSnrValue.MseD}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
+                    <TextBlock Text="{Binding MseValue.MseA_Combined}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
+                    <TextBlock Text="{Binding MseValue.MseB_Combined}" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
+                    <TextBlock Text="{Binding MseValue.MseC_Combined}" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
+                    <TextBlock Text="{Binding MseValue.MseD_Combined}" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
 
                     <TextBlock Text="SNR:" Grid.Row="2" Grid.Column="0" Style="{StaticResource DeviceStatusTextBlockstyle}"/>
-                    <TextBlock Text="{Binding MseSnrdB.MseA}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
-                    <TextBlock Text="{Binding MseSnrdB.MseB}" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
-                    <TextBlock Text="{Binding MseSnrdB.MseC}" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
-                    <TextBlock Text="{Binding MseSnrdB.MseD}" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
+                    <TextBlock Text="{Binding MseValue.MseA_dB}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
+                    <TextBlock Text="{Binding MseValue.MseB_dB}" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
+                    <TextBlock Text="{Binding MseValue.MseC_dB}" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
+                    <TextBlock Text="{Binding MseValue.MseD_dB}" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
 
                 </Grid>
             </Border>
