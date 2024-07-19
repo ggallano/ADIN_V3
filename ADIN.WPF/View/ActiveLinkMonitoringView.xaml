@@ -4,19 +4,180 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+             xmlns:s="http://schemas.abtsoftware.co.uk/scichart"
+             xmlns:converter="clr-namespace:ADIN.WPF.Converters"
              xmlns:local="clr-namespace:ADIN.WPF.View"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="800">
+    <UserControl.Resources>
+        <s:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+        
+        <!--  DataContext is SeriesInfo for each legend row  -->
+        <!--  This is not part of the example, but just to toggle features on and off such as  -->
+        <!--  RenderableSeries.IsVisible and setting the SeriesValueModifier.IsSeriesValueModifierEnabled attached property  -->
+        <DataTemplate x:Key="CustomLegendTemplate" DataType="{x:Type s:SciChartLegend}">
+            <Grid Margin="2,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!--  Series icon, binds to SeriesInfo.Stroke  -->
+                <Ellipse Grid.Column="0"
+					 Width="10"
+					 Height="10"
+					 Margin="5,0,20,0"
+					 HorizontalAlignment="Left"
+					 VerticalAlignment="Center"
+					 Fill="{Binding Stroke, Converter={StaticResource ColorToBrushConverter}}" />
+
+                <!--  Series name (SeriesInfo.SeriesName)  -->
+                <TextBlock Grid.Column="1" Width="90" HorizontalAlignment="Center" Text="{Binding SeriesName}"/>
+
+                <!--  Show or hide the 'Visibility Checkboxes'  -->
+                <Grid Grid.Column="2" Visibility="{Binding DataContext.ShowVisibilityCheckboxes, ElementName=PART_LegendItems, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                    <!--  Binds to SeriesInfo.IsVisible to show and hide the series  -->
+                    <CheckBox HorizontalAlignment="Left"
+						  VerticalAlignment="Center"
+						  Content="R-Series Visible?"
+						  Foreground="{Binding Stroke, Converter={StaticResource ColorToBrushConverter}}"
+						  IsChecked="{Binding IsVisible, Mode=TwoWay}" />
+                </Grid>
+
+                <!--  Binds to SeriesInfo.RenderableSeries, attached property SeriesValueModifier.IsSeriesValueModifierEnabled  -->
+                <!--  This demonstrates how to enable or disable the axis markers per series. If you want to do this you can  -->
+                <!--  just bind to or set SeriesValueModifier.IsSeriesValueModifierEnabled, no need to create the legend, we just do that for demo purposes  -->
+                <CheckBox Grid.Column="3"
+					  Margin="10,0,0,0"
+					  HorizontalAlignment="Left"
+					  VerticalAlignment="Center"
+					  Content="IsSeriesValueModifierEnabled?"
+					  DataContext="{Binding RenderableSeries}"
+					  Foreground="{Binding Stroke, Converter={StaticResource ColorToBrushConverter}}"
+					  IsChecked="{Binding Path=s:SeriesValueModifier.IncludeSeries, Mode=TwoWay}" />
+
+            </Grid>
+        </DataTemplate>
+
+        <Style x:Key="MajorGridLineStyle" TargetType="Line">
+            <Setter Property="Stroke" Value="{StaticResource chart.major.gridLine.stroke}"/>
+        </Style>
+        <Style x:Key="MinorGridLineStyle" TargetType="Line">
+            <Setter Property="Stroke" Value="{StaticResource chart.minor.gridLine.stroke}"/>
+        </Style>
+        <Style x:Key="MajorTickLineStyle" TargetType="Line">
+            <Setter Property="Stroke" Value="Transparent"/>
+            <Setter Property="X2" Value="10"/>
+        </Style>
+        <Style x:Key="MinorTickLineStyle" TargetType="Line">
+            <Setter Property="Stroke" Value="#55FFFFFF"/>
+            <Setter Property="X2" Value="3"/>
+        </Style>
+        <Style x:Key="AxisTickLabelStyle" TargetType="s:DefaultTickLabel">
+            <Setter Property="Visibility" Value="Hidden"/>
+        </Style>
+        <Style x:Key="GridlinesPanelStyle" TargetType="{x:Type s:GridLinesPanel}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#BFBFBF" />
+        </Style>
+
+        <Style x:Key="YAxisTitleStyle" TargetType="{x:Type s:AxisTitle}">
+            <Setter Property="Margin" Value="0,0,0,0" />
+        </Style>
+
+        <Style x:Key="YAxisStyle" TargetType="{x:Type s:NumericAxis}">
+            <!--<Setter Property="HorizontalAlignment" Value="Left" />-->
+            <Setter Property="AxisAlignment" Value="Left" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="TitleFontSize" Value="12" />
+            <Setter Property="TitleFontWeight" Value="Bold" />
+            <Setter Property="TextFormatting" Value="0.####"/>
+            <Setter Property="DrawMajorBands" Value="True" />
+            <Setter Property="Margin" Value="0 0 0 0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="AxisBandsFill" Value="Transparent" />
+            <!--<Setter Property="TickLabelStyle" Value="{StaticResource AxisTickLabelStyle}"/>-->
+            <Setter Property="MajorGridLineStyle" Value="{StaticResource MajorGridLineStyle}"/>
+            <Setter Property="MinorGridLineStyle" Value="{StaticResource MinorGridLineStyle}"/>
+            <Setter Property="MajorTickLineStyle" Value="{StaticResource MajorTickLineStyle}"/>
+            <Setter Property="MinorTickLineStyle" Value="{StaticResource MinorTickLineStyle}"/>
+        </Style>
+
+        <Style x:Key="XAxisStyle" TargetType="{x:Type s:NumericAxis}">
+            <Setter Property="AxisAlignment" Value="Bottom" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="TitleFontSize" Value="12" />
+            <Setter Property="TitleFontWeight" Value="Bold" />
+            <Setter Property="TextFormatting" Value="0.####"/>
+            <Setter Property="DrawMajorBands" Value="True" />
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="AxisBandsFill" Value="Transparent" />
+            <Setter Property="MajorGridLineStyle" Value="{StaticResource MajorGridLineStyle}"/>
+            <Setter Property="MinorGridLineStyle" Value="{StaticResource MinorGridLineStyle}"/>
+            <Setter Property="MajorTickLineStyle" Value="{StaticResource MajorTickLineStyle}"/>
+            <Setter Property="MinorTickLineStyle" Value="{StaticResource MinorTickLineStyle}"/>
+        </Style>
+
+        <Style x:Key="SciChartSurfaceStyle" TargetType="{x:Type s:SciChartSurface}">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Foreground" Value="Gray" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="GridLinesPanelStyle" Value="{StaticResource GridlinesPanelStyle}"/>
+        </Style>
+    </UserControl.Resources>
     <Grid Margin="0 10 0 0">
         <telerik:RadBusyIndicator IsBusy="{Binding IsOngoingCalibration}" BusyContent="{Binding BusyContent}">
-            <Grid HorizontalAlignment="Center">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Style="{StaticResource TextBlockHeader1Style}" Text="Active Link Monitoring" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 15"/>
+                <Grid Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding TitleHeaderVisible}">
+                    <TextBlock Style="{StaticResource TextBlockHeader1Style}" Text="Active Link Monitoring" Margin="0 0 0 15"/>
+                </Grid>
+                <Grid Grid.Column="0" Grid.Row="3">
+                    <s:SciChartSurface x:Name="sciChartSurface" Style="{StaticResource SciChartSurfaceStyle}" Annotations="{s:AnnotationsBinding Annotations}" RenderableSeries="{s:SeriesBinding GraphPlots}" >
+                        <s:SciChartSurface.XAxis>
+                            <s:NumericAxis Style="{StaticResource XAxisStyle}" VisibleRange="{Binding XVisibleRange, Mode=TwoWay}" AxisTitle="Time(s)"/>
+                            <!--<s:NumericAxis Style="{StaticResource XAxisStyle}" AutoRange="Always" AxisTitle="Time(s)"/>-->
+                        </s:SciChartSurface.XAxis>
+
+                        <s:SciChartSurface.YAxis>
+                            <s:NumericAxis Style="{StaticResource YAxisStyle}"  VisibleRange="{Binding YVisibleRange, Mode=TwoWay}" AxisTitle="MSE (dB)"/>
+                            <!--<s:NumericAxis Style="{StaticResource YAxisStyle}" AutoRange="Always" AxisTitle="MSE (dB)"/>-->
+                        </s:SciChartSurface.YAxis>
+
+                        <s:SciChartSurface.ChartModifier>
+                            <s:ModifierGroup>
+                                <!--<s:CursorModifier/>-->
+                                <s:RubberBandXyZoomModifier/>
+                                <s:ZoomExtentsModifier ExecuteOn="MouseDoubleClick"/>
+                                <s:MouseWheelZoomModifier/>
+                                <!--<s:SeriesValueModifier/>-->
+                                <s:ZoomPanModifier ExecuteOn="MouseRightButton" ClipModeX="None" />
+                                <s:YAxisDragModifier DragMode="Scale"/>
+                                <s:XAxisDragModifier DragMode="Scale"/>
+                                <s:RolloverModifier IsEnabled="True" ShowTooltipOn="Always" DrawVerticalLine="True"
+                                        SourceMode="AllVisibleSeries" x:Name="RolloverModifier" />
+
+                            </s:ModifierGroup>
+                        </s:SciChartSurface.ChartModifier>
+                    </s:SciChartSurface>
+                </Grid>
             </Grid>
         </telerik:RadBusyIndicator>
     </Grid>

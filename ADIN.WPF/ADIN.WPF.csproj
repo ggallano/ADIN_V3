@@ -57,8 +57,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_T1L|AnyCPU'">
     <OutputPath>bin\Debug_T1L\</OutputPath>
-    <DefineConstants>DISABLE_TSN</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DISABLE_TSN</DefineConstants>
     <CodeAnalysisRuleSet>ADIN.WPF.ruleset</CodeAnalysisRuleSet>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_TSN|AnyCPU'">
     <OutputPath>bin\Debug_TSN\</OutputPath>
@@ -71,7 +73,7 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>default</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <CodeAnalysisRuleSet>ADIN.WPF.ruleset</CodeAnalysisRuleSet>
@@ -239,6 +241,7 @@
     <Compile Include="Stores\NavigationStore.cs" />
     <Compile Include="Stores\SelectedDeviceStore.cs" />
     <Compile Include="Themes\ValueCellStyle.cs" />
+    <Compile Include="ViewModel\ActiveLinkMonViewModel.cs" />
     <Compile Include="ViewModel\DeviceListingItemViewModel.cs" />
     <Compile Include="ViewModel\DeviceListingViewModel.cs" />
     <Compile Include="ViewModel\ClockPinControlViewModel.cs" />

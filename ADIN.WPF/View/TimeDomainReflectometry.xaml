@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="boolvis"/>
             <converter:BooleanVisibilityConverter x:Key="booleanHiddenConverter" IsInversed="False" IsHidden="True"/>
+            <converter:BooleanVisibilityConverter x:Key="booleanVisibilityConverter" IsInversed="False" IsHidden="False"/>
             <converter:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -29,7 +30,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TextBlockHeader1Style}" Text="Time Domain Reflectometry - Open/Short Detector" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 15"/>
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TextBlockHeader1Style}" Visibility="{Binding TitleHeaderVisible, Converter={StaticResource booleanVisibilityConverter}}" Text="Time Domain Reflectometry - Open/Short Detector" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 15"/>
                 <local:TDRCalibrationBox 
                     Grid.Column="0" Grid.Row="1" 
                     Header="Offset Calibration" 

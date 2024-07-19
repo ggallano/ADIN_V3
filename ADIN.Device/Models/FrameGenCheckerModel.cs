@@ -3,6 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 
 namespace ADIN.Device.Models
