@@ -40,10 +40,8 @@ namespace ADIN.Device.Models
         public string SerialNumber => Device.SerialNumber;
         public ITestMode TestMode => Device.TestMode;
         public ITimeDomainReflectometry TimeDomainReflectometry => Device.TimeDomainReflectometry;
-        public double MaxSlicerErrorPort1 { get; set; }
-        public double SpikeCountPortPort1 { get; set; }
-        public double MaxSlicerErrorPort2 { get; set; }
-        public double SpikeCountPortPort2 { get; set; }
+        public double MaxSlicerError { get; set; }
+        public double SpikeCountPort { get; set; }
 
         /// <summary>
         /// Gets or sets ADIN1300/12000 Cable Diag.
