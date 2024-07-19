@@ -34,9 +34,9 @@ namespace ADIN.Device.Services
 
         string GetLinkStatus();
 
-        string GetMseValue();
+        MseModel GetMseValue();
 
-        string GetMseValue(BoardRevision boardRev);
+        MseModel GetMseValue(BoardRevision boardRev);
 
         EthPhyState GetPhyState();
 

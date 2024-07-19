@@ -16,26 +16,30 @@ namespace ADIN.WPF.Converters
         {
             string mse = ((string)value).Trim();
 
-            if (mse.Contains("N/A") /*|| mse.Contains("-")*/ || mse.Contains("∞") /*|| mse.Contains("")*/)
+            if (mse.Contains("N/A") || (mse.Contains("-") && !mse.Contains("dB")) || mse.Contains("∞") /*|| mse.Contains("")*/)
                 return new SolidColorBrush(Colors.Red);
 
-            mse = mse.Replace("dB", "").Trim();
-            try
+            if (mse.Contains("dB"))
             {
-                var val = float.Parse(mse);
+                mse = mse.Replace("dB", "").Trim();
+                try
+                {
+                    var val = float.Parse(mse);
 
-                if (val < -21)
-                    return new SolidColorBrush(Colors.Green);
-                else if (val < -19 && val >= -21)
-                    return new SolidColorBrush(Colors.Yellow);
-                else /*if (val >= -19)*/
+                    if (val < -21)
+                        return new SolidColorBrush(Colors.Green);
+                    else if (val < -19 && val >= -21)
+                        return new SolidColorBrush(Colors.Yellow);
+                    else /*if (val >= -19)*/
+                        return new SolidColorBrush(Colors.Red);
+                }
+                catch (Exception ex)
+                {
                     return new SolidColorBrush(Colors.Red);
+                }
             }
-            catch (Exception ex)
-            {
-                return new SolidColorBrush(Colors.Red);
-            }
-            
+
+            return new SolidColorBrush(Colors.Green);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

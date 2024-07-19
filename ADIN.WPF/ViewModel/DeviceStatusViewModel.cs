@@ -7,6 +7,7 @@ using ADIN.Device.Models;
 using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
+using Helper.SignalToNoiseRatio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -44,7 +45,7 @@ namespace ADIN.WPF.ViewModel
         private object _mainLock;
         private string _masterSlaveStatus = "-";
         private string _maxSlicerError;
-        private string _mseValue = "-";
+        private MseModel _mseValue = new MseModel("-");
         private BackgroundWorker _readRegisterWorker;
         private List<string> _remoteAdvertisedSpeeds = new List<string>();
         private SelectedDeviceStore _selectedDeviceStore;
@@ -272,7 +273,7 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public string MseValue
+        public MseModel MseValue
         {
             get
             {
@@ -280,7 +281,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     return _mseValue;
                 }
-                return "-";
+                return new MseModel("-");
             }
 
             set
@@ -288,8 +289,8 @@ namespace ADIN.WPF.ViewModel
                 if (value != _mseValue)
                 {
                     _mseValue = value;
-                    OnPropertyChanged(nameof(MseValue));
                 }
+                OnPropertyChanged(nameof(MseValue));
             }
         }
 
