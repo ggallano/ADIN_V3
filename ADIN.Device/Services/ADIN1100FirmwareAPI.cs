@@ -1318,5 +1318,10 @@ namespace ADIN.Device.Services
                 FeedbackLog("Script is empty/has invalid register address/input value.", FeedbackType.Error);
             }
         }
+
+        public string AdvertisedSpeed()
+        {
+            return "10Base-T1L";
+        }
     }
 }
