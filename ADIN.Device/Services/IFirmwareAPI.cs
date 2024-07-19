@@ -24,6 +24,8 @@ namespace ADIN.Device.Services
 
         event EventHandler<List<string>> GigabitCableDiagCompleted;
 
+        string AdvertisedSpeed();
+
         void DisableLinking(bool isDisabledLinking);
 
         void GetFrameCheckerStatus();

@@ -1517,5 +1517,26 @@ namespace ADIN.Device.Services
                 return MdioWriteCl45(registerAddress, value);
             }
         }
+
+        public string AdvertisedSpeed()
+        {
+            switch (ReadYodaRg("HcdTech"))
+            {
+                case "0":
+                    return "SPEED_10BASE_T_HD";
+                case "1":
+                    return "SPEED_10BASE_T_FD";
+                case "2":
+                    return "SPEED_100BASE_TX_HD";
+                case "3":
+                    return "SPEED_100BASE_TX_FD";
+                case "4":
+                    return "SPEED_1000BASE_T_HD";
+                case "5":
+                    return "SPEED_1000BASE_T_FD";
+                default:
+                    return "-";
+            }
+        }
     }
 }

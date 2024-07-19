@@ -18,18 +18,19 @@ namespace ADIN.WPF.ViewModel
 {
     public class DeviceStatusViewModel : ViewModelBase
     {
-        private List<string> _advertisedSpeedList = new List<string>()
-        {
-            "SPEED_1000BASE_T_FD_SPEED",
-            "SPEED_1000BASE_T_HD_SPEED",
-            "SPEED_1000BASE_EEE_SPEED",
-            "SPEED_100BASE_TX_FD_SPEED",
-            "SPEED_100BASE_TX_HD_SPEED",
-            "SPEED_100BASE_EEE_SPEED",
-            "SPEED_10BASE_T_FD_SPEED",
-            "SPEED_10BASE_T_HD_SPEED"
-        };
+        //private List<string> _advertisedSpeedList = new List<string>()
+        //{
+        //    "SPEED_1000BASE_T_FD_SPEED",
+        //    "SPEED_1000BASE_T_HD_SPEED",
+        //    "SPEED_1000BASE_EEE_SPEED",
+        //    "SPEED_100BASE_TX_FD_SPEED",
+        //    "SPEED_100BASE_TX_HD_SPEED",
+        //    "SPEED_100BASE_EEE_SPEED",
+        //    "SPEED_10BASE_T_FD_SPEED",
+        //    "SPEED_10BASE_T_HD_SPEED"
+        //};
 
+        private string _advertisedSpeed = "-";
         private string _anStatus = "-";
         private BackgroundWorker _backgroundWorker;
         private string _checker = "-";
@@ -71,29 +72,12 @@ namespace ADIN.WPF.ViewModel
 
         public string AdvertisedSpeed
         {
-            get
+            get { return _advertisedSpeed; }
+
+            set
             {
-                if ((_selectedDevice?.DeviceType == BoardType.ADIN1100)
-                 || (_selectedDevice?.DeviceType == BoardType.ADIN1100_S1)
-                 || (_selectedDevice?.DeviceType == BoardType.ADIN1110)
-                 || (_selectedDevice?.DeviceType == BoardType.ADIN2111))
-                    return _localAdvertisedSpeeds[0];
-
-                if (_selectedDevice?.DeviceType == BoardType.ADIN1200
-                 || _selectedDevice?.DeviceType == BoardType.ADIN1300)
-                {
-                    List<string> matchingSpeed =
-                        (from localSpeed in _localAdvertisedSpeeds
-                         where (localSpeed != "") && _remoteAdvertisedSpeeds.Contains(localSpeed)
-                         select localSpeed).ToList();
-
-                    if (matchingSpeed.Count > 0)
-                    {
-                        return matchingSpeed[0];
-                    }
-                }
-
-                return "-";
+                _advertisedSpeed = value;
+                OnPropertyChanged(nameof(AdvertisedSpeed));
             }
         }
 
@@ -428,6 +412,7 @@ namespace ADIN.WPF.ViewModel
 
                             // Common ADIN Device Status
                             LinkStatus = _selectedDevice.FwAPI.GetLinkStatus();
+                            AdvertisedSpeed = _selectedDevice.FwAPI.AdvertisedSpeed();
                             LocalAdvertisedSpeeds = _selectedDevice.FwAPI.LocalAdvertisedSpeedList();
                             _selectedDevice.FwAPI.GetFrameCheckerStatus();
                             Generator = _selectedDevice.FwAPI.GetFrameGeneratorStatus();
