@@ -837,6 +837,9 @@ namespace ADIN.Device.Services
             checkedFrames = 0;
             checkedFramesErrors = 0;
 
+            WriteYodaRg("FcMaxFrmSize", 0xFFFF);
+            WriteYodaRg("FcTxSel", 0);
+
             bool fgEn_st = ReadYodaRg("FgEn") == "1" ? true : false;
 
             if (fgEn_st)
