@@ -24,6 +24,12 @@ namespace ADIN.WPF.Commands.CableDiag
             _selectedDeviceStore = selectedDeviceStore;
 
             _viewModel.PropertyChanged += _viewModel_PropertyChanged;
+            _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+        }
+
+        private void _selectedDeviceStore_SelectedDeviceChanged()
+        {
+            OnCanExecuteChanged();
         }
 
         public override bool CanExecute(object parameter)
@@ -47,20 +53,20 @@ namespace ADIN.WPF.Commands.CableDiag
                         if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
                         {
                             ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                            _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset), CultureInfo.InvariantCulture);
+                            _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.TimeDomainReflectometry.CableOffset), CultureInfo.InvariantCulture);
                         }
                         else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
                         {
                             ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
-                            _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset), CultureInfo.InvariantCulture);
+                            _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.TimeDomainReflectometry.CableOffset), CultureInfo.InvariantCulture);
                         }
                         else //if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
                         {
                             ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-                            if (_selectedDeviceStore.SelectedDevice.PortNumber == 1)
-                                _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry.CableOffset), CultureInfo.InvariantCulture);
-                            else
-                                _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort2.TimeDomainReflectometry.CableOffset), CultureInfo.InvariantCulture);
+                            //if (_selectedDeviceStore.SelectedDevice.PortNumber == 1)
+                                _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.TimeDomainReflectometry.CableOffset), CultureInfo.InvariantCulture);
+                            //else
+                            //    _viewModel.OffsetValue = Decimal.Parse(fwAPI.SetOffset(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort2.TimeDomainReflectometry.CableOffset), CultureInfo.InvariantCulture);
                         }
                         
                         break;
@@ -69,27 +75,27 @@ namespace ADIN.WPF.Commands.CableDiag
                         if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
                         {
                             ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                            results = fwAPI.SetNvp(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry.NVP);
+                            results = fwAPI.SetNvp(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.TimeDomainReflectometry.NVP);
                         }
                         else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
                         {
                             ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
-                            results = fwAPI.SetNvp(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry.NVP);
+                            results = fwAPI.SetNvp(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.TimeDomainReflectometry.NVP);
                         }
                         else //if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
                         {
                             ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-                            if (_selectedDeviceStore.SelectedDevice.PortNumber == 1)
-                                results = fwAPI.SetNvp(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry.NVP);
-                            else
-                                results = fwAPI.SetNvp(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort2.TimeDomainReflectometry.NVP);
+                            //if (_selectedDeviceStore.SelectedDevice.PortNumber == 1)
+                                results = fwAPI.SetNvp(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.TimeDomainReflectometry.NVP);
+                            //else
+                            //    results = fwAPI.SetNvp(_selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort2.TimeDomainReflectometry.NVP);
                         }
 
                         _viewModel.NvpValue = Decimal.Parse(results[0], CultureInfo.InvariantCulture);
-                        if (_selectedDeviceStore.SelectedDevice.PortNumber == 1)
-                            _selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.TimeDomainReflectometry.Mode = (CalibrationMode)Enum.Parse(typeof(CalibrationMode), results[1]);
-                        else
-                            _selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort2.TimeDomainReflectometry.Mode = (CalibrationMode)Enum.Parse(typeof(CalibrationMode), results[1]);
+                        //if (_selectedDeviceStore.SelectedDevice.PortNumber == 1)
+                            _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.TimeDomainReflectometry.Mode = (CalibrationMode)Enum.Parse(typeof(CalibrationMode), results[1]);
+                        //else
+                        //    _selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort2.TimeDomainReflectometry.Mode = (CalibrationMode)Enum.Parse(typeof(CalibrationMode), results[1]);
                         break;
 
                     default:

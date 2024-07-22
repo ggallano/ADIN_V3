@@ -51,6 +51,8 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.PortNumChanged += _selectedDeviceStore_PortNumChanged;
         }
 
+        public bool TitleHeaderVisible => !Properties.Settings.Default.ActiveLinkMon;
+
         public string BusyContent
         {
             get { return _busyContent; }
@@ -60,22 +62,17 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(BusyContent));
             }
         }
+
         public string CableCalibrationMessage
         {
-            get 
-            { 
-                if (_selectedDevice?.PortNumber == 1)
-                    return _faultDetectorPort1?.CableCalibrationMessage; 
-                else
-                    return _faultDetectorPort2?.CableCalibrationMessage; 
+            get
+            {
+                return _faultDetector?.CableCalibrationMessage;
             }
             set
             {
                 _cableCalibrationMessage = value;
-                if (_selectedDevice?.PortNumber == 1)
-                    _faultDetectorPort1.CableCalibrationMessage = value;
-                else
-                    _faultDetectorPort2.CableCalibrationMessage = value;
+                _faultDetector.CableCalibrationMessage = value;
                 OnPropertyChanged(nameof(CableCalibrationMessage));
             }
         }
@@ -84,40 +81,27 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                if (_selectedDevice?.PortNumber == 1)
-                    return _faultDetectorPort1?.CableFileName ?? "-"; 
-                else
-                    return _faultDetectorPort2?.CableFileName ?? "-"; 
+                return _faultDetector?.CableFileName ?? "-";
             }
             set
             {
                 _cableFileName = value;
-                if (_selectedDevice?.PortNumber == 1)
-                    _faultDetectorPort1.CableFileName = value;
-                else
-                    _faultDetectorPort2.CableFileName = value;
+                _faultDetector.CableFileName = value;
                 OnPropertyChanged(nameof(CableFileName));
             }
         }
 
         public ICommand CalibrateCommand { get; set; }
-
         public string DistToFault
         {
             get
             {
-                if (_selectedDevice?.PortNumber == 1)
-                    return _faultDetectorPort1?.DistToFault ?? "0.00"; 
-                else
-                    return _faultDetectorPort2?.DistToFault ?? "0.00"; 
+                return _faultDetector?.DistToFault ?? "0.00";
             }
             set
             {
                 _distToFault = value;
-                if (_selectedDevice?.PortNumber == 1)
-                    _faultDetectorPort1.DistToFault = value;
-                else
-                    _faultDetectorPort2.DistToFault = value;
+                _faultDetector.DistToFault = value;
                 OnPropertyChanged(nameof(DistToFault));
             }
         }
@@ -126,62 +110,43 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                if (_selectedDevice?.PortNumber == 1)
-                    return _faultDetectorPort1?.FaultBackgroundBrush ?? new SolidColorBrush(Colors.LightGray); 
-                else
-                    return _faultDetectorPort2?.FaultBackgroundBrush ?? new SolidColorBrush(Colors.LightGray); 
+                return _faultDetector?.FaultBackgroundBrush ?? new SolidColorBrush(Colors.LightGray);
             }
             set
             {
                 _faultBackgroundBrush = value;
-                if (_selectedDevice?.PortNumber == 1)
-                    _faultDetectorPort1.FaultBackgroundBrush = value;
-                else
-                    _faultDetectorPort2.FaultBackgroundBrush = value;
+                _faultDetector.FaultBackgroundBrush = value;
                 OnPropertyChanged(nameof(FaultBackgroundBrush));
             }
         }
 
         public ICommand FaultDetectCommand { get; set; }
-
         public string FaultState
         {
             get
             {
-                if (_selectedDevice?.PortNumber == 1)
-                    return _faultDetectorPort1?.FaultState ?? ""; 
-                else
-                    return _faultDetectorPort2?.FaultState ?? ""; 
+                return _faultDetector?.FaultState ?? "";
             }
             set
             {
                 _faultState = value;
-                if (_selectedDevice?.PortNumber == 1)
-                    _faultDetectorPort1.FaultState = value;
-                else
-                    _faultDetectorPort2.FaultState = value;
+                _faultDetector.FaultState = value;
                 OnPropertyChanged(nameof(FaultState));
             }
         }
 
         public ICommand InitializedCommand { get; set; }
-
+        public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
         public bool IsFaultVisibility
         {
             get
             {
-                if (_selectedDevice?.PortNumber == 1)
-                    return _faultDetectorPort1?.IsFaultVisibility ?? false; 
-                else
-                    return _faultDetectorPort2?.IsFaultVisibility ?? false; 
+                return _faultDetector?.IsFaultVisibility ?? false;
             }
             set
             {
                 _isFaultVisibility = value;
-                if (_selectedDevice?.PortNumber == 1)
-                    _faultDetectorPort1.IsFaultVisibility = value;
-                else
-                    _faultDetectorPort2.IsFaultVisibility = value;
+                _faultDetector.IsFaultVisibility = value;
                 OnPropertyChanged(nameof(IsFaultVisibility));
             }
         }
@@ -204,18 +169,12 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                if (_selectedDevice?.PortNumber == 1)
-                    return _faultDetectorPort1?.IsVisibleCableCalibration == true; 
-                else
-                    return _faultDetectorPort2?.IsVisibleCableCalibration == true; 
+                return _faultDetector?.IsVisibleCableCalibration == true;
             }
             set
             {
                 _isVisibleCableCalibration = value;
-                if (_selectedDevice?.PortNumber == 1)
-                    _selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.IsVisibleCableCalibration = value;
-                else
-                    _selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort2.IsVisibleCableCalibration = value;
+                _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.IsVisibleCableCalibration = value;
                 OnPropertyChanged(nameof(IsVisibleCableCalibration));
             }
         }
@@ -224,18 +183,12 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                if (_selectedDevice?.PortNumber == 1)
-                    return _faultDetectorPort1?.IsVisibleOffsetCalibration == true; 
-                else
-                    return _faultDetectorPort2?.IsVisibleOffsetCalibration == true; 
+                return _faultDetector?.IsVisibleOffsetCalibration == true;
             }
             set
             {
                 _isVisibleOffsetCalibration = value;
-                if (_selectedDevice?.PortNumber == 1)
-                    _selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort1.IsVisibleOffsetCalibration = value;
-                else
-                    _selectedDeviceStore.SelectedDevice.TimeDomainReflectometryPort2.IsVisibleOffsetCalibration = value;
+                _selectedDeviceStore.SelectedDevice.TimeDomainReflectometry.IsVisibleOffsetCalibration = value;
                 OnPropertyChanged(nameof(IsVisibleOffsetCalibration));
             }
         }
@@ -247,20 +200,14 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                if (_selectedDevice?.PortNumber == 1)
-                    return _cableDiagnosticPort1?.NVP ?? 0.0M; 
-                else
-                    return _cableDiagnosticPort2?.NVP ?? 0.0M; 
+                return _cableDiagnostic?.NVP ?? 0.0M;
             }
             set
             {
                 if (_selectedDevice != null)
                 {
                     _nvpValue = value;
-                    if (_selectedDevice?.PortNumber == 1)
-                        _cableDiagnosticPort1.NVP = value;
-                    else
-                        _cableDiagnosticPort2.NVP = value;
+                    _cableDiagnostic.NVP = value;
                 }
                 OnPropertyChanged(nameof(NvpValue));
             }
@@ -270,18 +217,12 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                if (_selectedDevice?.PortNumber == 1)
-                    return _faultDetectorPort1?.OffsetCalibrationMessage; 
-                else
-                    return _faultDetectorPort2?.OffsetCalibrationMessage; 
+                return _faultDetector?.OffsetCalibrationMessage;
             }
             set
             {
                 _offsetCalibrationMessage = value;
-                if (_selectedDevice?.PortNumber == 1)
-                    _faultDetectorPort1.OffsetCalibrationMessage = value;
-                else
-                    _faultDetectorPort2.OffsetCalibrationMessage = value;
+                _faultDetector.OffsetCalibrationMessage = value;
                 OnPropertyChanged(nameof(OffsetCalibrationMessage));
             }
         }
@@ -290,18 +231,12 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                if (_selectedDevice?.PortNumber == 1)
-                    return _faultDetectorPort1?.OffsetFileName ?? "-"; 
-                else
-                    return _faultDetectorPort2?.OffsetFileName ?? "-"; 
+                return _faultDetector?.OffsetFileName ?? "-";
             }
             set
             {
                 _offsetFileName = value;
-                if (_selectedDevice?.PortNumber == 1)
-                    _faultDetectorPort1.OffsetFileName = value;
-                else
-                    _faultDetectorPort2.OffsetFileName = value;
+                _faultDetector.OffsetFileName = value;
                 OnPropertyChanged(nameof(OffsetFileName));
             }
         }
@@ -310,20 +245,14 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                if (_selectedDevice?.PortNumber == 1)
-                    return _cableDiagnosticPort1?.CableOffset ?? 0.0M; 
-                else
-                    return _cableDiagnosticPort2?.CableOffset ?? 0.0M; 
+                return _cableDiagnostic?.CableOffset ?? 0.0M;
             }
             set
             {
                 if (_selectedDevice != null)
                 {
                     _offsetValue = value;
-                    if (_selectedDevice?.PortNumber == 1)
-                        _cableDiagnosticPort1.CableOffset = value;
-                    else
-                        _cableDiagnosticPort2.CableOffset = value;
+                    _cableDiagnostic.CableOffset = value;
                 }
                 OnPropertyChanged(nameof(OffsetValue));
             }
@@ -331,13 +260,9 @@ namespace ADIN.WPF.ViewModel
 
         public ICommand SaveCommand { get; set; }
 
-        private TDRModel _cableDiagnosticPort1 => _selectedDevice?.TimeDomainReflectometryPort1?.TimeDomainReflectometry;
+        private TDRModel _cableDiagnostic => _selectedDevice?.TimeDomainReflectometry?.TimeDomainReflectometry;
 
-        private TDRModel _cableDiagnosticPort2 => _selectedDevice?.TimeDomainReflectometryPort2?.TimeDomainReflectometry;
-
-        private ITimeDomainReflectometry _faultDetectorPort1 => _selectedDevice?.TimeDomainReflectometryPort1;
-
-        private ITimeDomainReflectometry _faultDetectorPort2 => _selectedDevice?.TimeDomainReflectometryPort2;
+        private ITimeDomainReflectometry _faultDetector => _selectedDevice?.TimeDomainReflectometry;
 
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
 
@@ -350,6 +275,8 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_PortNumChanged()
         {
+            OnPropertyChanged(nameof(IsDeviceSelected));
+
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 
@@ -369,8 +296,11 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(DistToFault));
             OnPropertyChanged(nameof(FaultState));
         }
+
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            OnPropertyChanged(nameof(IsDeviceSelected));
+
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 

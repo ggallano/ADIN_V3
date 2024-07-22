@@ -9,5 +9,6 @@ namespace ADIN.Device.Services
     public interface IClockPinControlAPI
     {
         void SetGpClkPinControl(string gpClkPinCtrl);
+        void SetClk25RefPinControl(string clk25RefPinCtrl);
     }
 }

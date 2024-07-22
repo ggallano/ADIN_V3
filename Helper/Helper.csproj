@@ -42,7 +42,7 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>default</LangVersion>
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_TSN|AnyCPU'">
@@ -76,6 +76,7 @@
     <Compile Include="SaveToFile\IFileWriter.cs" />
     <Compile Include="SaveToFile\CsvFileWriter.cs" />
     <Compile Include="SaveToFile\XmlFileWriter.cs" />
+    <Compile Include="SignalToNoiseRatio\SignalToNoiseRatio.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ADI.Register\ADI.Register.csproj">

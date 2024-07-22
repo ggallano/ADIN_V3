@@ -3,6 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
 // </copyright>
 
+using ADIN.Device.Models;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 
@@ -11,7 +12,9 @@ namespace ADIN.WPF.Commands
     public class AutoNegCommand : CommandBase
     {
         private ExtraCommandsViewModel _extraCommandsViewModel;
+        private EthPhyState _phyState = EthPhyState.Standby;
         private SelectedDeviceStore _selectedDeviceStore;
+        private bool _isOngoingCalibration;
 
         public AutoNegCommand(ExtraCommandsViewModel extraCommandsViewModel, SelectedDeviceStore selectedDeviceStore)
         {
@@ -19,14 +22,24 @@ namespace ADIN.WPF.Commands
             _selectedDeviceStore = selectedDeviceStore;
 
             _extraCommandsViewModel.PropertyChanged += _extraCommandsViewModel_PropertyChanged;
+            _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStatusChanged;
+            _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
+        }
+
+        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool status)
+        {
+            _isOngoingCalibration = status;
         }
 
         public override bool CanExecute(object parameter)
         {
-            if (_selectedDeviceStore.SelectedDevice == null ||
-                !_extraCommandsViewModel.IsPoweredUp ||
-                !_extraCommandsViewModel.EnableButton)
+            if (_selectedDeviceStore.SelectedDevice == null)
                 return false;
+
+            if (_phyState == EthPhyState.Powerdown || _isOngoingCalibration)
+                return false;
+
             return base.CanExecute(parameter);
         }
 
@@ -37,6 +50,19 @@ namespace ADIN.WPF.Commands
 
         private void _extraCommandsViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            OnCanExecuteChanged();
+        }
+
+        private void _selectedDeviceStore_LinkStatusChanged(EthPhyState phyState)
+        {
+            _phyState = phyState;
+        }
+
+        private void _selectedDeviceStore_SelectedDeviceChanged()
+        {
+            if (_selectedDeviceStore.SelectedDevice != null)
+                return;
+
             OnCanExecuteChanged();
         }
     }

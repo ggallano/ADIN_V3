@@ -9,6 +9,7 @@ using ADIN.Device.Models;
 using ADIN.WPF.Models;
 using FTDIChip.Driver.Services;
 using Helper.Feedback;
+using Helper.SignalToNoiseRatio;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,8 +31,10 @@ namespace ADIN.Device.Services
         private EthPhyState _phyState;
         private ObservableCollection<RegisterModel> _registers;
         private IRegisterService _registerService;
+        private bool cablediagnosticsRunning = false;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
+        private MseModel _mse = new MseModel("-");
         public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
@@ -43,6 +46,8 @@ namespace ADIN.Device.Services
         public event EventHandler<FrameType> FrameContentChanged;
 
         public event EventHandler<string> FrameGenCheckerTextStatusChanged;
+
+        public event EventHandler<List<string>> GigabitCableDiagCompleted;
 
         public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
 
@@ -84,17 +89,63 @@ namespace ADIN.Device.Services
             }
         }
 
+        public void CableDiagnosticsStatus()
+        {
+            List<string> cableDiagnosticsStatus = new List<string>();
+            var diagInfoRegisters = new List<string>() { "CdiagRslt0Gd", "CdiagRslt1Gd" };
+            var pairs = new List<string>() { "0", "1" };
+
+            uint cdi_st = uint.Parse(this.ReadYodaRg("CdiagRun"));
+
+            if (this.cablediagnosticsRunning && (cdi_st == 0))
+            {
+                this.cablediagnosticsRunning = false;
+                this.FeedbackLog("Cable Diagnostics have completed", FeedbackType.Info);
+
+                int idx = 0;
+                foreach (var bitField in diagInfoRegisters)
+                {
+                    uint bitFieldValue = uint.Parse(this.ReadYodaRg(bitField));
+
+                    if (bitFieldValue == 0x01)
+                    {
+                        cableDiagnosticsStatus.Add($"Pair{idx} is well terminated.");
+                    }
+                    idx++;
+                }
+
+                uint distance;
+                foreach (var pair in pairs)
+                {
+
+                    try
+                    {
+                        distance = uint.Parse(this.ReadYodaRg($"CdiagFltDist{pair}"));
+                        if (distance != 0xFF)
+                        {
+                            cableDiagnosticsStatus.Add($"Distance to fault on pair {pair} is {distance} m.");
+                        }
+                    }
+                    catch (ArgumentException e)
+                    {
+                        /* This register does not exist in this device */
+                    }
+                }
+                GigabitCableDiagCompleted?.Invoke(this, cableDiagnosticsStatus);
+            }
+        }
+
         public void DisableLinking(bool isDisabledLinking)
         {
             if (isDisabledLinking)
             {
                 WriteYodaRg("LinkEn", 0);
-                FeedbackLog("disable Linking", FeedbackType.Info);
+                FeedbackLog("Disable linking", FeedbackType.Info);
             }
             else
             {
                 WriteYodaRg("LinkEn", 1);
-                FeedbackLog("enable Linking", FeedbackType.Info);
+                FeedbackLog("Enable linking", FeedbackType.Info);
             }
         }
 
@@ -146,10 +197,42 @@ namespace ADIN.Device.Services
             FeedbackLog(_feedbackMessage, FeedbackType.Info);
         }
 
+        public void ExecuteSript(ScriptModel script)
+        {
+            try
+            {
+                foreach (var register in script.RegisterAccesses)
+                {
+                    if (register.RegisterName != null)
+                    {
+                        WriteYodaRg(register.RegisterName, uint.Parse(register.Value));
+                        continue;
+                    }
+
+                    if (register.RegisterAddress != null)
+                    {
+                        uint regAddress = uint.Parse(register.RegisterAddress);
+                        uint regValue = uint.Parse(register.Value);
+                        WriteYodaRg(regAddress, regValue);
+                        FeedbackLog($"Register 0x{regAddress.ToString("X")} = {regValue.ToString("X")}", FeedbackType.Verbose);
+                        continue;
+                    }
+                }
+            }
+            catch (ApplicationException ex)
+            {
+                FeedbackLog(ex.Message, FeedbackType.Error);
+            }
+            catch (NullReferenceException)
+            {
+                FeedbackLog("Script is empty/has invalid register address/input value.", FeedbackType.Error);
+            }
+        }
+
         public void GetFrameCheckerStatus()
         {
-            uint fcEn_st = Convert.ToUInt32(ReadYogaRg("FcEn"));
-            uint fcTxSel_st = Convert.ToUInt32(ReadYogaRg("FcTxSel"));
+            uint fcEn_st = Convert.ToUInt32(ReadYodaRg("FcEn"));
+            uint fcTxSel_st = Convert.ToUInt32(ReadYodaRg("FcTxSel"));
 
             if (fcEn_st == 0)
             {
@@ -157,9 +240,9 @@ namespace ADIN.Device.Services
                 return;
             }
 
-            uint errCnt = Convert.ToUInt32(ReadYogaRg("RxErrCnt"));
-            uint fCntL = Convert.ToUInt32(ReadYogaRg("FcFrmCntL"));
-            uint fCntH = Convert.ToUInt32(ReadYogaRg("FcFrmCntH"));
+            uint errCnt = Convert.ToUInt32(ReadYodaRg("RxErrCnt"));
+            uint fCntL = Convert.ToUInt32(ReadYodaRg("FcFrmCntL"));
+            uint fCntH = Convert.ToUInt32(ReadYodaRg("FcFrmCntH"));
             uint fCnt = (65536 * fCntH) + fCntL;
 
             if (fCnt == 0)
@@ -182,12 +265,15 @@ namespace ADIN.Device.Services
 
         public string GetFrameGeneratorStatus()
         {
-            uint fgEn_st = Convert.ToUInt32(ReadYogaRg("FgEn"), 16);
+            uint fgEn_st = Convert.ToUInt32(ReadYodaRg("FgEn"), 16);
             //uint fcTxSel_st = Convert.ToUInt32(ReadYodaRg("FC_TX_SEL"), 16);
-            uint fgContModeEn_st = Convert.ToUInt32(ReadYogaRg("FgContModeEn"), 16);
+            uint fgContModeEn_st = Convert.ToUInt32(ReadYodaRg("FgContModeEn"), 16);
 
             if (fgEn_st == 0)
+            {
+                OnFrameGenCheckerStatusChanged("Generate");
                 return "Not Enabled";
+            }
 
             if (fgContModeEn_st == 1)
             {
@@ -196,7 +282,7 @@ namespace ADIN.Device.Services
                 return "Frame Transmission in progress";
             }
 
-            uint fgDone_st = Convert.ToUInt32(ReadYogaRg("FgDone"), 16);
+            uint fgDone_st = Convert.ToUInt32(ReadYodaRg("FgDone"), 16);
             if (fgDone_st != 0)
             {
                 WriteYodaRg("FgEn", 0);
@@ -217,43 +303,67 @@ namespace ADIN.Device.Services
             return GetPhyState().ToString();
         }
 
-        public string GetMseValue()
+        public MseModel GetMseValue()
         {
-            //if (_boardRev == BoardRevision.Rev0)
-            //    return "N/A";
-
             if (_phyState != EthPhyState.LinkUp)
-                return "N/A";
+                return new MseModel("-");
 
             // Formula:
             // where mse is the value from the register, and sym_pwr_exp is a constant 0.64423.
             // mse_db = 10 * log10((mse / 218) / sym_pwr_exp)
-            double mse = Convert.ToUInt32(ReadYogaRg("MseA"), 16);
-            double sym_pwr_exp = 0.64423;
-            double mse_db = 10 * Math.Log10((mse / Math.Pow(2, 18)) / sym_pwr_exp);
 
-            //OnMseValueChanged(mse_db.ToString("0.00") + " dB");
-            return $"{mse_db.ToString("0.00")} dB";
+            _mse.MseA_Raw = ReadYodaRg("MseA");
+            if (_mse.MseA_Max == "-" || Convert.ToUInt32(_mse.MseA_Max) < Convert.ToUInt32(_mse.MseA_Raw))
+                _mse.MseA_Max = _mse.MseA_Raw;
+            _mse.MseA_Combined = _mse.MseA_Raw + ", " + _mse.MseA_Max;
+            _mse.MseA_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseA_Raw)).ToString("0.00") + " dB";
+
+            var resolvedHCD = (EthernetSpeeds)Convert.ToUInt32(ReadYodaRg("HcdTech"));
+
+            if ((resolvedHCD == EthernetSpeeds.SPEED_1000BASE_T_HD)
+             || (resolvedHCD == EthernetSpeeds.SPEED_1000BASE_T_FD))
+            {
+                _mse.MseB_Raw = ReadYodaRg("MseB");
+                _mse.MseC_Raw = ReadYodaRg("MseC");
+                _mse.MseD_Raw = ReadYodaRg("MseD");
+
+                if (_mse.MseB_Max == "-" || Convert.ToUInt32(_mse.MseB_Max) < Convert.ToUInt32(_mse.MseB_Raw))
+                    _mse.MseB_Max = _mse.MseB_Raw;
+                if (_mse.MseC_Max == "-" || Convert.ToUInt32(_mse.MseC_Max) < Convert.ToUInt32(_mse.MseC_Raw))
+                    _mse.MseC_Max = _mse.MseC_Raw;
+                if (_mse.MseD_Max == "-" || Convert.ToUInt32(_mse.MseD_Max) < Convert.ToUInt32(_mse.MseD_Raw))
+                    _mse.MseD_Max = _mse.MseD_Raw;
+
+                _mse.MseB_Combined = _mse.MseB_Raw + ", " + _mse.MseB_Max;
+                _mse.MseC_Combined = _mse.MseC_Raw + ", " + _mse.MseC_Max;
+                _mse.MseD_Combined = _mse.MseD_Raw + ", " + _mse.MseD_Max;
+
+                _mse.MseB_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseB_Raw)).ToString("0.00") + " dB";
+                _mse.MseC_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseC_Raw)).ToString("0.00") + " dB";
+                _mse.MseD_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseD_Raw)).ToString("0.00") + " dB";
+            }
+
+            return _mse;
         }
 
-        public string GetMseValue(BoardRevision boardRev)
+        public MseModel GetMseValue(BoardRevision boardRev)
         {
             throw new NotImplementedException();
         }
 
         public EthPhyState GetPhyState()
         {
-            if (ReadYogaRg("SftPd") == "1")
+            if (ReadYodaRg("SftPd") == "1")
             {
                 return _phyState = EthPhyState.Powerdown;
             }
 
-            if (ReadYogaRg("LinkEn") == "0")
+            if (ReadYodaRg("LinkEn") == "0")
             {
                 return _phyState = EthPhyState.Standby;
             }
 
-            if (!(ReadYogaRg("LinkStatLat") == "1"))
+            if (!(ReadYodaRg("LinkStatLat") == "1"))
             {
                 return _phyState = EthPhyState.LinkDown;
             }
@@ -263,7 +373,7 @@ namespace ADIN.Device.Services
 
         public string GetSpeedMode()
         {
-            if (ReadYogaRg("AutonegEn") == "1")
+            if (ReadYodaRg("AutonegEn") == "1")
             {
                 return "Advertised";
             }
@@ -281,7 +391,7 @@ namespace ADIN.Device.Services
             localSpeeds.Add(string.Empty);
             localSpeeds.Add(string.Empty);
 
-            if (this.ReadYogaRg("Fd100Adv") == "1")
+            if (this.ReadYodaRg("Fd100Adv") == "1")
             {
                 localSpeeds.Add("SPEED_100BASE_TX_FD_SPEED");
             }
@@ -290,7 +400,7 @@ namespace ADIN.Device.Services
                 localSpeeds.Add(string.Empty);
             }
 
-            if (this.ReadYogaRg("Hd100Adv") == "1")
+            if (this.ReadYodaRg("Hd100Adv") == "1")
             {
                 localSpeeds.Add("SPEED_100BASE_TX_HD_SPEED");
             }
@@ -299,7 +409,7 @@ namespace ADIN.Device.Services
                 localSpeeds.Add(string.Empty);
             }
 
-            if (this.ReadYogaRg("Eee100Adv") == "1")
+            if (this.ReadYodaRg("Eee100Adv") == "1")
             {
                 localSpeeds.Add("SPEED_100BASE_EEE_SPEED");
             }
@@ -308,7 +418,7 @@ namespace ADIN.Device.Services
                 localSpeeds.Add(string.Empty);
             }
 
-            if (this.ReadYogaRg("Fd10Adv") == "1")
+            if (this.ReadYodaRg("Fd10Adv") == "1")
             {
                 localSpeeds.Add("SPEED_10BASE_T_FD_SPEED");
             }
@@ -317,7 +427,7 @@ namespace ADIN.Device.Services
                 localSpeeds.Add(string.Empty);
             }
 
-            if (this.ReadYogaRg("Hd10Adv") == "1")
+            if (this.ReadYodaRg("Hd10Adv") == "1")
             {
                 localSpeeds.Add("SPEED_10BASE_T_HD_SPEED");
             }
@@ -519,6 +629,11 @@ namespace ADIN.Device.Services
         {
             foreach (var register in _registers)
             {
+                // This condition will skip reading the value for FG_DONE due to conflict in 
+                // FrameGenChecker operation it does not terminate properly because the flag was already at zero value.
+                if (register.Name == "FgDone")
+                    continue;
+
                 register.Value = ReadYodaRg(register.Address);
             }
             Debug.WriteLine("ReadRegisters Done");
@@ -533,7 +648,7 @@ namespace ADIN.Device.Services
 
         public string RegisterRead(string register)
         {
-            return ReadYogaRg(register);
+            return ReadYodaRg(register);
         }
 
         public string RegisterWrite(uint regAddress, uint data)
@@ -545,7 +660,7 @@ namespace ADIN.Device.Services
         {
             List<string> remoteSpeeds = new List<string>();
 
-            if (this.ReadYogaRg("LpFd1000Able") == "1")
+            if (this.ReadYodaRg("LpFd1000Able") == "1")
             {
                 remoteSpeeds.Add("SPEED_1000BASE_T_FD_SPEED");
             }
@@ -554,7 +669,7 @@ namespace ADIN.Device.Services
                 remoteSpeeds.Add(string.Empty);
             }
 
-            if (this.ReadYogaRg("LpHd1000Able") == "1")
+            if (this.ReadYodaRg("LpHd1000Able") == "1")
             {
                 remoteSpeeds.Add("SPEED_1000BASE_T_HD_SPEED");
             }
@@ -563,7 +678,7 @@ namespace ADIN.Device.Services
                 remoteSpeeds.Add(string.Empty);
             }
 
-            if (this.ReadYogaRg("LpEee1000Able") == "1")
+            if (this.ReadYodaRg("LpEee1000Able") == "1")
             {
                 remoteSpeeds.Add("SPEED_1000BASE_EEE_SPEED");
             }
@@ -572,7 +687,7 @@ namespace ADIN.Device.Services
                 remoteSpeeds.Add(string.Empty);
             }
 
-            if (this.ReadYogaRg("LpFd100Able") == "1")
+            if (this.ReadYodaRg("LpFd100Able") == "1")
             {
                 remoteSpeeds.Add("SPEED_100BASE_TX_FD_SPEED");
             }
@@ -581,7 +696,7 @@ namespace ADIN.Device.Services
                 remoteSpeeds.Add(string.Empty);
             }
 
-            if (this.ReadYogaRg("LpHd100Able") == "1")
+            if (this.ReadYodaRg("LpHd100Able") == "1")
             {
                 remoteSpeeds.Add("SPEED_100BASE_TX_HD_SPEED");
             }
@@ -590,7 +705,7 @@ namespace ADIN.Device.Services
                 remoteSpeeds.Add(string.Empty);
             }
 
-            if (this.ReadYogaRg("LpEee100Able") == "1")
+            if (this.ReadYodaRg("LpEee100Able") == "1")
             {
                 remoteSpeeds.Add("SPEED_100BASE_EEE_SPEED");
             }
@@ -599,7 +714,7 @@ namespace ADIN.Device.Services
                 remoteSpeeds.Add(string.Empty);
             }
 
-            if (this.ReadYogaRg("LpFd10Able") == "1")
+            if (this.ReadYodaRg("LpFd10Able") == "1")
             {
                 remoteSpeeds.Add("SPEED_10BASE_T_FD_SPEED");
             }
@@ -608,7 +723,7 @@ namespace ADIN.Device.Services
                 remoteSpeeds.Add(string.Empty);
             }
 
-            if (this.ReadYogaRg("LpHd10Able") == "1")
+            if (this.ReadYodaRg("LpHd10Able") == "1")
             {
                 remoteSpeeds.Add("SPEED_10BASE_T_HD_SPEED");
             }
@@ -660,6 +775,30 @@ namespace ADIN.Device.Services
             Debug.WriteLine("Restart Auto Negotiation");
         }
 
+        public void RunCableDiagnostics(bool enablecrosspairfaultchecking)
+        {
+            this.cablediagnosticsRunning = true;
+            if (enablecrosspairfaultchecking)
+            {
+                this.FeedbackLog("Cross Pair Checking enabled.", FeedbackType.Info);
+                this.WriteYodaRg("CdiagXpairDis", 0);
+            }
+            else
+            {
+                this.FeedbackLog("Cross Pair Checking disabled.", FeedbackType.Info);
+                this.WriteYodaRg("CdiagXpairDis", 1);
+            }
+
+            this.WriteYodaRg("CdiagRun", 1);
+            this.FeedbackLog("Running automated cable diagnostics", FeedbackType.Info);
+            //Thread.Sleep(5000);
+        }
+
+        public void SetClk25RefPinControl(string clk25RefPinCtrl)
+        {
+            throw new NotImplementedException();
+        }
+
         public void SetForcedSpeed(string setFrcdSpd)
         {
             switch (setFrcdSpd)
@@ -698,7 +837,10 @@ namespace ADIN.Device.Services
             checkedFrames = 0;
             checkedFramesErrors = 0;
 
-            bool fgEn_st = ReadYogaRg("FgEn") == "1" ? true : false;
+            WriteYodaRg("FcMaxFrmSize", 0xFFFF);
+            WriteYodaRg("FcTxSel", 0);
+
+            bool fgEn_st = ReadYodaRg("FgEn") == "1" ? true : false;
 
             if (fgEn_st)
             {
@@ -716,6 +858,7 @@ namespace ADIN.Device.Services
                 //SetMacAddresses(frameContent.EnableMacAddress, frameContent.SrcOctet, frameContent.DestOctet);
 
                 WriteYodaRg("FgEn", 1);
+                OnFrameGenCheckerStatusChanged("Terminate");
                 isFrameGenCheckerOngoing = true;
                 OnWriteProcessCompleted(new FeedbackModel() { Message = $"- Started transmission of {frameContent.FrameBurst} frames -", FeedBackType = FeedbackType.Info });
             }
@@ -723,31 +866,56 @@ namespace ADIN.Device.Services
 
         public void SetGpClkPinControl(string gpClkPinCtrl)
         {
-            this.WriteYodaRg("GeClkCfg", 0);
+            //this.WriteYodaRg("GeClkCfg", 0);
 
             switch (gpClkPinCtrl)
             {
                 case "125 MHz PHY Recovered":
                     this.WriteYodaRg("GeClkRcvr125En", 1);
+                    this.WriteYodaRg("GeClkFree125En", 0);
+                    this.WriteYodaRg("GeClkHrtRcvrEn", 0);
+                    this.WriteYodaRg("GeClkHrtFreeEn", 0);
+                    this.WriteYodaRg("GeClk25En", 0);
                     _feedbackMessage = "PHY 125 MHz recovered clock output on GP_CLK pin";
                     break;
                 case "125 MHz PHY Free Running":
+                    this.WriteYodaRg("GeClkRcvr125En", 0);
                     this.WriteYodaRg("GeClkFree125En", 1);
+                    this.WriteYodaRg("GeClkHrtRcvrEn", 0);
+                    this.WriteYodaRg("GeClkHrtFreeEn", 0);
+                    this.WriteYodaRg("GeClk25En", 0);
                     _feedbackMessage = "PHY 125 MHz free-running clock output on GP_CLK pin";
                     break;
                 case "Recovered HeartBeat":
+                    this.WriteYodaRg("GeClkRcvr125En", 0);
+                    this.WriteYodaRg("GeClkFree125En", 0);
                     this.WriteYodaRg("GeClkHrtRcvrEn", 1);
+                    this.WriteYodaRg("GeClkHrtFreeEn", 0);
+                    this.WriteYodaRg("GeClk25En", 0);
                     _feedbackMessage = "PHY recovered heartbeat clock output on GP_CLK pin";
                     break;
                 case "Free Running HeartBeat":
+                    this.WriteYodaRg("GeClkRcvr125En", 0);
+                    this.WriteYodaRg("GeClkFree125En", 0);
+                    this.WriteYodaRg("GeClkHrtRcvrEn", 0);
                     this.WriteYodaRg("GeClkHrtFreeEn", 1);
+                    this.WriteYodaRg("GeClk25En", 0);
                     _feedbackMessage = "PHY free-running heartbeat clock output on GP_CLK pin";
                     break;
                 case "25 MHz Reference":
+                    this.WriteYodaRg("GeClkRcvr125En", 0);
+                    this.WriteYodaRg("GeClkFree125En", 0);
+                    this.WriteYodaRg("GeClkHrtRcvrEn", 0);
+                    this.WriteYodaRg("GeClkHrtFreeEn", 0);
                     this.WriteYodaRg("GeClk25En", 1);
                     _feedbackMessage = "PHY 25 MHz clock output on GP_CLK pin";
                     break;
                 default:
+                    this.WriteYodaRg("GeClkRcvr125En", 0);
+                    this.WriteYodaRg("GeClkFree125En", 0);
+                    this.WriteYodaRg("GeClkHrtRcvrEn", 0);
+                    this.WriteYodaRg("GeClkHrtFreeEn", 0);
+                    this.WriteYodaRg("GeClk25En", 0);
                     _feedbackMessage = "No clock output on GP_CLK pin";
                     break;
             }
@@ -1162,6 +1330,10 @@ namespace ADIN.Device.Services
                 {
                     register = res[0];
                 }
+                else
+                {
+                    register = null;
+                }
             }
             else
             {
@@ -1188,7 +1360,7 @@ namespace ADIN.Device.Services
             return value;
         }
 
-        private string ReadYogaRg(string name)
+        private string ReadYodaRg(string name)
         {
             RegisterModel register = null;
             string value = string.Empty;
@@ -1350,35 +1522,24 @@ namespace ADIN.Device.Services
             }
         }
 
-        public void ExecuteSript(ScriptModel script)
+        public string AdvertisedSpeed()
         {
-            try
+            switch (ReadYodaRg("HcdTech"))
             {
-                foreach (var register in script.RegisterAccesses)
-                {
-                    if (register.RegisterName != null)
-                    {
-                        WriteYodaRg(register.RegisterName, uint.Parse(register.Value));
-                        continue;
-                    }
-
-                    if (register.RegisterAddress != null)
-                    {
-                        uint regAddress = uint.Parse(register.RegisterAddress);
-                        uint regValue = uint.Parse(register.Value);
-                        WriteYodaRg(regAddress, regValue);
-                        FeedbackLog($"Register 0x{regAddress.ToString("X")} = {regValue.ToString("X")}", FeedbackType.Verbose);
-                        continue;
-                    }
-                }
-            }
-            catch (ApplicationException ex)
-            {
-                FeedbackLog(ex.Message, FeedbackType.Error);
-            }
-            catch (NullReferenceException)
-            {
-                FeedbackLog("Script is empty/has invalid register address/input value.", FeedbackType.Error);
+                case "0":
+                    return "SPEED_10BASE_T_HD";
+                case "1":
+                    return "SPEED_10BASE_T_FD";
+                case "2":
+                    return "SPEED_100BASE_TX_HD";
+                case "3":
+                    return "SPEED_100BASE_TX_FD";
+                case "4":
+                    return "SPEED_1000BASE_T_HD";
+                case "5":
+                    return "SPEED_1000BASE_T_FD";
+                default:
+                    return "-";
             }
         }
     }

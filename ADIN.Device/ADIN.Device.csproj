@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>ADIN.Device.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,17 +30,22 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>ADIN.Device.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>applications_industrial_automation_ethernet_icon_oN6_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_T1L|AnyCPU'">
     <OutputPath>bin\Debug_T1L\</OutputPath>
-    <DefineConstants>DISABLE_TSN</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DISABLE_TSN</DefineConstants>
+    <CodeAnalysisRuleSet>ADIN.Device.ruleset</CodeAnalysisRuleSet>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug_TSN|AnyCPU'">
     <OutputPath>bin\Debug_TSN\</OutputPath>
     <DefineConstants>DISABLE_T1L</DefineConstants>
+    <CodeAnalysisRuleSet>ADIN.Device.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_T1L|AnyCPU'">
     <OutputPath>bin\Release_T1L\</OutputPath>
@@ -47,8 +53,9 @@
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>default</LangVersion>
     <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ADIN.Device.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release_TSN|AnyCPU'">
     <OutputPath>bin\Release_TSN\</OutputPath>
@@ -58,6 +65,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ADIN.Device.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -114,9 +122,11 @@
     <Compile Include="Models\FrameGenCheckerModel.cs" />
     <Compile Include="Models\IADINDevice.cs" />
     <Compile Include="Models\AbstractADINFactory.cs" />
+    <Compile Include="Models\MseModel.cs" />
     <Compile Include="Services\ADIN1110FirmwareAPI.cs" />
     <Compile Include="Services\ADIN2111FirmwareAPI.cs" />
     <Compile Include="Services\IADIN2111API.cs" />
+    <Compile Include="Services\ICableDiagAPI.cs" />
     <Compile Include="Services\ITimeDomainReflectometryAPI.cs" />
     <Compile Include="Models\LoopbackModel.cs" />
     <Compile Include="Models\RegisterAccessModel.cs" />
@@ -166,6 +176,7 @@
     <Content Include="applications_industrial_automation_ethernet_icon_oN6_icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ADIN.Device.ruleset" />
     <None Include="packages.config" />
     <None Include="Scripts\Enable Link LED_scripts.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

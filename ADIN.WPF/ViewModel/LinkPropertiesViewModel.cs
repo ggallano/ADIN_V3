@@ -431,7 +431,9 @@ namespace ADIN.WPF.ViewModel
         {
             get { return _linkProperties?.SpeedMode == "Forced"; }
         }
+
         public List<string> MasterSlaveAdvertises => _linkProperties?.MasterSlaveAdvertises;
+
         public List<string> MDIXs => _linkProperties?.MDIXs;
 
         public string SelectedEnergyDetectPowerDownMode
@@ -485,6 +487,7 @@ namespace ADIN.WPF.ViewModel
         public string SelectedMasterSlaveAdvertise
         {
             get { return _linkProperties?.MasterSlaveAdvertise; }
+
             set
             {
                 if (_selectedDeviceStore.SelectedDevice != null)
@@ -583,18 +586,21 @@ namespace ADIN.WPF.ViewModel
         }
 
         public List<string> SpeedModes => _linkProperties?.SpeedModes;
+
         public List<string> TxLevels => _linkProperties?.TxAdvertises;
+
         private ILinkProperties _linkProperties => _selectedDeviceStore.SelectedDevice?.LinkProperties;
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            OnPropertyChanged(nameof(IsDeviceSelected));
+
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 
             OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
             OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
             OnPropertyChanged(nameof(IsForcedSpeedVisible));
-            OnPropertyChanged(nameof(IsDeviceSelected));
             OnPropertyChanged(nameof(IsADIN1100Board));
 
             switch (_selectedDeviceStore.SelectedDevice.DeviceType)

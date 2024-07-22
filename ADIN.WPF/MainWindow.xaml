@@ -30,7 +30,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <Menu x:Name="menu" DataContext="{Binding MenuItemVM}" Grid.Row="0">
+        <Menu x:Name="menu" DataContext="{Binding MenuItemVM}" Background="{StaticResource hmc.color.layout.canvas}" Grid.Row="0">
             <MenuItem Header="File">
                 <MenuItem Name="MenuFileExit" Header="Exit" Click="MenuFileExit_Click"/>
             </MenuItem>
@@ -39,7 +39,7 @@
             </MenuItem>
         </Menu>
         <view:OperationView Margin="5 0 5 5" Grid.Row="1"/>
-        <Border Grid.Row="2" Background="LightGray" BorderBrush="Black" BorderThickness="0 1 0 0">
+        <Border Grid.Row="2" Background="{StaticResource hmc.color.layout.canvas}" BorderBrush="Black" BorderThickness="0 1 0 0">
             <view:StatusStripView DataContext="{Binding StatusStripVM}"/>
         </Border>
     </Grid>

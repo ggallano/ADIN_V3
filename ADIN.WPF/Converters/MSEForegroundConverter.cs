@@ -16,26 +16,30 @@ namespace ADIN.WPF.Converters
         {
             string mse = ((string)value).Trim();
 
-            if (mse.Contains("N/A") /*|| mse.Contains("-")*/ || mse.Contains("∞") /*|| mse.Contains("")*/)
-                return new SolidColorBrush(Colors.Red);
+            if (mse.Contains("N/A") || (mse.Contains("-") && !mse.Contains("dB")) || mse.Contains("∞") /*|| mse.Contains("")*/)
+                return (SolidColorBrush)(new BrushConverter().ConvertFrom("#C81A28"));
 
-            mse = mse.Replace("dB", "").Trim();
-            try
+            if (mse.Contains("dB"))
             {
-                var val = float.Parse(mse);
+                mse = mse.Replace("dB", "").Trim();
+                try
+                {
+                    var val = float.Parse(mse);
 
-                if (val < -21)
-                    return new SolidColorBrush(Colors.Green);
-                else if (val < -19 && val >= -21)
-                    return new SolidColorBrush(Colors.Yellow);
-                else /*if (val >= -19)*/
-                    return new SolidColorBrush(Colors.Red);
+                    if (val < -21)
+                        return (SolidColorBrush)(new BrushConverter().ConvertFrom("#2E9E6F"));
+                    else if (val < -19 && val >= -21)
+                        return (SolidColorBrush)(new BrushConverter().ConvertFrom("#E76423"));
+                    else /*if (val >= -19)*/
+                        return (SolidColorBrush)(new BrushConverter().ConvertFrom("#C81A28"));
+                }
+                catch (Exception ex)
+                {
+                    return (SolidColorBrush)(new BrushConverter().ConvertFrom("#C81A28"));
+                }
             }
-            catch (Exception ex)
-            {
-                return new SolidColorBrush(Colors.Red);
-            }
-            
+
+            return (SolidColorBrush)(new BrushConverter().ConvertFrom("#2E9E6F"));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

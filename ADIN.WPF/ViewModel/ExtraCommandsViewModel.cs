@@ -18,7 +18,6 @@ namespace ADIN.WPF.ViewModel
     {
         private bool _enableButton = true;
         private IFTDIServices _ftdiService;
-        private bool _isPoweredUp = false;
         private string _linkStatus = "Disable Linking";
         private string _powerDownStatus = "Software Power Down";
         private SelectedDeviceStore _selectedDeviceStore;
@@ -58,53 +57,46 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsADIN1100Board
         {
-            get { return _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100 
-                    || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1
-                    || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110
-                    || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111; }
-        }
-
-        public bool IsPort1
-        {
-            get { return _selectedDeviceStore.SelectedDevice?.PortNumber == 1; }
-            set
+            get
             {
-                ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-                fwAPI.SetPortNum(1);
-                _selectedDeviceStore.SelectedDevice.PortNumber = 1;
-                _selectedDeviceStore.OnPortNumChanged();
-                OnPropertyChanged(nameof(IsPort2));
-                OnPropertyChanged(nameof(IsPort1));
+                return _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100
+                  || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1
+                  || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110
+                  || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111;
             }
         }
 
-        public bool IsPort2
-        {
-            get { return _selectedDeviceStore.SelectedDevice?.PortNumber == 2; }
-            set
-            {
-                ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-                fwAPI.SetPortNum(2);
-                _selectedDeviceStore.SelectedDevice.PortNumber = 2;
-                _selectedDeviceStore.OnPortNumChanged();
-                OnPropertyChanged(nameof(IsPort1));
-                OnPropertyChanged(nameof(IsPort2));
-            }
-        }
+        //public bool IsPort1
+        //{
+        //    get { return _selectedDeviceStore.SelectedDevice?.PortNumber == 1; }
+        //    set
+        //    {
+        //        ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+        //        fwAPI.SetPortNum(1);
+        //        _selectedDeviceStore.SelectedDevice.PortNumber = 1;
+        //        _selectedDeviceStore.OnPortNumChanged();
+        //        OnPropertyChanged(nameof(IsPort2));
+        //        OnPropertyChanged(nameof(IsPort1));
+        //    }
+        //}
+
+        //public bool IsPort2
+        //{
+        //    get { return _selectedDeviceStore.SelectedDevice?.PortNumber == 2; }
+        //    set
+        //    {
+        //        ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+        //        fwAPI.SetPortNum(2);
+        //        _selectedDeviceStore.SelectedDevice.PortNumber = 2;
+        //        _selectedDeviceStore.OnPortNumChanged();
+        //        OnPropertyChanged(nameof(IsPort1));
+        //        OnPropertyChanged(nameof(IsPort2));
+        //    }
+        //}
 
         public bool IsPortNumVisible
         {
             get { return _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111; }
-        }
-
-        public bool IsPoweredUp
-        {
-            get { return _isPoweredUp; }
-            set
-            {
-                _isPoweredUp = value;
-                OnPropertyChanged(nameof(IsPoweredUp));
-            }
         }
 
         public bool IsResetButtonVisible
@@ -141,20 +133,17 @@ namespace ADIN.WPF.ViewModel
         public string PowerDownStatus
         {
             get { return _powerDownStatus; }
+
             set
             {
-                _powerDownStatus = value;
-                OnPropertyChanged(nameof(PowerDownStatus));
-                if (_powerDownStatus == "Software Power Up")
+                if (_powerDownStatus != value)
                 {
-                    IsPoweredUp = false;
-                }
-                else
-                {
-                    IsPoweredUp = true;
+                    _powerDownStatus = value;
+                    OnPropertyChanged(nameof(PowerDownStatus));
                 }
             }
         }
+
         public ICommand RegisterActionCommand { get; set; }
 
         public ICommand SoftwarePowerDownCommand { get; set; }
@@ -173,12 +162,11 @@ namespace ADIN.WPF.ViewModel
             base.Dispose();
         }
 
-        //private IDeviceStatus _deviceStatus => _selectedDeviceStore.SelectedDevice?.DeviceStatus;
-        private void _selectedDeviceStore_LinkStateStatusChanged(string linkStatus)
+        private void _selectedDeviceStore_LinkStateStatusChanged(EthPhyState linkStatus)
         {
             Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
             {
-                LinkStatus = linkStatus;
+                LinkStatus = linkStatus.ToString();
             }));
         }
 
@@ -197,6 +185,7 @@ namespace ADIN.WPF.ViewModel
                 PowerDownStatus = powerDownStatus;
             }));
         }
+
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             if (_selectedDeviceStore.SelectedDevice == null)
@@ -204,11 +193,10 @@ namespace ADIN.WPF.ViewModel
 
             OnPropertyChanged(nameof(PowerDownStatus));
             OnPropertyChanged(nameof(LinkStatus));
-            OnPropertyChanged(nameof(IsPoweredUp));
             OnPropertyChanged(nameof(IsADIN1100Board));
             OnPropertyChanged(nameof(IsPortNumVisible));
-            OnPropertyChanged(nameof(IsPort1));
-            OnPropertyChanged(nameof(IsPort2));
+            //OnPropertyChanged(nameof(IsPort1));
+            //OnPropertyChanged(nameof(IsPort2));
             OnPropertyChanged(nameof(IsResetButtonVisible));
             OnPropertyChanged(nameof(EnableButton));
         }

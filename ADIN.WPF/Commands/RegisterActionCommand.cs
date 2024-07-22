@@ -18,15 +18,15 @@ namespace ADIN.WPF.Commands
 {
     public class RegisterActionCommand : CommandBase
     {
-        private ExtraCommandsViewModel _viewModel;
         private SelectedDeviceStore _selectedDeviceStore;
-
+        private ExtraCommandsViewModel _viewModel;
         public RegisterActionCommand(ExtraCommandsViewModel extraCommandsViewModel, SelectedDeviceStore selectedDeviceStore)
         {
             _viewModel = extraCommandsViewModel;
             _selectedDeviceStore = selectedDeviceStore;
 
             _viewModel.PropertyChanged += _viewModel_PropertyChanged;
+            _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
         }
 
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
@@ -62,6 +62,10 @@ namespace ADIN.WPF.Commands
             }
         }
 
+        private void _selectedDeviceStore_SelectedDeviceChanged()
+        {
+            OnCanExecuteChanged();
+        }
         private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             OnCanExecuteChanged();
