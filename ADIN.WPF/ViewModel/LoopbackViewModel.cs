@@ -87,6 +87,7 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsLoopback_LineDriver));
                 OnPropertyChanged(nameof(IsLoopback_ExtCable));
                 OnPropertyChanged(nameof(IsLoopback_Remote));
+                OnPropertyChanged(nameof(ImagePath));
             }
         }
 
@@ -136,6 +137,7 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsLoopback_LineDriver));
                 OnPropertyChanged(nameof(IsLoopback_ExtCable));
                 OnPropertyChanged(nameof(IsLoopback_Remote));
+                OnPropertyChanged(nameof(ImagePath));
             }
         }
 
@@ -185,6 +187,7 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsLoopback_LineDriver));
                 OnPropertyChanged(nameof(IsLoopback_ExtCable));
                 OnPropertyChanged(nameof(IsLoopback_Remote));
+                OnPropertyChanged(nameof(ImagePath));
             }
         }
 
@@ -234,6 +237,7 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsLoopback_LineDriver));
                 OnPropertyChanged(nameof(IsLoopback_ExtCable));
                 OnPropertyChanged(nameof(IsLoopback_Remote));
+                OnPropertyChanged(nameof(ImagePath));
             }
         }
 
@@ -283,6 +287,7 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsLoopback_LineDriver));
                 OnPropertyChanged(nameof(IsLoopback_ExtCable));
                 OnPropertyChanged(nameof(IsLoopback_Remote));
+                OnPropertyChanged(nameof(ImagePath));
             }
         }
 
