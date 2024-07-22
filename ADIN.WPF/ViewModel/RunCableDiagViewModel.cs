@@ -43,7 +43,7 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsCrossPair
         {
-            get { return _selectedDeviceStore.SelectedDevice.IsCrossPair; }
+            get { return _selectedDeviceStore.SelectedDevice?.IsCrossPair ?? false; }
 
             set
             {

@@ -38,6 +38,9 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
+                if (_selectedDeviceStore.SelectedDevice == null)
+                    return false;
+
                 return _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1300;
             }
         }
