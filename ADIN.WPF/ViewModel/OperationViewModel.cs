@@ -18,7 +18,7 @@ namespace ADIN.WPF.ViewModel
         private readonly NavigationStore _navigationStore;
         private readonly SelectedDeviceStore _selectedDeviceStore;
 
-        private bool _enableTabs = true;
+        private bool _enableTabs = false;
         private bool _isAdin2111 = false;
         private bool _isCableDiagSelected;
         private bool _isCableDiagVisible = true;
@@ -43,12 +43,17 @@ namespace ADIN.WPF.ViewModel
             RegisterAccessVM = new RegisterAccessViewModel(_selectedDeviceStore, navigationStore);
             RunCableDiagnosticVM = new RunCableDiagViewModel(_selectedDeviceStore, mainLock);
             TDRVM = new TimeDomainReflectometryViewModel(_selectedDeviceStore, mainLock);
+
+            if (Properties.Settings.Default.ActiveLinkMon)
+                ActiveLinkMonVM = new ActiveLinkMonViewModel(_selectedDeviceStore, mainLock);
+
             StatusStripVM = new StatusStripViewModel(_selectedDeviceStore, scriptService);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
-            DeviceListingVM.HideCableDiagChanged += DeviceListingVM_HideCableDiagChanged;
         }
+
+        public ActiveLinkMonViewModel ActiveLinkMonVM { get; set; }
 
         public ClockPinControlViewModel ClockPinControlVM { get; set; }
 
@@ -178,16 +183,12 @@ namespace ADIN.WPF.ViewModel
               || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
             {
                 IsCableDiagVisible = _selectedDeviceStore.SelectedDevice.IsADIN1100CableDiagAvailable;
-            }
 
-            if ((_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
-             || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110))
-            {
-                IsADIN2111 = true;
-                IsCableDiagSelected = true;
+                if (IsCableDiagVisible == false && IsCableDiagSelected == true)
+                {
+                    IsTestModeSelected = true;
+                }
             }
-            else
-                IsADIN2111 = false;
 
             OnPropertyChanged(nameof(IsActiveLinkMonEnabled));
             OnPropertyChanged(nameof(IsADIN1100Visible));
@@ -204,15 +205,6 @@ namespace ADIN.WPF.ViewModel
                 result = true;
 
             return result;
-        }
-
-        private void DeviceListingVM_HideCableDiagChanged(bool obj)
-        {
-            if (_selectedDeviceStore.SelectedDevice == null)
-                return;
-
-            IsCableDiagVisible = !obj;
-            IsTestModeSelected = obj;
         }
     }
 }

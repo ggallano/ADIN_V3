@@ -14,6 +14,7 @@ namespace ADIN.WPF.Commands
         private ExtraCommandsViewModel _extraCommandsViewModel;
         private EthPhyState _phyState = EthPhyState.Standby;
         private SelectedDeviceStore _selectedDeviceStore;
+        private bool _isOngoingCalibration;
 
         public AutoNegCommand(ExtraCommandsViewModel extraCommandsViewModel, SelectedDeviceStore selectedDeviceStore)
         {
@@ -22,7 +23,13 @@ namespace ADIN.WPF.Commands
 
             _extraCommandsViewModel.PropertyChanged += _extraCommandsViewModel_PropertyChanged;
             _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStatusChanged;
-            selectedDeviceStore.SelectedDeviceChanged += SelectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
+        }
+
+        private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool status)
+        {
+            _isOngoingCalibration = status;
         }
 
         public override bool CanExecute(object parameter)
@@ -30,7 +37,7 @@ namespace ADIN.WPF.Commands
             if (_selectedDeviceStore.SelectedDevice == null)
                 return false;
 
-            if (_phyState == EthPhyState.Powerdown)
+            if (_phyState == EthPhyState.Powerdown || _isOngoingCalibration)
                 return false;
 
             return base.CanExecute(parameter);
@@ -51,7 +58,7 @@ namespace ADIN.WPF.Commands
             _phyState = phyState;
         }
 
-        private void SelectedDeviceStore_SelectedDeviceChanged()
+        private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             if (_selectedDeviceStore.SelectedDevice != null)
                 return;

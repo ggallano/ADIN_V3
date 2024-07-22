@@ -185,7 +185,10 @@ namespace ADIN.Device.Services
             uint fgContModeEn_st = Convert.ToUInt32(ReadYodaRg("FG_CONT_MODE_EN"), 16);
 
             if (fgEn_st == 0)
+            {
+                OnFrameGenCheckerStatusChanged("Generate");
                 return "Not Enabled";
+            }
 
             if (fgContModeEn_st == 1)
             {
@@ -568,6 +571,11 @@ namespace ADIN.Device.Services
         {
             foreach (var register in _registers)
             {
+                // This condition will skip reading the value for FG_DONE due to conflict in 
+                // FrameGenChecker operation it does not terminate properly because the flag was already at zero value.
+                if (register.Name == "FG_DONE")
+                    continue;
+
                 register.Value = ReadYodaRg(register.Address);
             }
             Debug.WriteLine("ReadRegisters Done");
@@ -686,6 +694,7 @@ namespace ADIN.Device.Services
                 SetMacAddresses(frameContent.EnableMacAddress, frameContent.SrcOctet, frameContent.DestOctet);
 
                 WriteYodaRg("FG_EN", 1);
+                OnFrameGenCheckerStatusChanged("Terminate");
                 isFrameGenCheckerOngoing = true;
                 OnWriteProcessCompleted(new FeedbackModel() { Message = $"- Started transmission of {frameContent.FrameBurst} frames -", FeedBackType = FeedbackType.Info });
             }
@@ -906,7 +915,7 @@ namespace ADIN.Device.Services
                     throw new ApplicationException("[Offset Calibration]" + response);
                 }
 
-                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[Offset Calibration] Offset={res[0]}", FeedBackType = FeedbackType.Info });
+                OnWriteProcessCompleted(new FeedbackModel() { Message = $"[tdrsetoffset] Offset={res[0]}", FeedBackType = FeedbackType.Info });
                 return response;
             }
         }

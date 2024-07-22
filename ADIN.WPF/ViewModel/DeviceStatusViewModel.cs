@@ -246,29 +246,19 @@ namespace ADIN.WPF.ViewModel
                 if (_selectedDeviceStore.SelectedDevice == null)
                     return "N/A";
 
-                if (_selectedDevice.PortNumber == 1)
-                    return _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort1.ToString();
-                else
-                    return _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort2.ToString();
+                if (_selectedDeviceStore.SelectedDevice.BoardRev == BoardRevision.Rev0
+                 && _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100_S1)
+                    return "N/A";
+
+                return _selectedDeviceStore.SelectedDevice.MaxSlicerError.ToString();
             }
 
             set
             {
-                if (_selectedDevice.PortNumber == 1)
+                if (Convert.ToDouble(value) != _selectedDeviceStore.SelectedDevice.MaxSlicerError)
                 {
-                    if (Convert.ToDouble(value) != _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort1)
-                    {
-                        _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort1 = Convert.ToDouble(value);
-                        OnPropertyChanged(nameof(MaxSlicerError));
-                    }
-                }
-                else
-                {
-                    if (Convert.ToDouble(value) != _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort2)
-                    {
-                        _selectedDeviceStore.SelectedDevice.MaxSlicerErrorPort2 = Convert.ToDouble(value);
-                        OnPropertyChanged(nameof(MaxSlicerError));
-                    }
+                    _selectedDeviceStore.SelectedDevice.MaxSlicerError = Convert.ToDouble(value);
+                    OnPropertyChanged(nameof(MaxSlicerError));
                 }
             }
         }
@@ -342,29 +332,19 @@ namespace ADIN.WPF.ViewModel
                 if (_selectedDeviceStore.SelectedDevice == null)
                     return "N/A";
 
-                if (_selectedDevice.PortNumber == 1)
-                    return _selectedDeviceStore.SelectedDevice.SpikeCountPortPort1.ToString();
-                else
-                    return _selectedDeviceStore.SelectedDevice.SpikeCountPortPort2.ToString();
+                if (_selectedDeviceStore.SelectedDevice.BoardRev == BoardRevision.Rev0
+                 && _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100_S1)
+                    return "N/A";
+
+                return _selectedDeviceStore.SelectedDevice.SpikeCountPort.ToString();
             }
 
             set
             {
-                if (_selectedDevice.PortNumber == 1)
+                if (Convert.ToDouble(value) != _selectedDeviceStore.SelectedDevice.SpikeCountPort)
                 {
-                    if (Convert.ToDouble(value) != _selectedDeviceStore.SelectedDevice.SpikeCountPortPort1)
-                    {
-                        _selectedDeviceStore.SelectedDevice.SpikeCountPortPort1 = Convert.ToDouble(value);
-                        OnPropertyChanged(nameof(SpikeCount));
-                    }
-                }
-                else
-                {
-                    if (Convert.ToDouble(value) != _selectedDeviceStore.SelectedDevice.SpikeCountPortPort2)
-                    {
-                        _selectedDeviceStore.SelectedDevice.SpikeCountPortPort2 = Convert.ToDouble(value);
-                        OnPropertyChanged(nameof(SpikeCount));
-                    }
+                    _selectedDeviceStore.SelectedDevice.SpikeCountPort = Convert.ToDouble(value);
+                    OnPropertyChanged(nameof(SpikeCount));
                 }
             }
         }
@@ -427,8 +407,12 @@ namespace ADIN.WPF.ViewModel
                                 MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
                                 TxLevelStatus = fwAPI.GetTxLevelStatus();
                                 MseValue = fwAPI.GetMseValue(_selectedDevice.BoardRev);
-                                MaxSlicerError = fwAPI.GetMaxSlicer();
-                                SpikeCount = fwAPI.GetSpikeCount();
+
+                                if (_selectedDevice.BoardRev != BoardRevision.Rev0)
+                                {
+                                    MaxSlicerError = fwAPI.GetMaxSlicer();
+                                    SpikeCount = fwAPI.GetSpikeCount();
+                                }
                             }
                             else if (_selectedDevice.FwAPI is ADIN1110FirmwareAPI)
                             {

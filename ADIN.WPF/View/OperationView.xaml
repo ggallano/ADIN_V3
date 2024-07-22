@@ -63,7 +63,7 @@
                             </Grid>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Clock Pin Control" Style="{StaticResource TabItemStyle}" Visibility="{Binding IsClkPinControlVisible, Converter={StaticResource booleanVisibilityConverter}}">
+                    <TabItem Header="Clock Pin Control" Style="{StaticResource TabItemStyle}" IsEnabled="{Binding EnableTabs}" Visibility="{Binding IsClkPinControlVisible, Converter={StaticResource booleanVisibilityConverter}}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*" MinWidth="400"/>
@@ -139,7 +139,7 @@
                                         <local:TimeDomainReflectometry DataContext="{Binding TDRVM}"/>
                                     </TabItem>
                                     <TabItem Header="Active Link Monitoring" Style="{StaticResource TabItemStyle}">
-                                        <local:ActiveLinkMonitoringView/>
+                                        <local:ActiveLinkMonitoringView DataContext="{Binding ActiveLinkMonVM}"/>
                                     </TabItem>
                                 </TabControl>
                             </Grid>

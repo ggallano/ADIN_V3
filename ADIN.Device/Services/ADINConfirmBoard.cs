@@ -21,6 +21,7 @@ namespace ADIN.Device.Services
             "DEMO-ADIN1100D2Z",
             "EVAL-ADIN1110EBZ",
             "EVAL-ADIN2111EBZ",
+            "EVAL-ADIN2111D1Z",
 #endif
 
 #if !DISABLE_TSN
@@ -58,7 +59,8 @@ namespace ADIN.Device.Services
                     devices.Add(new ADINDevice(new ADIN1110Model(ftdtService, _registerService, mainLock)));
                     break;
                 case "EVAL-ADIN2111EBZ":
-                    devices.Add(new ADINDevice(new ADIN2111Model(ftdtService, _registerService, mainLock)));
+                    devices.Add(new ADINDevice(new ADIN2111Model(ftdtService, _registerService, 1, mainLock)));
+                    devices.Add(new ADINDevice(new ADIN2111Model(ftdtService, _registerService, 2, mainLock)));
                     break;
 #endif
 #if !DISABLE_TSN
