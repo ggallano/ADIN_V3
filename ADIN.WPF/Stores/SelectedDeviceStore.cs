@@ -15,24 +15,39 @@ namespace ADIN.WPF.Stores
         private ADINDevice _selectedDevice;
 
         public event Action<FrameType> FrameContentChanged;
+
         public event Action<string> FrameGenCheckerResetDisplay;
+
         public event Action<string> FrameGenCheckerStatusChanged;
-        public event Action RegisterListingValueChanged;
-        public event Action<EthPhyState> LinkStatusChanged;
-        public event Action<bool> OnGoingCalibrationStatusChanged;
-        public event Action PortNumChanged;
-        //public event Action<LoopBackMode> LoopbackChanged;
-        //public event Action<LoopbackModel> LoopbackStateChanged;
-        public event Action SelectedDeviceChanged;
-        public event Action<string> SoftwarePowerDownChanged;
-        public event Action<FeedbackModel> ProcessCompleted;
+
         //public event Action<FeedbackModel> ErrorOccured;
+
         public event Action<List<string>> GigabitCableDiagCompleted;
+
+        public event Action<EthPhyState> LinkStatusChanged;
+
+        public event Action<bool> OnGoingCalibrationStatusChanged;
+
+        public event Action PortNumChanged;
+
+        public event Action<FeedbackModel> ProcessCompleted;
+
+        public event Action RegisterListingValueChanged;
+
+        //public event Action<LoopBackMode> LoopbackChanged;
+
+        //public event Action<LoopbackModel> LoopbackStateChanged;
+
+        public event Action SelectedDeviceChanged;
+
+        public event Action<string> SoftwarePowerDownChanged;
+
         public event Action<FeedbackModel> ViewModelErrorOccured;
 
         public ADINDevice SelectedDevice
         {
             get { return _selectedDevice; }
+
             set
             {
                 if (_selectedDevice != null)
@@ -63,46 +78,35 @@ namespace ADIN.WPF.Stores
             }
         }
 
-        private void FwAPI_GigabitCableDiagCompleted(object sender, List<string> results)
+        public void OnLinkStatusChanged(EthPhyState linkStatus)
         {
-            GigabitCableDiagCompleted?.Invoke(results);
+            LinkStatusChanged?.Invoke(linkStatus);
+        }
+
+        public void OnOngoingCalibrationStatusChanged(bool OnGoingCalibrationStatus)
+        {
+            OnGoingCalibrationStatusChanged?.Invoke(OnGoingCalibrationStatus);
+        }
+
+        public void OnPortNumChanged()
+        {
+            PortNumChanged?.Invoke();
         }
 
         public void OnRegistersValueChanged()
         {
             RegisterListingValueChanged?.Invoke();
         }
-        public void OnLinkStatusChanged(EthPhyState linkStatus)
-        {
-            LinkStatusChanged?.Invoke(linkStatus);
-        }
+
         public void OnSoftwarePowerDownChanged(string linkStatus)
         {
             SoftwarePowerDownChanged?.Invoke(linkStatus);
         }
-        public void OnOngoingCalibrationStatusChanged(bool OnGoingCalibrationStatus)
+
+        public void OnViewModelErrorOccured(string errorMessage, FeedbackType errorType = FeedbackType.Error)
         {
-            OnGoingCalibrationStatusChanged?.Invoke(OnGoingCalibrationStatus);
-        }
-        public void OnPortNumChanged()
-        {
-            PortNumChanged?.Invoke();
-        }
-        private void FirmwareAPI_ResetFrameGenCheckerStatisticsChanged(object sender, string status)
-        {
-            FrameGenCheckerResetDisplay?.Invoke(status);
-        }
-        private void FirmwareAPI_FrameContentChanged(object sender, FrameType e)
-        {
-            FrameContentChanged?.Invoke(e);
-        }
-        private void FirmwareAPI_FrameGenCheckerStatusCompleted(object sender, string status)
-        {
-            FrameGenCheckerStatusChanged?.Invoke(status);
-        }
-        private void FirmwareAPI_WriteProcessCompleted(object sender, FeedbackModel feedback)
-        {
-            ProcessCompleted?.Invoke(feedback);
+            FeedbackModel errorFeedback = new FeedbackModel() { Message = errorMessage, FeedBackType = errorType };
+            ViewModelErrorOccured?.Invoke(errorFeedback);
         }
 
         public void OnViewModelFeedbackLog(string message, FeedbackType feedbackType = FeedbackType.Info)
@@ -112,10 +116,30 @@ namespace ADIN.WPF.Stores
             feedback.FeedBackType = feedbackType;
             ViewModelErrorOccured?.Invoke(feedback);
         }
-        public void OnViewModelErrorOccured(string errorMessage, FeedbackType errorType = FeedbackType.Error)
+
+        private void FirmwareAPI_FrameContentChanged(object sender, FrameType e)
         {
-            FeedbackModel errorFeedback = new FeedbackModel() { Message = errorMessage, FeedBackType = errorType };
-            ViewModelErrorOccured?.Invoke(errorFeedback);
+            FrameContentChanged?.Invoke(e);
+        }
+
+        private void FirmwareAPI_FrameGenCheckerStatusCompleted(object sender, string status)
+        {
+            FrameGenCheckerStatusChanged?.Invoke(status);
+        }
+
+        private void FirmwareAPI_ResetFrameGenCheckerStatisticsChanged(object sender, string status)
+        {
+            FrameGenCheckerResetDisplay?.Invoke(status);
+        }
+
+        private void FirmwareAPI_WriteProcessCompleted(object sender, FeedbackModel feedback)
+        {
+            ProcessCompleted?.Invoke(feedback);
+        }
+
+        private void FwAPI_GigabitCableDiagCompleted(object sender, List<string> results)
+        {
+            GigabitCableDiagCompleted?.Invoke(results);
         }
     }
 }

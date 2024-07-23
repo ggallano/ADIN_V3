@@ -187,7 +187,7 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                return _frameGenChecker.FrameGeneratorButtonText;
+                return _frameGenChecker?.FrameGeneratorButtonText ?? "Generate";
             }
 
             set
