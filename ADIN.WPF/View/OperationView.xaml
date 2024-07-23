@@ -91,7 +91,7 @@
                             </Grid>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="FrameGenerator/Checker" Style="{StaticResource TabItemStyle}" IsEnabled="{Binding EnableTabs}" Visibility="{Binding IsADIN2111, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+                    <TabItem Header="Frame Generator/Checker" Style="{StaticResource TabItemStyle}" IsEnabled="{Binding EnableTabs}" Visibility="{Binding IsADIN2111, Converter={StaticResource invertedBooleanVisibilityConverter}}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="2*" MinWidth="500"/>
