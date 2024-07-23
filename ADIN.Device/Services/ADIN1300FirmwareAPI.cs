@@ -946,6 +946,70 @@ namespace ADIN.Device.Services
                     FeedbackLog("Device configured for 100BASE-TX VOD measurement", FeedbackType.Info);
                     break;
 
+                case "1000BASE-T Test mode 1":
+                    FeedbackLog("GESubsys software reset", FeedbackType.Info);
+                    WriteYodaRg("GeSftRst", 1);
+                    FeedbackLog("GE PHY enters software reset, stays in software powerdown", FeedbackType.Info);
+                    WriteYodaRg("GePhySftPdCfg", 1);
+                    WriteYodaRg("GePhyRst", 1);
+
+                    FeedbackLog("Apply base settings for UNH-IOL testing", FeedbackType.Info);
+                    ApplyIOLBaseSettings();
+
+                    FeedbackLog(" exit software powerdown, configure for 1000BASE-T test mode 1", FeedbackType.Info);
+                    WriteYodaRg("TstMode", 1);
+                    WriteYodaRg("SftPd", 0);
+                    FeedbackLog("Device configured for 1000BASE-T test mode 1 measurement", FeedbackType.Info);
+                    break;
+
+                case "1000BASE-T Test mode 2":
+                    FeedbackLog("GESubsys software reset", FeedbackType.Info);
+                    WriteYodaRg("GeSftRst", 1);
+                    FeedbackLog("GE PHY enters software reset, stays in software powerdown", FeedbackType.Info);
+                    WriteYodaRg("GePhySftPdCfg", 1);
+                    WriteYodaRg("GePhyRst", 1);
+
+                    FeedbackLog("Apply base settings for UNH-IOL testing", FeedbackType.Info);
+                    ApplyIOLBaseSettings();
+
+                    FeedbackLog(" exit software powerdown, configure for 1000BASE-T test mode 2", FeedbackType.Info);
+                    WriteYodaRg("TstMode", 2);
+                    WriteYodaRg("SftPd", 0);
+                    FeedbackLog("Device configured for 1000BASE-T test mode 2 measurement", FeedbackType.Info);
+                    break;
+
+                case "1000BASE-T Test mode 3":
+                    FeedbackLog("GESubsys software reset", FeedbackType.Info);
+                    WriteYodaRg("GeSftRst", 1);
+                    FeedbackLog("GE PHY enters software reset, stays in software powerdown", FeedbackType.Info);
+                    WriteYodaRg("GePhySftPdCfg", 1);
+                    WriteYodaRg("GePhyRst", 1);
+
+                    FeedbackLog("Apply base settings for UNH-IOL testing", FeedbackType.Info);
+                    ApplyIOLBaseSettings();
+
+                    FeedbackLog(" exit software powerdown, configure for 1000BASE-T test mode 3", FeedbackType.Info);
+                    WriteYodaRg("TstMode", 3);
+                    WriteYodaRg("SftPd", 0);
+                    FeedbackLog("Device configured for 1000BASE-T test mode 3 measurement", FeedbackType.Info);
+                    break;
+
+                case "1000BASE-T Test mode 4":
+                    FeedbackLog("GESubsys software reset", FeedbackType.Info);
+                    WriteYodaRg("GeSftRst", 1);
+                    FeedbackLog("GE PHY enters software reset, stays in software powerdown", FeedbackType.Info);
+                    WriteYodaRg("GePhySftPdCfg", 1);
+                    WriteYodaRg("GePhyRst", 1);
+
+                    FeedbackLog("Apply base settings for UNH-IOL testing", FeedbackType.Info);
+                    ApplyIOLBaseSettings();
+
+                    FeedbackLog(" exit software powerdown, configure for 1000BASE-T test mode 4", FeedbackType.Info);
+                    WriteYodaRg("TstMode", 4);
+                    WriteYodaRg("SftPd", 0);
+                    FeedbackLog("Device configured for 1000BASE-T test mode 4 measurement", FeedbackType.Info);
+                    break;
+
                 case "10BASE-T Link Pulse":
                     FeedbackLog("configure for auto-negotiation disabled, 10BASE-T", FeedbackType.Info);
                     FeedbackLog("forced MDI, loopback enabled, Tx suppression disabled, linking enabled", FeedbackType.Info);
