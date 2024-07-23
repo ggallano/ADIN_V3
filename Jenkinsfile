@@ -80,37 +80,37 @@ pipeline {
             }
         }
 		
-		// stage('Retrieve Version Number'){
-		// 	steps {
-		// 		echo "[DEBUG] Start Retrieve Version Number"
-		// 		script {
-		// 			def fileContent = readFile "${env.VERSION_NUMBER_FILE}"
-		// 			def list = fileContent.split("\n")
+		stage('Retrieve Version Number'){
+			steps {
+				echo "[DEBUG] Start Retrieve Version Number"
+				script {
+					def fileContent = readFile "${env.VERSION_NUMBER_FILE}"
+					def list = fileContent.split("\n")
 					
-		// 			env.majorNumber = 0
-		// 			env.minorNumber = 0
-		// 			env.buildNumber = 0
-		// 			env.revisionNumber = 0
+					env.majorNumber = 0
+					env.minorNumber = 0
+					env.buildNumber = 0
+					env.revisionNumber = 0
 					
-		// 			for (int i = 0; i < list.size(); i++) {
-		// 				def line = list[i].trim()
+					for (int i = 0; i < list.size(); i++) {
+						def line = list[i].trim()
 						
-		// 				if (line =~ /\[assembly\:/)
-		// 				{
-		// 					def m = line =~ /\d+/
+						if (line =~ /\[assembly\:/)
+						{
+							def m = line =~ /\d+/
 							
-		// 					env.majorNumber = m[0]
-		// 					env.minorNumber = m[1]
-		// 					env.buildNumber = m[2]
-		// 					env.revisionNumber = m[3]
+							env.majorNumber = m[0]
+							env.minorNumber = m[1]
+							env.buildNumber = m[2]
+							env.revisionNumber = m[3]
 							
-		// 					echo "[DEBUG] Version Number Retrieved Success, Version Number: ${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber}"
-		// 				}
-		// 			}
-		// 		}
-		// 		echo "[DEBUG] End Retrieve Version Number"
-		// 	}
-		// }
+							echo "[DEBUG] Version Number Retrieved Success, Version Number: ${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber}"
+						}
+					}
+				}
+				echo "[DEBUG] End Retrieve Version Number"
+			}
+		}
 		
 		// stage('Installer_Creation') {
 		// 	steps {
