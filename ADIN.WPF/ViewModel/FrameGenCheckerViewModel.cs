@@ -237,16 +237,28 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public bool IsADIN1100Board
+#if !DISABLE_TSN && !DISABLE_T1L
+
+        public bool IsT1LBoard
         {
             get
             {
-                return (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100)
-                  || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1)
-                  || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110)
-                  || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111);
+                return ((_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100)
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1)
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110)
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)) == true;
             }
         }
+
+        public bool IsGigabitBoard => !IsT1LBoard;
+
+#elif !DISABLE_TSN
+        public bool IsGigabitBoard { get; } = true;
+        public bool IsT1LBoard { get; } = false;
+#elif !DISABLE_T1L
+        public bool IsGigabitBoard { get; } = false;
+        public bool IsT1LBoard { get; } = true;
+#endif
 
         public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
         public ICommand RemoteLoopbackCommand { get; set; }
@@ -325,6 +337,9 @@ namespace ADIN.WPF.ViewModel
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 
+            OnPropertyChanged(nameof(IsGigabitBoard));
+            OnPropertyChanged(nameof(IsT1LBoard));
+
             OnPropertyChanged(nameof(SelectedFrameContent));
             OnPropertyChanged(nameof(FrameGenRunning));
             OnPropertyChanged(nameof(FrameBurst_Slider));
@@ -337,7 +352,6 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(EnableMacAddress));
             OnPropertyChanged(nameof(EnableContinuousMode));
             OnPropertyChanged(nameof(FrameGeneratorButtonText));
-            OnPropertyChanged(nameof(IsADIN1100Board));
         }
     }
 }

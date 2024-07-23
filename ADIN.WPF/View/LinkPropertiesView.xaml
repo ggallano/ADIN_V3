@@ -20,7 +20,8 @@
         <ContentControl Visibility="Visible" Content="{StaticResource ProxyElement}"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" >
             <StackPanel Orientation="Vertical" IsEnabled="{Binding IsDeviceSelected}">
-                <Grid Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+                <!--<TextBlock Text="No UI available" Margin="0 30 0 30" Style="{StaticResource TextBlockstyle}" HorizontalAlignment="Center" Visibility="{Binding IsToShowNoUI, Converter={StaticResource booleanVisibilityConverter}}"/>-->
+                <Grid Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
                     <GroupBox Header="Speed" Style="{StaticResource GroupBoxStyle}" Margin="0 0 0 5">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -33,7 +34,7 @@
                     </GroupBox>
                 </Grid>
 
-                <Grid Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+                <Grid Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
                     <GroupBox Header="Auto-Negotation Advertised Speeds" Style="{StaticResource GroupBoxStyle}" 
 				  Visibility="{Binding DataContext.IsANAdvertisedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
 				  Margin="0 0 0 5">
@@ -86,7 +87,7 @@
                     </GroupBox>
                 </Grid>
 
-                <Grid Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+                <Grid Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
                     <GroupBox Header="EEE Advertisement" Style="{StaticResource GroupBoxStyle}"
 				              Visibility="{Binding DataContext.IsANAdvertisedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
 				              Margin="0 0 0 5">
@@ -113,7 +114,7 @@
                     </GroupBox>
                 </Grid>
 
-                <Grid Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+                <Grid Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
                     <GroupBox Header="Down Speed" Style="{StaticResource GroupBoxStyle}"
 				              Visibility="{Binding DataContext.IsANAdvertisedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
 				              Margin="0 0 0 5">
@@ -144,7 +145,7 @@
                     </GroupBox>
                 </Grid>
 
-                <Grid Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+                <Grid Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
                     <GroupBox Header="Forced Speed" Style="{StaticResource GroupBoxStyle}" 
 				  Visibility="{Binding DataContext.IsForcedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
 				  Margin="0 0 0 5">
@@ -159,7 +160,7 @@
                     </GroupBox>
                 </Grid>
 
-                <Grid Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+                <Grid Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
                     <GroupBox Header="MDIX" Style="{StaticResource GroupBoxStyle}"
 				  Visibility="{Binding DataContext.IsForcedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
 				  Margin="0 0 0 5">
@@ -174,7 +175,7 @@
                     </GroupBox>
                 </Grid>
 
-                <Grid Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+                <Grid Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
                     <GroupBox Header="Energy Detect Power-down Mode" Style="{StaticResource GroupBoxStyle}" Margin="0,0,0,5">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -187,7 +188,7 @@
                     </GroupBox>
                 </Grid>
 
-                <Grid Visibility="{Binding IsADIN1100Board, Converter={StaticResource booleanVisibilityConverter}}">
+                <Grid Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
                     <GroupBox Header="Auto-negotiation Mater/Slave Advertisement" Style="{StaticResource GroupBoxStyle}" Margin="0 0 0 5">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -200,7 +201,7 @@
                     </GroupBox>
                 </Grid>
 
-                <Grid Visibility="{Binding IsADIN1100Board, Converter={StaticResource booleanVisibilityConverter}}">
+                <Grid Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
                     <GroupBox Header="Auto-negotiation Tx Level Advertisement" Style="{StaticResource GroupBoxStyle}" Margin="0 0 0 10">
                         <Grid>
                             <Grid.ColumnDefinitions>
