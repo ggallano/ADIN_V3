@@ -11,7 +11,7 @@
 !define OLD_APP_NAME "ADIN Evaluation"
 !define APP_NAME "Analog Devices T1L Ethernet PHY Evaluation"
 !define COMP_NAME "Analog Devices Inc.,"
-!define VERSION "03.05.912.206"
+!define VERSION "03.05.934.151"
 !define COPYRIGHT "Analog Devices Inc. � 2022"
 !define DESCRIPTION "Application"
 #!define INSTALLER_NAME "Analog Devices Ethernet PHY Installer_v${VERSION}.exe"
