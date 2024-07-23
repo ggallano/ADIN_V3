@@ -163,7 +163,7 @@
                         <TextBlock Text="Spike Count: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
                         <TextBlock Text="{Binding SpikeCount}" Style="{StaticResource DeviceStatusValueStyle}"/>
                     </StackPanel>
-                    <telerik:RadButton Grid.Column="1" Content="Reset" Style="{StaticResource TelerikButtonStyle}"/>
+                    <telerik:RadButton Grid.Column="1" Content="Reset" Style="{StaticResource TelerikButtonStyle}" Command="{Binding ResetSpikeCommand}"/>
                 </Grid>
             </Border>
 

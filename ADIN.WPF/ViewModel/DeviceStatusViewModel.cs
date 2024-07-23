@@ -21,18 +21,6 @@ namespace ADIN.WPF.ViewModel
 {
     public class DeviceStatusViewModel : ViewModelBase
     {
-        //private List<string> _advertisedSpeedList = new List<string>()
-        //{
-        //    "SPEED_1000BASE_T_FD_SPEED",
-        //    "SPEED_1000BASE_T_HD_SPEED",
-        //    "SPEED_1000BASE_EEE_SPEED",
-        //    "SPEED_100BASE_TX_FD_SPEED",
-        //    "SPEED_100BASE_TX_HD_SPEED",
-        //    "SPEED_100BASE_EEE_SPEED",
-        //    "SPEED_10BASE_T_FD_SPEED",
-        //    "SPEED_10BASE_T_HD_SPEED"
-        //};
-
         private string _advertisedSpeed = "-";
         private string _anStatus = "-";
         private BackgroundWorker _backgroundWorker;
@@ -67,6 +55,7 @@ namespace ADIN.WPF.ViewModel
             _mainLock = mainLock;
 
             ResetSlicerCommand = new ResetSlicerErrorCommand(this, selectedDeviceStore);
+            ResetSpikeCommand = new ResetSpikeCountCommand(this, selectedDeviceStore);
 
             SetBackgroundWroker();
 
@@ -76,6 +65,8 @@ namespace ADIN.WPF.ViewModel
         }
 
         public ICommand ResetSlicerCommand { get; set; }
+
+        public ICommand ResetSpikeCommand { get; set; }
 
         public string AdvertisedSpeed
         {

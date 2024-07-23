@@ -1,19 +1,19 @@
-﻿// <copyright file="ResetSlicerErrorCommand.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 
 namespace ADIN.WPF.Commands
 {
-    public class ResetSlicerErrorCommand : CommandBase
+    public class ResetSpikeCountCommand : CommandBase
     {
         private DeviceStatusViewModel _deviceStatusViewModel;
         private SelectedDeviceStore _selectedDeviceStore;
 
-        public ResetSlicerErrorCommand(DeviceStatusViewModel deviceStatusViewModel, SelectedDeviceStore selectedDeviceStore)
+        public ResetSpikeCountCommand(DeviceStatusViewModel deviceStatusViewModel, SelectedDeviceStore selectedDeviceStore)
         {
             this._deviceStatusViewModel = deviceStatusViewModel;
             this._selectedDeviceStore = selectedDeviceStore;
@@ -31,7 +31,7 @@ namespace ADIN.WPF.Commands
 
         public override void Execute(object parameter)
         {
-            _deviceStatusViewModel.MaxSlicerError = "0.00";
+            _deviceStatusViewModel.SpikeCount = "0.00";
         }
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
