@@ -67,10 +67,10 @@
                 </Border>
                 <Border Style="{StaticResource BorderSyle}" Grid.Column="2">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Speed Mode: " Style="{StaticResource DeviceStatusTextBlockstyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource invertedBooleanVisibilityConverter}}"/>
-                        <TextBlock Text="{Binding SpeedMode}" Style="{StaticResource DeviceStatusValueStyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource invertedBooleanVisibilityConverter}}"/>
-                        <TextBlock Text="An Status: " Style="{StaticResource DeviceStatusTextBlockstyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}"/>
-                        <TextBlock Text="{Binding AnStatus}" Style="{StaticResource DeviceStatusValueStyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}"/>
+                        <TextBlock Text="Speed Mode: " Style="{StaticResource DeviceStatusTextBlockstyle}" Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}"/>
+                        <TextBlock Text="{Binding SpeedMode}" Style="{StaticResource DeviceStatusValueStyle}" Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}"/>
+                        <TextBlock Text="An Status: " Style="{StaticResource DeviceStatusTextBlockstyle}" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}"/>
+                        <TextBlock Text="{Binding AnStatus}" Style="{StaticResource DeviceStatusValueStyle}" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}"/>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -82,28 +82,28 @@
                 </StackPanel>
             </Border>
 
-            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}">
+            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Master/Slave: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
                     <TextBlock Text="{Binding MasterSlaveStatus}" Style="{StaticResource DeviceStatusValueStyle}"/>
                 </StackPanel>
             </Border>
 
-            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}">
+            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Tx Level: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
                     <TextBlock Text="{Binding TxLevelStatus}" Style="{StaticResource DeviceStatusValueStyle}"/>
                 </StackPanel>
             </Border>
 
-            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}">
+            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="MSE: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
                     <TextBlock Text="{Binding MseValue.MseA_dB}" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
                 </StackPanel>
             </Border>
 
-            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition MinWidth="40" Width="2*"/>
@@ -138,14 +138,14 @@
                 </Grid>
             </Border>
 
-            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}">
+            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Max Slicer Error: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
                     <TextBlock Text="{Binding MaxSlicerError}" Style="{StaticResource DeviceStatusValueStyle}"/>
                 </StackPanel>
             </Border>
 
-            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}">
+            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Spike Count: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
                     <TextBlock Text="{Binding SpikeCount}" Style="{StaticResource DeviceStatusValueStyle}"/>
