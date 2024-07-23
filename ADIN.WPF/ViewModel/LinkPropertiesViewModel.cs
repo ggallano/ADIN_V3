@@ -422,14 +422,6 @@ namespace ADIN.WPF.ViewModel
         }
 
 #if !DISABLE_TSN && !DISABLE_T1L
-        public bool IsGigabitBoard
-        {
-            get
-            {
-                return ((_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1300)
-                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1200)) == true;
-            }
-        }
 
         public bool IsT1LBoard
         {
@@ -442,16 +434,14 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public bool IsToShowNoUI => !IsDeviceSelected;
+        public bool IsGigabitBoard => !IsT1LBoard;
 
 #elif !DISABLE_TSN
         public bool IsGigabitBoard { get; } = true;
         public bool IsT1LBoard { get; } = false;
-        public bool IsToShowNoUI { get; } = false;
 #elif !DISABLE_T1L
         public bool IsGigabitBoard { get; } = false;
         public bool IsT1LBoard { get; } = true;
-        public bool IsToShowNoUI { get; } = false;
 #endif
 
         public List<string> MasterSlaveAdvertises => _linkProperties?.MasterSlaveAdvertises;
@@ -616,9 +606,6 @@ namespace ADIN.WPF.ViewModel
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             OnPropertyChanged(nameof(IsDeviceSelected));
-            OnPropertyChanged(nameof(IsToShowNoUI));
-            OnPropertyChanged(nameof(IsGigabitBoard));
-            OnPropertyChanged(nameof(IsT1LBoard));
 
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
@@ -626,6 +613,8 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
             OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
             OnPropertyChanged(nameof(IsForcedSpeedVisible));
+            OnPropertyChanged(nameof(IsGigabitBoard));
+            OnPropertyChanged(nameof(IsT1LBoard));
 
             switch (_selectedDeviceStore.SelectedDevice.DeviceType)
             {

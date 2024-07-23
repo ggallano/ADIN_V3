@@ -19,7 +19,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel Orientation="Vertical">
-        <TextBlock Text="No UI available" Margin="0 30 0 30" Style="{StaticResource TextBlockstyle}" HorizontalAlignment="Center" Visibility="{Binding IsToShowNoUI, Converter={StaticResource booleanVisibilityConverter}}"/>
+        <!--<TextBlock Text="No UI available" Margin="0 30 0 30" Style="{StaticResource TextBlockstyle}" HorizontalAlignment="Center" Visibility="{Binding IsToShowNoUI, Converter={StaticResource booleanVisibilityConverter}}"/>-->
         <Grid Margin="5" Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
             <StackPanel Orientation="Vertical" IsEnabled="{Binding IsDeviceSelected}">
                 <WrapPanel HorizontalAlignment='Left'  Orientation='Horizontal'>

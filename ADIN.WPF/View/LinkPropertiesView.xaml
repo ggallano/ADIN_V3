@@ -20,7 +20,7 @@
         <ContentControl Visibility="Visible" Content="{StaticResource ProxyElement}"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" >
             <StackPanel Orientation="Vertical" IsEnabled="{Binding IsDeviceSelected}">
-                <TextBlock Text="No UI available" Margin="0 30 0 30" Style="{StaticResource TextBlockstyle}" HorizontalAlignment="Center" Visibility="{Binding IsToShowNoUI, Converter={StaticResource booleanVisibilityConverter}}"/>
+                <!--<TextBlock Text="No UI available" Margin="0 30 0 30" Style="{StaticResource TextBlockstyle}" HorizontalAlignment="Center" Visibility="{Binding IsToShowNoUI, Converter={StaticResource booleanVisibilityConverter}}"/>-->
                 <Grid Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
                     <GroupBox Header="Speed" Style="{StaticResource GroupBoxStyle}" Margin="0 0 0 5">
                         <Grid>
