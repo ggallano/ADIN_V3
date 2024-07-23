@@ -18,6 +18,30 @@ namespace ADIN.Device.Models.ADIN1300
             TM100BaseTxVod.Description = "100BASE-TX VOD measurements";
             TM100BaseTxVod.IsRequiringFrameLength = false;
 
+            TM1000BaseTTM1 = new TestModeListingModel();
+            TM1000BaseTTM1.Name1 = "1000BASE-T Test mode 1";
+            TM1000BaseTTM1.Name2 = "";
+            TM1000BaseTTM1.Description = "Transmit waveform test";
+            TM1000BaseTTM1.IsRequiringFrameLength = false;
+
+            TM1000BaseTTM2 = new TestModeListingModel();
+            TM1000BaseTTM2.Name1 = "1000BASE-T Test mode 2";
+            TM1000BaseTTM2.Name2 = "";
+            TM1000BaseTTM2.Description = "Transmit jitter test in MASTER mode";
+            TM1000BaseTTM2.IsRequiringFrameLength = false;
+
+            TM1000BaseTTM3 = new TestModeListingModel();
+            TM1000BaseTTM3.Name1 = "1000BASE-T Test mode 3";
+            TM1000BaseTTM3.Name2 = "";
+            TM1000BaseTTM3.Description = "Transmit jitter test in SLAVE mode";
+            TM1000BaseTTM3.IsRequiringFrameLength = false;
+
+            TM1000BaseTTM4 = new TestModeListingModel();
+            TM1000BaseTTM4.Name1 = "1000BASE-T Test mode 4";
+            TM1000BaseTTM4.Name2 = "";
+            TM1000BaseTTM4.Description = "Transmitter distortion test";
+            TM1000BaseTTM4.IsRequiringFrameLength = false;
+
             TM10BaseTLinkPulse = new TestModeListingModel();
             TM10BaseTLinkPulse.Name1 = "10BASE-T Link Pulse";
             TM10BaseTLinkPulse.Name2 = "";
@@ -69,6 +93,10 @@ namespace ADIN.Device.Models.ADIN1300
             TestModes = new List<TestModeListingModel>()
             {
                 TM100BaseTxVod,
+                TM1000BaseTTM1,
+                TM1000BaseTTM2,
+                TM1000BaseTTM3,
+                TM1000BaseTTM4,
                 TM10BaseTLinkPulse,
                 TM10BaseTTxRndFrm,
                 TM10BaseTtx0xffFrm,
@@ -84,6 +112,10 @@ namespace ADIN.Device.Models.ADIN1300
         public TestModeListingModel TestMode { get; set; }
         public uint TestModeFrameLength { get; set; }
         public TestModeListingModel TM100BaseTxVod { get; set; }
+        public TestModeListingModel TM1000BaseTTM1 { get; set; }
+        public TestModeListingModel TM1000BaseTTM2 { get; set; }
+        public TestModeListingModel TM1000BaseTTM3 { get; set; }
+        public TestModeListingModel TM1000BaseTTM4 { get; set; }
         public TestModeListingModel TM10BaseTLinkPulse { get; set; }
         public TestModeListingModel TM10BaseTTx5MHzDim1 { get; set; }
         public TestModeListingModel TM10BaseTTx10MHzDim1 { get; set; }

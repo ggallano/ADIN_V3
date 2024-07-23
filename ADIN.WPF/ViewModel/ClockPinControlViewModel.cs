@@ -38,6 +38,9 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
+                if (_selectedDeviceStore.SelectedDevice == null)
+                    return false;
+
                 return _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1300;
             }
         }
@@ -74,6 +77,8 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsClkPnCtrlCmd_Rcvr125Mhz { get; set; }
 
+        public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+
         public string SelectedClk25RefPnCtrl
         {
             set
@@ -96,6 +101,8 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            OnPropertyChanged(nameof(IsDeviceSelected));
+
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 

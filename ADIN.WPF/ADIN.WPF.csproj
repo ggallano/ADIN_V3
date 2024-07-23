@@ -643,6 +643,11 @@
       <AlwaysRun>True</AlwaysRun>
       <RunCustomToolOnBuild>True</RunCustomToolOnBuild>
     </Content>
+    <Resource Include="Images\loopback\Loopback_AllDigital.png" />
+    <Resource Include="Images\loopback\Loopback_ExtCable.png" />
+    <Resource Include="Images\loopback\Loopback_LineDriver.png" />
+    <Resource Include="Images\loopback\Loopback_None.png" />
+    <Resource Include="Images\loopback\Loopback_Remote.png" />
     <Resource Include="Images\loopback\loopback.png" />
     <Resource Include="Images\adin1200\03ec687cd2e0416bd18737fd6961b6e7.png" />
     <Resource Include="Images\adin1200\05f1755eab3b667f2d53cb8f4e0fdbc5.png" />

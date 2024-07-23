@@ -43,7 +43,7 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsCrossPair
         {
-            get { return _selectedDeviceStore.SelectedDevice.IsCrossPair; }
+            get { return _selectedDeviceStore.SelectedDevice?.IsCrossPair ?? false; }
 
             set
             {
@@ -51,6 +51,8 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsCrossPair));
             }
         }
+
+        public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
 
         private List<string> _cableDiagResults;
 
@@ -95,6 +97,8 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            OnPropertyChanged(nameof(IsDeviceSelected));
+
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 

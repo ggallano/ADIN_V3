@@ -28,17 +28,6 @@ namespace ADIN.WPF.ViewModel
 
         public string ImagePath => _loopback?.SelectedLoopback.ImagePath;
 
-        public bool IsADIN1100Board
-        {
-            get
-            {
-                return (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100)
-                  || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1)
-                  || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110)
-                  || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111);
-            }
-        }
-
         public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
 
         public bool IsLoopback_Digital
@@ -87,6 +76,7 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsLoopback_LineDriver));
                 OnPropertyChanged(nameof(IsLoopback_ExtCable));
                 OnPropertyChanged(nameof(IsLoopback_Remote));
+                OnPropertyChanged(nameof(ImagePath));
             }
         }
 
@@ -136,6 +126,7 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsLoopback_LineDriver));
                 OnPropertyChanged(nameof(IsLoopback_ExtCable));
                 OnPropertyChanged(nameof(IsLoopback_Remote));
+                OnPropertyChanged(nameof(ImagePath));
             }
         }
 
@@ -185,6 +176,7 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsLoopback_LineDriver));
                 OnPropertyChanged(nameof(IsLoopback_ExtCable));
                 OnPropertyChanged(nameof(IsLoopback_Remote));
+                OnPropertyChanged(nameof(ImagePath));
             }
         }
 
@@ -234,6 +226,7 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsLoopback_LineDriver));
                 OnPropertyChanged(nameof(IsLoopback_ExtCable));
                 OnPropertyChanged(nameof(IsLoopback_Remote));
+                OnPropertyChanged(nameof(ImagePath));
             }
         }
 
@@ -283,6 +276,7 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsLoopback_LineDriver));
                 OnPropertyChanged(nameof(IsLoopback_ExtCable));
                 OnPropertyChanged(nameof(IsLoopback_Remote));
+                OnPropertyChanged(nameof(ImagePath));
             }
         }
 
@@ -311,6 +305,30 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsTxSuppression));
             }
         }
+
+#if !DISABLE_TSN && !DISABLE_T1L
+
+        public bool IsT1LBoard
+        {
+            get
+            {
+                return ((_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100)
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1)
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110)
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)) == true;
+            }
+        }
+
+        public bool IsGigabitBoard => !IsT1LBoard;
+
+#elif !DISABLE_TSN
+        public bool IsGigabitBoard { get; } = true;
+        public bool IsT1LBoard { get; } = false;
+#elif !DISABLE_T1L
+        public bool IsGigabitBoard { get; } = false;
+        public bool IsT1LBoard { get; } = true;
+#endif
+
         public List<LoopbackModel> Loopbacks => _loopback?.Loopbacks;
 
         public LoopbackModel SelectedLoopback
@@ -362,7 +380,8 @@ namespace ADIN.WPF.ViewModel
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 
-            OnPropertyChanged(nameof(IsADIN1100Board));
+            OnPropertyChanged(nameof(IsGigabitBoard));
+            OnPropertyChanged(nameof(IsT1LBoard));
 
             OnPropertyChanged(nameof(IsLoopback_None));
             OnPropertyChanged(nameof(IsLoopback_Digital));

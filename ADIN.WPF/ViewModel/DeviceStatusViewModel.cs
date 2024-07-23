@@ -73,7 +73,12 @@ namespace ADIN.WPF.ViewModel
 
         public string AdvertisedSpeed
         {
-            get { return _advertisedSpeed; }
+            get 
+            {
+                if (_selectedDeviceStore.SelectedDevice == null)
+                    return "-";
+                return _advertisedSpeed;
+            }
 
             set
             {
@@ -215,7 +220,12 @@ namespace ADIN.WPF.ViewModel
 
         public List<string> LocalAdvertisedSpeeds
         {
-            get { return _localAdvertisedSpeeds; }
+            get 
+            {
+                if (_selectedDeviceStore.SelectedDevice == null)
+                    return new List<string>();
+                return _localAdvertisedSpeeds; 
+            }
 
             set
             {
@@ -288,7 +298,12 @@ namespace ADIN.WPF.ViewModel
 
         public List<string> RemoteAdvertisedSpeeds
         {
-            get { return _remoteAdvertisedSpeeds; }
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice == null)
+                    return new List<string>();
+                return _remoteAdvertisedSpeeds; 
+            }
 
             set
             {
