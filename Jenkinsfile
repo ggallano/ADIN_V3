@@ -65,8 +65,10 @@ pipeline {
 						"${env.NUGET_PATH}" restore
 					echo "End Nuget Packages Restore"
 					
-					echo "Start Release Build"
-						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
+					
+					
+					echo "Start Release Build_Gigabit"
+						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release_TSN /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
 					echo "[DEBUG] End Release Build"
 				"""
             }
