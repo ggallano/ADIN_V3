@@ -14,14 +14,14 @@
     </UserControl.Resources>
     <Grid Margin="0 10 0 0">
         <StackPanel HorizontalAlignment='Stretch' IsEnabled="{Binding IsDeviceSelected}">
-            <GroupBox Header='Enable Remote Loopback in Link Partner' Style="{StaticResource GroupBoxStyle}" Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+            <GroupBox Header='Enable Remote Loopback in Link Partner' Style="{StaticResource GroupBoxStyle}" Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <StackPanel Margin="0">
                     <TextBlock TextWrapping='Wrap' Text="Loopback can be conveniently enabled on a remote device to loopback frames for the frame checker to check." Style="{StaticResource TextBlockstyle}"   />
                     <telerik:RadButton Style="{StaticResource FramGenButtonStyle}" Content="Remote Loopback" ToolTip='Loops the data received from the remote PHY back to the remote PHY using all of the digital and analog circuitry.' Command="{Binding RemoteLoopbackCommand}" x:Name="RemoteLoopback"/>
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Header="Frame Generator in Local PHY" Style="{StaticResource GroupBoxStyle}" Margin="0 10 0 0" Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+            <GroupBox Header="Frame Generator in Local PHY" Style="{StaticResource GroupBoxStyle}" Margin="0 10 0 0" Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <StackPanel Margin="0">
                     <CheckBox IsEnabled="{Binding FrameGenRunning}" ToolTip='Enable this to send a continuous stream of frames. Alternative is to send a burst of frames of a certain length.' x:Name='chkContinuous' IsChecked="{Binding EnableContinuousMode}" Style="{StaticResource CheckBoxStyle}">Continuous Mode until terminated.</CheckBox>
                     <Grid Margin="0 10 0 5">
@@ -129,7 +129,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox x:Name="GroupHeader" Header="Frame Generator in Local PHY" Style="{StaticResource GroupBoxStyle}" Margin="0 10 0 0" Visibility="{Binding IsADIN1100Board, Converter={StaticResource booleanVisibilityConverter}}">
+            <GroupBox x:Name="GroupHeader" Header="Frame Generator in Local PHY" Style="{StaticResource GroupBoxStyle}" Margin="0 10 0 0" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <StackPanel Margin="0">
                     <CheckBox IsEnabled="{Binding FrameGenRunning}" ToolTip='Enable this to send a continuous stream of frames. Alternative is to send a burst of frames of a certain length.' x:Name='chkContinuous2' IsChecked="{Binding EnableContinuousMode}" Style="{StaticResource CheckBoxStyle}">Continuous Mode until terminated.</CheckBox>
                     <Grid Margin="0 10 0 5">

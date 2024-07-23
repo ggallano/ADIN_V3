@@ -39,7 +39,8 @@ namespace ADIN.WPF.Commands
 
         public override bool CanExecute(object parameter)
         {
-            if (_linkStatus == EthPhyState.Standby)
+            if (_selectedDeviceStore.SelectedDevice != null
+                && _linkStatus == EthPhyState.Standby)
                 return base.CanExecute(parameter);
 
             return false;

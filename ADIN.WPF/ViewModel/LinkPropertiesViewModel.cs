@@ -29,17 +29,6 @@ namespace ADIN.WPF.ViewModel
 
         public List<string> ForcedSpeeds => _linkProperties?.ForcedSpeeds;
 
-        public bool IsADIN1100Board
-        {
-            get
-            {
-                return (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100)
-                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1)
-                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110)
-                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111);
-            }
-        }
-
         public bool IsAdvertise_1000BASE_T_FD
         {
             get { return _linkProperties?.IsAdvertise_1000BASE_T_FD == true; }
@@ -432,6 +421,29 @@ namespace ADIN.WPF.ViewModel
             get { return _linkProperties?.SpeedMode == "Forced"; }
         }
 
+#if !DISABLE_TSN && !DISABLE_T1L
+
+        public bool IsT1LBoard
+        {
+            get
+            {
+                return ((_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100)
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1)
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110)
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)) == true;
+            }
+        }
+
+        public bool IsGigabitBoard => !IsT1LBoard;
+
+#elif !DISABLE_TSN
+        public bool IsGigabitBoard { get; } = true;
+        public bool IsT1LBoard { get; } = false;
+#elif !DISABLE_T1L
+        public bool IsGigabitBoard { get; } = false;
+        public bool IsT1LBoard { get; } = true;
+#endif
+
         public List<string> MasterSlaveAdvertises => _linkProperties?.MasterSlaveAdvertises;
 
         public List<string> MDIXs => _linkProperties?.MDIXs;
@@ -601,7 +613,8 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
             OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
             OnPropertyChanged(nameof(IsForcedSpeedVisible));
-            OnPropertyChanged(nameof(IsADIN1100Board));
+            OnPropertyChanged(nameof(IsGigabitBoard));
+            OnPropertyChanged(nameof(IsT1LBoard));
 
             switch (_selectedDeviceStore.SelectedDevice.DeviceType)
             {

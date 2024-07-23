@@ -80,9 +80,19 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsActiveLinkMonEnabled { get; } = Properties.Settings.Default.ActiveLinkMon;
 
-        public bool IsADIN1100Visible => !CheckGigabitBoard(_selectedDeviceStore.SelectedDevice.DeviceType);
+#if !DISABLE_TSN && !DISABLE_T1L
 
-        public bool IsADIN1300Visible => CheckGigabitBoard(_selectedDeviceStore.SelectedDevice.DeviceType);
+        public bool IsADIN1100Visible => !CheckGigabitBoard(_selectedDeviceStore.SelectedDevice?.DeviceType ?? BoardType.ADIN1300);
+
+        public bool IsADIN1300Visible => CheckGigabitBoard(_selectedDeviceStore.SelectedDevice?.DeviceType ?? BoardType.ADIN1300);
+
+#elif !DISABLE_TSN
+        public bool IsADIN1300Visible { get; } = true;
+        public bool IsADIN1100Visible { get; } = false;
+#elif !DISABLE_T1L
+        public bool IsADIN1300Visible { get; } = false;
+        public bool IsADIN1100Visible { get; } = true;
+#endif
 
         public bool IsADIN2111
         {
@@ -128,7 +138,20 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public bool IsClkPinControlVisible => _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1300 || _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1200;
+        public bool IsClkPinControlVisible
+        {
+            get
+            {
+#if DISABLE_T1L
+                return true;
+#else
+                if (_selectedDeviceStore.SelectedDevice == null)
+                    return false;
+
+                return _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1300 || _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1200;
+#endif
+            }
+        }
 
         public LinkPropertiesViewModel LinkPropertiesVM { get; set; }
 
