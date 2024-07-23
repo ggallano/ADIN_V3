@@ -69,13 +69,13 @@ pipeline {
 						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
 					echo "[DEBUG] End Release Build"
 					
-					echo "Start Release Build_T1L"
+					echo "Start Release Build for T1L"
 						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release_T1L /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
-					echo "[DEBUG] End Release Build"
+					echo "[DEBUG] End Release Build for T1L"
 					
-					echo "Start Release Build_Gigabit"
+					echo "Start Release Build for Gigabit"
 						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release_TSN /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
-					echo "[DEBUG] End Release Build"
+					echo "[DEBUG] End Release Build for Gigabit"
 				"""
             }
         }
@@ -112,15 +112,27 @@ pipeline {
 			}
 		}
 		
-		// stage('Installer_Creation') {
-		// 	steps {
-		// 		echo "[DEBUG] Start Installer_Creation"
-		// 			bat """
-		// 				"${env.NSIS_PATH}" /DVERSION=${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber} Installer\\${env.NSIS_SCRIPT_NAME}
-		// 			"""
-		// 		echo "[DEBUG] End Installer_Creation"
-		// 	}
-		// }
+		stage('Installer_Creation') {
+			steps {
+				echo "[DEBUG] Start Installer_Creation"
+					bat """
+						"${env.NSIS_PATH}" /DVERSION=${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber} Installer\\${env.NSIS_SCRIPT_NAME}
+					"""
+				echo "[DEBUG] End Installer_Creation"
+
+				echo "[DEBUG] Start Installer_Creation for T1L"
+					bat """
+						"${env.NSIS_PATH}" /DVERSION=${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber} Installer\\${env.NSIS_SCRIPT_NAME_T1L}
+					"""
+				echo "[DEBUG] End Installer_Creation for T1L"
+
+				echo "[DEBUG] Start Installer_Creation for Gigabit"
+					bat """
+						"${env.NSIS_PATH}" /DVERSION=${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber} Installer\\${env.NSIS_SCRIPT_NAME_GIGABIT}
+					"""
+				echo "[DEBUG] End Installer_Creation for Gigabit"
+			}
+		}
 		
 		// stage('Publish') {
 		// 	steps {
