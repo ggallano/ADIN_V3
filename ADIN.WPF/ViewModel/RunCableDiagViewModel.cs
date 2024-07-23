@@ -52,6 +52,8 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+
         private List<string> _cableDiagResults;
 
         public List<string> CableDiagResults
@@ -95,6 +97,8 @@ namespace ADIN.WPF.ViewModel
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            OnPropertyChanged(nameof(IsDeviceSelected));
+
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 
