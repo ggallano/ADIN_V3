@@ -1,6 +1,5 @@
 pipeline {
     agent { label 'CAV_SSE_Agent' }
-	//agent { label 'IPN_Software_Agent' }
 
 	environment {
 		VERSION_NUMBER_FILE = "ADIN.WPF\\AutoVersionIncrement.cs"
@@ -14,8 +13,12 @@ pipeline {
 		FRAMEWORK_SDK = "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v10.0A\\bin\\NETFX 4.6.2 Tools"
 		
 		SOLUTION_NAME = "ADIN.sln"
-		NSIS_SCRIPT_NAME = "ADIN1100_Eval.nsi"
-		BASE_INSTALLER_NAME = "Analog Devices Ethernet PHY Installer"
+		NSIS_SCRIPT_NAME 			= "ADIN_Eval.nsi"
+		NSIS_SCRIPT_NAME_T1L 		= "ADIN_T1L_Eval.nsi"
+		NSIS_SCRIPT_NAME_GIGABIT 	= "ADIN_TSN_Eval.nsi"
+		BASE_INSTALLER_NAME 		= "Analog Devices Ethernet PHY Installer"
+		BASE_INSTALLER_NAME_T1L		= "Analog Devices T1L Ethernet PHY Installer"
+		BASE_INSTALLER_NAME_GIGABIT	= "Analog Devices Gigabit Ethernet PHY Installer"
 		
 		//RECIPIENTS = 'glenn.gallano@analog.com, Wassim.Magnin@analog.com, hector.arroyo@analog.com, danail.baylov@analog.com'
 		RECIPIENTS = 'glenn.gallano@analog.com'
@@ -66,67 +69,87 @@ pipeline {
 						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
 					echo "[DEBUG] End Release Build"
 				"""
+				echo 'Source_Code_Build_T1L'
+				bat """
+					echo "[DEBUG] Start Nuget Packages Restore"
+						"${env.NUGET_PATH}" restore
+					echo "End Nuget Packages Restore"
+					
+					echo "Start Release Build"
+						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release_T1L /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
+					echo "[DEBUG] End Release Build"
+				"""
+				echo 'Source_Code_Build_Gigabit'
+				bat """
+					echo "[DEBUG] Start Nuget Packages Restore"
+						"${env.NUGET_PATH}" restore
+					echo "End Nuget Packages Restore"
+					
+					echo "Start Release Build"
+						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release_TSN /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
+					echo "[DEBUG] End Release Build"
+				"""
             }
         }
 		
-		stage('Retrieve Version Number'){
-			steps {
-				echo "[DEBUG] Start Retrieve Version Number"
-				script {
-					def fileContent = readFile "${env.VERSION_NUMBER_FILE}"
-					def list = fileContent.split("\n")
+		// stage('Retrieve Version Number'){
+		// 	steps {
+		// 		echo "[DEBUG] Start Retrieve Version Number"
+		// 		script {
+		// 			def fileContent = readFile "${env.VERSION_NUMBER_FILE}"
+		// 			def list = fileContent.split("\n")
 					
-					env.majorNumber = 0
-					env.minorNumber = 0
-					env.buildNumber = 0
-					env.revisionNumber = 0
+		// 			env.majorNumber = 0
+		// 			env.minorNumber = 0
+		// 			env.buildNumber = 0
+		// 			env.revisionNumber = 0
 					
-					for (int i = 0; i < list.size(); i++) {
-						def line = list[i].trim()
+		// 			for (int i = 0; i < list.size(); i++) {
+		// 				def line = list[i].trim()
 						
-						if (line =~ /\[assembly\:/)
-						{
-							def m = line =~ /\d+/
+		// 				if (line =~ /\[assembly\:/)
+		// 				{
+		// 					def m = line =~ /\d+/
 							
-							env.majorNumber = m[0]
-							env.minorNumber = m[1]
-							env.buildNumber = m[2]
-							env.revisionNumber = m[3]
+		// 					env.majorNumber = m[0]
+		// 					env.minorNumber = m[1]
+		// 					env.buildNumber = m[2]
+		// 					env.revisionNumber = m[3]
 							
-							echo "[DEBUG] Version Number Retrieved Success, Version Number: ${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber}"
-						}
-					}
-				}
-				echo "[DEBUG] End Retrieve Version Number"
-			}
-		}
+		// 					echo "[DEBUG] Version Number Retrieved Success, Version Number: ${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber}"
+		// 				}
+		// 			}
+		// 		}
+		// 		echo "[DEBUG] End Retrieve Version Number"
+		// 	}
+		// }
 		
-		stage('Installer_Creation') {
-			steps {
-				echo "[DEBUG] Start Installer_Creation"
-					bat """
-						"${env.NSIS_PATH}" /DVERSION=${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber} Installer\\${env.NSIS_SCRIPT_NAME}
-					"""
-				echo "[DEBUG] End Installer_Creation"
-			}
-		}
+		// stage('Installer_Creation') {
+		// 	steps {
+		// 		echo "[DEBUG] Start Installer_Creation"
+		// 			bat """
+		// 				"${env.NSIS_PATH}" /DVERSION=${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber} Installer\\${env.NSIS_SCRIPT_NAME}
+		// 			"""
+		// 		echo "[DEBUG] End Installer_Creation"
+		// 	}
+		// }
 		
-		stage('Publish') {
-			steps {
-				echo "[DEBUG] Start Publish"
-					script {
-						env.versionNumber = "${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber}"
-						env.releaseInstallerName = "${env.BASE_INSTALLER_NAME}_v${env.versionNumber}"
-					}
+		// stage('Publish') {
+		// 	steps {
+		// 		echo "[DEBUG] Start Publish"
+		// 			script {
+		// 				env.versionNumber = "${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber}"
+		// 				env.releaseInstallerName = "${env.BASE_INSTALLER_NAME}_v${env.versionNumber}"
+		// 			}
 					
-					bat """
-						copy "Installer\\${env.BASE_INSTALLER_NAME}.exe" "Installer\\${env.releaseInstallerName}.exe" /Y
-					"""
+		// 			bat """
+		// 				copy "Installer\\${env.BASE_INSTALLER_NAME}.exe" "Installer\\${env.releaseInstallerName}.exe" /Y
+		// 			"""
 					
-					archiveArtifacts artifacts: "Installer/${env.releaseInstallerName}.exe"
-				echo "[DEBUG] End Publish"
-			}
-		}
+		// 			archiveArtifacts artifacts: "Installer/${env.releaseInstallerName}.exe"
+		// 		echo "[DEBUG] End Publish"
+		// 	}
+		// }
 	}
 
 
@@ -136,20 +159,20 @@ pipeline {
 			
 		}
 	
-		success {
-			mail to: "${env.RECIPIENTS}",
-				subject: "ADIN1100GUI Latest Version [SUCCESS]/[${env.GIT_BRANCH}]", 
-				body: """Hi\nKindly download the file under Build Artifacts in this link: ${env.BUILD_URL}"""
+		// success {
+		// 	mail to: "${env.RECIPIENTS}",
+		// 		subject: "ADIN1100GUI Latest Version [SUCCESS]/[${env.GIT_BRANCH}]", 
+		// 		body: """Hi\nKindly download the file under Build Artifacts in this link: ${env.BUILD_URL}"""
 				
-			echo "[DEBUG] Post Success"
-		}
+		// 	echo "[DEBUG] Post Success"
+		// }
 		
-		failure {
-			mail to: "${env.DEV_RECIPIENTS}",
-				subject: "ADIN1100GUI Latest Version [FAILED]/[${env.GIT_BRANCH}]", 
-				body: """The build was failed.\n${env.BUILD_URL}"""
+		// failure {
+		// 	mail to: "${env.DEV_RECIPIENTS}",
+		// 		subject: "ADIN1100GUI Latest Version [FAILED]/[${env.GIT_BRANCH}]", 
+		// 		body: """The build was failed.\n${env.BUILD_URL}"""
 				
-			echo "[DEBUG] Post Failure"
-		}
+		// 	echo "[DEBUG] Post Failure"
+		// }
 	}
 }
