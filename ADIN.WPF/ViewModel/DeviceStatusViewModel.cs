@@ -5,6 +5,7 @@
 
 using ADIN.Device.Models;
 using ADIN.Device.Services;
+using ADIN.WPF.Commands;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
 using Helper.SignalToNoiseRatio;
@@ -14,6 +15,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Windows.Input;
 
 namespace ADIN.WPF.ViewModel
 {
@@ -64,12 +66,16 @@ namespace ADIN.WPF.ViewModel
             _ftdiService = ftdiService;
             _mainLock = mainLock;
 
+            ResetSlicerCommand = new ResetSlicerErrorCommand(this, selectedDeviceStore);
+
             SetBackgroundWroker();
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerResetDisplay += _selectedDeviceStore_FrameGenCheckerResetDisplay;
             _selectedDeviceStore.PortNumChanged += _selectedDeviceStore_PortNumChanged;
         }
+
+        public ICommand ResetSlicerCommand { get; set; }
 
         public string AdvertisedSpeed
         {
