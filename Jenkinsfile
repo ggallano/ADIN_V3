@@ -69,26 +69,6 @@ pipeline {
 						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
 					echo "[DEBUG] End Release Build"
 				"""
-				echo 'Source_Code_Build_T1L'
-				bat """
-					echo "[DEBUG] Start Nuget Packages Restore"
-						"${env.NUGET_PATH}" restore
-					echo "End Nuget Packages Restore"
-					
-					echo "Start Release Build"
-						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release_T1L /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
-					echo "[DEBUG] End Release Build"
-				"""
-				echo 'Source_Code_Build_Gigabit'
-				bat """
-					echo "[DEBUG] Start Nuget Packages Restore"
-						"${env.NUGET_PATH}" restore
-					echo "End Nuget Packages Restore"
-					
-					echo "Start Release Build"
-						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release_TSN /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
-					echo "[DEBUG] End Release Build"
-				"""
             }
         }
 		
