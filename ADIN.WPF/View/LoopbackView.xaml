@@ -19,7 +19,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel Orientation="Vertical">
-        <Grid Margin="5" Visibility="{Binding IsADIN1100Board, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+        <TextBlock Text="No UI available" Margin="0 30 0 30" Style="{StaticResource TextBlockstyle}" HorizontalAlignment="Center" Visibility="{Binding IsToShowNoUI, Converter={StaticResource booleanVisibilityConverter}}"/>
+        <Grid Margin="5" Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
             <StackPanel Orientation="Vertical" IsEnabled="{Binding IsDeviceSelected}">
                 <WrapPanel HorizontalAlignment='Left'  Orientation='Horizontal'>
 
@@ -46,7 +47,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid Margin="5" Visibility="{Binding IsADIN1100Board, Converter={StaticResource booleanVisibilityConverter}}">
+        <Grid Margin="5" IsEnabled="{Binding IsDeviceSelected}" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width=".5*"/>
                 <ColumnDefinition Width="*"/>
@@ -74,7 +75,7 @@
         </Grid>
 
         <Grid>
-            <Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 20" Source="{Binding ImagePath}" VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Height="300" Width="600"/>
+            <Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 20" Source="{Binding ImagePath}" VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Height="300" Width="600" Visibility="{Binding IsDeviceSelected, Converter={StaticResource booleanVisibilityConverter}}"/>
         </Grid>
     </StackPanel>
 
