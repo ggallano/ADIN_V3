@@ -9,14 +9,14 @@
 !define LICENSE_PDF "..\Licensing\${LICENSE_PDF_NAME}"
 !define LICENSE_RTF "..\Licensing\${LICENSE_RTF_NAME}"
 !define OLD_APP_NAME "ADIN Evaluation"
-!define APP_NAME "Analog Devices TSN Ethernet PHY Evaluation"
+!define APP_NAME "Analog Devices Gigabit Ethernet PHY Evaluation"
 !define COMP_NAME "Analog Devices Inc.,"
 #!define VERSION "03.05.00.00"
 !define COPYRIGHT "Analog Devices Inc. � 2022"
 !define DESCRIPTION "Application"
 #!define INSTALLER_NAME "Analog Devices Ethernet PHY Installer_v${VERSION}.exe"
-!define INSTALLER_NAME "Analog Devices TSN Ethernet PHY Installer.exe"
-!define MAIN_APP_EXE "ADIN_TSN_DeviceEval.exe"
+!define INSTALLER_NAME "Analog Devices Gigabit Ethernet PHY Installer.exe"
+!define MAIN_APP_EXE "ADIN_DeviceEval.exe"
 !define INSTALL_TYPE "SetShellVarContext current"
 !define REG_ROOT "HKCU"
 !define REG_APP_PATH "Software\Microsoft\Windows\CurrentVersion\App Paths\${MAIN_APP_EXE}"
@@ -41,7 +41,7 @@ OutFile "${INSTALLER_NAME}"
 BrandingText "${APP_NAME}"
 XPStyle on
 InstallDirRegKey "${REG_ROOT}" "${REG_APP_PATH}" ""
-InstallDir "C:\Analog Devices\ADIN_TSN"
+InstallDir "C:\Analog Devices\ADIN_Gigabit"
 
 ######################################################################
 
@@ -114,10 +114,10 @@ File "..\Telerik\Telerik.Windows.Controls.GridView.Export.dll"
 File "..\Telerik\Telerik.Windows.Controls.Input.dll"
 File "..\Telerik\Telerik.Windows.Controls.Navigation.dll"
 File "..\Telerik\Telerik.Windows.Data.dll"
-#File "..\SciChartLibraries\SciChart.Charting.dll"
-#File "..\SciChartLibraries\SciChart.Core.dll"
-#File "..\SciChartLibraries\SciChart.Data.dll"
-#File "..\SciChartLibraries\SciChart.Drawing.dll"
+File "..\SciChartLibraries\SciChart.Charting.dll"
+File "..\SciChartLibraries\SciChart.Core.dll"
+File "..\SciChartLibraries\SciChart.Data.dll"
+File "..\SciChartLibraries\SciChart.Drawing.dll"
 
 SetOutPath "$INSTDIR\Registers"
 File "..\ADIN.WPF\bin\Release_TSN\Registers\registers_adin1100_S1.json"
@@ -144,14 +144,14 @@ Section -Icons_Reg
 SetOutPath "$INSTDIR"
 WriteUninstaller "$INSTDIR\uninstall.exe"
 
-CreateDirectory "$SMPROGRAMS\Analog Devices\ADIN_TSN"
-CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN_TSN\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}"
+CreateDirectory "$SMPROGRAMS\Analog Devices\ADIN_Gigabit"
+CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN_Gigabit\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}"
 CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${MAIN_APP_EXE}"
-CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN_TSN\Uninstall ${APP_NAME}.lnk" "$INSTDIR\uninstall.exe"
+CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN_Gigabit\Uninstall ${APP_NAME}.lnk" "$INSTDIR\uninstall.exe"
 
-#CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN_TSN\ADIN1100 User Guide.lnk" "$INSTDIR\EVAL-ADIN1100FMCZ-UG-XXXX_RevPrA.pdf"
-CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN_TSN\ADIN1200 User Guide.lnk" "$INSTDIR\EVAL-ADIN1200FMCZ-UG-1673.pdf"
-CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN_TSN\ADIN1300 User Guide.lnk" "$INSTDIR\EVAL-ADIN1300FMCZ-UG-1635.pdf"
+#CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN_Gigabit\ADIN1100 User Guide.lnk" "$INSTDIR\EVAL-ADIN1100FMCZ-UG-XXXX_RevPrA.pdf"
+CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN_Gigabit\ADIN1200 User Guide.lnk" "$INSTDIR\EVAL-ADIN1200FMCZ-UG-1673.pdf"
+CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN_Gigabit\ADIN1300 User Guide.lnk" "$INSTDIR\EVAL-ADIN1300FMCZ-UG-1635.pdf"
 
 #CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN\ADIN Schematics.lnk" "$INSTDIR\doc\02-063798-01-b_SCH_NDA.pdf"
 #CreateShortCut "$SMPROGRAMS\Analog Devices\ADIN\ADIN PCB.lnk" "$INSTDIR\doc\08-063798-01-b_PCB_NDA.pdf"
@@ -170,8 +170,8 @@ WriteRegStr ${REG_ROOT} "${UNINSTALL_PATH}"  "Publisher" "${COMP_NAME}"
 
 # Delete the old shortcuts to avoid confusion
 Delete "$DESKTOP\${OLD_APP_NAME}.lnk"
-Delete "$SMPROGRAMS\Analog Devices\ADIN_TSN\${OLD_APP_NAME}.lnk"
-Delete "$SMPROGRAMS\Analog Devices\ADIN_TSN\Uninstall ${OLD_APP_NAME}.lnk"
+Delete "$SMPROGRAMS\Analog Devices\ADIN_Gigabit\${OLD_APP_NAME}.lnk"
+Delete "$SMPROGRAMS\Analog Devices\ADIN_Gigabit\Uninstall ${OLD_APP_NAME}.lnk"
 
 # Delete the ADIN1200 files , and files from the older installations to avoid confusion
 # "$INSTDIR\doc\EVAL-ADIN1100FMCZ-UG-XXXX_RevPrA.pdf"
@@ -219,10 +219,10 @@ Delete "$INSTDIR\Telerik.Windows.Controls.GridView.dll"
 Delete "$INSTDIR\Telerik.Windows.Controls.GridView.Export.dll"
 
 #Delete "$INSTDIR\Utilities.dll"
-#Delete "$INSTDIR\SciChart.Charting.dll"
-#Delete "$INSTDIR\SciChart.Core.dll"
-#Delete "$INSTDIR\SciChart.Data.dll"
-#Delete "$INSTDIR\SciChart.Drawing.dll"
+Delete "$INSTDIR\SciChart.Charting.dll"
+Delete "$INSTDIR\SciChart.Core.dll"
+Delete "$INSTDIR\SciChart.Data.dll"
+Delete "$INSTDIR\SciChart.Drawing.dll"
 #Delete "$INSTDIR\CsvHelper.dll"
 
 #Delete "$INSTDIR\doc\EVAL-ADIN1100FMCZ-UG-XXXX_RevPrA.pdf"
@@ -252,12 +252,12 @@ RmDir "$SMPROGRAMS\$SM_Folder"
 !endif
 
 !ifndef REG_START_MENU
-Delete "$SMPROGRAMS\Analog Devices\ADIN_TSN\${APP_NAME}.lnk"
+Delete "$SMPROGRAMS\Analog Devices\ADIN_Gigabit\${APP_NAME}.lnk"
 #Delete "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1100_10BASE-T1L_PHY_PrD_NDA.lnk"
 #Delete "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1300 Datasheet.lnk" 
-#Delete "$SMPROGRAMS\Analog Devices\ADIN\ADIN1100 User Guide.lnk"
-Delete "$SMPROGRAMS\Analog Devices\ADIN_TSN\ADIN1200 User Guide.lnk"
-Delete "$SMPROGRAMS\Analog Devices\ADIN_TSN\ADIN1300 User Guide.lnk"
+#Delete "$SMPROGRAMS\Analog Devices\ADIN_Gigabit\ADIN1100 User Guide.lnk"
+Delete "$SMPROGRAMS\Analog Devices\ADIN_Gigabit\ADIN1200 User Guide.lnk"
+Delete "$SMPROGRAMS\Analog Devices\ADIN_Gigabit\ADIN1300 User Guide.lnk"
 #Delete "$SMPROGRAMS\Analog Devices\ADIN\ADIN1100 Schematics.lnk"
 #Delete "$SMPROGRAMS\Analog Devices\ADIN\ADIN1100 PCB.lnk"
 
@@ -266,9 +266,9 @@ Delete "$SMPROGRAMS\Analog Devices\ADIN_TSN\ADIN1300 User Guide.lnk"
 #Delete "$SMPROGRAMS\Analog Devices\ADIN1100\ADIN1200 User Guide.lnk"
 
 Delete "$DESKTOP\${APP_NAME}.lnk"
-Delete "$SMPROGRAMS\Analog Devices\ADIN_TSN\Uninstall ${APP_NAME}.lnk"
+Delete "$SMPROGRAMS\Analog Devices\ADIN_Gigabit\Uninstall ${APP_NAME}.lnk"
 
-RmDir "$SMPROGRAMS\Analog Devices\ADIN_TSN"
+RmDir "$SMPROGRAMS\Analog Devices\ADIN_Gigabit"
 !endif
 
 DeleteRegKey ${REG_ROOT} "${REG_APP_PATH}"
