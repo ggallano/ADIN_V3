@@ -60,14 +60,14 @@
                     <TextBlock Text="{Binding Generator}" Style="{StaticResource DeviceStatusValueStyle}"/>
                 </StackPanel>
             </Border>
-            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}">
+            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="MSE: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
                     <TextBlock Text="{Binding MseValue.MseA_dB}" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
                 </StackPanel>
             </Border>
 
-            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition MinWidth="40" Width="2*"/>
