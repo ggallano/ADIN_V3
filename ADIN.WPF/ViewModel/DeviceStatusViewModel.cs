@@ -259,7 +259,7 @@ namespace ADIN.WPF.ViewModel
             get
             {
                 if (_selectedDeviceStore.SelectedDevice == null)
-                    return "N/A";
+                    return "-";
 
                 if (_selectedDeviceStore.SelectedDevice.BoardRev == BoardRevision.Rev0
                  && _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100_S1)
@@ -350,7 +350,7 @@ namespace ADIN.WPF.ViewModel
             get
             {
                 if (_selectedDeviceStore.SelectedDevice == null)
-                    return "N/A";
+                    return "-";
 
                 if (_selectedDeviceStore.SelectedDevice.BoardRev == BoardRevision.Rev0
                  && _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1100_S1)
