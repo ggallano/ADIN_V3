@@ -8,7 +8,6 @@ using ADIN.Device.Services;
 using ADIN.WPF.Commands;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
-using Helper.SignalToNoiseRatio;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,27 +26,23 @@ namespace ADIN.WPF.ViewModel
         private string _checker = "-";
         private IFTDIServices _ftdiService;
         private string _generator = "-";
-        private bool _isVisibleSpeedList = true;
-        private string _linkLength;
         private string _linkStatus = "-";
         private List<string> _localAdvertisedSpeeds = new List<string>() { "" };
         private bool _loggedOneError = false;
         private object _mainLock;
         private string _masterSlaveStatus = "-";
-        private string _maxSlicerError;
         private MseModel _mseValue = new MseModel("-");
-        private BackgroundWorker _readRegisterWorker;
         private List<string> _remoteAdvertisedSpeeds = new List<string>();
         private SelectedDeviceStore _selectedDeviceStore;
         private string _speedMode = "-";
-        private string _spikeCount;
-        private object _thisLock;
         private string _txLevelStatus = "-";
 
         /// <summary>
-        /// creates new instance
+        /// Initializes a new instance of the <see cref="DeviceStatusViewModel"/> class.
         /// </summary>
         /// <param name="selectedDeviceStore">selected device store</param>
+        /// <param name="ftdiService">FTDI service</param>
+        /// <param name="mainLock">mainLock</param>
         public DeviceStatusViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, object mainLock)
         {
             _selectedDeviceStore = selectedDeviceStore;
@@ -70,7 +65,7 @@ namespace ADIN.WPF.ViewModel
 
         public string AdvertisedSpeed
         {
-            get 
+            get
             {
                 if (_selectedDeviceStore.SelectedDevice == null)
                     return "-";
@@ -86,7 +81,10 @@ namespace ADIN.WPF.ViewModel
 
         public string AnStatus
         {
-            get { return _anStatus; }
+            get
+            {
+                return _anStatus;
+            }
 
             set
             {
@@ -99,7 +97,10 @@ namespace ADIN.WPF.ViewModel
 
         public string Checker
         {
-            get { return _selectedDevice?.Checker ?? "-"; }
+            get
+            {
+                return _selectedDevice?.Checker ?? "-";
+            }
 
             set
             {
@@ -108,6 +109,7 @@ namespace ADIN.WPF.ViewModel
                     _checker = value;
                     _selectedDevice.Checker = value;
                 }
+
                 OnPropertyChanged(nameof(Checker));
             }
         }
@@ -122,6 +124,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     return _generator;
                 }
+
                 return "-";
             }
 
@@ -155,19 +158,11 @@ namespace ADIN.WPF.ViewModel
         public bool IsT1LBoard { get; } = false;
 #elif !DISABLE_T1L
         public bool IsGigabitBoard { get; } = false;
+
         public bool IsT1LBoard { get; } = true;
 #endif
 
-        //public string LinkLength
-        //{
-        //    get { return _linkLength; }
-        //    set
-        //    {
-        //        _linkLength = value;
-        //        OnPropertyChanged(nameof(LinkLength));
-        //    }
-        //}
-        public bool IsSpikeCountVisible => ((_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN2111) || (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1110));
+        public bool IsSpikeCountVisible => (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN2111) || (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1110);
 
         public bool IsVisibleSpeedList
         {
@@ -185,6 +180,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     return _linkStatus;
                 }
+
                 return "-";
             }
 
@@ -215,6 +211,7 @@ namespace ADIN.WPF.ViewModel
                     default:
                         break;
                 }
+
                 if (value != _linkStatus)
                 {
                     _linkStatus = value;
@@ -225,11 +222,11 @@ namespace ADIN.WPF.ViewModel
 
         public List<string> LocalAdvertisedSpeeds
         {
-            get 
+            get
             {
                 if (_selectedDeviceStore.SelectedDevice == null)
                     return new List<string>();
-                return _localAdvertisedSpeeds; 
+                return _localAdvertisedSpeeds;
             }
 
             set
@@ -245,7 +242,10 @@ namespace ADIN.WPF.ViewModel
 
         public string MasterSlaveStatus
         {
-            get { return _masterSlaveStatus; }
+            get
+            {
+                return _masterSlaveStatus;
+            }
 
             set
             {
@@ -286,6 +286,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     return _mseValue;
                 }
+
                 return new MseModel("-");
             }
 
@@ -295,6 +296,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     _mseValue = value;
                 }
+
                 OnPropertyChanged(nameof(MseValue));
             }
         }
@@ -307,7 +309,7 @@ namespace ADIN.WPF.ViewModel
             {
                 if (_selectedDeviceStore.SelectedDevice == null)
                     return new List<string>();
-                return _remoteAdvertisedSpeeds; 
+                return _remoteAdvertisedSpeeds;
             }
 
             set
@@ -331,6 +333,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     return _speedMode;
                 }
+
                 return "-";
             }
 
@@ -371,7 +374,10 @@ namespace ADIN.WPF.ViewModel
 
         public string TxLevelStatus
         {
-            get { return _txLevelStatus; }
+            get
+            {
+                return _txLevelStatus;
+            }
 
             set
             {
@@ -430,8 +436,8 @@ namespace ADIN.WPF.ViewModel
 
                                 if (_selectedDevice.BoardRev != BoardRevision.Rev0)
                                 {
-                                    MaxSlicerError = fwAPI.GetMaxSlicer();
-                                    SpikeCount = fwAPI.GetSpikeCount();
+                                    MaxSlicerError = fwAPI.GetMaxSlicer().ToString("0.00");
+                                    SpikeCount = fwAPI.GetSpikeCount().ToString();
                                 }
                             }
                             else if (_selectedDevice.FwAPI is ADIN1110FirmwareAPI)
@@ -441,8 +447,8 @@ namespace ADIN.WPF.ViewModel
                                 MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
                                 TxLevelStatus = fwAPI.GetTxLevelStatus();
                                 MseValue = fwAPI.GetMseValue(_selectedDevice.BoardRev);
-                                MaxSlicerError = fwAPI.GetMaxSlicer();
-                                SpikeCount = fwAPI.GetSpikeCount();
+                                MaxSlicerError = fwAPI.GetMaxSlicer().ToString("0.00");
+                                SpikeCount = fwAPI.GetSpikeCount().ToString();
                             }
                             else if (_selectedDevice.FwAPI is ADIN2111FirmwareAPI)
                             {
@@ -451,8 +457,8 @@ namespace ADIN.WPF.ViewModel
                                 MasterSlaveStatus = fwAPI.GetMasterSlaveStatus();
                                 TxLevelStatus = fwAPI.GetTxLevelStatus();
                                 MseValue = fwAPI.GetMseValue(_selectedDevice.BoardRev);
-                                MaxSlicerError = fwAPI.GetMaxSlicer();
-                                SpikeCount = fwAPI.GetSpikeCount();
+                                MaxSlicerError = fwAPI.GetMaxSlicer().ToString("0.00");
+                                SpikeCount = fwAPI.GetSpikeCount().ToString();
                             }
                             else
                             {
@@ -550,10 +556,8 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(SerialNumber));
             OnPropertyChanged(nameof(LinkStatus));
             OnPropertyChanged(nameof(AnStatus));
-            //OnPropertyChanged(nameof(MasterSlaveStatus));
             OnPropertyChanged(nameof(Generator));
             OnPropertyChanged(nameof(MseValue));
-            //OnPropertyChanged(nameof(TxLevelStatus));
             OnPropertyChanged(nameof(DeviceType));
             OnPropertyChanged(nameof(PhyAddress));
             OnPropertyChanged(nameof(LocalAdvertisedSpeeds));

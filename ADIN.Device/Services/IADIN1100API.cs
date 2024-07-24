@@ -11,10 +11,18 @@ namespace ADIN.Device.Services
     public interface IADIN1100API : IFirmwareAPI, IMDIOAPI, ITestModeAPI, IFrameGenCheckerAPI, ILoopbackAPI, IMasterSlaveSettingsAPI, ITxLevelAPI
     {
         string GetAnStatus();
+
         string GetMasterSlaveStatus();
+
         string GetTxLevelStatus();
-        string GetMaxSlicer();
-        string GetSpikeCount();
+
+        double GetMaxSlicer();
+
+        uint GetSpikeCount();
+
+        void ResetMaxSlicer();
+
+        void ResetSpikeCount();
 
         #region Cable Diag
         List<string> GetCoeff();

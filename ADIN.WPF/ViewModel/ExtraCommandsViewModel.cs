@@ -47,7 +47,11 @@ namespace ADIN.WPF.ViewModel
 
         public bool EnableButton
         {
-            get { return _enableButton; }
+            get
+            {
+                return _enableButton;
+            }
+
             set
             {
                 _enableButton = value;
@@ -75,36 +79,9 @@ namespace ADIN.WPF.ViewModel
         public bool IsT1LBoard { get; } = false;
 #elif !DISABLE_T1L
         public bool IsGigabitBoard { get; } = false;
+
         public bool IsT1LBoard { get; } = true;
 #endif
-
-        //public bool IsPort1
-        //{
-        //    get { return _selectedDeviceStore.SelectedDevice?.PortNumber == 1; }
-        //    set
-        //    {
-        //        ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-        //        fwAPI.SetPortNum(1);
-        //        _selectedDeviceStore.SelectedDevice.PortNumber = 1;
-        //        _selectedDeviceStore.OnPortNumChanged();
-        //        OnPropertyChanged(nameof(IsPort2));
-        //        OnPropertyChanged(nameof(IsPort1));
-        //    }
-        //}
-
-        //public bool IsPort2
-        //{
-        //    get { return _selectedDeviceStore.SelectedDevice?.PortNumber == 2; }
-        //    set
-        //    {
-        //        ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-        //        fwAPI.SetPortNum(2);
-        //        _selectedDeviceStore.SelectedDevice.PortNumber = 2;
-        //        _selectedDeviceStore.OnPortNumChanged();
-        //        OnPropertyChanged(nameof(IsPort1));
-        //        OnPropertyChanged(nameof(IsPort2));
-        //    }
-        //}
 
         public bool IsPortNumVisible
         {
@@ -125,7 +102,11 @@ namespace ADIN.WPF.ViewModel
 
         public string LinkStatus
         {
-            get { return _linkStatus; }
+            get
+            {
+                return _linkStatus;
+            }
+
             set
             {
                 if (value == EthPhyState.Standby.ToString())
@@ -136,6 +117,7 @@ namespace ADIN.WPF.ViewModel
                 {
                     _linkStatus = "Disable Linking";
                 }
+
                 OnPropertyChanged(nameof(LinkStatus));
             }
         }
@@ -144,7 +126,10 @@ namespace ADIN.WPF.ViewModel
 
         public string PowerDownStatus
         {
-            get { return _powerDownStatus; }
+            get
+            {
+                return _powerDownStatus;
+            }
 
             set
             {
@@ -209,8 +194,6 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(PowerDownStatus));
             OnPropertyChanged(nameof(LinkStatus));
             OnPropertyChanged(nameof(IsPortNumVisible));
-            //OnPropertyChanged(nameof(IsPort1));
-            //OnPropertyChanged(nameof(IsPort2));
             OnPropertyChanged(nameof(IsResetButtonVisible));
             OnPropertyChanged(nameof(EnableButton));
         }

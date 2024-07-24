@@ -31,7 +31,11 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsAdvertise_1000BASE_T_FD
         {
-            get { return _linkProperties?.IsAdvertise_1000BASE_T_FD == true; }
+            get
+            {
+                return _linkProperties?.IsAdvertise_1000BASE_T_FD == true;
+            }
+
             set
             {
                 if (value != _linkProperties.IsAdvertise_1000BASE_T_FD)
@@ -47,7 +51,7 @@ namespace ADIN.WPF.ViewModel
                         ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                         fwAPI.Speed1000FdAdvertisement(value);
                     }
-                    //_selectedDeviceStore.SelectedDevice.FwAPI.Speed1000FdAdvertisement(value);
+
                     if (value)
                     {
                         _linkProperties.AdvertisedSpeeds.Add("SPEED_1000BASE_T_FD_SPEED");
@@ -67,7 +71,7 @@ namespace ADIN.WPF.ViewModel
                         ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                         fwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                     }
-                    //_selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
+
                     OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
                 }
             }
@@ -75,7 +79,11 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsAdvertise_1000BASE_T_HD
         {
-            get { return _linkProperties?.IsAdvertise_1000BASE_T_HD == true; }
+            get
+            {
+                return _linkProperties?.IsAdvertise_1000BASE_T_HD == true;
+            }
+
             set
             {
                 _linkProperties.IsAdvertise_1000BASE_T_HD = value;
@@ -89,7 +97,7 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.Speed1000HdAdvertisement(value);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.Speed1000HdAdvertisement(value);
+
                 if (value)
                 {
                     _linkProperties.AdvertisedSpeeds.Add("SPEED_1000BASE_T_HD_SPEED");
@@ -109,14 +117,18 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
+
                 OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
             }
         }
 
         public bool IsAdvertise_100BASE_TX_FD
         {
-            get { return _linkProperties?.IsAdvertise_100BASE_TX_FD == true; }
+            get
+            {
+                return _linkProperties?.IsAdvertise_100BASE_TX_FD == true;
+            }
+
             set
             {
                 _linkProperties.IsAdvertise_100BASE_TX_FD = value;
@@ -130,7 +142,7 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.Speed100FdAdvertisement(value);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.Speed100FdAdvertisement(value);
+
                 if (value)
                 {
                     _linkProperties.AdvertisedSpeeds.Add("SPEED_100BASE_TX_FD_SPEED");
@@ -150,14 +162,18 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
+
                 OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
             }
         }
 
         public bool IsAdvertise_100BASE_TX_HD
         {
-            get { return _linkProperties?.IsAdvertise_100BASE_TX_HD == true; }
+            get
+            {
+                return _linkProperties?.IsAdvertise_100BASE_TX_HD == true;
+            }
+
             set
             {
                 _linkProperties.IsAdvertise_100BASE_TX_HD = value;
@@ -171,7 +187,7 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.Speed100HdAdvertisement(value);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.Speed100HdAdvertisement(value);
+
                 if (value)
                 {
                     _linkProperties.AdvertisedSpeeds.Add("SPEED_100BASE_TX_HD_SPEED");
@@ -191,14 +207,18 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
+
                 OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
             }
         }
 
         public bool IsAdvertise_10BASE_T_FD
         {
-            get { return _linkProperties?.IsAdvertise_10BASE_T_FD == true; }
+            get
+            {
+                return _linkProperties?.IsAdvertise_10BASE_T_FD == true;
+            }
+
             set
             {
                 _linkProperties.IsAdvertise_10BASE_T_FD = value;
@@ -212,7 +232,7 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.Speed10FdAdvertisement(value);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.Speed10FdAdvertisement(value);
+
                 if (value)
                 {
                     _linkProperties.AdvertisedSpeeds.Add("SPEED_10BASE_T_FD_SPEED");
@@ -232,14 +252,18 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
+
                 OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
             }
         }
 
         public bool IsAdvertise_10BASE_T_HD
         {
-            get { return _linkProperties?.IsAdvertise_10BASE_T_HD == true; }
+            get
+            {
+                return _linkProperties?.IsAdvertise_10BASE_T_HD == true;
+            }
+
             set
             {
                 _linkProperties.IsAdvertise_10BASE_T_HD = value;
@@ -253,7 +277,7 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.Speed10HdAdvertisement(value);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.Speed10HdAdvertisement(value);
+
                 if (value)
                 {
                     _linkProperties.AdvertisedSpeeds.Add("SPEED_10BASE_T_HD_SPEED");
@@ -273,14 +297,18 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
+
                 OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
             }
         }
 
         public bool IsAdvertise_EEE_1000BASE_T
         {
-            get { return _linkProperties?.IsAdvertise_EEE_1000BASE_T == true; }
+            get
+            {
+                return _linkProperties?.IsAdvertise_EEE_1000BASE_T == true;
+            }
+
             set
             {
                 _linkProperties.IsAdvertise_EEE_1000BASE_T = value;
@@ -294,7 +322,7 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.Speed1000EEEAdvertisement(value);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.Speed1000EEEAdvertisement(value);
+
                 if (value)
                 {
                     _linkProperties.AdvertisedSpeeds.Add("SPEED_1000BASE_EEE_SPEED");
@@ -314,14 +342,18 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
+
                 OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
             }
         }
 
         public bool IsAdvertise_EEE_100BASE_TX
         {
-            get { return _linkProperties?.IsAdvertise_EEE_100BASE_TX == true; }
+            get
+            {
+                return _linkProperties?.IsAdvertise_EEE_100BASE_TX == true;
+            }
+
             set
             {
                 _linkProperties.IsAdvertise_EEE_100BASE_TX = value;
@@ -335,7 +367,7 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.Speed100EEEAdvertisement(value);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.Speed100EEEAdvertisement(value);
+
                 if (value)
                 {
                     _linkProperties.AdvertisedSpeeds.Add("SPEED_100BASE_EEE_SPEED");
@@ -355,7 +387,7 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.LogAdvertisedSpeed(AdvertisedSpeeds);
+
                 OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
             }
         }
@@ -374,7 +406,11 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsDownSpeed_100BASE_TX_HD
         {
-            get { return _linkProperties?.IsDownSpeed_100BASE_TX_HD == true; }
+            get
+            {
+                return _linkProperties?.IsDownSpeed_100BASE_TX_HD == true;
+            }
+
             set
             {
                 _linkProperties.IsDownSpeed_100BASE_TX_HD = value;
@@ -388,14 +424,18 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.DownSpeed100Hd(value);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.DownSpeed100Hd(value);
+
                 OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
             }
         }
 
         public bool IsDownSpeed_10BASE_T_HD
         {
-            get { return _linkProperties?.IsDownSpeed_10BASE_T_HD == true; }
+            get
+            {
+                return _linkProperties?.IsDownSpeed_10BASE_T_HD == true;
+            }
+
             set
             {
                 _linkProperties.IsDownSpeed_10BASE_T_HD = value;
@@ -409,7 +449,7 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.DownSpeed10Hd(value);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.DownSpeed10Hd(value);
+
                 OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
             }
         }
@@ -422,7 +462,6 @@ namespace ADIN.WPF.ViewModel
         }
 
 #if !DISABLE_TSN && !DISABLE_T1L
-
         public bool IsT1LBoard
         {
             get
@@ -438,9 +477,11 @@ namespace ADIN.WPF.ViewModel
 
 #elif !DISABLE_TSN
         public bool IsGigabitBoard { get; } = true;
+
         public bool IsT1LBoard { get; } = false;
 #elif !DISABLE_T1L
         public bool IsGigabitBoard { get; } = false;
+
         public bool IsT1LBoard { get; } = true;
 #endif
 
@@ -450,7 +491,11 @@ namespace ADIN.WPF.ViewModel
 
         public string SelectedEnergyDetectPowerDownMode
         {
-            get { return _linkProperties?.EnergyDetectPowerDownMode; }
+            get
+            {
+                return _linkProperties?.EnergyDetectPowerDownMode;
+            }
+
             set
             {
                 if (_selectedDeviceStore.SelectedDevice != null)
@@ -466,15 +511,19 @@ namespace ADIN.WPF.ViewModel
                         ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                         fwAPI.EnableEnergyDetectPowerDown(value);
                     }
-                    //_selectedDeviceStore.SelectedDevice.FwAPI.EnableEnergyDetectPowerDown(value);
                 }
+
                 OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
             }
         }
 
         public string SelectedForcedSpeed
         {
-            get { return _linkProperties?.ForcedSpeed; }
+            get
+            {
+                return _linkProperties?.ForcedSpeed;
+            }
+
             set
             {
                 if (_selectedDeviceStore.SelectedDevice != null)
@@ -490,15 +539,18 @@ namespace ADIN.WPF.ViewModel
                         ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                         fwAPI.SetForcedSpeed(value);
                     }
-                    //_selectedDeviceStore.SelectedDevice.FwAPI.SetForcedSpeed(value);
                 }
+
                 OnPropertyChanged(nameof(SelectedForcedSpeed));
             }
         }
 
         public string SelectedMasterSlaveAdvertise
         {
-            get { return _linkProperties?.MasterSlaveAdvertise; }
+            get
+            {
+                return _linkProperties?.MasterSlaveAdvertise;
+            }
 
             set
             {
@@ -507,13 +559,18 @@ namespace ADIN.WPF.ViewModel
                     _linkProperties.MasterSlaveAdvertise = value;
                     ((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).SetMasterSlave(_linkProperties.MasterSlaveAdvertise);
                 }
+
                 OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
             }
         }
 
         public string SelectedMDIX
         {
-            get { return _linkProperties?.MDIX; }
+            get
+            {
+                return _linkProperties?.MDIX;
+            }
+
             set
             {
                 if (_selectedDeviceStore.SelectedDevice != null)
@@ -529,15 +586,19 @@ namespace ADIN.WPF.ViewModel
                         ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                         fwAPI.AutoMDIXMode(value);
                     }
-                    //_selectedDeviceStore.SelectedDevice.FwAPI.AutoMDIXMode(value);
                 }
+
                 OnPropertyChanged(nameof(SelectedMDIX));
             }
         }
 
         public string SelectedSpeedMode
         {
-            get { return _linkProperties?.SpeedMode; }
+            get
+            {
+                return _linkProperties?.SpeedMode;
+            }
+
             set
             {
                 if (_selectedDeviceStore.SelectedDevice != null)
@@ -553,8 +614,8 @@ namespace ADIN.WPF.ViewModel
                         ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                         fwAPI.AdvertisedForcedSpeed(value);
                     }
-                    //_selectedDeviceStore.SelectedDevice.FwAPI.AdvertisedForcedSpeed(value);
                 }
+
                 OnPropertyChanged(nameof(SelectedSpeedMode));
                 OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
                 OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
@@ -564,7 +625,11 @@ namespace ADIN.WPF.ViewModel
 
         public string SelectedTxLevel
         {
-            get { return _linkProperties?.TxAdvertise; }
+            get
+            {
+                return _linkProperties?.TxAdvertise;
+            }
+
             set
             {
                 if (_selectedDeviceStore.SelectedDevice != null)
@@ -572,13 +637,18 @@ namespace ADIN.WPF.ViewModel
                     _linkProperties.TxAdvertise = value;
                     ((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).SetTxLevel(_linkProperties.TxAdvertise);
                 }
+
                 OnPropertyChanged(nameof(SelectedTxLevel));
             }
         }
 
         public uint SetDownSpeedRetries
         {
-            get { return _linkProperties?.DownSpeedRetries ?? 0; }
+            get
+            {
+                return _linkProperties?.DownSpeedRetries ?? 0;
+            }
+
             set
             {
                 _linkProperties.DownSpeedRetries = value;
@@ -592,7 +662,7 @@ namespace ADIN.WPF.ViewModel
                     ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                     fwAPI.DownSpeedRetriesSetVal(value);
                 }
-                //_selectedDeviceStore.SelectedDevice.FwAPI.DownSpeedRetriesSetVal(value);
+
                 OnPropertyChanged(nameof(SetDownSpeedRetries));
             }
         }
