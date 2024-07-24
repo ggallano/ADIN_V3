@@ -3,6 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
 // </copyright>
 
+using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
 
@@ -31,7 +32,25 @@ namespace ADIN.WPF.Commands
 
         public override void Execute(object parameter)
         {
-            _deviceStatusViewModel.MaxSlicerError = "0.00";
+            if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+            {
+                var fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                fwAPI.ResetMaxSlicer();
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
+            {
+                var fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                fwAPI.ResetMaxSlicer();
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
+            {
+                var fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+                fwAPI.ResetMaxSlicer();
+            }
+            else
+            {
+                // Do nothing
+            }
         }
 
         private void _selectedDeviceStore_SelectedDeviceChanged()

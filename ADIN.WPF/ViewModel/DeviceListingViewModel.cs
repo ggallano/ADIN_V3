@@ -38,12 +38,12 @@ namespace ADIN.WPF.ViewModel
         private ManagementEventWatcher _insertWatcher;
         private LogActivityViewModel _logActivityViewModel;
         private object _mainLock;
-        private uint _phyAddress;
         private WqlEventQuery _removeQuery;
         private ManagementEventWatcher _removeWatcher;
         private DeviceListingItemViewModel _selectedDeviceListingItemViewModel;
+
         /// <summary>
-        /// creates new instance
+        /// Initializes a new instance of the <see cref="DeviceListingViewModel"/> class.
         /// </summary>
         /// <param name="selectedDeviceStore">selected device store</param>
         /// <param name="ftdiService">ftdi service</param>

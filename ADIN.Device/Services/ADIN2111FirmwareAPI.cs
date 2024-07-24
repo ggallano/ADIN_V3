@@ -28,16 +28,16 @@ namespace ADIN.Device.Services
         private string _feedbackMessage;
         private IFTDIServices _ftdiService;
         private object _mainLock;
+        private MseModel _mse = new MseModel("N/A");
         private uint _phyAddress;
         private EthPhyState _phyState;
         private ObservableCollection<RegisterModel> _registers;
         private TestModeType _testmodeState = TestModeType.Normal;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
-        private MseModel _mse = new MseModel("N/A");
         private double highestMaxSlicer = 0.0d;
         private uint portNumber = 0;
-        private double totalSpikeCount = 0.0d;
+        private uint totalSpikeCount = 0;
 
         public ADIN2111FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
         {
@@ -62,6 +62,8 @@ namespace ADIN.Device.Services
 
         public event EventHandler<string> FrameGenCheckerTextStatusChanged;
 
+        public event EventHandler<List<string>> GigabitCableDiagCompleted;
+
         public event EventHandler<string> LinkLengthChanged;
 
         public event EventHandler<LoopBackMode> LoopbackChanged;
@@ -79,9 +81,6 @@ namespace ADIN.Device.Services
         public event EventHandler<TestModeType> TestModeChanged;
 
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
-
-        public event EventHandler<List<string>> GigabitCableDiagCompleted;
-
         public BoardRevision boardRev { get; set; }
 
         public bool isFrameGenCheckerOngoing { get; set; }
@@ -104,9 +103,46 @@ namespace ADIN.Device.Services
             }
         }
 
+        public string AdvertisedSpeed()
+        {
+            return "10Base-T1L";
+        }
+
         public void DisableLinking(bool isDisabledLinking)
         {
             throw new NotImplementedException();
+        }
+
+        public void ExecuteSript(ScriptModel script)
+        {
+            try
+            {
+                foreach (var register in script.RegisterAccesses)
+                {
+                    if (register.RegisterName != null)
+                    {
+                        WriteYodaRg(register.RegisterName, uint.Parse(register.Value));
+                        continue;
+                    }
+
+                    if (register.RegisterAddress != null)
+                    {
+                        uint regAddress = uint.Parse(register.RegisterAddress);
+                        uint regValue = uint.Parse(register.Value);
+                        WriteYodaRg(regAddress, regValue);
+                        FeedbackLog($"Register 0x{regAddress.ToString("X")} = {regValue.ToString("X")}", FeedbackType.Verbose);
+                        continue;
+                    }
+                }
+            }
+            catch (ApplicationException ex)
+            {
+                FeedbackLog(ex.Message, FeedbackType.Error);
+            }
+            catch (NullReferenceException)
+            {
+                FeedbackLog("Script is empty/has invalid register address/input value.", FeedbackType.Error);
+            }
         }
 
         public string GetAnStatus()
@@ -266,16 +302,17 @@ namespace ADIN.Device.Services
             return masterSlaveStatus;
         }
 
-        public string GetMaxSlicer()
+        public double GetMaxSlicer()
         {
             var maxSlicer = Convert.ToDouble(ReadYodaRg("SLCR_ERR_MAX_ABS_VAL")) / 4096;
 
-            if (maxSlicer > highestMaxSlicer)
+            lock (_mainLock)
             {
-                highestMaxSlicer = maxSlicer;
+                if (maxSlicer > highestMaxSlicer)
+                    highestMaxSlicer = maxSlicer;
             }
 
-            return highestMaxSlicer.ToString("0.00");
+            return highestMaxSlicer;
         }
 
         public MseModel GetMseValue()
@@ -365,13 +402,14 @@ namespace ADIN.Device.Services
             throw new NotImplementedException();
         }
 
-        public string GetSpikeCount()
+        public uint GetSpikeCount()
         {
-            var spikeCount = Convert.ToDouble(ReadYodaRg("SLCR_ERR_SPIKE_CNT"));
+            var spikeCount = Convert.ToUInt32(ReadYodaRg("SLCR_ERR_SPIKE_CNT"));
 
-            totalSpikeCount += spikeCount;
+            lock (_mainLock)
+                totalSpikeCount += spikeCount;
 
-            return totalSpikeCount.ToString("0.00");
+            return totalSpikeCount;
         }
 
         public string GetTxLevelStatus()
@@ -625,6 +663,12 @@ namespace ADIN.Device.Services
             OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames} frames, {checkedFramesErrors} errors");
         }
 
+        public void ResetMaxSlicer()
+        {
+            lock (_mainLock)
+                highestMaxSlicer = 0.0d;
+        }
+
         public void ResetPhy(ResetType reset)
         {
             switch (reset)
@@ -642,6 +686,12 @@ namespace ADIN.Device.Services
                 default:
                     break;
             }
+        }
+
+        public void ResetSpikeCount()
+        {
+            lock (_mainLock)
+                totalSpikeCount = 0;
         }
 
         public void RestartAutoNegotiation()
@@ -1308,43 +1358,6 @@ namespace ADIN.Device.Services
             {
                 return MdioWriteCl45(registerAddress, value);
             }
-        }
-
-        public void ExecuteSript(ScriptModel script)
-        {
-            try
-            {
-                foreach (var register in script.RegisterAccesses)
-                {
-                    if (register.RegisterName != null)
-                    {
-                        WriteYodaRg(register.RegisterName, uint.Parse(register.Value));
-                        continue;
-                    }
-
-                    if (register.RegisterAddress != null)
-                    {
-                        uint regAddress = uint.Parse(register.RegisterAddress);
-                        uint regValue = uint.Parse(register.Value);
-                        WriteYodaRg(regAddress, regValue);
-                        FeedbackLog($"Register 0x{regAddress.ToString("X")} = {regValue.ToString("X")}", FeedbackType.Verbose);
-                        continue;
-                    }
-                }
-            }
-            catch (ApplicationException ex)
-            {
-                FeedbackLog(ex.Message, FeedbackType.Error);
-            }
-            catch (NullReferenceException)
-            {
-                FeedbackLog("Script is empty/has invalid register address/input value.", FeedbackType.Error);
-            }
-        }
-
-        public string AdvertisedSpeed()
-        {
-            return "10Base-T1L";
         }
     }
 }
