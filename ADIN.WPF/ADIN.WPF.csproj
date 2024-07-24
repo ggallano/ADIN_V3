@@ -204,6 +204,8 @@
     <Compile Include="Commands\RegisterActionCommand.cs" />
     <Compile Include="Commands\ResetCommand.cs" />
     <Compile Include="Commands\ResetFrameDeviceCheckerCommnad.cs" />
+    <Compile Include="Commands\ResetSlicerErrorCommand.cs" />
+    <Compile Include="Commands\ResetSpikeCountCommand.cs" />
     <Compile Include="Commands\ScriptApplyCommand.cs" />
     <Compile Include="Commands\SoftwarePowerDownCommand.cs" />
     <Compile Include="Commands\TestModeCommand.cs" />

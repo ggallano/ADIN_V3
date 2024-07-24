@@ -4,6 +4,7 @@
 // </copyright>
 
 using ADIN.Device.Models;
+using Helper.ForegroundColor;
 using System;
 using System.Globalization;
 using System.Windows.Data;
@@ -21,19 +22,15 @@ namespace ADIN.WPF.Converters
             switch ((EthPhyState)Enum.Parse(typeof(EthPhyState), value.ToString()))
             {
                 case EthPhyState.Powerdown:
-                    return new SolidColorBrush(Colors.Black);
-
+                    return (SolidColorBrush)new BrushConverter().ConvertFrom(ForegroundColorStyle.Black);
                 case EthPhyState.Standby:
-                    return new SolidColorBrush(Colors.OrangeRed);
-
+                    return (SolidColorBrush)new BrushConverter().ConvertFrom(ForegroundColorStyle.Orange);
                 case EthPhyState.LinkDown:
-                    return new SolidColorBrush(Colors.Red);
-
+                    return (SolidColorBrush) new BrushConverter().ConvertFrom(ForegroundColorStyle.Red);
                 case EthPhyState.LinkUp:
-                    return new SolidColorBrush(Colors.Green);
-
+                    return (SolidColorBrush) new BrushConverter().ConvertFrom(ForegroundColorStyle.Green);
                 default:
-                    return new SolidColorBrush(Colors.Black);
+                    return (SolidColorBrush) new BrushConverter().ConvertFrom(ForegroundColorStyle.Black);
             }
         }
 

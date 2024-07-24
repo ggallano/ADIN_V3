@@ -138,18 +138,33 @@
                 </Grid>
             </Border>
 
-            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Max Slicer Error: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
-                    <TextBlock Text="{Binding MaxSlicerError}" Style="{StaticResource DeviceStatusValueStyle}"/>
-                </StackPanel>
+            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <TextBlock Text="Max Slicer Error: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                        <TextBlock Text="{Binding MaxSlicerError}" Style="{StaticResource DeviceStatusValueStyle}"/>
+                    </StackPanel>
+                    <telerik:RadButton Grid.Column="1" Content="Reset" Style="{StaticResource TelerikButtonStyle}" Command="{Binding ResetSlicerCommand}"/>
+                </Grid>
+                
             </Border>
 
-            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Spike Count: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
-                    <TextBlock Text="{Binding SpikeCount}" Style="{StaticResource DeviceStatusValueStyle}"/>
-                </StackPanel>
+            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <TextBlock Text="Spike Count: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                        <TextBlock Text="{Binding SpikeCount}" Style="{StaticResource DeviceStatusValueStyle}"/>
+                    </StackPanel>
+                    <telerik:RadButton Grid.Column="1" Content="Reset" Style="{StaticResource TelerikButtonStyle}" Command="{Binding ResetSpikeCommand}"/>
+                </Grid>
             </Border>
 
             <Grid Visibility="{Binding IsVisibleSpeedList, Converter={StaticResource booleanVisibilityConverter}}">
