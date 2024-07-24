@@ -887,7 +887,7 @@ namespace ADIN.Device.Services
                 case LoopBackMode.MacRemote:
                     this.FeedbackLog("GESubsys software reset", FeedbackType.Info);
                     this.WriteYodaRg("GeSftRst", 1);
-                    Thread.Sleep(100);
+                    Thread.Sleep(300);
                     this.FeedbackLog("GE PHY enters software reset, stays in software powerdown", FeedbackType.Info);
                     this.WriteYodaRg("GePhySftPdCfg", 1);
                     this.WriteYodaRg("GePhyRst", 1);
