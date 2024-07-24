@@ -15,8 +15,6 @@ namespace ADIN.WPF.ViewModel
     public class TestModeViewModel : ViewModelBase
     {
         private SelectedDeviceStore _selectedDeviceStore;
-        private TestModeListingModel _TM_NoDevice { get; set; }
-        private List<TestModeListingModel> _testModeList_NoDeviceSelected { get; set; }
 
         public TestModeViewModel(SelectedDeviceStore selectedDeviceStore)
         {
@@ -29,18 +27,22 @@ namespace ADIN.WPF.ViewModel
                 Description = ""
             };
             _testModeList_NoDeviceSelected = new List<TestModeListingModel>()
-            { 
-                _TM_NoDevice 
+            {
+                _TM_NoDevice
             };
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
         }
 
-        public ICommand TestModeCmd { get; set; }
+        public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
 
         public TestModeListingModel SelectedTestMode
         {
-            get { return _testMode?.TestMode; }
+            get
+            {
+                return _testMode?.TestMode;
+            }
+
             set
             {
                 _testMode.TestMode = value;
@@ -48,9 +50,15 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public ICommand TestModeCmd { get; set; }
+
         public uint TestModeFrameLengthValue
         {
-            get { return _testMode?.TestModeFrameLength ?? 0; }
+            get
+            {
+                return _testMode?.TestModeFrameLength ?? 0;
+            }
+
             set
             {
                 _testMode.TestModeFrameLength = value;
@@ -60,7 +68,7 @@ namespace ADIN.WPF.ViewModel
 
         public List<TestModeListingModel> TestModes
         {
-            get 
+            get
             {
                 if (_testMode != null)
                     return _testMode.TestModes;
@@ -70,7 +78,9 @@ namespace ADIN.WPF.ViewModel
 
         private ITestMode _testMode => _selectedDeviceStore.SelectedDevice?.TestMode;
 
-        public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+        private List<TestModeListingModel> _testModeList_NoDeviceSelected { get; set; }
+
+        private TestModeListingModel _TM_NoDevice { get; set; }
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {

@@ -34,7 +34,6 @@ namespace ADIN.WPF.ViewModel
             LogWindowSaveCommand = new LogWindowSaveCommand(this, selectedDeviceStore);
 
             _selectedDeviceStore.ProcessCompleted += _selectedDeviceStore_ProcessCompleted;
-            //_selectedDeviceStore.ErrorOccured += _selectedDeviceStore_ErrorOccured;
             _selectedDeviceStore.ViewModelErrorOccured += _selectedDeviceStore_ViewModelErrorOccured;
         }
 
@@ -63,9 +62,13 @@ namespace ADIN.WPF.ViewModel
         }
 
         public FeedbackType FeedbackType { get; set; }
+
         public string LogMessage { get; set; }
+
         public ObservableCollection<string> LogMessages { get; set; }
+
         public ICommand LogWindowClearCommand { get; set; }
+
         public ICommand LogWindowSaveCommand { get; set; }
 
         /// <summary>

@@ -44,7 +44,11 @@ namespace ADIN.WPF.ViewModel
 
         public ScriptModel SelectedScript
         {
-            get { return _selectedScript; }
+            get
+            {
+                return _selectedScript;
+            }
+
             set
             {
                 _selectedScript = value;
@@ -54,7 +58,11 @@ namespace ADIN.WPF.ViewModel
 
         public bool EnableButton
         {
-            get { return _enableButton; }
+            get
+            {
+                return _enableButton;
+            }
+
             set
             {
                 _enableButton = value;

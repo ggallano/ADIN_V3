@@ -81,7 +81,10 @@ namespace ADIN.WPF.ViewModel
 
         public string AnStatus
         {
-            get { return _anStatus; }
+            get
+            {
+                return _anStatus;
+            }
 
             set
             {
@@ -94,7 +97,10 @@ namespace ADIN.WPF.ViewModel
 
         public string Checker
         {
-            get { return _selectedDevice?.Checker ?? "-"; }
+            get
+            {
+                return _selectedDevice?.Checker ?? "-";
+            }
 
             set
             {
@@ -152,6 +158,7 @@ namespace ADIN.WPF.ViewModel
         public bool IsT1LBoard { get; } = false;
 #elif !DISABLE_T1L
         public bool IsGigabitBoard { get; } = false;
+
         public bool IsT1LBoard { get; } = true;
 #endif
 
@@ -219,7 +226,7 @@ namespace ADIN.WPF.ViewModel
             {
                 if (_selectedDeviceStore.SelectedDevice == null)
                     return new List<string>();
-                return _localAdvertisedSpeeds; 
+                return _localAdvertisedSpeeds;
             }
 
             set
@@ -235,7 +242,10 @@ namespace ADIN.WPF.ViewModel
 
         public string MasterSlaveStatus
         {
-            get { return _masterSlaveStatus; }
+            get
+            {
+                return _masterSlaveStatus;
+            }
 
             set
             {
@@ -364,7 +374,10 @@ namespace ADIN.WPF.ViewModel
 
         public string TxLevelStatus
         {
-            get { return _txLevelStatus; }
+            get
+            {
+                return _txLevelStatus;
+            }
 
             set
             {

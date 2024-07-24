@@ -14,7 +14,6 @@ namespace ADIN.WPF.ViewModel
     public class TimeDomainReflectometryViewModel : ViewModelBase
     {
         private string _busyContent;
-        private Brush _cableBackgroundBrush;
         private string _cableCalibrationMessage;
         private string _cableFileName;
         private string _distToFault;
@@ -25,13 +24,11 @@ namespace ADIN.WPF.ViewModel
         private bool _isVisibleCableCalibration = false;
         private bool _isVisibleOffsetCalibration = false;
         private decimal _nvpValue;
-        private Brush _offsetBackgroundBrush;
         private string _offsetCalibrationMessage;
         private string _offsetFileName;
         private decimal _offsetValue;
         private SelectedDeviceStore _selectedDeviceStore;
         private object _thisLock;
-
 
         public TimeDomainReflectometryViewModel(SelectedDeviceStore selectedDeviceStore, object thisLock)
         {
@@ -51,11 +48,13 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.PortNumChanged += _selectedDeviceStore_PortNumChanged;
         }
 
-        public bool TitleHeaderVisible => !Properties.Settings.Default.ActiveLinkMon;
-
         public string BusyContent
         {
-            get { return _busyContent; }
+            get
+            {
+                return _busyContent;
+            }
+
             set
             {
                 _busyContent = value;
@@ -69,6 +68,7 @@ namespace ADIN.WPF.ViewModel
             {
                 return _faultDetector?.CableCalibrationMessage;
             }
+
             set
             {
                 _cableCalibrationMessage = value;
@@ -83,6 +83,7 @@ namespace ADIN.WPF.ViewModel
             {
                 return _faultDetector?.CableFileName ?? "-";
             }
+
             set
             {
                 _cableFileName = value;
@@ -92,12 +93,14 @@ namespace ADIN.WPF.ViewModel
         }
 
         public ICommand CalibrateCommand { get; set; }
+
         public string DistToFault
         {
             get
             {
                 return _faultDetector?.DistToFault ?? "0.00";
             }
+
             set
             {
                 _distToFault = value;
@@ -112,6 +115,7 @@ namespace ADIN.WPF.ViewModel
             {
                 return _faultDetector?.FaultBackgroundBrush ?? new SolidColorBrush(Colors.LightGray);
             }
+
             set
             {
                 _faultBackgroundBrush = value;
@@ -121,12 +125,14 @@ namespace ADIN.WPF.ViewModel
         }
 
         public ICommand FaultDetectCommand { get; set; }
+
         public string FaultState
         {
             get
             {
                 return _faultDetector?.FaultState ?? "";
             }
+
             set
             {
                 _faultState = value;
@@ -136,13 +142,16 @@ namespace ADIN.WPF.ViewModel
         }
 
         public ICommand InitializedCommand { get; set; }
+
         public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+
         public bool IsFaultVisibility
         {
             get
             {
                 return _faultDetector?.IsFaultVisibility ?? false;
             }
+
             set
             {
                 _isFaultVisibility = value;
@@ -153,7 +162,11 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsOngoingCalibration
         {
-            get { return _isOngoingCalibration; }
+            get
+            {
+                return _isOngoingCalibration;
+            }
+
             set
             {
                 _isOngoingCalibration = value;
@@ -171,6 +184,7 @@ namespace ADIN.WPF.ViewModel
             {
                 return _faultDetector?.IsVisibleCableCalibration == true;
             }
+
             set
             {
                 _isVisibleCableCalibration = value;
@@ -185,6 +199,7 @@ namespace ADIN.WPF.ViewModel
             {
                 return _faultDetector?.IsVisibleOffsetCalibration == true;
             }
+
             set
             {
                 _isVisibleOffsetCalibration = value;
@@ -192,6 +207,7 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsVisibleOffsetCalibration));
             }
         }
+
         public ICommand LoadCommand { get; set; }
 
         public ICommand ManualCommand { get; set; }
@@ -202,6 +218,7 @@ namespace ADIN.WPF.ViewModel
             {
                 return _cableDiagnostic?.NVP ?? 0.0M;
             }
+
             set
             {
                 if (_selectedDevice != null)
@@ -219,6 +236,7 @@ namespace ADIN.WPF.ViewModel
             {
                 return _faultDetector?.OffsetCalibrationMessage;
             }
+
             set
             {
                 _offsetCalibrationMessage = value;
@@ -233,6 +251,7 @@ namespace ADIN.WPF.ViewModel
             {
                 return _faultDetector?.OffsetFileName ?? "-";
             }
+
             set
             {
                 _offsetFileName = value;
@@ -247,6 +266,7 @@ namespace ADIN.WPF.ViewModel
             {
                 return _cableDiagnostic?.CableOffset ?? 0.0M;
             }
+
             set
             {
                 if (_selectedDevice != null)
@@ -259,6 +279,8 @@ namespace ADIN.WPF.ViewModel
         }
 
         public ICommand SaveCommand { get; set; }
+
+        public bool TitleHeaderVisible => !Properties.Settings.Default.ActiveLinkMon;
 
         private TDRModel _cableDiagnostic => _selectedDevice?.TimeDomainReflectometry?.TimeDomainReflectometry;
 
