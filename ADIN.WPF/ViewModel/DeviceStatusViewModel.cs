@@ -135,16 +135,28 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public bool Is1100Visible
+#if !DISABLE_TSN && !DISABLE_T1L
+
+        public bool IsT1LBoard
         {
             get
             {
-                return (_selectedDevice?.DeviceType == BoardType.ADIN1100)
-                    || (_selectedDevice?.DeviceType == BoardType.ADIN1100_S1)
-                    || (_selectedDevice?.DeviceType == BoardType.ADIN1110)
-                    || (_selectedDevice?.DeviceType == BoardType.ADIN2111);
+                return ((_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100)
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100_S1)
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110)
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)) == true;
             }
         }
+
+        public bool IsGigabitBoard => !IsT1LBoard;
+
+#elif !DISABLE_TSN
+        public bool IsGigabitBoard { get; } = true;
+        public bool IsT1LBoard { get; } = false;
+#elif !DISABLE_T1L
+        public bool IsGigabitBoard { get; } = false;
+        public bool IsT1LBoard { get; } = true;
+#endif
 
         //public string LinkLength
         //{
@@ -161,11 +173,7 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                return _speedMode == "Advertised"
-                    && ((_selectedDevice?.DeviceType != BoardType.ADIN1100)
-                    && (_selectedDevice?.DeviceType != BoardType.ADIN1100_S1)
-                    && (_selectedDevice?.DeviceType != BoardType.ADIN1110)
-                    && (_selectedDevice?.DeviceType != BoardType.ADIN2111));
+                return _speedMode == "Advertised" && IsGigabitBoard;
             }
         }
 
@@ -536,11 +544,12 @@ namespace ADIN.WPF.ViewModel
         {
             Debug.WriteLine($"[{SerialNumber}] Selected");
 
+            OnPropertyChanged(nameof(IsGigabitBoard));
+            OnPropertyChanged(nameof(IsT1LBoard));
             OnPropertyChanged(nameof(BoardName));
             OnPropertyChanged(nameof(SerialNumber));
             OnPropertyChanged(nameof(LinkStatus));
             OnPropertyChanged(nameof(AnStatus));
-            OnPropertyChanged(nameof(Is1100Visible));
             //OnPropertyChanged(nameof(MasterSlaveStatus));
             OnPropertyChanged(nameof(Generator));
             OnPropertyChanged(nameof(MseValue));
