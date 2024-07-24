@@ -134,22 +134,28 @@ pipeline {
 			}
 		}
 		
-		// stage('Publish') {
-		// 	steps {
-		// 		echo "[DEBUG] Start Publish"
-		// 			script {
-		// 				env.versionNumber = "${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber}"
-		// 				env.releaseInstallerName = "${env.BASE_INSTALLER_NAME}_v${env.versionNumber}"
-		// 			}
+		stage('Publish') {
+			steps {
+				echo "[DEBUG] Start Publish"
+					script {
+						env.versionNumber = "${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber}"
+						env.releaseInstallerName 		= "${env.BASE_INSTALLER_NAME}_v${env.versionNumber}"
+						env.releaseInstallerNameT1L 	= "${env.BASE_INSTALLER_NAME_T1L}_v${env.versionNumber}"
+						env.releaseInstallerNameGigabit = "${env.BASE_INSTALLER_NAME_GIGABIT}_v${env.versionNumber}"
+					}
 					
-		// 			bat """
-		// 				copy "Installer\\${env.BASE_INSTALLER_NAME}.exe" "Installer\\${env.releaseInstallerName}.exe" /Y
-		// 			"""
+					bat """
+						copy "Installer\\${env.BASE_INSTALLER_NAME}.exe" "Installer\\${env.releaseInstallerName}.exe" /Y
+						copy "Installer\\${env.BASE_INSTALLER_NAME_T1L}.exe" "Installer\\${env.releaseInstallerNameT1L}.exe" /Y
+						copy "Installer\\${env.BASE_INSTALLER_NAME_GIGABIT}.exe" "Installer\\${env.releaseInstallerNameGigabit}.exe" /Y
+					"""
 					
-		// 			archiveArtifacts artifacts: "Installer/${env.releaseInstallerName}.exe"
-		// 		echo "[DEBUG] End Publish"
-		// 	}
-		// }
+					archiveArtifacts artifacts: "Installer/${env.releaseInstallerName}.exe"
+					archiveArtifacts artifacts: "Installer/${env.releaseInstallerNameT1L}.exe"
+					archiveArtifacts artifacts: "Installer/${env.releaseInstallerNameGigabit}.exe"
+				echo "[DEBUG] End Publish"
+			}
+		}
 	}
 
 
