@@ -150,9 +150,9 @@ pipeline {
 						copy "Installer\\${env.BASE_INSTALLER_NAME_GIGABIT}.exe" "Installer\\${env.releaseInstallerNameGigabit}.exe" /Y
 					"""
 					
-					archiveArtifacts artifacts: "Installer/${env.releaseInstallerName}.exe"
-					archiveArtifacts artifacts: "Installer/${env.releaseInstallerNameT1L}.exe"
-					archiveArtifacts artifacts: "Installer/${env.releaseInstallerNameGigabit}.exe"
+					// archiveArtifacts artifacts: "Installer/${env.releaseInstallerName}.exe"
+					// archiveArtifacts artifacts: "Installer/${env.releaseInstallerNameT1L}.exe"
+					// archiveArtifacts artifacts: "Installer/${env.releaseInstallerNameGigabit}.exe"
 				echo "[DEBUG] End Publish"
 			}
 		}
