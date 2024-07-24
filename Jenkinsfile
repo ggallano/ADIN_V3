@@ -120,17 +120,17 @@ pipeline {
 					"""
 				echo "[DEBUG] End Installer_Creation"
 
-				echo "[DEBUG] Start Installer_Creation for T1L"
-					bat """
-						"${env.NSIS_PATH}" /DVERSION=${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber} Installer\\${env.NSIS_SCRIPT_NAME_T1L}
-					"""
-				echo "[DEBUG] End Installer_Creation for T1L"
+				// echo "[DEBUG] Start Installer_Creation for T1L"
+				// 	bat """
+				// 		"${env.NSIS_PATH}" /DVERSION=${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber} Installer\\${env.NSIS_SCRIPT_NAME_T1L}
+				// 	"""
+				// echo "[DEBUG] End Installer_Creation for T1L"
 
-				echo "[DEBUG] Start Installer_Creation for Gigabit"
-					bat """
-						"${env.NSIS_PATH}" /DVERSION=${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber} Installer\\${env.NSIS_SCRIPT_NAME_GIGABIT}
-					"""
-				echo "[DEBUG] End Installer_Creation for Gigabit"
+				// echo "[DEBUG] Start Installer_Creation for Gigabit"
+				// 	bat """
+				// 		"${env.NSIS_PATH}" /DVERSION=${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber} Installer\\${env.NSIS_SCRIPT_NAME_GIGABIT}
+				// 	"""
+				// echo "[DEBUG] End Installer_Creation for Gigabit"
 			}
 		}
 		
@@ -140,16 +140,17 @@ pipeline {
 					script {
 						env.versionNumber = "${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber}"
 						env.releaseInstallerName 		= "${env.BASE_INSTALLER_NAME}_v${env.versionNumber}"
-						env.releaseInstallerNameT1L 	= "${env.BASE_INSTALLER_NAME_T1L}_v${env.versionNumber}"
-						env.releaseInstallerNameGigabit = "${env.BASE_INSTALLER_NAME_GIGABIT}_v${env.versionNumber}"
+						// env.releaseInstallerNameT1L 	= "${env.BASE_INSTALLER_NAME_T1L}_v${env.versionNumber}"
+						// env.releaseInstallerNameGigabit = "${env.BASE_INSTALLER_NAME_GIGABIT}_v${env.versionNumber}"
 					}
 					
 					bat """
 						copy "Installer\\${env.BASE_INSTALLER_NAME}.exe" "Installer\\${env.releaseInstallerName}.exe" /Y
-						copy "Installer\\${env.BASE_INSTALLER_NAME_T1L}.exe" "Installer\\${env.releaseInstallerNameT1L}.exe" /Y
-						copy "Installer\\${env.BASE_INSTALLER_NAME_GIGABIT}.exe" "Installer\\${env.releaseInstallerNameGigabit}.exe" /Y
+						
 					"""
 					
+					// copy "Installer\\${env.BASE_INSTALLER_NAME_T1L}.exe" "Installer\\${env.releaseInstallerNameT1L}.exe" /Y
+					// 	copy "Installer\\${env.BASE_INSTALLER_NAME_GIGABIT}.exe" "Installer\\${env.releaseInstallerNameGigabit}.exe" /Y
 					// archiveArtifacts artifacts: "Installer/${env.releaseInstallerName}.exe"
 					// archiveArtifacts artifacts: "Installer/${env.releaseInstallerNameT1L}.exe"
 					// archiveArtifacts artifacts: "Installer/${env.releaseInstallerNameGigabit}.exe"
