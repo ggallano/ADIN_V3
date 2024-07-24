@@ -1,4 +1,9 @@
-﻿using FTD2XX_NET;
+﻿// <copyright file="FTDIServices.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using FTD2XX_NET;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -25,7 +30,7 @@ namespace FTDIChip.Driver.Services
 
         #region Properties
         /// <summary>
-        /// checks if the communication is open
+        /// Gets the communication is open.
         /// </summary>
         public bool IsComOpen => _ftdi.IsOpen;
         #endregion
@@ -184,9 +189,9 @@ namespace FTDIChip.Driver.Services
         }
 #else
         /// <summary>
-        /// reads the command respond
+        /// reads the command respond.
         /// </summary>
-        /// <returns>returns the string respond</returns>
+        /// <returns>returns the string respond.</returns>
         public string ReadCommandResponse()
         {
             ASCIIEncoding encoding = new ASCIIEncoding();
@@ -284,7 +289,5 @@ namespace FTDIChip.Driver.Services
         {
             ProcessCompleted?.Invoke(this, message);
         }
-
-        
     }
 }

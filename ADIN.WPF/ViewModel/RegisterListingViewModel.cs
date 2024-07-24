@@ -22,10 +22,11 @@ namespace ADIN.WPF.ViewModel
         private readonly RegisterService _registerService = new RegisterService();
         private IFTDIServices _ftdiService;
         private string _imagePath;
+        private bool _loggedOneError = false;
         private BackgroundWorker _readRegisterWorker;
         private SelectedDeviceStore _selectedDeviceStore;
         private RegisterModel _selectedRegister;
-        private bool _loggedOneError = false;
+
         public RegisterListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
         {
             _selectedDeviceStore = selectedDeviceStore;
@@ -41,7 +42,11 @@ namespace ADIN.WPF.ViewModel
 
         public string ImagePath
         {
-            get { return _imagePath; }
+            get
+            {
+                return _imagePath;
+            }
+
             set
             {
                 _imagePath = "../Images/" + value;
@@ -74,6 +79,7 @@ namespace ADIN.WPF.ViewModel
             {
                 return _selectedRegister;
             }
+
             set
             {
                 _selectedRegister = value;
@@ -120,7 +126,9 @@ namespace ADIN.WPF.ViewModel
                 }
                 catch (Exception ex)
                 {
+                    // Do nothing
                 }
+
                 e.Result = "Done";
             }
         }

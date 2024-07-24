@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
+using ADIN.Device.Services;
 
 namespace ADIN.WPF.Commands
 {
@@ -31,7 +32,25 @@ namespace ADIN.WPF.Commands
 
         public override void Execute(object parameter)
         {
-            _deviceStatusViewModel.SpikeCount = "0.00";
+            if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+            {
+                var fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                fwAPI.ResetSpikeCount();
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
+            {
+                var fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                fwAPI.ResetSpikeCount();
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
+            {
+                var fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+                fwAPI.ResetSpikeCount();
+            }
+            else
+            {
+                // Do nothing
+            }
         }
 
         private void _selectedDeviceStore_SelectedDeviceChanged()

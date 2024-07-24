@@ -32,7 +32,10 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsLoopback_Digital
         {
-            get { return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.Digital; }
+            get
+            {
+                return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.Digital;
+            }
 
             set
             {
@@ -55,7 +58,10 @@ namespace ADIN.WPF.ViewModel
                         ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
                         fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
                     }
-                    else { } //Do nothing
+                    else
+                    {
+                        // Do nothing
+                    }
 #endif
 #if !DISABLE_TSN
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
@@ -71,6 +77,7 @@ namespace ADIN.WPF.ViewModel
                     else { } //Do nothing
 #endif
                 }
+
                 OnPropertyChanged(nameof(IsLoopback_None));
                 OnPropertyChanged(nameof(IsLoopback_Digital));
                 OnPropertyChanged(nameof(IsLoopback_LineDriver));
@@ -82,7 +89,10 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsLoopback_ExtCable
         {
-            get { return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.ExtCable; }
+            get
+            {
+                return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.ExtCable;
+            }
 
             set
             {
@@ -105,7 +115,10 @@ namespace ADIN.WPF.ViewModel
                         ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
                         fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
                     }
-                    else { } //Do nothing
+                    else
+                    {
+                        // Do nothing
+                    }
 #endif
 #if !DISABLE_TSN
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
@@ -121,6 +134,7 @@ namespace ADIN.WPF.ViewModel
                     else { } //Do nothing
 #endif
                 }
+
                 OnPropertyChanged(nameof(IsLoopback_None));
                 OnPropertyChanged(nameof(IsLoopback_Digital));
                 OnPropertyChanged(nameof(IsLoopback_LineDriver));
@@ -132,7 +146,10 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsLoopback_LineDriver
         {
-            get { return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.LineDriver; }
+            get
+            {
+                return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.LineDriver;
+            }
 
             set
             {
@@ -155,7 +172,10 @@ namespace ADIN.WPF.ViewModel
                         ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
                         fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
                     }
-                    else { } //Do nothing
+                    else
+                    {
+                        // Do nothing
+                    }
 #endif
 #if !DISABLE_TSN
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
@@ -171,6 +191,7 @@ namespace ADIN.WPF.ViewModel
                     else { } //Do nothing
 #endif
                 }
+
                 OnPropertyChanged(nameof(IsLoopback_None));
                 OnPropertyChanged(nameof(IsLoopback_Digital));
                 OnPropertyChanged(nameof(IsLoopback_LineDriver));
@@ -182,7 +203,10 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsLoopback_None
         {
-            get { return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.OFF; }
+            get
+            {
+                return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.OFF;
+            }
 
             set
             {
@@ -205,7 +229,10 @@ namespace ADIN.WPF.ViewModel
                         ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
                         fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
                     }
-                    else { } //Do nothing
+                    else
+                    {
+                        // Do nothing
+                    }
 #endif
 #if !DISABLE_TSN
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
@@ -221,6 +248,7 @@ namespace ADIN.WPF.ViewModel
                     else { } //Do nothing
 #endif
                 }
+
                 OnPropertyChanged(nameof(IsLoopback_None));
                 OnPropertyChanged(nameof(IsLoopback_Digital));
                 OnPropertyChanged(nameof(IsLoopback_LineDriver));
@@ -232,7 +260,10 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsLoopback_Remote
         {
-            get { return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.MacRemote; }
+            get
+            {
+                return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.MacRemote;
+            }
 
             set
             {
@@ -255,7 +286,10 @@ namespace ADIN.WPF.ViewModel
                         ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
                         fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
                     }
-                    else { } //Do nothing
+                    else
+                    {
+                        // Do nothing
+                    }
 #endif
 #if !DISABLE_TSN
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
@@ -271,6 +305,7 @@ namespace ADIN.WPF.ViewModel
                     else { } //Do nothing
 #endif
                 }
+
                 OnPropertyChanged(nameof(IsLoopback_None));
                 OnPropertyChanged(nameof(IsLoopback_Digital));
                 OnPropertyChanged(nameof(IsLoopback_LineDriver));
@@ -282,32 +317,41 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsRxSuppression
         {
-            get { return _loopback?.RxSuppression ?? false; }
+            get
+            {
+                return _loopback?.RxSuppression ?? false;
+            }
+
             set
             {
                 if (_selectedDeviceStore.SelectedDevice != null)
                 {
                     _loopback.RxSuppression = value;
                 }
+
                 OnPropertyChanged(nameof(IsRxSuppression));
             }
         }
 
         public bool IsTxSuppression
         {
-            get { return _loopback?.TxSuppression ?? false; }
+            get
+            {
+                return _loopback?.TxSuppression ?? false;
+            }
+
             set
             {
                 if (_selectedDeviceStore.SelectedDevice != null)
                 {
                     _loopback.TxSuppression = value;
                 }
+
                 OnPropertyChanged(nameof(IsTxSuppression));
             }
         }
 
 #if !DISABLE_TSN && !DISABLE_T1L
-
         public bool IsT1LBoard
         {
             get
@@ -323,9 +367,11 @@ namespace ADIN.WPF.ViewModel
 
 #elif !DISABLE_TSN
         public bool IsGigabitBoard { get; } = true;
+
         public bool IsT1LBoard { get; } = false;
 #elif !DISABLE_T1L
         public bool IsGigabitBoard { get; } = false;
+
         public bool IsT1LBoard { get; } = true;
 #endif
 
@@ -333,7 +379,11 @@ namespace ADIN.WPF.ViewModel
 
         public LoopbackModel SelectedLoopback
         {
-            get { return _loopback?.SelectedLoopback; }
+            get
+            {
+                return _loopback?.SelectedLoopback;
+            }
+
             set
             {
                 if (value != null)
@@ -360,6 +410,7 @@ namespace ADIN.WPF.ViewModel
                         fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, IsTxSuppression, IsRxSuppression);
                     }
                 }
+
                 OnPropertyChanged(nameof(SelectedLoopback));
                 OnPropertyChanged(nameof(ImagePath));
             }

@@ -7,7 +7,7 @@
              xmlns:converter="clr-namespace:ADIN.WPF.Converters"
              xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
                           mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="800" d:DesignWidth="300">
     <UserControl.Resources>
         <converter:LinkStateForegroundConverter x:Key="LinkStateForegroundConverter"/>
         <converter:MSEForegroundConverter x:Key="MSEForegroundConverter"/>
@@ -99,6 +99,34 @@
                     <TextBlock Text="{Binding MseValue.MseC_dB}" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
                     <TextBlock Text="{Binding MseValue.MseD_dB}" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Center" Style="{StaticResource DeviceStatusValueStyle}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource MSEForegroundConverter}}"/>
 
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <TextBlock Text="Max Slicer Error: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                        <TextBlock Text="{Binding MaxSlicerError}" Style="{StaticResource DeviceStatusValueStyle}"/>
+                    </StackPanel>
+                    <telerik:RadButton Grid.Column="1" Content="Reset" Style="{StaticResource TelerikButtonStyle}" Command="{Binding ResetSlicerCommand}"/>
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <TextBlock Text="Spike Count: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                        <TextBlock Text="{Binding SpikeCount}" Style="{StaticResource DeviceStatusValueStyle}"/>
+                    </StackPanel>
+                    <telerik:RadButton Grid.Column="1" Content="Reset" Style="{StaticResource TelerikButtonStyle}" Command="{Binding ResetSpikeCommand}"/>
                 </Grid>
             </Border>
         </StackPanel>

@@ -14,8 +14,8 @@ namespace ADIN.WPF.ViewModel
 {
     public class ActiveLinkMonViewModel : ViewModelBase
     {
-        private object mainLock;
         private SelectedDeviceStore _selectedDeviceStore;
+        private object mainLock;
 
         public ActiveLinkMonViewModel(SelectedDeviceStore selectedDeviceStore, object mainLock)
         {

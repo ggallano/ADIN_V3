@@ -43,7 +43,10 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsCrossPair
         {
-            get { return _selectedDeviceStore.SelectedDevice?.IsCrossPair ?? false; }
+            get
+            {
+                return _selectedDeviceStore.SelectedDevice?.IsCrossPair ?? false;
+            }
 
             set
             {
@@ -54,11 +57,12 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
 
-        private List<string> _cableDiagResults;
-
         public List<string> CableDiagResults
         {
-            get { return _selectedDeviceStore.SelectedDevice?.CableDiagStatus; }
+            get
+            {
+                return _selectedDeviceStore.SelectedDevice?.CableDiagStatus;
+            }
 
             set
             {
@@ -70,7 +74,10 @@ namespace ADIN.WPF.ViewModel
 
         public string LinkStatus
         {
-            get { return _linkStatus; }
+            get
+            {
+                return _linkStatus;
+            }
 
             set
             {

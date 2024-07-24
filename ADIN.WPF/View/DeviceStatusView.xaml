@@ -138,7 +138,7 @@
                 </Grid>
             </Border>
 
-            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}">
+            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="8*"/>
@@ -150,10 +150,9 @@
                     </StackPanel>
                     <telerik:RadButton Grid.Column="1" Content="Reset" Style="{StaticResource TelerikButtonStyle}" Command="{Binding ResetSlicerCommand}"/>
                 </Grid>
-                
             </Border>
 
-            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding Is1100Visible, Converter={StaticResource booleanVisibilityConverter}}">
+            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="8*"/>

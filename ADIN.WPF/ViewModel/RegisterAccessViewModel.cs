@@ -35,7 +35,11 @@ namespace ADIN.WPF.ViewModel
 
         public bool IsEnable
         {
-            get { return _isEnable; }
+            get
+            {
+                return _isEnable;
+            }
+
             set
             {
                 _isEnable = value;
@@ -45,7 +49,11 @@ namespace ADIN.WPF.ViewModel
 
         public string ReadInput
         {
-            get { return _readInput; }
+            get
+            {
+                return _readInput;
+            }
+
             set
             {
                 _readInput = value;
@@ -55,7 +63,11 @@ namespace ADIN.WPF.ViewModel
 
         public string ReadOutput
         {
-            get { return _readOutput; }
+            get
+            {
+                return _readOutput;
+            }
+
             set
             {
                 _readOutput = value;
@@ -83,7 +95,11 @@ namespace ADIN.WPF.ViewModel
 
         public bool DisableButton
         {
-            get { return _disableButton; }
+            get
+            {
+                return _disableButton;
+            }
+
             set
             {
                 _disableButton = value;

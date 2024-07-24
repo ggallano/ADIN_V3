@@ -15,14 +15,9 @@ namespace ADIN.WPF.ViewModel
             ImagePath = @"..\Images\icons\Applications-Industrial-Automation-Ethernet-Icon.png";
         }
 
-        public ADINDevice Device { get; }
-
-        public string ImagePath { get; }
-        public string Name => Device.Device.BoardName;
-        public string SerialNumber => Device.Device.SerialNumber;
-        public bool IsMultichipBoard => Device.IsMultichipBoard;
         public BoardType BoardType => Device.DeviceType;
-        public uint PortNum => Device.PortNumber;
+
+        public ADINDevice Device { get; }
 
         public string DeviceHeader
         {
@@ -36,5 +31,15 @@ namespace ADIN.WPF.ViewModel
                     return SerialNumber;
             }
         }
+
+        public string ImagePath { get; }
+
+        public bool IsMultichipBoard => Device.IsMultichipBoard;
+
+        public string Name => Device.Device.BoardName;
+
+        public uint PortNum => Device.PortNumber;
+
+        public string SerialNumber => Device.Device.SerialNumber;
     }
 }
