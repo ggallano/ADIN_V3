@@ -3,6 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
 // </copyright>
 
+using Helper.ForegroundColor;
 using System;
 using System.Globalization;
 using System.Windows.Data;
@@ -25,20 +26,20 @@ namespace ADIN.WPF.Converters
             var message = value.ToString();
             if (message.Contains("[Error]") || message.Contains("Failed"))
             {
-                return (SolidColorBrush)(new BrushConverter().ConvertFrom("#C81A28"));
+                return (SolidColorBrush) new BrushConverter().ConvertFrom(ForegroundColorStyle.Red);
             }
 
             if (message.Contains("[Warning]"))
             {
-                return (SolidColorBrush)(new BrushConverter().ConvertFrom("#E76423"));
+                return (SolidColorBrush) new BrushConverter().ConvertFrom(ForegroundColorStyle.Orange);
             }
 
             if (message.Contains("[VerboseInfo]") || message.Contains("Success"))
             {
-                return (SolidColorBrush)(new BrushConverter().ConvertFrom("#2E9E6F"));
+                return (SolidColorBrush) new BrushConverter().ConvertFrom(ForegroundColorStyle.Green);
             }
 
-            return (SolidColorBrush)(new BrushConverter().ConvertFrom("#101820"));
+            return (SolidColorBrush) new BrushConverter().ConvertFrom(ForegroundColorStyle.Black);
         }
 
         /// <summary>
