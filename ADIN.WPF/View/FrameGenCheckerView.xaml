@@ -125,7 +125,7 @@
                         </ComboBox>
                     </Grid>
                     <telerik:RadButton Content="Clear Results" ToolTip='Reset all frame checker settings to defaults.'  Command="{Binding ResetFrameCheckerCommnad}" x:Name="ResetSettings" Style="{StaticResource FramGenButtonStyle}"/>
-                    <telerik:RadButton Content="{Binding FrameGeneratorButtonText}" ToolTip='Start generatting frames.'  Command="{Binding ExecuteFrameCheckerCommand}" x:Name="GenerateFrames" Style="{StaticResource FramGenButtonStyle}"/>
+                    <telerik:RadButton Content="{Binding FrameGeneratorButtonText}" ToolTip='Start generatting frames.'  Command="{Binding ExecuteFrameCheckerCommand}" x:Name="GenerateFrames" Style="{StaticResource FramGenButtonStyle}" IsEnabled="{Binding IsFrameGenAllowed}"/>
                 </StackPanel>
             </GroupBox>
 
@@ -195,7 +195,7 @@
 
                     <CheckBox Name='chkEnableChecker' Content='Enable Checker' IsChecked='True' Margin="2 2 8 2"    Visibility='Collapsed'  />
                     <telerik:RadButton Content="Clear Results" ToolTip='Reset all frame checker settings to defaults.'  Command="{Binding ResetFrameCheckerCommnad}" x:Name="ResetSettings2" Style="{StaticResource FramGenButtonStyle}"/>
-                    <telerik:RadButton Content="{Binding FrameGeneratorButtonText}" ToolTip='Start generatting frames.'  Command="{Binding ExecuteFrameCheckerCommand}" x:Name="GenerateFrames2" Style="{StaticResource FramGenButtonStyle}"/>
+                    <telerik:RadButton Content="{Binding FrameGeneratorButtonText}" ToolTip='Start generatting frames.'  Command="{Binding ExecuteFrameCheckerCommand}" x:Name="GenerateFrames2" Style="{StaticResource FramGenButtonStyle}" IsEnabled="{Binding IsFrameGenAllowed}"/>
                 </StackPanel>
             </GroupBox>
         </StackPanel>
