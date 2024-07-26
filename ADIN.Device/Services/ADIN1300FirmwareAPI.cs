@@ -1607,8 +1607,6 @@ namespace ADIN.Device.Services
 
         public void SetClk25RefPinControl(string clk25RefPinCtrl)
         {
-            
-
             switch (clk25RefPinCtrl)
             {
                 case "25 MHz Reference":
@@ -1641,6 +1639,19 @@ namespace ADIN.Device.Services
                 default:
                     return "-";
             }
+        }
+
+        public void SetMasterSlave(string input)
+        {
+            if (input.Contains("Forced"))
+                this.WriteYodaRg("ManMstrSlvEnAdv", 1);
+            else
+                this.WriteYodaRg("ManMstrSlvEnAdv", 0);
+
+            if (input.Contains("Master"))
+                this.WriteYodaRg("PrefMstrAdv", 1);
+            else
+                this.WriteYodaRg("PrefMstrAdv", 0);
         }
     }
 }

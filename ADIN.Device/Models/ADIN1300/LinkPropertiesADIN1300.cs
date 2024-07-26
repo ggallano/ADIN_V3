@@ -24,8 +24,8 @@ namespace ADIN.Device.Models.ADIN1300
                 "SPEED_10BASE_T_HD",
                 "SPEED_10BASE_T_FD",
                 "SPEED_100BASE_TX_HD",
-                "SPEED_100BASE_TX_FD",
-                "SPEED_1000BASE_T_FD"
+                "SPEED_100BASE_TX_FD"
+                //"SPEED_1000BASE_T_FD"
             };
 
             MDIXs = new List<string>()
@@ -47,6 +47,7 @@ namespace ADIN.Device.Models.ADIN1300
                 "Master",
                 "Slave"
             };
+            MasterSlave = MasterSlaves[0];
 
             AdvertisedSpeeds = new List<string>() {};
         }
