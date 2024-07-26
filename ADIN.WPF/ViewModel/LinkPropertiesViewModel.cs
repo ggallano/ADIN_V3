@@ -74,6 +74,8 @@ namespace ADIN.WPF.ViewModel
 
                     OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
                     OnPropertyChanged(nameof(IsEEE1000Enabled));
+                    OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                    OnPropertyChanged(nameof(IsDownspeed10Enabled));
                 }
             }
         }
@@ -120,6 +122,8 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
+                OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                OnPropertyChanged(nameof(IsDownspeed10Enabled));
             }
         }
 
@@ -166,6 +170,8 @@ namespace ADIN.WPF.ViewModel
 
                 OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
                 OnPropertyChanged(nameof(IsEEE100Enabled));
+                OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                OnPropertyChanged(nameof(IsDownspeed10Enabled));
             }
         }
 
@@ -211,6 +217,8 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
+                OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                OnPropertyChanged(nameof(IsDownspeed10Enabled));
             }
         }
 
@@ -256,6 +264,7 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
+                OnPropertyChanged(nameof(IsDownspeed10Enabled));
             }
         }
 
@@ -301,6 +310,7 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
+                OnPropertyChanged(nameof(IsDownspeed10Enabled));
             }
         }
 
@@ -346,6 +356,8 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
+                OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                OnPropertyChanged(nameof(IsDownspeed10Enabled));
             }
         }
 
@@ -391,6 +403,8 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
+                OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                OnPropertyChanged(nameof(IsDownspeed10Enabled));
             }
         }
 
@@ -453,6 +467,49 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
+            }
+        }
+
+        public bool IsDownspeed100Enabled
+        {
+            get
+            {
+                if ((IsANAdvertised1GSpeedVisible == true)
+                    && (IsAdvertise_100BASE_TX_FD == true
+                        || IsAdvertise_100BASE_TX_HD == true
+                        || IsAdvertise_EEE_100BASE_TX == true))
+                {
+                    if (IsAdvertise_1000BASE_T_FD == true
+                        || IsAdvertise_1000BASE_T_HD == true
+                        || IsAdvertise_EEE_1000BASE_T == true)
+                    { 
+                        return true; 
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        public bool IsDownspeed10Enabled
+        {
+            get
+            {
+                if (IsAdvertise_10BASE_T_FD == true
+                    || IsAdvertise_10BASE_T_HD == true)
+                {
+                    if (IsAdvertise_1000BASE_T_FD == true
+                        || IsAdvertise_1000BASE_T_HD == true
+                        || IsAdvertise_EEE_1000BASE_T == true
+                        || IsAdvertise_100BASE_TX_FD == true
+                        || IsAdvertise_100BASE_TX_HD == true
+                        || IsAdvertise_EEE_100BASE_TX == true)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
             }
         }
 
@@ -722,6 +779,8 @@ namespace ADIN.WPF.ViewModel
                     OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
                     OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
                     OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
+                    OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                    OnPropertyChanged(nameof(IsDownspeed10Enabled));
                     OnPropertyChanged(nameof(IsEEE1000Enabled));
                     OnPropertyChanged(nameof(IsEEE100Enabled));
                     OnPropertyChanged(nameof(SetDownSpeedRetries));

@@ -132,12 +132,13 @@
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="100BASE-TX HD: " Style="{StaticResource TextBlockstyle}"/>
                             <CheckBox Grid.Row="0" Grid.Column="1" 
                                       IsChecked="{Binding IsDownSpeed_100BASE_TX_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                      IsEnabled="{Binding IsANAdvertised1GSpeedVisible}"
+                                      IsEnabled="{Binding IsDownspeed100Enabled}"
                                       Style="{StaticResource CheckBoxStyle}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="10BASE-T HD: " Style="{StaticResource TextBlockstyle}"/>
                             <CheckBox Grid.Row="1" Grid.Column="1" 
                                       IsChecked="{Binding IsDownSpeed_10BASE_T_HD, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      IsEnabled="{Binding IsDownspeed10Enabled}"
                                       Style="{StaticResource CheckBoxStyle}"/>
 
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Downspeed Retries: " Style="{StaticResource TextBlockstyle}"/>
