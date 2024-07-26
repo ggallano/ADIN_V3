@@ -76,6 +76,7 @@ namespace ADIN.WPF.ViewModel
                     OnPropertyChanged(nameof(IsEEE1000Enabled));
                     OnPropertyChanged(nameof(IsDownspeed100Enabled));
                     OnPropertyChanged(nameof(IsDownspeed10Enabled));
+                    OnPropertyChanged(nameof(IsMasterSlavePrefVisible));
                 }
             }
         }
@@ -124,6 +125,7 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
                 OnPropertyChanged(nameof(IsDownspeed100Enabled));
                 OnPropertyChanged(nameof(IsDownspeed10Enabled));
+                OnPropertyChanged(nameof(IsMasterSlavePrefVisible));
             }
         }
 
@@ -529,6 +531,26 @@ namespace ADIN.WPF.ViewModel
             get { return _linkProperties?.SpeedMode == "Forced"; }
         }
 
+        public bool IsMasterSlaveForcedVisible
+        {
+            get
+            {
+                return (IsGigabitBoard == true)
+                    && (_linkProperties?.SpeedMode == "Forced")
+                    && (_linkProperties?.ForcedSpeed == "SPEED_1000BASE_T_FD"); 
+            }
+        }
+
+        public bool IsMasterSlavePrefVisible
+        {
+            get
+            {
+                return (IsGigabitBoard == true)
+                    && (_linkProperties?.SpeedMode == "Advertised")
+                    && (IsAdvertise_1000BASE_T_FD == true || IsAdvertise_1000BASE_T_HD == true);
+            }
+        }
+
 #if !DISABLE_TSN && !DISABLE_T1L
         public bool IsT1LBoard
         {
@@ -554,6 +576,8 @@ namespace ADIN.WPF.ViewModel
 #endif
 
         public List<string> MasterSlaveAdvertises => _linkProperties?.MasterSlaveAdvertises;
+
+        public List<string> MasterSlaves => _linkProperties?.MasterSlaves;
 
         public List<string> MDIXs => _linkProperties?.MDIXs;
 
@@ -610,6 +634,27 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(SelectedForcedSpeed));
+                OnPropertyChanged(nameof(IsMasterSlaveForcedVisible));
+            }
+        }
+
+        public string SelectedMasterSlave
+        {
+            get
+            {
+                return _linkProperties?.MasterSlave;
+            }
+
+            set
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _linkProperties.MasterSlave = value;
+                    ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
+                    fwAPI.SetMasterSlave(_linkProperties.MasterSlave + "_" + _linkProperties.SpeedMode);
+                }
+
+                OnPropertyChanged(nameof(SelectedMasterSlave));
             }
         }
 
@@ -688,6 +733,8 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
                 OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
                 OnPropertyChanged(nameof(IsForcedSpeedVisible));
+                OnPropertyChanged(nameof(IsMasterSlaveForcedVisible));
+                OnPropertyChanged(nameof(IsMasterSlavePrefVisible));
             }
         }
 
@@ -783,9 +830,13 @@ namespace ADIN.WPF.ViewModel
                     OnPropertyChanged(nameof(IsDownspeed10Enabled));
                     OnPropertyChanged(nameof(IsEEE1000Enabled));
                     OnPropertyChanged(nameof(IsEEE100Enabled));
+                    OnPropertyChanged(nameof(IsMasterSlaveForcedVisible));
+                    OnPropertyChanged(nameof(IsMasterSlavePrefVisible));
                     OnPropertyChanged(nameof(SetDownSpeedRetries));
                     OnPropertyChanged(nameof(ForcedSpeeds));
                     OnPropertyChanged(nameof(SelectedForcedSpeed));
+                    OnPropertyChanged(nameof(MasterSlaves));
+                    OnPropertyChanged(nameof(SelectedMasterSlave));
                     OnPropertyChanged(nameof(MDIXs));
                     OnPropertyChanged(nameof(SelectedMDIX));
                     OnPropertyChanged(nameof(EnergyDetectPowerDownModes));

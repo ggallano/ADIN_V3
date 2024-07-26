@@ -163,9 +163,7 @@
                 </Grid>
 
                 <Grid Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
-                    <GroupBox Header="MDIX" Style="{StaticResource GroupBoxStyle}"
-				  Visibility="{Binding DataContext.IsForcedSpeedVisible, Source={StaticResource ProxyElement}, Converter={StaticResource booleanVisibilityConverter}}"
-				  Margin="0 0 0 5">
+                    <GroupBox Header="MDIX" Style="{StaticResource GroupBoxStyle}" Margin="0 0 0 5">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="220"/>
@@ -186,6 +184,32 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Energy Detect Power-down Mode: " Style="{StaticResource TextBlockstyle}"/>
                             <ComboBox Grid.Column="1" ItemsSource="{Binding EnergyDetectPowerDownModes}" SelectedItem="{Binding SelectedEnergyDetectPowerDownMode}" Style="{StaticResource ComboBoxFlatStyle}"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+
+                <Grid Visibility="{Binding IsMasterSlavePrefVisible, Converter={StaticResource booleanVisibilityConverter}}">
+                    <GroupBox Header="Mater/Slave" Style="{StaticResource GroupBoxStyle}" Margin="0 0 0 5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Master or Slave Preference: " Style="{StaticResource TextBlockstyle}"/>
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding MasterSlaves}" SelectedItem="{Binding SelectedMasterSlave}" Style="{StaticResource ComboBoxFlatStyle}"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+
+                <Grid Visibility="{Binding IsMasterSlaveForcedVisible, Converter={StaticResource booleanVisibilityConverter}}">
+                    <GroupBox Header="Mater/Slave" Style="{StaticResource GroupBoxStyle}" Margin="0 0 0 5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="Forced Master or Slave: " Style="{StaticResource TextBlockstyle}"/>
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding MasterSlaves}" SelectedItem="{Binding SelectedMasterSlave}" Style="{StaticResource ComboBoxFlatStyle}"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
