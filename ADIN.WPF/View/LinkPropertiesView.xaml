@@ -103,12 +103,13 @@
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="Advertise EEE 1000BASE-T: " Style="{StaticResource TextBlockstyle}"/>
                             <CheckBox Grid.Row="0" Grid.Column="1" 
                                       IsChecked="{Binding IsAdvertise_EEE_1000BASE_T, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                      IsEnabled="{Binding IsANAdvertised1GSpeedVisible}"
+                                      IsEnabled="{Binding IsEEE1000Enabled}"
                                       Style="{StaticResource CheckBoxStyle}"/>
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Advertise EEE 100BASE-TX: " Style="{StaticResource TextBlockstyle}"/>
                             <CheckBox Grid.Row="1" Grid.Column="1" 
                                       IsChecked="{Binding IsAdvertise_EEE_100BASE_TX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      IsEnabled="{Binding IsEEE100Enabled}"
                                       Style="{StaticResource CheckBoxStyle}"/>
                         </Grid>
                     </GroupBox>

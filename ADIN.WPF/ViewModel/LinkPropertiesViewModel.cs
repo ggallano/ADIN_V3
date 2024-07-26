@@ -73,6 +73,7 @@ namespace ADIN.WPF.ViewModel
                     }
 
                     OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
+                    OnPropertyChanged(nameof(IsEEE1000Enabled));
                 }
             }
         }
@@ -164,6 +165,7 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
+                OnPropertyChanged(nameof(IsEEE100Enabled));
             }
         }
 
@@ -454,7 +456,16 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public bool IsEEEAdvertisementVisible { get; set; } = true;
+        public bool IsEEE1000Enabled
+        {
+            get { return (IsAdvertise_1000BASE_T_FD == true)
+                    && (IsANAdvertised1GSpeedVisible == true); }
+        }
+
+        public bool IsEEE100Enabled
+        {
+            get { return IsAdvertise_100BASE_TX_FD == true; }
+        }
 
         public bool IsForcedSpeedVisible
         {
@@ -711,6 +722,8 @@ namespace ADIN.WPF.ViewModel
                     OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
                     OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
                     OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
+                    OnPropertyChanged(nameof(IsEEE1000Enabled));
+                    OnPropertyChanged(nameof(IsEEE100Enabled));
                     OnPropertyChanged(nameof(SetDownSpeedRetries));
                     OnPropertyChanged(nameof(ForcedSpeeds));
                     OnPropertyChanged(nameof(SelectedForcedSpeed));
