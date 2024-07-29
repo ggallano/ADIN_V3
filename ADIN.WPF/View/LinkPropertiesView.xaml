@@ -196,7 +196,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Master or Slave Preference: " Style="{StaticResource TextBlockstyle}"/>
-                            <ComboBox Grid.Column="1" ItemsSource="{Binding MasterSlaves}" SelectedItem="{Binding SelectedMasterSlave}" Style="{StaticResource ComboBoxFlatStyle}"/>
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding MasterSlaveAdvertises}" SelectedItem="{Binding SelectedMasterSlaveAdvertise}" Style="{StaticResource ComboBoxFlatStyle}"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -209,7 +209,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Forced Master or Slave: " Style="{StaticResource TextBlockstyle}"/>
-                            <ComboBox Grid.Column="1" ItemsSource="{Binding MasterSlaves}" SelectedItem="{Binding SelectedMasterSlave}" Style="{StaticResource ComboBoxFlatStyle}"/>
+                            <ComboBox Grid.Column="1" ItemsSource="{Binding MasterSlaveAdvertises}" SelectedItem="{Binding SelectedMasterSlaveAdvertise}" Style="{StaticResource ComboBoxFlatStyle}"/>
                         </Grid>
                     </GroupBox>
                 </Grid>

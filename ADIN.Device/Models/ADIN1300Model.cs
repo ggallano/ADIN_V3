@@ -210,6 +210,15 @@ namespace ADIN.Device.Models
             if (!AutoMdiEn)
                 if (ManMdix)
                     LinkProperties.MDIX = LinkProperties.MDIXs[2];
+
+            var PrefMstrAdv = _fwAPI.RegisterRead("PrefMstrAdv") == "1" ? true : false;
+
+            if (PrefMstrAdv)
+                LinkProperties.MasterSlaveAdvertise = LinkProperties.MasterSlaveAdvertises[0];
+
+            if (!PrefMstrAdv)
+                LinkProperties.MasterSlaveAdvertise = LinkProperties.MasterSlaveAdvertises[1];
+
         }
 
         private void GetInitialValuesLoopback()

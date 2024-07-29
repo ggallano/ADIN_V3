@@ -42,12 +42,11 @@ namespace ADIN.Device.Models.ADIN1300
                 "Enabled With Periodic Pulse TX"
             };
 
-            MasterSlaves = new List<string>()
+            MasterSlaveAdvertises = new List<string>()
             {
                 "Master",
                 "Slave"
             };
-            MasterSlave = MasterSlaves[0];
 
             AdvertisedSpeeds = new List<string>() {};
         }
@@ -70,10 +69,6 @@ namespace ADIN.Device.Models.ADIN1300
         public string EnergyDetectPowerDownMode { get; set; }
 
         public List<string> EnergyDetectPowerDownModes { get; set; }
-
-        public string MasterSlave { get; set; }
-
-        public List<string> MasterSlaves { get; set; }
 
         public string MDIX { get; set; }
 
