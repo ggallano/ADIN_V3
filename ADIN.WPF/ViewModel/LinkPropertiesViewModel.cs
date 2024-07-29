@@ -577,8 +577,6 @@ namespace ADIN.WPF.ViewModel
 
         public List<string> MasterSlaveAdvertises => _linkProperties?.MasterSlaveAdvertises;
 
-        public List<string> MasterSlaves => _linkProperties?.MasterSlaves;
-
         public List<string> MDIXs => _linkProperties?.MDIXs;
 
         public string SelectedEnergyDetectPowerDownMode
@@ -638,26 +636,6 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public string SelectedMasterSlave
-        {
-            get
-            {
-                return _linkProperties?.MasterSlave;
-            }
-
-            set
-            {
-                if (_selectedDeviceStore.SelectedDevice != null)
-                {
-                    _linkProperties.MasterSlave = value;
-                    ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
-                    fwAPI.SetMasterSlave(_linkProperties.MasterSlave + "_" + _linkProperties.SpeedMode);
-                }
-
-                OnPropertyChanged(nameof(SelectedMasterSlave));
-            }
-        }
-
         public string SelectedMasterSlaveAdvertise
         {
             get
@@ -670,7 +648,29 @@ namespace ADIN.WPF.ViewModel
                 if (_selectedDeviceStore.SelectedDevice != null)
                 {
                     _linkProperties.MasterSlaveAdvertise = value;
-                    ((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).SetMasterSlave(_linkProperties.MasterSlaveAdvertise);
+
+                    if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)
+                    {
+                        ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
+
+                        if (_linkProperties.MasterSlaveAdvertise == "Master" && _linkProperties.SpeedMode == "Advertised")
+                            fwAPI.SetMasterSlave("Prefer_Master");
+                        else if (_linkProperties.MasterSlaveAdvertise == "Slave" && _linkProperties.SpeedMode == "Advertised")
+                            fwAPI.SetMasterSlave("Prefer_Slave");
+                        else if (_linkProperties.MasterSlaveAdvertise == "Master" && _linkProperties.SpeedMode == "Forced")
+                            fwAPI.SetMasterSlave("Forced_Master");
+                        else if (_linkProperties.MasterSlaveAdvertise == "Slave" && _linkProperties.SpeedMode == "Forced")
+                            fwAPI.SetMasterSlave("Forced_Slave");
+                        else
+                        {
+                            //Do nothing
+                        }
+                    }
+                    else
+                    {
+                        ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                        fwAPI.SetMasterSlave(_linkProperties.MasterSlaveAdvertise);
+                    }
                 }
 
                 OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
@@ -807,8 +807,6 @@ namespace ADIN.WPF.ViewModel
                 case BoardType.ADIN1100:
                 case BoardType.ADIN1110:
                 case BoardType.ADIN2111:
-                    OnPropertyChanged(nameof(MasterSlaveAdvertises));
-                    OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
                     OnPropertyChanged(nameof(TxLevels));
                     OnPropertyChanged(nameof(SelectedTxLevel));
                     break;
@@ -835,8 +833,6 @@ namespace ADIN.WPF.ViewModel
                     OnPropertyChanged(nameof(SetDownSpeedRetries));
                     OnPropertyChanged(nameof(ForcedSpeeds));
                     OnPropertyChanged(nameof(SelectedForcedSpeed));
-                    OnPropertyChanged(nameof(MasterSlaves));
-                    OnPropertyChanged(nameof(SelectedMasterSlave));
                     OnPropertyChanged(nameof(MDIXs));
                     OnPropertyChanged(nameof(SelectedMDIX));
                     OnPropertyChanged(nameof(EnergyDetectPowerDownModes));
@@ -846,6 +842,8 @@ namespace ADIN.WPF.ViewModel
                 default:
                     break;
             }
+            OnPropertyChanged(nameof(MasterSlaveAdvertises));
+            OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
         }
     }
 }

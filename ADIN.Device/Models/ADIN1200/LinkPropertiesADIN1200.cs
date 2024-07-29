@@ -63,10 +63,6 @@ namespace ADIN.Device.Models.ADIN1200
 
         public List<string> EnergyDetectPowerDownModes { get; set; }
 
-        public string MasterSlave { get; set; }
-
-        public List<string> MasterSlaves { get; set; }
-
         public string MDIX { get; set; }
 
         public List<string> MDIXs { get; set; }

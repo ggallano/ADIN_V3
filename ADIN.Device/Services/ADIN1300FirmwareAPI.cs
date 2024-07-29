@@ -1643,15 +1643,27 @@ namespace ADIN.Device.Services
 
         public void SetMasterSlave(string input)
         {
-            if (input.Contains("Forced"))
-                this.WriteYodaRg("ManMstrSlvEnAdv", 1);
-            else
-                this.WriteYodaRg("ManMstrSlvEnAdv", 0);
-
-            if (input.Contains("Master"))
-                this.WriteYodaRg("PrefMstrAdv", 1);
-            else
-                this.WriteYodaRg("PrefMstrAdv", 0);
+            switch (input)
+            {
+                case "Prefer_Master":
+                    this.WriteYodaRg("ManMstrSlvEnAdv", 0);
+                    this.WriteYodaRg("PrefMstrAdv", 1);
+                    break;
+                case "Prefer_Slave":
+                    this.WriteYodaRg("ManMstrSlvEnAdv", 0);
+                    this.WriteYodaRg("PrefMstrAdv", 0);
+                    break;
+                case "Forced_Master":
+                    WriteYodaRg("ManMstrSlvEnAdv", 1);
+                    this.WriteYodaRg("PrefMstrAdv", 1);
+                    break;
+                case "Forced_Slave":
+                    WriteYodaRg("ManMstrSlvEnAdv", 1);
+                    this.WriteYodaRg("PrefMstrAdv", 0);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

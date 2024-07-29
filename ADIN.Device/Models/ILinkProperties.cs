@@ -11,14 +11,12 @@ namespace ADIN.Device.Models
     {
         #region ADIN1200 ADIN1300
         List<string> EnergyDetectPowerDownModes { get; set; }
-        List<string> MasterSlaves { get; set; }
         List<string> MDIXs { get; set; }
         List<string> SpeedModes { get; set; }
         List<string> ForcedSpeeds { get; set; }
         List<string> AdvertisedSpeeds { get; set; }
 
         string EnergyDetectPowerDownMode { get; set; }
-        string MasterSlave { get; set; }
         string MDIX { get; set; }
         string SpeedMode { get; set; }
         string ForcedSpeed { get; set; }
@@ -39,10 +37,11 @@ namespace ADIN.Device.Models
         #endregion
 
         #region ADIN1100
-        string MasterSlaveAdvertise { get; set; }
-        List<string> MasterSlaveAdvertises { get; set; }
         string TxAdvertise { get; set; }
         List<string> TxAdvertises { get; set; }
         #endregion
+
+        string MasterSlaveAdvertise { get; set; }
+        List<string> MasterSlaveAdvertises { get; set; }
     }
 }
