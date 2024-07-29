@@ -346,7 +346,7 @@ namespace ADIN.WPF.ViewModel
         {
             System.Windows.Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
             {
-                IsFrameGenAllowed = (linkStatus.ToString() == "LinkUp" ? true : false);
+                IsFrameGenAllowed = linkStatus == EthPhyState.LinkUp ? true : false;
             }));
         }
 
