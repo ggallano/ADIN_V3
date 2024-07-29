@@ -71,7 +71,7 @@ namespace ADIN.Device.Services
         public static BoardRevision GetRevNum(uint register)
         {
             var value = fwAPI.ReadYodaRg(Convert.ToUInt32(register));
-            var revNum = Convert.ToUInt32(value, 16) & 0x03;
+            var revNum = Convert.ToUInt32(value, 16) & 0x000F;
 
             switch (revNum)
             {

@@ -40,41 +40,45 @@ namespace ADIN.Device.Services
 
         public static List<ADINDevice> GetADINBoard(string BoardName, IFTDIServices ftdtService, IRegisterService _registerService, object mainLock, bool isMultiChipSupported)
         {
+            ADINFirmwareAPI fwAPI = new ADINFirmwareAPI(ftdtService);
+
+            var adinChip = fwAPI.GetModelNum(0x1E0003);
+
             List<ADINDevice> devices = new List<ADINDevice>();
 
-            switch (BoardName)
-            {
-#if !DISABLE_T1L
-                case "EVAL-ADIN1100FMCZ":
-                    devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock)));
-                    break;
-                case "EVAL-ADIN1100EBZ":
-                case "DEMO-ADIN1100-DIZ":
-                case "DEMO-ADIN1100D2Z":
-                    devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock), isMultiChipSupported));
-                    if (isMultiChipSupported)
-                        devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock, 4), isMultiChipSupported));
-                    break;
-                case "EVAL-ADIN1110EBZ":
-                    devices.Add(new ADINDevice(new ADIN1110Model(ftdtService, _registerService, mainLock)));
-                    break;
-                case "EVAL-ADIN2111EBZ":
-                    devices.Add(new ADINDevice(new ADIN2111Model(ftdtService, _registerService, 1, mainLock)));
-                    devices.Add(new ADINDevice(new ADIN2111Model(ftdtService, _registerService, 2, mainLock)));
-                    break;
-#endif
-#if !DISABLE_TSN
-                case "ADIN1200 MDIO DONGLE":
-                    devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock, 0)));
-                    break;
-                case "ADIN1300 MDIO DONGLE":
-                    devices.Add(new ADINDevice(new ADIN1300Model(ftdtService, _registerService, mainLock)));
-                    break;
-#endif
-                default:
-                    // No board matching the list
-                    break;
-            }
+            //            switch (BoardName)
+            //            {
+            //#if !DISABLE_T1L
+            //                case "EVAL-ADIN1100FMCZ":
+            //                    devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock)));
+            //                    break;
+            //                case "EVAL-ADIN1100EBZ":
+            //                case "DEMO-ADIN1100-DIZ":
+            //                case "DEMO-ADIN1100D2Z":
+            //                    devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock), isMultiChipSupported));
+            //                    if (isMultiChipSupported)
+            //                        devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock, 4), isMultiChipSupported));
+            //                    break;
+            //                case "EVAL-ADIN1110EBZ":
+            //                    devices.Add(new ADINDevice(new ADIN1110Model(ftdtService, _registerService, mainLock)));
+            //                    break;
+            //                case "EVAL-ADIN2111EBZ":
+            //                    devices.Add(new ADINDevice(new ADIN2111Model(ftdtService, _registerService, 1, mainLock)));
+            //                    devices.Add(new ADINDevice(new ADIN2111Model(ftdtService, _registerService, 2, mainLock)));
+            //                    break;
+            //#endif
+            //#if !DISABLE_TSN
+            //                case "ADIN1200 MDIO DONGLE":
+            //                    devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock, 0)));
+            //                    break;
+            //                case "ADIN1300 MDIO DONGLE":
+            //                    devices.Add(new ADINDevice(new ADIN1300Model(ftdtService, _registerService, mainLock)));
+            //                    break;
+            //#endif
+            //                default:
+            //                    // No board matching the list
+            //                    break;
+            //            }
 
             return devices;
         }
