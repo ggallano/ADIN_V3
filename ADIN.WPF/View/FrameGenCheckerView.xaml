@@ -64,7 +64,7 @@
                             </Grid>
                         </StackPanel>-->
                         <!--<Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" x:Name="SliderFrameNumber" Value="{Binding FrameBurst_Slider}" TickPlacement="TopLeft" Maximum="256" TickFrequency="16" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}"/>-->
-                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" x:Name="SliderFrameNumber" Value="{Binding FrameBurst_Value}" Minimum="100" Maximum="65536" SmallChange="100" TickFrequency="100" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" ToolTip="Use value box at the right to set higher values"/>
+                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" x:Name="SliderFrameNumber" Value="{Binding FrameBurst_Value}" Minimum="100" Maximum="65536" SmallChange="100" TickFrequency="100" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}"/>
                     </Grid>
 
                     <Grid Margin="0 5">
