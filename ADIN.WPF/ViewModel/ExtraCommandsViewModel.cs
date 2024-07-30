@@ -18,6 +18,8 @@ namespace ADIN.WPF.ViewModel
     {
         private bool _enableButton = true;
         private IFTDIServices _ftdiService;
+        private bool _isLoadingRegisters = false;
+        private bool _isSavingRegisters = false;
         private string _linkStatus = "Disable Linking";
         private string _powerDownStatus = "Software Power Down";
         private SelectedDeviceStore _selectedDeviceStore;
@@ -56,6 +58,40 @@ namespace ADIN.WPF.ViewModel
             {
                 _enableButton = value;
                 OnPropertyChanged(nameof(EnableButton));
+            }
+        }
+
+        public bool IsLoadingRegisters
+        {
+            get
+            {
+                return _isLoadingRegisters;
+            }
+            set
+            {
+                _isLoadingRegisters = value;
+                if (_isLoadingRegisters)
+                    _selectedDeviceStore.OnBusyStateChanged("Loading registers...");
+                else
+                    _selectedDeviceStore.OnBusyStateChanged("Done");
+                OnPropertyChanged(nameof(IsLoadingRegisters));
+            }
+        }
+
+        public bool IsSavingRegisters
+        {
+            get
+            {
+                return _isSavingRegisters;
+            }
+            set
+            {
+                _isSavingRegisters = value;
+                if (_isSavingRegisters)
+                    _selectedDeviceStore.OnBusyStateChanged("Saving registers...");
+                else
+                    _selectedDeviceStore.OnBusyStateChanged("Done");
+                OnPropertyChanged(nameof(IsLoadingRegisters));
             }
         }
 
@@ -196,6 +232,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(IsPortNumVisible));
             OnPropertyChanged(nameof(IsResetButtonVisible));
             OnPropertyChanged(nameof(EnableButton));
+            OnPropertyChanged(nameof(IsLoadingRegisters));
         }
     }
 }

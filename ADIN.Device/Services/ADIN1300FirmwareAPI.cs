@@ -547,6 +547,7 @@ namespace ADIN.Device.Services
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
                 response = _ftdiService.ReadCommandResponse().Trim();
+                _ftdiService.Purge();
                 _ftdiService.SendData(command2);
                 response = _ftdiService.ReadCommandResponse().Trim();
 
@@ -887,7 +888,7 @@ namespace ADIN.Device.Services
                 case LoopBackMode.MacRemote:
                     this.FeedbackLog("GESubsys software reset", FeedbackType.Info);
                     this.WriteYodaRg("GeSftRst", 1);
-                    Thread.Sleep(300);
+                    Thread.Sleep(100);
                     this.FeedbackLog("GE PHY enters software reset, stays in software powerdown", FeedbackType.Info);
                     this.WriteYodaRg("GePhySftPdCfg", 1);
                     this.WriteYodaRg("GePhyRst", 1);
@@ -1602,8 +1603,6 @@ namespace ADIN.Device.Services
 
         public void SetClk25RefPinControl(string clk25RefPinCtrl)
         {
-            
-
             switch (clk25RefPinCtrl)
             {
                 case "25 MHz Reference":
@@ -1635,6 +1634,31 @@ namespace ADIN.Device.Services
                     return "SPEED_1000BASE_T_FD";
                 default:
                     return "-";
+            }
+        }
+
+        public void SetMasterSlave(string input)
+        {
+            switch (input)
+            {
+                case "Prefer_Master":
+                    this.WriteYodaRg("ManMstrSlvEnAdv", 0);
+                    this.WriteYodaRg("PrefMstrAdv", 1);
+                    break;
+                case "Prefer_Slave":
+                    this.WriteYodaRg("ManMstrSlvEnAdv", 0);
+                    this.WriteYodaRg("PrefMstrAdv", 0);
+                    break;
+                case "Forced_Master":
+                    WriteYodaRg("ManMstrSlvEnAdv", 1);
+                    this.WriteYodaRg("PrefMstrAdv", 1);
+                    break;
+                case "Forced_Slave":
+                    WriteYodaRg("ManMstrSlvEnAdv", 1);
+                    this.WriteYodaRg("PrefMstrAdv", 0);
+                    break;
+                default:
+                    break;
             }
         }
     }

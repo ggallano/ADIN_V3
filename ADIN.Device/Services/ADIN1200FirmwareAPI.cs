@@ -584,6 +584,7 @@ namespace ADIN.Device.Services
                 _ftdiService.Purge();
                 _ftdiService.SendData(command);
                 response = _ftdiService.ReadCommandResponse().Trim();
+                _ftdiService.Purge();
                 _ftdiService.SendData(command2);
                 response = _ftdiService.ReadCommandResponse().Trim();
 
