@@ -18,8 +18,10 @@ namespace ADIN.WPF.ViewModel
         private readonly NavigationStore _navigationStore;
         private readonly SelectedDeviceStore _selectedDeviceStore;
 
+        private string _busyContent = string.Empty;
         private bool _enableTabs = false;
         private bool _isAdin2111 = false;
+        private bool _isBusy = false;
         private bool _isCableDiagSelected;
         private bool _isCableDiagVisible = true;
         private bool _isTestModeSelected = false;
@@ -50,10 +52,25 @@ namespace ADIN.WPF.ViewModel
             StatusStripVM = new StatusStripViewModel(_selectedDeviceStore, scriptService);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.BusyStateChanged += _selectedDeviceStore_BusyStateChanged;
             _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
         }
 
         public ActiveLinkMonViewModel ActiveLinkMonVM { get; set; }
+
+        public string BusyContent
+        {
+            get
+            {
+                return _busyContent;
+            }
+
+            set
+            {
+                _busyContent = value;
+                OnPropertyChanged(nameof(BusyContent));
+            }
+        }
 
         public ClockPinControlViewModel ClockPinControlVM { get; set; }
 
@@ -109,6 +126,20 @@ namespace ADIN.WPF.ViewModel
             {
                 _isAdin2111 = value;
                 OnPropertyChanged(nameof(IsADIN2111));
+            }
+        }
+
+        public bool IsBusy
+        {
+            get
+            {
+                return _isBusy;
+            }
+            
+            set
+            {
+                _isBusy = value;
+                OnPropertyChanged(nameof(IsBusy));
             }
         }
 
@@ -189,6 +220,21 @@ namespace ADIN.WPF.ViewModel
 
         public RunCableDiagViewModel RunCableDiagnosticVM { get; set; }
 
+        private void _selectedDeviceStore_BusyStateChanged(string busyContent)
+        {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                BusyContent = busyContent;
+                if (BusyContent == null || BusyContent == string.Empty || BusyContent == "Done")
+                    IsBusy = false;
+                else
+                    IsBusy = true;
+            }));
+        }
+
         private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
         {
             if (_selectedDeviceStore.SelectedDevice == null)
@@ -233,6 +279,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(IsADIN1100Visible));
             OnPropertyChanged(nameof(IsADIN1300Visible));
             OnPropertyChanged(nameof(IsClkPinControlVisible));
+            OnPropertyChanged(nameof(IsBusy));
         }
 
         private bool CheckGigabitBoard(BoardType boardType = BoardType.ADIN1300)
