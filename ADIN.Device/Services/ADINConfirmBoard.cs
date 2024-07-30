@@ -38,15 +38,15 @@ namespace ADIN.Device.Services
             return false;
         }
 
-        public static List<ADINDevice> GetADINBoard(string BoardName, IFTDIServices ftdtService, IRegisterService _registerService, object mainLock, bool isMultiChipSupported)
+        public static List<ADINDevice> GetADINBoard(string boardName, IFTDIServices ftdtService, IRegisterService _registerService, object mainLock, bool isMultiChipSupported)
         {
-            ADINFirmwareAPI fwAPI = new ADINFirmwareAPI(ftdtService);
+            ADINFirmwareAPI fwAPI = new ADINFirmwareAPI(ftdtService, boardName);
 
             var adinChip = fwAPI.GetModelNum(0x1E0003);
 
             List<ADINDevice> devices = new List<ADINDevice>();
 
-            //            switch (BoardName)
+            //            switch (boardName)
             //            {
             //#if !DISABLE_T1L
             //                case "EVAL-ADIN1100FMCZ":

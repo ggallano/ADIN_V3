@@ -45,8 +45,11 @@ namespace ADIN.WPF.ViewModel
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceListingViewModel"/> class.
         /// </summary>
-        /// <param name="selectedDeviceStore">selected device store</param>
-        /// <param name="ftdiService">ftdi service</param>
+        /// <param name="selectedDeviceStore">device store.</param>
+        /// <param name="ftdiService">ftdi service.</param>
+        /// <param name="registerService">register service.</param>
+        /// <param name="logActivityViewModel">log activity view model.</param>
+        /// <param name="mainLock">object mainLock.</param>
         public DeviceListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, IRegisterService registerService, LogActivityViewModel logActivityViewModel, object mainLock)
         {
             _selectedDeviceStore = selectedDeviceStore;
