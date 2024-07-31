@@ -31,7 +31,7 @@ namespace ADIN.WPF.Commands
             if (_selectedDeviceStore.SelectedDevice == null)
                 return false;
 
-            if (_linkStatus == EthPhyState.Powerdown)
+            if (_linkStatus != EthPhyState.LinkUp)
                 return false;
 
             return base.CanExecute(parameter);
