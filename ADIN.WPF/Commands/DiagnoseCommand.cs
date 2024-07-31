@@ -75,6 +75,9 @@ namespace ADIN.WPF.Commands
 
         private void _selectedDeviceStore_LinkStatusChanged(EthPhyState linkStatus)
         {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     _linkStatus = linkStatus;

@@ -67,7 +67,7 @@ namespace ADIN.Device.Services
                         devices.Add(new ADINDevice(new ADIN1110Model(ftdtService, _registerService, chip.PhyAddress, mainLock)));
                         break;
                     case 0xA: // ADIN2111
-                        devices.Add(new ADINDevice(new ADIN2111Model(ftdtService, _registerService, chip.PortNum, mainLock)));
+                        devices.Add(new ADINDevice(new ADIN2111Model(ftdtService, _registerService, chip.PortNum, chip.PhyAddress, mainLock)));
                         break;
                     default:
                         break;

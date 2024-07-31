@@ -301,7 +301,19 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public string PhyAddress => _selectedDeviceStore.SelectedDevice?.PhyAddress.ToString() ?? "-";
+        public string PhyAddress
+        {
+            get
+            {
+                if (_selectedDeviceStore.SelectedDevice == null)
+                    return "-";
+
+                if (_selectedDeviceStore.SelectedDevice.PhyAddress == -1)
+                    return "N/A";
+
+                return _selectedDeviceStore.SelectedDevice.PhyAddress.ToString();
+            }
+        }
 
         public List<string> RemoteAdvertisedSpeeds
         {

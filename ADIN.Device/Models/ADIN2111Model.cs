@@ -17,11 +17,11 @@ namespace ADIN.Device.Models
         private IFTDIServices _ftdiService;
         private IRegisterService _registerService;
 
-        public ADIN2111Model(IFTDIServices ftdiService, IRegisterService registerService, int portNum, object mainLock)
+        public ADIN2111Model(IFTDIServices ftdiService, IRegisterService registerService, int portNum, int phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
-            PhyAddress = 0;
+            PhyAddress = phyAddress;
             PortNum = portNum;
 
             FirmwareAPI = new ADIN2111FirmwareAPI(_ftdiService, PhyAddress, mainLock);
