@@ -73,6 +73,10 @@ namespace ADIN.WPF.ViewModel
                     }
 
                     OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
+                    OnPropertyChanged(nameof(IsEEE1000Enabled));
+                    OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                    OnPropertyChanged(nameof(IsDownspeed10Enabled));
+                    OnPropertyChanged(nameof(IsMasterSlavePrefVisible));
                 }
             }
         }
@@ -119,6 +123,9 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
+                OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                OnPropertyChanged(nameof(IsDownspeed10Enabled));
+                OnPropertyChanged(nameof(IsMasterSlavePrefVisible));
             }
         }
 
@@ -164,6 +171,9 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
+                OnPropertyChanged(nameof(IsEEE100Enabled));
+                OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                OnPropertyChanged(nameof(IsDownspeed10Enabled));
             }
         }
 
@@ -209,6 +219,8 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
+                OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                OnPropertyChanged(nameof(IsDownspeed10Enabled));
             }
         }
 
@@ -254,6 +266,7 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
+                OnPropertyChanged(nameof(IsDownspeed10Enabled));
             }
         }
 
@@ -299,6 +312,7 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
+                OnPropertyChanged(nameof(IsDownspeed10Enabled));
             }
         }
 
@@ -344,6 +358,8 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
+                OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                OnPropertyChanged(nameof(IsDownspeed10Enabled));
             }
         }
 
@@ -389,6 +405,8 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
+                OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                OnPropertyChanged(nameof(IsDownspeed10Enabled));
             }
         }
 
@@ -454,11 +472,83 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public bool IsEEEAdvertisementVisible { get; set; } = true;
+        public bool IsDownspeed100Enabled
+        {
+            get
+            {
+                if ((IsANAdvertised1GSpeedVisible == true)
+                    && (IsAdvertise_100BASE_TX_FD == true
+                        || IsAdvertise_100BASE_TX_HD == true
+                        || IsAdvertise_EEE_100BASE_TX == true))
+                {
+                    if (IsAdvertise_1000BASE_T_FD == true
+                        || IsAdvertise_1000BASE_T_HD == true
+                        || IsAdvertise_EEE_1000BASE_T == true)
+                    { 
+                        return true; 
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        public bool IsDownspeed10Enabled
+        {
+            get
+            {
+                if (IsAdvertise_10BASE_T_FD == true
+                    || IsAdvertise_10BASE_T_HD == true)
+                {
+                    if (IsAdvertise_1000BASE_T_FD == true
+                        || IsAdvertise_1000BASE_T_HD == true
+                        || IsAdvertise_EEE_1000BASE_T == true
+                        || IsAdvertise_100BASE_TX_FD == true
+                        || IsAdvertise_100BASE_TX_HD == true
+                        || IsAdvertise_EEE_100BASE_TX == true)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
+        public bool IsEEE1000Enabled
+        {
+            get { return (IsAdvertise_1000BASE_T_FD == true)
+                    && (IsANAdvertised1GSpeedVisible == true); }
+        }
+
+        public bool IsEEE100Enabled
+        {
+            get { return IsAdvertise_100BASE_TX_FD == true; }
+        }
 
         public bool IsForcedSpeedVisible
         {
             get { return _linkProperties?.SpeedMode == "Forced"; }
+        }
+
+        public bool IsMasterSlaveForcedVisible
+        {
+            get
+            {
+                return (IsGigabitBoard == true)
+                    && (_linkProperties?.SpeedMode == "Forced")
+                    && (_linkProperties?.ForcedSpeed == "SPEED_1000BASE_T_FD"); 
+            }
+        }
+
+        public bool IsMasterSlavePrefVisible
+        {
+            get
+            {
+                return (IsGigabitBoard == true)
+                    && (_linkProperties?.SpeedMode == "Advertised")
+                    && (IsAdvertise_1000BASE_T_FD == true || IsAdvertise_1000BASE_T_HD == true);
+            }
         }
 
 #if !DISABLE_TSN && !DISABLE_T1L
@@ -542,6 +632,7 @@ namespace ADIN.WPF.ViewModel
                 }
 
                 OnPropertyChanged(nameof(SelectedForcedSpeed));
+                OnPropertyChanged(nameof(IsMasterSlaveForcedVisible));
             }
         }
 
@@ -557,7 +648,29 @@ namespace ADIN.WPF.ViewModel
                 if (_selectedDeviceStore.SelectedDevice != null)
                 {
                     _linkProperties.MasterSlaveAdvertise = value;
-                    ((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).SetMasterSlave(_linkProperties.MasterSlaveAdvertise);
+
+                    if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)
+                    {
+                        ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
+
+                        if (_linkProperties.MasterSlaveAdvertise == "Master" && _linkProperties.SpeedMode == "Advertised")
+                            fwAPI.SetMasterSlave("Prefer_Master");
+                        else if (_linkProperties.MasterSlaveAdvertise == "Slave" && _linkProperties.SpeedMode == "Advertised")
+                            fwAPI.SetMasterSlave("Prefer_Slave");
+                        else if (_linkProperties.MasterSlaveAdvertise == "Master" && _linkProperties.SpeedMode == "Forced")
+                            fwAPI.SetMasterSlave("Forced_Master");
+                        else if (_linkProperties.MasterSlaveAdvertise == "Slave" && _linkProperties.SpeedMode == "Forced")
+                            fwAPI.SetMasterSlave("Forced_Slave");
+                        else
+                        {
+                            //Do nothing
+                        }
+                    }
+                    else
+                    {
+                        ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                        fwAPI.SetMasterSlave(_linkProperties.MasterSlaveAdvertise);
+                    }
                 }
 
                 OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
@@ -620,6 +733,8 @@ namespace ADIN.WPF.ViewModel
                 OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
                 OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
                 OnPropertyChanged(nameof(IsForcedSpeedVisible));
+                OnPropertyChanged(nameof(IsMasterSlaveForcedVisible));
+                OnPropertyChanged(nameof(IsMasterSlavePrefVisible));
             }
         }
 
@@ -692,8 +807,6 @@ namespace ADIN.WPF.ViewModel
                 case BoardType.ADIN1100:
                 case BoardType.ADIN1110:
                 case BoardType.ADIN2111:
-                    OnPropertyChanged(nameof(MasterSlaveAdvertises));
-                    OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
                     OnPropertyChanged(nameof(TxLevels));
                     OnPropertyChanged(nameof(SelectedTxLevel));
                     break;
@@ -711,6 +824,12 @@ namespace ADIN.WPF.ViewModel
                     OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
                     OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
                     OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
+                    OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                    OnPropertyChanged(nameof(IsDownspeed10Enabled));
+                    OnPropertyChanged(nameof(IsEEE1000Enabled));
+                    OnPropertyChanged(nameof(IsEEE100Enabled));
+                    OnPropertyChanged(nameof(IsMasterSlaveForcedVisible));
+                    OnPropertyChanged(nameof(IsMasterSlavePrefVisible));
                     OnPropertyChanged(nameof(SetDownSpeedRetries));
                     OnPropertyChanged(nameof(ForcedSpeeds));
                     OnPropertyChanged(nameof(SelectedForcedSpeed));
@@ -723,6 +842,8 @@ namespace ADIN.WPF.ViewModel
                 default:
                     break;
             }
+            OnPropertyChanged(nameof(MasterSlaveAdvertises));
+            OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
         }
     }
 }
