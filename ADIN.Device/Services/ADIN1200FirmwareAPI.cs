@@ -27,7 +27,7 @@ namespace ADIN.Device.Services
         private IFTDIServices _ftdiService;
         private List<string> _localAdvertisedSpeeds = new List<string>();
         private object _mainLock = new object();
-        private uint _phyAddress;
+        private int _phyAddress;
         private EthPhyState _phyState;
         private ObservableCollection<RegisterModel> _registers;
         private IRegisterService _registerService;
@@ -35,7 +35,8 @@ namespace ADIN.Device.Services
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
         private MseModel _mse = new MseModel("-");
-        public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
+
+        public ADIN1200FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, int phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
             _registers = registers;

@@ -17,7 +17,7 @@ namespace ADIN.Device.Models
         private IFTDIServices _ftdiService;
         private IRegisterService _registerService;
 
-        public ADIN2111Model(IFTDIServices ftdiService, IRegisterService registerService, uint portNum, object mainLock)
+        public ADIN2111Model(IFTDIServices ftdiService, IRegisterService registerService, int portNum, object mainLock)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;

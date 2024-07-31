@@ -20,7 +20,7 @@ namespace ADIN.Device.Models
         private IRegisterService _registerService;
         private string registerJsonFile;
 
-        public ADIN1200Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock, uint phyAddress)
+        public ADIN1200Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock, int phyAddress)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;

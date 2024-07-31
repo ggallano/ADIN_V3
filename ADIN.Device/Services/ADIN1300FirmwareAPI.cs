@@ -26,7 +26,7 @@ namespace ADIN.Device.Services
         private string _feedbackMessage;
         private IFTDIServices _ftdiService;
         private object _mainLock = new object();
-        private uint _phyAddress;
+        private int _phyAddress;
         private EthPhyState _phyState;
         private ObservableCollection<RegisterModel> _registers;
         private IRegisterService _registerService;
@@ -34,7 +34,7 @@ namespace ADIN.Device.Services
         private uint checkedFramesErrors = 0;
         private MseModel _mse = new MseModel("-");
 
-        public ADIN1300FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
+        public ADIN1300FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, int phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
             _registers = registers;

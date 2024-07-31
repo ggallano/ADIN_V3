@@ -7,8 +7,8 @@ namespace ADIN.Device.Models
 {
     public class ADINChip
     {
-        public int PhyAddress { get; set; }
-
         public uint ModelID { get; set; }
+        public int PhyAddress { get; set; }
+        public int PortNum { get; set; }
     }
 }

@@ -29,29 +29,36 @@ namespace ADIN.Device.Services
             adinChipPresent = new List<ADINChip>();
         }
 
-        public List<ADINChip> GetModelNum(uint regAddress)
+        public List<ADINChip> GetModelNum(uint regAddress, bool isMultiChipSupported)
         {
             uint phyAddress = 0;
 
 
             switch (boardName)
             {
+#if !DISABLE_T1L
                 case "EVAL-ADIN1100FMCZ":
-                    break;
                 case "EVAL-ADIN1100EBZ":
                 case "DEMO-ADIN1100-DIZ":
                 case "DEMO-ADIN1100D2Z":
-                    Clause22CheckModelNum();
+                    Cl22CheckModelNum();
+                    if (!isMultiChipSupported)
+                        adinChipPresent.RemoveAll(x => x.ModelID != 0x08);
                     break;
                 case "EVAL-ADIN1110EBZ":
+                    PhyReadCheckModelNum();
                     break;
                 case "EVAL-ADIN2111EBZ":
                 case "EVAL-ADIN2111D1Z":
+                    PhyReadCheckModelNum(true);
                     break;
+#endif
+#if !DISABLE_TSN
                 case "ADIN1300 MDIO DONGLE":
                 case "ADIN1200 MDIO DONGLE":
-                    Clause22CheckModelNum();
+                    Cl22CheckModelNum();
                     break;
+#endif
                 default:
                     break;
             }
@@ -59,46 +66,61 @@ namespace ADIN.Device.Services
             return adinChipPresent;
         }
 
-        //private void PhyReadCheckModelNum()
-        //{
-        //    for (int phyAddress = 0; phyAddress < 7; phyAddress++)
-        //    {
-        //        var command = $"mdiord_cl45 {phyAddress},0x1E0003\n";
+        private void PhyReadCheckModelNum(bool hasPort = false)
+        {
+            if (!hasPort)
+            {
+                var command = $"phyread 0x1E0003\n";
 
-        //        _ftdiService.Purge();
-        //        _ftdiService.SendData(command);
+                _ftdiService.Purge();
+                _ftdiService.SendData(command);
 
-        //        response = _ftdiService.ReadCommandResponse().Trim();
+                response = _ftdiService.ReadCommandResponse().Trim();
 
-        //        if (response.Contains("ERROR"))
-        //            continue;
+                if (response.Contains("ERROR"))
+                    return;
 
-        //        modelNum = (Convert.ToUInt32(response, 16) & 0x3F0) >> 4;
+                modelNum = (Convert.ToUInt32(response, 16) & 0x3F0) >> 4;
 
-        //        Debug.WriteLine($"Command:{command.TrimEnd()}");
-        //        Debug.WriteLine($"Response:{response}");
+                Debug.WriteLine($"Command:{command.TrimEnd()}");
+                Debug.WriteLine($"Response:{response}");
 
-        //        if (modelNum == 0x08)
-        //        {
-        //            adinChipPresent.Add(phyAddress, modelNum);
-        //        }
-        //    }
-        //}
+                if (modelNum == 0x09)
+                {
+                    adinChipPresent.Add(new ADINChip() { PhyAddress = -1, ModelID = modelNum, PortNum = -1 });
+                }
+            }
+            else
+            {
+                for (int portNumber = 1; portNumber < 3; portNumber++)
+                {
+                    var command = $"phyread {portNumber},0x1E0003\n";
 
-        private void Clause22CheckModelNum()
+                    _ftdiService.Purge();
+                    _ftdiService.SendData(command);
+
+                    response = _ftdiService.ReadCommandResponse().Trim();
+
+                    if (response.Contains("ERROR"))
+                        continue;
+
+                    modelNum = (Convert.ToUInt32(response, 16) & 0x3F0) >> 4;
+
+                    Debug.WriteLine($"Command:{command.TrimEnd()}");
+                    Debug.WriteLine($"Response:{response}");
+
+                    if (modelNum == 0x0A)
+                    {
+                        adinChipPresent.Add(new ADINChip() { PhyAddress = -1, ModelID = modelNum, PortNum = portNumber });
+                    }
+                }
+            }
+        }
+
+        private void Cl22CheckModelNum()
         {
             for (int phyAddress = 0; phyAddress < 7; phyAddress++)
             {
-                //var command = $"mdiowrite {phyAddress},0x10,0x1E0003\n";
-
-                //_ftdiService.Purge();
-                //_ftdiService.SendData(command);
-
-                //response = _ftdiService.ReadCommandResponse().Trim();
-
-                //if (response.Contains("ERROR"))
-                //    continue;
-
                 var command2 = $"mdioread {phyAddress},0x1E0003\n";
 
                 _ftdiService.Purge();
@@ -116,7 +138,7 @@ namespace ADIN.Device.Services
 
                 if (modelNum == 0x02 || modelNum == 0x03 || modelNum == 0x06 || modelNum == 0x08)
                 {
-                    adinChipPresent.Add(new ADINChip() { PhyAddress = phyAddress, ModelID = modelNum };
+                    adinChipPresent.Add(new ADINChip() { PhyAddress = phyAddress, ModelID = modelNum, PortNum = -1 });
                 }
             }
         }

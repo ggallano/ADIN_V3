@@ -108,6 +108,7 @@
     <Compile Include="Models\ADIN1300\LoopbackADIN1300.cs" />
     <Compile Include="Models\ADIN1300\TestModeADIN1300.cs" />
     <Compile Include="Models\ADIN2111Model.cs" />
+    <Compile Include="Models\ADINChip.cs" />
     <Compile Include="Models\IClockPinControl.cs" />
     <Compile Include="Models\IDeviceStatus.cs" />
     <Compile Include="Models\IFrameGenChecker.cs" />

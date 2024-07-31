@@ -38,7 +38,7 @@ namespace ADIN.WPF.ViewModel
 
         public string Name => Device.Device.BoardName;
 
-        public uint PortNum => Device.PortNumber;
+        public int PortNum => Device.PortNumber;
 
         public string SerialNumber => Device.Device.SerialNumber;
     }
