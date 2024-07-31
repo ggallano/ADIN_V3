@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace ADIN.WPF.ViewModel
@@ -26,6 +27,7 @@ namespace ADIN.WPF.ViewModel
         private IFTDIServices _ftdiService;
         private SelectedDeviceStore _selectedDeviceStore;
         private FrameContentModel _selectedFrameContent;
+        private bool _isFrameGenAllowed = false;
         private string _srcMacAddress;
         private object _thisLock;
 
@@ -48,6 +50,7 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerStatusChanged += _selectedDeviceStore_FrameGenCheckerStatusChanged;
             _selectedDeviceStore.FrameContentChanged += _selectedDeviceStore_FrameContentChanged;
+            _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStateStatusChanged;
         }
 
         public string DestMacAddress
@@ -219,6 +222,19 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public bool IsFrameGenAllowed
+        {
+            get
+            {
+                return _isFrameGenAllowed == true;
+            }
+            set
+            {
+                _isFrameGenAllowed = value;
+                OnPropertyChanged(nameof(IsFrameGenAllowed));
+            }
+        }
+
 #if !DISABLE_TSN && !DISABLE_T1L
 
         public bool IsT1LBoard
@@ -300,6 +316,7 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerStatusChanged -= _selectedDeviceStore_FrameGenCheckerStatusChanged;
             _selectedDeviceStore.FrameContentChanged -= _selectedDeviceStore_FrameContentChanged;
+            _selectedDeviceStore.LinkStatusChanged -= _selectedDeviceStore_LinkStateStatusChanged;
         }
 
         private void _selectedDeviceStore_FrameContentChanged(FrameType obj)
@@ -307,7 +324,7 @@ namespace ADIN.WPF.ViewModel
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 SelectedFrameContent = _frameGenChecker.FrameContents.Where(x => x.FrameContentType == obj).ToList()[0];
             }));
@@ -318,10 +335,18 @@ namespace ADIN.WPF.ViewModel
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 FrameGeneratorButtonText = status;
                 OnPropertyChanged(nameof(FrameGeneratorButtonText));
+            }));
+        }
+
+        private void _selectedDeviceStore_LinkStateStatusChanged(EthPhyState linkStatus)
+        {
+            System.Windows.Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                IsFrameGenAllowed = linkStatus == EthPhyState.LinkUp ? true : false;
             }));
         }
 
@@ -342,6 +367,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(FrameLength_Slider));
             OnPropertyChanged(nameof(FrameLength_Value));
             OnPropertyChanged(nameof(FrameContents));
+            OnPropertyChanged(nameof(IsFrameGenAllowed));
             OnPropertyChanged(nameof(SrcMacAddress));
             OnPropertyChanged(nameof(DestMacAddress));
             OnPropertyChanged(nameof(EnableMacAddress));
