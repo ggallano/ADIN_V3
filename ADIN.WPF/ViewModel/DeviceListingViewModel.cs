@@ -274,7 +274,7 @@ namespace ADIN.WPF.ViewModel
             {
                 if (!ADINConfirmBoard.ConfirmADINBoard(currentNewDevice.Description))
                     continue;
-                if (currentNewDevice.Description == "")
+                if (currentNewDevice.Description == string.Empty)
                     continue;
                 if (previousDetectedDevices.Contains(currentNewDevice.SerialNumber))
                     continue;

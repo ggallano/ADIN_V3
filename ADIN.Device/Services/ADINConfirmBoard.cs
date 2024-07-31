@@ -20,6 +20,7 @@ namespace ADIN.Device.Services
             "EVAL-ADIN1100FMCZ",
             "EVAL-ADIN1100EBZ",
             "DEMO-ADIN1100-DIZ",
+            "DEMO-ADIN1100D1Z",
             "DEMO-ADIN1100D2Z",
             "EVAL-ADIN1110EBZ",
             "EVAL-ADIN2111EBZ",
