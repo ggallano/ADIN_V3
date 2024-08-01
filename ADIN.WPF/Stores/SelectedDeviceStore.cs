@@ -14,6 +14,8 @@ namespace ADIN.WPF.Stores
     {
         private ADINDevice _selectedDevice;
 
+        public event Action<string> BusyStateChanged;
+
         public event Action<FrameType> FrameContentChanged;
 
         public event Action<string> FrameGenCheckerResetDisplay;
@@ -76,6 +78,11 @@ namespace ADIN.WPF.Stores
                     SelectedDeviceChanged?.Invoke();
                 }
             }
+        }
+
+        public void OnBusyStateChanged(string busyContent)
+        {
+            BusyStateChanged?.Invoke(busyContent);
         }
 
         public void OnLinkStatusChanged(EthPhyState linkStatus)

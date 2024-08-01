@@ -7,6 +7,7 @@ using ADIN.Device.Models;
 using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
+using System.Windows;
 
 namespace ADIN.WPF.Commands
 {
@@ -14,6 +15,7 @@ namespace ADIN.WPF.Commands
     {
         private SelectedDeviceStore _selectedDeviceStore;
         private FrameGenCheckerViewModel _viewModel;
+        private EthPhyState _linkStatus = EthPhyState.Powerdown;
 
         public ExecuteFrameCheckerCommand(FrameGenCheckerViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
         {
@@ -21,12 +23,17 @@ namespace ADIN.WPF.Commands
             _selectedDeviceStore = selectedDeviceStore;
 
             _viewModel.PropertyChanged += _viewModel_PropertyChanged;
+            _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStatusChanged;
         }
 
         public override bool CanExecute(object parameter)
         {
             if (_selectedDeviceStore.SelectedDevice == null)
                 return false;
+
+            if (_linkStatus != EthPhyState.LinkUp)
+                return false;
+
             return base.CanExecute(parameter);
         }
 
@@ -75,6 +82,15 @@ namespace ADIN.WPF.Commands
             }
             else { } //Do nothing
 #endif
+        }
+
+        private void _selectedDeviceStore_LinkStatusChanged(EthPhyState linkStatus)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _linkStatus = linkStatus;
+                OnCanExecuteChanged();
+            });
         }
 
         private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

@@ -13,6 +13,8 @@ using Helper.FileToLoad;
 using Helper.SaveToFile;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Windows;
 
 namespace ADIN.WPF.Commands
 {
@@ -103,49 +105,59 @@ namespace ADIN.WPF.Commands
             if (ofdResult == false)
                 return;
 
-            try
+            _viewModel.IsLoadingRegisters = true;
+
+            Task.Run(() =>
             {
-                _selectedDeviceStore.OnViewModelFeedbackLog($"Load Register....", FeedbackType.Verbose);
-                register_temp = loader.XmlFileLoadContent(ofd.FileName);
-                foreach (var register in register_temp)
+                try
                 {
-                    string response = string.Empty;
-#if !DISABLE_T1L
-                    if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                    //_selectedDeviceStore.OnViewModelFeedbackLog($"Load Register....", FeedbackType.Verbose);
+                    register_temp = loader.XmlFileLoadContent(ofd.FileName);
+                    foreach (var register in register_temp)
                     {
-                        ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                        response = fwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
-                    }
+                        string response = string.Empty;
+#if !DISABLE_T1L
+                        if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                        {
+                            ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
+                            response = fwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
+                        }
 #endif
 #if !DISABLE_TSN
-                    if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
-                    {
-                        ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
-                        response = fwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
-                    }
-                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)
-                    {
-                        ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
-                        response = fwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
-                    }
-                    else { } //Do nothing
+                        if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
+                        {
+                            ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
+                            response = fwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
+                        }
+                        else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)
+                        {
+                            ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
+                            response = fwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
+                        }
+                        else { } //Do nothing
 #endif
-                    //var response = _selectedDevice.FwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
-                    if (!response.Contains("OK"))
-                    {
-                        _selectedDeviceStore.OnViewModelErrorOccured($"[Load Register] Error in writing the register[{register.Name}]");
-                        continue;
+                        //var response = _selectedDevice.FwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
+                        if (!response.Contains("OK"))
+                        {
+                            _selectedDeviceStore.OnViewModelErrorOccured($"[Load Register] Error in writing the register[{register.Name}]");
+                            continue;
+                        }
+                        _selectedDeviceStore.OnViewModelFeedbackLog($"Loading the register: {register.Name}, value: {register.Value}", FeedbackType.Verbose);
                     }
-                    _selectedDeviceStore.OnViewModelFeedbackLog($"Loading the register: {register.Name}, value: {register.Value}", FeedbackType.Verbose);
+
+                    _selectedDeviceStore.OnViewModelFeedbackLog($"Registers load from {ofd.FileName}.", FeedbackType.Verbose);
                 }
-                
-                _selectedDeviceStore.OnViewModelFeedbackLog($"Registers load from {ofd.FileName}.", FeedbackType.Verbose);
-            }
-            catch (InvalidOperationException ex)
-            {
-                _selectedDeviceStore.OnViewModelErrorOccured("[Load Registers] Invalid operation occurred while attempting to load the XML");
-                throw;
-            }
+                catch (InvalidOperationException ex)
+                {
+                    _selectedDeviceStore.OnViewModelErrorOccured("[Load Registers] Invalid operation occurred while attempting to load the XML");
+                    throw;
+                }
+
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    _viewModel.IsLoadingRegisters = false;
+                }));
+            });
         }
 
         private void SaveXmlFile()
@@ -158,19 +170,29 @@ namespace ADIN.WPF.Commands
             if (sfdResult == false)
                 return;
 
-            _selectedDeviceStore.OnViewModelFeedbackLog($"Refreshing register contents before saving to {sfd.FileName}");
-            var registers = _selectedDevice.FwAPI.ReadRegsiters();
-            _selectedDeviceStore.OnViewModelFeedbackLog($"Refreshing register contents done.");
+            _viewModel.IsSavingRegisters = true;
 
-            try
+            Task.Run(() =>
             {
-                writer.WriteContent(sfd.FileName, registers);
-                _selectedDeviceStore.OnViewModelFeedbackLog($"Registers saved to {sfd.FileName}");
-            }
-            catch (InvalidOperationException ex)
-            {
-                _selectedDeviceStore.OnViewModelErrorOccured("[Save Registers] Invalid operation occurred while attempting to save the XML");
-            }
+                _selectedDeviceStore.OnViewModelFeedbackLog($"Refreshing register contents before saving to {sfd.FileName}");
+                var registers = _selectedDevice.FwAPI.ReadRegsiters();
+                _selectedDeviceStore.OnViewModelFeedbackLog($"Refreshing register contents done.");
+
+                try
+                {
+                    writer.WriteContent(sfd.FileName, registers);
+                    _selectedDeviceStore.OnViewModelFeedbackLog($"Registers saved to {sfd.FileName}");
+                }
+                catch (InvalidOperationException ex)
+                {
+                    _selectedDeviceStore.OnViewModelErrorOccured("[Save Registers] Invalid operation occurred while attempting to save the XML");
+                }
+
+                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    _viewModel.IsSavingRegisters = false;
+                }));
+            });
         }
     }
 }
