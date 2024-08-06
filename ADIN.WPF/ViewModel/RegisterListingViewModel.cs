@@ -115,10 +115,10 @@ namespace ADIN.WPF.ViewModel
 
                         if (Registers != null)
                         {
-                            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                            System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                             {
                                 OnPropertyChanged(nameof(Registers));
-                            });
+                            }));
                         }
                     }
                     _loggedOneError = false;
