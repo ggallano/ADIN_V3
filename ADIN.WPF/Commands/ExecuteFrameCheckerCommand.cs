@@ -7,6 +7,7 @@ using ADIN.Device.Models;
 using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using ADIN.WPF.ViewModel;
+using System;
 using System.Windows;
 
 namespace ADIN.WPF.Commands
@@ -86,11 +87,11 @@ namespace ADIN.WPF.Commands
 
         private void _selectedDeviceStore_LinkStatusChanged(EthPhyState linkStatus)
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 _linkStatus = linkStatus;
                 OnCanExecuteChanged();
-            });
+            }));
         }
 
         private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
