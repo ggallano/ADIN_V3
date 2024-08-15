@@ -828,8 +828,6 @@ namespace ADIN.WPF.ViewModel
                     OnPropertyChanged(nameof(IsDownspeed10Enabled));
                     OnPropertyChanged(nameof(IsEEE1000Enabled));
                     OnPropertyChanged(nameof(IsEEE100Enabled));
-                    OnPropertyChanged(nameof(IsMasterSlaveForcedVisible));
-                    OnPropertyChanged(nameof(IsMasterSlavePrefVisible));
                     OnPropertyChanged(nameof(SetDownSpeedRetries));
                     OnPropertyChanged(nameof(ForcedSpeeds));
                     OnPropertyChanged(nameof(SelectedForcedSpeed));
@@ -844,6 +842,8 @@ namespace ADIN.WPF.ViewModel
             }
             OnPropertyChanged(nameof(MasterSlaveAdvertises));
             OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
+            OnPropertyChanged(nameof(IsMasterSlaveForcedVisible));
+            OnPropertyChanged(nameof(IsMasterSlavePrefVisible));
         }
     }
 }
