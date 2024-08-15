@@ -189,7 +189,7 @@
                 </Grid>
 
                 <Grid Visibility="{Binding IsMasterSlavePrefVisible, Converter={StaticResource booleanVisibilityConverter}}">
-                    <GroupBox Header="Mater/Slave" Style="{StaticResource GroupBoxStyle}" Margin="0 0 0 5">
+                    <GroupBox Header="Master/Slave" Style="{StaticResource GroupBoxStyle}" Margin="0 0 0 5">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="220"/>
@@ -202,7 +202,7 @@
                 </Grid>
 
                 <Grid Visibility="{Binding IsMasterSlaveForcedVisible, Converter={StaticResource booleanVisibilityConverter}}">
-                    <GroupBox Header="Mater/Slave" Style="{StaticResource GroupBoxStyle}" Margin="0 0 0 5">
+                    <GroupBox Header="Master/Slave" Style="{StaticResource GroupBoxStyle}" Margin="0 0 0 5">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="220"/>
@@ -215,7 +215,7 @@
                 </Grid>
 
                 <Grid Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
-                    <GroupBox Header="Auto-negotiation Mater/Slave Advertisement" Style="{StaticResource GroupBoxStyle}" Margin="0 0 0 5">
+                    <GroupBox Header="Auto-negotiation Master/Slave Advertisement" Style="{StaticResource GroupBoxStyle}" Margin="0 0 0 5">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="220"/>
