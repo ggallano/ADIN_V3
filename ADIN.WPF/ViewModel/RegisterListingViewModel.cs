@@ -112,14 +112,6 @@ namespace ADIN.WPF.ViewModel
                     {
                         if (_selectedDevice != null && _ftdiService.IsComOpen)
                             _selectedDevice.FwAPI.ReadRegsiters();
-
-                        if (Registers != null)
-                        {
-                            System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                            {
-                                OnPropertyChanged(nameof(Registers));
-                            }));
-                        }
                     }
                     _loggedOneError = false;
                     Thread.Sleep(10);
