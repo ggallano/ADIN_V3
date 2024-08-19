@@ -318,30 +318,12 @@ namespace ADIN.Device.Services
             _mse.MseA_Combined = _mse.MseA_Raw + ", " + _mse.MseA_Max;
             _mse.MseA_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseA_Raw)).ToString("0.00") + " dB";
 
-            var resolvedHCD = (EthernetSpeeds)Convert.ToUInt32(ReadYodaRg("HcdTech"));
-
-            if ((resolvedHCD == EthernetSpeeds.SPEED_1000BASE_T_HD)
-             || (resolvedHCD == EthernetSpeeds.SPEED_1000BASE_T_FD))
-            {
-                _mse.MseB_Raw = ReadYodaRg("MseB");
-                _mse.MseC_Raw = ReadYodaRg("MseC");
-                _mse.MseD_Raw = ReadYodaRg("MseD");
-
-                if (_mse.MseB_Max == "-" || Convert.ToUInt32(_mse.MseB_Max) < Convert.ToUInt32(_mse.MseB_Raw))
-                    _mse.MseB_Max = _mse.MseB_Raw;
-                if (_mse.MseC_Max == "-" || Convert.ToUInt32(_mse.MseC_Max) < Convert.ToUInt32(_mse.MseC_Raw))
-                    _mse.MseC_Max = _mse.MseC_Raw;
-                if (_mse.MseD_Max == "-" || Convert.ToUInt32(_mse.MseD_Max) < Convert.ToUInt32(_mse.MseD_Raw))
-                    _mse.MseD_Max = _mse.MseD_Raw;
-
-                _mse.MseB_Combined = _mse.MseB_Raw + ", " + _mse.MseB_Max;
-                _mse.MseC_Combined = _mse.MseC_Raw + ", " + _mse.MseC_Max;
-                _mse.MseD_Combined = _mse.MseD_Raw + ", " + _mse.MseD_Max;
-
-                _mse.MseB_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseB_Raw)).ToString("0.00") + " dB";
-                _mse.MseC_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseC_Raw)).ToString("0.00") + " dB";
-                _mse.MseD_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseD_Raw)).ToString("0.00") + " dB";
-            }
+            _mse.MseB_Combined = "-";
+            _mse.MseC_Combined = "-";
+            _mse.MseD_Combined = "-";
+            _mse.MseB_dB = "-";
+            _mse.MseC_dB = "-";
+            _mse.MseD_dB = "-";
 
             return _mse;
         }

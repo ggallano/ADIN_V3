@@ -273,6 +273,15 @@ namespace ADIN.Device.Services
                 _mse.MseC_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseC_Raw)).ToString("0.00") + " dB";
                 _mse.MseD_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseD_Raw)).ToString("0.00") + " dB";
             }
+            else
+            {
+                _mse.MseB_Combined = "-";
+                _mse.MseC_Combined = "-";
+                _mse.MseD_Combined = "-";
+                _mse.MseB_dB = "-";
+                _mse.MseC_dB = "-";
+                _mse.MseD_dB = "-";
+            }
 
             return _mse;
         }
