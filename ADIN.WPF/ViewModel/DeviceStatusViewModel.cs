@@ -488,7 +488,7 @@ namespace ADIN.WPF.ViewModel
                         }
 
                     _loggedOneError = false;
-                    Thread.Sleep(500);
+                    Thread.Sleep(10);
                 }
                 catch (NotImplementedException)
                 {
