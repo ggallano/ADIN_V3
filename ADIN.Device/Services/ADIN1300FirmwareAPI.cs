@@ -33,6 +33,7 @@ namespace ADIN.Device.Services
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
         private MseModel _mse = new MseModel("-");
+        private uint fcEn_st;
 
         public ADIN1300FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
         {
@@ -162,7 +163,7 @@ namespace ADIN.Device.Services
 
         public void GetFrameCheckerStatus()
         {
-            uint fcEn_st = Convert.ToUInt32(ReadYodaRg("FcEn"));
+            fcEn_st = Convert.ToUInt32(ReadYodaRg("FcEn"));
             uint fcTxSel_st = Convert.ToUInt32(ReadYodaRg("FcTxSel"));
 
             if (fcEn_st == 0)
@@ -605,6 +606,8 @@ namespace ADIN.Device.Services
                 // This condition will skip reading the value for FG_DONE due to conflict in 
                 // FrameGenChecker operation it does not terminate properly because the flag was already at zero value.
                 if (register.Name == "FgDone")
+                    continue;
+                if (fcEn_st != 0 && (register.Name == "FcFrmCntL" || register.Name == "FcFrmCntH" || register.Name == "RxErrCnt"))
                     continue;
 
                 register.Value = ReadYodaRg(register.Address);
