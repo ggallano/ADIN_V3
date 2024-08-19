@@ -1598,6 +1598,7 @@ namespace ADIN.Device.Services
                         /* This register does not exist in this device */
                     }
                 }
+                GigabitCableDiagCompleted?.Invoke(this, cableDiagnosticsStatus);
             }
         }
 
