@@ -83,7 +83,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _selectedRegister = value;
-                ImagePath = _selectedRegister.Image;
+                ImagePath = _selectedRegister?.Image;
                 OnPropertyChanged(nameof(SelectedRegister));
             }
         }
