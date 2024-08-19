@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace ADI.Register.Models
 {
@@ -20,7 +21,7 @@ namespace ADI.Register.Models
         W
     }
 
-    public class RegisterModel
+    public class RegisterModel : INotifyPropertyChanged
     {
         private string _value;
 
@@ -47,6 +48,7 @@ namespace ADI.Register.Models
             {
                 _value = value;
                 SetBitFieldsValue(Convert.ToUInt32(_value, 16));
+                OnRegValueChanged(nameof(Value));
             }
         }
 
@@ -74,6 +76,17 @@ namespace ADI.Register.Models
                 maskValue = maskWidth << (int)bitfield.Start;
                 bitfield.Value = (value & maskValue) >> (int)bitfield.Start;
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void Dispose()
+        {
+        }
+
+        protected virtual void OnRegValueChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
