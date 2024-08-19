@@ -666,10 +666,24 @@ namespace ADIN.WPF.ViewModel
                             //Do nothing
                         }
                     }
-                    else
+                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
                     {
                         ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
                         fwAPI.SetMasterSlave(_linkProperties.MasterSlaveAdvertise);
+                    }
+                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
+                    {
+                        ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
+                        fwAPI.SetMasterSlave(_linkProperties.MasterSlaveAdvertise);
+                    }
+                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
+                    {
+                        ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
+                        fwAPI.SetMasterSlave(_linkProperties.MasterSlaveAdvertise);
+                    }
+                    else
+                    {
+                        //Do nothing
                     }
                 }
 
@@ -750,7 +764,17 @@ namespace ADIN.WPF.ViewModel
                 if (_selectedDeviceStore.SelectedDevice != null)
                 {
                     _linkProperties.TxAdvertise = value;
-                    ((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).SetTxLevel(_linkProperties.TxAdvertise);
+
+                    if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+                        ((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).SetTxLevel(_linkProperties.TxAdvertise);
+                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
+                        ((ADIN1110FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).SetTxLevel(_linkProperties.TxAdvertise);
+                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
+                        ((ADIN2111FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).SetTxLevel(_linkProperties.TxAdvertise);
+                    else
+                    {
+                        //Do nothings
+                    }
                 }
 
                 OnPropertyChanged(nameof(SelectedTxLevel));
