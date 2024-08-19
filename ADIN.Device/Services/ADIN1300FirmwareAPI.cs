@@ -462,7 +462,7 @@ namespace ADIN.Device.Services
         }
         public string MdioReadCl22(uint regAddress)
         {
-            lock (_mainLock)
+            //lock (_mainLock)
             {
                 string response = string.Empty;
                 string command = string.Empty;
@@ -489,7 +489,7 @@ namespace ADIN.Device.Services
 
         public string MdioReadCl45(uint regAddress)
         {
-            lock (_mainLock)
+            //lock (_mainLock)
             {
                 string response = string.Empty;
                 string command = string.Empty;
@@ -518,7 +518,7 @@ namespace ADIN.Device.Services
 
         public string MdioWriteCl22(uint regAddress, uint data)
         {
-            lock (_mainLock)
+            //lock (_mainLock)
             {
                 string response = string.Empty;
                 string command = string.Empty;
@@ -545,7 +545,7 @@ namespace ADIN.Device.Services
 
         public string MdioWriteCl45(uint regAddress, uint data)
         {
-            lock (_mainLock)
+            //lock (_mainLock)
             {
                 string response = string.Empty;
                 string command = string.Empty;
@@ -1340,14 +1340,17 @@ namespace ADIN.Device.Services
         {
             string value = string.Empty;
 
-            uint pageNumber = registerAddress >> 16;
-            if (pageNumber == 0)
+            lock (_mainLock)
             {
-                value = MdioReadCl22(registerAddress);
-            }
-            else
-            {
-                value = MdioReadCl45(registerAddress);
+                uint pageNumber = registerAddress >> 16;
+                if (pageNumber == 0)
+                {
+                    value = MdioReadCl22(registerAddress);
+                }
+                else
+                {
+                    value = MdioReadCl45(registerAddress);
+                }
             }
 
             return value;
@@ -1358,25 +1361,28 @@ namespace ADIN.Device.Services
             RegisterModel register = null;
             string value = string.Empty;
 
-            register = GetRegister(name);
-            if (register == null)
-                throw new ApplicationException("Invalid Register");
+            lock (_mainLock)
+            {
+                register = GetRegister(name);
+                if (register == null)
+                    throw new ApplicationException("Invalid Register");
 
-            uint pageNumber = register.Address >> 16;
-            uint pageAddr = register.Address & 0xFFFF;
-            if (pageNumber == 0)
-            {
-                register.Value = MdioReadCl22(register.Address);
-            }
-            else
-            {
-                register.Value = MdioReadCl45(register.Address);
-            }
+                uint pageNumber = register.Address >> 16;
+                uint pageAddr = register.Address & 0xFFFF;
+                if (pageNumber == 0)
+                {
+                    register.Value = MdioReadCl22(register.Address);
+                }
+                else
+                {
+                    register.Value = MdioReadCl45(register.Address);
+                }
 
-            foreach (var bitfield in register.BitFields)
-            {
-                if (bitfield.Name == name)
-                    value = bitfield.Value.ToString();
+                foreach (var bitfield in register.BitFields)
+                {
+                    if (bitfield.Name == name)
+                        value = bitfield.Value.ToString();
+                }
             }
 
             return value;
@@ -1489,30 +1495,36 @@ namespace ADIN.Device.Services
         {
             RegisterModel register = null;
 
-            register = SetRegisterValue(name, value);
+            lock (_mainLock)
+            {
+                register = SetRegisterValue(name, value);
 
-            uint pageNumber = register.Address >> 16;
-            uint pageAddr = register.Address & 0xFFFF;
-            if (pageNumber == 0)
-            {
-                MdioWriteCl22(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
-            }
-            else
-            {
-                MdioWriteCl45(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
+                uint pageNumber = register.Address >> 16;
+                uint pageAddr = register.Address & 0xFFFF;
+                if (pageNumber == 0)
+                {
+                    MdioWriteCl22(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
+                }
+                else
+                {
+                    MdioWriteCl45(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
+                }
             }
         }
 
         private string WriteYodaRg(uint registerAddress, uint value)
         {
-            uint pageNumber = registerAddress >> 16;
-            if (pageNumber == 0)
+            lock (_mainLock)
             {
-                return MdioWriteCl22(registerAddress, value);
-            }
-            else
-            {
-                return MdioWriteCl45(registerAddress, value);
+                uint pageNumber = registerAddress >> 16;
+                if (pageNumber == 0)
+                {
+                    return MdioWriteCl22(registerAddress, value);
+                }
+                else
+                {
+                    return MdioWriteCl45(registerAddress, value);
+                }
             }
         }
 
