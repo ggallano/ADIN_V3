@@ -37,6 +37,7 @@ namespace ADIN.Device.Services
         private uint checkedFramesErrors = 0;
         private double highestMaxSlicer = 0.0d;
         private uint totalSpikeCount = 0;
+        private uint fcEn_st;
 
         public ADIN1110FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
         {
@@ -181,7 +182,7 @@ namespace ADIN.Device.Services
 
         public void GetFrameCheckerStatus()
         {
-            uint fcEn_st = Convert.ToUInt32(ReadYodaRg("FC_EN"));
+            fcEn_st = Convert.ToUInt32(ReadYodaRg("FC_EN"));
             uint fcTxSel_st = Convert.ToUInt32(ReadYodaRg("FC_TX_SEL"));
 
             if (fcEn_st == 0)
@@ -604,6 +605,10 @@ namespace ADIN.Device.Services
         {
             foreach (var register in _registers)
             {
+                if (register.Name == "FG_DONE")
+                    continue;
+                if (fcEn_st != 0 && (register.Name == "FC_FRM_CNT_L" || register.Name == "FC_FRM_CNT_H" || register.Name == "RX_ERR_CNT"))
+                    continue;
                 register.Value = ReadYodaRg(register.Address);
             }
             Debug.WriteLine("ReadRegisters Done");
