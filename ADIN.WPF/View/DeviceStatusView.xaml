@@ -103,6 +103,13 @@
                 </StackPanel>
             </Border>
 
+            <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsVisibleCableLength, Converter={StaticResource booleanVisibilityConverter}}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Cable Length: " Style="{StaticResource DeviceStatusTextBlockstyle}" />
+                    <TextBlock Text="{Binding CableLength}" Style="{StaticResource DeviceStatusValueStyle}"/>
+                </StackPanel>
+            </Border>
+
             <Border Style="{StaticResource BorderSyle}" Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <Grid>
                     <Grid.ColumnDefinitions>
