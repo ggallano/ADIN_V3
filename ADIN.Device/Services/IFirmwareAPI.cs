@@ -28,6 +28,8 @@ namespace ADIN.Device.Services
 
         void DisableLinking(bool isDisabledLinking);
 
+        string GetCableLength();
+
         void GetFrameCheckerStatus();
 
         string GetFrameGeneratorStatus();

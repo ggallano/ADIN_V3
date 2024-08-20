@@ -161,6 +161,16 @@ namespace ADIN.Device.Services
             FeedbackLog(_feedbackMessage, FeedbackType.Info);
         }
 
+        public string GetCableLength()
+        {
+            var CdiagCblLenEst = this.ReadYodaRg("CdiagCblLenEst");
+
+            if (CdiagCblLenEst == "255")
+                return "Unknown Length";
+
+            return CdiagCblLenEst + " m";
+        }
+
         public void GetFrameCheckerStatus()
         {
             fcEn_st = Convert.ToUInt32(ReadYodaRg("FcEn"));

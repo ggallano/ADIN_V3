@@ -90,6 +90,16 @@ namespace ADIN.Device.Services
             }
         }
 
+        public string GetCableLength()
+        {
+            var CdiagCblLenEst = this.ReadYodaRg("CdiagCblLenEst");
+
+            if (CdiagCblLenEst == "255")
+                return "Unknown Length";
+
+            return CdiagCblLenEst + " m";
+        }
+
         public void CableDiagnosticsStatus()
         {
             List<string> cableDiagnosticsStatus = new List<string>();

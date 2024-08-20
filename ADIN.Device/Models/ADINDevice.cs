@@ -22,6 +22,7 @@ namespace ADIN.Device.Models
         public string BoardName => Device.BoardName;
         public BoardRevision BoardRev => Device.BoardRev;
         public bool CableDiagOneTimePopUp { get; set; } = false;
+        public string CableLength { get; set; } = "-";
         public string Checker { get; set; }
         public IClockPinControl ClockPinControl => Device.ClockPinControl;
         public AbstractADINFactory Device { get; set; }

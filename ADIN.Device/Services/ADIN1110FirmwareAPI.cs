@@ -1349,5 +1349,10 @@ namespace ADIN.Device.Services
                 }
             }
         }
+
+        public string GetCableLength()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
