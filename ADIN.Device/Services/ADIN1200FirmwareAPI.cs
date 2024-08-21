@@ -766,7 +766,6 @@ namespace ADIN.Device.Services
 
         public void RunCableDiagnostics(bool enablecrosspairfaultchecking)
         {
-            this.cablediagnosticsRunning = true;
             if (enablecrosspairfaultchecking)
             {
                 this.FeedbackLog("Cross Pair Checking enabled.", FeedbackType.Info);
@@ -780,6 +779,7 @@ namespace ADIN.Device.Services
 
             this.WriteYodaRg("CdiagRun", 1);
             this.FeedbackLog("Running automated cable diagnostics", FeedbackType.Info);
+            this.cablediagnosticsRunning = true;
             //Thread.Sleep(5000);
         }
 
