@@ -33,6 +33,7 @@ namespace ADIN.Device.Services
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
         private MseModel _mse = new MseModel("-");
+        private uint fcEn_st;
 
         public ADIN1300FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
         {
@@ -160,9 +161,19 @@ namespace ADIN.Device.Services
             FeedbackLog(_feedbackMessage, FeedbackType.Info);
         }
 
+        public string GetCableLength()
+        {
+            var CdiagCblLenEst = this.ReadYodaRg("CdiagCblLenEst");
+
+            if (CdiagCblLenEst == "255")
+                return "Unknown Length";
+
+            return CdiagCblLenEst + " m";
+        }
+
         public void GetFrameCheckerStatus()
         {
-            uint fcEn_st = Convert.ToUInt32(ReadYodaRg("FcEn"));
+            fcEn_st = Convert.ToUInt32(ReadYodaRg("FcEn"));
             uint fcTxSel_st = Convert.ToUInt32(ReadYodaRg("FcTxSel"));
 
             if (fcEn_st == 0)
@@ -272,6 +283,15 @@ namespace ADIN.Device.Services
                 _mse.MseB_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseB_Raw)).ToString("0.00") + " dB";
                 _mse.MseC_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseC_Raw)).ToString("0.00") + " dB";
                 _mse.MseD_dB = SignalToNoiseRatio.GigabitCompute(Convert.ToDouble(_mse.MseD_Raw)).ToString("0.00") + " dB";
+            }
+            else
+            {
+                _mse.MseB_Combined = "-";
+                _mse.MseC_Combined = "-";
+                _mse.MseD_Combined = "-";
+                _mse.MseB_dB = "-";
+                _mse.MseC_dB = "-";
+                _mse.MseD_dB = "-";
             }
 
             return _mse;
@@ -452,7 +472,7 @@ namespace ADIN.Device.Services
         }
         public string MdioReadCl22(uint regAddress)
         {
-            lock (_mainLock)
+            //lock (_mainLock)
             {
                 string response = string.Empty;
                 string command = string.Empty;
@@ -479,7 +499,7 @@ namespace ADIN.Device.Services
 
         public string MdioReadCl45(uint regAddress)
         {
-            lock (_mainLock)
+            //lock (_mainLock)
             {
                 string response = string.Empty;
                 string command = string.Empty;
@@ -508,7 +528,7 @@ namespace ADIN.Device.Services
 
         public string MdioWriteCl22(uint regAddress, uint data)
         {
-            lock (_mainLock)
+            //lock (_mainLock)
             {
                 string response = string.Empty;
                 string command = string.Empty;
@@ -535,7 +555,7 @@ namespace ADIN.Device.Services
 
         public string MdioWriteCl45(uint regAddress, uint data)
         {
-            lock (_mainLock)
+            //lock (_mainLock)
             {
                 string response = string.Empty;
                 string command = string.Empty;
@@ -596,6 +616,8 @@ namespace ADIN.Device.Services
                 // This condition will skip reading the value for FG_DONE due to conflict in 
                 // FrameGenChecker operation it does not terminate properly because the flag was already at zero value.
                 if (register.Name == "FgDone")
+                    continue;
+                if (fcEn_st != 0 && (register.Name == "FcFrmCntL" || register.Name == "FcFrmCntH" || register.Name == "RxErrCnt"))
                     continue;
 
                 register.Value = ReadYodaRg(register.Address);
@@ -744,19 +766,19 @@ namespace ADIN.Device.Services
             switch (setFrcdSpd)
             {
                 case "SPEED_1000BASE_T_FD":
-                    this.WriteYodaRg("SpeedSelMsb", 2);
-                    this.WriteYodaRg("SpeedSelLsb", 2);
+                    this.WriteYodaRg("SpeedSelMsb", 1);
+                    this.WriteYodaRg("SpeedSelLsb", 0);
                     this.WriteYodaRg("DplxMode", 1);
                     this.FeedbackLog("10BASE-T full duplex forced speed selected", FeedbackType.Info);
                     break;
                 case "SPEED_100BASE_TX_FD":
-                    this.WriteYodaRg("SpeedSelMsb", 1);
+                    this.WriteYodaRg("SpeedSelMsb", 0);
                     this.WriteYodaRg("SpeedSelLsb", 1);
                     this.WriteYodaRg("DplxMode", 1);
                     this.FeedbackLog("100BASE-TX full duplex forced speed selected", FeedbackType.Info);
                     break;
                 case "SPEED_100BASE_TX_HD":
-                    this.WriteYodaRg("SpeedSelMsb", 1);
+                    this.WriteYodaRg("SpeedSelMsb", 0);
                     this.WriteYodaRg("SpeedSelLsb", 1);
                     this.WriteYodaRg("DplxMode", 0);
                     this.FeedbackLog("100BASE-TX half duplex forced speed selected", FeedbackType.Info);
@@ -1328,14 +1350,17 @@ namespace ADIN.Device.Services
         {
             string value = string.Empty;
 
-            uint pageNumber = registerAddress >> 16;
-            if (pageNumber == 0)
+            lock (_mainLock)
             {
-                value = MdioReadCl22(registerAddress);
-            }
-            else
-            {
-                value = MdioReadCl45(registerAddress);
+                uint pageNumber = registerAddress >> 16;
+                if (pageNumber == 0)
+                {
+                    value = MdioReadCl22(registerAddress);
+                }
+                else
+                {
+                    value = MdioReadCl45(registerAddress);
+                }
             }
 
             return value;
@@ -1346,25 +1371,28 @@ namespace ADIN.Device.Services
             RegisterModel register = null;
             string value = string.Empty;
 
-            register = GetRegister(name);
-            if (register == null)
-                throw new ApplicationException("Invalid Register");
+            lock (_mainLock)
+            {
+                register = GetRegister(name);
+                if (register == null)
+                    throw new ApplicationException("Invalid Register");
 
-            uint pageNumber = register.Address >> 16;
-            uint pageAddr = register.Address & 0xFFFF;
-            if (pageNumber == 0)
-            {
-                register.Value = MdioReadCl22(register.Address);
-            }
-            else
-            {
-                register.Value = MdioReadCl45(register.Address);
-            }
+                uint pageNumber = register.Address >> 16;
+                uint pageAddr = register.Address & 0xFFFF;
+                if (pageNumber == 0)
+                {
+                    register.Value = MdioReadCl22(register.Address);
+                }
+                else
+                {
+                    register.Value = MdioReadCl45(register.Address);
+                }
 
-            foreach (var bitfield in register.BitFields)
-            {
-                if (bitfield.Name == name)
-                    value = bitfield.Value.ToString();
+                foreach (var bitfield in register.BitFields)
+                {
+                    if (bitfield.Name == name)
+                        value = bitfield.Value.ToString();
+                }
             }
 
             return value;
@@ -1477,30 +1505,36 @@ namespace ADIN.Device.Services
         {
             RegisterModel register = null;
 
-            register = SetRegisterValue(name, value);
+            lock (_mainLock)
+            {
+                register = SetRegisterValue(name, value);
 
-            uint pageNumber = register.Address >> 16;
-            uint pageAddr = register.Address & 0xFFFF;
-            if (pageNumber == 0)
-            {
-                MdioWriteCl22(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
-            }
-            else
-            {
-                MdioWriteCl45(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
+                uint pageNumber = register.Address >> 16;
+                uint pageAddr = register.Address & 0xFFFF;
+                if (pageNumber == 0)
+                {
+                    MdioWriteCl22(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
+                }
+                else
+                {
+                    MdioWriteCl45(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
+                }
             }
         }
 
         private string WriteYodaRg(uint registerAddress, uint value)
         {
-            uint pageNumber = registerAddress >> 16;
-            if (pageNumber == 0)
+            lock (_mainLock)
             {
-                return MdioWriteCl22(registerAddress, value);
-            }
-            else
-            {
-                return MdioWriteCl45(registerAddress, value);
+                uint pageNumber = registerAddress >> 16;
+                if (pageNumber == 0)
+                {
+                    return MdioWriteCl22(registerAddress, value);
+                }
+                else
+                {
+                    return MdioWriteCl45(registerAddress, value);
+                }
             }
         }
 
@@ -1540,7 +1574,6 @@ namespace ADIN.Device.Services
 
         public void RunCableDiagnostics(bool enablecrosspairfaultchecking)
         {
-            this.cablediagnosticsRunning = true;
             if (enablecrosspairfaultchecking)
             {
                 this.FeedbackLog("Cross Pair Checking enabled.", FeedbackType.Info);
@@ -1554,6 +1587,7 @@ namespace ADIN.Device.Services
 
             this.WriteYodaRg("CdiagRun", 1);
             this.FeedbackLog("Running automated cable diagnostics", FeedbackType.Info);
+            this.cablediagnosticsRunning = true;
         }
 
         public void CableDiagnosticsStatus()
@@ -1598,6 +1632,7 @@ namespace ADIN.Device.Services
                         /* This register does not exist in this device */
                     }
                 }
+                GigabitCableDiagCompleted?.Invoke(this, cableDiagnosticsStatus);
             }
         }
 

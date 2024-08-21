@@ -83,7 +83,7 @@ namespace ADIN.WPF.ViewModel
             set
             {
                 _selectedRegister = value;
-                ImagePath = _selectedRegister.Image;
+                ImagePath = _selectedRegister?.Image;
                 OnPropertyChanged(nameof(SelectedRegister));
             }
         }
@@ -112,14 +112,6 @@ namespace ADIN.WPF.ViewModel
                     {
                         if (_selectedDevice != null && _ftdiService.IsComOpen)
                             _selectedDevice.FwAPI.ReadRegsiters();
-
-                        if (Registers != null)
-                        {
-                            System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                            {
-                                OnPropertyChanged(nameof(Registers));
-                            }));
-                        }
                     }
                     _loggedOneError = false;
                     Thread.Sleep(10);

@@ -38,6 +38,7 @@ namespace ADIN.Device.Services
         private double highestMaxSlicer = 0.0d;
         private uint portNumber = 0;
         private uint totalSpikeCount = 0;
+        private uint fcEn_st;
 
         public ADIN2111FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
         {
@@ -199,7 +200,7 @@ namespace ADIN.Device.Services
 
         public void GetFrameCheckerStatus()
         {
-            uint fcEn_st = Convert.ToUInt32(ReadYodaRg("FC_EN"));
+            fcEn_st = Convert.ToUInt32(ReadYodaRg("FC_EN"));
             uint fcTxSel_st = Convert.ToUInt32(ReadYodaRg("FC_TX_SEL"));
 
             if (fcEn_st == 0)
@@ -470,7 +471,7 @@ namespace ADIN.Device.Services
 
         public string MdioReadCl45(uint regAddress)
         {
-            lock (_mainLock)
+            //lock (_mainLock)
             {
                 string response = string.Empty;
                 string command = string.Empty;
@@ -503,7 +504,7 @@ namespace ADIN.Device.Services
 
         public string MdioWriteCl45(uint regAddress, uint data)
         {
-            lock (_mainLock)
+            //lock (_mainLock)
             {
                 string response = string.Empty;
                 string command = string.Empty;
@@ -628,6 +629,10 @@ namespace ADIN.Device.Services
         {
             foreach (var register in _registers)
             {
+                if (register.Name == "FG_DONE")
+                    continue;
+                if (fcEn_st != 0 && (register.Name == "FC_FRM_CNT_L" || register.Name == "FC_FRM_CNT_H" || register.Name == "RX_ERR_CNT"))
+                    continue;
                 register.Value = ReadYodaRg(register.Address);
             }
             Debug.WriteLine("ReadRegisters Done");
@@ -1161,48 +1166,54 @@ namespace ADIN.Device.Services
 
         private string ReadYodaRg(uint registerAddress)
         {
-            string value = string.Empty;
-
-            uint pageNumber = registerAddress >> 16;
-            if (pageNumber == 0)
+            lock (_mainLock)
             {
-                value = MdioReadCl22(registerAddress);
-            }
-            else
-            {
-                value = MdioReadCl45(registerAddress);
-            }
+                string value = string.Empty;
 
-            return value;
+                uint pageNumber = registerAddress >> 16;
+                if (pageNumber == 0)
+                {
+                    value = MdioReadCl22(registerAddress);
+                }
+                else
+                {
+                    value = MdioReadCl45(registerAddress);
+                }
+
+                return value;
+            }
         }
 
         private string ReadYodaRg(string name)
         {
-            RegisterModel register = null;
-            string value = string.Empty;
-
-            register = GetRegister(name);
-            if (register == null)
-                throw new ApplicationException("Invalid Register");
-
-            uint pageNumber = register.Address >> 16;
-            uint pageAddr = register.Address & 0xFFFF;
-            if (pageNumber == 0)
+            lock (_mainLock)
             {
-                register.Value = MdioReadCl22(register.Address);
-            }
-            else
-            {
-                register.Value = MdioReadCl45(register.Address);
-            }
+                RegisterModel register = null;
+                string value = string.Empty;
 
-            foreach (var bitfield in register.BitFields)
-            {
-                if (bitfield.Name == name)
-                    value = bitfield.Value.ToString();
-            }
+                register = GetRegister(name);
+                if (register == null)
+                    throw new ApplicationException("Invalid Register");
 
-            return value;
+                uint pageNumber = register.Address >> 16;
+                uint pageAddr = register.Address & 0xFFFF;
+                if (pageNumber == 0)
+                {
+                    register.Value = MdioReadCl22(register.Address);
+                }
+                else
+                {
+                    register.Value = MdioReadCl45(register.Address);
+                }
+
+                foreach (var bitfield in register.BitFields)
+                {
+                    if (bitfield.Name == name)
+                        value = bitfield.Value.ToString();
+                }
+
+                return value;
+            }
         }
 
         private void SetContinuousMode(bool isEnable, uint frameBurst)
@@ -1331,33 +1342,44 @@ namespace ADIN.Device.Services
 
         private void WriteYodaRg(string name, uint value)
         {
-            RegisterModel register = null;
-
-            register = SetRegisterValue(name, value);
-
-            uint pageNumber = register.Address >> 16;
-            uint pageAddr = register.Address & 0xFFFF;
-            if (pageNumber == 0)
+            lock (_mainLock)
             {
-                MdioWriteCl22(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
-            }
-            else
-            {
-                MdioWriteCl45(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
+                RegisterModel register = null;
+
+                register = SetRegisterValue(name, value);
+
+                uint pageNumber = register.Address >> 16;
+                uint pageAddr = register.Address & 0xFFFF;
+                if (pageNumber == 0)
+                {
+                    MdioWriteCl22(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
+                }
+                else
+                {
+                    MdioWriteCl45(register.Address, UInt32.Parse(register.Value, NumberStyles.HexNumber));
+                }
             }
         }
 
         private string WriteYodaRg(uint registerAddress, uint value)
         {
-            uint pageNumber = registerAddress >> 16;
-            if (pageNumber == 0)
+            lock (_mainLock)
             {
-                return MdioWriteCl22(registerAddress, value);
+                uint pageNumber = registerAddress >> 16;
+                if (pageNumber == 0)
+                {
+                    return MdioWriteCl22(registerAddress, value);
+                }
+                else
+                {
+                    return MdioWriteCl45(registerAddress, value);
+                }
             }
-            else
-            {
-                return MdioWriteCl45(registerAddress, value);
-            }
+        }
+
+        public string GetCableLength()
+        {
+            throw new NotImplementedException();
         }
     }
 }

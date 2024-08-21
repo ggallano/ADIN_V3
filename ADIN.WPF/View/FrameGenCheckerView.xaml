@@ -23,8 +23,8 @@
 
             <GroupBox Header="Frame Generator in Local PHY" Style="{StaticResource GroupBoxStyle}" Margin="0 10 0 0" Visibility="{Binding IsGigabitBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <StackPanel Margin="0">
-                    <CheckBox IsEnabled="{Binding FrameGenRunning}" ToolTip='Enable this to send a continuous stream of frames. Alternative is to send a burst of frames of a certain length.' x:Name='chkContinuous' IsChecked="{Binding EnableContinuousMode}" Style="{StaticResource CheckBoxStyle}">Continuous Mode until terminated.</CheckBox>
-                    <Grid Margin="0 10 0 5">
+                    <CheckBox IsEnabled="{Binding FrameGenRunning}" ToolTip='Enable this to send a continuous stream of frames. Alternative is to send a burst of frames of a certain length.' IsChecked="{Binding EnableContinuousMode}" Style="{StaticResource CheckBoxStyle}">Continuous Mode until terminated.</CheckBox>
+                    <Grid Margin="0 10 0 5" Visibility="{Binding EnableContinuousMode, Converter={StaticResource invertedBooleanVisibilityConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
@@ -34,8 +34,8 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Column="0" Text="Number of Frames in Burst" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" Style="{StaticResource TextBlockstyle}"/>
-                        <TextBox Grid.Column="1" Text="{Binding FrameBurst_Value, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" BorderThickness="0.5" Background="Transparent" Width="50" HorizontalAlignment="Right" HorizontalContentAlignment="Center"/>
+                        <TextBlock Grid.Column="0" Text="Number of Frames in Burst" Style="{StaticResource TextBlockstyle}"/>
+                        <TextBox Grid.Column="1" Text="{Binding FrameBurst_Value, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0.5" Background="Transparent" Width="50" HorizontalAlignment="Right" HorizontalContentAlignment="Center"/>
                         <!--<StackPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="-1.5 0 0 -10">
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -64,7 +64,7 @@
                             </Grid>
                         </StackPanel>-->
                         <!--<Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" x:Name="SliderFrameNumber" Value="{Binding FrameBurst_Slider}" TickPlacement="TopLeft" Maximum="256" TickFrequency="16" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}"/>-->
-                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" x:Name="SliderFrameNumber" Value="{Binding FrameBurst_Value}" Minimum="100" Maximum="65536" SmallChange="100" TickFrequency="100" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}"/>
+                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" x:Name="SliderFrameNumber" Value="{Binding FrameBurst_Value}" Minimum="100" Maximum="65536" SmallChange="100" TickFrequency="100" IsSnapToTickEnabled="True"/>
                     </Grid>
 
                     <Grid Margin="0 5">
@@ -131,8 +131,8 @@
 
             <GroupBox x:Name="GroupHeader" Header="Frame Generator in Local PHY" Style="{StaticResource GroupBoxStyle}" Margin="0 10 0 0" Visibility="{Binding IsT1LBoard, Converter={StaticResource booleanVisibilityConverter}}">
                 <StackPanel Margin="0">
-                    <CheckBox IsEnabled="{Binding FrameGenRunning}" ToolTip='Enable this to send a continuous stream of frames. Alternative is to send a burst of frames of a certain length.' x:Name='chkContinuous2' IsChecked="{Binding EnableContinuousMode}" Style="{StaticResource CheckBoxStyle}">Continuous Mode until terminated.</CheckBox>
-                    <Grid Margin="0 10 0 5">
+                    <CheckBox IsEnabled="{Binding FrameGenRunning}" ToolTip='Enable this to send a continuous stream of frames. Alternative is to send a burst of frames of a certain length.' IsChecked="{Binding EnableContinuousMode}" Style="{StaticResource CheckBoxStyle}">Continuous Mode until terminated.</CheckBox>
+                    <Grid Margin="0 10 0 5" Visibility="{Binding EnableContinuousMode, Converter={StaticResource invertedBooleanVisibilityConverter}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
@@ -142,9 +142,9 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Column="0" Text="Number of Frames in Burst" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" Style="{StaticResource TextBlockstyle}"/>
-                        <TextBox Grid.Column="1" HorizontalAlignment="Right" Text="{Binding FrameBurst_Value, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}" BorderThickness="0.5" Background="Transparent" Width="50" HorizontalContentAlignment="Center"/>
-                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" Value="{Binding FrameBurst_Value}" Maximum="65535" TickFrequency="50" IsSnapToTickEnabled="True" Visibility="{Binding ElementName=chkContinuous, Path=IsChecked}"/>
+                        <TextBlock Grid.Column="0" Text="Number of Frames in Burst" Style="{StaticResource TextBlockstyle}"/>
+                        <TextBox Grid.Column="1" HorizontalAlignment="Right" Text="{Binding FrameBurst_Value, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0.5" Background="Transparent" Width="50" HorizontalContentAlignment="Center"/>
+                        <Slider Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" Value="{Binding FrameBurst_Value}" Maximum="65535" TickFrequency="50" IsSnapToTickEnabled="True"/>
                     </Grid>
 
                     <Grid Margin="0 5">

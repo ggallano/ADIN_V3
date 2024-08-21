@@ -95,6 +95,25 @@ namespace ADIN.WPF.ViewModel
 
         public string BoardName => _selectedDeviceStore.SelectedDevice?.BoardName ?? "No Device";
 
+        public string CableLength
+        {
+            get
+            {
+                return _selectedDevice?.CableLength ?? "-";
+            }
+
+            set
+            {
+                if (_selectedDevice != null)
+                {
+                    _selectedDevice.CableLength = value;
+                }
+
+                OnPropertyChanged(nameof(CableLength));
+                OnPropertyChanged(nameof(IsVisibleCableLength));
+            }
+        }
+
         public string Checker
         {
             get
@@ -163,6 +182,18 @@ namespace ADIN.WPF.ViewModel
 #endif
 
         public bool IsSpikeCountVisible => (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN2111) || (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1110);
+
+        public bool IsVisibleCableLength
+        {
+            get
+            {
+                return IsGigabitBoard
+                    && (AdvertisedSpeed == "SPEED_1000BASE_T_FD"
+                    || AdvertisedSpeed == "SPEED_1000BASE_T_HD"
+                    || AdvertisedSpeed == "SPEED_100BASE_TX_FD"
+                    || AdvertisedSpeed == "SPEED_100BASE_TX_HD");
+            }
+        }
 
         public bool IsVisibleSpeedList
         {
@@ -471,6 +502,7 @@ namespace ADIN.WPF.ViewModel
                                 MseValue = _selectedDevice.FwAPI.GetMseValue();
                                 SpeedMode = _selectedDevice.FwAPI.GetSpeedMode();
                                 RemoteAdvertisedSpeeds = _selectedDevice.FwAPI.RemoteAdvertisedSpeedList();
+                                CableLength = _selectedDevice.FwAPI.GetCableLength();
                             }
 
                             if (_selectedDevice.FwAPI is ADIN1200FirmwareAPI)
@@ -488,7 +520,7 @@ namespace ADIN.WPF.ViewModel
                         }
 
                     _loggedOneError = false;
-                    Thread.Sleep(500);
+                    Thread.Sleep(10);
                 }
                 catch (NotImplementedException)
                 {
@@ -569,6 +601,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(IsSpikeCountVisible));
             OnPropertyChanged(nameof(MaxSlicerError));
             OnPropertyChanged(nameof(SpikeCount));
+            OnPropertyChanged(nameof(CableLength));
         }
 
         private void SetBackgroundWroker()
