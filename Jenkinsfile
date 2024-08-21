@@ -10,7 +10,7 @@ pipeline {
 		
 		// replace dot(.) with underscore(_)
 		PROJECT_FILES = "ADIN_WPF;ADIN_Device;ADI_Register;FTDIChip_Driver;Helper"
-		FRAMEWORK_SDK = "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v10.0A\\bin\\NETFX 4.6.2 Tools"
+		FRAMEWORK_SDK = "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v10.0A\\bin\\NETFX 4.8 Tools"
 		
 		SOLUTION_NAME = "ADIN.sln"
 		NSIS_SCRIPT_NAME 			= "ADIN_Eval.nsi"
