@@ -20,75 +20,75 @@ namespace ADIN.WPF.Components
     /// </summary>
     public partial class MACAddress : UserControl
     {
-        private static readonly List<Key> DigitKeys = new List<Key> { Key.D0, Key.D1, Key.D2, Key.D3, Key.D4, Key.D5, Key.D6, Key.D7, Key.D8, Key.D9,
+        private static readonly List<Key> HexKeys = new List<Key> { Key.D0, Key.D1, Key.D2, Key.D3, Key.D4, Key.D5, Key.D6, Key.D7, Key.D8, Key.D9,
                                                                       Key.A, Key.B, Key.C, Key.D, Key.E, Key.F,
                                                                       Key.NumPad0, Key.NumPad1, Key.NumPad2, Key.NumPad3, Key.NumPad4, Key.NumPad5, Key.NumPad6, Key.NumPad7, Key.NumPad8, Key.NumPad9 };
 
-        private static readonly List<Key> MoveForwardKeys = new List<Key> { Key.Right };
-        private static readonly List<Key> MoveBackwardKeys = new List<Key> { Key.Left };
-        private static readonly List<Key> OtherAllowedKeys = new List<Key> { Key.Tab, Key.Delete };
+        private static readonly List<Key> RightKey = new List<Key> { Key.Right };
+        private static readonly List<Key> LeftKey = new List<Key> { Key.Left };
+        private static readonly List<Key> OtherKeysAlsoAllowed = new List<Key> { Key.Tab, Key.Delete };
 
-        private readonly List<TextBox> _segments = new List<TextBox>();
+        private readonly List<TextBox> _parts = new List<TextBox>();
 
-        private bool _suppressAddressUpdate = false;
+        private bool _isToSupprsMacAdrsUpd = false;
 
         public MACAddress()
         {
             InitializeComponent();
-            _segments.Add(FirstSegment);
-            _segments.Add(SecondSegment);
-            _segments.Add(ThirdSegment);
-            _segments.Add(FourthSegment);
-            _segments.Add(FifthSegment);
-            _segments.Add(LastSegment);
+            _parts.Add(FirstSegment);
+            _parts.Add(SecondSegment);
+            _parts.Add(ThirdSegment);
+            _parts.Add(FourthSegment);
+            _parts.Add(FifthSegment);
+            _parts.Add(LastSegment);
         }
 
-        public static readonly DependencyProperty AddressProperty = DependencyProperty.Register(
-            "Address", typeof(string), typeof(MACAddress), new FrameworkPropertyMetadata(default(string), AddressChanged)
+        public static readonly DependencyProperty MacAdrsProperty = DependencyProperty.Register(
+            "MacAdrs", typeof(string), typeof(MACAddress), new FrameworkPropertyMetadata(default(string), MacAdrsChanged)
             {
                 BindsTwoWayByDefault = true
             });
 
-        private static void AddressChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+        private static void MacAdrsChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            var ipTextBox = dependencyObject as MACAddress;
+            var macAdrsBox = dependencyObject as MACAddress;
             var text = e.NewValue as string;
 
-            if (text != null && ipTextBox != null)
+            if (text != null && macAdrsBox != null)
             {
-                ipTextBox._suppressAddressUpdate = true;
-                var i = 0;
-                foreach (var segment in text.Split(':'))
+                int counter = 0;
+                macAdrsBox._isToSupprsMacAdrsUpd = true;
+                foreach (var parts in text.Split(':'))
                 {
-                    ipTextBox._segments[i].Text = segment;
-                    i++;
+                    macAdrsBox._parts[counter].Text = parts;
+                    counter++;
                 }
-                ipTextBox._suppressAddressUpdate = false;
+                macAdrsBox._isToSupprsMacAdrsUpd = false;
             }
         }
 
-        public string Address
+        public string MacAdrs
         {
-            get { return (string)GetValue(AddressProperty); }
-            set { SetValue(AddressProperty, value); }
+            get { return (string)GetValue(MacAdrsProperty); }
+            set { SetValue(MacAdrsProperty, value); }
         }
 
-        private void UIElement_OnPreviewKeyDown(object sender, KeyEventArgs e)
+        private void MacAdrsUI_OnPreviewForKeyDown(object sender, KeyEventArgs e)
         {
-            if (DigitKeys.Contains(e.Key))
+            if (HexKeys.Contains(e.Key))
             {
-                e.Handled = ShouldCancelDigitKeyPress();
-                HandleDigitPress();
+                e.Handled = IsNumKeyPressedToCancel();
+                NumPressedHandling();
             }
-            else if (MoveBackwardKeys.Contains(e.Key))
+            else if (LeftKey.Contains(e.Key))
             {
-                e.Handled = ShouldCancelBackwardKeyPress();
-                HandleBackwardKeyPress();
+                e.Handled = IsLeftKeyPressedToCancel();
+                LeftKeyPressedHandling();
             }
-            else if (MoveForwardKeys.Contains(e.Key))
+            else if (RightKey.Contains(e.Key))
             {
-                e.Handled = ShouldCancelForwardKeyPress();
-                HandleForwardKeyPress();
+                e.Handled = IsRightKeyPressedToCancel();
+                RightKeyPressedHandling();
             }
             else if (e.Key == Key.Back)
             {
@@ -97,35 +97,35 @@ namespace ADIN.WPF.Components
             else if (e.Key == Key.OemPeriod)
             {
                 e.Handled = true;
-                HandlePeriodKeyPress();
+                PeriodKeyPressedHandling();
             }
             else
             {
-                e.Handled = !AreOtherAllowedKeysPressed(e);
+                e.Handled = !HasPressedOtherAllowedKeys(e);
             }
         }
 
-        private bool AreOtherAllowedKeysPressed(KeyEventArgs e)
+        private bool HasPressedOtherAllowedKeys(KeyEventArgs e)
         {
             return e.Key == Key.C && ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) != 0) ||
                    e.Key == Key.V && ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) != 0) ||
                    e.Key == Key.A && ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) != 0) ||
                    e.Key == Key.X && ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) != 0) ||
-                   OtherAllowedKeys.Contains(e.Key);
+                   OtherKeysAlsoAllowed.Contains(e.Key);
         }
 
-        private void HandleDigitPress()
+        private void NumPressedHandling()
         {
             var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
 
             if (currentTextBox != null && currentTextBox.Text.Length == 2 &&
                 currentTextBox.CaretIndex == 2 && currentTextBox.SelectedText.Length == 0)
             {
-                MoveFocusToNextSegment(currentTextBox);
+                ChangeFocusToNextPart(currentTextBox);
             }
         }
 
-        private bool ShouldCancelDigitKeyPress()
+        private bool IsNumKeyPressedToCancel()
         {
             var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
             return currentTextBox != null &&
@@ -134,22 +134,22 @@ namespace ADIN.WPF.Components
                    currentTextBox.SelectedText.Length == 0;
         }
 
-        private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
+        private void TextBox_OnChangedText(object sender, TextChangedEventArgs e)
         {
-            if (!_suppressAddressUpdate)
+            if (!_isToSupprsMacAdrsUpd)
             {
-                Address = string.Format($"{FirstSegment.Text}:{SecondSegment.Text}:{ThirdSegment.Text}:{FourthSegment.Text}:{FifthSegment.Text}:{LastSegment.Text}");
+                MacAdrs = string.Format($"{FirstSegment.Text}:{SecondSegment.Text}:{ThirdSegment.Text}:{FourthSegment.Text}:{FifthSegment.Text}:{LastSegment.Text}");
             }
 
             var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
 
             if (currentTextBox != null && currentTextBox.Text.Length == 2 && currentTextBox.CaretIndex == 2)
             {
-                MoveFocusToNextSegment(currentTextBox);
+                ChangeFocusToNextPart(currentTextBox);
             }
         }
 
-        private bool ShouldCancelBackwardKeyPress()
+        private bool IsLeftKeyPressedToCancel()
         {
             var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
             return currentTextBox != null && currentTextBox.CaretIndex == 0;
@@ -161,58 +161,58 @@ namespace ADIN.WPF.Components
 
             if (currentTextBox != null && currentTextBox.CaretIndex == 0 && currentTextBox.SelectedText.Length == 0)
             {
-                MoveFocusToPreviousSegment(currentTextBox);
+                ChangeFocusToPrevPart(currentTextBox);
             }
         }
 
-        private void HandleBackwardKeyPress()
+        private void LeftKeyPressedHandling()
         {
             var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
 
             if (currentTextBox != null && currentTextBox.CaretIndex == 0)
             {
-                MoveFocusToPreviousSegment(currentTextBox);
+                ChangeFocusToPrevPart(currentTextBox);
             }
         }
 
-        private bool ShouldCancelForwardKeyPress()
+        private bool IsRightKeyPressedToCancel()
         {
             var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
             return currentTextBox != null && currentTextBox.CaretIndex == 2;
         }
 
-        private void HandleForwardKeyPress()
+        private void RightKeyPressedHandling()
         {
             var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
 
             if (currentTextBox != null && currentTextBox.CaretIndex == currentTextBox.Text.Length)
             {
-                MoveFocusToNextSegment(currentTextBox);
+                ChangeFocusToNextPart(currentTextBox);
             }
         }
 
-        private void HandlePeriodKeyPress()
+        private void PeriodKeyPressedHandling()
         {
             var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
 
             if (currentTextBox != null && currentTextBox.Text.Length > 0 && currentTextBox.CaretIndex == currentTextBox.Text.Length)
             {
-                MoveFocusToNextSegment(currentTextBox);
+                ChangeFocusToNextPart(currentTextBox);
             }
         }
 
-        private void MoveFocusToPreviousSegment(TextBox currentTextBox)
+        private void ChangeFocusToPrevPart(TextBox currentTextBox)
         {
             if (!ReferenceEquals(currentTextBox, FirstSegment))
             {
-                var previousSegmentIndex = _segments.FindIndex(box => ReferenceEquals(box, currentTextBox)) - 1;
+                var previousSegmentIndex = _parts.FindIndex(box => ReferenceEquals(box, currentTextBox)) - 1;
                 currentTextBox.SelectionLength = 0;
                 currentTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Previous));
-                _segments[previousSegmentIndex].CaretIndex = _segments[previousSegmentIndex].Text.Length;
+                _parts[previousSegmentIndex].CaretIndex = _parts[previousSegmentIndex].Text.Length;
             }
         }
 
-        private void MoveFocusToNextSegment(TextBox currentTextBox)
+        private void ChangeFocusToNextPart(TextBox currentTextBox)
         {
             if (!ReferenceEquals(currentTextBox, LastSegment))
             {
@@ -221,7 +221,7 @@ namespace ADIN.WPF.Components
             }
         }
 
-        private void DataObject_OnPasting(object sender, DataObjectPastingEventArgs e)
+        private void OnPastingDataObject(object sender, DataObjectPastingEventArgs e)
         {
             var isText = e.SourceDataObject.GetDataPresent(DataFormats.UnicodeText, true);
             if (!isText)
