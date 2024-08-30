@@ -103,31 +103,31 @@
     </Grid.ColumnDefinitions>
 
     <TextBox x:Name="FirstSegment" Grid.Column="0" TextAlignment="Center" MaxLength="3" BorderThickness="1,1,0,1" VerticalContentAlignment="Center"
-             TextChanged="TextBoxBase_OnTextChanged" PreviewKeyDown="UIElement_OnPreviewKeyDown" DataObject.Pasting="DataObject_OnPasting" Style="{StaticResource LPane}"/>
+             TextChanged="OnChangedTextOnTextBox" PreviewKeyDown="MacAdrsUI_OnPreviewForKeyDown" DataObject.Pasting="OnPastingDataObject" Style="{StaticResource LPane}"/>
     <TextBox Grid.Column="1" Text=":" TextAlignment="Center" IsReadOnly="True" Focusable="False" BorderThickness="0,1,0,1" VerticalContentAlignment="Center"
              IsReadOnlyCaretVisible="False"/>
 
     <TextBox x:Name="SecondSegment" Grid.Column="2" TextAlignment="Center" MaxLength="3" BorderThickness="0,1,0,1" VerticalContentAlignment="Center"
-             TextChanged="TextBoxBase_OnTextChanged" PreviewKeyDown="UIElement_OnPreviewKeyDown" DataObject.Pasting="DataObject_OnPasting" />
+             TextChanged="OnChangedTextOnTextBox" PreviewKeyDown="MacAdrsUI_OnPreviewForKeyDown" DataObject.Pasting="OnPastingDataObject" />
     <TextBox Grid.Column="3" Text=":" TextAlignment="Center" IsReadOnly="True" Focusable="False" BorderThickness="0,1,0,1" VerticalContentAlignment="Center"
              IsReadOnlyCaretVisible="False"/>
 
     <TextBox x:Name="ThirdSegment" Grid.Column="4" TextAlignment="Center" MaxLength="3" BorderThickness="0,1,0,1" VerticalContentAlignment="Center"
-             TextChanged="TextBoxBase_OnTextChanged" PreviewKeyDown="UIElement_OnPreviewKeyDown" DataObject.Pasting="DataObject_OnPasting" />
+             TextChanged="OnChangedTextOnTextBox" PreviewKeyDown="MacAdrsUI_OnPreviewForKeyDown" DataObject.Pasting="OnPastingDataObject" />
     <TextBox Grid.Column="5" Text=":" TextAlignment="Center" IsReadOnly="True" Focusable="False" BorderThickness="0,1,0,1" VerticalContentAlignment="Center"
              IsReadOnlyCaretVisible="False" />
 
     <TextBox x:Name="FourthSegment" Grid.Column="6" TextAlignment="Center" MaxLength="3" BorderThickness="0,1,0,1" VerticalContentAlignment="Center"
-             TextChanged="TextBoxBase_OnTextChanged" PreviewKeyDown="UIElement_OnPreviewKeyDown" DataObject.Pasting="DataObject_OnPasting" />
+             TextChanged="OnChangedTextOnTextBox" PreviewKeyDown="MacAdrsUI_OnPreviewForKeyDown" DataObject.Pasting="OnPastingDataObject" />
     <TextBox Grid.Column="7" Text=":" TextAlignment="Center" IsReadOnly="True" Focusable="False" BorderThickness="0,1,0,1" VerticalContentAlignment="Center"
              IsReadOnlyCaretVisible="False" />
 
     <TextBox x:Name="FifthSegment" Grid.Column="8" TextAlignment="Center" MaxLength="3" BorderThickness="0,1,0,1" VerticalContentAlignment="Center"
-             TextChanged="TextBoxBase_OnTextChanged" PreviewKeyDown="UIElement_OnPreviewKeyDown" DataObject.Pasting="DataObject_OnPasting" />
+             TextChanged="OnChangedTextOnTextBox" PreviewKeyDown="MacAdrsUI_OnPreviewForKeyDown" DataObject.Pasting="OnPastingDataObject" />
     <TextBox Grid.Column="9" Text=":" TextAlignment="Center" IsReadOnly="True" Focusable="False" BorderThickness="0,1,0,1" VerticalContentAlignment="Center"
              IsReadOnlyCaretVisible="False" />
 
     <TextBox x:Name="LastSegment" Grid.Column="10" TextAlignment="Center" MaxLength="3" BorderThickness="0,1,1,1" VerticalContentAlignment="Center"
-             TextChanged="TextBoxBase_OnTextChanged" PreviewKeyDown="UIElement_OnPreviewKeyDown" DataObject.Pasting="DataObject_OnPasting" Style="{StaticResource RPane}"/>
+             TextChanged="OnChangedTextOnTextBox" PreviewKeyDown="MacAdrsUI_OnPreviewForKeyDown" DataObject.Pasting="OnPastingDataObject" Style="{StaticResource RPane}"/>
   </Grid>
 </UserControl>

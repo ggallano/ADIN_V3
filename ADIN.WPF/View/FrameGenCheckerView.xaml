@@ -182,14 +182,14 @@
                     <Grid Margin="0 0 0 10">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Source MAC Address" Style="{StaticResource TextBlockstyle}"/>
-                            <local:MACAddress x:Name="txtSrcMacAddress" Address="{Binding SrcMacAddress}" IsEnabled="{Binding ElementName=chkEnableMacAddress, Path=IsChecked, UpdateSourceTrigger=PropertyChanged}" Height="24"/>
+                            <local:MACAddress x:Name="txtSrcMacAddress" MacAdrs="{Binding SrcMacAddress}" IsEnabled="{Binding ElementName=chkEnableMacAddress, Path=IsChecked, UpdateSourceTrigger=PropertyChanged}" Height="24"/>
                         </StackPanel>
                     </Grid>
 
                     <Grid Margin="0 0 0 10">
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Destination MAC Address" Style="{StaticResource TextBlockstyle}"/>
-                            <local:MACAddress x:Name="txtDestMacAddress" Address="{Binding DestMacAddress}" IsEnabled="{Binding ElementName=chkEnableMacAddress, Path=IsChecked, UpdateSourceTrigger=PropertyChanged}" Height="24"/>
+                            <local:MACAddress x:Name="txtDestMacAddress" MacAdrs="{Binding DestMacAddress}" IsEnabled="{Binding ElementName=chkEnableMacAddress, Path=IsChecked, UpdateSourceTrigger=PropertyChanged}" Height="24"/>
                         </StackPanel>
                     </Grid>
 
