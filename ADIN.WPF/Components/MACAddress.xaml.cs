@@ -92,7 +92,7 @@ namespace ADIN.WPF.Components
             }
             else if (e.Key == Key.Back)
             {
-                HandleBackspaceKeyPress();
+                BackspacePressedHandling();
             }
             else if (e.Key == Key.OemPeriod)
             {
@@ -105,13 +105,13 @@ namespace ADIN.WPF.Components
             }
         }
 
-        private bool HasPressedOtherAllowedKeys(KeyEventArgs e)
+        private bool IsNumKeyPressedToCancel()
         {
-            return e.Key == Key.C && ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) != 0) ||
-                   e.Key == Key.V && ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) != 0) ||
-                   e.Key == Key.A && ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) != 0) ||
-                   e.Key == Key.X && ((e.KeyboardDevice.Modifiers & ModifierKeys.Control) != 0) ||
-                   OtherKeysAlsoAllowed.Contains(e.Key);
+            var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
+            return currentTextBox != null &&
+                   currentTextBox.Text.Length == 2 &&
+                   currentTextBox.CaretIndex == 2 &&
+                   currentTextBox.SelectedText.Length == 0;
         }
 
         private void NumPressedHandling()
@@ -125,44 +125,10 @@ namespace ADIN.WPF.Components
             }
         }
 
-        private bool IsNumKeyPressedToCancel()
-        {
-            var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
-            return currentTextBox != null &&
-                   currentTextBox.Text.Length == 2 &&
-                   currentTextBox.CaretIndex == 2 &&
-                   currentTextBox.SelectedText.Length == 0;
-        }
-
-        private void TextBox_OnChangedText(object sender, TextChangedEventArgs e)
-        {
-            if (!_isToSupprsMacAdrsUpd)
-            {
-                MacAdrs = string.Format($"{FirstSegment.Text}:{SecondSegment.Text}:{ThirdSegment.Text}:{FourthSegment.Text}:{FifthSegment.Text}:{LastSegment.Text}");
-            }
-
-            var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
-
-            if (currentTextBox != null && currentTextBox.Text.Length == 2 && currentTextBox.CaretIndex == 2)
-            {
-                ChangeFocusToNextPart(currentTextBox);
-            }
-        }
-
         private bool IsLeftKeyPressedToCancel()
         {
             var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
             return currentTextBox != null && currentTextBox.CaretIndex == 0;
-        }
-
-        private void HandleBackspaceKeyPress()
-        {
-            var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
-
-            if (currentTextBox != null && currentTextBox.CaretIndex == 0 && currentTextBox.SelectedText.Length == 0)
-            {
-                ChangeFocusToPrevPart(currentTextBox);
-            }
         }
 
         private void LeftKeyPressedHandling()
@@ -191,6 +157,16 @@ namespace ADIN.WPF.Components
             }
         }
 
+        private void BackspacePressedHandling()
+        {
+            var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
+
+            if (currentTextBox != null && currentTextBox.CaretIndex == 0 && currentTextBox.SelectedText.Length == 0)
+            {
+                ChangeFocusToPrevPart(currentTextBox);
+            }
+        }
+
         private void PeriodKeyPressedHandling()
         {
             var currentTextBox = FocusManager.GetFocusedElement(this) as TextBox;
@@ -201,23 +177,51 @@ namespace ADIN.WPF.Components
             }
         }
 
-        private void ChangeFocusToPrevPart(TextBox currentTextBox)
+        private bool HasPressedOtherAllowedKeys(KeyEventArgs e)
         {
-            if (!ReferenceEquals(currentTextBox, FirstSegment))
+            if (((e.KeyboardDevice.Modifiers & ModifierKeys.Control) != 0 &&
+                 (e.Key == Key.A ||
+                  e.Key == Key.C ||
+                  e.Key == Key.V ||
+                  e.Key == Key.X)) ||
+                OtherKeysAlsoAllowed.Contains(e.Key))
+                return true;
+            else
+                return false;
+        }
+
+        private void OnChangedTextOnTextBox(object sender, TextChangedEventArgs e)
+        {
+            if (!_isToSupprsMacAdrsUpd)
             {
-                var previousSegmentIndex = _parts.FindIndex(box => ReferenceEquals(box, currentTextBox)) - 1;
-                currentTextBox.SelectionLength = 0;
-                currentTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Previous));
-                _parts[previousSegmentIndex].CaretIndex = _parts[previousSegmentIndex].Text.Length;
+                MacAdrs = string.Format($"{FirstSegment.Text}:{SecondSegment.Text}:{ThirdSegment.Text}:{FourthSegment.Text}:{FifthSegment.Text}:{LastSegment.Text}");
+            }
+
+            var selectedTextBox = FocusManager.GetFocusedElement(this) as TextBox;
+
+            if (selectedTextBox != null && selectedTextBox.Text.Length == 2 && selectedTextBox.CaretIndex == 2)
+            {
+                ChangeFocusToNextPart(selectedTextBox);
             }
         }
 
-        private void ChangeFocusToNextPart(TextBox currentTextBox)
+        private void ChangeFocusToPrevPart(TextBox selectedTextBox)
         {
-            if (!ReferenceEquals(currentTextBox, LastSegment))
+            if (!ReferenceEquals(selectedTextBox, FirstSegment))
             {
-                currentTextBox.SelectionLength = 0;
-                currentTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                var previousPartIndex = _parts.FindIndex(box => ReferenceEquals(box, selectedTextBox)) - 1;
+                selectedTextBox.SelectionLength = 0;
+                selectedTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Previous));
+                _parts[previousPartIndex].CaretIndex = _parts[previousPartIndex].Text.Length;
+            }
+        }
+
+        private void ChangeFocusToNextPart(TextBox selectedTextBox)
+        {
+            if (!ReferenceEquals(selectedTextBox, LastSegment))
+            {
+                selectedTextBox.SelectionLength = 0;
+                selectedTextBox.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
             }
         }
 
