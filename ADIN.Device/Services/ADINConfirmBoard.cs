@@ -28,6 +28,7 @@ namespace ADIN.Device.Services
             "ADIN1300 MDIO DONGLE",
             "ADIN1200 MDIO DONGLE",
 #endif
+            "EVAL-ADIN1320",
         };
 
         public static bool ConfirmADINBoard(string boardName)
@@ -71,6 +72,10 @@ namespace ADIN.Device.Services
                     devices.Add(new ADINDevice(new ADIN1300Model(ftdtService, _registerService, mainLock)));
                     break;
 #endif
+                case "EVAL-ADIN1320":
+                    devices.Add(new ADINDevice(new ADIN1320Model(ftdtService, _registerService, mainLock)));
+                    break;
+
                 default:
                     // No board matching the list
                     break;

@@ -81,7 +81,7 @@
                         <TabItem Header="Loopback" Style="{StaticResource TabItemStyle}" IsEnabled="{Binding EnableTabs}" Visibility="{Binding IsADIN2111, Converter={StaticResource invertedBooleanVisibilityConverter}}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="4*" MinWidth="660"/>
+                                    <ColumnDefinition Width="4*" MinWidth="670"/>
                                     <ColumnDefinition Width="3"/>
                                     <ColumnDefinition Width="3*"/>
                                 </Grid.ColumnDefinitions>

@@ -27,6 +27,10 @@
                     <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="None" IsChecked="{Binding IsLoopback_None}"/>
                     <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="All Digital" IsChecked="{Binding IsLoopback_Digital}"/>
                     <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Line Driver" IsChecked="{Binding IsLoopback_LineDriver}"/>
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="SerDes Digital" IsChecked="{Binding IsLoopback_SerDesDigital}" Visibility="{Binding IsADIN1320, Converter={StaticResource booleanVisibilityConverter}}"/>
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="SerDes" IsChecked="{Binding IsLoopback_SerDes}" Visibility="{Binding IsADIN1320, Converter={StaticResource booleanVisibilityConverter}}"/>
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Line Interface" IsChecked="{Binding IsLoopback_LineInterface}" Visibility="{Binding IsADIN1320, Converter={StaticResource booleanVisibilityConverter}}"/>
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="MII" IsChecked="{Binding IsLoopback_MII}" Visibility="{Binding IsADIN1320, Converter={StaticResource booleanVisibilityConverter}}"/>
                     <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="External Cable" IsChecked="{Binding IsLoopback_ExtCable}"/>
                     <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Remote" IsChecked="{Binding IsLoopback_Remote}"/>
 
@@ -75,7 +79,7 @@
         </Grid>
 
         <Grid>
-            <Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 20" Source="{Binding ImagePath}" VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Height="300" Width="600" Visibility="{Binding IsDeviceSelected, Converter={StaticResource booleanVisibilityConverter}}"/>
+            <Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 20" Source="{Binding ImagePath}" VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Height="300" Visibility="{Binding IsDeviceSelected, Converter={StaticResource booleanVisibilityConverter}}"/>
         </Grid>
     </StackPanel>
 
