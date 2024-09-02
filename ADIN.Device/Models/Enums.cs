@@ -26,6 +26,7 @@ namespace ADIN.Device.Models
         ADIN1110,
         ADIN1200,
         ADIN1300,
+        ADIN1320,
         ADIN2111,
     }
 
@@ -197,6 +198,11 @@ namespace ADIN.Device.Models
         LineDriver,
 
         /// <summary>
+        /// LineInterface
+        /// </summary>
+        LineInterface,
+
+        /// <summary>
         /// ExtCable / ExtMII/RMII
         /// </summary>
         ExtCable,
@@ -212,9 +218,24 @@ namespace ADIN.Device.Models
         MAC,
 
         /// <summary>
+        /// MII
+        /// </summary>
+        MII,
+
+        /// <summary>
         /// OFF
         /// </summary>
-        OFF
+        OFF,
+
+        /// <summary>
+        /// SerDes
+        /// </summary>
+        SerDes,
+
+        /// <summary>
+        /// SerDes Digital
+        /// </summary>
+        SerDesDigital
     }
 
     public enum PeakVoltageAdvertisementItem
