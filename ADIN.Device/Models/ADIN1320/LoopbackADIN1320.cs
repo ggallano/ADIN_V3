@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Models.ADIN1320
 {
-    public class LoopbackADIN1320
+    public class LoopbackADIN1320 : ILoopback
     {
         public LoopbackADIN1320()
         {
@@ -35,25 +35,25 @@ namespace ADIN.Device.Models.ADIN1320
             LpBck_Remote.EnumLoopbackType = LoopBackMode.MacRemote;
             LpBck_Remote.ImagePath = @"../Images/loopback/Lb_ADIN1320_Remote.png";
 
-            LpBck_Remote = new LoopbackModel();
-            LpBck_Remote.Name = "SerDesDigital";
-            LpBck_Remote.EnumLoopbackType = LoopBackMode.SerDesDigital;
-            LpBck_Remote.ImagePath = @"../Images/loopback/Lb_ADIN1320_SerDesDigital.png";
+            LpBck_SerDesDigital = new LoopbackModel();
+            LpBck_SerDesDigital.Name = "SerDesDigital";
+            LpBck_SerDesDigital.EnumLoopbackType = LoopBackMode.SerDesDigital;
+            LpBck_SerDesDigital.ImagePath = @"../Images/loopback/Lb_ADIN1320_SerDesDigital.png";
 
-            LpBck_Remote = new LoopbackModel();
-            LpBck_Remote.Name = "SerDes";
-            LpBck_Remote.EnumLoopbackType = LoopBackMode.SerDes;
-            LpBck_Remote.ImagePath = @"../Images/loopback/Lb_ADIN1320_SerDes.png";
+            LpBck_SerDes = new LoopbackModel();
+            LpBck_SerDes.Name = "SerDes";
+            LpBck_SerDes.EnumLoopbackType = LoopBackMode.SerDes;
+            LpBck_SerDes.ImagePath = @"../Images/loopback/Lb_ADIN1320_SerDes.png";
 
-            LpBck_Remote = new LoopbackModel();
-            LpBck_Remote.Name = "LineInterface";
-            LpBck_Remote.EnumLoopbackType = LoopBackMode.LineInterface;
-            LpBck_Remote.ImagePath = @"../Images/loopback/Lb_ADIN1320_LineInterface.png";
+            LpBck_LineInterface = new LoopbackModel();
+            LpBck_LineInterface.Name = "LineInterface";
+            LpBck_LineInterface.EnumLoopbackType = LoopBackMode.LineInterface;
+            LpBck_LineInterface.ImagePath = @"../Images/loopback/Lb_ADIN1320_LineInterface.png";
 
-            LpBck_Remote = new LoopbackModel();
-            LpBck_Remote.Name = "MII";
-            LpBck_Remote.EnumLoopbackType = LoopBackMode.MII;
-            LpBck_Remote.ImagePath = @"../Images/loopback/Lb_ADIN1320_MII.png";
+            LpBck_MII = new LoopbackModel();
+            LpBck_MII.Name = "MII";
+            LpBck_MII.EnumLoopbackType = LoopBackMode.MII;
+            LpBck_MII.ImagePath = @"../Images/loopback/Lb_ADIN1320_MII.png";
 
             Loopbacks = new List<LoopbackModel>()
             {
@@ -65,7 +65,7 @@ namespace ADIN.Device.Models.ADIN1320
                 LpBck_SerDesDigital,
                 LpBck_SerDes,
                 LpBck_LineInterface,
-                LpBck_MII
+                LpBck_MII,
             };
 
             SelectedLoopback = Loopbacks[0];

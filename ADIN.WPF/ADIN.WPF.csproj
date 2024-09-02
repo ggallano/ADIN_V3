@@ -641,6 +641,15 @@
       <AlwaysRun>True</AlwaysRun>
       <RunCustomToolOnBuild>True</RunCustomToolOnBuild>
     </Content>
+    <Resource Include="Images\loopback\Lb_ADIN1320_AllDigital.png" />
+    <Resource Include="Images\loopback\Lb_ADIN1320_ExtCable.png" />
+    <Resource Include="Images\loopback\Lb_ADIN1320_LineDriver.png" />
+    <Resource Include="Images\loopback\Lb_ADIN1320_LineInterface.png" />
+    <Resource Include="Images\loopback\Lb_ADIN1320_MII.png" />
+    <Resource Include="Images\loopback\Lb_ADIN1320_None.png" />
+    <Resource Include="Images\loopback\Lb_ADIN1320_Remote.png" />
+    <Resource Include="Images\loopback\Lb_ADIN1320_SerDes.png" />
+    <Resource Include="Images\loopback\Lb_ADIN1320_SerDesDigital.png" />
     <Resource Include="Images\loopback\Loopback_AllDigital.png" />
     <Resource Include="Images\loopback\Loopback_ExtCable.png" />
     <Resource Include="Images\loopback\Loopback_LineDriver.png" />

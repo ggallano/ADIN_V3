@@ -192,7 +192,7 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.LineInterface;
+                return _loopback?.SelectedLoopback.EnumLoopbackType == LoopBackMode.MII;
             }
 
             set
@@ -411,7 +411,8 @@ namespace ADIN.WPF.ViewModel
             get
             {
                 return ((_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1200)
-                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1300)) == true;
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1300)
+                    || (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1320)) == true;
             }
         }
 
