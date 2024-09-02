@@ -42,28 +42,6 @@ namespace ADIN.WPF.ViewModel
                 if (value)
                 {
                     _loopback.SelectedLoopback = Loopbacks[1];
-#if !DISABLE_T1L
-                    if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
-                    {
-                        ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                        fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
-                    }
-                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
-                    {
-                        ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
-                        fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
-                    }
-                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
-                    {
-                        ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-                        fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
-                    }
-                    else
-                    {
-                        // Do nothing
-                    }
-#endif
-#if !DISABLE_TSN
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
                     {
                         ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
@@ -75,7 +53,6 @@ namespace ADIN.WPF.ViewModel
                         fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
                     }
                     else { } //Do nothing
-#endif
                 }
 
                 OnPropertyChanged(nameof(IsLoopback_None));
@@ -99,28 +76,6 @@ namespace ADIN.WPF.ViewModel
                 if (value)
                 {
                     _loopback.SelectedLoopback = Loopbacks[3];
-#if !DISABLE_T1L
-                    if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
-                    {
-                        ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                        fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
-                    }
-                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
-                    {
-                        ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
-                        fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
-                    }
-                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
-                    {
-                        ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-                        fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
-                    }
-                    else
-                    {
-                        // Do nothing
-                    }
-#endif
-#if !DISABLE_TSN
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
                     {
                         ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
@@ -132,7 +87,6 @@ namespace ADIN.WPF.ViewModel
                         fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
                     }
                     else { } //Do nothing
-#endif
                 }
 
                 OnPropertyChanged(nameof(IsLoopback_None));
@@ -156,28 +110,6 @@ namespace ADIN.WPF.ViewModel
                 if (value)
                 {
                     _loopback.SelectedLoopback = Loopbacks[2];
-#if !DISABLE_T1L
-                    if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
-                    {
-                        ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                        fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
-                    }
-                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
-                    {
-                        ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
-                        fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
-                    }
-                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
-                    {
-                        ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-                        fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
-                    }
-                    else
-                    {
-                        // Do nothing
-                    }
-#endif
-#if !DISABLE_TSN
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
                     {
                         ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
@@ -189,7 +121,6 @@ namespace ADIN.WPF.ViewModel
                         fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
                     }
                     else { } //Do nothing
-#endif
                 }
 
                 OnPropertyChanged(nameof(IsLoopback_None));
@@ -213,28 +144,6 @@ namespace ADIN.WPF.ViewModel
                 if (value)
                 {
                     _loopback.SelectedLoopback = Loopbacks[0];
-#if !DISABLE_T1L
-                    if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
-                    {
-                        ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                        fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
-                    }
-                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
-                    {
-                        ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
-                        fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
-                    }
-                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
-                    {
-                        ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-                        fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
-                    }
-                    else
-                    {
-                        // Do nothing
-                    }
-#endif
-#if !DISABLE_TSN
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
                     {
                         ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
@@ -246,7 +155,6 @@ namespace ADIN.WPF.ViewModel
                         fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
                     }
                     else { } //Do nothing
-#endif
                 }
 
                 OnPropertyChanged(nameof(IsLoopback_None));
@@ -270,28 +178,6 @@ namespace ADIN.WPF.ViewModel
                 if (value)
                 {
                     _loopback.SelectedLoopback = Loopbacks[4];
-#if !DISABLE_T1L
-                    if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
-                    {
-                        ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-                        fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
-                    }
-                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
-                    {
-                        ADIN1110FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1110FirmwareAPI;
-                        fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
-                    }
-                    else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
-                    {
-                        ADIN2111FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN2111FirmwareAPI;
-                        fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _loopback.TxSuppression, _loopback.RxSuppression);
-                    }
-                    else
-                    {
-                        // Do nothing
-                    }
-#endif
-#if !DISABLE_TSN
                     if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
                     {
                         ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
@@ -303,7 +189,6 @@ namespace ADIN.WPF.ViewModel
                         fwAPI.SetLoopbackSetting(_loopback.SelectedLoopback, _isTxSuppression, _isRxSuppression);
                     }
                     else { } //Do nothing
-#endif
                 }
 
                 OnPropertyChanged(nameof(IsLoopback_None));
