@@ -14,5 +14,7 @@ namespace ADIN.Device.Models
 
         bool RxSuppression { get; set; }
         bool TxSuppression { get; set; }
+        string ImagePath_RxSuppression { get; set; }
+        string ImagePath_TxSuppression { get; set; }
     }
 }

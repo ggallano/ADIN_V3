@@ -24,15 +24,15 @@
             <StackPanel Orientation="Vertical" IsEnabled="{Binding IsDeviceSelected}">
                 <WrapPanel HorizontalAlignment='Left'  Orientation='Horizontal'>
 
-                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="None" IsChecked="{Binding IsLoopback_None}"/>
-                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="All Digital" IsChecked="{Binding IsLoopback_Digital}"/>
-                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Line Driver" IsChecked="{Binding IsLoopback_LineDriver}"/>
-                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="SerDes Digital" IsChecked="{Binding IsLoopback_SerDesDigital}" Visibility="{Binding IsADIN1320, Converter={StaticResource booleanVisibilityConverter}}"/>
-                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="SerDes" IsChecked="{Binding IsLoopback_SerDes}" Visibility="{Binding IsADIN1320, Converter={StaticResource booleanVisibilityConverter}}"/>
-                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Line Interface" IsChecked="{Binding IsLoopback_LineInterface}" Visibility="{Binding IsADIN1320, Converter={StaticResource booleanVisibilityConverter}}"/>
-                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="MII" IsChecked="{Binding IsLoopback_MII}" Visibility="{Binding IsADIN1320, Converter={StaticResource booleanVisibilityConverter}}"/>
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="None"           IsChecked="{Binding IsLoopback_None}"/>
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="All Digital"    IsChecked="{Binding IsLoopback_Digital}"       IsEnabled="{Binding EnablePhyLoopbacks}" />
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Line Driver"    IsChecked="{Binding IsLoopback_LineDriver}"    IsEnabled="{Binding EnablePhyLoopbacks}" />
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="SerDes Digital" IsChecked="{Binding IsLoopback_SerDesDigital}" IsEnabled="{Binding EnableSerDesLoopbacks}" Visibility="{Binding IsADIN1320, Converter={StaticResource booleanVisibilityConverter}}"/>
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="SerDes"         IsChecked="{Binding IsLoopback_SerDes}"        IsEnabled="{Binding EnableSerDesLoopbacks}" Visibility="{Binding IsADIN1320, Converter={StaticResource booleanVisibilityConverter}}"/>
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Line Interface" IsChecked="{Binding IsLoopback_LineInterface}" IsEnabled="{Binding EnableSerDesLoopbacks}" Visibility="{Binding IsADIN1320, Converter={StaticResource booleanVisibilityConverter}}"/>
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="MII"            IsChecked="{Binding IsLoopback_MII}"           IsEnabled="{Binding EnableSerDesLoopbacks}" Visibility="{Binding IsADIN1320, Converter={StaticResource booleanVisibilityConverter}}"/>
                     <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="External Cable" IsChecked="{Binding IsLoopback_ExtCable}"/>
-                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Remote" IsChecked="{Binding IsLoopback_Remote}"/>
+                    <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Remote"         IsChecked="{Binding IsLoopback_Remote}"/>
 
                     <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Margin="10 3 0 0">
                         <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
@@ -80,6 +80,8 @@
 
         <Grid>
             <Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 20" Source="{Binding ImagePath}" VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Height="300" Visibility="{Binding IsDeviceSelected, Converter={StaticResource booleanVisibilityConverter}}"/>
+            <Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 20" Source="{Binding ImagePath_TxSuppression}" VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Height="300" Visibility="{Binding IsTxSuppression, Converter={StaticResource booleanVisibilityConverter}}"/>
+            <Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="0 20" Source="{Binding ImagePath_RxSuppression}" VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Height="300" Visibility="{Binding IsRxSuppression, Converter={StaticResource booleanVisibilityConverter}}"/>
         </Grid>
     </StackPanel>
 

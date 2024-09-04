@@ -31,6 +31,8 @@ namespace ADIN.WPF.ViewModel
         }
 
         public string ImagePath => _loopback?.SelectedLoopback.ImagePath;
+        public string ImagePath_TxSuppression => _loopback?.ImagePath_TxSuppression;
+        public string ImagePath_RxSuppression => _loopback?.ImagePath_RxSuppression;
 
         public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
 
@@ -552,6 +554,8 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(IsRxSuppression));
 
             OnPropertyChanged(nameof(ImagePath));
+            OnPropertyChanged(nameof(ImagePath_TxSuppression));
+            OnPropertyChanged(nameof(ImagePath_RxSuppression));
         }
     }
 }
