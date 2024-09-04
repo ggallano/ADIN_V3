@@ -61,6 +61,7 @@ namespace ADIN.Device.Models.ADIN1100
 
         public bool RxSuppression { get; set; }
         public bool TxSuppression { get; set; }
-
+        public string ImagePath_RxSuppression { get; set; }
+        public string ImagePath_TxSuppression { get; set; }
     }
 }

@@ -13,47 +13,47 @@ namespace ADIN.Device.Models.ADIN1320
             LpBck_None = new LoopbackModel();
             LpBck_None.Name = "OFF";
             LpBck_None.EnumLoopbackType = LoopBackMode.OFF;
-            LpBck_None.ImagePath = @"../Images/loopback/Lb_ADIN1320_None.png";
+            LpBck_None.ImagePath = @"../Images/loopback_ADIN1320/ADIN1320_LbNone.png";
 
             LpBck_Digital = new LoopbackModel();
             LpBck_Digital.Name = "Digital";
             LpBck_Digital.EnumLoopbackType = LoopBackMode.Digital;
-            LpBck_Digital.ImagePath = @"../Images/loopback/Lb_ADIN1320_AllDigital.png";
+            LpBck_Digital.ImagePath = @"../Images/loopback_ADIN1320/ADIN1320_LbAllDigital.png";
 
             LpBck_LineDriver = new LoopbackModel();
             LpBck_LineDriver.Name = "LineDriver";
             LpBck_LineDriver.EnumLoopbackType = LoopBackMode.LineDriver;
-            LpBck_LineDriver.ImagePath = @"../Images/loopback/Lb_ADIN1320_LineDriver.png";
+            LpBck_LineDriver.ImagePath = @"../Images/loopback_ADIN1320/ADIN1320_LbLineDriver.png";
 
             LpBck_ExtCable = new LoopbackModel();
             LpBck_ExtCable.Name = "ExtCable";
             LpBck_ExtCable.EnumLoopbackType = LoopBackMode.ExtCable;
-            LpBck_ExtCable.ImagePath = @"../Images/loopback/Lb_ADIN1320_ExtCable.png";
+            LpBck_ExtCable.ImagePath = @"../Images/loopback_ADIN1320/ADIN1320_LbExtCable.png";
 
             LpBck_Remote = new LoopbackModel();
             LpBck_Remote.Name = "Remote";
             LpBck_Remote.EnumLoopbackType = LoopBackMode.MacRemote;
-            LpBck_Remote.ImagePath = @"../Images/loopback/Lb_ADIN1320_Remote.png";
+            LpBck_Remote.ImagePath = @"../Images/loopback_ADIN1320/ADIN1320_LbRemote.png";
 
             LpBck_SerDesDigital = new LoopbackModel();
             LpBck_SerDesDigital.Name = "SerDesDigital";
             LpBck_SerDesDigital.EnumLoopbackType = LoopBackMode.SerDesDigital;
-            LpBck_SerDesDigital.ImagePath = @"../Images/loopback/Lb_ADIN1320_SerDesDigital.png";
+            LpBck_SerDesDigital.ImagePath = @"../Images/loopback_ADIN1320/ADIN1320_LbSerDesDigital.png";
 
             LpBck_SerDes = new LoopbackModel();
             LpBck_SerDes.Name = "SerDes";
             LpBck_SerDes.EnumLoopbackType = LoopBackMode.SerDes;
-            LpBck_SerDes.ImagePath = @"../Images/loopback/Lb_ADIN1320_SerDes.png";
+            LpBck_SerDes.ImagePath = @"../Images/loopback_ADIN1320/ADIN1320_LbSerDes.png";
 
             LpBck_LineInterface = new LoopbackModel();
             LpBck_LineInterface.Name = "LineInterface";
             LpBck_LineInterface.EnumLoopbackType = LoopBackMode.LineInterface;
-            LpBck_LineInterface.ImagePath = @"../Images/loopback/Lb_ADIN1320_LineInterface.png";
+            LpBck_LineInterface.ImagePath = @"../Images/loopback_ADIN1320/ADIN1320_LbLineInterface.png";
 
             LpBck_MII = new LoopbackModel();
             LpBck_MII.Name = "MII";
             LpBck_MII.EnumLoopbackType = LoopBackMode.MII;
-            LpBck_MII.ImagePath = @"../Images/loopback/Lb_ADIN1320_MII.png";
+            LpBck_MII.ImagePath = @"../Images/loopback_ADIN1320/ADIN1320_LbMII.png";
 
             Loopbacks = new List<LoopbackModel>()
             {
@@ -86,5 +86,7 @@ namespace ADIN.Device.Models.ADIN1320
 
         public bool RxSuppression { get; set; }
         public bool TxSuppression { get; set; }
+        public string ImagePath_RxSuppression { get; set; } = @"../Images/loopback_ADIN1320/ADIN1320_LbRx.png";
+        public string ImagePath_TxSuppression { get; set; } = @"../Images/loopback_ADIN1320/ADIN1320_LbTx.png";
     }
 }
