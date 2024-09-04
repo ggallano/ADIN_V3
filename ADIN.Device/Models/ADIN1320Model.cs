@@ -33,7 +33,7 @@ namespace ADIN.Device.Models
 
             //LinkProperties = new LinkPropertiesADIN1320();
             Loopback = new LoopbackADIN1320();
-            //FrameGenChecker = new FrameGenCheckerADIN1320();
+            FrameGenChecker = new FrameGenCheckerADIN1320();
             //ClockPinControl = new ClockPinControlADIN1320();
             //TestMode = new TestModeADIN1320();
 

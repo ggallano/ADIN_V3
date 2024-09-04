@@ -28,6 +28,7 @@ namespace ADIN.WPF.ViewModel
         private FrameContentModel _selectedFrameContent;
         private string _srcMacAddress;
         private object _thisLock;
+        private bool _isFrameGenOn;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FrameGenCheckerViewModel"/> class.
@@ -48,6 +49,54 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerStatusChanged += _selectedDeviceStore_FrameGenCheckerStatusChanged;
             _selectedDeviceStore.FrameContentChanged += _selectedDeviceStore_FrameContentChanged;
+        }
+
+        public bool IsSerDesSelected
+        {
+            get
+            {
+                return _frameGenChecker?.IsSerDesSelected == true;
+            }
+
+            set
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _frameGenChecker.IsSerDesSelected = value;
+                    _selectedDeviceStore.OnFrameGenChecker_SetToSerDes(true);
+                }
+
+                OnPropertyChanged(nameof(IsSerDesSelected));
+                OnPropertyChanged(nameof(IsNotSerDes));
+            }
+        }
+
+        public bool IsNotSerDes
+        {
+            get
+            {
+                return _frameGenChecker?.IsSerDesSelected != true;
+            }
+
+            set
+            {
+                if (_selectedDeviceStore.SelectedDevice != null)
+                {
+                    _frameGenChecker.IsSerDesSelected = !value;
+                    _selectedDeviceStore.OnFrameGenChecker_SetToSerDes(false);
+                }
+
+                OnPropertyChanged(nameof(IsNotSerDes));
+                OnPropertyChanged(nameof(IsSerDesSelected));
+            }
+        }
+
+        public bool IsFrameGenOff
+        {
+            get
+            {
+                return _frameGenChecker?.FrameGeneratorButtonText != "Terminate";
+            }
         }
 
         public string DestMacAddress

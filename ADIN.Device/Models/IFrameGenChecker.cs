@@ -21,5 +21,6 @@ namespace ADIN.Device.Models
         string SrcMacAddress { get; set; }
         string SrcOctet { get; set; }
         string FrameGeneratorButtonText { get; set; }
+        bool IsSerDesSelected { get; set; }
     }
 }
