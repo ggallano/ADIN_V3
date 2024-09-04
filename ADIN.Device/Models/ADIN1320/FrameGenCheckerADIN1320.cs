@@ -1,20 +1,16 @@
-﻿// <copyright file="FrameGenCheckerADIN1100.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ADIN.Device.Models.ADIN1100
+namespace ADIN.Device.Models.ADIN1320
 {
-    public class FrameGenCheckerADIN1100 : IFrameGenChecker
+    public class FrameGenCheckerADIN1320 : IFrameGenChecker
     {
-        public FrameGenCheckerADIN1100()
+        public FrameGenCheckerADIN1320()
         {
-            EnableContinuousMode = false;
             EnableMacAddress = false;
-            FrameBurst = 64001;
-            FrameLength = 1250;
 
             FrameContents = new List<FrameContentModel>()
             {
@@ -39,7 +35,6 @@ namespace ADIN.Device.Models.ADIN1100
                     FrameContentType = FrameType.Alt10s
                 }
             };
-            FrameContent = FrameContents[0];
 
             SrcMacAddress = null;
             DestMacAddress = null;

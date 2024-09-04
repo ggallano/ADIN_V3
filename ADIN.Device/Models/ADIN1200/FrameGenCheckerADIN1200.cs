@@ -54,5 +54,6 @@ namespace ADIN.Device.Models.ADIN1200
         public FrameType SelectedFrameContent { get; set; }
         public string SrcMacAddress { get; set; }
         public string SrcOctet { get; set; }
+        public bool IsSerDesSelected { get; set; } = false;
     }
 }

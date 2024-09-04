@@ -7,7 +7,9 @@ using ADIN.Device.Models;
 using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
+using System;
 using System.Collections.Generic;
+using System.Windows;
 
 namespace ADIN.WPF.ViewModel
 {
@@ -16,6 +18,7 @@ namespace ADIN.WPF.ViewModel
         private IFTDIServices _ftdiService;
         private bool _isRxSuppression;
         private bool _isTxSuppression;
+        private bool _enableSerDesLoopbacks = false;
         private SelectedDeviceStore _selectedDeviceStore;
 
         public LoopbackViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
@@ -24,6 +27,7 @@ namespace ADIN.WPF.ViewModel
             _ftdiService = ftdiService;
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.FrameGenCheckerSetToSerDes += _selectedDeviceStore_FrameGenCheckerSerDesChanged;
         }
 
         public string ImagePath => _loopback?.SelectedLoopback.ImagePath;
@@ -484,10 +488,40 @@ namespace ADIN.WPF.ViewModel
 
         private ILoopback _loopback => _selectedDeviceStore.SelectedDevice?.Loopback;
 
+        public bool EnableSerDesLoopbacks
+        {
+            get
+            {
+                return _enableSerDesLoopbacks;
+            }
+            
+            set
+            {
+                _enableSerDesLoopbacks = value;
+                OnPropertyChanged(nameof(EnableSerDesLoopbacks));
+                OnPropertyChanged(nameof(EnablePhyLoopbacks));
+            }
+        }
+
+        public bool EnablePhyLoopbacks => !EnableSerDesLoopbacks;
+
         protected override void Dispose()
         {
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.FrameGenCheckerSetToSerDes -= _selectedDeviceStore_FrameGenCheckerSerDesChanged;
             base.Dispose();
+        }
+
+        private void _selectedDeviceStore_FrameGenCheckerSerDesChanged(bool isSerDesSelected)
+        {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                IsLoopback_None = true;
+                EnableSerDesLoopbacks = isSerDesSelected;
+            }));
         }
 
         private void _selectedDeviceStore_SelectedDeviceChanged()

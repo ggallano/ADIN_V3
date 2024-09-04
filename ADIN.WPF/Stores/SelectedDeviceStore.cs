@@ -46,6 +46,8 @@ namespace ADIN.WPF.Stores
 
         public event Action<FeedbackModel> ViewModelErrorOccured;
 
+        public event Action<bool> FrameGenCheckerSetToSerDes;
+
         public ADINDevice SelectedDevice
         {
             get { return _selectedDevice; }
@@ -147,6 +149,11 @@ namespace ADIN.WPF.Stores
         private void FwAPI_GigabitCableDiagCompleted(object sender, List<string> results)
         {
             GigabitCableDiagCompleted?.Invoke(results);
+        }
+
+        public void OnFrameGenChecker_SetToSerDes(bool isSerDesSelected)
+        {
+            FrameGenCheckerSetToSerDes?.Invoke(isSerDesSelected);
         }
     }
 }
