@@ -371,6 +371,7 @@ namespace ADIN.WPF.ViewModel
             {
                 FrameGeneratorButtonText = status;
                 OnPropertyChanged(nameof(FrameGeneratorButtonText));
+                OnPropertyChanged(nameof(IsFrameGenOff));
             }));
         }
 

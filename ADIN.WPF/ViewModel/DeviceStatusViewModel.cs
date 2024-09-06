@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 
 namespace ADIN.WPF.ViewModel
@@ -36,6 +37,7 @@ namespace ADIN.WPF.ViewModel
         private SelectedDeviceStore _selectedDeviceStore;
         private string _speedMode = "-";
         private string _txLevelStatus = "-";
+        private string _frameGenMode = "CuPhy";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceStatusViewModel"/> class.
@@ -56,6 +58,7 @@ namespace ADIN.WPF.ViewModel
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerResetDisplay += _selectedDeviceStore_FrameGenCheckerResetDisplay;
+            _selectedDeviceStore.FrameGenCheckerSetToSerDes += _selectedDeviceStore_FrameGenCheckerSerDesChanged;
             _selectedDeviceStore.PortNumChanged += _selectedDeviceStore_PortNumChanged;
         }
 
@@ -423,6 +426,7 @@ namespace ADIN.WPF.ViewModel
         {
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerResetDisplay -= _selectedDeviceStore_FrameGenCheckerResetDisplay;
+            _selectedDeviceStore.FrameGenCheckerSetToSerDes -= _selectedDeviceStore_FrameGenCheckerSerDesChanged;
             base.Dispose();
         }
 
@@ -541,6 +545,33 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
+        public string FrameGenMode
+        {
+            get
+            {
+                return _frameGenMode;
+            }
+            set
+            {
+                _frameGenMode = value;
+                OnPropertyChanged(nameof(FrameGenMode));
+            }
+        }
+
+        private void _selectedDeviceStore_FrameGenCheckerSerDesChanged(bool isSerDesSelected)
+        {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
+            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                if (isSerDesSelected)
+                    FrameGenMode = "SerDes";
+                else
+                    FrameGenMode = "CuPhy";
+            }));
+        }
+
         private void _backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             Debug.WriteLine("Progress Changed");
@@ -597,6 +628,7 @@ namespace ADIN.WPF.ViewModel
             OnPropertyChanged(nameof(AdvertisedSpeed));
             OnPropertyChanged(nameof(SpeedMode));
             OnPropertyChanged(nameof(IsVisibleSpeedList));
+            OnPropertyChanged(nameof(FrameGenMode));
             OnPropertyChanged(nameof(Checker));
             OnPropertyChanged(nameof(IsSpikeCountVisible));
             OnPropertyChanged(nameof(MaxSlicerError));

@@ -110,8 +110,8 @@ namespace ADIN.WPF.ViewModel
              && _selectedDeviceStore.SelectedDevice.DeviceType != BoardType.ADIN1200)
                 return;
 
-            SetClkPinCntrl(_clockPinControl.GpClkPinControl);
-            SetClkRefPinCntrl(_clockPinControl.Clk25RefPnCtrl);
+            SetClkPinCntrl(_clockPinControl?.GpClkPinControl);
+            SetClkRefPinCntrl(_clockPinControl?.Clk25RefPnCtrl);
             OnPropertyChanged(nameof(Clk25RefPinPresent));
         }
 

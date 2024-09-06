@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ADIN.Device.Models.ADIN1320
+{
+    public class DeviceStatusADIN1320 : IDeviceStatus
+    {
+        public bool IsSoftwarePowerDown { get; set; } = true;
+        public List<string> AdvertisedSpeeds { get; set; }
+    }
+}

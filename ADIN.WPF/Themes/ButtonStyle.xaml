@@ -195,6 +195,21 @@
     <Style x:Key="RadioButtonStyle" TargetType="{x:Type telerik:RadRadioButton}" BasedOn="{StaticResource TelerikRadioButtonStyle}">
         <Setter Property="Margin" Value="5"/>
     </Style>
+    <Style x:Key="SegmentedLeftRadioButtonStyle" TargetType="{x:Type telerik:RadRadioButton}" BasedOn="{StaticResource TelerikRadioButtonStyle}">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="CornerRadius" Value="4, 0, 0, 4"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <!--<Setter Property="Foreground" Value="{StaticResource Button.IsEnable.Foreground}"/>
+                <Setter Property="Background" Value="Value"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Button.IsEnable.BorderBrush}"/>-->
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="SegmentedRightRadioButtonStyle" TargetType="{x:Type telerik:RadRadioButton}" BasedOn="{StaticResource TelerikRadioButtonStyle}">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="CornerRadius" Value="0, 4, 4, 0"/>
+    </Style>
     <Style x:Key="ClockPinRadioButtonStyle" TargetType="{x:Type telerik:RadRadioButton}" BasedOn="{StaticResource TelerikRadioButtonStyle}">
         <Setter Property="Width" Value="150"/>
         <Setter Property="Margin" Value="5 5"/>

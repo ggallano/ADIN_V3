@@ -50,7 +50,7 @@
                     </ContentControl.Resources>
                 </ContentControl>-->
                     <TabControl Style="{StaticResource TabStyle}">
-                        <TabItem Header="Link Properties" IsSelected="True" Style="{StaticResource TabItemStyle}" IsEnabled="{Binding EnableTabs}" Visibility="{Binding IsADIN2111, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+                        <!--<TabItem Header="Link Properties" IsSelected="True" Style="{StaticResource TabItemStyle}" IsEnabled="{Binding EnableTabs}" Visibility="{Binding IsADIN2111, Converter={StaticResource invertedBooleanVisibilityConverter}}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*" MinWidth="400"/>
@@ -77,8 +77,8 @@
                                     <components:DeviceStatusView DataContext="{Binding DeviceStatusVM}" Margin="10 0 0 0"/>
                                 </Grid>
                             </Grid>
-                        </TabItem>
-                        <TabItem Header="Loopback" Style="{StaticResource TabItemStyle}" IsEnabled="{Binding EnableTabs}" Visibility="{Binding IsADIN2111, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+                        </TabItem>-->
+                        <TabItem Header="Loopback" IsSelected="True" Style="{StaticResource TabItemStyle}" IsEnabled="{Binding EnableTabs}" Visibility="{Binding IsADIN2111, Converter={StaticResource invertedBooleanVisibilityConverter}}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="4*" MinWidth="670"/>
@@ -104,7 +104,7 @@
                                 <components:FrameGenCheckerStatusView Grid.Column="2" DataContext="{Binding DeviceStatusVM}" Margin="10 0 0 0"/>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="Test Modes" Style="{StaticResource TabItemStyle}" IsSelected="{Binding IsTestModeSelected}" IsEnabled="{Binding EnableTabs}" Visibility="{Binding IsADIN2111, Converter={StaticResource invertedBooleanVisibilityConverter}}">
+                        <!--<TabItem Header="Test Modes" Style="{StaticResource TabItemStyle}" IsSelected="{Binding IsTestModeSelected}" IsEnabled="{Binding EnableTabs}" Visibility="{Binding IsADIN2111, Converter={StaticResource invertedBooleanVisibilityConverter}}">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="2*" MinWidth="400"/>
@@ -125,14 +125,14 @@
                                     <ColumnDefinition Width="3"/>
                                     <ColumnDefinition Width="2*"/>
                                 </Grid.ColumnDefinitions>
-                                <!--ADIN1320-->
+                                --><!--ADIN1320-->
                                 <!--Insert View for ADIN1320-->
-                                <!--ADIN1300/1200-->
+                                <!--ADIN1300/1200--><!--
                                 <Grid Visibility="{Binding IsADIN1300Visible, Converter={StaticResource booleanVisibilityConverter}}">
                                     <local:RunCableDiagView Grid.Column="0" Margin="0 0 10 0" DataContext="{Binding RunCableDiagnosticVM}"/>
                                 </Grid>
 
-                                <!--ADIN1100-->
+                                --><!--ADIN1100--><!--
                                 <Grid  Visibility="{Binding IsADIN1100Visible, Converter={StaticResource booleanVisibilityConverter}}">
                                     <local:TimeDomainReflectometry DataContext="{Binding TDRVM}" Grid.Column="0" Margin="0 0 10 0" Visibility="{Binding DataContext.IsActiveLinkMonEnabled, Converter={StaticResource invertedBooleanVisibilityConverter}, Source={StaticResource ProxyElement}}"/>
                                     <TabControl Style="{StaticResource TabStyle}" Grid.Column="0" Margin="0 0 10 0" Visibility="{Binding IsActiveLinkMonEnabled, Converter={StaticResource booleanVisibilityConverter}}">
@@ -149,7 +149,7 @@
                                     <components:DeviceStatusView DataContext="{Binding DeviceStatusVM}" Margin="10 0 0 0"/>
                                 </Grid>
                             </Grid>
-                        </TabItem>
+                        </TabItem>-->
                         <TabItem Header="Register Access" Style="{StaticResource TabItemStyle}" IsEnabled="{Binding EnableTabs}" Visibility="{Binding IsADIN2111, Converter={StaticResource invertedBooleanVisibilityConverter}}">
                             <local:RegisterListingView DataContext="{Binding RegisterListingVM}"/>
                         </TabItem>

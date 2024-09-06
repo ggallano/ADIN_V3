@@ -29,8 +29,8 @@
                             <ColumnDefinition Width="75"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="Frame Generator in Local PHY" FontWeight="Bold"/>
-                        <telerik:RadRadioButton Grid.Column="1" Width="75" Margin="0" CornerRadius="4, 0, 0, 4" GroupName="SerDesMode" Style="{StaticResource RadioButtonStyle}" Content="Cu PHY" IsEnabled="{Binding IsFrameGenOff}" IsChecked="{Binding IsNotSerDes}"/>
-                        <telerik:RadRadioButton Grid.Column="2" Width="75" Margin="0" CornerRadius="0, 4, 4, 0" GroupName="SerDesMode" Style="{StaticResource RadioButtonStyle}" Content="SerDes" IsEnabled="{Binding IsFrameGenOff}" IsChecked="{Binding IsSerDesSelected}"/>
+                        <telerik:RadRadioButton Grid.Column="1" Width="75" Margin="0" GroupName="SerDesMode" Style="{StaticResource SegmentedLeftRadioButtonStyle}" Content="Cu PHY" IsEnabled="{Binding IsFrameGenOff}" IsChecked="{Binding IsNotSerDes}"/>
+                        <telerik:RadRadioButton Grid.Column="2" Width="75" Margin="0" GroupName="SerDesMode" Style="{StaticResource SegmentedRightRadioButtonStyle}" Content="SerDes" IsEnabled="{Binding IsFrameGenOff}" IsChecked="{Binding IsSerDesSelected}"/>
                     </Grid>
                 </GroupBox.Header>
                 

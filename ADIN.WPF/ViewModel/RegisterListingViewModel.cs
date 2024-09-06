@@ -32,7 +32,7 @@ namespace ADIN.WPF.ViewModel
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiService = ftdiService;
 
-            SetRegsiterWorker();
+            //SetRegsiterWorker();
             //SaveRegisterDataCommand = new RegisterSaveDataCommand(this);
             //SaveBitFielddataCommand = new RegisterSaveDataCommand(this);
 

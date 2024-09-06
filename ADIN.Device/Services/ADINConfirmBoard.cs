@@ -73,6 +73,7 @@ namespace ADIN.Device.Services
                     break;
 #endif
                 case "EVAL-ADIN1320":
+                    devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock), isMultiChipSupported));
                     devices.Add(new ADINDevice(new ADIN1320Model(ftdtService, _registerService, mainLock)));
                     break;
 

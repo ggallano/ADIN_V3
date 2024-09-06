@@ -50,6 +50,12 @@
             </Border>-->
             <Border Style="{StaticResource BorderSyle}">
                 <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Frame Generator: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
+                    <TextBlock Text="{Binding FrameGenMode}" Style="{StaticResource DeviceStatusValueStyle}"/>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource BorderSyle}">
+                <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Checker: " Style="{StaticResource DeviceStatusTextBlockstyle}"/>
                     <TextBlock Text="{Binding Checker}" Style="{StaticResource DeviceStatusValueStyle}"/>
                 </StackPanel>

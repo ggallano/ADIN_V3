@@ -39,7 +39,7 @@
             </MenuItem>
         </Menu>
         <view:OperationView Margin="5 0 5 5" Grid.Row="1"/>
-        <Border Grid.Row="2" Background="{StaticResource hmc.color.layout.canvas}" BorderBrush="Black" BorderThickness="0 1 0 0">
+        <Border Grid.Row="0" Background="{StaticResource hmc.color.layout.canvas}" BorderBrush="Black" BorderThickness="0 1 0 0">
             <view:StatusStripView DataContext="{Binding StatusStripVM}"/>
         </Border>
     </Grid>
