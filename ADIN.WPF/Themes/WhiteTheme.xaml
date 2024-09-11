@@ -53,6 +53,12 @@
     <SolidColorBrush x:Key="Button.IsChecked.Background" Color="{StaticResource DarkerGray}"/>
     <SolidColorBrush x:Key="Button.IsChecked.Foreground" Color="{StaticResource JohsonColor}"/>
     <SolidColorBrush x:Key="Button.IsChecked.BorderBrush" Color="White"/>
+    
+    <!--TextBlock Colors-->
+    <SolidColorBrush x:Key="TextBlock.IsEnable.Foreground" Color="{StaticResource DarkerGray}"/>
+    
+    <!--TextBox Colors-->
+    <SolidColorBrush x:Key="TextBox.IsEnable.Foreground" Color="{StaticResource DarkerGray}"/>
 
 
     <!--Harmonics Colors-->

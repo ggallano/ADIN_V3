@@ -124,6 +124,7 @@
     <Compile Include="Models\FrameGenCheckerModel.cs" />
     <Compile Include="Models\IADINDevice.cs" />
     <Compile Include="Models\AbstractADINFactory.cs" />
+    <Compile Include="Models\LoopbackFrameGenCheckerModel.cs" />
     <Compile Include="Models\MseModel.cs" />
     <Compile Include="Services\ADIN1110FirmwareAPI.cs" />
     <Compile Include="Services\ADIN1320FirmwareAPI.cs" />

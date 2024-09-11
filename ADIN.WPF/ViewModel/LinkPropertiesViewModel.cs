@@ -833,6 +833,8 @@ namespace ADIN.WPF.ViewModel
                 case BoardType.ADIN2111:
                     OnPropertyChanged(nameof(TxLevels));
                     OnPropertyChanged(nameof(SelectedTxLevel));
+                    OnPropertyChanged(nameof(MasterSlaveAdvertises));
+                    OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
                     break;
                 case BoardType.ADIN1200:
                 case BoardType.ADIN1300:
@@ -860,12 +862,12 @@ namespace ADIN.WPF.ViewModel
                     OnPropertyChanged(nameof(EnergyDetectPowerDownModes));
                     OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
                     OnPropertyChanged(nameof(SetDownSpeedRetries));
+                    OnPropertyChanged(nameof(MasterSlaveAdvertises));
+                    OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
                     break;
                 default:
                     break;
             }
-            OnPropertyChanged(nameof(MasterSlaveAdvertises));
-            OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
             OnPropertyChanged(nameof(IsMasterSlaveForcedVisible));
             OnPropertyChanged(nameof(IsMasterSlavePrefVisible));
         }

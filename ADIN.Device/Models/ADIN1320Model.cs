@@ -10,7 +10,7 @@ namespace ADIN.Device.Models
     public class ADIN1320Model : AbstractADINFactory
     {
         private IFTDIServices _ftdiService;
-        //private ADIN1320FirmwareAPI _fwAPI;
+        private ADIN1300FirmwareAPI _fwAPI;
         private uint _phyAddress;
         private IRegisterService _registerService;
         private string registerJsonFile;
@@ -24,12 +24,12 @@ namespace ADIN.Device.Models
 
             //Retrieve Registers
             Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1300.json"));
-            //Registers = registerService.GetAdditionalRegisterSet_ADIN1200_ADIN1300(Registers);
+            Registers = registerService.GetAdditionalRegisterSet_ADIN1200_ADIN1300(Registers);
 
             //DeviceStatus = new DeviceStatusADIN1320();
 
-            FirmwareAPI = new ADIN1320FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
-            //_fwAPI = FirmwareAPI as ADIN1320FirmwareAPI;
+            FirmwareAPI = new ADIN1300FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
+            _fwAPI = FirmwareAPI as ADIN1300FirmwareAPI;
 
             //LinkProperties = new LinkPropertiesADIN1320();
             Loopback = new LoopbackADIN1320();
