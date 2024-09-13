@@ -12,6 +12,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converter:RegisterValueConverter x:Key="RegisterValueConverter" />
+            <converter:BooleanVisibilityConverter x:Key="booleanVisibilityConverter" IsInversed="False"/>
             <telerik:Windows8Colors x:Key="Windows8Colors" />
             <SolidColorBrush x:Key="AccentBrush" Color="{Binding Path=Palette.AccentColor, Source={StaticResource Windows8Colors}}"></SolidColorBrush>
             <Style x:Key="Label" TargetType="TextBlock">
@@ -75,6 +76,13 @@
                         <telerik:StyleManager.Theme>
                             <telerik:Windows7Theme />
                         </telerik:StyleManager.Theme>
+
+                        <telerik:RadGridView.RowStyle>
+                            <Style TargetType="telerik:GridViewRow">
+                                <Setter Property="Visibility" Value="{Binding IsPublicShown, Converter={StaticResource booleanVisibilityConverter}}"/>
+                            </Style>
+                        </telerik:RadGridView.RowStyle>
+                        
                         <telerik:RadGridView.Columns>
                             <telerik:GridViewDataColumn DataMemberBinding="{Binding Name}" IsReadOnly="True" />
                             <telerik:GridViewDataColumn CellStyleSelector="{StaticResource valueCellStyle}" DataMemberBinding="{Binding Path=Value, Converter={StaticResource RegisterValueConverter},Mode=TwoWay}" />
@@ -99,8 +107,16 @@
                 <telerik:StyleManager.Theme>
                     <telerik:Windows8Theme />
                 </telerik:StyleManager.Theme>
+
+                <telerik:RadGridView.RowStyle>
+                    <Style TargetType="telerik:GridViewRow">
+                        <Setter Property="Visibility" Value="{Binding IsPublicShown, Converter={StaticResource booleanVisibilityConverter}}"/>
+                    </Style>
+                </telerik:RadGridView.RowStyle>
+
+
                 <telerik:RadGridView.Columns>
-                    <telerik:GridViewToggleRowDetailsColumn />
+                    <telerik:GridViewToggleRowDetailsColumn/>
                     <telerik:GridViewDataColumn x:Name='colAddress' Header="Address" DataMemberBinding="{Binding Path=Address,StringFormat={}0x{0:X6}}" IsReadOnly='True' />
                     <telerik:GridViewDataColumn x:Name='colName' Header="Name" DataMemberBinding="{Binding Name}" IsReadOnly="True" Width="200" />
                     <telerik:GridViewDataColumn x:Name='colValue' Header="Value" DataMemberBinding="{Binding Value}" IsSortable="True" IsFilterable="True" CellStyleSelector="{StaticResource valueCellStyle}" />
