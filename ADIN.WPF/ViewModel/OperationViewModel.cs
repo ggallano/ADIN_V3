@@ -458,7 +458,6 @@ namespace ADIN.WPF.ViewModel
 
             if (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1320)
             {
-                _availableTabs.Remove("LinkProperties");
                 _availableTabs.Remove("ClockPinControl");
                 _availableTabs.Remove("Loopback");
                 _availableTabs.Remove("FrameGenChecker");
@@ -466,7 +465,7 @@ namespace ADIN.WPF.ViewModel
                 _availableTabs.Remove("CableDiagnostics");
             }
 
-            if (!(_availableTabs.Contains(_selectedTab)))
+            if (!_availableTabs.Contains(_selectedTab))
             {
                 _selectedTab = _availableTabs[0];
                 UpdateSelectedTab();

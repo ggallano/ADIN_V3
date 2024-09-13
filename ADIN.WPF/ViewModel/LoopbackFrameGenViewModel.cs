@@ -55,6 +55,7 @@ namespace ADIN.WPF.ViewModel
                 if (_selectedDeviceStore.SelectedDevice != null && (IsLoopback_SerDesDigital || IsLoopback_SerDes || IsLoopback_LineInterface || IsLoopback_MII))
                     IsLoopback_None = true;
 
+                UpdateFrameGenSettings();
                 OnPropertyChanged(nameof(IsCuPhySelected));
                 OnPropertyChanged(nameof(IsSerDesSelected));
             }
@@ -75,6 +76,7 @@ namespace ADIN.WPF.ViewModel
                 if (_selectedDeviceStore.SelectedDevice != null && (IsLoopback_Digital || IsLoopback_LineDriver))
                     IsLoopback_None = true;
 
+                UpdateFrameGenSettings();
                 OnPropertyChanged(nameof(IsSerDesSelected));
                 OnPropertyChanged(nameof(IsCuPhySelected));
             }
@@ -527,6 +529,29 @@ namespace ADIN.WPF.ViewModel
                 FrameGeneratorButtonText = status;
                 OnPropertyChanged(nameof(FrameGeneratorButtonText));
             }));
+        }
+
+        private void UpdateFrameGenSettings()
+        {
+            if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1300FirmwareAPI)
+            {
+                ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
+                IFrameGenChecker frameGenSettings = fwAPI.GetFrameGenSettings(_frameGenChecker.FrameContents, IsCuPhySelected);
+
+                _frameGenChecker.EnableContinuousMode = frameGenSettings.EnableContinuousMode;
+                _frameGenChecker.FrameBurst = frameGenSettings.FrameBurst;
+                _frameGenChecker.FrameLength = frameGenSettings.FrameLength;
+                _frameGenChecker.FrameContent = frameGenSettings.FrameContent;
+
+                OnPropertyChanged(nameof(EnableContinuousMode));
+                OnPropertyChanged(nameof(EnableFrameBurst));
+                OnPropertyChanged(nameof(FrameBurst_Value));
+                OnPropertyChanged(nameof(FrameLength_Value));
+                OnPropertyChanged(nameof(FrameContents));
+                OnPropertyChanged(nameof(SelectedFrameContent));
+                OnPropertyChanged(nameof(FrameGeneratorButtonText));
+                OnPropertyChanged(nameof(FrameGenRunning));
+            }
         }
 
         private void _selectedDeviceStore_SelectedDeviceChanged()

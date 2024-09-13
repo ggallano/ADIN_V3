@@ -108,6 +108,7 @@
     <Compile Include="Models\ADIN1300\TestModeADIN1300.cs" />
     <Compile Include="Models\ADIN1320Model.cs" />
     <Compile Include="Models\ADIN1320\FrameGenCheckerADIN1320.cs" />
+    <Compile Include="Models\ADIN1320\LinkPropertiesADIN1320.cs" />
     <Compile Include="Models\ADIN1320\LoopbackADIN1320.cs" />
     <Compile Include="Models\ADIN2111Model.cs" />
     <Compile Include="Models\IClockPinControl.cs" />
