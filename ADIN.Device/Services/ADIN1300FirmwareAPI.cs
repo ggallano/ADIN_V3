@@ -1696,5 +1696,63 @@ namespace ADIN.Device.Services
                     break;
             }
         }
+
+        public FrameGenCheckerModel GetFrameGenSettings(List<FrameContentModel> framecontents, bool IsCuPhySelected)
+        {
+            FrameGenCheckerModel frameGenSettings = new FrameGenCheckerModel();
+
+            if (IsCuPhySelected)
+            {
+                frameGenSettings.EnableContinuousMode = ReadYodaRg("FgContModeEn") == "1";
+                frameGenSettings.FrameBurst = (Convert.ToUInt32(this.ReadYodaRg("FgNfrmH")) * 65536) + Convert.ToUInt32(this.ReadYodaRg("FgNfrmL"));
+                frameGenSettings.FrameLength = Convert.ToUInt32(this.ReadYodaRg("FgFrmLen"));
+                
+                switch (ReadYodaRg("FgCntrl"))
+                {
+                    case "1":
+                        frameGenSettings.FrameContent = framecontents[0];
+                        break;
+                    case "2":
+                        frameGenSettings.FrameContent = framecontents[1];
+                        break;
+                    case "3":
+                        frameGenSettings.FrameContent = framecontents[2];
+                        break;
+                    case "4":
+                        frameGenSettings.FrameContent = framecontents[3];
+                        break;
+                    default:
+                        // Do nothing
+                        break;
+                }
+            }
+            //else
+            //{
+            //    frameGenSettings.EnableContinuousMode = ReadYodaRg("FgContModeEn") == "1";
+            //    frameGenSettings.FrameBurst = (Convert.ToUInt32(this.ReadYodaRg("FgNfrmH")) * 65536) + Convert.ToUInt32(this.ReadYodaRg("FgNfrmL"));
+            //    frameGenSettings.FrameLength = Convert.ToUInt32(this.ReadYodaRg("FgFrmLen"));
+                
+            //    switch (ReadYodaRg("FgCntrl"))
+            //    {
+            //        case "1":
+            //            frameGenSettings.FrameContent = frameGenSettings.FrameContents[0];
+            //            break;
+            //        case "2":
+            //            frameGenSettings.FrameContent = frameGenSettings.FrameContents[1];
+            //            break;
+            //        case "3":
+            //            frameGenSettings.FrameContent = frameGenSettings.FrameContents[2];
+            //            break;
+            //        case "4":
+            //            frameGenSettings.FrameContent = frameGenSettings.FrameContents[3];
+            //            break;
+            //        default:
+            //            // Do nothing
+            //            break;
+            //    }
+            //}
+
+            return frameGenSettings;
+        }
     }
 }

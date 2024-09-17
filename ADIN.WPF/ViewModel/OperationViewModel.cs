@@ -9,7 +9,9 @@ using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
 using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Documents;
 
 namespace ADIN.WPF.ViewModel
 {
@@ -22,9 +24,34 @@ namespace ADIN.WPF.ViewModel
         private bool _enableTabs = false;
         private bool _isAdin2111 = false;
         private bool _isBusy = false;
-        private bool _isCableDiagSelected;
-        private bool _isCableDiagVisible = true;
+        private List<string> _availableTabs = new List<string>()
+        {
+            "LinkProperties",
+            "ClockPinControl",
+            "Loopback",
+            "FrameGenChecker",
+            "TestModes",
+            "CableDiagnostics",
+            "RegisterAccess",
+        };
+        private string _selectedTab = string.Empty;
+        private bool _isADIN1300CableDiagAvailable;
+        private bool _isADIN1100CableDiagAvailable;
+
+        private bool _isLinkPropVisible = true;
+        private bool _isLinkPropSelected = true;
+        private bool _isClkPinControlVisible = true;
+        private bool _isClkPinControlSelected = false;
+        private bool _isLoopbackVisible = true;
+        private bool _isLoopbackSelected = false;
+        private bool _isFrameGenVisible = true;
+        private bool _isFrameGenSelected = false;
+        private bool _isLoopbackFrameGenVisible = false;
+        private bool _isLoopbackFrameGenSelected = false;
+        private bool _isTestModeVisible = true;
         private bool _isTestModeSelected = false;
+        private bool _isCableDiagVisible = true;
+        private bool _isCableDiagSelected = false;
 
         public OperationViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore, IRegisterService registerService, ScriptService scriptService, object mainLock)
         {
@@ -38,6 +65,7 @@ namespace ADIN.WPF.ViewModel
             RegisterListingVM = new RegisterListingViewModel(selectedDeviceStore, ftdiService);
             LinkPropertiesVM = new LinkPropertiesViewModel(_navigationStore, _selectedDeviceStore);
             LoopbackVM = new LoopbackViewModel(_selectedDeviceStore, ftdiService);
+            LoopbackFrameGenVM = new LoopbackFrameGenViewModel(_selectedDeviceStore, mainLock, ftdiService);
             FrameGenCheckerVM = new FrameGenCheckerViewModel(_selectedDeviceStore, mainLock, ftdiService);
             ClockPinControlVM = new ClockPinControlViewModel(_navigationStore, _selectedDeviceStore);
             TestModeVM = new TestModeViewModel(_selectedDeviceStore);
@@ -50,6 +78,8 @@ namespace ADIN.WPF.ViewModel
                 ActiveLinkMonVM = new ActiveLinkMonViewModel(_selectedDeviceStore, mainLock);
 
             StatusStripVM = new StatusStripViewModel(_selectedDeviceStore, scriptService);
+
+            _selectedTab = _availableTabs[0];
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.BusyStateChanged += _selectedDeviceStore_BusyStateChanged;
@@ -143,31 +173,136 @@ namespace ADIN.WPF.ViewModel
             }
         }
 
-        public bool IsCableDiagSelected
+        public bool IsLinkPropVisible
         {
             get
             {
-                return _isCableDiagSelected;
-            }
-
-            set
-            {
-                _isCableDiagSelected = value;
-                OnPropertyChanged(nameof(IsCableDiagSelected));
+                return _availableTabs.Contains("LinkProperties");
             }
         }
 
-        public bool IsCableDiagVisible
+        public bool IsLinkPropSelected
         {
             get
             {
-                return _isCableDiagVisible;
+                return _selectedTab == "LinkProperties";
             }
 
             set
             {
-                _isCableDiagVisible = value;
-                OnPropertyChanged(nameof(IsCableDiagVisible));
+                _selectedTab = "LinkProperties";
+                UpdateSelectedTab();
+            }
+        }
+
+//        public bool IsClkPinControlVisible
+//        {
+//            get
+//            {
+//#if DISABLE_T1L
+//                return true;
+//#else
+//                if (_selectedDeviceStore.SelectedDevice == null)
+//                    return false;
+
+//                return _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1300 || _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1200;
+//#endif
+//            }
+//        }
+
+        public bool IsClkPinControlVisible
+        {
+            get
+            {
+                return _availableTabs.Contains("ClockPinControl");
+            }
+        }
+
+        public bool IsClkPinControlSelected
+        {
+            get
+            {
+                return _selectedTab == "ClockPinControl";
+            }
+
+            set
+            {
+                _selectedTab = "ClockPinControl";
+                UpdateSelectedTab();
+            }
+        }
+
+        public bool IsLoopbackVisible
+        {
+            get
+            {
+                return _availableTabs.Contains("Loopback");
+            }
+        }
+
+        public bool IsLoopbackSelected
+        {
+            get
+            {
+                return _selectedTab == "Loopback";
+            }
+
+            set
+            {
+                _selectedTab = "Loopback";
+                UpdateSelectedTab();
+            }
+        }
+
+        public bool IsFrameGenVisible
+        {
+            get
+            {
+                return _availableTabs.Contains("FrameGenChecker");
+            }
+        }
+
+        public bool IsFrameGenSelected
+        {
+            get
+            {
+                return _selectedTab == "FrameGenChecker";
+            }
+
+            set
+            {
+                _selectedTab = "FrameGenChecker";
+                UpdateSelectedTab();
+            }
+        }
+
+        public bool IsLoopbackFrameGenVisible
+        {
+            get
+            {
+                return _availableTabs.Contains("LoopbackFrameGenChecker");
+            }
+        }
+
+        public bool IsLoopbackFrameGenSelected
+        {
+            get
+            {
+                return _selectedTab == "LoopbackFrameGenChecker";
+            }
+
+            set
+            {
+                _selectedTab = "LoopbackFrameGenChecker";
+                UpdateSelectedTab();
+            }
+        }
+
+        public bool IsTestModeVisible
+        {
+            get
+            {
+                return _availableTabs.Contains("TestModes");
             }
         }
 
@@ -175,29 +310,62 @@ namespace ADIN.WPF.ViewModel
         {
             get
             {
-                return _isTestModeSelected;
+                return _selectedTab == "TestModes";
             }
 
             set
             {
-                _isTestModeSelected = value;
-                OnPropertyChanged(nameof(IsTestModeSelected));
+                _selectedTab = "TestModes";
+                UpdateSelectedTab();
             }
         }
 
-        public bool IsClkPinControlVisible
+        public bool IsCableDiagVisible
         {
             get
             {
-#if DISABLE_T1L
-                return true;
-#else
-                if (_selectedDeviceStore.SelectedDevice == null)
-                    return false;
-
-                return _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1300 || _selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1200;
-#endif
+                return _availableTabs.Contains("CableDiagnostics") && (_isADIN1300CableDiagAvailable || _isADIN1100CableDiagAvailable);
             }
+        }
+
+        public bool IsCableDiagSelected
+        {
+            get
+            {
+                return _selectedTab == "CableDiagnostics";
+            }
+
+            set
+            {
+                _selectedTab = "CableDiagnostics";
+                UpdateSelectedTab();
+            }
+        }
+
+        public bool IsRegAccessSelected
+        {
+            get
+            {
+                return _selectedTab == "RegisterAccess";
+            }
+
+            set
+            {
+                _selectedTab = "RegisterAccess";
+                UpdateSelectedTab();
+            }
+        }
+
+        private void UpdateSelectedTab ()
+        {
+            OnPropertyChanged(nameof(IsLinkPropSelected));
+            OnPropertyChanged(nameof(IsClkPinControlSelected));
+            OnPropertyChanged(nameof(IsLoopbackSelected));
+            OnPropertyChanged(nameof(IsFrameGenSelected));
+            OnPropertyChanged(nameof(IsLoopbackFrameGenSelected));
+            OnPropertyChanged(nameof(IsTestModeSelected));
+            OnPropertyChanged(nameof(IsCableDiagSelected));
+            OnPropertyChanged(nameof(IsRegAccessSelected));
         }
 
         public LinkPropertiesViewModel LinkPropertiesVM { get; set; }
@@ -205,6 +373,8 @@ namespace ADIN.WPF.ViewModel
         public LogActivityViewModel LogActivityVM { get; set; }
 
         public LoopbackViewModel LoopbackVM { get; set; }
+
+        public LoopbackFrameGenViewModel LoopbackFrameGenVM { get; set; }
 
         public MenuItemViewModel MenuItemVM { get; set; }
 
@@ -256,10 +426,24 @@ namespace ADIN.WPF.ViewModel
 
             EnableTabs = true;
 
+            _availableTabs.Clear();
+            _availableTabs.Add("LinkProperties");
+            _availableTabs.Add("ClockPinControl");
+            _availableTabs.Add("Loopback");
+            _availableTabs.Add("FrameGenChecker");
+            _availableTabs.Add("LoopbackFrameGenChecker");
+            _availableTabs.Add("TestModes");
+            _availableTabs.Add("CableDiagnostics");
+            _availableTabs.Add("RegisterAccess");
+
+            _isADIN1300CableDiagAvailable = false;
+            _isADIN1100CableDiagAvailable = false;
+
             if (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1300
              || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1200)
             {
-                IsCableDiagVisible = _selectedDeviceStore.SelectedDevice.IsADIN1300CableDiagAvailable;
+                _isADIN1300CableDiagAvailable = _selectedDeviceStore.SelectedDevice.IsADIN1300CableDiagAvailable;
+                _availableTabs.Remove("LoopbackFrameGenChecker");
             }
 
             if (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1100
@@ -267,18 +451,37 @@ namespace ADIN.WPF.ViewModel
               || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1110
               || _selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN2111)
             {
-                IsCableDiagVisible = _selectedDeviceStore.SelectedDevice.IsADIN1100CableDiagAvailable;
-
-                if (IsCableDiagVisible == false && IsCableDiagSelected == true)
-                {
-                    IsTestModeSelected = true;
-                }
+                _isADIN1100CableDiagAvailable = _selectedDeviceStore.SelectedDevice.IsADIN1100CableDiagAvailable;
+                _availableTabs.Remove("ClockPinControl");
+                _availableTabs.Remove("LoopbackFrameGenChecker");
             }
+
+            if (_selectedDeviceStore.SelectedDevice?.DeviceType == BoardType.ADIN1320)
+            {
+                _availableTabs.Remove("ClockPinControl");
+                _availableTabs.Remove("Loopback");
+                _availableTabs.Remove("FrameGenChecker");
+                _availableTabs.Remove("TestModes");
+                _availableTabs.Remove("CableDiagnostics");
+            }
+
+            if (!_availableTabs.Contains(_selectedTab))
+            {
+                _selectedTab = _availableTabs[0];
+                UpdateSelectedTab();
+            }
+
 
             OnPropertyChanged(nameof(IsActiveLinkMonEnabled));
             OnPropertyChanged(nameof(IsADIN1100Visible));
             OnPropertyChanged(nameof(IsADIN1300Visible));
+            OnPropertyChanged(nameof(IsLinkPropVisible));
             OnPropertyChanged(nameof(IsClkPinControlVisible));
+            OnPropertyChanged(nameof(IsLoopbackVisible));
+            OnPropertyChanged(nameof(IsFrameGenVisible));
+            OnPropertyChanged(nameof(IsLoopbackFrameGenVisible));
+            OnPropertyChanged(nameof(IsTestModeVisible));
+            OnPropertyChanged(nameof(IsCableDiagVisible));
             OnPropertyChanged(nameof(IsBusy));
         }
 

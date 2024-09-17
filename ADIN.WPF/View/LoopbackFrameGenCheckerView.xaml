@@ -1,0 +1,130 @@
+﻿<UserControl x:Class="ADIN.WPF.View.LoopbackFrameGenCheckerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:telerik='http://schemas.telerik.com/2008/xaml/presentation'
+             xmlns:local="clr-namespace:ADIN.WPF.View"
+             xmlns:converters="clr-namespace:ADIN.WPF.Converters"
+             xmlns:enum="clr-namespace:ADIN.Device.Models;assembly=ADIN.Device"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="680">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:BooleanVisibilityConverter x:Key="booleanVisibilityConverter" IsInversed="False"/>
+            <converters:BooleanVisibilityConverter x:Key="invertedBooleanVisibilityConverter" IsInversed="True"/>
+
+            <Style x:Key="TextBlockSuppressionStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="5 0 0 0 "/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" >
+        <StackPanel Orientation="Vertical">
+
+            <GroupBox Style="{StaticResource GroupBoxStyle}" Margin="5 10 5 5">
+                <GroupBox.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="74"/>
+                            <ColumnDefinition Width="75"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Loopback" FontSize="14" FontWeight="Bold"/>
+                        <telerik:RadRadioButton Grid.Column="1" Width="75" Margin="0" CornerRadius="4, 0, 0, 4" GroupName="SerDesMode" Style="{StaticResource RadioButtonStyle}" Content="Cu PHY" IsEnabled="{Binding IsFrameGenOff}" IsChecked="{Binding IsCuPhySelected}"/>
+                        <telerik:RadRadioButton Grid.Column="2" Width="75" Margin="0" CornerRadius="0, 4, 4, 0" GroupName="SerDesMode" Style="{StaticResource RadioButtonStyle}" Content="SerDes" IsEnabled="{Binding IsFrameGenOff}" IsChecked="{Binding IsSerDesSelected}"/>
+                    </Grid>
+                </GroupBox.Header>
+
+                <StackPanel Orientation="Vertical" IsEnabled="{Binding IsDeviceSelected}">
+                    <WrapPanel HorizontalAlignment='Left'  Orientation='Horizontal'>
+
+                        <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="None"           IsChecked="{Binding IsLoopback_None}"/>
+                        <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="All Digital"    IsChecked="{Binding IsLoopback_Digital}"       IsEnabled="{Binding IsCuPhySelected}"/>
+                        <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Line Driver"    IsChecked="{Binding IsLoopback_LineDriver}"    IsEnabled="{Binding IsCuPhySelected}"/>
+                        <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="SerDes Digital" IsChecked="{Binding IsLoopback_SerDesDigital}" IsEnabled="{Binding IsSerDesSelected}"/>
+                        <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="SerDes"         IsChecked="{Binding IsLoopback_SerDes}"        IsEnabled="{Binding IsSerDesSelected}"/>
+                        <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Line Interface" IsChecked="{Binding IsLoopback_LineInterface}" IsEnabled="{Binding IsSerDesSelected}"/>
+                        <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="MII"            IsChecked="{Binding IsLoopback_MII}"           IsEnabled="{Binding IsSerDesSelected}"/>
+                        <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="External Cable" IsChecked="{Binding IsLoopback_ExtCable}"/>
+                        <telerik:RadRadioButton GroupName="Loopback" Style="{StaticResource RadioButtonStyle}" Content="Remote"         IsChecked="{Binding IsLoopback_Remote}"/>
+
+                        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="0" Margin="10 3 0 0">
+                            <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                                <CheckBox IsChecked="{Binding IsRxSuppression}" Content="Rx Suppression" Style="{StaticResource CheckBoxStyle}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsTxSuppression}" Content="Tx Suppression" Style="{StaticResource CheckBoxStyle}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
+
+            <Grid>
+                <Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="5 0 -15 0" Source="{Binding ImagePath}"               VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Visibility="{Binding IsDeviceSelected, Converter={StaticResource booleanVisibilityConverter}}"/>
+                <Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="5 0 -15 0" Source="{Binding ImagePath_TxSuppression}" VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Visibility="{Binding IsTxSuppression, Converter={StaticResource booleanVisibilityConverter}}"/>
+                <Image Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="5 0 -15 0" Source="{Binding ImagePath_RxSuppression}" VerticalAlignment="Top" Stretch="Uniform" HorizontalAlignment="Left" Visibility="{Binding IsRxSuppression, Converter={StaticResource booleanVisibilityConverter}}"/>
+            </Grid>
+
+            <GroupBox Style="{StaticResource GroupBoxStyle}" Margin="5" Height="150">
+                <GroupBox.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Frame Generator" FontSize="14" FontWeight="Bold"/>
+                        <telerik:RadButton Grid.Column="1" Margin="0" Content="Clear Results" ToolTip='Reset all frame checker settings to defaults.'  Command="{Binding ResetFrameCheckerCommnad}" x:Name="ResetSettings" Style="{StaticResource FramGenButtonStyle}"/>
+                        <telerik:RadButton Grid.Column="3" Margin="0" Content="{Binding FrameGeneratorButtonText}" ToolTip='Start generatting frames.'  Command="{Binding ExecuteFrameCheckerCommand}" x:Name="GenerateFrames" Style="{StaticResource FramGenButtonStyle}"/>
+                    </Grid>
+
+                </GroupBox.Header>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Margin="5" Grid.Column="0">
+                        <CheckBox IsEnabled="{Binding FrameGenRunning}" ToolTip='Enable this to send a continuous stream of frames. Alternative is to send a burst of frames of a certain length.' IsChecked="{Binding EnableContinuousMode}" Style="{StaticResource CheckBoxStyle}">Continuous Mode until terminated</CheckBox>
+                        <TextBlock Grid.Row="0" Text="Frame Content" Margin="0 10 0 0" Style="{StaticResource TextBlockstyle}" />
+                        <ComboBox Name="FrameContent" Grid.Row="1" Margin="0 5 0 0" IsEnabled="{Binding FrameGenRunning}" ItemsSource="{Binding FrameContents}" SelectedItem="{Binding SelectedFrameContent}" Style="{StaticResource ComboBoxFlatStyle}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Margin="0" Grid.Column="2">
+                        <Grid Margin="0 5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Number of Frames in Burst" Style="{StaticResource TextBlockstyle}" IsEnabled="{Binding EnableFrameBurst}"/>
+                            <TextBox   Grid.Row="0" Grid.Column="1" Text="{Binding FrameBurst_Value, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0.5" Background="Transparent" Width="50" HorizontalAlignment="Right" HorizontalContentAlignment="Center" IsEnabled="{Binding EnableFrameBurst}"/>
+                            <Slider    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="SliderFrameNumber" Value="{Binding FrameBurst_Value}" Minimum="100" Maximum="65536" SmallChange="100" TickFrequency="100" IsSnapToTickEnabled="True" IsEnabled="{Binding EnableFrameBurst}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Frame Length" Style="{StaticResource TextBlockstyle}"/>
+                            <TextBox   Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding FrameLength_Value, UpdateSourceTrigger=PropertyChanged}" BorderThickness="1" Background="Transparent" Width="50" HorizontalContentAlignment="Center"/>
+                            <Slider    Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Name="SliderFrameLength" Value="{Binding FrameLength_Value}" Minimum="100" SmallChange="100" Maximum="65500" TickFrequency="100" IsSnapToTickEnabled="True"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

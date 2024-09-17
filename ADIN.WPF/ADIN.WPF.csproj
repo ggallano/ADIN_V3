@@ -248,6 +248,7 @@
     <Compile Include="ViewModel\FrameGenCheckerViewModel.cs" />
     <Compile Include="ViewModel\LinkPropertiesViewModel.cs" />
     <Compile Include="ViewModel\LogActivityViewModel.cs" />
+    <Compile Include="ViewModel\LoopbackFrameGenViewModel.cs" />
     <Compile Include="ViewModel\LoopbackViewModel.cs" />
     <Compile Include="ViewModel\MenuItemViewModel.cs" />
     <Compile Include="ViewModel\NavigationBarViewModel.cs" />
@@ -261,6 +262,9 @@
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\ActiveLinkMonitoringView.xaml.cs">
       <DependentUpon>ActiveLinkMonitoringView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DeviceStatusADIN1320.xaml.cs">
+      <DependentUpon>DeviceStatusADIN1320.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\FrameGenCheckerStatusView.xaml.cs">
       <DependentUpon>FrameGenCheckerStatusView.xaml</DependentUpon>
@@ -276,6 +280,9 @@
     </Compile>
     <Compile Include="View\LogActivityView.xaml.cs">
       <DependentUpon>LogActivityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoopbackFrameGenCheckerView.xaml.cs">
+      <DependentUpon>LoopbackFrameGenCheckerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LoopbackView.xaml.cs">
       <DependentUpon>LoopbackView.xaml</DependentUpon>
@@ -406,6 +413,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DeviceStatusADIN1320.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\FrameGenCheckerStatusView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -425,6 +436,10 @@
     <Page Include="View\LogActivityView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LoopbackFrameGenCheckerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\LoopbackView.xaml">
       <SubType>Designer</SubType>

@@ -108,6 +108,7 @@
     <Compile Include="Models\ADIN1300\TestModeADIN1300.cs" />
     <Compile Include="Models\ADIN1320Model.cs" />
     <Compile Include="Models\ADIN1320\FrameGenCheckerADIN1320.cs" />
+    <Compile Include="Models\ADIN1320\LinkPropertiesADIN1320.cs" />
     <Compile Include="Models\ADIN1320\LoopbackADIN1320.cs" />
     <Compile Include="Models\ADIN2111Model.cs" />
     <Compile Include="Models\IClockPinControl.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Models\FrameGenCheckerModel.cs" />
     <Compile Include="Models\IADINDevice.cs" />
     <Compile Include="Models\AbstractADINFactory.cs" />
+    <Compile Include="Models\LoopbackFrameGenCheckerModel.cs" />
     <Compile Include="Models\MseModel.cs" />
     <Compile Include="Services\ADIN1110FirmwareAPI.cs" />
     <Compile Include="Services\ADIN1320FirmwareAPI.cs" />

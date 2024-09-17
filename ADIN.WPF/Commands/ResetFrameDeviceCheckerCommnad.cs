@@ -12,7 +12,8 @@ namespace ADIN.WPF.Commands
     public class ResetFrameDeviceCheckerCommnad : CommandBase
     {
         private SelectedDeviceStore _selectedDeviceStore;
-        private FrameGenCheckerViewModel _viewModel;
+        private FrameGenCheckerViewModel _frameGenCheckerViewModel;
+        private LoopbackFrameGenViewModel _loopbackFrameGenViewModel;
 
         /// <summary>
         /// creates new instance
@@ -21,10 +22,18 @@ namespace ADIN.WPF.Commands
         /// <param name="ftdiService"></param>
         public ResetFrameDeviceCheckerCommnad(FrameGenCheckerViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
         {
-            _viewModel = viewModel;
+            _frameGenCheckerViewModel = viewModel;
             _selectedDeviceStore = selectedDeviceStore;
 
-            _viewModel.PropertyChanged += _viewModel_PropertyChanged;
+            _frameGenCheckerViewModel.PropertyChanged += _viewModel_PropertyChanged;
+        }
+
+        public ResetFrameDeviceCheckerCommnad(LoopbackFrameGenViewModel viewModel, SelectedDeviceStore selectedDeviceStore)
+        {
+            _loopbackFrameGenViewModel = viewModel;
+            _selectedDeviceStore = selectedDeviceStore;
+
+            _loopbackFrameGenViewModel.PropertyChanged += _viewModel_PropertyChanged;
         }
 
         public override bool CanExecute(object parameter)

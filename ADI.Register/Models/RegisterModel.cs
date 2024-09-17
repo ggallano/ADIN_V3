@@ -32,6 +32,7 @@ namespace ADI.Register.Models
         public GroupType Group { get; set; }
         public string Image { get; set; }
         public bool IncludeInDump { get; set; }
+        public bool IsPublicShown => Visibility == "Public" || Visibility == "Mixed";
         public string MMap { get; set; }
         public string Name { get; set; }
         public uint ResetValue { get; set; }

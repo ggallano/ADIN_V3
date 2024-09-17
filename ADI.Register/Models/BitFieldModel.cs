@@ -14,6 +14,7 @@ namespace ADI.Register.Models
         public string Access { get; set; }
         public string Documentation { get; set; }
         public bool IncludeInDump { get; set; }
+        public bool IsPublicShown => Visibility == "Public";
         public string MMap { get; set; }
         public string Name { get; set; }
         public string Position => $"[{Start}:{Width}]";

@@ -67,8 +67,6 @@ namespace ADIN.Device.Models.ADIN1320
                 LpBck_LineInterface,
                 LpBck_MII,
             };
-
-            SelectedLoopback = Loopbacks[0];
         }
 
         public LoopbackModel LpBck_None { get; set; }

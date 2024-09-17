@@ -20,11 +20,11 @@ namespace ADIN.Device.Models
         private IRegisterService _registerService;
         private string registerJsonFile;
 
-        public ADIN1300Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock)
+        public ADIN1300Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock, uint phyAddress = 0)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
-            PhyAddress = 0;
+            PhyAddress = phyAddress;
             DeviceType = BoardType.ADIN1300;
 
             //Retrieve Registers
@@ -247,6 +247,7 @@ namespace ADIN.Device.Models
             Loopback.RxSuppression = _fwAPI.RegisterRead("IsolateRx") == "1" ? true : false;
             Loopback.TxSuppression = _fwAPI.RegisterRead("LbTxSup") == "1" ? true : false;
         }
+
         private void GetInitialValuesTestMode()
         {
             var AutonegEn = _fwAPI.RegisterRead("AutonegEn") == "1" ? true : false;
