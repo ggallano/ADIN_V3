@@ -56,7 +56,7 @@ InstallDir "C:\Analog Devices\ADIN"
 !insertmacro MUI_PAGE_README readme.rtf
 
 !ifdef LICENSE_RTF
-!insertmacro MUI_PAGE_LICENSE "${LICENSE_RTF}"
+#!insertmacro MUI_PAGE_LICENSE "${LICENSE_RTF}"
 !endif
 
 !define MUI_PAGE_HEADER_TEXT "Choose Analog Devices Ethernet PHY Software Install Location"
@@ -100,12 +100,12 @@ File "..\ADIN.WPF\bin\Release\FTDI.Driver.dll"
 File "..\ADIN.WPF\bin\Release\FTDI2XX.dll"
 File "..\ADIN.WPF\bin\Release\Helper.dll"
 File "..\ADIN.WPF\bin\Release\ADIN_DeviceEval.exe.config"
-File "..\ADIN.WPF\bin\Release\Microsoft.Expression.Interactions.dll"
+#File "..\ADIN.WPF\bin\Release\Microsoft.Expression.Interactions.dll"
 File "..\ADIN.WPF\bin\Release\Newtonsoft.Json.dll"
 
 File "readme.rtf"
-File "${LICENSE_RTF}"
-File "${LICENSE_PDF}"
+#File "${LICENSE_RTF}"
+#File "${LICENSE_PDF}"
 File "..\Telerik\Telerik.Windows.Controls.Data.dll"
 File "..\Telerik\Telerik.Windows.Controls.DataVisualization.dll"
 File "..\Telerik\Telerik.Windows.Controls.dll"
@@ -191,7 +191,7 @@ Delete "$INSTDIR\FTDI.Driver.dll"
 Delete "$INSTDIR\FTDI2XX.dll"
 Delete "$INSTDIR\Helper.dll"
 Delete "$INSTDIR\ADIN_DeviceEval.exe.config"
-Delete "$INSTDIR\Microsoft.Expression.Interactions.dll"
+#Delete "$INSTDIR\Microsoft.Expression.Interactions.dll"
 Delete "$INSTDIR\Newtonsoft.Json.dll"
 
 Delete "$INSTDIR\readme.rtf"

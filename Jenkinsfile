@@ -68,15 +68,15 @@ pipeline {
 					echo "Start Release Build for ADIN1320 Sample"
 						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
 					echo "[DEBUG] End Release Build for T1L"
-					
-					echo "Start Release Build for T1L"
-						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release_T1L /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
-					echo "[DEBUG] End Release Build for T1L"
-					
-					echo "Start Release Build for Gigabit"
-						"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release_TSN /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
-					echo "[DEBUG] End Release Build for Gigabit"
 				"""
+					
+					// echo "Start Release Build for T1L"
+					// 	"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release_T1L /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
+					// echo "[DEBUG] End Release Build for T1L"
+					
+					// echo "Start Release Build for Gigabit"
+					// 	"${env.MSBUILD_PATH}" ${env.SOLUTION_NAME} /property:Configuration=Release_TSN /p:VisualStudioVersion=14.0 /p:TargetFrameworkSDKToolsDirectory="${env.FRAMEWORK_SDK}" -t:${env.PROJECT_FILES}  /m /p:Platform="Any CPU"
+					// echo "[DEBUG] End Release Build for Gigabit"
             }
         }
 		
@@ -120,17 +120,17 @@ pipeline {
 					"""
 				echo "[DEBUG] End Installer_Creation for ADIN1320"
 				
-				echo "[DEBUG] Start Installer_Creation for T1L"
-					bat """
-						"${env.NSIS_PATH}" /DVERSION=${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber} Installer\\${env.NSIS_SCRIPT_NAME_T1L}
-					"""
-				echo "[DEBUG] End Installer_Creation for T1L"
+				// echo "[DEBUG] Start Installer_Creation for T1L"
+				// 	bat """
+				// 		"${env.NSIS_PATH}" /DVERSION=${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber} Installer\\${env.NSIS_SCRIPT_NAME_T1L}
+				// 	"""
+				// echo "[DEBUG] End Installer_Creation for T1L"
 
-				echo "[DEBUG] Start Installer_Creation for Gigabit"
-					bat """
-						"${env.NSIS_PATH}" /DVERSION=${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber} Installer\\${env.NSIS_SCRIPT_NAME_GIGABIT}
-					"""
-				echo "[DEBUG] End Installer_Creation for Gigabit"
+				// echo "[DEBUG] Start Installer_Creation for Gigabit"
+				// 	bat """
+				// 		"${env.NSIS_PATH}" /DVERSION=${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber} Installer\\${env.NSIS_SCRIPT_NAME_GIGABIT}
+				// 	"""
+				// echo "[DEBUG] End Installer_Creation for Gigabit"
 			}
 		}
 		
@@ -140,19 +140,21 @@ pipeline {
 					script {
 						env.versionNumber = "${env.majorNumber}.${env.minorNumber}.${env.buildNumber}.${env.revisionNumber}"
 						env.releaseInstallerNameADIN1320 	= "${env.BASE_INSTALLER_NAME}_v${env.versionNumber}"
-						env.releaseInstallerNameT1L 	= "${env.BASE_INSTALLER_NAME_T1L}_v${env.versionNumber}"
-						env.releaseInstallerNameGigabit = "${env.BASE_INSTALLER_NAME_GIGABIT}_v${env.versionNumber}"
+						// env.releaseInstallerNameT1L 	= "${env.BASE_INSTALLER_NAME_T1L}_v${env.versionNumber}"
+						// env.releaseInstallerNameGigabit = "${env.BASE_INSTALLER_NAME_GIGABIT}_v${env.versionNumber}"
 					}
 					
 					bat """
 						copy "Installer\\${env.BASE_INSTALLER_NAME}.exe" "Installer\\${env.releaseInstallerNameADIN1320}.exe" /Y
-						copy "Installer\\${env.BASE_INSTALLER_NAME_T1L}.exe" "Installer\\${env.releaseInstallerNameT1L}.exe" /Y
-						copy "Installer\\${env.BASE_INSTALLER_NAME_GIGABIT}.exe" "Installer\\${env.releaseInstallerNameGigabit}.exe" /Y
+						
 					"""
+
+						// copy "Installer\\${env.BASE_INSTALLER_NAME_T1L}.exe" "Installer\\${env.releaseInstallerNameT1L}.exe" /Y
+						// copy "Installer\\${env.BASE_INSTALLER_NAME_GIGABIT}.exe" "Installer\\${env.releaseInstallerNameGigabit}.exe" /Y
 					
 					archiveArtifacts artifacts: "Installer/${env.releaseInstallerNameADIN1320}.exe"
-					archiveArtifacts artifacts: "Installer/${env.releaseInstallerNameT1L}.exe"
-					archiveArtifacts artifacts: "Installer/${env.releaseInstallerNameGigabit}.exe"
+					// archiveArtifacts artifacts: "Installer/${env.releaseInstallerNameT1L}.exe"
+					// archiveArtifacts artifacts: "Installer/${env.releaseInstallerNameGigabit}.exe"
 				echo "[DEBUG] End Publish"
 			}
 		}
