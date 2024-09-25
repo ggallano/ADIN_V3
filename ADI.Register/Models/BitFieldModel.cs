@@ -29,11 +29,16 @@ namespace ADI.Register.Models
             set
             {
                 _value = value;
-                OnBitValueChanged(nameof(Value));
+                
+                if (!IsCurrentlyEditing)
+                {
+                    OnBitValueChanged(nameof(Value));
+                }
             } 
         }
         public string Visibility { get; set; }
         public uint Width { get; set; }
+        public bool IsCurrentlyEditing { get; set; } = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
 

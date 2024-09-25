@@ -6,6 +6,7 @@
 using ADI.Register.Models;
 using ADI.Register.Services;
 using ADIN.Device.Models;
+using ADIN.Device.Services;
 using ADIN.WPF.Stores;
 using FTDIChip.Driver.Services;
 using System;
@@ -90,9 +91,68 @@ namespace ADIN.WPF.ViewModel
 
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
 
-        public void WriteRegister(string name, uint value)
+        public void WriteBitfield(string name, uint value)
         {
-            return;
+            if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)
+            {
+                ((ADIN1300FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).RegisterWrite(name, value);
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
+            {
+                ((ADIN1200FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).RegisterWrite(name, value);
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+            {
+                ((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).RegisterWrite(name, value);
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
+            {
+                ((ADIN1110FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).RegisterWrite(name, value);
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
+            {
+                ((ADIN2111FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).RegisterWrite(name, value);
+            }
+            //else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1320FirmwareAPI)
+            //{
+            //    ((ADIN1320FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).RegisterWrite(name, value);
+            //}
+            else
+            {
+                //Do nothing
+            }
+        }
+
+        public void WriteRegister(uint address, uint value)
+        {
+            if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)
+            {
+                ((ADIN1300FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).RegisterWrite(address, value);
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
+            {
+                ((ADIN1200FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).RegisterWrite(address, value);
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
+            {
+                ((ADIN1100FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).RegisterWrite(address, value);
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1110FirmwareAPI)
+            {
+                ((ADIN1110FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).RegisterWrite(address, value);
+            }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN2111FirmwareAPI)
+            {
+                ((ADIN2111FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).RegisterWrite(address, value);
+            }
+            //else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1320FirmwareAPI)
+            //{
+            //    ((ADIN1320FirmwareAPI)_selectedDeviceStore.SelectedDevice.FwAPI).RegisterWrite(address, value);
+            //}
+            else
+            {
+                //Do nothing
+            }
         }
 
         protected override void Dispose()

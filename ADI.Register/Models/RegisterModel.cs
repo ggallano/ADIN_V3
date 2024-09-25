@@ -36,6 +36,7 @@ namespace ADI.Register.Models
         public string MMap { get; set; }
         public string Name { get; set; }
         public uint ResetValue { get; set; }
+        public bool IsCurrentlyEditing { get; set; } = false;
 
         public string Value
         {
@@ -49,7 +50,11 @@ namespace ADI.Register.Models
             {
                 _value = value;
                 SetBitFieldsValue(Convert.ToUInt32(_value, 16));
-                OnRegValueChanged(nameof(Value));
+
+                if (!IsCurrentlyEditing)
+                {
+                    OnRegValueChanged(nameof(Value));
+                }
             }
         }
 

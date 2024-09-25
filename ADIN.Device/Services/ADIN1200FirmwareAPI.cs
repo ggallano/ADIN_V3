@@ -645,6 +645,11 @@ namespace ADIN.Device.Services
             return WriteYodaRg(regAddress, data);
         }
 
+        public void RegisterWrite(string register, uint data)
+        {
+            WriteYodaRg(register, data);
+        }
+
         public List<string> RemoteAdvertisedSpeedList()
         {
             List<string> remoteSpeeds = new List<string>();
