@@ -40,8 +40,24 @@ namespace ADIN.WPF.View
                     uint newValue = 0;
                     if (ParseValue((string)e.NewData, out newValue))
                     {
-                        registerViewModel.WriteRegister(rdetails.Name, newValue);
+                        registerViewModel.WriteRegister(rdetails.Address, newValue);
+                        rdetails.IsCurrentlyEditing = false;
                     }
+                }
+                else if (e.Cell.DataContext is BitFieldModel)
+                {
+                    RegisterListingViewModel registerViewModel = (RegisterListingViewModel)this.DataContext;
+                    BitFieldModel bdetails = (BitFieldModel)e.Cell.DataContext;
+                    uint newValue = 0;
+                    if (ParseValue((string)e.NewData, out newValue))
+                    {
+                        registerViewModel.WriteBitfield(bdetails.Name, newValue);
+                        bdetails.IsCurrentlyEditing = false;
+                    }
+                }
+                else
+                {
+                    //Do nothing
                 }
             }
         }
@@ -81,6 +97,22 @@ namespace ADIN.WPF.View
                     if (rdetails.Access == "R")
                     {
                         e.Cancel = true;
+                    }
+                    else
+                    {
+                        rdetails.IsCurrentlyEditing = true;
+                    }
+                }
+                else if (e.Row.Item is BitFieldModel)
+                {
+                    BitFieldModel bdetails = (BitFieldModel)e.Row.Item;
+                    if (bdetails.Access == "R")
+                    {
+                        e.Cancel = true;
+                    }
+                    else
+                    {
+                        bdetails.IsCurrentlyEditing = true;
                     }
                 }
 
