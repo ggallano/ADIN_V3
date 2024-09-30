@@ -100,19 +100,19 @@
     </Reference>
     <Reference Include="SciChart.Charting, Version=5.4.0.12119, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SciChartLibraries\SciChart.Charting.dll</HintPath>
+      <HintPath>..\..\SciChartLibraries\SciChart.Charting.dll</HintPath>
     </Reference>
     <Reference Include="SciChart.Core, Version=5.4.0.12119, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SciChartLibraries\SciChart.Core.dll</HintPath>
+      <HintPath>..\..\SciChartLibraries\SciChart.Core.dll</HintPath>
     </Reference>
     <Reference Include="SciChart.Data, Version=5.4.0.12119, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SciChartLibraries\SciChart.Data.dll</HintPath>
+      <HintPath>..\..\SciChartLibraries\SciChart.Data.dll</HintPath>
     </Reference>
     <Reference Include="SciChart.Drawing, Version=5.4.0.12119, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SciChartLibraries\SciChart.Drawing.dll</HintPath>
+      <HintPath>..\..\SciChartLibraries\SciChart.Drawing.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
