@@ -1359,5 +1359,10 @@ namespace ADIN.Device.Services
         {
             throw new NotImplementedException();
         }
+
+        public string GetValue(string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

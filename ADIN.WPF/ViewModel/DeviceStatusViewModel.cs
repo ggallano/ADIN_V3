@@ -434,7 +434,7 @@ namespace ADIN.WPF.ViewModel
             {
                 try
                 {
-                    lock (_mainLock)
+                    //lock (_mainLock)
                         if (_selectedDevice != null && _ftdiService.IsComOpen)
                         {
 

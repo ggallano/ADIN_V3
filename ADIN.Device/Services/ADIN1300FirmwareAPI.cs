@@ -6,10 +6,12 @@
 using ADI.Register.Models;
 using ADI.Register.Services;
 using ADIN.Device.Models;
+using ADIN.Device.Models.ADIN1300;
 using ADIN.WPF.Models;
 using FTDIChip.Driver.Services;
 using Helper.Feedback;
 using Helper.SignalToNoiseRatio;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -1758,6 +1760,27 @@ namespace ADIN.Device.Services
             //}
 
             return frameGenSettings;
+        }
+
+        public string GetValue(string name)
+        {
+            List<RegisterModel> matchRegisters = _registers.Where(x => x.Name == name).ToList();
+            if (matchRegisters.Count != 0)
+            {
+                return matchRegisters[0].Value;
+            }
+
+            matchRegisters = _registers.Where(r => r.BitFields.Any(b => b.Name == name)).ToList();
+            if (matchRegisters.Count != 0)
+            {
+                List<BitFieldModel> matchBitFields = matchRegisters[0].BitFields.Where(b => b.Name == name).ToList();
+                if (matchBitFields.Count != 0)
+                {
+                    return matchBitFields[0].Value.ToString();
+                }
+            }
+
+            return string.Empty;
         }
     }
 }

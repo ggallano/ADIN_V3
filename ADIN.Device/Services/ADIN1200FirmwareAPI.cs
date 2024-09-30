@@ -1548,5 +1548,26 @@ namespace ADIN.Device.Services
                     return "-";
             }
         }
+
+        public string GetValue(string name)
+        {
+            List<RegisterModel> matchRegisters = _registers.Where(x => x.Name == name).ToList();
+            if (matchRegisters.Count != 0)
+            {
+                return matchRegisters[0].Value;
+            }
+
+            matchRegisters = _registers.Where(r => r.BitFields.Any(b => b.Name == name)).ToList();
+            if (matchRegisters.Count != 0)
+            {
+                List<BitFieldModel> matchBitFields = matchRegisters[0].BitFields.Where(b => b.Name == name).ToList();
+                if (matchBitFields.Count != 0)
+                {
+                    return matchBitFields[0].Value.ToString();
+                }
+            }
+
+            return string.Empty;
+        }
     }
 }
