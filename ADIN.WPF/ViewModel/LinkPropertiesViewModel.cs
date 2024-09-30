@@ -6,7 +6,10 @@
 using ADIN.Device.Models;
 using ADIN.Device.Services;
 using ADIN.WPF.Stores;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace ADIN.WPF.ViewModel
 {
@@ -14,11 +17,14 @@ namespace ADIN.WPF.ViewModel
     {
         private NavigationStore _navigationStore;
         private SelectedDeviceStore _selectedDeviceStore;
+        private BackgroundWorker _backgroundWorker;
 
         public LinkPropertiesViewModel(NavigationStore navigationStore, SelectedDeviceStore selectedDeviceStore)
         {
             _navigationStore = navigationStore;
             _selectedDeviceStore = selectedDeviceStore;
+
+            SetBackgroundWroker();
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
         }
@@ -870,6 +876,173 @@ namespace ADIN.WPF.ViewModel
             }
             OnPropertyChanged(nameof(IsMasterSlaveForcedVisible));
             OnPropertyChanged(nameof(IsMasterSlavePrefVisible));
+        }
+
+        private void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while(!_backgroundWorker.CancellationPending)
+            {
+                try
+                {
+                    if (_selectedDeviceStore.SelectedDevice != null)
+                    {
+                        IMDIOAPI mdioAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IMDIOAPI;
+
+                        if (IsGigabitBoard)
+                        {
+                            _linkProperties.SpeedMode = mdioAPI.GetValue("AutonegEn") == "1" ? _linkProperties.SpeedModes[0] : _linkProperties.SpeedModes[1];
+                            OnPropertyChanged(nameof(SelectedSpeedMode));
+
+                            if (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1300)
+                            {
+                                _linkProperties.IsAdvertise_1000BASE_T_FD = mdioAPI.GetValue("Fd1000Adv") == "1" ? true : false;
+                                OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
+
+                                _linkProperties.IsAdvertise_1000BASE_T_HD = mdioAPI.GetValue("Hd1000Adv") == "1" ? true : false;
+                                OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
+                            }
+
+                            _linkProperties.IsAdvertise_100BASE_TX_FD = mdioAPI.GetValue("Fd100Adv") == "1" ? true : false;
+                            OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
+
+                            _linkProperties.IsAdvertise_100BASE_TX_HD = mdioAPI.GetValue("Hd100Adv") == "1" ? true : false;
+                            OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
+
+                            _linkProperties.IsAdvertise_10BASE_T_FD = mdioAPI.GetValue("Fd10Adv") == "1" ? true : false;
+                            OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
+
+                            _linkProperties.IsAdvertise_10BASE_T_HD = mdioAPI.GetValue("Hd10Adv") == "1" ? true : false;
+                            OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
+
+                            _linkProperties.IsAdvertise_EEE_1000BASE_T = mdioAPI.GetValue("Eee1000Adv") == "1" ? true : false;
+                            OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
+
+                            _linkProperties.IsAdvertise_EEE_100BASE_TX = mdioAPI.GetValue("Eee100Adv") == "1" ? true : false;
+                            OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
+
+                            _linkProperties.IsDownSpeed_100BASE_TX_HD = mdioAPI.GetValue("DnSpeedTo100En") == "1" ? true : false;
+                            OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
+
+                            _linkProperties.IsDownSpeed_10BASE_T_HD = mdioAPI.GetValue("DnSpeedTo10En") == "1" ? true : false;
+                            OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
+
+                            _linkProperties.DownSpeedRetries = Convert.ToUInt32(mdioAPI.GetValue("NumSpeedRetry"));
+                            OnPropertyChanged(nameof(SetDownSpeedRetries));
+
+                            var NrgPdEn = mdioAPI.GetValue("NrgPdEn") == "1" ? true : false;
+                            var NrgPdTxEn = mdioAPI.GetValue("NrgPdTxEn") == "1" ? true : false;
+
+                            if (!NrgPdEn)
+                                _linkProperties.EnergyDetectPowerDownMode = _linkProperties.EnergyDetectPowerDownModes[0];
+
+                            if (NrgPdEn)
+                                if (!NrgPdTxEn)
+                                    _linkProperties.EnergyDetectPowerDownMode = _linkProperties.EnergyDetectPowerDownModes[1];
+
+                            if (NrgPdEn)
+                                if (NrgPdTxEn)
+                                    _linkProperties.EnergyDetectPowerDownMode = _linkProperties.EnergyDetectPowerDownModes[2];
+
+                            OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
+
+                            var SpeedSelLsb = mdioAPI.GetValue("SpeedSelLsb");
+                            var SpeedSelMsb = mdioAPI.GetValue("SpeedSelMsb");
+                            var DplxMode = mdioAPI.GetValue("DplxMode") == "1" ? true : false;
+
+                            if (SpeedSelLsb == "2")
+                                if (SpeedSelMsb == "2")
+                                    if (DplxMode)
+                                        _linkProperties.ForcedSpeed = _linkProperties.ForcedSpeeds[4];
+
+                            if (SpeedSelLsb == "1")
+                                if (SpeedSelMsb == "1")
+                                    if (DplxMode)
+                                        _linkProperties.ForcedSpeed = _linkProperties.ForcedSpeeds[3];
+
+                            if (SpeedSelLsb == "1")
+                                if (SpeedSelMsb == "1")
+                                    if (!DplxMode)
+                                        _linkProperties.ForcedSpeed = _linkProperties.ForcedSpeeds[2];
+
+                            if (SpeedSelLsb == "0")
+                                if (SpeedSelMsb == "0")
+                                    if (DplxMode)
+                                        _linkProperties.ForcedSpeed = _linkProperties.ForcedSpeeds[1];
+
+                            if (SpeedSelLsb == "0")
+                                if (SpeedSelMsb == "0")
+                                    if (!DplxMode)
+                                        _linkProperties.ForcedSpeed = _linkProperties.ForcedSpeeds[0];
+
+                            OnPropertyChanged(nameof(SelectedForcedSpeed));
+
+                            var AutoMdiEn = mdioAPI.GetValue("AutoMdiEn") == "1" ? true : false;
+                            var ManMdix = mdioAPI.GetValue("ManMdix") == "1" ? true : false;
+
+                            if (AutoMdiEn)
+                                _linkProperties.MDIX = _linkProperties.MDIXs[0];
+
+                            if (!AutoMdiEn)
+                                if (!ManMdix)
+                                    _linkProperties.MDIX = _linkProperties.MDIXs[1];
+
+                            if (!AutoMdiEn)
+                                if (ManMdix)
+                                    _linkProperties.MDIX = _linkProperties.MDIXs[2];
+
+                            OnPropertyChanged(nameof(SelectedMDIX));
+
+                            var PrefMstrAdv = mdioAPI.GetValue("PrefMstrAdv") == "1" ? true : false;
+
+                            if (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1300)
+                            {
+                                if (PrefMstrAdv)
+                                    _linkProperties.MasterSlaveAdvertise = _linkProperties.MasterSlaveAdvertises[0];
+
+                                if (!PrefMstrAdv)
+                                    _linkProperties.MasterSlaveAdvertise = _linkProperties.MasterSlaveAdvertises[1];
+                            }
+
+                            OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
+
+                            OnPropertyChanged(nameof(IsANAdvertised1GSpeedVisible));
+                            OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
+                            OnPropertyChanged(nameof(IsForcedSpeedVisible));
+                            OnPropertyChanged(nameof(IsMasterSlaveForcedVisible));
+                            OnPropertyChanged(nameof(IsMasterSlavePrefVisible));
+                        }
+
+                        
+                    }
+                }
+                catch(Exception ex)
+                {
+                    //Do nothing
+                }
+            }
+        }
+
+        private void _backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            Debug.WriteLine("Progress Changed");
+        }
+
+        private void _backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Debug.WriteLine("_backgroundWorker Completed");
+        }
+
+        private void SetBackgroundWroker()
+        {
+            _backgroundWorker = new BackgroundWorker();
+            _backgroundWorker.WorkerReportsProgress = true;
+            _backgroundWorker.WorkerSupportsCancellation = true;
+
+            _backgroundWorker.DoWork += _backgroundWorker_DoWork;
+            _backgroundWorker.RunWorkerCompleted += _backgroundWorker_RunWorkerCompleted;
+            _backgroundWorker.ProgressChanged += _backgroundWorker_ProgressChanged;
+
+            _backgroundWorker.RunWorkerAsync();
         }
     }
 }
