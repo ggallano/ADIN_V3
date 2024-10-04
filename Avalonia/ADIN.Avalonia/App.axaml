@@ -4,6 +4,8 @@
              xmlns:local="using:ADIN.Avalonia"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+	
+	
 
     <Application.DataTemplates>
         <local:ViewLocator/>
@@ -11,5 +13,6 @@
   
     <Application.Styles>
 		<HarmonicTheme />
+		<StyleInclude Source="/Themes/ButtonStyle.axaml"/>
     </Application.Styles>
 </Application>

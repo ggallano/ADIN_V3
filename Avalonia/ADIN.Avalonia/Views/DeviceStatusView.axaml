@@ -1,0 +1,70 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="800"
+             x:Class="ADIN.Avalonia.Views.DeviceStatusView">
+	<StackPanel Margin="8">
+		<Grid ColumnDefinitions="*,*">
+			<HmcCard Grid.Column="0" Density="High" Margin="8">
+				<HmcCard.Header>
+					<HmcContainerHeader Heading="EVAL-ADIN1320" Subtitle="DQ93SFEB" Density="Medium"/>
+				</HmcCard.Header>
+				<Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,24,Auto,Auto">
+					<TextBlock Grid.Column="0" Grid.Row="0" Text="ADIN1320" Classes="subtitle m"/>
+					<TextBlock Grid.Column="0" Grid.Row="1" Text="Device Type" Classes="body xs"/>
+					<TextBlock Grid.Column="1" Grid.Row="0" Text="0" Classes="subtitle m"/>
+					<TextBlock Grid.Column="1" Grid.Row="1" Text="Phy Address" Classes="body xs"/>
+					<TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Text="Software Powerdown" Classes="subtitle m"/>
+					<TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Text="Device Type" Classes="body xs"/>
+				</Grid>
+			</HmcCard>
+			<HmcCard Grid.Column="1" Density="High" Header="Speed" Margin="8">
+				<Grid RowDefinitions="Auto,Auto,24,Auto,Auto">
+					<TextBlock Grid.Row="0" Text="Advertised" Classes="subtitle m"/>
+					<TextBlock Grid.Row="1" Text="Speed Mode" Classes="body xs"/>
+					<TextBlock Grid.Row="3" Text="SPEED_1000BASE_T_FD" Classes="subtitle m"/>
+					<TextBlock Grid.Row="4" Text="Advertised Speed" Classes="body xs"/>
+				</Grid>
+			</HmcCard>
+		</Grid>
+		<HmcCard Grid.Column="0" Density="High" Header="Frame Checker" Margin="8">
+			<Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,24,Auto,Auto">
+				<TextBlock Grid.Column="0" Grid.Row="0" Text="4294967295" Classes="subtitle l"/>
+				<TextBlock Grid.Column="0" Grid.Row="1" Text="Frames" Classes="body xs"/>
+				<TextBlock Grid.Column="1" Grid.Row="0" Text="65535" Classes="subtitle l"/>
+				<TextBlock Grid.Column="1" Grid.Row="1" Text="Errors" Classes="body xs"/>
+				<TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Text="Frame Transmission in Progress" Classes="subtitle m"/>
+				<TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Text="Generator Status" Classes="body xs"/>
+			</Grid>
+		</HmcCard>
+		<HmcCard Grid.Column="0" Density="High" Header="Mean-Square Error" Margin="8" IsVisible="True">
+			<Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto">
+				<TextBlock Grid.Column="0" Grid.Row="0" Text="10 (25)" Classes="subtitle l"/>
+				<TextBlock Grid.Column="0" Grid.Row="1" Text="Error (Max)" Classes="body xs"/>
+				<TextBlock Grid.Column="1" Grid.Row="0" Text="5 dB" Classes="subtitle l"/>
+				<TextBlock Grid.Column="1" Grid.Row="1" Text="SNR" Classes="body xs"/>
+			</Grid>
+		</HmcCard>
+		<HmcCard Grid.Column="0" Density="High" Header="Mean-Square Error" Margin="8" IsVisible="False">
+			<Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto,Auto,24,Auto,Auto">
+				<TextBlock Grid.Column="0" Grid.Row="0" Text="10 (25)" Classes="subtitle m"/>
+				<TextBlock Grid.Column="0" Grid.Row="1" Text="A - Error (Max)" Classes="body xs"/>
+				<TextBlock Grid.Column="0" Grid.Row="3" Text="5 dB" Classes="subtitle m"/>
+				<TextBlock Grid.Column="0" Grid.Row="4" Text="A - SNR" Classes="body xs"/>
+				<TextBlock Grid.Column="1" Grid.Row="0" Text="10 (25)" Classes="subtitle m"/>
+				<TextBlock Grid.Column="1" Grid.Row="1" Text="B - Error (Max)" Classes="body xs"/>
+				<TextBlock Grid.Column="1" Grid.Row="3" Text="5 dB" Classes="subtitle m"/>
+				<TextBlock Grid.Column="1" Grid.Row="4" Text="B - SNR" Classes="body xs"/>
+				<TextBlock Grid.Column="2" Grid.Row="0" Text="10 (25)" Classes="subtitle m"/>
+				<TextBlock Grid.Column="2" Grid.Row="1" Text="C - Error (Max)" Classes="body xs"/>
+				<TextBlock Grid.Column="2" Grid.Row="3" Text="5 dB" Classes="subtitle m"/>
+				<TextBlock Grid.Column="2" Grid.Row="4" Text="C - SNR" Classes="body xs"/>
+				<TextBlock Grid.Column="3" Grid.Row="0" Text="10 (25)" Classes="subtitle m"/>
+				<TextBlock Grid.Column="3" Grid.Row="1" Text="D - Error (Max)" Classes="body xs"/>
+				<TextBlock Grid.Column="3" Grid.Row="3" Text="5 dB" Classes="subtitle m"/>
+				<TextBlock Grid.Column="3" Grid.Row="4" Text="D - SNR" Classes="body xs"/>
+			</Grid>
+		</HmcCard>
+	</StackPanel>
+</UserControl>

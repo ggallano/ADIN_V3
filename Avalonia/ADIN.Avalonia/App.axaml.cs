@@ -5,11 +5,19 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using ADIN.Avalonia.ViewModels;
 using ADIN.Avalonia.Views;
+using ADIN.Avalonia.Stores;
 
 namespace ADIN.Avalonia;
 
 public partial class App : Application
 {
+    private readonly NavigationStore _navigationStore;
+
+    public App()
+    {
+        _navigationStore = new NavigationStore();
+    }
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -24,8 +32,9 @@ public partial class App : Application
             BindingPlugins.DataValidators.RemoveAt(0);
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel(),
+                DataContext = new MainWindowViewModel(_navigationStore),
             };
+            desktop.MainWindow.Show();
         }
 
         base.OnFrameworkInitializationCompleted();

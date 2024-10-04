@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="210" d:DesignHeight="450"
+             x:Class="ADIN.Avalonia.Views.ExtraCommandsView">
+	<Grid RowDefinitions="Auto,5,Auto,5,Auto,5,Auto,5,Auto,5,Auto,5,Auto,5,Auto" Margin="" Background="White">
+		<HmcButton Classes="extraCommandsSec" Grid.Row="0" Kind="secondary" Content="Software Power Down"/>
+		<HmcButton Classes="extraCommandsSec" Grid.Row="2" Kind="secondary" Content="Disable Linking"/>
+		<HmcButton Classes="extraCommandsSec" Grid.Row="4" Kind="secondary" Content="Restart Linking"/>
+		<HmcButton Classes="extraCommandsSec" Grid.Row="6" Kind="secondary" Content="Save Registers"/>
+		<HmcButton Classes="extraCommandsSec" Grid.Row="8" Kind="secondary" Content="Load Registers"/>
+		<HmcButton Classes="extraCommandsPri" Grid.Row="10" Kind="primary" Content="Reset: Subsys (Pin)"/>
+		<HmcButton Classes="extraCommandsPri" Grid.Row="12" Kind="primary" Content="Reset: Subsys"/>
+		<HmcButton Classes="extraCommandsPri" Grid.Row="14" Kind="primary" Content="Reset: PHY"/>
+	</Grid>
+</UserControl>
