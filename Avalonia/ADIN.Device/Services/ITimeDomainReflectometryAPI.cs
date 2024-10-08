@@ -1,0 +1,21 @@
+﻿// <copyright file="ITimeDomainReflectometryAPI.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using ADIN.Device.Models;
+using System.Collections.Generic;
+
+namespace ADIN.Device.Services
+{
+    public interface ITimeDomainReflectometryAPI
+    {
+        string GetNvp();
+        string GetOffset();
+        string PerformCableCalibration(decimal length);
+        FaultType PerformFaultDetection();
+        string PerformOffsetCalibration();
+        List<string> SetNvp(decimal nvpValue);
+        string SetOffset(decimal offset);
+    }
+}

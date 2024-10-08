@@ -5,6 +5,17 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ADIN.Avalonia.Views.RegisterAccessView">
 	<Grid>
-		<Label Content="Register Access View Testing"/>
+		<HmcCard Density="High" Margin="16">
+			<HmcDataGrid>
+				<DataGrid.Columns>
+					<DataGridTextColumn Binding="{}" Header="Address"/>
+					<DataGridTextColumn Binding="{}" Header="Name"/>
+					<DataGridTextColumn Binding="{}" Header="Value"/>
+					<DataGridTextColumn Binding="{}" Header="Access"/>
+					<DataGridTextColumn Binding="{}" Header="Group"/>
+					<DataGridTextColumn Binding="{}" Header="Documentation"/>
+				</DataGrid.Columns>
+			</HmcDataGrid>
+		</HmcCard>
 	</Grid>
 </UserControl>

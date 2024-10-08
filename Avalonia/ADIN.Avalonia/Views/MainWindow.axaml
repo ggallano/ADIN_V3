@@ -4,9 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:view="using:ADIN.Avalonia.Views"
-        mc:Ignorable="d" d:DesignHeight="1800" d:DesignWidth="1300"
+        mc:Ignorable="d" d:DesignHeight="880" d:DesignWidth="1410"
 		MinWidth="1410"
-		MinHeight="870"
+		MinHeight="880"
         x:Class="ADIN.Avalonia.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
@@ -19,7 +19,7 @@
 		<vm:MainWindowViewModel/>
     </Design.DataContext>
 
-	<Grid RowDefinitions="Auto,7*,2*">
+	<Grid RowDefinitions="Auto,11*,3*">
 
 		<HmcNavigationBar Grid.Row="0" Size="sm" AppName="ADIN Ethernet Phy" ReplaceAppBar="True">
 			<HmcNavigationLink Size="sm" HasIcon="False" Content="Link Properties" Command="{Binding NavigateLinkPropertiesCommand}"/>
@@ -27,40 +27,38 @@
 			<HmcNavigationLink Size="sm" HasIcon="False" Content="Register Access" Command="{Binding NavigateRegisterAccessCommand}"/>
 		</HmcNavigationBar>
 
-		<Grid Grid.Row="1" ColumnDefinitions="210,6*,5*">
+		<Grid Grid.Row="1" ColumnDefinitions="210,*">
 			<ContentControl Grid.Column="0" Background="White">
-				<Border>
-					<StackPanel>
-						<view:DeviceListingView/>
-						<view:ExtraCommandsView/>
-					</StackPanel>
-				</Border>
+				<Grid RowDefinitions="2*,3*">
+					<view:DeviceListingView Grid.Row="0" DataContext="{Binding DeviceListingVM}" Margin="-1 -1 0 0"/>
+					<view:ExtraCommandsView Grid.Row="1" Margin="-1 -1 0 -1"/>
+				</Grid>
 			</ContentControl>
 			<ContentControl Grid.Column="1" Content="{Binding CurrentViewModel, Mode=TwoWay}">
 				<ContentControl.DataTemplates>
 					<DataTemplate DataType="{x:Type vm:LinkPropertiesViewModel}">
-						<view:LinkPropertiesView/>
+						<Grid ColumnDefinitions="6*,5*">
+							<view:LinkPropertiesView Grid.Column="0"/>
+							<view:DeviceStatusView Grid.Column="1" Margin="-16 0 0 0"/>
+						</Grid>
 					</DataTemplate>
 					<DataTemplate DataType="{x:Type vm:LoopbackFrameGenViewModel}">
-						<view:LoopbackFrameGenView/>
+						<Grid ColumnDefinitions="6*,5*">
+							<view:LoopbackFrameGenView Grid.Column="0"/>
+							<view:FrameStatusView Grid.Column="1" Margin="-16 0 0 0"/>
+						</Grid>
 					</DataTemplate>
 					<DataTemplate DataType="{x:Type vm:RegisterAccessViewModel}">
 						<view:RegisterAccessView/>
 					</DataTemplate>
 				</ContentControl.DataTemplates>
 			</ContentControl>
-			<ContentControl Grid.Column="2">
-				<StackPanel>
-					<view:DeviceStatusView/>
-				</StackPanel>
-			</ContentControl>
 		</Grid>
 
-		<Grid Grid.Row="2" ColumnDefinitions="5,350,5,*,5">
-			<view:RegisterReadWriteView Grid.Column="1"/>
-			<view:LogActivityView Grid.Column="3"/>
+		<Grid Grid.Row="2" ColumnDefinitions="Auto,*">
+			<view:RegisterReadWriteView Grid.Column="0"/>
+			<view:LogActivityView Grid.Column="1" Grid.ColumnSpan="2" Margin="-1 0 0 0"/>
 		</Grid>
-		
 	</Grid>
 
 </Window>

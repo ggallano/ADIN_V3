@@ -4,17 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="900"
              x:Class="ADIN.Avalonia.Views.LoopbackFrameGenView">
-	<ScrollViewer>
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
 		<StackPanel Margin="8">
 			<Grid ColumnDefinitions="*,Auto">
 				<HmcCard Margin="8" Grid.Column="0" Density="High" Header="Loopback">
-					<Grid ColumnDefinitions="6*,24,4*" RowDefinitions="Auto,Auto">
+					<Grid ColumnDefinitions="*,24,*" RowDefinitions="Auto,Auto">
 						<HmcComboBox Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Size="sm" PlaceholderText="" ItemsSource="{}" SelectedItem="{}" Label="Select Loopback" IsRequired="True"/>
 						<ToggleSwitch Grid.Column="2" Grid.Row="0" OnContent="Rx Suppression" OffContent="Rx Suppression" IsChecked="True"/>
 						<ToggleSwitch Grid.Column="2" Grid.Row="1" OnContent="Tx Suppression" OffContent="Tx Suppression" IsChecked="True"/>
 					</Grid>
 				</HmcCard>
-				<HmcCard Grid.Column="1" Margin="8" Density="High" Header="Active Phy Mode" IsVisible="False">
+				<HmcCard Grid.Column="1" Margin="8" Density="High" Header="Active Phy Mode" IsVisible="True">
 					<TextBlock Text="Copper Media Only" Classes="title s"/>
 				</HmcCard>
 			</Grid>
@@ -22,20 +22,20 @@
 
 			</HmcCard>
 			<HmcCard Margin="8" Density="High" Header="Frame Generator">
-				<Grid ColumnDefinitions="6*,24,7*">
-					<StackPanel Grid.Column="0">
-						<ToggleSwitch Content="Continuous Mode until Terminated" OnContent="Enabled" OffContent="Disabled" IsChecked="True"/>
-						<HmcComboBox Margin="0 10 0 0" PlaceholderText="" ItemsSource="{}" SelectedItem="{}" Label="Frame Content" IsRequired="True"/>
-					</StackPanel>
+				<Grid ColumnDefinitions="*,24,Auto">
+					<Grid Grid.Column="0" ColumnDefinitions="*,Auto" RowDefinitions="Auto,8,Auto,Auto,Auto,Auto">
+						<ToggleSwitch OnContent="Continuous Mode until Terminated" OffContent="Continuous Mode until Terminated" IsChecked="True"/>
+						<TextBlock Grid.Row="2" Grid.Column="0" Text="Number of Frames in Burst" VerticalAlignment="Center"/>
+						<HmcInputField Grid.Row="2" Grid.Column="1" Size="ExtraSmall" Width="70" FieldType="Number" Value="{}"/>
+						<Slider Grid.Row="3" Grid.ColumnSpan="2" x:Name="SliderFrameNumber" Value="{}" Minimum="100" Maximum="65536" SmallChange="100" TickFrequency="100" IsSnapToTickEnabled="True" IsEnabled="{}"/>
+						<TextBlock Grid.Row="4" Grid.Column="0" Text="Frame Length" VerticalAlignment="Center"/>
+						<HmcInputField Grid.Row="4" Grid.Column="1" Size="ExtraSmall" Width="70" FieldType="Number" Value="{}"/>
+						<Slider Grid.Row="5" Grid.ColumnSpan="2" x:Name="SliderFrameLength" Value="{}" Minimum="100" Maximum="65536" SmallChange="100" TickFrequency="100" IsSnapToTickEnabled="True" IsEnabled="{}"/>
+					</Grid>
 					<StackPanel Grid.Column="2">
-						<Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,*,Auto,*">
-							<TextBlock Grid.Row="0" Grid.Column="0" Text="Number of Frames in Burst" VerticalAlignment="Center"/>
-							<HmcInputField Grid.Row="0" Grid.Column="1" Size="ExtraSmall" Width="70" FieldType="Number" Value="{}"/>
-							<Slider Grid.Row="1" Grid.ColumnSpan="2" x:Name="SliderFrameNumber" Value="{}" Minimum="100" Maximum="65536" SmallChange="100" TickFrequency="100" IsSnapToTickEnabled="True" IsEnabled="{}"/>
-							<TextBlock Grid.Row="2" Grid.Column="0" Text="Frame Length" VerticalAlignment="Center"/>
-							<HmcInputField Grid.Row="2" Grid.Column="1" Size="ExtraSmall" Width="70" FieldType="Number" Value="{}"/>
-							<Slider Grid.Row="3" Grid.ColumnSpan="2" x:Name="SliderFrameLength" Value="{}" Minimum="100" Maximum="65536" SmallChange="100" TickFrequency="100" IsSnapToTickEnabled="True" IsEnabled="{}"/>
-						</Grid>
+						<HmcComboBox PlaceholderText="" ItemsSource="{}" SelectedItem="{}" Label="Frame Content" IsRequired="True" Width="200"/>
+						<HmcButton Content="Clear Result" Kind="secondary" Margin="0 16 0 0" Width="200"/>
+						<HmcButton Content="Generate" Kind="primary" Margin="0 16 0 0" Width="200"/>
 					</StackPanel>
 				</Grid>
 			</HmcCard>

@@ -12,7 +12,7 @@ namespace ADIN.Avalonia.ViewModels
 {
     public class LinkPropertiesViewModel : ViewModelBase
     {
-        public LinkPropertiesViewModel(NavigationStore navigationStore)
+        public LinkPropertiesViewModel(NavigationStore navigationStore, SelectedDeviceStore selectedDeviceStore)
         {
         }
     }

@@ -28,7 +28,7 @@ namespace ADIN.WPF.ViewModel
             _myDispatcherTimer = new DispatcherTimer();
             LogMessages = new ObservableCollection<string>();
             // Enable the cross access to this collection elsewhere
-            System.Windows.Data.BindingOperations.EnableCollectionSynchronization(LogMessages, _syncLock);
+            //System.Windows.Data.BindingOperations.EnableCollectionSynchronization(LogMessages, _syncLock);
 
             LogWindowClearCommand = new ClearLogCommand(this);
             LogWindowSaveCommand = new LogWindowSaveCommand(this, selectedDeviceStore);

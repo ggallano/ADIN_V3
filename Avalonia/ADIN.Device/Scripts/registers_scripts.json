@@ -1,0 +1,59 @@
+{
+  "Scripts": [
+    {
+      "Name": "Reset Auto-Negotiation",
+      "RegisterAccesses": [
+        {
+          "RegisterAddress": "0x70200",
+          "Value": "0d0"
+        },
+        {
+          "RegisterAddress" : "0d459264",
+          "Value": "0d4096"
+        }
+      ]
+   
+    },
+    
+    {
+      "Name": "SftPd Down&Up",
+      "RegisterAccesses": [
+        {
+          "MemoryMap" : "SPEPhy",
+          "RegisterName": "CRSM_SFT_PD",
+          "Value": "0d1"
+        },
+        {
+          "MemoryMap" : "SPEPhy",
+          "RegisterName": "CRSM_SFT_PD",
+          "Value": "0d0"
+        },
+      ]
+   
+    },
+	
+	{
+      "Name": "Enable Link LED",
+      "RegisterAccesses": [
+        {
+          "MemoryMap" : "SPEPhy",
+          "RegisterName": "LED_OFF_N4MS",
+          "Value": "0d54"
+        },
+
+        {
+          "MemoryMap" : "SPEPhy",
+          "RegisterName": "LED_ON_N4MS",
+          "Value": "0d54"
+        },
+
+        {
+          "MemoryMap" : "SPEPhy",
+          "RegisterName": "LED_CNTRL",
+          "Value": "0d1"
+        },
+      ]
+   
+    },
+  ]
+}

@@ -10,12 +10,14 @@
   <!-- Add Styles Here -->
 
 	<Style Selector="HmcButton.extraCommandsSec">
-		<Setter Property="Width" Value="200"/>
+		<Setter Property="Width" Value="176"/>
 		<Setter Property="Size" Value="xs"/>
 		<Setter Property="Background" Value="White"/>
+		<Setter Property="Margin" Value="8"/>
 	</Style>
 	<Style Selector="HmcButton.extraCommandsPri">
-		<Setter Property="Width" Value="200"/>
+		<Setter Property="Width" Value="176"/>
 		<Setter Property="Size" Value="xs"/>
+		<Setter Property="Margin" Value="8"/>
 	</Style>
 </Styles>

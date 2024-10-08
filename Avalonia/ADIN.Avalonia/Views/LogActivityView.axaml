@@ -4,7 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ADIN.Avalonia.Views.LogActivityView">
-	<HmcCard Header="Activity Log" Density="High">
+	<!--<HmcCard Header="Activity Log" Density="High">
 		
-	</HmcCard>
+	</HmcCard>-->
+	<Border BorderThickness="1" BorderBrush="#b7bbc3" Background="White">
+		<DockPanel>
+			<Border DockPanel.Dock="Top" Margin="16 16 16 8" BorderBrush="#b7bbc3" BorderThickness="0 0 0 1">
+				<TextBlock Text="Activity Log" Classes="subtitle m"/>
+			</Border>
+			<ListBox Background="White">
+				
+			</ListBox>
+		</DockPanel>
+	</Border>
 </UserControl>

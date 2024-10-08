@@ -28,43 +28,31 @@
 				</Grid>
 			</HmcCard>
 		</Grid>
-		<HmcCard Grid.Column="0" Density="High" Header="Frame Checker" Margin="8">
-			<Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,24,Auto,Auto">
-				<TextBlock Grid.Column="0" Grid.Row="0" Text="4294967295" Classes="subtitle l"/>
-				<TextBlock Grid.Column="0" Grid.Row="1" Text="Frames" Classes="body xs"/>
-				<TextBlock Grid.Column="1" Grid.Row="0" Text="65535" Classes="subtitle l"/>
-				<TextBlock Grid.Column="1" Grid.Row="1" Text="Errors" Classes="body xs"/>
-				<TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Text="Frame Transmission in Progress" Classes="subtitle m"/>
-				<TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Text="Generator Status" Classes="body xs"/>
-			</Grid>
-		</HmcCard>
-		<HmcCard Grid.Column="0" Density="High" Header="Mean-Square Error" Margin="8" IsVisible="True">
-			<Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto">
-				<TextBlock Grid.Column="0" Grid.Row="0" Text="10 (25)" Classes="subtitle l"/>
-				<TextBlock Grid.Column="0" Grid.Row="1" Text="Error (Max)" Classes="body xs"/>
-				<TextBlock Grid.Column="1" Grid.Row="0" Text="5 dB" Classes="subtitle l"/>
-				<TextBlock Grid.Column="1" Grid.Row="1" Text="SNR" Classes="body xs"/>
-			</Grid>
-		</HmcCard>
-		<HmcCard Grid.Column="0" Density="High" Header="Mean-Square Error" Margin="8" IsVisible="False">
-			<Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto,Auto,24,Auto,Auto">
-				<TextBlock Grid.Column="0" Grid.Row="0" Text="10 (25)" Classes="subtitle m"/>
-				<TextBlock Grid.Column="0" Grid.Row="1" Text="A - Error (Max)" Classes="body xs"/>
-				<TextBlock Grid.Column="0" Grid.Row="3" Text="5 dB" Classes="subtitle m"/>
-				<TextBlock Grid.Column="0" Grid.Row="4" Text="A - SNR" Classes="body xs"/>
-				<TextBlock Grid.Column="1" Grid.Row="0" Text="10 (25)" Classes="subtitle m"/>
-				<TextBlock Grid.Column="1" Grid.Row="1" Text="B - Error (Max)" Classes="body xs"/>
-				<TextBlock Grid.Column="1" Grid.Row="3" Text="5 dB" Classes="subtitle m"/>
-				<TextBlock Grid.Column="1" Grid.Row="4" Text="B - SNR" Classes="body xs"/>
-				<TextBlock Grid.Column="2" Grid.Row="0" Text="10 (25)" Classes="subtitle m"/>
-				<TextBlock Grid.Column="2" Grid.Row="1" Text="C - Error (Max)" Classes="body xs"/>
-				<TextBlock Grid.Column="2" Grid.Row="3" Text="5 dB" Classes="subtitle m"/>
-				<TextBlock Grid.Column="2" Grid.Row="4" Text="C - SNR" Classes="body xs"/>
-				<TextBlock Grid.Column="3" Grid.Row="0" Text="10 (25)" Classes="subtitle m"/>
-				<TextBlock Grid.Column="3" Grid.Row="1" Text="D - Error (Max)" Classes="body xs"/>
-				<TextBlock Grid.Column="3" Grid.Row="3" Text="5 dB" Classes="subtitle m"/>
-				<TextBlock Grid.Column="3" Grid.Row="4" Text="D - SNR" Classes="body xs"/>
-			</Grid>
-		</HmcCard>
+		<Grid ColumnDefinitions="*,*">
+			<HmcCard Grid.Column="0" Density="High" Header="Autoneg Advertisement" Margin="8">
+				<Grid RowDefinitions="24,24,24,24,24,24,24,24">
+					<TextBlock Grid.Row="0" Text="1000BASE-T FD" IsVisible=""/>
+					<TextBlock Grid.Row="1" Text="1000BASE-T HD"/>
+					<TextBlock Grid.Row="2" Text="1000BASE-T EEE"/>
+					<TextBlock Grid.Row="3" Text="100BASE-TX FD"/>
+					<TextBlock Grid.Row="4" Text="100BASE-TX HD"/>
+					<TextBlock Grid.Row="5" Text="1000BASE-T EEE"/>
+					<TextBlock Grid.Row="6" Text="10BASE-T FD"/>
+					<TextBlock Grid.Row="7" Text="10BASE-T HD"/>
+				</Grid>
+			</HmcCard>
+			<HmcCard Grid.Column="1" Density="High" Header="Autoneg Link Partner" Margin="8">
+				<Grid RowDefinitions="24,24,24,24,24,24,24,24">
+					<TextBlock Grid.Row="0" Text="1000BASE-T FD" IsVisible=""/>
+					<TextBlock Grid.Row="1" Text="1000BASE-T HD"/>
+					<TextBlock Grid.Row="2" Text="1000BASE-T EEE"/>
+					<TextBlock Grid.Row="3" Text="100BASE-TX FD"/>
+					<TextBlock Grid.Row="4" Text="100BASE-TX HD"/>
+					<TextBlock Grid.Row="5" Text="1000BASE-T EEE"/>
+					<TextBlock Grid.Row="6" Text="10BASE-T FD"/>
+					<TextBlock Grid.Row="7" Text="10BASE-T HD"/>
+				</Grid>
+			</HmcCard>
+		</Grid>
 	</StackPanel>
 </UserControl>
