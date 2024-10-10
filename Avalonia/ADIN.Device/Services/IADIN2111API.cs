@@ -1,14 +1,14 @@
-﻿// <copyright file="IADIN2111API.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
     public interface IADIN2111API : IADIN1100API
     {
-        uint GetPortNum ();
-        void SetPortNum (uint portNum);
+        uint GetPortNum();
+        void SetPortNum(uint portNum);
     }
 }

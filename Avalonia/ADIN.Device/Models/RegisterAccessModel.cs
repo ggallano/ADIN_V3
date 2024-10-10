@@ -1,7 +1,8 @@
-﻿// <copyright file="RegisterAccessModel.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ADIN.Device.Models
 {

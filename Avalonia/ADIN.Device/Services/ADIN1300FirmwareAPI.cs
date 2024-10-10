@@ -1,12 +1,6 @@
-﻿// <copyright file="ADIN1300FirmwareAPI.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
-using ADI.Register.Models;
-using ADI.Register.Services;
-using ADIN.Device.Models;
-using ADIN.WPF.Models;
+﻿using ADIN.Device.Models;
+using ADIN.Register.Models;
+using ADIN.Register.Services;
 using FTDIChip.Driver.Services;
 using Helper.Feedback;
 using Helper.SignalToNoiseRatio;
@@ -16,7 +10,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Threading;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {

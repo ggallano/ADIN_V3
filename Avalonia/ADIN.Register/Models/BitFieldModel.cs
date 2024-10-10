@@ -1,11 +1,11 @@
-﻿// <copyright file="BitFieldModel.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ADI.Register.Models
+namespace ADIN.Register.Models
 {
     public class BitFieldModel : INotifyPropertyChanged
     {
@@ -19,8 +19,8 @@ namespace ADI.Register.Models
         public string Position => $"[{Start}:{Width}]";
         public uint ResetValue { get; set; }
         public uint Start { get; set; }
-        public uint Value 
-        { 
+        public uint Value
+        {
             get
             {
                 return _value;
@@ -29,7 +29,7 @@ namespace ADI.Register.Models
             {
                 _value = value;
                 OnBitValueChanged(nameof(Value));
-            } 
+            }
         }
         public string Visibility { get; set; }
         public uint Width { get; set; }

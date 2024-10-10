@@ -1,7 +1,9 @@
-﻿using ADI.Register.Services;
-using ADIN.Avalonia.Stores;
+﻿using ADIN.Avalonia.Stores;
 using ADIN.Device.Models;
 using ADIN.Device.Services;
+using ADIN.Register.Services;
+using Avalonia.Threading;
+using FTD2XX_NET;
 using FTDIChip.Driver.Services;
 using Helper.Feedback;
 using System;
@@ -14,6 +16,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ADIN.Avalonia.ViewModels
 {
@@ -37,6 +41,12 @@ namespace ADIN.Avalonia.ViewModels
         private WqlEventQuery _removeQuery;
         private ManagementEventWatcher _removeWatcher;
         private DeviceListingItemViewModel _selectedDeviceListingItemViewModel;
+        private bool _isMultiChipSupport = true;
+        private SelectedDeviceStore selectedDeviceStore;
+        private IFTDIServices ftdiService;
+        private IRegisterService registerService;
+        private LogActivityViewModel logActivityVM;
+        private object mainLock;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeviceListingViewModel"/> class.
@@ -72,6 +82,14 @@ namespace ADIN.Avalonia.ViewModels
             _removeWatcher.EventArrived += _removeWatcher_EventArrived;
             _removeWatcher.Start();
 
+            ItemSamples = new ObservableCollection<string>()
+            {
+                "Item1",
+                "Item2",
+                "Item3"
+            };
+            OnPropertyChanged(nameof(ItemSamples));
+
             _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
         }
 
@@ -79,6 +97,17 @@ namespace ADIN.Avalonia.ViewModels
         /// gets the device listing viewmodel.
         /// </summary>
         public ObservableCollection<DeviceListingItemViewModel> DeviceListingItemViewModels => _deviceListingViewModels;
+
+        private ObservableCollection<string> _items;
+        public ObservableCollection<string> ItemSamples
+        {
+            get { return _items; }
+            set
+            {
+                _items = value;
+                OnPropertyChanged(nameof(ItemSamples));
+            }
+        }
 
         public bool EnableSelectDevice
         {
@@ -227,7 +256,7 @@ namespace ADIN.Avalonia.ViewModels
             }
             catch (Exception ex)
             {
-                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                Dispatcher.UIThread.Invoke(new Action(() =>
                 {
                     SelectedDeviceListingItemViewModel = null;
                 }));
@@ -237,7 +266,7 @@ namespace ADIN.Avalonia.ViewModels
 
         private void _selectedDeviceStore_OnGoingCalibrationStatusChanged(bool onGoingCalibrationStatus)
         {
-            Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+            Dispatcher.UIThread.Invoke(new Action(() =>
             {
                 EnableSelectDevice = !onGoingCalibrationStatus;
             }));
@@ -245,6 +274,7 @@ namespace ADIN.Avalonia.ViewModels
 
         private List<string> GetConnectedDevices()
         {
+
             return (_ftdiService.GetDeviceList().ToList()).Select(y => y.SerialNumber).ToList();
         }
 
@@ -274,7 +304,8 @@ namespace ADIN.Avalonia.ViewModels
 
                 _ftdiService.Open(currentNewDevice.SerialNumber);
 
-                var isMultiChipSupported = Properties.Settings.Default.MultiChipSupport;
+                //var isMultiChipSupported = Properties.Settings.Default.MultiChipSupport;
+                var isMultiChipSupported = _isMultiChipSupport;
 
                 try
                 {
@@ -285,7 +316,7 @@ namespace ADIN.Avalonia.ViewModels
                         adinSubDevice.Device.SerialNumber = currentNewDevice.SerialNumber;
                         adinSubDevice.Device.BoardName = currentNewDevice.Description;
 
-                        Application.Current.Dispatcher.Invoke(new Action(() =>
+                        Dispatcher.UIThread.Invoke(new Action(() => 
                         {
                             _deviceListingViewModels.Add(new DeviceListingItemViewModel(adinSubDevice));
                             var tempstr = _deviceListingViewModels.Where(x => x.BoardType == adinSubDevice.DeviceType).Select(x => x.DeviceHeader).ToList();
@@ -323,7 +354,7 @@ namespace ADIN.Avalonia.ViewModels
 
                 var removeDevice = _deviceListingViewModels.Where(a => a.SerialNumber == stillConnectedDevice).ToList();
 
-                Application.Current.Dispatcher.BeginInvoke((Action)(() =>
+                Dispatcher.UIThread.Invoke((Action)(() =>
                 {
                     _feedback.Message = $"Device removed: {removeDevice[0].SerialNumber}";
                     _feedback.FeedBackType = FeedbackType.Info;

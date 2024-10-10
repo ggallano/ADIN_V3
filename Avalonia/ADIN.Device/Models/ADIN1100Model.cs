@@ -1,15 +1,13 @@
-﻿// <copyright file="ADIN1100Model.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
-using ADI.Register.Services;
-using ADIN.Device.Models.ADIN1100;
+﻿using ADIN.Device.Models.ADIN1100;
 using ADIN.Device.Services;
+using ADIN.Register.Services;
 using FTDIChip.Driver.Services;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ADIN.Device.Models
 {
@@ -29,13 +27,13 @@ namespace ADIN.Device.Models
             switch (ADIN1100FirmwareAPI.GetRevNum(0x1E0003))
             {
                 case BoardRevision.Rev0:
-                    Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1100_S1.json"));
+                    Registers = registerService.GetRegisterSet(Path.Combine("net8.0", "Registers", "registers_adin1100_S1.json"));
                     Registers = registerService.GetAdditionalRegisterSetRev0(Registers);
                     BoardRev = BoardRevision.Rev0;
                     DeviceType = BoardType.ADIN1100_S1;
                     break;
                 case BoardRevision.Rev1:
-                    Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1100_S2.json"));
+                    Registers = registerService.GetRegisterSet(Path.Combine("net8.0", "Registers", "registers_adin1100_S2.json"));
                     Registers = registerService.GetAdditionalRegisterSetRev1(Registers);
                     BoardRev = BoardRevision.Rev1;
                     DeviceType = BoardType.ADIN1100;

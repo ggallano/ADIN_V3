@@ -1,0 +1,45 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="650"
+             x:Class="ADIN.Avalonia.Views.LinkProperties2">
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<StackPanel Margin="8">
+			<Grid ColumnDefinitions="*,*">
+				<HmcCard Grid.Column="0" Margin="8" Density="High" Header="MAC Interface">
+					<StackPanel Orientation="Horizontal">
+						<HmcSegmentedButton Size="sm" GroupName="MAC" IsChecked="True" ToolTip.Tip="The left option">RGMII</HmcSegmentedButton>
+						<HmcSegmentedButton Size="sm" GroupName="MAC" ToolTip.Tip="The middle option">RMII</HmcSegmentedButton>
+						<HmcSegmentedButton Size="sm" GroupName="MAC">MII</HmcSegmentedButton>
+					</StackPanel>
+				</HmcCard>
+				<HmcCard Grid.Column="1" Margin="8" Density="High" Header="Active Phy Mode" IsVisible="True">
+					<TextBlock Text="Backplane/Fiber Media Only" Classes="title xs"/>
+				</HmcCard>
+			</Grid>
+			<HmcCard Margin="8" Density="High" Header="Speed Mode" IsVisible="False">
+				<HmcComboBox IsRequired="True" Label="">
+					<HmcComboBoxItem Content="1000BASE-LX/SX HD&amp;FD" IsSelected="True"/>
+					<HmcComboBoxItem Content="1000BASE-LX/SX HD"/>
+					<HmcComboBoxItem Content="1000BASE-LX/SX FD"/>
+					<HmcComboBoxItem Content="1000BASE-KX"/>
+					<HmcComboBoxItem Content="100BASE-FX FD"/>
+					<HmcComboBoxItem Content="100BASE-FX HD"/>
+					<HmcComboBoxItem Content="No BASE-X"/>
+				</HmcComboBox>
+			</HmcCard>
+			<HmcCard Margin="8" Density="High" Header="Speed Mode" IsVisible="True">
+				<StackPanel>
+					<RadioButton GroupName="SpeedMode" Content="1000BASE-LX/SX HD&amp;FD" IsChecked="True"/>
+					<RadioButton GroupName="SpeedMode" Content="1000BASE-LX/SX HD"/>
+					<RadioButton GroupName="SpeedMode" Content="1000BASE-LX/SX FD"/>
+					<RadioButton GroupName="SpeedMode" Content="1000BASE-KX"/>
+					<RadioButton GroupName="SpeedMode" Content="100BASE-FX FD"/>
+					<RadioButton GroupName="SpeedMode" Content="100BASE-FX HD"/>
+					<RadioButton GroupName="SpeedMode" Content="No BASE-X"/>
+				</StackPanel>
+			</HmcCard>
+		</StackPanel>
+	</ScrollViewer>
+</UserControl>

@@ -8,7 +8,7 @@ namespace ADIN.Device.Models
 {
     public class MseModel
     {
-        public MseModel (string displayString)
+        public MseModel(string displayString)
         {
             MseA_Raw = displayString;
             MseB_Raw = displayString;

@@ -1,9 +1,8 @@
-﻿// <copyright file="LinkPropertiesADIN1300.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ADIN.Device.Models.ADIN1300
 {
@@ -48,7 +47,7 @@ namespace ADIN.Device.Models.ADIN1300
                 "Slave"
             };
 
-            AdvertisedSpeeds = new List<string>() {};
+            AdvertisedSpeeds = new List<string>() { };
         }
 
         public bool IsAdvertise_1000BASE_T_FD { get; set; }

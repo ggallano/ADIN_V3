@@ -1,5 +1,6 @@
 ﻿using ADIN.Avalonia.Stores;
 using ADIN.Avalonia.ViewModels;
+using Avalonia.Controls;
 using Helper.Feedback;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace ADIN.Avalonia.Commands
             DateTime timeNow = DateTime.Now;
             string filePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "ActivityLog_" + timeNow.ToLongDateString() + "_" + timeNow.Hour + "_ " + timeNow.Minute + "_" + timeNow.Second);
 
-            //SaveFileDialog saveFileDialog = new SaveFileDialog { Filter = "LOG | *.log", FileName = filePath, InitialDirectory = System.IO.Directory.GetCurrentDirectory() };
+            //SaveFileDialog saveFileDialog = new SaveFileDialog { Filters = "LOG | *.log", FileName = filePath, InitialDirectory = System.IO.Directory.GetCurrentDirectory() };
             //if (saveFileDialog.ShowDialog() != true)
             //{
             //    _selectedDeviceStore.OnViewModelErrorOccured("Activity log NOT saved", FeedbackType.Verbose);

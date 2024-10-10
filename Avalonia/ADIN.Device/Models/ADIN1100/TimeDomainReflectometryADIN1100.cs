@@ -1,9 +1,8 @@
-﻿// <copyright file="TimeDomainReflectometryADIN1100.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
-using System.Windows.Media;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ADIN.Device.Models.ADIN1100
 {
@@ -14,14 +13,14 @@ namespace ADIN.Device.Models.ADIN1100
             TimeDomainReflectometry = new TDRModel();
         }
 
-        public Brush CableBackgroundBrush { get; set; }
+        //public Brush CableBackgroundBrush { get; set; }
         public string CableFileName { get; set; }
         public string DistToFault { get; set; }
-        public Brush FaultBackgroundBrush { get; set; }
+        //public Brush FaultBackgroundBrush { get; set; }
         public string FaultState { get; set; }
         public bool IsFaultVisibility { get; set; }
         public bool IsOngoingCalibration { get; set; }
-        public Brush OffsetBackgroundBrush { get; set; }
+        //public Brush OffsetBackgroundBrush { get; set; }
         public string OffsetFileName { get; set; }
         public TDRModel TimeDomainReflectometry { get; set; }
         public bool IsVisibleCableCalibration { get; set; }

@@ -1,9 +1,8 @@
-﻿// <copyright file="FeedbackModel.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Helper.Feedback
 {
@@ -11,6 +10,6 @@ namespace Helper.Feedback
     {
         public event Action LogActivityChanged;
         public string Message { get; set; }
-        public FeedbackType FeedBackType{ get; set; }
+        public FeedbackType FeedBackType { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using Avalonia.Markup.Xaml;
 using ADIN.Avalonia.ViewModels;
 using ADIN.Avalonia.Views;
 using ADIN.Avalonia.Stores;
-using ADI.Register.Services;
+using ADIN.Register.Services;
 using ADIN.Device.Services;
 using FTDIChip.Driver.Services;
 

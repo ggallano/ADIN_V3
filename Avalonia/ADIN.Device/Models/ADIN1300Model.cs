@@ -1,14 +1,12 @@
-﻿// <copyright file="ADIN1300Model.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
-using ADI.Register.Services;
-using ADIN.Device.Models.ADIN1300;
+﻿using ADIN.Device.Models.ADIN1300;
 using ADIN.Device.Services;
+using ADIN.Register.Services;
 using FTDIChip.Driver.Services;
 using System;
-using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ADIN.Device.Models
 {

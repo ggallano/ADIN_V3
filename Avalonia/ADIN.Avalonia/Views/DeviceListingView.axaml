@@ -3,23 +3,33 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="210" d:DesignHeight="300"
-             x:Class="ADIN.Avalonia.Views.DeviceListingView">
+             x:Class="ADIN.Avalonia.Views.DeviceListingView"
+			 x:CompileBindings="False">
 	<Border BorderThickness="1" BorderBrush="#b7bbc3">
 		<StackPanel Background="White">
+			
 			<TextBlock Text="Local Devices" Margin="16 16 0 0" Classes="subtitle m"/>
-			<HmcCard Margin="16" Height="190" Padding="16">
-				<ScrollViewer Margin="0 0 0 0" VerticalScrollBarVisibility="Hidden">
-					<ListBox ItemsSource="SampleDeviceLists" Margin="0 0 0 0">
+			<!--<ListBox ItemsSource="{Binding DeviceListingItemViewModels}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel>
+							<TextBlock Text="{Binding DeviceHeader}" Classes="body m"/>
+							<TextBlock Text="{Binding Name}" Classes="body s"/>
+						</StackPanel>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>-->
+			<HmcCard Margin="16" Height="190" Padding="0 6">
+				<ScrollViewer VerticalScrollBarVisibility="Hidden">
+					<ListBox Background="White" ItemsSource="{Binding DeviceListingItemViewModels}" SelectedItem="{Binding SelectedDeviceListingItemViewModel}">
 						<ListBox.ItemTemplate>
 							<DataTemplate>
-								<HmcComboBoxItem Height="50" Margin="43 -9 0 -15" Width="210" BorderThickness="0 0 0 0">
-									<Border BorderThickness="0 0 0 1" BorderBrush="#b7bbc3">
-										<StackPanel Width="170">
-											<TextBlock Text="ADIN1320" Classes="body m"/>
-											<TextBlock Text="Serial Number" Classes="body s"/>
-										</StackPanel>
-									</Border>
-								</HmcComboBoxItem>
+								<Border>
+									<StackPanel>
+										<TextBlock Text="{Binding DeviceHeader}" Classes="subtitle xs"/>
+										<TextBlock Text="{Binding Name}" Classes="body xs"/>
+									</StackPanel>
+								</Border>
 							</DataTemplate>
 						</ListBox.ItemTemplate>
 					</ListBox>

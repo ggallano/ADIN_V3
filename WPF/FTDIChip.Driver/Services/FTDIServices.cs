@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace FTDIChip.Driver.Services
 {
@@ -229,8 +230,12 @@ namespace FTDIChip.Driver.Services
         {
             ResponseDelegate d = new ResponseDelegate(this.GetSerialBytes);
             List<byte> serialresponse;
-            IAsyncResult res = d.BeginInvoke(timeout, null, null);
-            serialresponse = d.EndInvoke((AsyncResult)res);
+            //IAsyncResult res = d.BeginInvoke(timeout, null, null);
+            //serialresponse = d.EndInvoke((AsyncResult)res);
+
+            Task<List<byte>> responseTask = Task.Run(() => d.Invoke(timeout));
+            serialresponse = responseTask.Result;
+
             if (serialresponse == null)
             {
                 throw new ApplicationException("Timeout waiting for communication response byte.");

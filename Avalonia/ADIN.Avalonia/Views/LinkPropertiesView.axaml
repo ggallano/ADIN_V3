@@ -2,21 +2,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="500"
+             mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="650"
              x:Class="ADIN.Avalonia.Views.LinkPropertiesView">
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
 		<StackPanel Margin="8">
-			<Grid ColumnDefinitions="*,Auto">
-				<HmcCard Grid.Column="0" Margin="8" Density="High" Header="Speed Mode">
-					<StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-						<HmcSegmentedButton Size="sm" GroupName="SpeedMode" IsChecked="True" ToolTip.Tip="The left option">Advertised</HmcSegmentedButton>
-						<HmcSegmentedButton Size="sm" GroupName="SpeedMode" ToolTip.Tip="The middle option">Forced</HmcSegmentedButton>
+			<Grid ColumnDefinitions="*,*">
+				<HmcCard Grid.Column="0" Margin="8" Density="High" Header="MAC Interface">
+					<StackPanel Orientation="Horizontal">
+						<HmcSegmentedButton Size="sm" GroupName="MAC" IsChecked="True" ToolTip.Tip="The left option">RGMII</HmcSegmentedButton>
+						<HmcSegmentedButton Size="sm" GroupName="MAC" ToolTip.Tip="The middle option">RMII</HmcSegmentedButton>
+						<HmcSegmentedButton Size="sm" GroupName="MAC">MII</HmcSegmentedButton>
+						<HmcSegmentedButton Size="sm" GroupName="MAC">SGMII</HmcSegmentedButton>
 					</StackPanel>
 				</HmcCard>
 				<HmcCard Grid.Column="1" Margin="8" Density="High" Header="Active Phy Mode" IsVisible="True">
-					<TextBlock Text="Copper Media Only" Classes="title s"/>
+					<TextBlock Text="Copper Media Only" Classes="title xs"/>
 				</HmcCard>
 			</Grid>
+			<HmcCard Margin="8" Density="High" Header="Speed Mode">
+				<StackPanel Orientation="Horizontal">
+					<HmcSegmentedButton Size="sm" GroupName="SpeedMode" IsChecked="True" ToolTip.Tip="The left option">Advertised</HmcSegmentedButton>
+					<HmcSegmentedButton Size="sm" GroupName="SpeedMode" ToolTip.Tip="The middle option">Forced</HmcSegmentedButton>
+				</StackPanel>
+			</HmcCard>
 			<Grid ColumnDefinitions="7*,6*" IsVisible="True">
 				<HmcCard Grid.Column="0" Margin="8" Density="High" Header="Auto-negotiation Advertised Speeds">
 					<Grid RowDefinitions="25,Auto,Auto,Auto" ColumnDefinitions="176,60,60">

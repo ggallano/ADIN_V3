@@ -1,9 +1,8 @@
-﻿// <copyright file="ITimeDomainReflectometry.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
-using System.Windows.Media;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ADIN.Device.Models
 {
@@ -12,7 +11,7 @@ namespace ADIN.Device.Models
         //Brush CableBackgroundBrush { get; set; }
         string CableFileName { get; set; }
         string DistToFault { get; set; }
-        Brush FaultBackgroundBrush { get; set; }
+        //Brush FaultBackgroundBrush { get; set; }
         string FaultState { get; set; }
         bool IsFaultVisibility { get; set; }
         bool IsOngoingCalibration { get; set; }

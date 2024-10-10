@@ -1,21 +1,17 @@
-﻿// <copyright file="ADIN2111FirmwareAPI.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
+﻿using ADIN.Device.Models;
+using ADIN.Register.Models;
+using FTDIChip.Driver.Services;
+using Helper.Feedback;
+using Helper.RegularExpression;
+using Helper.SignalToNoiseRatio;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using ADI.Register.Models;
-using ADIN.Device.Models;
-using ADIN.WPF.Models;
-using Helper.Feedback;
-using FTDIChip.Driver.Services;
 using System.Diagnostics;
 using System.Globalization;
-using Helper.RegularExpression;
-using Helper.SignalToNoiseRatio;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {

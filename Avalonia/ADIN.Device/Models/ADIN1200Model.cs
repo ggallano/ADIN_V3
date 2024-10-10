@@ -1,14 +1,12 @@
-﻿// <copyright file="ADIN1200Model.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
-using ADI.Register.Services;
-using ADIN.Device.Models.ADIN1200;
+﻿using ADIN.Device.Models.ADIN1200;
 using ADIN.Device.Services;
+using ADIN.Register.Services;
 using FTDIChip.Driver.Services;
 using System;
-using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ADIN.Device.Models
 {
@@ -29,7 +27,7 @@ namespace ADIN.Device.Models
             DeviceType = BoardType.ADIN1200;
 
             //Retrieve Registers
-            Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1200.json"));
+            Registers = registerService.GetRegisterSet(Path.Combine("net8.0", "Registers", "registers_adin1200.json"));
             Registers = registerService.GetAdditionalRegisterSet_ADIN1200_ADIN1300(Registers);
 
             DeviceStatus = new DeviceStatusADIN1200();

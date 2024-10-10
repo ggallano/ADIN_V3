@@ -1,12 +1,6 @@
-﻿// <copyright file="ADIN1200FirmwareAPI.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
-using ADI.Register.Models;
-using ADI.Register.Services;
-using ADIN.Device.Models;
-using ADIN.WPF.Models;
+﻿using ADIN.Device.Models;
+using ADIN.Register.Models;
+using ADIN.Register.Services;
 using FTDIChip.Driver.Services;
 using Helper.Feedback;
 using Helper.SignalToNoiseRatio;
@@ -16,7 +10,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Threading;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
@@ -1155,42 +1150,6 @@ namespace ADIN.Device.Services
             }
         }
 
-        public void Speed1000EEEAdvertisement(bool spd1000EEEAdv_st)
-        {
-            if (spd1000EEEAdv_st)
-            {
-                this.WriteYodaRg("Eee1000Adv", 1);
-            }
-            else
-            {
-                this.WriteYodaRg("Eee1000Adv", 0);
-            }
-        }
-
-        public void Speed1000FdAdvertisement(bool spd1000FdAdv_st)
-        {
-            if (spd1000FdAdv_st)
-            {
-                this.WriteYodaRg("Fd1000Adv", 1);
-            }
-            else
-            {
-                this.WriteYodaRg("Fd1000Adv", 0);
-            }
-        }
-
-        public void Speed1000HdAdvertisement(bool spd1000HdAdv_st)
-        {
-            if (spd1000HdAdv_st)
-            {
-                this.WriteYodaRg("Hd1000Adv", 1);
-            }
-            else
-            {
-                this.WriteYodaRg("Hd1000Adv", 0);
-            }
-        }
-
         public void Speed100EEEAdvertisement(bool spd100EEEAdv_st)
         {
             if (spd100EEEAdv_st)
@@ -1545,3 +1504,4 @@ namespace ADIN.Device.Services
         }
     }
 }
+

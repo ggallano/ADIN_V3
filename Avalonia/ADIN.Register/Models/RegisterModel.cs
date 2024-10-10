@@ -1,13 +1,11 @@
-﻿// <copyright file="RegisterModel.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ADI.Register.Models
+namespace ADIN.Register.Models
 {
     public enum GroupType
     {

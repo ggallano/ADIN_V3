@@ -13,8 +13,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-
-
 using System.Windows.Input;
 
 namespace ADIN.Avalonia.ViewModels
@@ -140,7 +138,7 @@ namespace ADIN.Avalonia.ViewModels
                 }
                 catch (NotSupportedException)
                 {
-                    App.Current.Dispatcher.Invoke((Action)(() =>
+                    Dispatcher.UIThread.Invoke(new Action(() => 
                     {
                         lock (_syncLock)
                         {
@@ -158,7 +156,7 @@ namespace ADIN.Avalonia.ViewModels
                 }
                 catch (NotSupportedException)
                 {
-                    Application.Current.Dispatcher.Invoke((Action)(() =>
+                    Dispatcher.UIThread.Invoke(new Action(() =>
                     {
                         lock (_syncLock)
                         {

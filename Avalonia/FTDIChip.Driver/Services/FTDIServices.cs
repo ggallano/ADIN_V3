@@ -1,21 +1,15 @@
-﻿// <copyright file="FTDIServices.cs" company="Analog Devices Inc.">
-//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
-//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
-// </copyright>
-
-using FTD2XX_NET;
+﻿using FTD2XX_NET;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
+using System.Runtime.Remoting;
 using System.Text;
 using System.Threading;
 
 namespace FTDIChip.Driver.Services
 {
     public delegate List<byte> ResponseDelegate(int timeoutms);
-
     public class FTDIServices : IFTDIServices
     {
         #region Private Fields
@@ -229,8 +223,8 @@ namespace FTDIChip.Driver.Services
         {
             ResponseDelegate d = new ResponseDelegate(this.GetSerialBytes);
             List<byte> serialresponse;
-            IAsyncResult res = d.BeginInvoke(timeout, null, null);
-            serialresponse = d.EndInvoke((AsyncResult)res);
+            Task<List<byte>> responseTask = Task.Run(() => d.Invoke(timeout));
+            serialresponse = responseTask.Result;
             if (serialresponse == null)
             {
                 throw new ApplicationException("Timeout waiting for communication response byte.");
