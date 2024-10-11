@@ -155,11 +155,6 @@ namespace ADIN.Device.Services
             }
         }
 
-        public void DownSpeed100Hd(bool dwnSpd100Hd)
-        {
-            throw new NotImplementedException();
-        }
-
         public void DownSpeed10Hd(bool dwnSpd10Hd)
         {
             if (dwnSpd10Hd)

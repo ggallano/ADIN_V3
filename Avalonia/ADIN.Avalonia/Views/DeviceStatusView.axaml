@@ -31,26 +31,26 @@
 		<Grid ColumnDefinitions="*,*">
 			<HmcCard Grid.Column="0" Density="High" Header="Autoneg Advertisement" Margin="8">
 				<Grid RowDefinitions="24,24,24,24,24,24,24,24">
-					<TextBlock Grid.Row="0" Text="1000BASE-T FD" IsVisible=""/>
-					<TextBlock Grid.Row="1" Text="1000BASE-T HD"/>
-					<TextBlock Grid.Row="2" Text="1000BASE-T EEE"/>
-					<TextBlock Grid.Row="3" Text="100BASE-TX FD"/>
-					<TextBlock Grid.Row="4" Text="100BASE-TX HD"/>
-					<TextBlock Grid.Row="5" Text="1000BASE-T EEE"/>
-					<TextBlock Grid.Row="6" Text="10BASE-T FD"/>
-					<TextBlock Grid.Row="7" Text="10BASE-T HD"/>
+					<TextBlock Grid.Row="0" Classes="body m" Margin="4" Text="1000BASE-T FD" IsVisible=""/>
+					<TextBlock Grid.Row="1" Classes="body m" Margin="4" Text="1000BASE-T HD"/>
+					<TextBlock Grid.Row="2" Classes="body m" Margin="4" Text="1000BASE-T EEE"/>
+					<TextBlock Grid.Row="3" Classes="body m" Margin="4" Text="100BASE-TX FD"/>
+					<TextBlock Grid.Row="4" Classes="body m" Margin="4" Text="100BASE-TX HD"/>
+					<TextBlock Grid.Row="5" Classes="body m" Margin="4" Text="1000BASE-T EEE"/>
+					<TextBlock Grid.Row="6" Classes="body m" Margin="4" Text="10BASE-T FD"/>
+					<TextBlock Grid.Row="7" Classes="body m" Margin="4" Text="10BASE-T HD"/>
 				</Grid>
 			</HmcCard>
 			<HmcCard Grid.Column="1" Density="High" Header="Autoneg Link Partner" Margin="8">
 				<Grid RowDefinitions="24,24,24,24,24,24,24,24">
-					<TextBlock Grid.Row="0" Text="1000BASE-T FD" IsVisible=""/>
-					<TextBlock Grid.Row="1" Text="1000BASE-T HD"/>
-					<TextBlock Grid.Row="2" Text="1000BASE-T EEE"/>
-					<TextBlock Grid.Row="3" Text="100BASE-TX FD"/>
-					<TextBlock Grid.Row="4" Text="100BASE-TX HD"/>
-					<TextBlock Grid.Row="5" Text="1000BASE-T EEE"/>
-					<TextBlock Grid.Row="6" Text="10BASE-T FD"/>
-					<TextBlock Grid.Row="7" Text="10BASE-T HD"/>
+					<TextBlock Grid.Row="0" Classes="body m" Margin="4" Text="1000BASE-T FD" IsVisible=""/>
+					<TextBlock Grid.Row="1" Classes="body m" Margin="4" Text="1000BASE-T HD"/>
+					<TextBlock Grid.Row="2" Classes="body m" Margin="4" Text="1000BASE-T EEE"/>
+					<TextBlock Grid.Row="3" Classes="body m" Margin="4" Text="100BASE-TX FD"/>
+					<TextBlock Grid.Row="4" Classes="body m" Margin="4" Text="100BASE-TX HD"/>
+					<TextBlock Grid.Row="5" Classes="body m" Margin="4" Text="1000BASE-T EEE"/>
+					<TextBlock Grid.Row="6" Classes="body m" Margin="4" Text="10BASE-T FD"/>
+					<TextBlock Grid.Row="7" Classes="body m" Margin="4" Text="10BASE-T HD"/>
 				</Grid>
 			</HmcCard>
 		</Grid>

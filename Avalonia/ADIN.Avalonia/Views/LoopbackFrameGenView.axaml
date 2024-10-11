@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="900"
              x:Class="ADIN.Avalonia.Views.LoopbackFrameGenView">
-	<ScrollViewer VerticalScrollBarVisibility="Hidden">
-		<StackPanel Margin="8">
+	<ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="8">
+		<StackPanel>
 			<Grid ColumnDefinitions="*,Auto">
 				<HmcCard Margin="8" Grid.Column="0" Density="High" Header="Loopback">
 					<Grid ColumnDefinitions="*,24,*" RowDefinitions="Auto,Auto">

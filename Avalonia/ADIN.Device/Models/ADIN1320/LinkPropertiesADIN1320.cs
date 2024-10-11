@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ADIN.Device.Models.ADIN1300
+namespace ADIN.Device.Models.ADIN1320
 {
-    public class LinkPropertiesADIN1300 : ILinkProperties
+    public class LinkPropertiesADIN1320 : ILinkProperties
     {
-        public LinkPropertiesADIN1300()
+        public LinkPropertiesADIN1320()
         {
             IsSpeedCapable1G = true;
 
@@ -31,7 +31,8 @@ namespace ADIN.Device.Models.ADIN1300
             {
                 "Auto MDIX",
                 "Fixed MDI",
-                "Fixed MDIX"
+                "Fixed MDIX",
+                "Sample MDIX"
             };
 
             EnergyDetectPowerDownModes = new List<string>()
@@ -48,6 +49,8 @@ namespace ADIN.Device.Models.ADIN1300
             };
 
             AdvertisedSpeeds = new List<string>() { };
+
+            MacInterface = "RGMII";
         }
 
         public bool IsAdvertise_1000BASE_T_FD { get; set; }
@@ -57,32 +60,23 @@ namespace ADIN.Device.Models.ADIN1300
         public bool IsAdvertise_100BASE_TX_HD { get; set; }
         public bool IsAdvertise_10BASE_T_FD { get; set; }
         public bool IsAdvertise_10BASE_T_HD { get; set; }
-
         public bool IsAdvertise_EEE_1000BASE_T { get; set; }
         public bool IsAdvertise_EEE_100BASE_TX { get; set; }
-
         public uint DownSpeedRetries { get; set; }
         public bool IsDownSpeed_10BASE_T_HD { get; set; }
         public bool IsDownSpeed_100BASE_TX_HD { get; set; }
 
         public string EnergyDetectPowerDownMode { get; set; }
-
         public List<string> EnergyDetectPowerDownModes { get; set; }
-
         public string MDIX { get; set; }
-
         public List<string> MDIXs { get; set; }
-
+        
         public string SpeedMode { get; set; }
-
         public List<string> SpeedModes { get; set; }
 
         public string ForcedSpeed { get; set; }
-
         public List<string> ForcedSpeeds { get; set; }
-
         public List<string> AdvertisedSpeeds { get; set; }
-
 
         public List<string> MasterSlaveAdvertises { get; set; }
         public string MasterSlaveAdvertise { get; set; }

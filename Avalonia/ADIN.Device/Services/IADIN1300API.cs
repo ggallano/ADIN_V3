@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace ADIN.Device.Services
 {
-    public interface IADIN1300API : IFirmwareAPI, IMDIOAPI, IAdvertisedSpeedAPI, IClockPinControlAPI, IDownSpeedAPI, IAutoMDIXAPI, IEnergyDetectAPI, ITestModeAPI, ILoopbackAPI, IMasterSlaveSettingsAPI, IFrameGenCheckerAPI, ICableDiagAPI
+    public interface IADIN1300API : IFirmwareAPI, IMDIOAPI, IAdvertisedSpeedAPI, IAdvertisedGbSpeedAPI, IClockPinControlAPI, IDownSpeedAPI, IAutoMDIXAPI, IEnergyDetectAPI, ITestModeAPI, ILoopbackAPI, IMasterSlaveSettingsAPI, IFrameGenCheckerAPI, ICableDiagAPI
     {
-        void DownSpeed100Hd(bool dwnSpd100Hd);
-        void Speed1000EEEAdvertisement(bool spd1000EEEAdv_st);
-        void Speed1000FdAdvertisement(bool spd1000FdAdv_st);
-        void Speed1000HdAdvertisement(bool spd1000HdAdv_st);
     }
 }

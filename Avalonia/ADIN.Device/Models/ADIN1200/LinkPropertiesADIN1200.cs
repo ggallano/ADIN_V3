@@ -81,5 +81,8 @@ namespace ADIN.Device.Models.ADIN1200
         public string MasterSlaveAdvertise { get; set; }
         public string TxAdvertise { get; set; }
         public List<string> TxAdvertises { get; set; }
+
+        public string ActivePhyMode { get; set; }
+        public string MacInterface { get; set; }
     }
 }

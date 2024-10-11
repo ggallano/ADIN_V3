@@ -25,8 +25,6 @@ public partial class MainWindowViewModel : ViewModelBase
         LogActivityVM = new LogActivityViewModel(_selectedDeviceStore);
         DeviceListingVM = new DeviceListingViewModel(_selectedDeviceStore, ftdiService, registerService, LogActivityVM, mainLock);
         NavigateLinkPropertiesCommand = new NavigateCommand<LinkPropertiesViewModel>(new NavigationService<LinkPropertiesViewModel>(_navigationStore, () => new LinkPropertiesViewModel(_navigationStore, _selectedDeviceStore)));
-        NavigateLinkProperties2Command = new NavigateCommand<LinkPropertiesViewModel2>(new NavigationService<LinkPropertiesViewModel2>(_navigationStore, () => new LinkPropertiesViewModel2(_navigationStore, _selectedDeviceStore)));
-        NavigateLinkProperties3Command = new NavigateCommand<LinkPropertiesViewModel3>(new NavigationService<LinkPropertiesViewModel3>(_navigationStore, () => new LinkPropertiesViewModel3(_navigationStore, _selectedDeviceStore)));
         NavigateLoopbackFrameGenCommand = new NavigateCommand<LoopbackFrameGenViewModel>(new NavigationService<LoopbackFrameGenViewModel>(_navigationStore, () => new LoopbackFrameGenViewModel(_navigationStore)));
         NavigateRegisterAccessCommand = new NavigateCommand<RegisterAccessViewModel>(new NavigationService<RegisterAccessViewModel>(_navigationStore, () => new RegisterAccessViewModel(_navigationStore)));
 
@@ -38,8 +36,6 @@ public partial class MainWindowViewModel : ViewModelBase
     public DeviceListingViewModel DeviceListingVM { get; }
     public LogActivityViewModel LogActivityVM { get; set; }
     public ICommand NavigateLinkPropertiesCommand { get; }
-    public ICommand NavigateLinkProperties2Command { get; }
-    public ICommand NavigateLinkProperties3Command { get; }
     public ICommand NavigateLoopbackFrameGenCommand { get; }
     public ICommand NavigateRegisterAccessCommand { get; }
 

@@ -23,8 +23,6 @@
 
 		<HmcNavigationBar Grid.Row="0" Size="sm" AppName="ADIN Ethernet Phy" ReplaceAppBar="True">
 			<HmcNavigationLink Size="sm" HasIcon="False" Content="Link Properties" Command="{Binding NavigateLinkPropertiesCommand}"/>
-			<HmcNavigationLink Size="sm" HasIcon="False" Content="Link Properties Fiber1" Command="{Binding NavigateLinkProperties2Command}"/>
-			<HmcNavigationLink Size="sm" HasIcon="False" Content="Link Properties Fiber2" Command="{Binding NavigateLinkProperties3Command}"/>
 			<HmcNavigationLink Size="sm" HasIcon="False" Content="Loopback &amp; Frame Generator" Command="{Binding NavigateLoopbackFrameGenCommand}"/>
 			<HmcNavigationLink Size="sm" HasIcon="False" Content="Register Access" Command="{Binding NavigateRegisterAccessCommand}"/>
 		</HmcNavigationBar>
@@ -41,18 +39,6 @@
 					<DataTemplate DataType="{x:Type vm:LinkPropertiesViewModel}">
 						<Grid ColumnDefinitions="6*,5*">
 							<view:LinkPropertiesView Grid.Column="0"/>
-							<view:DeviceStatusView Grid.Column="1" Margin="-16 0 0 0"/>
-						</Grid>
-					</DataTemplate>
-					<DataTemplate DataType="{x:Type vm:LinkPropertiesViewModel2}">
-						<Grid ColumnDefinitions="6*,5*">
-							<view:LinkProperties2 Grid.Column="0"/>
-							<view:DeviceStatusView Grid.Column="1" Margin="-16 0 0 0"/>
-						</Grid>
-					</DataTemplate>
-					<DataTemplate DataType="{x:Type vm:LinkPropertiesViewModel3}">
-						<Grid ColumnDefinitions="6*,5*">
-							<view:LinkProperties3 Grid.Column="0"/>
 							<view:DeviceStatusView Grid.Column="1" Margin="-16 0 0 0"/>
 						</Grid>
 					</DataTemplate>

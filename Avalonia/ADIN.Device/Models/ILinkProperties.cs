@@ -42,5 +42,9 @@ namespace ADIN.Device.Models
 
         string MasterSlaveAdvertise { get; set; }
         List<string> MasterSlaveAdvertises { get; set; }
+
+
+        public string ActivePhyMode { get; set; }
+        public string MacInterface { get; set; }
     }
 }
