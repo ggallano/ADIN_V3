@@ -31,8 +31,7 @@ namespace ADIN.Device.Models.ADIN1320
             {
                 "Auto MDIX",
                 "Fixed MDI",
-                "Fixed MDIX",
-                "Sample MDIX"
+                "Fixed MDIX"
             };
 
             EnergyDetectPowerDownModes = new List<string>()
@@ -49,8 +48,6 @@ namespace ADIN.Device.Models.ADIN1320
             };
 
             AdvertisedSpeeds = new List<string>() { };
-
-            MacInterface = "RGMII";
         }
 
         public bool IsAdvertise_1000BASE_T_FD { get; set; }
@@ -82,8 +79,5 @@ namespace ADIN.Device.Models.ADIN1320
         public string MasterSlaveAdvertise { get; set; }
         public string TxAdvertise { get; set; }
         public List<string> TxAdvertises { get; set; }
-
-        public string ActivePhyMode { get; set; }
-        public string MacInterface { get; set; }
     }
 }

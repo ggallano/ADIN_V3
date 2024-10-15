@@ -5,8 +5,8 @@
              mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="2000"
              x:Class="ADIN.Avalonia.Views.LinkPropertiesView"
 			 x:CompileBindings="False">
-	<ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="8">
-		<StackPanel>
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<StackPanel Margin="8">
 
 			<!--Copper Mode/Default-->
 			<StackPanel IsVisible="{Binding IsCopperMedia}">
@@ -82,7 +82,6 @@
 				<Grid ColumnDefinitions="*,Auto">
 					<HmcCard Grid.Column="0" Margin="8" Density="High" Header="MDIX">
 						<StackPanel Orientation="Horizontal">
-							<HmcSegmentedButton Size="sm" GroupName="MDIX" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding SampleMDIX.IsSelected}" Content="Sample MDIX" IsVisible="{Binding SampleMDIX.IsAnOption}"/>
 							<HmcSegmentedButton Size="sm" GroupName="MDIX" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMDIX_AutoMDIX}" Content="Auto MDIX"/>
 							<HmcSegmentedButton Size="sm" GroupName="MDIX" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMDIX_FixedMDI}" Content="Fixed MDI"/>
 							<HmcSegmentedButton Size="sm" GroupName="MDIX" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMDIX_FixedMDIX}" Content="Fixed MDIX"/>
@@ -108,7 +107,6 @@
 							<HmcSegmentedButton Size="sm" GroupName="MAC" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMacInt_RGMII}" Content="RGMII"/>
 							<HmcSegmentedButton Size="sm" GroupName="MAC" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMacInt_RMII}" Content="RMII"/>
 							<HmcSegmentedButton Size="sm" GroupName="MAC" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMacInt_MII}" Content="MII"/>
-							<HmcSegmentedButton Size="sm" GroupName="MAC" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMacInt_SGMII}" Content="SGMII"/>
 						</StackPanel>
 					</HmcCard>
 				</Grid>

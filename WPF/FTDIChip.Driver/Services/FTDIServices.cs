@@ -234,14 +234,26 @@ namespace FTDIChip.Driver.Services
             //serialresponse = d.EndInvoke((AsyncResult)res);
 
             Task<List<byte>> responseTask = Task.Run(() => d.Invoke(timeout));
-            serialresponse = responseTask.Result;
 
-            if (serialresponse == null)
+            responseTask.ContinueWith(task =>
             {
-                throw new ApplicationException("Timeout waiting for communication response byte.");
-            }
+                if (task.Status == TaskStatus.RanToCompletion)
+                {
+                    serialresponse = task.Result;
+                    return serialresponse;
+                }
+                else //if (task.Status == TaskStatus.Faulted)
+                {
+                    throw new Exception("Failed getting response.");
+                }
+            });
 
-            return serialresponse;
+            //if (serialresponse == null)
+            //{
+            throw new ApplicationException("Timeout waiting for communication response byte.");
+            //}
+
+            //return serialresponse;
         }
 
         private List<byte> GetSerialBytes(int timeoutms)

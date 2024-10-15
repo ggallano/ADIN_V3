@@ -219,12 +219,39 @@ namespace FTDIChip.Driver.Services
             return encoding.GetString(commandresponse.ToArray());
         }
 
+        //private List<byte> WaitOnSerialResponse(int timeout)
+        //{
+        //    ResponseDelegate d = new ResponseDelegate(this.GetSerialBytes);
+        //    List<byte> serialresponse;
+        //    IAsyncResult res = d.BeginInvoke(timeout, null, null);
+        //    serialresponse = d.EndInvoke((AsyncResult)res);
+        //    if (serialresponse == null)
+        //    {
+        //        throw new ApplicationException("Timeout waiting for communication response byte.");
+        //    }
+
+        //    return serialresponse;
+        //}
+
         private List<byte> WaitOnSerialResponse(int timeout)
         {
-            ResponseDelegate d = new ResponseDelegate(this.GetSerialBytes);
-            List<byte> serialresponse;
-            Task<List<byte>> responseTask = Task.Run(() => d.Invoke(timeout));
-            serialresponse = responseTask.Result;
+            ResponseDelegate d = new ResponseDelegate(GetSerialBytes);
+            Task<List<byte>> task = Task.Run(() => d.Invoke(timeout));
+
+            List<byte> serialresponse = null;
+            task.ContinueWith(t =>
+            {
+                if (t.Status == TaskStatus.RanToCompletion)
+                {
+                    serialresponse = t.Result;
+                }
+                else if (t.Status == TaskStatus.Faulted)
+                {
+                    // Handle the exception
+                    throw new ApplicationException("Timeout waiting for communication response byte.", t.Exception);
+                }
+            }).Wait(); // Wait for the task to complete
+
             if (serialresponse == null)
             {
                 throw new ApplicationException("Timeout waiting for communication response byte.");

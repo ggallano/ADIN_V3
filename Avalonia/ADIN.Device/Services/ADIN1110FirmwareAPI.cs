@@ -1350,5 +1350,20 @@ namespace ADIN.Device.Services
         {
             throw new NotImplementedException();
         }
+
+        public void SetLoopbackSetting(LoopbackModel loopback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetTxSuppression(bool isTxSuppressed)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetRxSuppression(bool isRxSuppressed)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

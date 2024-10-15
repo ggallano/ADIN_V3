@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace ADIN.Device.Models
     {
         public FrameGenCheckerModel()
         {
-            FrameContents = new List<FrameContentModel>();
+            FrameContents = new ObservableCollection<FrameContentModel>();
         }
 
         public string DestMacAddress { get; set; }
@@ -19,7 +20,7 @@ namespace ADIN.Device.Models
         public bool EnableMacAddress { get; set; }
         public uint FrameBurst { get; set; }
         public FrameContentModel FrameContent { get; set; }
-        public List<FrameContentModel> FrameContents { get; set; }
+        public ObservableCollection<FrameContentModel> FrameContents { get; set; }
         public string FrameGeneratorButtonText { get; set; }
         public uint FrameLength { get; set; }
         public FrameType SelectedFrameContent { get; set; }

@@ -9,6 +9,8 @@ namespace ADIN.Device.Services
 {
     public interface ILoopbackAPI
     {
-        void SetLoopbackSetting(LoopbackModel loopback, bool txSuppression, bool rxSuppression);
+        void SetLoopbackSetting(LoopbackModel loopback);
+        void SetTxSuppression(bool isTxSuppressed);
+        void SetRxSuppression(bool isRxSuppressed);
     }
 }

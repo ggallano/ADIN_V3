@@ -35,8 +35,9 @@ namespace ADIN.Device.Models
             FirmwareAPI = new ADIN1300FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
             _fwAPI = FirmwareAPI as ADIN1300FirmwareAPI;
 
+            PhyMode = new PhyModeADIN1320();
             LinkProperties = new LinkPropertiesADIN1320();
-            Loopback = new LoopbackADIN1300();
+            Loopback = new LoopbackADIN1320();
             FrameGenChecker = new FrameGenCheckerADIN1300();
             ClockPinControl = new ClockPinControlADIN1300();
             TestMode = new TestModeADIN1300();

@@ -25,6 +25,7 @@ namespace ADIN.Device.Models
         public ITestMode TestMode { get; set; }
         public ObservableCollection<RegisterModel> Registers { get; set; }
         public IDeviceStatus DeviceStatus { get; set; }
+        public IPhyMode PhyMode { get; set; }
         public uint PortNum { get; set; }
 
         /// <summary>

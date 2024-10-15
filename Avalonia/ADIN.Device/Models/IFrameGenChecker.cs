@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace ADIN.Device.Models
         bool EnableMacAddress { get; set; }
         uint FrameBurst { get; set; }
         FrameContentModel FrameContent { get; set; }
-        List<FrameContentModel> FrameContents { get; set; }
+        ObservableCollection<FrameContentModel> FrameContents { get; set; }
         uint FrameLength { get; set; }
         FrameType SelectedFrameContent { get; set; }
         string SrcMacAddress { get; set; }

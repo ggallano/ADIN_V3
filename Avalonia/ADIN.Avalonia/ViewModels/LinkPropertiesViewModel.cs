@@ -3,6 +3,7 @@ using ADIN.Avalonia.Services;
 using ADIN.Avalonia.Stores;
 using ADIN.Device.Models;
 using ADIN.Device.Services;
+using FTDIChip.Driver.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,14 @@ namespace ADIN.Avalonia.ViewModels
 {
     public class LinkPropertiesViewModel : ViewModelBase
     {
-        private NavigationStore _navigationStore;
         private SelectedDeviceStore _selectedDeviceStore;
+        private IFTDIServices _ftdiServices;
         private List<uint> _downSpeedRetries = new List<uint>(){ 0, 1, 2, 3, 4, 5, 6, 7 };
 
-        public LinkPropertiesViewModel(NavigationStore navigationStore, SelectedDeviceStore selectedDeviceStore)
+        public LinkPropertiesViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiServices)
         {
-            _navigationStore = navigationStore;
             _selectedDeviceStore = selectedDeviceStore;
+            _ftdiServices = ftdiServices;
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
         }
@@ -41,7 +42,7 @@ namespace ADIN.Avalonia.ViewModels
 
             set
             {
-                if (IsDeviceSelected && value != _linkProperties?.IsAdvertise_1000BASE_T_FD)
+                if (IsDeviceSelected && IsComOpen && value != _linkProperties?.IsAdvertise_1000BASE_T_FD)
                 {
                     _linkProperties.IsAdvertise_1000BASE_T_FD = value;
                     IAdvertisedGbSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedGbSpeedAPI;
@@ -65,7 +66,7 @@ namespace ADIN.Avalonia.ViewModels
 
             set
             {
-                if (IsDeviceSelected && value != _linkProperties?.IsAdvertise_1000BASE_T_HD)
+                if (IsDeviceSelected && IsComOpen && value != _linkProperties?.IsAdvertise_1000BASE_T_HD)
                 {
                     _linkProperties.IsAdvertise_1000BASE_T_HD = value;
                     IAdvertisedGbSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedGbSpeedAPI;
@@ -88,7 +89,7 @@ namespace ADIN.Avalonia.ViewModels
 
             set
             {
-                if (IsDeviceSelected && value != _linkProperties?.IsAdvertise_100BASE_TX_FD)
+                if (IsDeviceSelected && IsComOpen && value != _linkProperties?.IsAdvertise_100BASE_TX_FD)
                 {
                     _linkProperties.IsAdvertise_100BASE_TX_FD = value;
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
@@ -112,7 +113,7 @@ namespace ADIN.Avalonia.ViewModels
 
             set
             {
-                if (IsDeviceSelected && value != _linkProperties?.IsAdvertise_100BASE_TX_HD)
+                if (IsDeviceSelected && IsComOpen && value != _linkProperties?.IsAdvertise_100BASE_TX_HD)
                 {
                     _linkProperties.IsAdvertise_100BASE_TX_HD = value;
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
@@ -134,7 +135,7 @@ namespace ADIN.Avalonia.ViewModels
 
             set
             {
-                if (IsDeviceSelected && value != _linkProperties?.IsAdvertise_10BASE_T_FD)
+                if (IsDeviceSelected && IsComOpen && value != _linkProperties?.IsAdvertise_10BASE_T_FD)
                 {
                     _linkProperties.IsAdvertise_10BASE_T_FD = value;
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
@@ -155,7 +156,7 @@ namespace ADIN.Avalonia.ViewModels
 
             set
             {
-                if (IsDeviceSelected && value != _linkProperties?.IsAdvertise_10BASE_T_HD)
+                if (IsDeviceSelected && IsComOpen && value != _linkProperties?.IsAdvertise_10BASE_T_HD)
                 {
                     _linkProperties.IsAdvertise_10BASE_T_HD = value;
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
@@ -176,7 +177,7 @@ namespace ADIN.Avalonia.ViewModels
 
             set
             {
-                if (IsDeviceSelected && value != _linkProperties?.IsAdvertise_EEE_1000BASE_T)
+                if (IsDeviceSelected && IsComOpen && value != _linkProperties?.IsAdvertise_EEE_1000BASE_T)
                 {
                     _linkProperties.IsAdvertise_EEE_1000BASE_T = value;
                     IAdvertisedGbSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedGbSpeedAPI;
@@ -198,7 +199,7 @@ namespace ADIN.Avalonia.ViewModels
 
             set
             {
-                if (IsDeviceSelected && value != _linkProperties?.IsAdvertise_EEE_100BASE_TX)
+                if (IsDeviceSelected && IsComOpen && value != _linkProperties?.IsAdvertise_EEE_100BASE_TX)
                 {
                     _linkProperties.IsAdvertise_EEE_100BASE_TX = value;
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
@@ -222,6 +223,7 @@ namespace ADIN.Avalonia.ViewModels
         }
 
         public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+        public bool IsComOpen => _ftdiServices.IsComOpen == true;
 
         public bool IsDownSpeed_100BASE_TX_HD
         {
@@ -232,7 +234,7 @@ namespace ADIN.Avalonia.ViewModels
 
             set
             {
-                if (IsDeviceSelected && value != _linkProperties?.IsDownSpeed_100BASE_TX_HD)
+                if (IsDeviceSelected && IsComOpen && value != _linkProperties?.IsDownSpeed_100BASE_TX_HD)
                 {
                     _linkProperties.IsDownSpeed_100BASE_TX_HD = value;
                     IAdvertisedGbSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedGbSpeedAPI;
@@ -252,7 +254,7 @@ namespace ADIN.Avalonia.ViewModels
 
             set
             {
-                if (IsDeviceSelected && value != _linkProperties?.IsDownSpeed_10BASE_T_HD)
+                if (IsDeviceSelected && IsComOpen && value != _linkProperties?.IsDownSpeed_10BASE_T_HD)
                 {
                     _linkProperties.IsDownSpeed_10BASE_T_HD = value;
                     IDownSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IDownSpeedAPI;
@@ -357,7 +359,7 @@ namespace ADIN.Avalonia.ViewModels
             get { return _linkProperties?.EnergyDetectPowerDownMode == "Disabled"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.EnergyDetectPowerDownMode != "Disabled")
+                if (IsDeviceSelected && IsComOpen && _linkProperties?.EnergyDetectPowerDownMode != "Disabled")
                 {
                     _linkProperties.EnergyDetectPowerDownMode = "Disabled";
                     IEnergyDetectAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IEnergyDetectAPI;
@@ -374,7 +376,7 @@ namespace ADIN.Avalonia.ViewModels
             get { return _linkProperties?.EnergyDetectPowerDownMode == "Enabled"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.EnergyDetectPowerDownMode != "Enabled")
+                if (IsDeviceSelected && IsComOpen && _linkProperties?.EnergyDetectPowerDownMode != "Enabled")
                 {
                     _linkProperties.EnergyDetectPowerDownMode = "Enabled";
                     IEnergyDetectAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IEnergyDetectAPI;
@@ -391,7 +393,7 @@ namespace ADIN.Avalonia.ViewModels
             get { return _linkProperties?.EnergyDetectPowerDownMode == "Enabled with Periodic Pulse TX"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.EnergyDetectPowerDownMode != "Enabled with Periodic Pulse TX")
+                if (IsDeviceSelected && IsComOpen && _linkProperties?.EnergyDetectPowerDownMode != "Enabled with Periodic Pulse TX")
                 {
                     _linkProperties.EnergyDetectPowerDownMode = "Enabled with Periodic Pulse TX";
                     IEnergyDetectAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IEnergyDetectAPI;
@@ -408,7 +410,7 @@ namespace ADIN.Avalonia.ViewModels
             get { return _linkProperties?.ForcedSpeed == "SPEED_100BASE_TX_FD"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.ForcedSpeed != "SPEED_100BASE_TX_FD")
+                if (IsDeviceSelected && IsComOpen && _linkProperties?.ForcedSpeed != "SPEED_100BASE_TX_FD")
                 {
                     _linkProperties.ForcedSpeed = "SPEED_100BASE_TX_FD";
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
@@ -426,7 +428,7 @@ namespace ADIN.Avalonia.ViewModels
             get { return _linkProperties?.ForcedSpeed == "SPEED_100BASE_TX_HD"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.ForcedSpeed != "SPEED_100BASE_TX_HD")
+                if (IsDeviceSelected && IsComOpen && _linkProperties?.ForcedSpeed != "SPEED_100BASE_TX_HD")
                 {
                     _linkProperties.ForcedSpeed = "SPEED_100BASE_TX_HD";
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
@@ -444,7 +446,7 @@ namespace ADIN.Avalonia.ViewModels
             get { return _linkProperties?.ForcedSpeed == "SPEED_10BASE_T_FD"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.ForcedSpeed != "SPEED_10BASE_T_FD")
+                if (IsDeviceSelected && IsComOpen && _linkProperties?.ForcedSpeed != "SPEED_10BASE_T_FD")
                 {
                     _linkProperties.ForcedSpeed = "SPEED_10BASE_T_FD";
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
@@ -462,7 +464,7 @@ namespace ADIN.Avalonia.ViewModels
             get { return _linkProperties?.ForcedSpeed == "SPEED_10BASE_T_HD"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.ForcedSpeed != "SPEED_10BASE_T_HD")
+                if (IsDeviceSelected && IsComOpen && _linkProperties?.ForcedSpeed != "SPEED_10BASE_T_HD")
                 {
                     _linkProperties.ForcedSpeed = "SPEED_10BASE_T_HD";
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
@@ -480,7 +482,7 @@ namespace ADIN.Avalonia.ViewModels
             get { return _linkProperties?.MasterSlaveAdvertise == "Leader"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.MasterSlaveAdvertise != "Leader")
+                if (IsDeviceSelected && IsComOpen && _linkProperties?.MasterSlaveAdvertise != "Leader")
                 {
                     _linkProperties.MasterSlaveAdvertise = "Leader";
                     IMasterSlaveSettingsAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IMasterSlaveSettingsAPI;
@@ -501,7 +503,7 @@ namespace ADIN.Avalonia.ViewModels
             get { return _linkProperties?.MasterSlaveAdvertise == "Follower"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.MasterSlaveAdvertise != "Follower")
+                if (IsDeviceSelected && IsComOpen && _linkProperties?.MasterSlaveAdvertise != "Follower")
                 {
                     _linkProperties.MasterSlaveAdvertise = "Follower";
                     IMasterSlaveSettingsAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IMasterSlaveSettingsAPI;
@@ -522,7 +524,7 @@ namespace ADIN.Avalonia.ViewModels
             get { return _linkProperties?.MDIX == "Auto MDIX"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.MDIX != "Auto MDIX")
+                if (IsDeviceSelected && IsComOpen && _linkProperties?.MDIX != "Auto MDIX")
                 {
                     _linkProperties.MDIX = "Auto MDIX";
                     IAutoMDIXAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAutoMDIXAPI;
@@ -539,7 +541,7 @@ namespace ADIN.Avalonia.ViewModels
             get { return _linkProperties?.MDIX == "Fixed MDI"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.MDIX != "Fixed MDI")
+                if (IsDeviceSelected && IsComOpen && _linkProperties?.MDIX != "Fixed MDI")
                 {
                     _linkProperties.MDIX = "Fixed MDI";
                     IAutoMDIXAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAutoMDIXAPI;
@@ -556,7 +558,7 @@ namespace ADIN.Avalonia.ViewModels
             get { return _linkProperties?.MDIX == "Fixed MDIX"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties.MDIX != "Fixed MDIX")
+                if (IsDeviceSelected && IsComOpen && _linkProperties.MDIX != "Fixed MDIX")
                 {
                     _linkProperties.MDIX = "Fixed MDIX";
                     IAutoMDIXAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAutoMDIXAPI;
@@ -573,7 +575,7 @@ namespace ADIN.Avalonia.ViewModels
             get { return _linkProperties?.SpeedMode != "Forced"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.SpeedMode != "Advertised")
+                if (IsDeviceSelected && IsComOpen && _linkProperties?.SpeedMode != "Advertised")
                 {
                     _linkProperties.SpeedMode = "Advertised";
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
@@ -593,7 +595,7 @@ namespace ADIN.Avalonia.ViewModels
             get { return _linkProperties?.SpeedMode == "Forced"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.SpeedMode != "Forced")
+                if (IsDeviceSelected && IsComOpen && _linkProperties?.SpeedMode != "Forced")
                 {
                     _linkProperties.SpeedMode = "Forced";
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
@@ -622,7 +624,7 @@ namespace ADIN.Avalonia.ViewModels
 
             set
             {
-                if (IsDeviceSelected && value != _linkProperties?.DownSpeedRetries)
+                if (IsDeviceSelected && IsComOpen && value != _linkProperties?.DownSpeedRetries)
                 {
                     _linkProperties.DownSpeedRetries = value;
                     IDownSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IDownSpeedAPI;
@@ -635,12 +637,12 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsMacInt_RGMII
         {
-            get { return _linkProperties?.MacInterface == "RGMII"; }
+            get { return _phyMode?.MacInterface == "RGMII"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.MacInterface != "RGMII")
+                if (IsDeviceSelected && IsComOpen && _phyMode?.MacInterface != "RGMII")
                 {
-                    _linkProperties.MacInterface = "RGMII";
+                    _phyMode.MacInterface = "RGMII";
                     OnPropertyChanged(nameof(IsMacInt_RGMII));
                     OnPropertyChanged(nameof(IsMacInt_RMII));
                     OnPropertyChanged(nameof(IsMacInt_MII));
@@ -651,12 +653,12 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsMacInt_RMII
         {
-            get { return _linkProperties?.MacInterface == "RMII"; }
+            get { return _phyMode?.MacInterface == "RMII"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.MacInterface != "RMII")
+                if (IsDeviceSelected && IsComOpen && _phyMode?.MacInterface != "RMII")
                 {
-                    _linkProperties.MacInterface = "RMII";
+                    _phyMode.MacInterface = "RMII";
                     OnPropertyChanged(nameof(IsMacInt_RGMII));
                     OnPropertyChanged(nameof(IsMacInt_RMII));
                     OnPropertyChanged(nameof(IsMacInt_MII));
@@ -667,12 +669,12 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsMacInt_MII
         {
-            get { return _linkProperties?.MacInterface == "MII"; }
+            get { return _phyMode?.MacInterface == "MII"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.MacInterface != "MII")
+                if (IsDeviceSelected && IsComOpen && _phyMode?.MacInterface != "MII")
                 {
-                    _linkProperties.MacInterface = "MII";
+                    _phyMode.MacInterface = "MII";
                     OnPropertyChanged(nameof(IsMacInt_RGMII));
                     OnPropertyChanged(nameof(IsMacInt_RMII));
                     OnPropertyChanged(nameof(IsMacInt_MII));
@@ -683,12 +685,12 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsMacInt_SGMII
         {
-            get { return _linkProperties?.MacInterface == "SGMII"; }
+            get { return _phyMode?.MacInterface == "SGMII"; }
             set
             {
-                if (IsDeviceSelected && _linkProperties?.MacInterface != "SGMII")
+                if (IsDeviceSelected && IsComOpen && _phyMode?.MacInterface != "SGMII")
                 {
-                    _linkProperties.MacInterface = "SGMII";
+                    _phyMode.MacInterface = "SGMII";
                     OnPropertyChanged(nameof(IsMacInt_RGMII));
                     OnPropertyChanged(nameof(IsMacInt_RMII));
                     OnPropertyChanged(nameof(IsMacInt_MII));
@@ -697,17 +699,17 @@ namespace ADIN.Avalonia.ViewModels
             }
         }
 
-        public bool HasActivePhyMode => _linkProperties?.ActivePhyMode != null;
+        public bool HasActivePhyMode => _phyMode?.ActivePhyMode != null;
 
         public string ActivePhyMode
         {
             get
             {
-                if (_linkProperties?.ActivePhyMode == "Auto Media Detect_Cu"
-                    || _linkProperties?.ActivePhyMode == "Auto Media Detect_Fi")
+                if (_phyMode?.ActivePhyMode == "Auto Media Detect_Cu"
+                    || _phyMode?.ActivePhyMode == "Auto Media Detect_Fi")
                     return "Auto Media Detect";
                 else if (HasActivePhyMode)
-                    return _linkProperties?.ActivePhyMode;
+                    return _phyMode?.ActivePhyMode;
                 else
                     return string.Empty;
             }
@@ -717,9 +719,9 @@ namespace ADIN.Avalonia.ViewModels
         {
             get
             {
-                return (_linkProperties?.ActivePhyMode == null)
-                    || (_linkProperties?.ActivePhyMode == "Copper Media Only")
-                    || (_linkProperties?.ActivePhyMode == "Auto Media Detect_Cu");
+                return (_phyMode?.ActivePhyMode == null)
+                    || (_phyMode?.ActivePhyMode == "Copper Media Only")
+                    || (_phyMode?.ActivePhyMode == "Auto Media Detect_Cu");
             }
         }
 
@@ -727,9 +729,9 @@ namespace ADIN.Avalonia.ViewModels
         {
             get 
             {
-                return (_linkProperties?.ActivePhyMode == "Fiber Media Only")
-                    || (_linkProperties?.ActivePhyMode == "Backplane")
-                    || (_linkProperties?.ActivePhyMode == "Auto Media Detect_Fi");
+                return (_phyMode?.ActivePhyMode == "Fiber Media Only")
+                    || (_phyMode?.ActivePhyMode == "Backplane")
+                    || (_phyMode?.ActivePhyMode == "Auto Media Detect_Fi");
             }
         }
 
@@ -737,14 +739,16 @@ namespace ADIN.Avalonia.ViewModels
         {
             get
             {
-                return _linkProperties?.ActivePhyMode == "Media Converter";
+                return _phyMode?.ActivePhyMode == "Media Converter";
             }
         }
 
         private ILinkProperties _linkProperties => _selectedDeviceStore.SelectedDevice?.LinkProperties;
+        private IPhyMode _phyMode => _selectedDeviceStore.SelectedDevice?.PhyMode;
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
+            OnPropertyChanged(nameof(IsComOpen));
             OnPropertyChanged(nameof(IsDeviceSelected));
 
             if (_selectedDeviceStore.SelectedDevice == null)

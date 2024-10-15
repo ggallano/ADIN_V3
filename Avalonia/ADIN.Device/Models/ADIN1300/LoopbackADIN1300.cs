@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,31 +12,31 @@ namespace ADIN.Device.Models.ADIN1300
         public LoopbackADIN1300()
         {
             LpBck_None = new LoopbackModel();
-            LpBck_None.Name = "OFF";
+            LpBck_None.Name = "None";
             LpBck_None.EnumLoopbackType = LoopBackMode.OFF;
-            LpBck_None.ImagePath = @"../Images/loopback/Loopback_None.png";
+            LpBck_None.ImagePath = @"/Images/loopback/Loopback_None.png";
 
             LpBck_Digital = new LoopbackModel();
-            LpBck_Digital.Name = "Digital";
+            LpBck_Digital.Name = "All Digital";
             LpBck_Digital.EnumLoopbackType = LoopBackMode.Digital;
-            LpBck_Digital.ImagePath = @"../Images/loopback/Loopback_AllDigital.png";
+            LpBck_Digital.ImagePath = @"/Images/loopback/Loopback_AllDigital.png";
 
             LpBck_LineDriver = new LoopbackModel();
-            LpBck_LineDriver.Name = "LineDriver";
+            LpBck_LineDriver.Name = "Line Driver";
             LpBck_LineDriver.EnumLoopbackType = LoopBackMode.LineDriver;
-            LpBck_LineDriver.ImagePath = @"../Images/loopback/Loopback_LineDriver.png";
+            LpBck_LineDriver.ImagePath = @"/Images/loopback/Loopback_LineDriver.png";
 
             LpBck_ExtCable = new LoopbackModel();
-            LpBck_ExtCable.Name = "ExtCable";
+            LpBck_ExtCable.Name = "External Cable";
             LpBck_ExtCable.EnumLoopbackType = LoopBackMode.ExtCable;
-            LpBck_ExtCable.ImagePath = @"../Images/loopback/Loopback_ExtCable.png";
+            LpBck_ExtCable.ImagePath = @"/Images/loopback/Loopback_ExtCable.png";
 
             LpBck_Remote = new LoopbackModel();
             LpBck_Remote.Name = "Remote";
             LpBck_Remote.EnumLoopbackType = LoopBackMode.MacRemote;
-            LpBck_Remote.ImagePath = @"../Images/loopback/Loopback_Remote.png";
+            LpBck_Remote.ImagePath = @"/Images/loopback/Loopback_Remote.png";
 
-            Loopbacks = new List<LoopbackModel>()
+            Loopbacks = new ObservableCollection<LoopbackModel>()
             {
                 LpBck_None,
                 LpBck_Digital,
@@ -43,10 +44,6 @@ namespace ADIN.Device.Models.ADIN1300
                 LpBck_ExtCable,
                 LpBck_Remote
             };
-
-            SelectedLoopback = Loopbacks[0];
-            //SelectedLoopback.TxSuppression = true;
-            //SelectedLoopback.RxSuppression = false;
         }
 
         public LoopbackModel LpBck_None { get; set; }
@@ -56,9 +53,11 @@ namespace ADIN.Device.Models.ADIN1300
         public LoopbackModel LpBck_Remote { get; set; }
 
         public LoopbackModel SelectedLoopback { get; set; }
-        public List<LoopbackModel> Loopbacks { get; set; }
+        public ObservableCollection<LoopbackModel> Loopbacks { get; set; }
 
         public bool RxSuppression { get; set; }
         public bool TxSuppression { get; set; }
+        public string ImagePath_RxSuppression { get; set; }
+        public string ImagePath_TxSuppression { get; set; }
     }
 }

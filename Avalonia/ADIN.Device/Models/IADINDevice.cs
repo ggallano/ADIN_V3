@@ -12,5 +12,7 @@ namespace ADIN.Device.Models
         string BoardName { get; set; }
         string SerialNumber { get; set; }
         IFirmwareAPI FirmwareAPI { get; set; }
+        public string ActivePhyMode { get; set; }
+        public string MacInterface { get; set; }
     }
 }
