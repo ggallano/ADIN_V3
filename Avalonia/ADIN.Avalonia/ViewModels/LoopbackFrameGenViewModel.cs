@@ -124,7 +124,7 @@ namespace ADIN.Avalonia.ViewModels
         {
             get
             {
-                if (IsDeviceSelected && IsComOpen)
+                if (IsDeviceSelected)
                 {
                     try
                     {
@@ -144,7 +144,7 @@ namespace ADIN.Avalonia.ViewModels
         {
             get
             {
-                if (IsDeviceSelected && IsComOpen)
+                if (IsDeviceSelected)
                 {
                     try
                     {
