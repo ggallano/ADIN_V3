@@ -1,4 +1,5 @@
 ﻿using ADIN.Avalonia.ViewModels;
+using ADIN.Avalonia.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,8 @@ namespace ADIN.Avalonia.Stores
                 OnCurrentViewModelChanged();
             }
         }
+
+        public object CurrentStatusView { get; set; }
 
         public event Action CurrentViewModelChanged;
 
