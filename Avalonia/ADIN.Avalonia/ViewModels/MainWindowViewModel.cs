@@ -25,8 +25,10 @@ public class MainWindowViewModel : ViewModelBase
         _navigationStore = navigationStore;
 
         LogActivityVM = new LogActivityViewModel(_selectedDeviceStore);
-        DeviceListingVM = new DeviceListingViewModel(_selectedDeviceStore, ftdiService, registerService, LogActivityVM, mainLock);
-        DeviceStatusVM = new DeviceStatusViewModel(_selectedDeviceStore, ftdiService, mainLock);
+        DeviceListingVM = new DeviceListingViewModel(_selectedDeviceStore, _ftdiService, registerService, LogActivityVM, mainLock);
+        DeviceStatusVM = new DeviceStatusViewModel(_selectedDeviceStore, _ftdiService, mainLock);
+        ExtraCommandsVM = new ExtraCommandsViewModel(_selectedDeviceStore, _ftdiService);
+
         NavigateLinkPropertiesCommand = new NavigateCommand<LinkPropertiesViewModel>(new NavigationService<LinkPropertiesViewModel>(_navigationStore, () => new LinkPropertiesViewModel(_selectedDeviceStore, _ftdiService)));
         NavigateLoopbackFrameGenCommand = new NavigateCommand<LoopbackFrameGenViewModel>(new NavigationService<LoopbackFrameGenViewModel>(_navigationStore, () => new LoopbackFrameGenViewModel(_selectedDeviceStore, _ftdiService)));
         NavigateRegisterAccessCommand = new NavigateCommand<RegisterAccessViewModel>(new NavigationService<RegisterAccessViewModel>(_navigationStore, () => new RegisterAccessViewModel(_navigationStore)));
@@ -64,6 +66,7 @@ public class MainWindowViewModel : ViewModelBase
     public DeviceListingViewModel DeviceListingVM { get; }
     public LogActivityViewModel LogActivityVM { get; set; }
     public DeviceStatusViewModel DeviceStatusVM { get; set; }
+    public ExtraCommandsViewModel ExtraCommandsVM { get; set; }
 
     public ICommand NavigateLinkPropertiesCommand { get; }
     public ICommand NavigateLoopbackFrameGenCommand { get; }

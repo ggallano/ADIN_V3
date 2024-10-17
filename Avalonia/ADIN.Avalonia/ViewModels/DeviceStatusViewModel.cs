@@ -20,6 +20,7 @@ namespace ADIN.Avalonia.ViewModels
         private string _anStatus = "-";
         private BackgroundWorker _backgroundWorker;
         private string _checker = "-";
+        private string _checkerError = "-";
         private IFTDIServices _ftdiService;
         private string _generator = "-";
         private string _linkStatus = "-";
@@ -52,6 +53,7 @@ namespace ADIN.Avalonia.ViewModels
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerResetDisplay += _selectedDeviceStore_FrameGenCheckerResetDisplay;
+            _selectedDeviceStore.FrameGenCheckerErrorResetDisplay += _selectedDeviceStore_FrameGenCheckerErrorResetDisplay;
             _selectedDeviceStore.PortNumChanged += _selectedDeviceStore_PortNumChanged;
         }
 
@@ -126,6 +128,25 @@ namespace ADIN.Avalonia.ViewModels
                 }
 
                 OnPropertyChanged(nameof(Checker));
+            }
+        }
+
+        public string CheckerError
+        {
+            get
+            {
+                return _selectedDevice?.CheckerError ?? "-";
+            }
+
+            set
+            {
+                if (_selectedDevice != null)
+                {
+                    _checkerError = value;
+                    _selectedDevice.CheckerError = value;
+                }
+
+                OnPropertyChanged(nameof(CheckerError));
             }
         }
 
@@ -419,6 +440,7 @@ namespace ADIN.Avalonia.ViewModels
         {
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerResetDisplay -= _selectedDeviceStore_FrameGenCheckerResetDisplay;
+            _selectedDeviceStore.FrameGenCheckerErrorResetDisplay -= _selectedDeviceStore_FrameGenCheckerErrorResetDisplay;
             base.Dispose();
         }
 
@@ -563,6 +585,14 @@ namespace ADIN.Avalonia.ViewModels
                 return;
 
             Checker = status;
+        }
+
+        private void _selectedDeviceStore_FrameGenCheckerErrorResetDisplay(string status)
+        {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
+            CheckerError = status;
         }
 
         private void _selectedDeviceStore_PortNumChanged()

@@ -40,8 +40,8 @@
 					</Grid>
 					<StackPanel Grid.Column="2">
 						<HmcComboBox ItemsSource="{Binding FrameContents}" SelectedItem="{Binding SelectedFrameContent}" DisplayMemberBinding="{Binding Name}" Label="Frame Content" IsRequired="True" Width="200"/>
-						<HmcButton Content="Clear Result" Kind="secondary" Margin="0 16 0 0" Width="200" IsEnabled="{Binding IsDeviceSelected}"/>
-						<HmcButton Content="Generate" Kind="primary" Margin="0 16 0 0" Width="200" IsEnabled="{Binding IsDeviceSelected}"/>
+						<HmcButton Content="Clear Result" Kind="secondary" Command="{Binding ResetFrameCheckerCommnad}" Margin="0 16 0 0" Width="200" IsEnabled="{Binding IsDeviceSelected}"/>
+						<HmcButton Content="{Binding FrameGeneratorButtonText}" Kind="primary" Command="{Binding ExecuteFrameCheckerCommand}" Margin="0 16 0 0" Width="200" IsEnabled="{Binding IsDeviceSelected}"/>
 					</StackPanel>
 				</Grid>
 			</HmcCard>

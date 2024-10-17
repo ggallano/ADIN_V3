@@ -18,6 +18,8 @@ namespace ADIN.Device.Services
 
         event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
 
+        event EventHandler<string> ResetFrameGenCheckerErrorStatisticsChanged;
+
         event EventHandler<FeedbackModel> WriteProcessCompleted;
 
         event EventHandler<List<string>> GigabitCableDiagCompleted;
