@@ -63,6 +63,8 @@ public class MainWindowViewModel : ViewModelBase
 
     public int ColumnSpan => (_navigationStore.CurrentViewModel is RegisterAccessViewModel) ? 2 : 1;
 
+    public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+
     public DeviceListingViewModel DeviceListingVM { get; }
     public LogActivityViewModel LogActivityVM { get; set; }
     public DeviceStatusViewModel DeviceStatusVM { get; set; }

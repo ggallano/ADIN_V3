@@ -38,7 +38,7 @@ namespace ADIN.Avalonia.Commands
 
         public override void Execute(object parameter)
         {
-            var resetType = (ResetType)Enum.Parse(typeof(ResetType), parameter.ToString());
+            var resetType = (ResetType)Enum.Parse(typeof(ResetType), parameter?.ToString());
             _selectedDeviceStore.SelectedDevice.FwAPI.ResetPhy(resetType);
         }
 

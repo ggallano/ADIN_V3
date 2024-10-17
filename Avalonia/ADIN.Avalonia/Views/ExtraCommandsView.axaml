@@ -8,7 +8,7 @@
 	<Border Background="White" BorderThickness="1" BorderBrush="#b7bbc3">
 		<StackPanel Background="White" Margin="8">
 			<!--<TextBlock Text="Device Control" Classes="subtitle m" Margin="8"/>-->
-			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="{Binding PowerDownStatus}" Command="{Binding SoftwarePowerDownCommand}"/>
+			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="{Binding PowerDownStatus, Mode=TwoWay}" Command="{Binding SoftwarePowerDownCommand}"/>
 			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="{Binding LinkStatus}" Command="{Binding DisableLinkCommand}"/>
 			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="Restart Linking" Command="{Binding AutoNegCommand}"/>
 			<HmcButton Classes="extraCommandsPri" Kind="primary" Content="Reset: Subsys (Pin)" Command="{Binding SubSysPinResetCommand}"/>

@@ -43,7 +43,7 @@
 			<ContentControl Grid.Column="0" Background="White">
 				<Grid RowDefinitions="2*,3*">
 					<view:DeviceListingView DataContext="{Binding DeviceListingVM}" Grid.Row="0" Margin="-1 -1 0 0"/>
-					<view:ExtraCommandsView Grid.Row="1" Margin="-1 -1 0 -1"/>
+					<view:ExtraCommandsView DataContext="{Binding ExtraCommandsVM}" Grid.Row="1" Margin="-1 -1 0 -1"/>
 				</Grid>
 			</ContentControl>
 			<ContentControl Grid.Column="1" Grid.ColumnSpan="{Binding ColumnSpan}" Content="{Binding CurrentViewModel, Mode=TwoWay}"/>

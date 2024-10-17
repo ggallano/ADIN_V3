@@ -17,7 +17,7 @@
 					</Grid>
 				</HmcCard>
 				<HmcCard Grid.Column="0" Margin="8" Density="High" Header="Active Phy Mode" IsVisible="{Binding HasActivePhyMode}">
-					<TextBlock Text="{Binding ActivePhyMode}" Classes="title s"/>
+					<TextBlock Text="{Binding ActivePhyMode}" Classes="title xs"/>
 				</HmcCard>
 			</Grid>
 			<HmcCard Margin="8" MinHeight="200" IsEnabled="{Binding IsDeviceSelected}">
@@ -40,8 +40,8 @@
 					</Grid>
 					<StackPanel Grid.Column="2">
 						<HmcComboBox ItemsSource="{Binding FrameContents}" SelectedItem="{Binding SelectedFrameContent}" DisplayMemberBinding="{Binding Name}" Label="Frame Content" IsRequired="True" Width="200"/>
-						<HmcButton Content="Clear Result" Kind="secondary" Command="{Binding ResetFrameCheckerCommnad}" Margin="0 16 0 0" Width="200" IsEnabled="{Binding IsDeviceSelected}"/>
-						<HmcButton Content="{Binding FrameGeneratorButtonText}" Kind="primary" Command="{Binding ExecuteFrameCheckerCommand}" Margin="0 16 0 0" Width="200" IsEnabled="{Binding IsDeviceSelected}"/>
+						<HmcButton Content="Clear Result" Kind="{Binding ButtonKind_Clear}" Command="{Binding ResetFrameCheckerCommnad}" Margin="0 16 0 0" Width="200" IsEnabled="{Binding IsDeviceSelected}"/>
+						<HmcButton Content="{Binding FrameGeneratorButtonText}" Kind="{Binding ButtonKind_Generate}" Command="{Binding ExecuteFrameCheckerCommand}" Margin="0 16 0 0" Width="200" IsEnabled="{Binding IsDeviceSelected}"/>
 					</StackPanel>
 				</Grid>
 			</HmcCard>

@@ -29,6 +29,7 @@ namespace ADIN.Avalonia.ViewModels
         private FrameContentModel _selectedFrameContent;
         private string _srcMacAddress;
         private bool _isFrameGenOn;
+        private EthPhyState _linkStatus = EthPhyState.Powerdown;
 
         public LoopbackFrameGenViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiServices)
         {
@@ -40,10 +41,29 @@ namespace ADIN.Avalonia.ViewModels
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerStatusChanged += _selectedDeviceStore_FrameGenCheckerStatusChanged;
+            _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStatusChanged;
             //_selectedDeviceStore.FrameContentChanged += _selectedDeviceStore_FrameContentChanged;
         }
 
         public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+        public string ButtonKind_Generate
+        {
+            get
+            {
+                if (IsDeviceSelected && IsComOpen && _linkStatus != EthPhyState.LinkUp)
+                    return "tertiary";
+                return "primary";
+            }
+        }
+        public string ButtonKind_Clear
+        {
+            get
+            {
+                if (IsDeviceSelected && IsComOpen && _linkStatus != EthPhyState.LinkUp)
+                    return "tertiary";
+                return "secondary";
+            }
+        }
         public bool IsComOpen => _ftdiServices.IsComOpen;
 
         public bool HasActivePhyMode => _phyMode?.ActivePhyMode != null;
@@ -62,7 +82,25 @@ namespace ADIN.Avalonia.ViewModels
             }
         }
 
-        public ObservableCollection<LoopbackModel> Loopbacks => _loopback?.Loopbacks;
+        public ObservableCollection<LoopbackModel> Loopbacks
+        {
+            get
+            {
+                ObservableCollection<LoopbackModel> shownLoopbacks = new ObservableCollection<LoopbackModel>();
+
+                if (IsDeviceSelected && IsComOpen)
+                {
+                    foreach (LoopbackModel loopback in _loopback.Loopbacks)
+                    {
+                        if (loopback.DisabledModes != null && loopback.DisabledModes.Contains(_phyMode.ActivePhyMode))
+                            continue;
+                        shownLoopbacks.Add(loopback);
+                    }
+                }
+
+                return shownLoopbacks;
+            }
+        }
 
         public LoopbackModel SelectedLoopback
         {
@@ -294,6 +332,7 @@ namespace ADIN.Avalonia.ViewModels
         {
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerStatusChanged -= _selectedDeviceStore_FrameGenCheckerStatusChanged;
+            _selectedDeviceStore.LinkStatusChanged -= _selectedDeviceStore_LinkStatusChanged;
             //_selectedDeviceStore.FrameContentChanged -= _selectedDeviceStore_FrameContentChanged;
         }
 
@@ -308,14 +347,25 @@ namespace ADIN.Avalonia.ViewModels
         //    });
         //}
 
-        private void _selectedDeviceStore_FrameGenCheckerStatusChanged(string status)
+        private async void _selectedDeviceStore_FrameGenCheckerStatusChanged(string status)
         {
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
 
-            Dispatcher.UIThread.Post(() =>
+            await Dispatcher.UIThread.InvokeAsync(() =>
             {
                 FrameGeneratorButtonText = status;
+                OnPropertyChanged(nameof(FrameGeneratorButtonText));
+            });
+        }
+
+        private async void _selectedDeviceStore_LinkStatusChanged(EthPhyState linkStatus)
+        {
+            Dispatcher.UIThread.Post(() =>
+            {
+                _linkStatus = linkStatus;
+                OnPropertyChanged(nameof(ButtonKind_Generate));
+                OnPropertyChanged(nameof(ButtonKind_Clear));
                 OnPropertyChanged(nameof(FrameGeneratorButtonText));
             });
         }
@@ -366,6 +416,8 @@ namespace ADIN.Avalonia.ViewModels
             OnPropertyChanged(nameof(FrameLength));
             OnPropertyChanged(nameof(FrameContents));
             OnPropertyChanged(nameof(SelectedFrameContent));
+            OnPropertyChanged(nameof(ButtonKind_Generate));
+            OnPropertyChanged(nameof(ButtonKind_Clear));
             OnPropertyChanged(nameof(FrameGeneratorButtonText));
             OnPropertyChanged(nameof(FrameGenRunning));
         }

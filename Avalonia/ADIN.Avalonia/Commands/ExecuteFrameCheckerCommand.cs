@@ -58,7 +58,7 @@ namespace ADIN.Avalonia.Commands
             fwAPI.SetFrameCheckerSetting(frameGenChecker);
         }
 
-        private void _selectedDeviceStore_LinkStatusChanged(EthPhyState linkStatus)
+        private async void _selectedDeviceStore_LinkStatusChanged(EthPhyState linkStatus)
         {
             Dispatcher.UIThread.Post(() =>
             {

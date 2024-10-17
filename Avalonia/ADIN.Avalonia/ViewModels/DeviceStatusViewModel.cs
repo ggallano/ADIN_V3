@@ -434,7 +434,52 @@ namespace ADIN.Avalonia.ViewModels
             }
         }
 
+        public bool HasActivePhyMode => _phyMode?.ActivePhyMode != null;
+
+        public string ActivePhyMode
+        {
+            get
+            {
+                if (_phyMode?.ActivePhyMode == "Auto Media Detect_Cu"
+                    || _phyMode?.ActivePhyMode == "Auto Media Detect_Fi")
+                    return "Auto Media Detect";
+                else if (HasActivePhyMode)
+                    return _phyMode?.ActivePhyMode;
+                else
+                    return string.Empty;
+            }
+        }
+
+        public bool IsCopperMedia
+        {
+            get
+            {
+                return (_phyMode?.ActivePhyMode == null)
+                    || (_phyMode?.ActivePhyMode == "Copper Media Only")
+                    || (_phyMode?.ActivePhyMode == "Auto Media Detect_Cu");
+            }
+        }
+
+        public bool IsFiberMedia
+        {
+            get
+            {
+                return (_phyMode?.ActivePhyMode == "Fiber Media Only")
+                    || (_phyMode?.ActivePhyMode == "Backplane")
+                    || (_phyMode?.ActivePhyMode == "Auto Media Detect_Fi");
+            }
+        }
+
+        public bool IsMediaConverter
+        {
+            get
+            {
+                return _phyMode?.ActivePhyMode == "Media Converter";
+            }
+        }
+
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
+        private IPhyMode _phyMode => _selectedDeviceStore.SelectedDevice?.PhyMode;
 
         protected override void Dispose()
         {
@@ -610,6 +655,11 @@ namespace ADIN.Avalonia.ViewModels
 
             OnPropertyChanged(nameof(IsGigabitBoard));
             OnPropertyChanged(nameof(IsT1LBoard));
+            OnPropertyChanged(nameof(HasActivePhyMode));
+            OnPropertyChanged(nameof(ActivePhyMode));
+            OnPropertyChanged(nameof(IsCopperMedia));
+            OnPropertyChanged(nameof(IsFiberMedia));
+            OnPropertyChanged(nameof(IsMediaConverter));
             OnPropertyChanged(nameof(BoardName));
             OnPropertyChanged(nameof(SerialNumber));
             OnPropertyChanged(nameof(LinkStatus));

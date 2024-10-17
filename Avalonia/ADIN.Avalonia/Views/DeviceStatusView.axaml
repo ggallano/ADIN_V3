@@ -20,7 +20,7 @@
 					<TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Text="Link Status" Classes="body xs"/>
 				</Grid>
 			</HmcCard>
-			<HmcCard Grid.Column="1" Density="High" Header="Speed" Margin="8">
+			<HmcCard Grid.Column="1" Density="High" Header="Speed" Margin="8" IsVisible="{Binding IsCopperMedia}">
 				<Grid RowDefinitions="Auto,Auto,24,Auto,Auto">
 					<TextBlock Grid.Row="0" Text="{Binding SpeedMode}" Classes="subtitle m"/>
 					<TextBlock Grid.Row="1" Text="Speed Mode" Classes="body xs"/>
@@ -28,8 +28,20 @@
 					<TextBlock Grid.Row="4" Text="Advertised Speed" Classes="body xs"/>
 				</Grid>
 			</HmcCard>
+			<HmcCard Grid.Column="1" Density="High" Header="Speed" Margin="8" IsVisible="{Binding IsFiberMedia}">
+				<Grid RowDefinitions="Auto,Auto">
+					<TextBlock Grid.Row="0" Text="1000BASE-LX/SX HD&amp;FD" Classes="subtitle m"/>
+					<TextBlock Grid.Row="1" Text="Fiber Speed" Classes="body xs"/>
+				</Grid>
+			</HmcCard>
+			<HmcCard Grid.Column="1" Density="High" Header="Speed" Margin="8" IsVisible="{Binding IsMediaConverter}">
+				<Grid RowDefinitions="Auto,Auto">
+					<TextBlock Grid.Row="0" Text="1000 BASE" Classes="subtitle xl"/>
+					<TextBlock Grid.Row="1" Text="Media Converter Speed" Classes="body xs"/>
+				</Grid>
+			</HmcCard>
 		</Grid>
-		<Grid ColumnDefinitions="*,*">
+		<Grid ColumnDefinitions="*,*" IsVisible="{Binding IsCopperMedia}">
 			<HmcCard Grid.Column="0" Density="High" Header="Autoneg Advertisement" Margin="8">
 				<Grid RowDefinitions="24,24,24,24,24,24,24,24">
 					<TextBlock Grid.Row="0" Classes="body m" Margin="4" Text="1000BASE-T FD" IsVisible=""/>

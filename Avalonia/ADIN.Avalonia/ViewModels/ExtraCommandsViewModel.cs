@@ -167,11 +167,8 @@ namespace ADIN.Avalonia.ViewModels
 
             set
             {
-                if (_powerDownStatus != value)
-                {
-                    _powerDownStatus = value;
-                    OnPropertyChanged(nameof(PowerDownStatus));
-                }
+                _powerDownStatus = value;
+                OnPropertyChanged(nameof(PowerDownStatus));
             }
         }
 
