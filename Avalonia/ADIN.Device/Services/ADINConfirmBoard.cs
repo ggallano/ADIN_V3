@@ -53,7 +53,7 @@ namespace ADIN.Device.Services
 
             foreach (var chip in adinChip)
             {
-                switch (chip.ModelID)
+                 switch (chip.ModelID)
                 {
                     case 0x2: // ADIN1200
                         devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock, chip.PhyAddress), isMultiChipSupported));

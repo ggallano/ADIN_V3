@@ -6,126 +6,131 @@
              x:Class="ADIN.Avalonia.Views.LinkPropertiesView"
 			 x:CompileBindings="False">
 	<ScrollViewer VerticalScrollBarVisibility="Hidden">
-		<StackPanel Margin="8">
+    <Grid Margin="8">
 			<StackPanel>
-				
-				<Grid ColumnDefinitions="Auto,*" IsVisible="{Binding HasActivePhyMode}">
-					<!--Phy Mode-->
-					<HmcCard Grid.Column="0" Margin="8" Density="High" Header="Active Phy Mode">
-						<TextBlock Text="{Binding ActivePhyMode}" Classes="title xs"/>
-					</HmcCard>
-					<!--Copper/Fiber Media-->
-					<HmcCard Grid.Column="1" Margin="8" Density="High" Header="MAC Interface" IsVisible="{Binding IsCopperFiberMedia}">
-						<StackPanel Orientation="Horizontal">
-							<HmcSegmentedButton Size="sm" GroupName="MAC" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMacInt_RGMII}" Content="RGMII"/>
-							<HmcSegmentedButton Size="sm" GroupName="MAC" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMacInt_RMII}" Content="RMII"/>
-							<HmcSegmentedButton Size="sm" GroupName="MAC" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMacInt_MII}" Content="MII"/>
-							<HmcSegmentedButton Size="sm" GroupName="MAC" IsEnabled="{Binding IsCopperMedia}" IsChecked="{Binding IsMacInt_SGMII}" Content="SGMII"/>
-						</StackPanel>
-					</HmcCard>
-					<!--Media Converter-->
-					<HmcCard Grid.Column="1" Margin="8" Density="High" Header="Speed Mode" IsVisible="{Binding IsMediaConverter}">
-						<StackPanel Orientation="Horizontal">
-							<HmcSegmentedButton Size="sm" GroupName="ConvertSpeedMode" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding }" Content="1000BASE"/>
-							<HmcSegmentedButton Size="sm" GroupName="ConvertSpeedMode" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding }" Content="100BASE"/>
-							<HmcSegmentedButton Size="sm" GroupName="ConvertSpeedMode" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding }" Content="100BASE (Autoneg Disabled)"/>
-						</StackPanel>
-					</HmcCard>
-				</Grid>
-
-				<StackPanel IsVisible="{Binding IsCopperMedia}">
-					<HmcCard Margin="8" Density="High" Header="Speed Mode">
-						<StackPanel Orientation="Horizontal">
-							<HmcSegmentedButton Size="sm" GroupName="SpeedMode" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsSpeedMode_Advertised}" Content="Advertised"/>
-							<HmcSegmentedButton Size="sm" GroupName="SpeedMode" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsSpeedMode_Forced}" Content="Forced"/>
-						</StackPanel>
-					</HmcCard>
-					<Grid ColumnDefinitions="7*,6*" IsEnabled="{Binding IsDeviceSelected}" IsVisible="{Binding IsSpeedMode_Advertised}">
-						<HmcCard Grid.Column="0" Margin="8" Density="High" Header="Auto-negotiation Advertised Speeds">
-							<Grid RowDefinitions="25,Auto,Auto,Auto" ColumnDefinitions="176,60,60">
-								<Label Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Content="FD" HorizontalAlignment="Center"/>
-								<Label Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Content="HD" HorizontalAlignment="Center"/>
-								<Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Content="Advertise 1000BASE-T"/>
-								<Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Content="Advertise 100BASE-TX"/>
-								<Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Content="Advertise 10BASE-T"/>
-								<ToggleSwitch Grid.Column="1" Grid.Row="1" OnContent="" OffContent="" HorizontalAlignment="Center" IsChecked="{Binding IsAdvertise_1000BASE_T_FD}" IsEnabled="{Binding IsSpeedCapable1G}"/>
-								<ToggleSwitch Grid.Column="2" Grid.Row="1" OnContent="" OffContent="" HorizontalAlignment="Center" IsChecked="{Binding IsAdvertise_1000BASE_T_HD}" IsEnabled="{Binding IsSpeedCapable1G}"/>
-								<ToggleSwitch Grid.Column="1" Grid.Row="2" OnContent="" OffContent="" HorizontalAlignment="Center" IsChecked="{Binding IsAdvertise_100BASE_TX_FD}"/>
-								<ToggleSwitch Grid.Column="2" Grid.Row="2" OnContent="" OffContent="" HorizontalAlignment="Center" IsChecked="{Binding IsAdvertise_100BASE_TX_HD}"/>
-								<ToggleSwitch Grid.Column="1" Grid.Row="3" OnContent="" OffContent="" HorizontalAlignment="Center" IsChecked="{Binding IsAdvertise_10BASE_T_FD}"/>
-								<ToggleSwitch Grid.Column="2" Grid.Row="3" OnContent="" OffContent="" HorizontalAlignment="Center" IsChecked="{Binding IsAdvertise_10BASE_T_HD}"/>
-							</Grid>
+				<StackPanel>
+					<Grid ColumnDefinitions="Auto,*" IsVisible="{Binding HasActivePhyMode}">
+						<!--Phy Mode-->
+						<HmcCard Grid.Column="0" Margin="8" Density="High" Header="Active Phy Mode">
+							<TextBlock Text="{Binding ActivePhyMode}" Classes="title xs"/>
 						</HmcCard>
-						<HmcCard Grid.Column="1" Margin="8" Density="High" Header="EEE Advertisement" IsVisible="{Binding IsSpeedMode_Advertised}">
-							<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="20,Auto,Auto">
-								<Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Content="Advertise EEE 1000BASE-T"/>
-								<Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Content="Advertise EEE 100BASE-TX"/>
-								<ToggleSwitch Grid.Column="1" Grid.Row="1" OnContent="" OffContent="" IsChecked="{Binding IsAdvertise_EEE_1000BASE_T}" IsEnabled="{Binding IsEEE1000Enabled}"/>
-								<ToggleSwitch Grid.Column="1" Grid.Row="2" OnContent="" OffContent="" IsChecked="{Binding IsAdvertise_EEE_100BASE_TX}" IsEnabled="{Binding IsEEE100Enabled}"/>
-							</Grid>
+						<!--Copper/Fiber Media-->
+						<HmcCard Grid.Column="1" Margin="8" Density="High" Header="MAC Interface" IsVisible="{Binding IsCopperFiberMedia}">
+							<StackPanel Orientation="Horizontal">
+								<HmcSegmentedButton Size="sm" GroupName="MAC" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMacInt_RGMII}" Content="RGMII"/>
+								<HmcSegmentedButton Size="sm" GroupName="MAC" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMacInt_RMII}" Content="RMII"/>
+								<HmcSegmentedButton Size="sm" GroupName="MAC" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMacInt_MII}" Content="MII"/>
+								<HmcSegmentedButton Size="sm" GroupName="MAC" IsEnabled="{Binding IsCopperMedia}" IsChecked="{Binding IsMacInt_SGMII}" Content="SGMII"/>
+							</StackPanel>
+						</HmcCard>
+						<!--Media Converter-->
+						<HmcCard Grid.Column="1" Margin="8" Density="High" Header="Speed Mode" IsVisible="{Binding IsMediaConverter}">
+							<StackPanel Orientation="Horizontal">
+								<HmcSegmentedButton Size="sm" GroupName="ConvertSpeedMode" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding }" Content="1000BASE"/>
+								<HmcSegmentedButton Size="sm" GroupName="ConvertSpeedMode" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding }" Content="100BASE"/>
+								<HmcSegmentedButton Size="sm" GroupName="ConvertSpeedMode" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding }" Content="100BASE (Autoneg Disabled)"/>
+							</StackPanel>
 						</HmcCard>
 					</Grid>
-					<HmcCard Margin="8" Density="High" Header="Down Speed" IsEnabled="{Binding IsDeviceSelected}" IsVisible="{Binding IsSpeedMode_Advertised}">
-						<Grid ColumnDefinitions="10*,9*,12*">
-							<ToggleSwitch VerticalContentAlignment="Center" Grid.Column="0" OnContent="100BASE-TX HD" OffContent="100BASE-TX HD" IsChecked="{Binding IsDownSpeed_100BASE_TX_HD}" IsEnabled="{Binding IsDownspeed100Enabled}"/>
-							<ToggleSwitch VerticalContentAlignment="Center" Grid.Column="1" OnContent="10BASE-T HD" OffContent="10BASE-T HD" IsChecked="{Binding IsDownSpeed_10BASE_T_HD}" IsEnabled="{Binding IsDownspeed10Enabled}"/>
-							<StackPanel Orientation="Horizontal" Grid.Column="2">
-								<Label VerticalAlignment="Center" Content="Downspeed Retries"/>
-								<HmcComboBox Size="xs" PlaceholderText="" Label="" Width="80" VerticalContentAlignment="Center" ItemsSource="{Binding DownSpeedRetries}" SelectedItem="{Binding SelectedDownSpeedRetries}" HorizontalAlignment="Left" IsRequired="True"/>
+
+					<StackPanel IsVisible="{Binding IsCopperMedia}">
+						<HmcCard Margin="8" Density="High" Header="Speed Mode">
+							<StackPanel Orientation="Horizontal">
+								<HmcSegmentedButton Size="sm" GroupName="SpeedMode" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsSpeedMode_Advertised}" Content="Advertised"/>
+								<HmcSegmentedButton Size="sm" GroupName="SpeedMode" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsSpeedMode_Forced}" Content="Forced"/>
 							</StackPanel>
+						</HmcCard>
+						<Grid ColumnDefinitions="7*,6*" IsEnabled="{Binding IsDeviceSelected}" IsVisible="{Binding IsSpeedMode_Advertised}">
+							<HmcCard Grid.Column="0" Margin="8" Density="High" Header="Auto-negotiation Advertised Speeds">
+								<Grid RowDefinitions="25,Auto,Auto,Auto" ColumnDefinitions="176,60,60">
+									<Label Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Content="FD" HorizontalAlignment="Center"/>
+									<Label Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Content="HD" HorizontalAlignment="Center"/>
+									<Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Content="Advertise 1000BASE-T"/>
+									<Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Content="Advertise 100BASE-TX"/>
+									<Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" Content="Advertise 10BASE-T"/>
+									<ToggleSwitch Grid.Column="1" Grid.Row="1" OnContent="" OffContent="" HorizontalAlignment="Center" IsChecked="{Binding IsAdvertise_1000BASE_T_FD}" IsEnabled="{Binding IsSpeedCapable1G}"/>
+									<ToggleSwitch Grid.Column="2" Grid.Row="1" OnContent="" OffContent="" HorizontalAlignment="Center" IsChecked="{Binding IsAdvertise_1000BASE_T_HD}" IsEnabled="{Binding IsSpeedCapable1G}"/>
+									<ToggleSwitch Grid.Column="1" Grid.Row="2" OnContent="" OffContent="" HorizontalAlignment="Center" IsChecked="{Binding IsAdvertise_100BASE_TX_FD}"/>
+									<ToggleSwitch Grid.Column="2" Grid.Row="2" OnContent="" OffContent="" HorizontalAlignment="Center" IsChecked="{Binding IsAdvertise_100BASE_TX_HD}"/>
+									<ToggleSwitch Grid.Column="1" Grid.Row="3" OnContent="" OffContent="" HorizontalAlignment="Center" IsChecked="{Binding IsAdvertise_10BASE_T_FD}"/>
+									<ToggleSwitch Grid.Column="2" Grid.Row="3" OnContent="" OffContent="" HorizontalAlignment="Center" IsChecked="{Binding IsAdvertise_10BASE_T_HD}"/>
+								</Grid>
+							</HmcCard>
+							<HmcCard Grid.Column="1" Margin="8" Density="High" Header="EEE Advertisement" IsVisible="{Binding IsSpeedMode_Advertised}">
+								<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="20,Auto,Auto">
+									<Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Content="Advertise EEE 1000BASE-T"/>
+									<Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" Content="Advertise EEE 100BASE-TX"/>
+									<ToggleSwitch Grid.Column="1" Grid.Row="1" OnContent="" OffContent="" IsChecked="{Binding IsAdvertise_EEE_1000BASE_T}" IsEnabled="{Binding IsEEE1000Enabled}"/>
+									<ToggleSwitch Grid.Column="1" Grid.Row="2" OnContent="" OffContent="" IsChecked="{Binding IsAdvertise_EEE_100BASE_TX}" IsEnabled="{Binding IsEEE100Enabled}"/>
+								</Grid>
+							</HmcCard>
 						</Grid>
-					</HmcCard>
-					<HmcCard Margin="8" Density="High" Header="Forced Speed" IsVisible="{Binding IsSpeedMode_Forced}">
-						<StackPanel Orientation="Horizontal">
-							<HmcSegmentedButton Size="sm" GroupName="ForcedSpeed" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsForcedSpeed_100BASE_TX_FD}" Content="100BASE-TX FD"/>
-							<HmcSegmentedButton Size="sm" GroupName="ForcedSpeed" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsForcedSpeed_100BASE_TX_HD}" Content="100BASE-TX HD"/>
-							<HmcSegmentedButton Size="sm" GroupName="ForcedSpeed" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsForcedSpeed_10BASE_T_FD}" Content="10BASE-T FD"/>
-							<HmcSegmentedButton Size="sm" GroupName="ForcedSpeed" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsForcedSpeed_10BASE_T_HD}" Content="10BASE-T HD"/>
+						<HmcCard Margin="8" Density="High" Header="Down Speed" IsEnabled="{Binding IsDeviceSelected}" IsVisible="{Binding IsSpeedMode_Advertised}">
+							<Grid ColumnDefinitions="10*,9*,12*">
+								<ToggleSwitch VerticalContentAlignment="Center" Grid.Column="0" OnContent="100BASE-TX HD" OffContent="100BASE-TX HD" IsChecked="{Binding IsDownSpeed_100BASE_TX_HD}" IsEnabled="{Binding IsDownspeed100Enabled}"/>
+								<ToggleSwitch VerticalContentAlignment="Center" Grid.Column="1" OnContent="10BASE-T HD" OffContent="10BASE-T HD" IsChecked="{Binding IsDownSpeed_10BASE_T_HD}" IsEnabled="{Binding IsDownspeed10Enabled}"/>
+								<StackPanel Orientation="Horizontal" Grid.Column="2">
+									<Label VerticalAlignment="Center" Content="Downspeed Retries"/>
+									<HmcComboBox Size="xs" PlaceholderText="" Label="" Width="80" VerticalContentAlignment="Center" ItemsSource="{Binding DownSpeedRetries}" SelectedItem="{Binding SelectedDownSpeedRetries}" HorizontalAlignment="Left" IsRequired="True"/>
+								</StackPanel>
+							</Grid>
+						</HmcCard>
+						<HmcCard Margin="8" Density="High" Header="Forced Speed" IsVisible="{Binding IsSpeedMode_Forced}">
+							<StackPanel Orientation="Horizontal">
+								<HmcSegmentedButton Size="sm" GroupName="ForcedSpeed" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsForcedSpeed_100BASE_TX_FD}" Content="100BASE-TX FD"/>
+								<HmcSegmentedButton Size="sm" GroupName="ForcedSpeed" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsForcedSpeed_100BASE_TX_HD}" Content="100BASE-TX HD"/>
+								<HmcSegmentedButton Size="sm" GroupName="ForcedSpeed" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsForcedSpeed_10BASE_T_FD}" Content="10BASE-T FD"/>
+								<HmcSegmentedButton Size="sm" GroupName="ForcedSpeed" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsForcedSpeed_10BASE_T_HD}" Content="10BASE-T HD"/>
+							</StackPanel>
+						</HmcCard>
+					</StackPanel>
+				</StackPanel>
+			
+				<!--Fiber Mode-->
+				<StackPanel IsVisible="{Binding IsFiberMedia}">
+					<HmcCard Margin="8" Density="High" Header="Speed Mode" IsVisible="True">
+						<StackPanel>
+							<RadioButton GroupName="FiberSpeedMode" Content="1000BASE-LX/SX HD&amp;FD" IsChecked="True"/>
+							<RadioButton GroupName="FiberSpeedMode" Content="1000BASE-LX/SX HD"/>
+							<RadioButton GroupName="FiberSpeedMode" Content="1000BASE-LX/SX FD"/>
+							<RadioButton GroupName="FiberSpeedMode" Content="1000BASE-KX"/>
+							<RadioButton GroupName="FiberSpeedMode" Content="100BASE-FX FD"/>
+							<RadioButton GroupName="FiberSpeedMode" Content="100BASE-FX HD"/>
 						</StackPanel>
 					</HmcCard>
 				</StackPanel>
-			</StackPanel>
-			
-			<!--Fiber Mode-->
-			<StackPanel IsVisible="{Binding IsFiberMedia}">
-				<HmcCard Margin="8" Density="High" Header="Speed Mode" IsVisible="True">
-					<StackPanel>
-						<RadioButton GroupName="FiberSpeedMode" Content="1000BASE-LX/SX HD&amp;FD" IsChecked="True"/>
-						<RadioButton GroupName="FiberSpeedMode" Content="1000BASE-LX/SX HD"/>
-						<RadioButton GroupName="FiberSpeedMode" Content="1000BASE-LX/SX FD"/>
-						<RadioButton GroupName="FiberSpeedMode" Content="1000BASE-KX"/>
-						<RadioButton GroupName="FiberSpeedMode" Content="100BASE-FX FD"/>
-						<RadioButton GroupName="FiberSpeedMode" Content="100BASE-FX HD"/>
-					</StackPanel>
-				</HmcCard>
-			</StackPanel>
 
-			<!--Copper/MediaConv-->
-			<StackPanel IsVisible="{Binding IsCopperMediaConv}">
-				<HmcCard Grid.Column="2" Margin="8" Density="High" Header="Energy Detect Power-down Mode">
-					<StackPanel Orientation="Horizontal">
-						<HmcSegmentedButton Size="sm" GroupName="EDPD" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsEDPD_Disabled}" Content="Disabled"/>
-						<HmcSegmentedButton Size="sm" GroupName="EDPD" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsEDPD_Enabled}" Content="Enabled"/>
-						<HmcSegmentedButton Size="sm" GroupName="EDPD" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsEDPD_EnabledWithPeriodicPulseTx}" Content="Enabled with Periodic Pulse TX"/>
-					</StackPanel>
-				</HmcCard>
-				<Grid ColumnDefinitions="*,Auto">
-					<HmcCard Grid.Column="0" Margin="8" Density="High" Header="MDIX">
+				<!--Copper/MediaConv-->
+				<StackPanel IsVisible="{Binding IsCopperMediaConv}">
+					<HmcCard Grid.Column="2" Margin="8" Density="High" Header="Energy Detect Power-down Mode">
 						<StackPanel Orientation="Horizontal">
-							<HmcSegmentedButton Size="sm" GroupName="MDIX" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMDIX_AutoMDIX}" Content="Auto MDIX"/>
-							<HmcSegmentedButton Size="sm" GroupName="MDIX" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMDIX_FixedMDI}" Content="Fixed MDI"/>
-							<HmcSegmentedButton Size="sm" GroupName="MDIX" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMDIX_FixedMDIX}" Content="Fixed MDIX"/>
+							<HmcSegmentedButton Size="sm" GroupName="EDPD" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsEDPD_Disabled}" Content="Disabled"/>
+							<HmcSegmentedButton Size="sm" GroupName="EDPD" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsEDPD_Enabled}" Content="Enabled"/>
+							<HmcSegmentedButton Size="sm" GroupName="EDPD" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsEDPD_EnabledWithPeriodicPulseTx}" Content="Enabled with Periodic Pulse TX"/>
 						</StackPanel>
 					</HmcCard>
-					<HmcCard Grid.Column="1" Margin="8" Density="High" Header="Leader/Follower" IsVisible="{Binding IsLeaderFollowerVisible}">
-						<StackPanel Orientation="Horizontal">
-							<HmcSegmentedButton Size="sm" GroupName="LeaderFollower" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsLeaderFollower_Leader}" Content="Leader"/>
-							<HmcSegmentedButton Size="sm" GroupName="LeaderFollower" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsLeaderFollower_Follower}" Content="Follower"/>
-						</StackPanel>
-					</HmcCard>
-				</Grid>
+					<Grid ColumnDefinitions="*,Auto">
+						<HmcCard Grid.Column="0" Margin="8" Density="High" Header="MDIX">
+							<StackPanel Orientation="Horizontal">
+								<HmcSegmentedButton Size="sm" GroupName="MDIX" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMDIX_AutoMDIX}" Content="Auto MDIX"/>
+								<HmcSegmentedButton Size="sm" GroupName="MDIX" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMDIX_FixedMDI}" Content="Fixed MDI"/>
+								<HmcSegmentedButton Size="sm" GroupName="MDIX" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsMDIX_FixedMDIX}" Content="Fixed MDIX"/>
+							</StackPanel>
+						</HmcCard>
+						<HmcCard Grid.Column="1" Margin="8" Density="High" Header="Leader/Follower" IsVisible="{Binding IsLeaderFollowerVisible}">
+							<StackPanel Orientation="Horizontal">
+								<HmcSegmentedButton Size="sm" GroupName="LeaderFollower" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsLeaderFollower_Leader}" Content="Leader"/>
+								<HmcSegmentedButton Size="sm" GroupName="LeaderFollower" IsEnabled="{Binding IsDeviceSelected}" IsChecked="{Binding IsLeaderFollower_Follower}" Content="Follower"/>
+							</StackPanel>
+						</HmcCard>
+					</Grid>
+				</StackPanel>
+
 			</StackPanel>
 
-		</StackPanel>
+      <StackPanel>
+        
+      </StackPanel>
+    </Grid>
 	</ScrollViewer>
 </UserControl>
