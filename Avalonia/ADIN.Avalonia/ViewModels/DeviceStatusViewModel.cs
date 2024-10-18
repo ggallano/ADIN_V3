@@ -20,6 +20,7 @@ namespace ADIN.Avalonia.ViewModels
         private string _anStatus = "-";
         private BackgroundWorker _backgroundWorker;
         private string _checker = "-";
+        private string _checkerError = "-";
         private IFTDIServices _ftdiService;
         private string _generator = "-";
         private string _linkStatus = "-";
@@ -52,6 +53,7 @@ namespace ADIN.Avalonia.ViewModels
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerResetDisplay += _selectedDeviceStore_FrameGenCheckerResetDisplay;
+            _selectedDeviceStore.FrameGenCheckerErrorResetDisplay += _selectedDeviceStore_FrameGenCheckerErrorResetDisplay;
             _selectedDeviceStore.PortNumChanged += _selectedDeviceStore_PortNumChanged;
         }
 
@@ -126,6 +128,25 @@ namespace ADIN.Avalonia.ViewModels
                 }
 
                 OnPropertyChanged(nameof(Checker));
+            }
+        }
+
+        public string CheckerError
+        {
+            get
+            {
+                return _selectedDevice?.CheckerError ?? "-";
+            }
+
+            set
+            {
+                if (_selectedDevice != null)
+                {
+                    _checkerError = value;
+                    _selectedDevice.CheckerError = value;
+                }
+
+                OnPropertyChanged(nameof(CheckerError));
             }
         }
 
@@ -413,12 +434,58 @@ namespace ADIN.Avalonia.ViewModels
             }
         }
 
+        public bool HasActivePhyMode => _phyMode?.ActivePhyMode != null;
+
+        public string ActivePhyMode
+        {
+            get
+            {
+                if (_phyMode?.ActivePhyMode == "Auto Media Detect_Cu"
+                    || _phyMode?.ActivePhyMode == "Auto Media Detect_Fi")
+                    return "Auto Media Detect";
+                else if (HasActivePhyMode)
+                    return _phyMode?.ActivePhyMode;
+                else
+                    return string.Empty;
+            }
+        }
+
+        public bool IsCopperMedia
+        {
+            get
+            {
+                return (_phyMode?.ActivePhyMode == null)
+                    || (_phyMode?.ActivePhyMode == "Copper Media Only")
+                    || (_phyMode?.ActivePhyMode == "Auto Media Detect_Cu");
+            }
+        }
+
+        public bool IsFiberMedia
+        {
+            get
+            {
+                return (_phyMode?.ActivePhyMode == "Fiber Media Only")
+                    || (_phyMode?.ActivePhyMode == "Backplane")
+                    || (_phyMode?.ActivePhyMode == "Auto Media Detect_Fi");
+            }
+        }
+
+        public bool IsMediaConverter
+        {
+            get
+            {
+                return _phyMode?.ActivePhyMode == "Media Converter";
+            }
+        }
+
         private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
+        private IPhyMode _phyMode => _selectedDeviceStore.SelectedDevice?.PhyMode;
 
         protected override void Dispose()
         {
             _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerResetDisplay -= _selectedDeviceStore_FrameGenCheckerResetDisplay;
+            _selectedDeviceStore.FrameGenCheckerErrorResetDisplay -= _selectedDeviceStore_FrameGenCheckerErrorResetDisplay;
             base.Dispose();
         }
 
@@ -565,6 +632,14 @@ namespace ADIN.Avalonia.ViewModels
             Checker = status;
         }
 
+        private void _selectedDeviceStore_FrameGenCheckerErrorResetDisplay(string status)
+        {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
+            CheckerError = status;
+        }
+
         private void _selectedDeviceStore_PortNumChanged()
         {
             if (_selectedDeviceStore.SelectedDevice == null)
@@ -580,6 +655,11 @@ namespace ADIN.Avalonia.ViewModels
 
             OnPropertyChanged(nameof(IsGigabitBoard));
             OnPropertyChanged(nameof(IsT1LBoard));
+            OnPropertyChanged(nameof(HasActivePhyMode));
+            OnPropertyChanged(nameof(ActivePhyMode));
+            OnPropertyChanged(nameof(IsCopperMedia));
+            OnPropertyChanged(nameof(IsFiberMedia));
+            OnPropertyChanged(nameof(IsMediaConverter));
             OnPropertyChanged(nameof(BoardName));
             OnPropertyChanged(nameof(SerialNumber));
             OnPropertyChanged(nameof(LinkStatus));

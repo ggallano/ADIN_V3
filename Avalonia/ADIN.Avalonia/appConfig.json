@@ -1,6 +1,6 @@
 {
   "Settings": {
-    "MultiChipSupport": "false",
+    "MultiChipSupport": "true",
     "ActiveLinkMonitor": "false",
   }
 }

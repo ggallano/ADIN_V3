@@ -19,6 +19,18 @@
 		<vm:MainWindowViewModel/>
     </Design.DataContext>
 
+	<ContentControl.DataTemplates>
+		<DataTemplate DataType="{x:Type vm:LinkPropertiesViewModel}">
+			<view:LinkPropertiesView/>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type vm:LoopbackFrameGenViewModel}">
+			<view:LoopbackFrameGenView/>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type vm:RegisterAccessViewModel}">
+			<view:RegisterAccessView/>
+		</DataTemplate>
+	</ContentControl.DataTemplates>
+
 	<Grid RowDefinitions="Auto,11*,3*">
 
 		<HmcNavigationBar Grid.Row="0" Size="sm" AppName="ADIN Ethernet Phy" ReplaceAppBar="True">
@@ -27,32 +39,15 @@
 			<HmcNavigationLink Size="sm" HasIcon="False" Content="Register Access" Command="{Binding NavigateRegisterAccessCommand}"/>
 		</HmcNavigationBar>
 
-		<Grid Grid.Row="1" ColumnDefinitions="210,*">
+		<Grid Grid.Row="1" ColumnDefinitions="210,6*,5*">
 			<ContentControl Grid.Column="0" Background="White">
 				<Grid RowDefinitions="2*,3*">
 					<view:DeviceListingView DataContext="{Binding DeviceListingVM}" Grid.Row="0" Margin="-1 -1 0 0"/>
-					<view:ExtraCommandsView Grid.Row="1" Margin="-1 -1 0 -1"/>
+					<view:ExtraCommandsView DataContext="{Binding ExtraCommandsVM}" Grid.Row="1" Margin="-1 -1 0 -1"/>
 				</Grid>
 			</ContentControl>
-			<ContentControl Grid.Column="1" Content="{Binding CurrentViewModel, Mode=TwoWay}">
-				<ContentControl.DataTemplates>
-					<DataTemplate DataType="{x:Type vm:LinkPropertiesViewModel}">
-						<Grid ColumnDefinitions="6*,5*">
-							<view:LinkPropertiesView Grid.Column="0"/>
-							<view:DeviceStatusView Grid.Column="1" Margin="-16 0 0 0"/>
-						</Grid>
-					</DataTemplate>
-					<DataTemplate DataType="{x:Type vm:LoopbackFrameGenViewModel}">
-						<Grid ColumnDefinitions="6*,5*">
-							<view:LoopbackFrameGenView Grid.Column="0"/>
-							<view:FrameStatusView Grid.Column="1" Margin="-16 0 0 0"/>
-						</Grid>
-					</DataTemplate>
-					<DataTemplate DataType="{x:Type vm:RegisterAccessViewModel}">
-						<view:RegisterAccessView/>
-					</DataTemplate>
-				</ContentControl.DataTemplates>
-			</ContentControl>
+			<ContentControl Grid.Column="1" Grid.ColumnSpan="{Binding ColumnSpan}" Content="{Binding CurrentViewModel, Mode=TwoWay}"/>
+			<ContentControl Grid.Column="2" Margin="-16 0 0 0" Content="{Binding CurrentStatusView}"/>
 		</Grid>
 
 		<Grid Grid.Row="2" ColumnDefinitions="Auto,*">

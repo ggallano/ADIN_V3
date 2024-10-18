@@ -60,6 +60,8 @@ namespace ADIN.Device.Services
 
         public event EventHandler<string> ResetFrameGenCheckerStatisticsChanged;
 
+        public event EventHandler<string> ResetFrameGenCheckerErrorStatisticsChanged;
+
         public event EventHandler<FeedbackModel> WriteProcessCompleted;
         public BoardRevision boardRev { get; set; }
 
@@ -195,6 +197,7 @@ namespace ADIN.Device.Services
             if (fCnt == 0)
             {
                 OnResetFrameGenCheckerStatisticsChanged("-");
+                OnResetFrameGenCheckerErrorStatisticsChanged("-");
                 //return;
             }
 
@@ -203,11 +206,13 @@ namespace ADIN.Device.Services
 
             if (fcTxSel_st == 0)
             {
-                OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames} frames, {checkedFramesErrors} errors");
+                OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames}");
+                OnResetFrameGenCheckerErrorStatisticsChanged($"{checkedFramesErrors}");
                 return;
             }
 
-            OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames} Tx Side with {checkedFramesErrors} errors");
+            OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames}");
+            OnResetFrameGenCheckerErrorStatisticsChanged($"{checkedFramesErrors}");
         }
 
         public string GetFrameGeneratorStatus()
@@ -637,7 +642,8 @@ namespace ADIN.Device.Services
             checkedFrames = 0;
             checkedFramesErrors = 0;
 
-            OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames} frames, {checkedFramesErrors} errors");
+            OnResetFrameGenCheckerStatisticsChanged($"{checkedFrames}");
+            OnResetFrameGenCheckerErrorStatisticsChanged($"{checkedFramesErrors}");
         }
 
         public void ResetMaxSlicer()
@@ -1093,6 +1099,11 @@ namespace ADIN.Device.Services
         protected virtual void OnResetFrameGenCheckerStatisticsChanged(string status)
         {
             ResetFrameGenCheckerStatisticsChanged?.Invoke(this, status);
+        }
+
+        protected virtual void OnResetFrameGenCheckerErrorStatisticsChanged(string status)
+        {
+            ResetFrameGenCheckerErrorStatisticsChanged?.Invoke(this, status);
         }
 
         protected virtual void OnWriteProcessCompleted(FeedbackModel feedback)

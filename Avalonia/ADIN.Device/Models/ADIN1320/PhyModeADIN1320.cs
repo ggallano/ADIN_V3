@@ -11,6 +11,8 @@ namespace ADIN.Device.Models.ADIN1320
         public PhyModeADIN1320()
         {
             ActivePhyMode = "Copper Media Only";
+            //ActivePhyMode = "Fiber Media Only";
+            //ActivePhyMode = "Media Converter";
             MacInterface = "RMII";
         }
         public string ActivePhyMode { get; set; }

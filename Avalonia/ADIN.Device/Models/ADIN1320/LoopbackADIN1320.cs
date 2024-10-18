@@ -25,12 +25,60 @@ namespace ADIN.Device.Models.ADIN1320
             LpBck_Digital.DisabledModes = new List<string>()
             {
                 "Fiber Media Only",
+                "Backplane",
+                "Auto Media Detect_Fi"
             };
 
             LpBck_LineDriver = new LoopbackModel();
             LpBck_LineDriver.Name = "Line Driver";
             LpBck_LineDriver.EnumLoopbackType = LoopBackMode.LineDriver;
             LpBck_LineDriver.ImagePath = "/Images/loopback_ADIN1320/ADIN1320_LbLineDriver.png";
+            LpBck_LineDriver.DisabledModes = new List<string>()
+            {
+                "Fiber Media Only",
+                "Backplane",
+                "Auto Media Detect_Fi"
+            };
+
+            LpBck_SerDesDigital = new LoopbackModel();
+            LpBck_SerDesDigital.Name = "SerDes Digital";
+            LpBck_SerDesDigital.EnumLoopbackType = LoopBackMode.SerDesDigital;
+            LpBck_SerDesDigital.ImagePath = "/Images/loopback_ADIN1320/ADIN1320_LbSerDesDigital.png";
+            LpBck_SerDesDigital.DisabledModes = new List<string>()
+            {
+                "Copper Media Only",
+                "Auto Media Detect_Cu"
+            };
+
+            LpBck_SerDes = new LoopbackModel();
+            LpBck_SerDes.Name = "SerDes";
+            LpBck_SerDes.EnumLoopbackType = LoopBackMode.SerDes;
+            LpBck_SerDes.ImagePath = "/Images/loopback_ADIN1320/ADIN1320_LbSerDes.png";
+            LpBck_SerDes.DisabledModes = new List<string>()
+            {
+                "Copper Media Only",
+                "Auto Media Detect_Cu"
+            };
+
+            LpBck_LineInterface = new LoopbackModel();
+            LpBck_LineInterface.Name = "Line Interface";
+            LpBck_LineInterface.EnumLoopbackType = LoopBackMode.LineInterface;
+            LpBck_LineInterface.ImagePath = "/Images/loopback_ADIN1320/ADIN1320_LbLineInterface.png";
+            LpBck_LineInterface.DisabledModes = new List<string>()
+            {
+                "Copper Media Only",
+                "Auto Media Detect_Cu"
+            };
+
+            LpBck_MII = new LoopbackModel();
+            LpBck_MII.Name = "MII";
+            LpBck_MII.EnumLoopbackType = LoopBackMode.MII;
+            LpBck_MII.ImagePath = "/Images/loopback_ADIN1320/ADIN1320_LbMII.png";
+            LpBck_MII.DisabledModes = new List<string>()
+            {
+                "Copper Media Only",
+                "Auto Media Detect_Cu"
+            };
 
             LpBck_ExtCable = new LoopbackModel();
             LpBck_ExtCable.Name = "External Cable";
@@ -42,37 +90,17 @@ namespace ADIN.Device.Models.ADIN1320
             LpBck_Remote.EnumLoopbackType = LoopBackMode.MacRemote;
             LpBck_Remote.ImagePath = "/Images/loopback_ADIN1320/ADIN1320_LbRemote.png";
 
-            LpBck_SerDesDigital = new LoopbackModel();
-            LpBck_SerDesDigital.Name = "SerDes Digital";
-            LpBck_SerDesDigital.EnumLoopbackType = LoopBackMode.SerDesDigital;
-            LpBck_SerDesDigital.ImagePath = "/Images/loopback_ADIN1320/ADIN1320_LbSerDesDigital.png";
-
-            LpBck_SerDes = new LoopbackModel();
-            LpBck_SerDes.Name = "SerDes";
-            LpBck_SerDes.EnumLoopbackType = LoopBackMode.SerDes;
-            LpBck_SerDes.ImagePath = "/Images/loopback_ADIN1320/ADIN1320_LbSerDes.png";
-
-            LpBck_LineInterface = new LoopbackModel();
-            LpBck_LineInterface.Name = "Line Interface";
-            LpBck_LineInterface.EnumLoopbackType = LoopBackMode.LineInterface;
-            LpBck_LineInterface.ImagePath = "/Images/loopback_ADIN1320/ADIN1320_LbLineInterface.png";
-
-            LpBck_MII = new LoopbackModel();
-            LpBck_MII.Name = "MII";
-            LpBck_MII.EnumLoopbackType = LoopBackMode.MII;
-            LpBck_MII.ImagePath = "/Images/loopback_ADIN1320/ADIN1320_LbMII.png";
-
             Loopbacks = new ObservableCollection<LoopbackModel>()
             {
                 LpBck_None,
                 LpBck_Digital,
                 LpBck_LineDriver,
-                LpBck_ExtCable,
-                LpBck_Remote,
                 LpBck_SerDesDigital,
                 LpBck_SerDes,
                 LpBck_LineInterface,
                 LpBck_MII,
+                LpBck_ExtCable,
+                LpBck_Remote,
             };
         }
 

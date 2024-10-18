@@ -15,6 +15,8 @@ namespace ADIN.Avalonia.Stores
 
         public event Action<string> FrameGenCheckerResetDisplay;
 
+        public event Action<string> FrameGenCheckerErrorResetDisplay;
+
         public event Action<string> FrameGenCheckerStatusChanged;
 
         //public event Action<FeedbackModel> ErrorOccured;
@@ -62,6 +64,7 @@ namespace ADIN.Avalonia.Stores
                     _selectedDevice.FwAPI.WriteProcessCompleted += FirmwareAPI_WriteProcessCompleted;
                     _selectedDevice.FwAPI.FrameGenCheckerTextStatusChanged += FirmwareAPI_FrameGenCheckerStatusCompleted;
                     _selectedDevice.FwAPI.ResetFrameGenCheckerStatisticsChanged += FirmwareAPI_ResetFrameGenCheckerStatisticsChanged;
+                    _selectedDevice.FwAPI.ResetFrameGenCheckerErrorStatisticsChanged += FirmwareAPI_ResetFrameGenCheckerErrorStatisticsChanged;
                     _selectedDevice.FwAPI.FrameContentChanged += FirmwareAPI_FrameContentChanged;
                     _selectedDevice.FwAPI.GigabitCableDiagCompleted += FwAPI_GigabitCableDiagCompleted;
                     SelectedDeviceChanged?.Invoke();
@@ -132,6 +135,11 @@ namespace ADIN.Avalonia.Stores
         private void FirmwareAPI_ResetFrameGenCheckerStatisticsChanged(object sender, string status)
         {
             FrameGenCheckerResetDisplay?.Invoke(status);
+        }
+
+        private void FirmwareAPI_ResetFrameGenCheckerErrorStatisticsChanged(object sender, string status)
+        {
+            FrameGenCheckerErrorResetDisplay?.Invoke(status);
         }
 
         private void FirmwareAPI_WriteProcessCompleted(object sender, FeedbackModel feedback)

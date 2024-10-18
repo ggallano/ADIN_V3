@@ -23,6 +23,7 @@ namespace ADIN.Device.Models
         public bool CableDiagOneTimePopUp { get; set; } = false;
         public string CableLength { get; set; } = "-";
         public string Checker { get; set; }
+        public string CheckerError { get; set; }
         public IClockPinControl ClockPinControl => Device.ClockPinControl;
         public AbstractADINFactory Device { get; set; }
         public IDeviceStatus DeviceStatus => Device.DeviceStatus;

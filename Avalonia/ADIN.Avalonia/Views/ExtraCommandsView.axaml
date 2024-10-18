@@ -3,16 +3,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="210" d:DesignHeight="450"
-             x:Class="ADIN.Avalonia.Views.ExtraCommandsView">
+             x:Class="ADIN.Avalonia.Views.ExtraCommandsView"
+			 x:CompileBindings="False">
 	<Border Background="White" BorderThickness="1" BorderBrush="#b7bbc3">
 		<StackPanel Background="White" Margin="8">
 			<!--<TextBlock Text="Device Control" Classes="subtitle m" Margin="8"/>-->
-			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="Software Power Down"/>
-			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="Disable Linking"/>
-			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="Restart Linking"/>
-			<HmcButton Classes="extraCommandsPri" Kind="primary" Content="Reset: Subsys (Pin)"/>
-			<HmcButton Classes="extraCommandsPri" Kind="primary" Content="Reset: Subsys"/>
-			<HmcButton Classes="extraCommandsPri" Kind="primary" Content="Reset: PHY"/>
+			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="{Binding PowerDownStatus, Mode=TwoWay}" Command="{Binding SoftwarePowerDownCommand}"/>
+			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="{Binding LinkStatus}" Command="{Binding DisableLinkCommand}"/>
+			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="Restart Linking" Command="{Binding AutoNegCommand}"/>
+			<HmcButton Classes="extraCommandsPri" Kind="primary" Content="Reset: Subsys (Pin)" Command="{Binding SubSysPinResetCommand}"/>
+			<HmcButton Classes="extraCommandsPri" Kind="primary" Content="Reset: Subsys" Command="{Binding SubSysResetCommand}"/>
+			<HmcButton Classes="extraCommandsPri" Kind="primary" Content="Reset: PHY" Command="{Binding PhyResetCommand}"/>
 			<TextBlock Text="Save/Load Registers" Classes="body s" Margin="8 24 8 8"/>
 			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="Save Registers"/>
 			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="Load Registers"/>

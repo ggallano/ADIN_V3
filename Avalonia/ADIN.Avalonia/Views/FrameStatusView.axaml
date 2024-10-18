@@ -3,39 +3,54 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="450"
-             x:Class="ADIN.Avalonia.Views.FrameStatusView">
+             x:Class="ADIN.Avalonia.Views.FrameStatusView"
+			 x:CompileBindings="False">
 	<StackPanel Margin="8">
 		<Grid ColumnDefinitions="*,*">
 			<HmcCard Grid.Column="0" Density="High" Margin="8">
 				<HmcCard.Header>
-					<HmcContainerHeader Heading="EVAL-ADIN1320" Subtitle="DQ93SFEB" Density="Medium"/>
+					<HmcContainerHeader Heading="{Binding BoardName}" Subtitle="{Binding SerialNumber}" Density="Medium"/>
 				</HmcCard.Header>
 				<Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,24,Auto,Auto">
-					<TextBlock Grid.Column="0" Grid.Row="0" Text="ADIN1320" Classes="subtitle m"/>
+					<TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding DeviceType}" Classes="subtitle m"/>
 					<TextBlock Grid.Column="0" Grid.Row="1" Text="Device Type" Classes="body xs"/>
-					<TextBlock Grid.Column="1" Grid.Row="0" Text="0" Classes="subtitle m"/>
+					<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding PhyAddress}" Classes="subtitle m"/>
 					<TextBlock Grid.Column="1" Grid.Row="1" Text="Phy Address" Classes="body xs"/>
-					<TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Text="Software Powerdown" Classes="subtitle m"/>
-					<TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Text="Device Type" Classes="body xs"/>
+					<TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding LinkStatus}" Classes="subtitle m"/>
+					<TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Text="Link Status" Classes="body xs"/>
 				</Grid>
 			</HmcCard>
-			<HmcCard Grid.Column="1" Density="High" Header="Speed" Margin="8">
+			<HmcCard Grid.Column="1" Density="High" Header="Speed" Margin="8" IsVisible="{Binding IsCopperMedia}">
 				<Grid RowDefinitions="Auto,Auto,24,Auto,Auto">
-					<TextBlock Grid.Row="0" Text="Advertised" Classes="subtitle m"/>
+					<TextBlock Grid.Row="0" Text="{Binding SpeedMode}" Classes="subtitle m"/>
 					<TextBlock Grid.Row="1" Text="Speed Mode" Classes="body xs"/>
-					<TextBlock Grid.Row="3" Text="SPEED_1000BASE_T_FD" Classes="subtitle m"/>
+					<TextBlock Grid.Row="3" Text="{Binding AdvertisedSpeed}" Classes="subtitle m"/>
 					<TextBlock Grid.Row="4" Text="Advertised Speed" Classes="body xs"/>
+				</Grid>
+			</HmcCard>
+			<HmcCard Grid.Column="1" Density="High" Header="Speed" Margin="8" IsVisible="{Binding IsFiberMedia}">
+				<Grid RowDefinitions="Auto,Auto">
+					<TextBlock Grid.Row="0" Text="1000BASE-LX/SX HD&amp;FD" Classes="subtitle m"/>
+					<TextBlock Grid.Row="1" Text="Fiber Speed" Classes="body xs"/>
+				</Grid>
+			</HmcCard>
+			<HmcCard Grid.Column="1" Density="High" Header="Speed" Margin="8" IsVisible="{Binding IsMediaConverter}">
+				<Grid RowDefinitions="Auto,Auto">
+					<TextBlock Grid.Row="0" Text="1000 BASE" Classes="subtitle xl"/>
+					<TextBlock Grid.Row="1" Text="Media Converter Speed" Classes="body xs"/>
 				</Grid>
 			</HmcCard>
 		</Grid>
 		<HmcCard Density="High" Header="Frame Checker" Margin="8" IsVisible="True">
-			<Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,24,Auto,Auto">
-				<TextBlock Grid.Column="0" Grid.Row="0" Text="4294967295" Classes="subtitle l"/>
+			<Grid ColumnDefinitions="4*,3*,8*" RowDefinitions="Auto,Auto,24,Auto,Auto">
+				<TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Checker}" Classes="subtitle m"/>
+				<!--<TextBlock Grid.Column="0" Grid.Row="0" Text="0123456789" Classes="subtitle m"/>-->
 				<TextBlock Grid.Column="0" Grid.Row="1" Text="Frames" Classes="body xs"/>
-				<TextBlock Grid.Column="1" Grid.Row="0" Text="65535" Classes="subtitle l"/>
+				<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding CheckerError}" Classes="subtitle m"/>
 				<TextBlock Grid.Column="1" Grid.Row="1" Text="Errors" Classes="body xs"/>
-				<TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Text="Frame Transmission in Progress" Classes="subtitle m"/>
-				<TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Text="Generator Status" Classes="body xs"/>
+				<TextBlock Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2" Text="{Binding Generator}" Classes="subtitle m"/>
+				<!--<TextBlock Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2" Text="Frame Transmission in Progress" Classes="subtitle m"/>-->
+				<TextBlock Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Text="Generator Status" Classes="body xs"/>
 			</Grid>
 		</HmcCard>
 	</StackPanel>
