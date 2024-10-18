@@ -3,13 +3,13 @@
         xmlns:vm="using:ADIN.Avalonia.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:view="using:ADIN.Avalonia.Views"
+				xmlns:view="using:ADIN.Avalonia.Views"
         mc:Ignorable="d" d:DesignHeight="880" d:DesignWidth="1410"
-		MinHeight="880"
-		MinWidth="1410"
+				MinHeight="880"
+				MinWidth="1410"
         x:Class="ADIN.Avalonia.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-		x:CompileBindings="False"
+				x:CompileBindings="False"
         Icon="/Assets/avalonia-logo.ico"
         Title="ADIN.Avalonia"
         SystemDecorations="{OnPlatform BorderOnly, Linux=Full}">
@@ -17,7 +17,7 @@
     <Design.DataContext>
         <!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-		<vm:MainWindowViewModel/>
+		<!--<vm:MainWindowViewModel/>-->
     </Design.DataContext>
 
 	<ContentControl.DataTemplates>
