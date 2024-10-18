@@ -363,9 +363,9 @@ namespace ADIN.Avalonia.ViewModels
                     _linkProperties.EnergyDetectPowerDownMode = "Disabled";
                     IEnergyDetectAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IEnergyDetectAPI;
                     fwAPI.EnableEnergyDetectPowerDown("Disabled");
-                    OnPropertyChanged(nameof(IsEDPD_Disabled));
                     OnPropertyChanged(nameof(IsEDPD_Enabled));
                     OnPropertyChanged(nameof(IsEDPD_EnabledWithPeriodicPulseTx));
+                    OnPropertyChanged(nameof(IsEDPD_Disabled));
                 }
             }
         }
@@ -381,8 +381,8 @@ namespace ADIN.Avalonia.ViewModels
                     IEnergyDetectAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IEnergyDetectAPI;
                     fwAPI.EnableEnergyDetectPowerDown("Enabled");
                     OnPropertyChanged(nameof(IsEDPD_Disabled));
-                    OnPropertyChanged(nameof(IsEDPD_Enabled));
                     OnPropertyChanged(nameof(IsEDPD_EnabledWithPeriodicPulseTx));
+                    OnPropertyChanged(nameof(IsEDPD_Enabled));
                 }
             }
         }
@@ -414,10 +414,10 @@ namespace ADIN.Avalonia.ViewModels
                     _linkProperties.ForcedSpeed = "SPEED_100BASE_TX_FD";
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
                     fwAPI.SetForcedSpeed("SPEED_100BASE_TX_FD");
-                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
                     OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
                     OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
                     OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
+                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
                 }
             }
         }
@@ -433,9 +433,9 @@ namespace ADIN.Avalonia.ViewModels
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
                     fwAPI.SetForcedSpeed("SPEED_100BASE_TX_HD");
                     OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
                     OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
                     OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
+                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
                 }
             }
         }
@@ -452,8 +452,8 @@ namespace ADIN.Avalonia.ViewModels
                     fwAPI.SetForcedSpeed("SPEED_10BASE_T_FD");
                     OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
                     OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
                     OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
+                    OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
                 }
             }
         }
@@ -491,8 +491,8 @@ namespace ADIN.Avalonia.ViewModels
                     else
                         fwAPI.SetMasterSlave("Forced_Master");
 
-                    OnPropertyChanged(nameof(IsLeaderFollower_Leader));
                     OnPropertyChanged(nameof(IsLeaderFollower_Follower));
+                    OnPropertyChanged(nameof(IsLeaderFollower_Leader));
                 }
             }
         }
@@ -528,9 +528,9 @@ namespace ADIN.Avalonia.ViewModels
                     _linkProperties.MDIX = "Auto MDIX";
                     IAutoMDIXAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAutoMDIXAPI;
                     fwAPI.AutoMDIXMode("Auto MDIX");
-                    OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
                     OnPropertyChanged(nameof(IsMDIX_FixedMDI));
                     OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
+                    OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
                 }
             }
         }
@@ -546,8 +546,8 @@ namespace ADIN.Avalonia.ViewModels
                     IAutoMDIXAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAutoMDIXAPI;
                     fwAPI.AutoMDIXMode("Fixed MDI");
                     OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
-                    OnPropertyChanged(nameof(IsMDIX_FixedMDI));
                     OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
+                    OnPropertyChanged(nameof(IsMDIX_FixedMDI));
                 }
             }
         }
@@ -580,8 +580,8 @@ namespace ADIN.Avalonia.ViewModels
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
                     fwAPI.AdvertisedForcedSpeed("Advertised");
 
-                    OnPropertyChanged(nameof(IsSpeedMode_Advertised));
                     OnPropertyChanged(nameof(IsSpeedMode_Forced));
+                    OnPropertyChanged(nameof(IsSpeedMode_Advertised));
                     OnPropertyChanged(nameof(IsSpeedCapable1G));
                     OnPropertyChanged(nameof(IsLeaderFollowerVisible));
 
@@ -642,10 +642,10 @@ namespace ADIN.Avalonia.ViewModels
                 if (IsDeviceSelected && IsComOpen && _phyMode?.MacInterface != "RGMII")
                 {
                     _phyMode.MacInterface = "RGMII";
-                    OnPropertyChanged(nameof(IsMacInt_RGMII));
                     OnPropertyChanged(nameof(IsMacInt_RMII));
                     OnPropertyChanged(nameof(IsMacInt_MII));
                     OnPropertyChanged(nameof(IsMacInt_SGMII));
+                    OnPropertyChanged(nameof(IsMacInt_RGMII));
                 }
             }
         }
@@ -659,9 +659,9 @@ namespace ADIN.Avalonia.ViewModels
                 {
                     _phyMode.MacInterface = "RMII";
                     OnPropertyChanged(nameof(IsMacInt_RGMII));
-                    OnPropertyChanged(nameof(IsMacInt_RMII));
                     OnPropertyChanged(nameof(IsMacInt_MII));
                     OnPropertyChanged(nameof(IsMacInt_SGMII));
+                    OnPropertyChanged(nameof(IsMacInt_RMII));
                 }
             }
         }
@@ -676,8 +676,8 @@ namespace ADIN.Avalonia.ViewModels
                     _phyMode.MacInterface = "MII";
                     OnPropertyChanged(nameof(IsMacInt_RGMII));
                     OnPropertyChanged(nameof(IsMacInt_RMII));
-                    OnPropertyChanged(nameof(IsMacInt_MII));
                     OnPropertyChanged(nameof(IsMacInt_SGMII));
+                    OnPropertyChanged(nameof(IsMacInt_MII));
                 }
             }
         }
@@ -734,6 +734,10 @@ namespace ADIN.Avalonia.ViewModels
             }
         }
 
+        public bool IsCopperFiberMedia => IsDeviceSelected && (IsCopperMedia || IsFiberMedia == true);
+
+        public bool IsCopperMediaConv => IsDeviceSelected && (IsCopperMedia || IsMediaConverter == true);
+
         public bool IsMediaConverter
         {
             get
@@ -762,7 +766,9 @@ namespace ADIN.Avalonia.ViewModels
             OnPropertyChanged(nameof(ActivePhyMode));
             OnPropertyChanged(nameof(IsCopperMedia));
             OnPropertyChanged(nameof(IsFiberMedia));
+            OnPropertyChanged(nameof(IsCopperFiberMedia));
             OnPropertyChanged(nameof(IsMediaConverter));
+            OnPropertyChanged(nameof(IsCopperMediaConv));
             OnPropertyChanged(nameof(IsMacInt_RGMII));
             OnPropertyChanged(nameof(IsMacInt_RMII));
             OnPropertyChanged(nameof(IsMacInt_MII));
@@ -832,7 +838,9 @@ namespace ADIN.Avalonia.ViewModels
             OnPropertyChanged(nameof(ActivePhyMode));
             OnPropertyChanged(nameof(IsCopperMedia));
             OnPropertyChanged(nameof(IsFiberMedia));
+            OnPropertyChanged(nameof(IsCopperFiberMedia));
             OnPropertyChanged(nameof(IsMediaConverter));
+            OnPropertyChanged(nameof(IsCopperMediaConv));
 
             switch (_phyMode.ActivePhyMode)
             {
