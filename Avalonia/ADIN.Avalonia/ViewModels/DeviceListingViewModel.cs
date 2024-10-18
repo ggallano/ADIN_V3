@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
+using ADIN.Avalonia.Services;
 
 namespace ADIN.Avalonia.ViewModels
 {
@@ -27,6 +28,7 @@ namespace ADIN.Avalonia.ViewModels
         private const string REMOVE_QUERY = "SELECT * FROM Win32_DeviceChangeEvent WHERE EventType = 3";
 
         private readonly IRegisterService _registerService;
+        private readonly ApplicationConfigService _applicationConfigService;
         private readonly SelectedDeviceStore _selectedDeviceStore;
         private ObservableCollection<DeviceListingItemViewModel> _deviceListingViewModels;
         private bool _enableSelectDevice = true;
@@ -52,12 +54,13 @@ namespace ADIN.Avalonia.ViewModels
         /// </summary>
         /// <param name="selectedDeviceStore">selected device store</param>
         /// <param name="ftdiService">ftdi service</param>
-        public DeviceListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, IRegisterService registerService, LogActivityViewModel logActivityViewModel, object mainLock)
+        public DeviceListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, IRegisterService registerService, LogActivityViewModel logActivityViewModel, ApplicationConfigService appConfigService, object mainLock)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiService = ftdiService;
             _registerService = registerService;
             _logActivityViewModel = logActivityViewModel;
+            _applicationConfigService = appConfigService;
             _mainLock = mainLock;
 
             _deviceListingViewModels = new ObservableCollection<DeviceListingItemViewModel>();
@@ -303,8 +306,7 @@ namespace ADIN.Avalonia.ViewModels
 
                 _ftdiService.Open(currentNewDevice.SerialNumber);
 
-                //var isMultiChipSupported = Properties.Settings.Default.MultiChipSupport;
-                var isMultiChipSupported = _isMultiChipSupport;
+                var isMultiChipSupported = bool.Parse(_applicationConfigService.GetConfigValue("MultiChipSupport"));
 
                 try
                 {
