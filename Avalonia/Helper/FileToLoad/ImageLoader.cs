@@ -1,10 +1,10 @@
-﻿using Avalonia.Media.Imaging;
+﻿// <copyright file="FeedbackModel.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Helper.FileToLoad
 {

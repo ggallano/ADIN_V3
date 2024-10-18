@@ -1,10 +1,11 @@
-﻿using ADIN.Register.Models;
-using System;
-using System.Collections.Generic;
+﻿// <copyright file="FeedbackModel.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using ADIN.Register.Models;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace Helper.SaveToFile
