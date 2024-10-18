@@ -58,16 +58,12 @@ namespace ADIN.Device.Services
                     case 0x2: // ADIN1200
                         devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock, chip.PhyAddress), isMultiChipSupported));
                         break;
-
-                    /* // Temporarily disabled to make ADIN1320 be used upon detection of ADIN1300 in the register read
                     case 0x3: // ADIN1300
-                        devices.Add(new ADINDevice(new ADIN1300Model(ftdtService, _registerService, mainLock, chip.PhyAddress)));
-                        break; */
-
-                    case 0x3: // ADIN1320
-                        devices.Add(new ADINDevice(new ADIN1320Model(ftdtService, _registerService, mainLock, chip.PhyAddress)));
-                        break;
+                        // Temporary disabled to make ADIN1320 be used upon detection in the register read
+                        //devices.Add(new ADINDevice(new ADIN1300Model(ftdtService, _registerService, mainLock, chip.PhyAddress)));
+                        //break;
                     case 0x6: // ADIN1320
+                        devices.Add(new ADINDevice(new ADIN1320Model(ftdtService, _registerService, mainLock, chip.PhyAddress)));
                         break;
                     case 0x8: // ADIN1100
                         devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, chip.PhyAddress, mainLock), isMultiChipSupported));
