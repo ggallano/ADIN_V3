@@ -59,6 +59,10 @@ namespace ADIN.Device.Services
                     Cl22CheckModelNum();
                     break;
 #endif
+
+                case "EVAL-ADIN1320":
+                    Cl22CheckModelNum();
+                    break;
                 default:
                     break;
             }

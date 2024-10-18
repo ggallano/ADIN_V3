@@ -19,12 +19,12 @@ namespace ADIN.Device.Models
         private IRegisterService _registerService;
         private string registerJsonFile;
 
-        public ADIN1320Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock)
+        public ADIN1320Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock, int phyAddress)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
-            PhyAddress = 0;
-            DeviceType = BoardType.ADIN1300;
+            PhyAddress = phyAddress;
+            DeviceType = BoardType.ADIN1320;
 
             //Retrieve Registers
             Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1300.json"));
