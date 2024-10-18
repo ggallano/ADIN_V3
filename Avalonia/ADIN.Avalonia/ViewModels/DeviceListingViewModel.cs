@@ -1,4 +1,9 @@
-﻿using ADIN.Avalonia.Stores;
+﻿// <copyright file="FeedbackModel.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using ADIN.Avalonia.Stores;
 using ADIN.Device.Models;
 using ADIN.Device.Services;
 using ADIN.Register.Services;
@@ -12,11 +17,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Management;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using System.Collections.ObjectModel;
 using ADIN.Avalonia.Services;
 
 namespace ADIN.Avalonia.ViewModels
