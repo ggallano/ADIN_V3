@@ -1,11 +1,11 @@
-﻿using FTD2XX_NET;
-using System;
-using System.Collections.Generic;
+﻿// <copyright file="FeedbackModel.cs" company="Analog Devices Inc.">
+//     Copyright (c) 2024 Analog Devices Inc. All Rights Reserved.
+//     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
+// </copyright>
+
+using FTD2XX_NET;
 using System.Diagnostics;
-using System.Linq;
-using System.Runtime.Remoting;
 using System.Text;
-using System.Threading;
 
 namespace FTDIChip.Driver.Services
 {
