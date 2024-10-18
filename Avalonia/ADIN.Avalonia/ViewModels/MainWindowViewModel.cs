@@ -8,6 +8,7 @@ using ADIN.Avalonia.Services;
 using ADIN.Avalonia.Stores;
 using ADIN.Avalonia.Views;
 using ADIN.Device.Services;
+using ADIN.Register.Models;
 using ADIN.Register.Services;
 using FTDIChip.Driver.Services;
 using System.Windows.Input;
@@ -31,6 +32,7 @@ public class MainWindowViewModel : ViewModelBase
 
         LogActivityVM = new LogActivityViewModel(_selectedDeviceStore);
         DeviceListingVM = new DeviceListingViewModel(_selectedDeviceStore, ftdiService, registerService, LogActivityVM, appConfigService, mainLock);
+        RegisterAccessVM = new RegisterAccessViewModel(_selectedDeviceStore, _navigationStore);
         DeviceStatusVM = new DeviceStatusViewModel(_selectedDeviceStore, _ftdiService, mainLock);
         ExtraCommandsVM = new ExtraCommandsViewModel(_selectedDeviceStore, _ftdiService, _navigationStore);
 
@@ -72,6 +74,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public DeviceListingViewModel DeviceListingVM { get; }
     public LogActivityViewModel LogActivityVM { get; set; }
+    public RegisterAccessViewModel RegisterAccessVM { get; set; }
     public DeviceStatusViewModel DeviceStatusVM { get; set; }
     public ExtraCommandsViewModel ExtraCommandsVM { get; set; }
 

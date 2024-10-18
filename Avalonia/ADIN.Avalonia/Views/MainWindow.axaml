@@ -52,7 +52,7 @@
 		</Grid>
 
 		<Grid Grid.Row="2" ColumnDefinitions="Auto,*">
-			<view:RegisterReadWriteView Grid.Column="0"/>
+			<view:RegisterReadWriteView DataContext="{Binding RegisterAccessVM}" Grid.Column="0"/>
 			<view:LogActivityView DataContext="{Binding LogActivityVM}" Grid.Column="1" Grid.ColumnSpan="2" Margin="-1 0 0 0"/>
 		</Grid>
 	</Grid>
