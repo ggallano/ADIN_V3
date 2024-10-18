@@ -9,6 +9,7 @@
 		MinWidth="1410"
         x:Class="ADIN.Avalonia.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
+		x:CompileBindings="False"
         Icon="/Assets/avalonia-logo.ico"
         Title="ADIN.Avalonia"
         SystemDecorations="{OnPlatform BorderOnly, Linux=Full}">
@@ -52,7 +53,7 @@
 
 		<Grid Grid.Row="2" ColumnDefinitions="Auto,*">
 			<view:RegisterReadWriteView Grid.Column="0"/>
-			<view:LogActivityView Grid.Column="1" Grid.ColumnSpan="2" Margin="-1 0 0 0"/>
+			<view:LogActivityView DataContext="{Binding LogActivityVM}" Grid.Column="1" Grid.ColumnSpan="2" Margin="-1 0 0 0"/>
 		</Grid>
 	</Grid>
 

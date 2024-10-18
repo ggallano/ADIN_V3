@@ -3,17 +3,25 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="ADIN.Avalonia.Views.LogActivityView">
-	<!--<HmcCard Header="Activity Log" Density="High">
-		
-	</HmcCard>-->
+             x:Class="ADIN.Avalonia.Views.LogActivityView"
+			 x:CompileBindings="False">
 	<Border BorderThickness="1" BorderBrush="#b7bbc3" Background="White">
-		<DockPanel>
-			<Border DockPanel.Dock="Top" Margin="16 16 16 8" BorderBrush="#b7bbc3" BorderThickness="0 0 0 1">
+		<DockPanel Margin="16 12 16 16">
+			<Border DockPanel.Dock="Top" BorderBrush="#b7bbc3" BorderThickness="0 0 0 1">
 				<TextBlock Text="Activity Log" Classes="subtitle m"/>
 			</Border>
-			<ListBox Background="White">
-				
+			<ListBox Background="White" ItemsSource="{Binding LogMessages}" BorderThickness="0">
+				<ListBox.ContextMenu>
+					<ContextMenu>
+						<MenuItem Command="{Binding LogWindowClearCommand}" Header="Clear"/>
+						<MenuItem Command="{Binding LogWindowSaveCommand}" Header="Save As..."/>
+					</ContextMenu>
+				</ListBox.ContextMenu>
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding}" Margin="-5"/>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
 			</ListBox>
 		</DockPanel>
 	</Border>
