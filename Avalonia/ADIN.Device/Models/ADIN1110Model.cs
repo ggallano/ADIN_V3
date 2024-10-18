@@ -16,11 +16,11 @@ namespace ADIN.Device.Models
         private IFTDIServices _ftdiService;
         private IRegisterService _registerService;
 
-        public ADIN1110Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock)
+        public ADIN1110Model(IFTDIServices ftdiService, IRegisterService registerService, int phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
-            PhyAddress = 0;
+            PhyAddress = phyAddress;
 
             FirmwareAPI = new ADIN1110FirmwareAPI(_ftdiService, PhyAddress, mainLock);
 
@@ -28,7 +28,7 @@ namespace ADIN.Device.Models
             {
                 case BoardRevision.Rev0:
                 case BoardRevision.Rev1:
-                    Registers = registerService.GetRegisterSet(Path.Combine("net8.0", "Registers", "registers_adin1100_S2.json"));
+                    Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1100_S2.json"));
                     Registers = registerService.GetAdditionalRegisterSetRev1(Registers);
                     BoardRev = BoardRevision.Rev1;
                     DeviceType = BoardType.ADIN1110;

@@ -25,7 +25,7 @@ namespace ADIN.Device.Services
         private IFTDIServices _ftdiService;
         private object _mainLock;
         private MseModel _mse = new MseModel("N/A");
-        private uint _phyAddress;
+        private int _phyAddress;
         private EthPhyState _phyState;
         private ObservableCollection<RegisterModel> _registers;
         private TestModeType _testmodeState = TestModeType.Normal;
@@ -35,7 +35,7 @@ namespace ADIN.Device.Services
         private uint totalSpikeCount = 0;
         private uint fcEn_st;
 
-        public ADIN1110FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
+        public ADIN1110FirmwareAPI(IFTDIServices ftdiService, int phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
             _phyAddress = phyAddress;
@@ -44,7 +44,7 @@ namespace ADIN.Device.Services
             fwAPI = this;
         }
 
-        public ADIN1110FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
+        public ADIN1110FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, int phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
             _registers = registers;

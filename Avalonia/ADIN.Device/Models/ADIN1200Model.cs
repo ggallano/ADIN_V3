@@ -18,7 +18,7 @@ namespace ADIN.Device.Models
         private IRegisterService _registerService;
         private string registerJsonFile;
 
-        public ADIN1200Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock, uint phyAddress)
+        public ADIN1200Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock, int phyAddress)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
@@ -27,7 +27,7 @@ namespace ADIN.Device.Models
             DeviceType = BoardType.ADIN1200;
 
             //Retrieve Registers
-            Registers = registerService.GetRegisterSet(Path.Combine("net8.0", "Registers", "registers_adin1200.json"));
+            Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1200.json"));
             Registers = registerService.GetAdditionalRegisterSet_ADIN1200_ADIN1300(Registers);
 
             DeviceStatus = new DeviceStatusADIN1200();

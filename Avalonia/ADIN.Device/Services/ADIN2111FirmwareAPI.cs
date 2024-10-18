@@ -25,18 +25,18 @@ namespace ADIN.Device.Services
         private IFTDIServices _ftdiService;
         private object _mainLock;
         private MseModel _mse = new MseModel("N/A");
-        private uint _phyAddress;
+        private int _phyAddress;
         private EthPhyState _phyState;
         private ObservableCollection<RegisterModel> _registers;
         private TestModeType _testmodeState = TestModeType.Normal;
         private uint checkedFrames = 0;
         private uint checkedFramesErrors = 0;
         private double highestMaxSlicer = 0.0d;
-        private uint portNumber = 0;
+        private int portNumber = 0;
         private uint totalSpikeCount = 0;
         private uint fcEn_st;
 
-        public ADIN2111FirmwareAPI(IFTDIServices ftdiService, uint phyAddress, object mainLock)
+        public ADIN2111FirmwareAPI(IFTDIServices ftdiService, int phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
             _phyAddress = phyAddress;
@@ -45,7 +45,7 @@ namespace ADIN.Device.Services
             fwAPI = this;
         }
 
-        public ADIN2111FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, uint phyAddress, object mainLock)
+        public ADIN2111FirmwareAPI(IFTDIServices ftdiService, ObservableCollection<RegisterModel> registers, int phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
             _registers = registers;
@@ -984,7 +984,7 @@ namespace ADIN.Device.Services
             }
         }
 
-        public void SetPortNum(uint portNum)
+        public void SetPortNum(int portNum)
         {
             this.portNumber = portNum;
         }

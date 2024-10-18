@@ -13,7 +13,7 @@ namespace ADIN.Device.Models
     {
         public string BoardName { get; set; }
         public string SerialNumber { get; set; }
-        public uint PhyAddress { get; set; }
+        public int PhyAddress { get; set; }
         public List<string> AdvertisedSpeeds { get; set; }
         public BoardType DeviceType { get; set; }
         public BoardRevision BoardRev { get; set; }
@@ -26,7 +26,7 @@ namespace ADIN.Device.Models
         public ObservableCollection<RegisterModel> Registers { get; set; }
         public IDeviceStatus DeviceStatus { get; set; }
         public IPhyMode PhyMode { get; set; }
-        public uint PortNum { get; set; }
+        public int PortNum { get; set; }
 
         /// <summary>
         /// Gets or sets ADIN1100 cable diag status results port 1.

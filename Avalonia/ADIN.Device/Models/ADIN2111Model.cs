@@ -16,7 +16,7 @@ namespace ADIN.Device.Models
         private IFTDIServices _ftdiService;
         private IRegisterService _registerService;
 
-        public ADIN2111Model(IFTDIServices ftdiService, IRegisterService registerService, uint portNum, object mainLock)
+        public ADIN2111Model(IFTDIServices ftdiService, IRegisterService registerService, int portNum, int phyAddress, object mainLock)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
@@ -38,7 +38,7 @@ namespace ADIN.Device.Models
             //        break;
             //}
 
-            Registers = registerService.GetRegisterSet(Path.Combine("net8.0", "Registers", "registers_adin1100_S2.json"));
+            Registers = registerService.GetRegisterSet(Path.Combine("Registers", "registers_adin1100_S2.json"));
             Registers = registerService.GetAdditionalRegisterSetRev1(Registers);
             BoardRev = BoardRevision.Rev1;
             DeviceType = BoardType.ADIN2111;

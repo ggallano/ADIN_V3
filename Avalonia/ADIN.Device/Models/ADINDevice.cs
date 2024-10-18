@@ -34,9 +34,9 @@ namespace ADIN.Device.Models
         public bool IsMultichipBoard { get; set; }
         public ILinkProperties LinkProperties => Device.LinkProperties;
         public ILoopback Loopback => Device.Loopback;
-        public uint PhyAddress => Device.PhyAddress;
+        public int PhyAddress => Device.PhyAddress;
         public IPhyMode PhyMode => Device.PhyMode;
-        public uint PortNumber => Device.PortNum;
+        public int PortNumber => Device.PortNum;
         public ObservableCollection<RegisterModel> Registers => Device.Registers;
         public string SerialNumber => Device.SerialNumber;
         public ITestMode TestMode => Device.TestMode;

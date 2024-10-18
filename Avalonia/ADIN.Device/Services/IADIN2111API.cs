@@ -9,6 +9,6 @@ namespace ADIN.Device.Services
     public interface IADIN2111API : IADIN1100API
     {
         uint GetPortNum();
-        void SetPortNum(uint portNum);
+        void SetPortNum(int portNum);
     }
 }

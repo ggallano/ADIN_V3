@@ -18,11 +18,11 @@ namespace ADIN.Device.Models
         private IRegisterService _registerService;
         private string registerJsonFile;
 
-        public ADIN1300Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock)
+        public ADIN1300Model(IFTDIServices ftdiService, IRegisterService registerService, object mainLock, int phyAddress)
         {
             _ftdiService = ftdiService;
             _registerService = registerService;
-            PhyAddress = 0;
+            PhyAddress = phyAddress;
             DeviceType = BoardType.ADIN1300;
 
             //Retrieve Registers

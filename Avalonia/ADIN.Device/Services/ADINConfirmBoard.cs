@@ -38,45 +38,38 @@ namespace ADIN.Device.Services
             return false;
         }
 
-        public static List<ADINDevice> GetADINBoard(string BoardName, IFTDIServices ftdtService, IRegisterService _registerService, object mainLock, bool isMultiChipSupported)
+        public static List<ADINDevice> GetADINBoard(string boardName, IFTDIServices ftdtService, IRegisterService _registerService, object mainLock, bool isMultiChipSupported)
         {
+            ADINFirmwareAPI fwAPI = new ADINFirmwareAPI(ftdtService, boardName);
+
+            var adinChip = fwAPI.GetModelNum(0x1E0003, isMultiChipSupported);
+
             List<ADINDevice> devices = new List<ADINDevice>();
 
-            switch (BoardName)
+            foreach (var chip in adinChip)
             {
-#if !DISABLE_T1L
-                case "EVAL-ADIN1100FMCZ":
-                    devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock)));
-                    break;
-                case "EVAL-ADIN1100EBZ":
-                case "DEMO-ADIN1100-DIZ":
-                case "DEMO-ADIN1100D2Z":
-                    devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, mainLock), isMultiChipSupported));
-                    if (isMultiChipSupported)
-                        devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock, 4), isMultiChipSupported));
-                    break;
-                case "EVAL-ADIN1110EBZ":
-                    devices.Add(new ADINDevice(new ADIN1110Model(ftdtService, _registerService, mainLock)));
-                    break;
-                case "EVAL-ADIN2111EBZ":
-                    devices.Add(new ADINDevice(new ADIN2111Model(ftdtService, _registerService, 1, mainLock)));
-                    devices.Add(new ADINDevice(new ADIN2111Model(ftdtService, _registerService, 2, mainLock)));
-                    break;
-#endif
-#if !DISABLE_TSN
-                case "ADIN1200 MDIO DONGLE":
-                    devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock, 0)));
-                    break;
-                case "ADIN1300 MDIO DONGLE":
-                    devices.Add(new ADINDevice(new ADIN1300Model(ftdtService, _registerService, mainLock)));
-                    break;
-#endif
-                case "EVAL-ADIN1320":
-                    devices.Add(new ADINDevice(new ADIN1320Model(ftdtService, _registerService, mainLock)));
-                    break;
-                default:
-                    // No board matching the list
-                    break;
+                switch (chip.ModelID)
+                {
+                    case 0x2: // ADIN1200
+                        devices.Add(new ADINDevice(new ADIN1200Model(ftdtService, _registerService, mainLock, chip.PhyAddress), isMultiChipSupported));
+                        break;
+                    case 0x3: // ADIN1300
+                        devices.Add(new ADINDevice(new ADIN1300Model(ftdtService, _registerService, mainLock, chip.PhyAddress)));
+                        break;
+                    case 0x6: // ADIN1320
+                        break;
+                    case 0x8: // ADIN1100
+                        devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, chip.PhyAddress, mainLock), isMultiChipSupported));
+                        break;
+                    case 0x9: // ADIN1110
+                        devices.Add(new ADINDevice(new ADIN1110Model(ftdtService, _registerService, chip.PhyAddress, mainLock)));
+                        break;
+                    case 0xA: // ADIN2111
+                        devices.Add(new ADINDevice(new ADIN2111Model(ftdtService, _registerService, chip.PortNum, chip.PhyAddress, mainLock)));
+                        break;
+                    default:
+                        break;
+                }
             }
 
             return devices;
