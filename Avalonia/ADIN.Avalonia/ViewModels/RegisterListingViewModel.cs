@@ -10,9 +10,9 @@ using System.Windows.Input;
 
 namespace ADIN.Avalonia.ViewModels
 {
-    public class RegisterAccessViewModel : ViewModelBase
+    public class RegisterListingViewModel : ViewModelBase
     {
-        public RegisterAccessViewModel(NavigationStore navigationStore)
+        public RegisterListingViewModel(NavigationStore navigationStore)
         {
         }
     }

@@ -14,9 +14,12 @@
 			<HmcButton Classes="extraCommandsPri" Kind="primary" Content="Reset: Subsys (Pin)" Command="{Binding SubSysPinResetCommand}"/>
 			<HmcButton Classes="extraCommandsPri" Kind="primary" Content="Reset: Subsys" Command="{Binding SubSysResetCommand}"/>
 			<HmcButton Classes="extraCommandsPri" Kind="primary" Content="Reset: PHY" Command="{Binding PhyResetCommand}"/>
-			<TextBlock Text="Save/Load Registers" Classes="body s" Margin="8 24 8 8"/>
-			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="Save Registers"/>
-			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="Load Registers"/>
+			<TextBlock Text="Save/Load Registers" Classes="body s" IsVisible="{Binding ShowSaveLoad}" Margin="8 24 8 8"/>
+			<HmcButton Classes="extraCommandsSec" Kind="secondary" IsVisible="{Binding ShowSaveLoad}" Content="Save Registers"/>
+			<HmcButton Classes="extraCommandsSec" Kind="secondary" IsVisible="{Binding ShowSaveLoad}" Content="Load Registers"/>
+			
+			<HmcComboBox Size="sm" Label="Active Phy Mode" ItemsSource="{Binding PhyModes}" SelectedItem="{Binding ActivePhyMode}" IsRequired="True" Margin="8 24 8 8"/>
+			
 		</StackPanel>
 	</Border>
 </UserControl>

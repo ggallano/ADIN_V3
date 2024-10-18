@@ -28,6 +28,7 @@ namespace ADIN.Device.Models
         ADIN1200,
         ADIN1300,
         ADIN2111,
+        ADIN1320,
     }
 
     public enum CalibrateType

@@ -925,6 +925,12 @@ namespace ADIN.Device.Services
                     this.WriteYodaRg("SftPd", 0);
                     this.FeedbackLog("Device configured for remote loopback", FeedbackType.Info);
                     break;
+                case LoopBackMode.SerDesDigital:
+                case LoopBackMode.SerDes:
+                case LoopBackMode.LineInterface:
+                case LoopBackMode.MII:
+                    //Do nothing;
+                    break;
                 default:
                     throw new NotImplementedException();
             }

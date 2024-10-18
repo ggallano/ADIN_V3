@@ -5,6 +5,7 @@ using Avalonia.Threading;
 using FTDIChip.Driver.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,10 +22,12 @@ namespace ADIN.Avalonia.ViewModels
         private string _linkStatus = "Disable Linking";
         private string _powerDownStatus = "Software Power Down";
         private SelectedDeviceStore _selectedDeviceStore;
+        private NavigationStore _navigationStore;
 
-        public ExtraCommandsViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
+        public ExtraCommandsViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService, NavigationStore navigationStore)
         {
             _selectedDeviceStore = selectedDeviceStore;
+            _navigationStore = navigationStore;
             _ftdiService = ftdiService;
 
             SoftwarePowerDownCommand = new SoftwarePowerDownCommand(this, selectedDeviceStore);
@@ -39,7 +42,26 @@ namespace ADIN.Avalonia.ViewModels
             _selectedDeviceStore.SoftwarePowerDownChanged += _selectedDeviceStore_PowerDownStateStatusChanged;
             _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStateStatusChanged;
             _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
+            _navigationStore.CurrentViewModelChanged += _navigationStore_CurrentViewModelChanged; 
         }
+
+        public IPhyMode _phyMode => _selectedDeviceStore.SelectedDevice?.PhyMode;
+
+        public ObservableCollection<string> PhyModes => _phyMode?.PhyModes;
+
+        public string ActivePhyMode
+        {
+            get => _phyMode?.ActivePhyMode;
+            set
+            {
+                _phyMode.ActivePhyMode = value;
+
+                _selectedDeviceStore.OnPhyModeChanged();
+                OnPropertyChanged(nameof(ActivePhyMode));
+            }
+        }
+
+
 
         public ICommand AutoNegCommand { get; set; }
 
@@ -58,6 +80,8 @@ namespace ADIN.Avalonia.ViewModels
                 OnPropertyChanged(nameof(EnableButton));
             }
         }
+
+        public bool ShowSaveLoad => _navigationStore?.CurrentViewModel is RegisterListingViewModel;
 
         public bool IsLoadingRegisters
         {
@@ -186,6 +210,7 @@ namespace ADIN.Avalonia.ViewModels
             _selectedDeviceStore.SoftwarePowerDownChanged -= _selectedDeviceStore_PowerDownStateStatusChanged;
             _selectedDeviceStore.LinkStatusChanged -= _selectedDeviceStore_LinkStateStatusChanged;
             _selectedDeviceStore.OnGoingCalibrationStatusChanged -= _selectedDeviceStore_OnGoingCalibrationStatusChanged;
+            _navigationStore.CurrentViewModelChanged -= _navigationStore_CurrentViewModelChanged;
 
             base.Dispose();
         }
@@ -214,6 +239,11 @@ namespace ADIN.Avalonia.ViewModels
             });
         }
 
+        private void _navigationStore_CurrentViewModelChanged()
+        {
+            OnPropertyChanged(nameof(ShowSaveLoad));
+        }
+
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             if (_selectedDeviceStore.SelectedDevice == null)
@@ -228,6 +258,10 @@ namespace ADIN.Avalonia.ViewModels
             OnPropertyChanged(nameof(IsResetButtonVisible));
             OnPropertyChanged(nameof(EnableButton));
             OnPropertyChanged(nameof(IsLoadingRegisters));
+            OnPropertyChanged(nameof(ShowSaveLoad));
+
+            OnPropertyChanged(nameof(PhyModes));
+            OnPropertyChanged(nameof(ActivePhyMode));
         }
     }
 }

@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace ADIN.Avalonia.Views;
 
-public partial class RegisterAccessView : UserControl
+public partial class RegisterListingView : UserControl
 {
-    public RegisterAccessView()
+    public RegisterListingView()
     {
         InitializeComponent();
     }

@@ -27,6 +27,8 @@ namespace ADIN.Avalonia.Stores
 
         public event Action<bool> OnGoingCalibrationStatusChanged;
 
+        public event Action PhyModeChanged;
+
         public event Action PortNumChanged;
 
         public event Action<FeedbackModel> ProcessCompleted;
@@ -120,6 +122,11 @@ namespace ADIN.Avalonia.Stores
             feedback.Message = message;
             feedback.FeedBackType = feedbackType;
             ViewModelErrorOccured?.Invoke(feedback);
+        }
+
+        public void OnPhyModeChanged()
+        {
+            PhyModeChanged?.Invoke();
         }
 
         private void FirmwareAPI_FrameContentChanged(object sender, FrameType e)

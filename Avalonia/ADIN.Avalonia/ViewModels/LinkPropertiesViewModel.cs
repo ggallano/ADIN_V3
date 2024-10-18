@@ -25,6 +25,7 @@ namespace ADIN.Avalonia.ViewModels
             _ftdiServices = ftdiServices;
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.PhyModeChanged += _selectedDeviceStore_PhyModeChanged;
         }
 
         public List<string> AdvertisedSpeeds => _linkProperties.AdvertisedSpeeds;
@@ -758,6 +759,7 @@ namespace ADIN.Avalonia.ViewModels
             OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
             OnPropertyChanged(nameof(IsGigabitBoard));
             OnPropertyChanged(nameof(IsT1LBoard));
+
             OnPropertyChanged(nameof(HasActivePhyMode));
             OnPropertyChanged(nameof(ActivePhyMode));
             OnPropertyChanged(nameof(IsCopperMedia));
@@ -777,6 +779,7 @@ namespace ADIN.Avalonia.ViewModels
                     //OnPropertyChanged(nameof(TxLevels));
                     //OnPropertyChanged(nameof(SelectedTxLevel));
                     break;
+                case BoardType.ADIN1320:
                 case BoardType.ADIN1200:
                 case BoardType.ADIN1300:
                     //OnPropertyChanged(nameof(SpeedModes));
@@ -823,6 +826,75 @@ namespace ADIN.Avalonia.ViewModels
             OnPropertyChanged(nameof(IsLeaderFollower_Leader));
             OnPropertyChanged(nameof(IsLeaderFollower_Follower));
             OnPropertyChanged(nameof(IsLeaderFollowerVisible));
+        }
+
+        private void _selectedDeviceStore_PhyModeChanged()
+        {
+            OnPropertyChanged(nameof(HasActivePhyMode));
+            OnPropertyChanged(nameof(ActivePhyMode));
+            OnPropertyChanged(nameof(IsCopperMedia));
+            OnPropertyChanged(nameof(IsFiberMedia));
+            OnPropertyChanged(nameof(IsMediaConverter));
+
+            switch (_phyMode.ActivePhyMode)
+            {
+                case "Copper Media Only":
+                case "Auto Media Detect_Cu":
+                    OnPropertyChanged(nameof(IsMacInt_RGMII));
+                    OnPropertyChanged(nameof(IsMacInt_RMII));
+                    OnPropertyChanged(nameof(IsMacInt_MII));
+                    OnPropertyChanged(nameof(IsMacInt_SGMII));
+                    OnPropertyChanged(nameof(IsSpeedMode_Advertised));
+                    OnPropertyChanged(nameof(IsSpeedMode_Forced));
+                    OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
+                    OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
+                    OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
+                    OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
+                    OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
+                    OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
+                    OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
+                    OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
+                    OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
+                    OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
+                    OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                    OnPropertyChanged(nameof(IsDownspeed10Enabled));
+                    OnPropertyChanged(nameof(IsEEE1000Enabled));
+                    OnPropertyChanged(nameof(IsEEE100Enabled));
+                    OnPropertyChanged(nameof(SelectedDownSpeedRetries));
+                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
+                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
+                    OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
+                    OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
+                    OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
+                    OnPropertyChanged(nameof(IsMDIX_FixedMDI));
+                    OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
+                    OnPropertyChanged(nameof(IsEDPD_Disabled));
+                    OnPropertyChanged(nameof(IsEDPD_Enabled));
+                    OnPropertyChanged(nameof(IsEDPD_EnabledWithPeriodicPulseTx));
+                    OnPropertyChanged(nameof(IsLeaderFollower_Leader));
+                    OnPropertyChanged(nameof(IsLeaderFollower_Follower));
+                    OnPropertyChanged(nameof(IsLeaderFollowerVisible));
+                    break;
+                case "Fiber Media Only":
+                case "Backplane":
+                case "Auto Media Detect_Fi":
+                    OnPropertyChanged(nameof(IsMacInt_RGMII));
+                    OnPropertyChanged(nameof(IsMacInt_RMII));
+                    OnPropertyChanged(nameof(IsMacInt_MII));
+                    break;
+                case "Media Converter":
+                    OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
+                    OnPropertyChanged(nameof(IsMDIX_FixedMDI));
+                    OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
+                    OnPropertyChanged(nameof(IsEDPD_Disabled));
+                    OnPropertyChanged(nameof(IsEDPD_Enabled));
+                    OnPropertyChanged(nameof(IsEDPD_EnabledWithPeriodicPulseTx));
+                    OnPropertyChanged(nameof(IsLeaderFollower_Leader));
+                    OnPropertyChanged(nameof(IsLeaderFollower_Follower));
+                    OnPropertyChanged(nameof(IsLeaderFollowerVisible));
+                    break;
+            }
+
         }
     }
 }

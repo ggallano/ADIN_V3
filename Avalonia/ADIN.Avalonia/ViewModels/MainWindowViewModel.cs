@@ -27,11 +27,11 @@ public class MainWindowViewModel : ViewModelBase
         LogActivityVM = new LogActivityViewModel(_selectedDeviceStore);
         DeviceListingVM = new DeviceListingViewModel(_selectedDeviceStore, ftdiService, registerService, LogActivityVM, appConfigService, mainLock);
         DeviceStatusVM = new DeviceStatusViewModel(_selectedDeviceStore, _ftdiService, mainLock);
-        ExtraCommandsVM = new ExtraCommandsViewModel(_selectedDeviceStore, _ftdiService);
+        ExtraCommandsVM = new ExtraCommandsViewModel(_selectedDeviceStore, _ftdiService, _navigationStore);
 
         NavigateLinkPropertiesCommand = new NavigateCommand<LinkPropertiesViewModel>(new NavigationService<LinkPropertiesViewModel>(_navigationStore, () => new LinkPropertiesViewModel(_selectedDeviceStore, _ftdiService)));
         NavigateLoopbackFrameGenCommand = new NavigateCommand<LoopbackFrameGenViewModel>(new NavigationService<LoopbackFrameGenViewModel>(_navigationStore, () => new LoopbackFrameGenViewModel(_selectedDeviceStore, _ftdiService)));
-        NavigateRegisterAccessCommand = new NavigateCommand<RegisterAccessViewModel>(new NavigationService<RegisterAccessViewModel>(_navigationStore, () => new RegisterAccessViewModel(_navigationStore)));
+        NavigateRegisterAccessCommand = new NavigateCommand<RegisterListingViewModel>(new NavigationService<RegisterListingViewModel>(_navigationStore, () => new RegisterListingViewModel(_navigationStore)));
 
         _navigationStore.CurrentStatusView = new DeviceStatusView { DataContext = DeviceStatusVM };
         _navigationStore.CurrentViewModel = new LinkPropertiesViewModel(_selectedDeviceStore, _ftdiService);
@@ -61,7 +61,7 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    public int ColumnSpan => (_navigationStore.CurrentViewModel is RegisterAccessViewModel) ? 2 : 1;
+    public int ColumnSpan => (_navigationStore.CurrentViewModel is RegisterListingViewModel) ? 2 : 1;
 
     public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
 

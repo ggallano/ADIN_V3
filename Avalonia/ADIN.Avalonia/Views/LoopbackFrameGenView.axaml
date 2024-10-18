@@ -11,7 +11,7 @@
 			<Grid ColumnDefinitions="Auto,*" IsEnabled="{Binding IsDeviceSelected}">
 				<HmcCard Margin="8" Grid.Column="1" Density="High" Header="Loopback">
 					<Grid ColumnDefinitions="*,24,*" RowDefinitions="Auto,Auto">
-						<HmcComboBox Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Size="sm" ItemsSource="{Binding Loopbacks}" SelectedItem="{Binding SelectedLoopback, Mode=TwoWay}" DisplayMemberBinding="{Binding Name}" Label="Select Loopback" IsRequired="True"/>
+						<HmcComboBox Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Size="sm" ItemsSource="{Binding Loopbacks}" SelectedItem="{Binding SelectedLoopback}" DisplayMemberBinding="{Binding Name}" Label="Select Loopback" IsRequired="True"/>
 						<ToggleSwitch Grid.Column="2" Grid.Row="0" OnContent="Rx Suppression" OffContent="Rx Suppression" IsChecked="{Binding IsRxSuppression}"/>
 						<ToggleSwitch Grid.Column="2" Grid.Row="1" OnContent="Tx Suppression" OffContent="Tx Suppression" IsChecked="{Binding IsTxSuppression}"/>
 					</Grid>

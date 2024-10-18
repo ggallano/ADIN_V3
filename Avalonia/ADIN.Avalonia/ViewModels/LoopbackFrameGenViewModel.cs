@@ -42,7 +42,7 @@ namespace ADIN.Avalonia.ViewModels
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.FrameGenCheckerStatusChanged += _selectedDeviceStore_FrameGenCheckerStatusChanged;
             _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStatusChanged;
-            //_selectedDeviceStore.FrameContentChanged += _selectedDeviceStore_FrameContentChanged;
+            _selectedDeviceStore.PhyModeChanged += _selectedDeviceStore_PhyModeChanged;
         }
 
         public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
@@ -107,7 +107,7 @@ namespace ADIN.Avalonia.ViewModels
             get { return _loopback?.SelectedLoopback; }
             set
             {
-                if (IsDeviceSelected && IsComOpen && value != _loopback?.SelectedLoopback)
+                if (IsDeviceSelected && IsComOpen && value != _loopback?.SelectedLoopback && value != null)
                 {
                     _loopback.SelectedLoopback = value;
                     ILoopbackAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ILoopbackAPI;
@@ -370,29 +370,6 @@ namespace ADIN.Avalonia.ViewModels
             });
         }
 
-        //private void UpdateFrameGenSettings()
-        //{
-        //    if (_selectedDeviceStore.SelectedDevice?.FwAPI is ADIN1300FirmwareAPI)
-        //    {
-        //        ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
-        //        IFrameGenChecker frameGenSettings = fwAPI.GetFrameGenSettings(_frameGenChecker.FrameContents, IsCuPhySelected);
-
-        //        _frameGenChecker.EnableContinuousMode = frameGenSettings.EnableContinuousMode;
-        //        _frameGenChecker.FrameBurst = frameGenSettings.FrameBurst;
-        //        _frameGenChecker.FrameLength = frameGenSettings.FrameLength;
-        //        _frameGenChecker.FrameContent = frameGenSettings.FrameContent;
-
-        //        OnPropertyChanged(nameof(EnableContinuousMode));
-        //        OnPropertyChanged(nameof(EnableFrameBurst));
-        //        OnPropertyChanged(nameof(FrameBurst_Value));
-        //        OnPropertyChanged(nameof(FrameLength_Value));
-        //        OnPropertyChanged(nameof(FrameContents));
-        //        OnPropertyChanged(nameof(SelectedFrameContent));
-        //        OnPropertyChanged(nameof(FrameGeneratorButtonText));
-        //        OnPropertyChanged(nameof(FrameGenRunning));
-        //    }
-        //}
-
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             OnPropertyChanged(nameof(IsDeviceSelected));
@@ -400,10 +377,36 @@ namespace ADIN.Avalonia.ViewModels
             if (!IsDeviceSelected)
                 return;
 
-            OnPropertyChanged(nameof(ActivePhyMode));
             OnPropertyChanged(nameof(HasActivePhyMode));
+            OnPropertyChanged(nameof(ActivePhyMode));
             OnPropertyChanged(nameof(Loopbacks));
             OnPropertyChanged(nameof(SelectedLoopback));
+            OnPropertyChanged(nameof(IsTxSuppression));
+            OnPropertyChanged(nameof(IsRxSuppression));
+            OnPropertyChanged(nameof(ImagePath));
+            OnPropertyChanged(nameof(ImagePath_TxSuppression));
+            OnPropertyChanged(nameof(ImagePath_RxSuppression));
+
+            OnPropertyChanged(nameof(EnableContinuousMode));
+            OnPropertyChanged(nameof(EnableFrameBurst));
+            OnPropertyChanged(nameof(FrameBurst));
+            OnPropertyChanged(nameof(FrameLength));
+            OnPropertyChanged(nameof(FrameContents));
+            OnPropertyChanged(nameof(SelectedFrameContent));
+            OnPropertyChanged(nameof(ButtonKind_Generate));
+            OnPropertyChanged(nameof(ButtonKind_Clear));
+            OnPropertyChanged(nameof(FrameGeneratorButtonText));
+            OnPropertyChanged(nameof(FrameGenRunning));
+        }
+
+        private void _selectedDeviceStore_PhyModeChanged()
+        {
+            OnPropertyChanged(nameof(ActivePhyMode));
+
+            OnPropertyChanged(nameof(Loopbacks));
+            if (_loopback.SelectedLoopback.DisabledModes != null 
+                && _loopback.SelectedLoopback.DisabledModes.Contains(_phyMode.ActivePhyMode))
+                SelectedLoopback = _loopback.Loopbacks.Where(x => x.EnumLoopbackType == LoopBackMode.OFF).ToList()[0];
             OnPropertyChanged(nameof(IsTxSuppression));
             OnPropertyChanged(nameof(IsRxSuppression));
             OnPropertyChanged(nameof(ImagePath));
