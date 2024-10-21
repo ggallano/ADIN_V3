@@ -3,7 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
 // </copyright>
 
-namespace Helper.ReadFile
+namespace ADIN.Helper.ReadFile
 {
     public static class ReadContent
     {

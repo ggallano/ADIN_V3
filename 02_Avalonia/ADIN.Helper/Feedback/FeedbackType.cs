@@ -3,7 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
 // </copyright>
 
-namespace Helper.Feedback
+namespace ADIN.Helper.Feedback
 {
     /// <summary>
     /// The enumeration stating the type of Feedback given to the UI

@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Xml;
 
-namespace Helper.SaveToFile
+namespace ADIN.Helper.SaveToFile
 {
     public class XmlFileWriter : AbstractFileWriter
     {

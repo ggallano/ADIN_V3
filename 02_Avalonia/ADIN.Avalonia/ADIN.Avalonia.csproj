@@ -32,9 +32,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ADIN.Device\ADIN.Device.csproj" />
+    <ProjectReference Include="..\ADIN.Helper\ADIN.Helper.csproj" />
     <ProjectReference Include="..\ADIN.Register\ADIN.Register.csproj" />
     <ProjectReference Include="..\FTDIChip.Driver\FTDIChip.Driver.csproj" />
-    <ProjectReference Include="..\Helper\Helper.csproj" />
   </ItemGroup>
 
   <ItemGroup>

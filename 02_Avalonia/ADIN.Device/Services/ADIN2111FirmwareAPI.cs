@@ -6,9 +6,9 @@
 using ADIN.Device.Models;
 using ADIN.Register.Models;
 using FTDIChip.Driver.Services;
-using Helper.Feedback;
-using Helper.RegularExpression;
-using Helper.SignalToNoiseRatio;
+using ADIN.Helper.Feedback;
+using ADIN.Helper.RegularExpression;
+using ADIN.Helper.SignalToNoiseRatio;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;

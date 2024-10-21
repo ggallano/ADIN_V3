@@ -10,7 +10,7 @@ using ADIN.Register.Services;
 using Avalonia.Threading;
 using FTD2XX_NET;
 using FTDIChip.Driver.Services;
-using Helper.Feedback;
+using ADIN.Helper.Feedback;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

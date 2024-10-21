@@ -3,7 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
 // </copyright>
 
-namespace Helper.Feedback
+namespace ADIN.Helper.Feedback
 {
     public class FeedbackModel
     {

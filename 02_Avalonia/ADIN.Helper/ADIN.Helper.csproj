@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.1.4" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ADIN.Register\ADIN.Register.csproj" />
   </ItemGroup>
 

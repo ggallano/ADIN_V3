@@ -7,7 +7,7 @@ using ADIN.Register.Models;
 using System.Collections.ObjectModel;
 using System.Text;
 
-namespace Helper.SaveToFile
+namespace ADIN.Helper.SaveToFile
 {
     public class CsvFileWriter : AbstractFileWriter
     {

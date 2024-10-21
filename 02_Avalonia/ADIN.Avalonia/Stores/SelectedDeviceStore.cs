@@ -4,7 +4,7 @@
 // </copyright>
 
 using ADIN.Device.Models;
-using Helper.Feedback;
+using ADIN.Helper.Feedback;
 using System;
 using System.Collections.Generic;
 

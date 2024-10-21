@@ -7,7 +7,7 @@ using ADIN.Avalonia.Commands;
 using ADIN.Avalonia.Stores;
 using Avalonia.Media;
 using Avalonia.Threading;
-using Helper.Feedback;
+using ADIN.Helper.Feedback;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;

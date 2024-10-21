@@ -7,7 +7,13 @@ using ADIN.Avalonia.Stores;
 using ADIN.Device.Models;
 using ADIN.Device.Services;
 using FTDIChip.Driver.Services;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Net.NetworkInformation;
+using System.Reflection.Emit;
+using System.Threading;
 
 namespace ADIN.Avalonia.ViewModels
 {

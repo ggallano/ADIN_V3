@@ -15,9 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ADIN.Helper\ADIN.Helper.csproj" />
     <ProjectReference Include="..\ADIN.Register\ADIN.Register.csproj" />
     <ProjectReference Include="..\FTDIChip.Driver\FTDIChip.Driver.csproj" />
-    <ProjectReference Include="..\Helper\Helper.csproj" />
   </ItemGroup>
 
 </Project>

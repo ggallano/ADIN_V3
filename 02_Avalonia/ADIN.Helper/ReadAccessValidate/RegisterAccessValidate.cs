@@ -5,7 +5,7 @@
 
 using System.Globalization;
 
-namespace Helper.ReadAccessValidate
+namespace ADIN.Helper.ReadAccessValidate
 {
     public static class RegisterAccessValidate
     {

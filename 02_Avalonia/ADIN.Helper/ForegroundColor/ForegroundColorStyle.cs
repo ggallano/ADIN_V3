@@ -3,7 +3,7 @@
 //     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
 // </copyright>
 
-namespace Helper.ForegroundColor
+namespace ADIN.Helper.ForegroundColor
 {
     public static class ForegroundColorStyle
     {

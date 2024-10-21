@@ -6,7 +6,7 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace Helper.RegularExpression
+namespace ADIN.Helper.RegularExpression
 {
     public static class RegexService
     {

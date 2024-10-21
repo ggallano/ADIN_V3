@@ -7,7 +7,7 @@ using ADIN.Register.Models;
 using System.Collections.ObjectModel;
 using System.Xml;
 
-namespace Helper.FileToLoad
+namespace ADIN.Helper.FileToLoad
 {
     public class XmlFileLoader
     {
