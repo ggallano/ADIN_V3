@@ -14,7 +14,7 @@ namespace ADIN.Device.Models
     public class ADIN1320Model : AbstractADINFactory
     {
         private IFTDIServices _ftdiService;
-        private ADIN1300FirmwareAPI _fwAPI;
+        private ADIN1320FirmwareAPI _fwAPI;
         private uint _phyAddress;
         private IRegisterService _registerService;
         private string registerJsonFile;
@@ -32,8 +32,8 @@ namespace ADIN.Device.Models
 
             DeviceStatus = new DeviceStatusADIN1300();
 
-            FirmwareAPI = new ADIN1300FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
-            _fwAPI = FirmwareAPI as ADIN1300FirmwareAPI;
+            FirmwareAPI = new ADIN1320FirmwareAPI(_ftdiService, Registers, PhyAddress, mainLock);
+            _fwAPI = FirmwareAPI as ADIN1320FirmwareAPI;
 
             PhyMode = new PhyModeADIN1320();
             LinkProperties = new LinkPropertiesADIN1320();
@@ -42,7 +42,7 @@ namespace ADIN.Device.Models
             ClockPinControl = new ClockPinControlADIN1300();
             TestMode = new TestModeADIN1300();
 
-            GetInitialValuesLinkProperties();
+            //GetInitialValuesLinkProperties();
             GetInitialValuesClockPinControl();
             GetInitialValuesLoopback();
             GetInitialValuesFrameGenChecker();

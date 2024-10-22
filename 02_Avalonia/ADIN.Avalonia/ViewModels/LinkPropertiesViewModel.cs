@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Reflection.Emit;
 using System.Threading;
@@ -21,6 +22,7 @@ namespace ADIN.Avalonia.ViewModels
     {
         private SelectedDeviceStore _selectedDeviceStore;
         private IFTDIServices _ftdiServices;
+        private BackgroundWorker _backgroundWorker;
         private List<uint> _downSpeedRetries = new List<uint>(){ 0, 1, 2, 3, 4, 5, 6, 7 };
 
         public LinkPropertiesViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiServices)
@@ -28,8 +30,19 @@ namespace ADIN.Avalonia.ViewModels
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiServices = ftdiServices;
 
+            SetBgWorker_LinkProperties();
+
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
-            _selectedDeviceStore.PhyModeChanged += _selectedDeviceStore_PhyModeChanged;
+        }
+
+        public bool AllowInput
+        {
+            get
+            {
+                if (IsDeviceSelected)
+                    return _selectedDeviceStore.SelectedDevice.AllowInput;
+                return false;
+            }
         }
 
         public List<string> AdvertisedSpeeds => _linkProperties.AdvertisedSpeeds;
@@ -762,151 +775,110 @@ namespace ADIN.Avalonia.ViewModels
 
             if (_selectedDeviceStore.SelectedDevice == null)
                 return;
-
+            OnPropertyChanged(nameof(AllowInput));
             OnPropertyChanged(nameof(IsSpeedCapable1G));
             OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
             OnPropertyChanged(nameof(IsGigabitBoard));
             OnPropertyChanged(nameof(IsT1LBoard));
-
-            OnPropertyChanged(nameof(HasActivePhyMode));
-            OnPropertyChanged(nameof(ActivePhyMode));
-            OnPropertyChanged(nameof(IsCopperMedia));
-            OnPropertyChanged(nameof(IsFiberMedia));
-            OnPropertyChanged(nameof(IsCopperFiberMedia));
-            OnPropertyChanged(nameof(IsMediaConverter));
-            OnPropertyChanged(nameof(IsCopperMediaConv));
-            OnPropertyChanged(nameof(IsMacInt_RGMII));
-            OnPropertyChanged(nameof(IsMacInt_RMII));
-            OnPropertyChanged(nameof(IsMacInt_MII));
-            OnPropertyChanged(nameof(IsMacInt_SGMII));
-
-            switch (_selectedDeviceStore.SelectedDevice.DeviceType)
-            {
-                case BoardType.ADIN1100_S1:
-                case BoardType.ADIN1100:
-                case BoardType.ADIN1110:
-                case BoardType.ADIN2111:
-                    //OnPropertyChanged(nameof(TxLevels));
-                    //OnPropertyChanged(nameof(SelectedTxLevel));
-                    break;
-                case BoardType.ADIN1320:
-                case BoardType.ADIN1200:
-                case BoardType.ADIN1300:
-                    //OnPropertyChanged(nameof(SpeedModes));
-                    //OnPropertyChanged(nameof(SelectedSpeedMode));
-                    OnPropertyChanged(nameof(IsSpeedMode_Advertised));
-                    OnPropertyChanged(nameof(IsSpeedMode_Forced));
-                    OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
-                    OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
-                    OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
-                    OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
-                    OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
-                    OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
-                    OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
-                    OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
-                    OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
-                    OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
-                    OnPropertyChanged(nameof(IsDownspeed100Enabled));
-                    OnPropertyChanged(nameof(IsDownspeed10Enabled));
-                    OnPropertyChanged(nameof(IsEEE1000Enabled));
-                    OnPropertyChanged(nameof(IsEEE100Enabled));
-                    OnPropertyChanged(nameof(SelectedDownSpeedRetries));
-                    //OnPropertyChanged(nameof(ForcedSpeeds));
-                    //OnPropertyChanged(nameof(SelectedForcedSpeed));
-                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
-                    //OnPropertyChanged(nameof(MDIXs));
-                    //OnPropertyChanged(nameof(SelectedMDIX));
-                    OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
-                    OnPropertyChanged(nameof(IsMDIX_FixedMDI));
-                    OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
-                    //OnPropertyChanged(nameof(EnergyDetectPowerDownModes));
-                    //OnPropertyChanged(nameof(SelectedEnergyDetectPowerDownMode));
-                    OnPropertyChanged(nameof(IsEDPD_Disabled));
-                    OnPropertyChanged(nameof(IsEDPD_Enabled));
-                    OnPropertyChanged(nameof(IsEDPD_EnabledWithPeriodicPulseTx));
-                    break;
-                default:
-                    break;
-            }
-            //OnPropertyChanged(nameof(MasterSlaveAdvertises));
-            //OnPropertyChanged(nameof(SelectedMasterSlaveAdvertise));
-            OnPropertyChanged(nameof(IsLeaderFollower_Leader));
-            OnPropertyChanged(nameof(IsLeaderFollower_Follower));
-            OnPropertyChanged(nameof(IsLeaderFollowerVisible));
         }
 
-        private void _selectedDeviceStore_PhyModeChanged()
+        private void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            OnPropertyChanged(nameof(HasActivePhyMode));
-            OnPropertyChanged(nameof(ActivePhyMode));
-            OnPropertyChanged(nameof(IsCopperMedia));
-            OnPropertyChanged(nameof(IsFiberMedia));
-            OnPropertyChanged(nameof(IsCopperFiberMedia));
-            OnPropertyChanged(nameof(IsMediaConverter));
-            OnPropertyChanged(nameof(IsCopperMediaConv));
-
-            switch (_phyMode.ActivePhyMode)
+            while (!_backgroundWorker.CancellationPending)
             {
-                case "Copper Media Only":
-                case "Auto Media Detect_Cu":
-                    OnPropertyChanged(nameof(IsMacInt_RGMII));
-                    OnPropertyChanged(nameof(IsMacInt_RMII));
-                    OnPropertyChanged(nameof(IsMacInt_MII));
-                    OnPropertyChanged(nameof(IsMacInt_SGMII));
-                    OnPropertyChanged(nameof(IsSpeedMode_Advertised));
-                    OnPropertyChanged(nameof(IsSpeedMode_Forced));
-                    OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
-                    OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
-                    OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
-                    OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
-                    OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
-                    OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
-                    OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
-                    OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
-                    OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
-                    OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
-                    OnPropertyChanged(nameof(IsDownspeed100Enabled));
-                    OnPropertyChanged(nameof(IsDownspeed10Enabled));
-                    OnPropertyChanged(nameof(IsEEE1000Enabled));
-                    OnPropertyChanged(nameof(IsEEE100Enabled));
-                    OnPropertyChanged(nameof(SelectedDownSpeedRetries));
-                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
-                    OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
-                    OnPropertyChanged(nameof(IsMDIX_FixedMDI));
-                    OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
-                    OnPropertyChanged(nameof(IsEDPD_Disabled));
-                    OnPropertyChanged(nameof(IsEDPD_Enabled));
-                    OnPropertyChanged(nameof(IsEDPD_EnabledWithPeriodicPulseTx));
-                    OnPropertyChanged(nameof(IsLeaderFollower_Leader));
-                    OnPropertyChanged(nameof(IsLeaderFollower_Follower));
-                    OnPropertyChanged(nameof(IsLeaderFollowerVisible));
-                    break;
-                case "Fiber Media Only":
-                case "Backplane":
-                case "Auto Media Detect_Fi":
-                    OnPropertyChanged(nameof(IsMacInt_RGMII));
-                    OnPropertyChanged(nameof(IsMacInt_RMII));
-                    OnPropertyChanged(nameof(IsMacInt_MII));
-                    break;
-                case "Media Converter":
-                    OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
-                    OnPropertyChanged(nameof(IsMDIX_FixedMDI));
-                    OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
-                    OnPropertyChanged(nameof(IsEDPD_Disabled));
-                    OnPropertyChanged(nameof(IsEDPD_Enabled));
-                    OnPropertyChanged(nameof(IsEDPD_EnabledWithPeriodicPulseTx));
-                    OnPropertyChanged(nameof(IsLeaderFollower_Leader));
-                    OnPropertyChanged(nameof(IsLeaderFollower_Follower));
-                    OnPropertyChanged(nameof(IsLeaderFollowerVisible));
-                    break;
-            }
+                try
+                {
+                    if (IsDeviceSelected && IsComOpen)
+                    {
+                        IValueUpdate fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IValueUpdate;
+                        _linkProperties.DownSpeedRetries = fwAPI.GetLinkProp_DownspeedRetries();
+                        OnPropertyChanged(nameof(DownSpeedRetries));
+                        _linkProperties.IsAdvertise_1000BASE_T_FD = fwAPI.GetLinkProp_IsAdv1000BaseTFd();
+                        OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
+                        _linkProperties.IsAdvertise_1000BASE_T_HD = fwAPI.GetLinkProp_IsAdv1000BaseTHd();
+                        OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
+                        _linkProperties.IsAdvertise_100BASE_TX_FD = fwAPI.GetLinkProp_IsAdv100BaseTxFd();
+                        OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
+                        _linkProperties.IsAdvertise_100BASE_TX_HD = fwAPI.GetLinkProp_IsAdv100BaseTxHd();
+                        OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
+                        _linkProperties.IsAdvertise_10BASE_T_FD = fwAPI.GetLinkProp_IsAdv10BaseTFd();
+                        OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
+                        _linkProperties.IsAdvertise_10BASE_T_HD = fwAPI.GetLinkProp_IsAdv10BaseTHd();
+                        OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
+                        _linkProperties.IsAdvertise_EEE_1000BASE_T = fwAPI.GetLinkProp_IsAdvEee1000();
+                        OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
+                        _linkProperties.IsAdvertise_EEE_100BASE_TX = fwAPI.GetLinkProp_IsAdvEee100();
+                        OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
+                        _linkProperties.IsDownSpeed_100BASE_TX_HD = fwAPI.GetLinkProp_IsDwnspd100TxHd();
+                        OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
+                        _linkProperties.IsDownSpeed_10BASE_T_HD = fwAPI.GetLinkProp_IsDwnspd10THd();
+                        OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
+                        _linkProperties.SpeedMode = fwAPI.GetLinkProp_SpeedMode();
+                        OnPropertyChanged(nameof(IsSpeedMode_Advertised));
+                        OnPropertyChanged(nameof(IsSpeedMode_Forced));
+                        _linkProperties.EnergyDetectPowerDownMode = fwAPI.GetLinkProp_EDPD();
+                        OnPropertyChanged(nameof(IsEDPD_Disabled));
+                        OnPropertyChanged(nameof(IsEDPD_Enabled));
+                        OnPropertyChanged(nameof(IsEDPD_EnabledWithPeriodicPulseTx));
+                        _linkProperties.ForcedSpeed = fwAPI.GetLinkProp_ForcedSpeed();
+                        OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
+                        OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
+                        OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
+                        OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
+                        _linkProperties.MDIX = fwAPI.GetLinkProp_MDIX();
+                        OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
+                        OnPropertyChanged(nameof(IsMDIX_FixedMDI));
+                        OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
+                        _linkProperties.MasterSlaveAdvertise = fwAPI.GetLinkProp_LeadFollow();
+                        OnPropertyChanged(nameof(IsLeaderFollower_Leader));
+                        OnPropertyChanged(nameof(IsLeaderFollower_Follower));
 
+                        OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                        OnPropertyChanged(nameof(IsDownspeed10Enabled));
+                        OnPropertyChanged(nameof(IsEEE1000Enabled));
+                        OnPropertyChanged(nameof(IsEEE100Enabled));
+                        OnPropertyChanged(nameof(IsLeaderFollowerVisible));
+
+                        OnPropertyChanged(nameof(HasActivePhyMode));
+                        OnPropertyChanged(nameof(ActivePhyMode));
+                        OnPropertyChanged(nameof(IsCopperMedia));
+                        OnPropertyChanged(nameof(IsFiberMedia));
+                        OnPropertyChanged(nameof(IsCopperFiberMedia));
+                        OnPropertyChanged(nameof(IsMediaConverter));
+                        OnPropertyChanged(nameof(IsCopperMediaConv));
+                    }
+                    Thread.Sleep(10);
+                }
+                catch (Exception ex)
+                {
+                    //Do nothing
+                }
+
+                e.Result = "Done";
+            }
+        }
+
+        private void _backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            Debug.WriteLine("Progress Changed");
+        }
+
+        private void _backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Debug.WriteLine("_backgroundWorker Completed");
+        }
+
+        private void SetBgWorker_LinkProperties()
+        {
+            _backgroundWorker = new BackgroundWorker();
+            _backgroundWorker.WorkerReportsProgress = true;
+            _backgroundWorker.WorkerSupportsCancellation = true;
+
+            _backgroundWorker.DoWork += _backgroundWorker_DoWork;
+            _backgroundWorker.RunWorkerCompleted += _backgroundWorker_RunWorkerCompleted;
+            _backgroundWorker.ProgressChanged += _backgroundWorker_ProgressChanged;
+
+            _backgroundWorker.RunWorkerAsync();
         }
     }
 }
