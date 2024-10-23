@@ -17,6 +17,7 @@ FTDI drivers for .Net 1.2.1 : FTDI BSD-1-Clause
 JamesNK/Newtonsoft.Json 13.0.3 : MIT License
 Microsoft.Extensions.Configuration 8.0.0 : MIT License
 Microsoft.Extensions.Configuration.Json 8.0.1 : MIT License
+SciChart 5.4.0.12119 : SciChart Software License Agreement 2022
 System.Management 8.0.0 : MIT License
 
 Licenses:
@@ -279,6 +280,293 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
 AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+--------------------------------------------------------------------------------
+SciChart 5.4.0.12119
+License: SciChart Software License Agreement 2022
+Origin: http://www.scichart.com/
+
+
+
+License: SciChart Software License Agreement 2022
+SCICHART® SOFTWARE LICENSE AGREEMENT
+IMPORTANT NOTICE:  Please read this Software Licence Agreement ("SLA") carefully, as it sets out the terms and conditions upon which we license SciChart®®
+
+This SLA constitutes the entire agreement and understanding of the Parties in relation to the subject matter of this SLA, and supersedes all previous agreements, arrangements and understandings between the parties relating to the subject matter of this SLA.
+
+By using this Software, you agree to be bound by the terms and conditions of this SLA. You further agree that your employees / any person you authorise to use the Software will also be bound by the terms and conditions of this SLA. If you do not agree to this SLA, you must promptly delete the Software and all associated downloadable materials and you must not use the Software for any purpose whatsoever.
+
+DEFINITIONS
+In this SLA:
+
+"Build Servers" means a computer or service compiling code & running automated tests for the purpose of continuous integration, continuous delivery;
+
+"Computer" means a desktop, notebook, netbook or similar computer owned by and in the control of the LICENSEE;
+
+"Data Protection Legislation" means all applicable data protection and privacy legislation in force from time to time in the UK including the UK GDPR; the Data Protection Act 2018 (DPA 2018) (and regulations made thereunder) and the Privacy and Electronic Communications Regulations 2003 (SI 2003/2426) as amended and all other legislation and regulatory requirements in force from time to time which apply to a party relating to the use of personal data (including, without limitation, the privacy of electronic communications;
+
+"Developer" an individual who compiles, debugs and develops against code which references SciChart SDKs, which may be DLLs, Frameworks or AARs, npm packages, for example any person who compiles and runs a project in Visual Studio, Android Studio, Xcode, VSCode, WebStorm or similar IDE which links to or references SciChart libraries is considered to be a developer requiring a license to use the SciChart Software;
+
+"Documentation" means any documentation concerning the Software supplied by the LICENSOR or by the Software supplier to the LICENSEE with the Software;
+
+"End-Users" means final users of the LICENSEE Application;
+
+"Effective Date" means the date when the LICENSEE first agrees to the terms and conditions of this SLA, as detailed in the Preamble to this SLA;
+
+"Force Majeure Event" means an event, or a series of related events, that is outside the reasonable control of the party affected (including failures of or problems with the internet or a part of the internet, power failures, industrial disputes affecting any third party, changes to the law, disasters, explosions, fires, floods, riots, terrorist attacks and wars);
+
+"Intellectual Property Rights" means all intellectual property rights wherever in the world, whether registered or unregistered, including any application or right of application for (and rights to apply for and be granted), renewals or extensions of, and rights to claim priority from, such rights and all similar or equivalent rights of forms of protection which subsist or will subsist, now or in the future (and the "intellectual property rights" referred to above include copyright and related rights, database rights, confidential information, trade secrets, know-how, business names, trade names, trade marks, service marks, passing off rights, unfair competition rights, patents, petty patents, rights to inventions, utility models, semi-conductor topography rights and rights in designs);
+
+"Licence" means the licence granted by SciChart under this SLA;
+
+"LICENSEE" means the licensee of the Software under this SLA;
+
+"LICENSEE Application(s)" means a software application developed by the LICENSEE integrating the Software distributed to End-Users in object code;
+
+"LICENSOR" means SciChart Ltd, a limited company incorporated in England and Wales (registration number 07430048) having its registered office at 16 Beaufort Court, Admirals Way, Docklands, London, E14 9XL, United Kingdom;
+
+"OEM" means Original Equipment Manufacturer;
+
+"Rendering Engine" means the SciChart graphics engine Trade Marked as "Visual Xccelerator" which is licensed for use under this SLA but not contained within Source Code as a separate entity to the Software;
+
+"SLA" means this end-user licence agreement (including the Preamble), and any amendments to it from time to time;
+
+"Software" means the SciChart Charts software component module which is licensed under this SLA including following the application of any Upgrade;
+
+"Source Code" means the uncompiled code which forms all of the Software but not the Rendering Engine or further components.
+
+"Support & Updates Subscription" means a purchased or renewed support subscription entitling the LICENSEE to technical updates & new versions of the SOFTWARE according to Articles 1, 2
+
+"UI" means User Interface;
+
+"Upgrade" an upgrade, update, enhancement, improvement or patch to the Software supplied by the LICENSOR; and
+
+"Testers" means a LICENSEE staff member running LICENSEE applications for the purpose of testing, quality assurance but who does not meet the definition of "Developer" as defined in this SLA
+
+Unless the context otherwise requires, each reference in this SLA to:
+
+(a) "writing", and any cognate expression, includes a reference to any communication effected by electronic or facsimile transmission or similar means;
+(b) a statute or a provision of a statute is a reference to that statute or provision as amended or re-enacted at the relevant time;
+(c) an Article or paragraph is a reference to an Article of this SLA;
+(d) the titles in the present SLA are for information purpose only. In case of contradiction in the core of an article and its title, its tile shall be ignored and only its contents shall be reputed written;
+(e) a "Party" or the "Parties" refer to the parties to this SLA;
+(f) words imparting the singular number shall include the plural and vice versa;
+(g) references to any gender shall include the other gender; and
+(h) words importing persons include firms, companies and corporations and vice versa.
+PREAMBLE
+SciChart Ltd is the entire legal and beneficial owner of, and has the exclusive right to grant licences and sub-licences, to the software known as SCICHART.
+
+LICENSEE is willing to obtain and SciChart Ltd is willing to grant a non-exclusive licence under the terms and conditions hereinafter set forth for the sole purpose of integrating the Software into an application that LICENSEE has developed, under the terms and conditions of this SLA.
+
+ARTICLE 1 – LICENSING OF THE SOFTWARE
+1.1. LICENSE GRANT
+
+1.1.1 Subject to the payment by the LICENSEE of the relevant charges and fees in respect of the Software licence, and the LICENSEE's compliance with the provisions of this SLA, the LICENSOR grants to the LICENSEE a perpetual, non-licensable non-exclusive, non-transferable licence as defined below (the "Licence"). THE LICENCE IS NOT UNCONDITIONALLY PERPETUAL AND SHALL TERMINATE IMMEDIATELY AND AUTOMATICALLY IF THE LICENSEE OR ANY EMPLOYEE OF THE LICENSEE OR PERSON AUTHORISED BY THE LICENSEE TO USE THE SOFTWARE AND/OR DOCUMENTATION BREACHES ANY PROVISION OF THIS SLA.
+
+The Licence is granted per-Developer. This means:
+
+The LICENSEE will need to purchase one licence for each Developer
+the LICENSEE does not need to purchase licences for Build Servers or Testers; and
+if the LICENSEE's team grows, the LICENSEE will need to purchase additional licences.
+The Licence grants the right to:
+
+(a) download and store the Software and Documentation. The Licence is per-Developer, not per machine. This means that the Software can be installed on several Computers owned by the same Developer (as long as only one machine is used at a time);
+
+(b) use the Software as a component in developing LICENSEE's own desktop and/or mobile software applications, intranet sites and public websites (a "LICENSEE Application"); and
+
+(c) publish or redistribute the Software in compiled form only to End-Users and only as a complete Licence Application of the LICENSEE Application.
+
+(d) Unless expressly agreed otherwise, the Licence is granted solely for the Software object code.
+
+(e) The LICENSEE may purchase site-Licences that allow use of the Software for larger teams of developers at a single physical site ("Site-Licences"), or global licences that allow use of the Software for larger teams globally ("Global-Licences"), with Developer count and pricing agreed as part of the quoting and sales process.
+
+(f) Where applicable, the LICENSEE will have access to the Source Code of the Software excluding any Rendering Engine or further component not wholly part of the SciChart Charts software component module developed by the LICENSOR.
+
+(g) Develop applications pursuant to the appropriate licensing & activation being in place. With all downstream consumers of source-code compiled libraries having the relevant license type.
+
+(h) OEM and Runtime Fees. In most cases, the LICENSOR licenses the Software to the LICENSEE without runtime or OEM fees subject to compliance with the per-developer licensing model in 1.1.1. In some cases, where the LICENSEE is deriving significant commercial value from the Software, or deploying LICENSEE APPLICATIONS to very large user-bases, or certain deployment configurations such as uncapped licensing, the LICENSOR may require the LICENSEE to pay an annual runtime fee ("OEM Fee"), to be negotiated in good faith in line with the needs of the LICENSEE and LICENSOR. In the event that the Parties cannot agree the OEM Fee in good faith, the OEM Fee shall be determined by the LICENSOR exclusively acting reasonably. The LICENSOR reserves the right to waive the OEM Fee wholly or partially at the LICENSOR's sole and absolute discretion.
+
+(i) OEM and Runtime Fees (if applicable) confer additional benefits to enterprise customers the LICENSEE and may include items such as dedicated enhanced support, priority bug fixes, account management, and ensures the quality of the product, quality of service and longevity of service required for a world-class large-scale deployment in line with the needs of the LICENSEE entity.
+
+(j) The LICENSEE may copy and distribute the Software when embedded in LICENSEE Application so long as
+
+LICENSEE is not creating a substantially similar product or component to the Software, including but not limited to; wrapping the Software library in a wrapper for distribution to multiple developers / departments, creating a charting service, either for sale, or as part of an internal framework used by other developers in the LICENSEE's organisation; and
+End-Users are not Developers who will be debugging and developing against LICENSEE code.
+These are both rare cases, but if LICENSEE is doing either of the above LICENSEE may need developer licences for each End-User, or a custom agreed licence type.
+ 
+
+1.1.2 The LICENSEE must not:
+
+(a) copy or reproduce the Software or Documentation or any part of the Software or Documentation other than in accordance with the licence granted in this Article 1;
+
+(b) sell, resell, rent, lease, loan, supply, distribute, redistribute, publish or re-publish the Software or Documentation or any part of the Software or Documentation, unless in accordance with Article 1.1.1 (b) and (c);
+
+(c) modify, alter, adapt, translate or edit, or create derivative works of, the Software or Documentation or any part of the Software or Documentation, for purpose of making a software product which is significantly similar to the Software;
+
+(d) reverse engineer, decompile, disassemble the Software or Documentation or any part of the Software or Documentation;
+
+(e) circumvent or remove or attempt to circumvent or remove the technological measures applied to the Software and Documentation for the purposes of preventing unauthorised use, providing that nothing in this Article 1.1.2. will prohibit or restrict the LICENSEE or any other person from doing any act expressly permitted by applicable Law (including any act expressly permitted by Section 296ZA of the Copyright, Designs and Patents Act 1988);
+
+(f) distribute any part of the Source-Code if the LICENSEE has purchased a source-code licence;
+
+(g) make any attempt to interfere with the Rendering Engine in any way including reverse engineering, decompiling, modifying or redistributing aside from LICENSEE Application(s). The Licence herein granted conveys no right to grant sub-licences, except to the End-User of the LICENSEE Application subject to the payment of the OEM Fee, is not to be deemed transferable for any purpose and is indivisible and non-assignable except to a business successor of LICENSEE or with LICENSOR prior written approval.
+
+1.1.3. All Intellectual Property Rights in the Software and Documentation are and will remain, as between the Parties, the property of the LICENSOR.
+
+1.1.4. The LICENSEE must provide to the LICENSOR, or procure for the LICENSOR, upon reasonable notice and during normal business hours, reasonable evidence of compliance with the terms of this SLA. Such information will be treated with confidentiality as per ARTICLE 8.
+
+(a) This may be in the form of written statement of compliance signed by the LICENSEE, or an electronic licence audit report, stating compliance with the terms and conditions of the SLA, including but not limited to the number of licences held and the number of Developers using the Software or the commercial value derived from LICENSEE Application(s).
+
+(b) The LICENSOR reserves the right to track usage of the Software and ensure that the LICENSEE is complying with the terms of this SLA by sending small, anonymous telemetry to the LICENSOR's servers which include an identifier for the order & whether the software is being used at design time. To be used for the purpose of license auditing and retroactive billing where usage is exceeded. Licence audit telemetry data contains no identifiable data about the LICENSEE's users, developers, organisation, location, IP address or any other way to identify the End-User of the Software. An air-gapped (no telemetry) license-type can be negotiated as part of the purchasing process.
+
+1.2. OTHER USERS
+
+1.2.1 The LICENSEE may permit any employee or subcontractor of the LICENSEE to exercise the rights granted by the LICENSOR to the LICENSEE under Article 1.1.1., subject always to the restrictions set out in Article 1.1.2.
+
+1.2.2 The LICENSEE must ensure that any person using the Software and/or Documentation is made aware of, and agrees to, the terms of this SLA.
+
+1.3. UPDATES
+
+1.3.1 The LICENSEE may apply to the Software each Upgrade released by the LICENSOR and made available by the LICENSOR to the LICENSEE from time to time. All licences come with 1+ year Support & Updates subscription. .
+
+This means:
+
+While your support subscription is active, LICENSEE will be entitled to receive support via LICENSOR website as per our support policy
+
+During the support & updates window, LICENSEE will be entitled to receive and use the latest version(s) of the Software that match LICENSEE's product keys.
+
+LICENSOR will have no obligation to provide technical support or bug fixes to LICENSEE who have not purchased support, or whose support has expired.
+
+1.3.2 The LICENSOR will have no obligation to provide support for the Software under Article 2 or repair or replace the Software under Article 2 in relation to any version of the Software that does not incorporate the most recent Upgrade to the Software.
+
+1.4. TERM OF SLA.
+
+This SLA will come into force once the Software has been downloaded and will continue in force indefinitely, unless and until terminated in accordance with Article 11 "Termination".
+
+ARTICLE 2 – SUPPORT
+2.1 THE LICENSOR WILL PROVIDE TO THE LICENSEE
+
+Technical support as per our support policy for the purpose of resolving issues with the Software raised by the LICENSEE acting reasonably, during the Support & Updates Subscription period.
+
+The LICENSOR has no obligation to provide technical support for "Trial" or "Community" editions (Unpaid Editions) but for the purpose of onboarding and evaluation, the LICENSOR is able to answer technical queries and demonstrate the use of the SOFTWARE to the LICENSEE.
+
+2.2 The LICENSEE acknowledges that:
+
+(a) the LICENSOR's obligation under Article 2.1 is subject to such limits (as to time spent in relation to an issue and in relation to the LICENSEE in aggregate) as the LICENSOR may determine from time to time;
+
+(b) the LICENSOR's sole obligation under Article 2.1 is to make reasonable endeavours to resolve issues raised by the LICENSEE;
+
+(c) the LICENSOR does not warrant or represent that issues raised will be solved by means of the support services; and
+
+(d) the LICENSOR will not provide any on-site support under this SLA.
+
+2.3 THE LICENSOR MAY SUBCONTRACT ANY OF ITS OBLIGATIONS UNDER THIS ARTICLE 2 TO ANY THIRD PARTY.
+
+ARTICLE 3. LIMITED WARRANTIES
+3.1. LICENSOR warrants that the Software delivered pursuant to this Licence shall perform substantially in accordance with the accompanying reference manuals for a period of 365 days from the delivery date to LICENSEE, depending on the package purchased ("Limited Warranty").
+
+3.2. LICENSEE Remedies. LICENSOR's entire liability and LICENSEE exclusive remedy shall be, at LICENSOR's option, either repair or replacement of the Software that does not meet LICENSOR's Limited Warranty during the warranty period. The Limited Warranty is void if failure of the Software has resulted from accident, abuse or misapplication or use in a manner not contemplated in the Software accompanying reference manuals and the present SLA. Any replacement of the Software shall be warranted for the remainder of the original warranty period.
+
+3.3. The LICENSOR warrants to the LICENSEE that the LICENSOR has tested the Software for computer virus and other malicious third party software infections in accordance with standard industry practice.
+
+3.4. The LICENSEE acknowledges that:
+
+(a) Trial, Community or Beta Editions of the Software (Unpaid Editions) are made available free of charge on an "AS IS" basis. To the maximum extent permitted by law, the LICENSOR disclaims all express or implied warranties, including but not limited to implied warranties of satisfactory quality, fitness for a particular purpose and non-infringement. The LICENSEE understands and agrees that Unpaid Editions of the Software are made available free of charge "AS IS" and use of the Software is at the LICENSEE's own discretion and risk.
+
+(b) the Software may not be error-free and that non-material errors in the Software will not constitute a breach of this SLA;
+
+(c) the Software has not been developed to meet the specific requirements of the LICENSEE, and accordingly the LICENSEE will be responsible for ensuring that the Software is suitable to meet the LICENSEE's requirements.
+
+3.5. All of the Parties' liabilities and obligations in respect of the subject matter of this SLA are expressly set out herein. To the maximum extent permitted by applicable law, no other terms concerning the subject matter of this SLA will be implied into this SLA or any related contract.
+
+3.6. NO OTHER WARRANTIES. LICENSOR DISCLAIMS ALL OTHER WARRANTIES NOT EXPRESSLY STATED HEREIN, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, QUALITY, FITNESS FOR A PARTICULAR PURPOSE. LICENSOR DOES NOT WARRANT THAT THE OPERATION OF THE SOFTWARE WILL MEET LICENSEE'S REQUIREMENTS OR BE FREE FROM ERRORS, OR THAT LICENSEE WILL BE ABLE TO DESIGN, DEVELOP, MANUFACTURE, MARKET OR SELL PRODUCTS INCORPORATING THE SOFTWARE.
+
+ARTICLE 4. LIMITATIONS AND EXCLUSIONS OF LIABILITY
+4.1 NOTHING IN THE SLA WILL:
+
+(a) LIMIT OR EXCLUDE THE LIABILITY OF A PARTY FOR DEATH OR PERSONAL INJURY RESULTING FROM NEGLIGENCE;
+
+(b) LIMIT OR EXCLUDE THE LIABILITY OF A PARTY FOR FRAUD OR FRAUDULENT MISREPRESENTATION BY THAT PARTY;
+
+(c) LIMIT ANY LIABILITY OF A PARTY IN ANY WAY THAT IS NOT PERMITTED UNDER APPLICABLE LAW; OR
+
+(d) EXCLUDE ANY LIABILITY OF A PARTY THAT MAY NOT BE EXCLUDED UNDER APPLICABLE LAW, AND, IF THE LICENSEE IS A CONSUMER, ANY STATUTORY RIGHTS WHICH THE LICENSEE HAS, WHICH CANNOT BE EXCLUDED OR LIMITED, WILL NOT BE AFFECTED BY THE SLA.
+
+4.2. LIMITED LIABILITY. IN NO EVENT SHALL THE LICENSOR, ITS EMPLOYEES, DIRECTORS OR SUPPLIERS BE LIABLE TO THE LICENSEE IN RESPECT OF ANY LOSS OR CORRUPTION OF ANY DATA, DATABASE OR SOFTWARE. LICENSOR AND ITS SUPPLIERS SHALL UNDER NO CIRCUMSTANCES BE HELD LIABLE WHETHER IN CONTRACT, IN TORT, UNDER ANY WARRANTY OR ANY OTHER THEORY OF LIABILITY, OR OTHERWISE, FOR ANY INDIRECT, INCIDENTAL OR CONSEQUENTIAL DAMAGES, SUCH AS, WITHOUT LIMITATION, LOSS OF REVENUE, LOSS OF OPPORTUNITY, BUSINESS DISRUPTION OR OTHER PECUNARY LOSS ARISING OUT OF THE USE OF OR INABILITY TO USE THIS SOFTWARE, EVEN IF LICENSOR HAS BEEN INFORMED BY LICENSEE OF THE POSSIBILITY THAT LICENSEE COULD SUFFER SUCH DAMAGES. IN ANY CASE, LICENSOR' AGGREGATE LIABILITY FOR ANY CLAIM, WHETHER IN CONTRACT, TORT, UNDER ANY WARRANTY OR ANY OTHER THEORY OF LIABILITY OR OTHERWISE, SHALL BE LIMITED TO THE AMOUNT ACTUALLY PAID BY LICENSEE UNDER THIS LICENCE.
+
+4.3. INDEMNITY. LICENSEE AGREES TO INDEMNIFY AND HOLD LICENSOR, AND ITS SUBSIDIARIES, AFFILIATES, OFFICERS, AGENTS, CO-BRANDERS, ALLIANCE MEMBERS, OR OTHER PARTNERS, AND EMPLOYEES, HARMLESS FROM ANY CLAIM OR DEMAND, INCLUDING REASONABLE ATTORNEYS' FEES, MADE BY ANY THIRD PARTY DUE TO OR ARISING OUT OF ANY LICENSEE APPLICATION, LICENSEE'S USE OF THE LICENSOR' SOFTWARE, INCLUDING ANY USE BY LICENSEE'S EMPLOYEES, LICENSEE'S VIOLATION OF THE PRESENT LICENSE AGREEMENT, OR LICENSEE'S VIOLATION OF ANY RIGHTS OF A THIRD PARTY.
+
+ARTICLE 5 – INTELLECTUAL PROPERTY RIGHTS
+The LICENSEE shall
+
+(a) follow all reasonable instructions that LICENSOR gives from time to time with regard to the use of the Intellectual Property Rights or other notice of ownership rights of LICENSOR or its suppliers; and
+
+(b) notify the LICENSOR immediately if the LICENSEE becomes aware of any unauthorised use of the whole or any part of the Software by any person.
+
+ARTICLE 6 – TECHNICAL SUPPORT
+LICENSEE may subscribe technical support services at such charges and upon such terms and conditions as provided from time to time by LICENSOR to LICENSEE upon request.
+
+ARTICLE 7 – EXPORT CONTROL
+The following information is provided to LICENSEE for information purpose only. The LICENSOR shall bear no responsibility if the following information becomes inaccurate. Should LICENSEE desire to ship, transfer or export into any country the Software and/or the LICENSEE Application and its accompanying reference manuals, it shall be the responsibility of LICENSEE to obtain all consents and licences as may be required from time to time under the relevant laws, restrictions or regulations that may regulate such export.
+
+The Software does not enter into any restricted categories (there is no Export Control Classification Number). The Export Classification Number for the Software is "NLR" which means "No license requirement". U.S. based LICENSEES of the Software distributing the LICENSEE Application worldwide should therefore use the acronym "NLR" to re-export the Software if the LICENSEE Application does not embed any other restricted technology. International embargo rules that apply to all products shall apply to re-export of the Software and export of LICENSEE Applications.
+
+ARTICLE 8. CONFIDENTIALITY AND PUBLICITY
+8.1 Each Party shall, during the term of this SLA and thereafter, keep confidential all, and shall not use for its own purposes (other than implementation of this SLA) nor without the prior written consent of the other disclose to any third party (except its professional advisors or as may be required by any law or any legal or regulatory authority) any, information of a confidential nature (including trade secrets and information of commercial value) which may become known to such Party from the other Party and which relates to the other Party or any of its Affiliates, unless that information is public knowledge or already known to such Party at the time of disclosure, or subsequently becomes public knowledge other than by breach of this Licence, or subsequently comes lawfully into the possession of such Party from a third party. Each Party shall use its reasonable endeavours to prevent the unauthorised disclosure of any such information.
+
+8.2 SciChart shall have the right to disclose the existence and terms of this Agreement: (a) in any prospectus, offering memorandum, or other document required by law or securities regulations, (b) to any current or prospective investors, acquirers or collaborators (provided that any recipient of a disclosure under this subclause (b) shall be subject to appropriate obligations of confidentiality and non-use), or (c) as otherwise required by applicable law or regulation. SciChart shall have the right to use on its website the LICENSEE's logo, provided such use of the LICENSEE's logo is limited to statements of fact and the LICENSEE shall have the right to revoke permission of such use of the LICENSEE's logo at any time.
+
+8.3 Except as expressly stated in clause 8.2, neither Party, its employees or representatives shall use the name or logo of the other Party in any advertisement, press release, or other publicity without prior written consent of the other Party (such consent not to be unreasonably withheld or delayed).
+
+ARTICLE 9. VARIATION
+SciChart has the right to vary the terms of this SLA and the relevant charges and fees in respect of the Licence from time to time. Existing LICENSEES with active subscriptions and existing commitments will be honoured by SciChart on existing terms for the duration of such LICENSEES' active subscriptions.
+
+ARTICLE 10. DATA PROTECTION
+The Parties undertake to comply with the provisions of the Data Protection Legislation and any related legislation in so far as the same relates to the provisions and obligations of this SLA.
+
+ARTICLE 11. TERMINATION
+11.1 This SLA will terminate immediately and automatically if:
+
+(a) the LICENSEE: (i) is dissolved; (ii) ceases to conduct all (or substantially all) of its business; (iii) is or becomes unable to pay its debts as they fall due; (iv) is or becomes insolvent or is declared insolvent; or (v) convenes a meeting or makes or proposes to make any arrangement or composition with its creditors;
+
+(b) an administrator, administrative receiver, liquidator, receiver, trustee, manager or similar is appointed over any of the assets of the LICENSEE;
+
+(c) an order is made for the winding up of the LICENSEE, or the LICENSEE passes a resolution for its winding up.
+
+ARTICLE 12. EFFECTS OF TERMINATION
+12.1 In the event that this SLA is terminated pursuant to clause 1.1.1 (breach by the LICENSEE), the LICENSEE will no longer be licensed to use the Software in LICENSEE Application(s) and must remove the Software from all version(s) of LICENSEE Applications(s) in a reasonable timescale. In this event, failure to cease using the Software shall make the LICENSEE liable to the LICENSOR for compensation ("Additional Fee") for using unlicensed Software, without prejudice to any other rights provided for by law or under this agreement, such as the right to claim damages in lieu of the Additional Fee.
+
+12.2 Upon termination any provision of this agreement that expressly or by implication is intended to come into or continue in force on or after termination or expiry of this agreement shall remain in full force and effect.
+
+12.3 Termination of this SLA will not affect either party's accrued rights and liabilities.
+
+12.4 Save as expressly provided in this SLA, the LICENSEE will not be entitled to a refund upon the termination of this SLA.
+
+ARTICLE 13. GENERAL
+13.1 NO WAIVER. No breach of any provision of this SLA will be waived except with the express written consent of the party not in breach.
+
+13.2. SEVERABILITY. If a provision of this SLA is determined by any court to be unlawful and/or unenforceable, the other provisions of this SLA will continue in effect. If any unlawful and/or unenforceable provision would be lawful or enforceable if part of it were deleted, that part will be deemed to be deleted, and the rest of the provision will continue in effect (unless that would contradict the clear intention of the Parties, in which case the entirety of the relevant provisions will be deemed to be deleted).
+
+13.3 The LICENSOR may freely assign this SLA and/or its rights and/or obligations under this SLA without the LICENSEE's consent. Save as expressly provided in this SLA, the LICENSEE must not assign, transfer, charge, license or otherwise dispose of or deal in this SLA and/or any its rights and/or obligations under this SLA.
+
+13.4 NO THIRD PARTY BENEFICIARIES. This SLA is made for the benefit of the Parties, and is not intended to benefit any third party or be enforceable by any third party. The rights of the Parties to terminate, rescind, or agree any amendment, waiver, variation or settlement under or relating to this SLA are not subject to the consent of any third party.
+
+13.5. FORCE MAJEURE. Under no circumstances shall either Party be held liable for failure to perform its obligations under this Agreement in case such failure is due to a Force Majeure event as defined in Preamble. The Party prevented by Force Majeure shall inform the other Party of the occurrence of the Force Majeure event within fifteen (15) days by written notice. Except as defined below, the Parties shall have no right to assert Force Majeure in order to terminate this Agreement.
+
+If Force Majeure continues for a period of more than three (3) months from the date of the Force Majeure Declaration and has prevented either of the Parties from performing its obligations in whole or in part during that period, then either Party shall be entitled to terminate the SLA by written notice to the other Party.
+
+The Parties shall have no right to claim for any compensation of liquidated damages to the other Party for delays or non-performance of the SLA by such Party in case of Force Majeure, even if the Force Majeure results in the termination of the SLA.
+
+13.6. RETROACTIVE BILLING. Through the use of Telemetry data, or licence audit, the LICENSOR generates usage reports. Where a LICENSEE exceeds the usage of their developer licenses or OEM license Fees (if applicable), the LICENSOR will provide a custom quote at renewal time for the subsequent year support subscription. Excessive mismatch between licenses purchased and usage may result in retroactive billing.
+
+13.7 NO AGENCY OR PARTNERSHIP. SUCCESSORS AND ASSIGNEES. This SLA shall be binding upon, and inure to the benefit of the Parties and their respective successors and permitted assignees, and references to a Party in this SLA shall include its successors and permitted assignees.
+
+13.8. SUCCESSORS AND ASSIGNEES. . This SLA shall be binding upon, and inure to the benefit of the Parties and their respective successors and permitted assignees, and references to a Party in this SLA shall include its successors and permitted assignees.
+
+13.9. APPLICABLE LAW AND JURISDICTION. This SLA will be governed by and construed in accordance with the laws of England and Wales to the exclusion of its conflict of laws rules. The courts of England will have exclusive jurisdiction to adjudicate any dispute arising under or in connection with this SLA, including in case of injunctive relief, provisional orders or other interim matters.
+
+13.10. THIRD PARTY COMPONENTS, USAGE & RESTRICTIONS The SOFTWARE may include certain third party components licensed under the Microsoft Permissive License "MS-Pl" found at http://opensource.org/licenses/MS-PL, Modified Berkeley Software Distribution License "Modified BSD" found at http://opensource.org/licenses/BSD-3-Clause" and MIT License found at http://opensource.org/licenses/MIT. A list of included third party components and their licenses can be provided upon request.
 
 
 --------------------------------------------------------------------------------
