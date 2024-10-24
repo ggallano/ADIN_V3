@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="560" d:DesignHeight="200"
+             x:Class="ADIN.Avalonia.Views.RegisterReadWriteView"
+			 x:CompileBindings="False">
+	<Grid ColumnDefinitions="*,*" Background="White">
+		<Border Grid.Column="0" BorderThickness="1" BorderBrush="#b7bbc3">
+			<Grid RowDefinitions="Auto,16,Auto,Auto,16,Auto" ColumnDefinitions="Auto,90,16,Auto,75" Margin="16 12">
+				<TextBlock Grid.Row="0" Grid.ColumnSpan="5" Text="Register Read" Classes="subtitle m"/>
+				<TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Address"/>
+				<TextBlock Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Text="Value"/>
+				<TextBlock Grid.Row="3" Grid.Column="0" Text="0x" VerticalAlignment="Center" Margin="0 0 5 0"/>
+				<HmcInputField Grid.Row="3" Grid.Column="1" Size="Small" Value="{Binding ReadInput}" Width="90" IsClearable="True"/>
+				<TextBlock Grid.Row="3" Grid.Column="3" Text="0x" VerticalAlignment="Center" Margin="0 0 5 0"/>
+				<TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding ReadOutput}" VerticalAlignment="Center"/>
+				<HmcButton Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5" Command="{Binding ReadRegisterCommand}" Size="sm" Content="Read" Width="230" Kind="secondary" HorizontalAlignment="Center"/>
+			</Grid>
+		</Border>
+		<Border Grid.Column="1" BorderThickness="0 1 1 1" BorderBrush="#b7bbc3" Margin="0 0 0 0">
+			<Grid RowDefinitions="Auto,16,Auto,Auto,16,Auto" ColumnDefinitions="Auto,90,16,Auto,75" Margin="16 12">
+				<TextBlock Grid.Row="0" Grid.ColumnSpan="5" Text="Register Write" Classes="subtitle m"/>
+				<TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Text="Address"/>
+				<TextBlock Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Text="Value"/>
+				<TextBlock Grid.Row="3" Grid.Column="0" Text="0x" VerticalAlignment="Center" Margin="0 0 5 0"/>
+				<HmcInputField Grid.Row="3" Grid.Column="1" Size="Small" Value="{Binding WriteInput}" Width="90" IsClearable="True"/>
+				<TextBlock Grid.Row="3" Grid.Column="3" Text="0x" VerticalAlignment="Center" Margin="0 0 5 0"/>
+				<HmcInputField Grid.Row="3" Grid.Column="4" Value="{Binding WriteValue}" Size="Small" Width="75" IsClearable="True"/>
+				<HmcButton Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5" Command="{Binding WriteRegisterCommand}" Size="sm" Content="Write" Width="230" Kind="secondary" HorizontalAlignment="Center"/>
+			</Grid>
+		</Border>
+	</Grid>
+</UserControl>

@@ -1,0 +1,50 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:images="using:ADIN.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="900"
+             x:Class="ADIN.Avalonia.Views.LoopbackFrameGenView"
+			 x:CompileBindings="False">
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<StackPanel Margin="8">
+			<Grid ColumnDefinitions="Auto,*" IsEnabled="{Binding IsDeviceSelected}">
+				<HmcCard Margin="8" Grid.Column="1" Density="High" Header="Loopback">
+					<Grid ColumnDefinitions="*,24,*" RowDefinitions="Auto,Auto">
+						<HmcComboBox Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Size="sm" ItemsSource="{Binding Loopbacks}" SelectedItem="{Binding SelectedLoopback}" DisplayMemberBinding="{Binding Name}" Label="Select Loopback" IsRequired="True"/>
+						<ToggleSwitch Grid.Column="2" Grid.Row="0" OnContent="Rx Suppression" OffContent="Rx Suppression" IsChecked="{Binding IsRxSuppression}"/>
+						<ToggleSwitch Grid.Column="2" Grid.Row="1" OnContent="Tx Suppression" OffContent="Tx Suppression" IsChecked="{Binding IsTxSuppression}"/>
+					</Grid>
+				</HmcCard>
+				<HmcCard Grid.Column="0" Margin="8" Density="High" Header="Active Phy Mode" IsVisible="{Binding HasActivePhyMode}">
+					<TextBlock Text="{Binding ActivePhyMode}" Classes="title xs"/>
+				</HmcCard>
+			</Grid>
+			<HmcCard Margin="8" MinHeight="200" IsEnabled="{Binding IsDeviceSelected}">
+				<Grid ColumnDefinitions="*" RowDefinitions="*">
+					<Image Source="{Binding ImagePath}"/>
+					<Image Source="{Binding ImagePath_TxSuppression}" IsVisible="{Binding IsTxSuppression}"/>
+					<Image Source="{Binding ImagePath_RxSuppression}" IsVisible="{Binding IsRxSuppression}"/>
+				</Grid>
+			</HmcCard>
+			<HmcCard Margin="8" Density="High" Header="Frame Generator" IsEnabled="{Binding IsDeviceSelected}">
+				<Grid ColumnDefinitions="*,24,Auto">
+					<Grid Grid.Column="0" ColumnDefinitions="*,Auto" RowDefinitions="Auto,8,Auto,Auto,Auto,Auto">
+						<ToggleSwitch OnContent="Continuous Mode until Terminated" OffContent="Continuous Mode until Terminated" IsChecked="{Binding EnableContinuousMode}"/>
+						<TextBlock Grid.Row="2" Grid.Column="0" Text="Number of Frames in Burst" VerticalAlignment="Center"/>
+						<HmcInputField Grid.Row="2" Grid.Column="1" Size="ExtraSmall" Width="70" FieldType="Number" Value="{Binding FrameBurst}" IsEnabled="{Binding EnableFrameBurst}"/>
+						<Slider Grid.Row="3" Grid.ColumnSpan="2" Value="{Binding FrameBurst}" Minimum="100" Maximum="65536" IsEnabled="{Binding EnableFrameBurst}"/>
+						<TextBlock Grid.Row="4" Grid.Column="0" Text="Frame Length" VerticalAlignment="Center"/>
+						<HmcInputField Grid.Row="4" Grid.Column="1" Size="ExtraSmall" Width="70" FieldType="Number" Value="{Binding FrameLength}"/>
+						<Slider Grid.Row="5" Grid.ColumnSpan="2" Value="{Binding FrameLength}" Minimum="100" Maximum="65536" IsEnabled="True"/>
+					</Grid>
+					<StackPanel Grid.Column="2">
+						<HmcComboBox ItemsSource="{Binding FrameContents}" SelectedItem="{Binding SelectedFrameContent}" DisplayMemberBinding="{Binding Name}" Label="Frame Content" IsRequired="True" Width="200"/>
+						<HmcButton Content="Clear Result" Kind="{Binding ButtonKind_Clear}" Command="{Binding ResetFrameCheckerCommnad}" Margin="0 16 0 0" Width="200" IsEnabled="{Binding IsDeviceSelected}"/>
+						<HmcButton Content="{Binding FrameGeneratorButtonText}" Kind="{Binding ButtonKind_Generate}" Command="{Binding ExecuteFrameCheckerCommand}" Margin="0 16 0 0" Width="200" IsEnabled="{Binding IsDeviceSelected}"/>
+					</StackPanel>
+				</Grid>
+			</HmcCard>
+		</StackPanel>
+	</ScrollViewer>
+</UserControl>

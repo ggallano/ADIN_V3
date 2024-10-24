@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <PackAsTool>False</PackAsTool>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+    <AvaloniaResource Include="Images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AnalogDevices.Desktop.Harmonic" Version="2.2.0" />
+    <PackageReference Include="Avalonia" Version="11.1.4" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.1.4" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.1.4" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.1.4" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.4" />
+    <PackageReference Include="FTD2XX.Net" Version="1.2.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ADIN.Device\ADIN.Device.csproj" />
+    <ProjectReference Include="..\ADIN.Helper\ADIN.Helper.csproj" />
+    <ProjectReference Include="..\ADIN.Register\ADIN.Register.csproj" />
+    <ProjectReference Include="..\FTDIChip.Driver\FTDIChip.Driver.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SciChart.Charting">
+      <HintPath>..\..\..\ADIN_V3_BlackDuckScan\02_Avalonia\SciChartLibraries\SciChart.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Core">
+      <HintPath>..\..\..\ADIN_V3_BlackDuckScan\02_Avalonia\SciChartLibraries\SciChart.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Data">
+      <HintPath>..\..\..\ADIN_V3_BlackDuckScan\02_Avalonia\SciChartLibraries\SciChart.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Drawing">
+      <HintPath>..\..\..\ADIN_V3_BlackDuckScan\02_Avalonia\SciChartLibraries\SciChart.Drawing.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appConfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

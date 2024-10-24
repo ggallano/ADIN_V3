@@ -1,0 +1,55 @@
+{
+  "Scripts": [
+    {
+      "Name": "Frame Gen Checker",
+      "RegisterAccesses": [
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          "RegisterName": "CRSM_FRM_GEN_DIAG_CLK_EN",
+          "Value": "0d1"
+        },
+
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          "RegisterName": "FG_FRM_LEN",
+          "Value": "0x4E2"
+        },
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          "RegisterName": "FG_NFRM_L",
+          "Value": "0xFA01"
+        },
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          "RegisterName": "FG_NFRM_H",
+          "Value": "0d0"
+        },
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          "RegisterName": "FG_CONT_MODE_EN",
+          "Value": "0d0"
+        },
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          "RegisterName": "FG_CNTRL",
+          "Value": "0d1"
+        },
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          "RegisterName": "FgSa",
+          "Value": "0xE1"
+        },
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          "RegisterName": "FgDa5Emi",
+          "Value": "0d1"
+        },
+        {
+          "MemoryMap": "IndirectAccessAddressMap",
+          "RegisterName": "FG_EN",
+          "Value": "0d1"
+        },
+      ]
+    },
+  ]
+}

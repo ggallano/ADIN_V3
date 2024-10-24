@@ -1,0 +1,2556 @@
+{
+  "project": {
+    "schema": 3,
+    "name": "Ethernet Phy GUI",
+    "version": "3.6",
+    "url": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components",
+    "phase": "DEVELOPMENT",
+    "distribution": "EXTERNAL",
+    "owner_email": "Johnsonralph.Perez@analog.com",
+    "description": "Desktop PC evaluation (compiled binary) program which an end user installs and runs on their PC and uses it in conjunction with their ADI evaluation board to configure and evaluate an ADI silicon products ADIN1320/ADIN1300/1200.",
+    "tags": [
+      "adi_commercial_and_permissive"
+    ],
+    "tag_error": null,
+    "violations": null,
+    "violations_overridden": null,
+    "license": {
+      "name": "Unknown License",
+      "spdxId": null,
+      "family": "Unknown",
+      "status": "UNREVIEWED",
+      "text": "The license has not been identified.",
+      "terms": []
+    },
+    "num_snippets": 5,
+    "unreviewed": 0,
+    "modified": 0
+  },
+  "components": [
+    {
+      "name": "ADI_generated_Code",
+      "version": "1.0",
+      "licenses": [
+        {
+          "name": "ADI SLA",
+          "spdxId": null,
+          "family": "Internal Proprietary",
+          "status": "APPROVED",
+          "text": "This software is provided under license by Analog Devices, Inc. Please refer to the relevant Software License Agreement for details.",
+          "terms": [
+            {
+              "name": "Include License",
+              "description": "You are forbidden to include the software's full license text in any distributions you make",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": true,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/de13a339-7399-4c76-99c4-83281fff1879/versions/1eb7c9d7-7169-4005-b3a6-828256b6dc12/licenses/791ea691-cd3c-427e-82d6-c252c8a3a331/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/1046f779-31de-4558-93c1-e4bb2d480c68"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "licenseDisplay": "ADI SLA",
+      "origins": [],
+      "copyrights": [],
+      "usages": [
+        "SOURCE_CODE"
+      ],
+      "modified": false,
+      "matchTypes": [
+        "SNIPPET"
+      ],
+      "reviewStatus": "REVIEWED",
+      "attributionStatement": null,
+      "vulnerabilities": []
+    },
+    {
+      "name": "Avalonia",
+      "version": "11.1.4",
+      "licenses": [
+        {
+          "name": "MIT License",
+          "spdxId": "MIT",
+          "family": "Permissive",
+          "status": "APPROVED",
+          "text": "The MIT License (MIT)\n\nCopyright (c) AvaloniaUI O\u00dc All Rights Reserved\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+          "terms": [
+            {
+              "name": "Private Use",
+              "description": "You are allowed to use this software for private, non-commercial use without payment or royalty",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/15ddc775-ea16-40bd-9d16-2ea940d71763/versions/84ca4cae-09d7-4a76-98f1-22f5feb29cad/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/119e6233-c6d3-48cb-8f0c-70c4033eabe1"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Commercial Use",
+              "description": "License permits software to be used commercially",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/15ddc775-ea16-40bd-9d16-2ea940d71763/versions/84ca4cae-09d7-4a76-98f1-22f5feb29cad/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/1d95b4b7-0e66-4e35-bf86-5aca2df97cb2"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include Copyright",
+              "description": "You are required to include copyright notices of the original owners and contributors for the work with the software you distribute",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/15ddc775-ea16-40bd-9d16-2ea940d71763/versions/84ca4cae-09d7-4a76-98f1-22f5feb29cad/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/27cbca33-ccd0-4a01-a4e2-32880858aa8c"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Hold Liable",
+              "description": "A disclaimer of warranty prevents you from holding the original owner and/or contributors liable for any damages due to the use of this software",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/15ddc775-ea16-40bd-9d16-2ea940d71763/versions/84ca4cae-09d7-4a76-98f1-22f5feb29cad/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/30d6a37a-b9e4-4fa5-bb88-acc39adb8f98"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Distribute",
+              "description": "This software may be distributed in original form or modified works",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/15ddc775-ea16-40bd-9d16-2ea940d71763/versions/84ca4cae-09d7-4a76-98f1-22f5feb29cad/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/39203a61-9913-4629-838d-2361ab526011"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Modify",
+              "description": "You are allowed to modify the software and make derivative bodies of work",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/15ddc775-ea16-40bd-9d16-2ea940d71763/versions/84ca4cae-09d7-4a76-98f1-22f5feb29cad/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/4e2eac42-5dfa-40ee-aac7-d5717a8766bd"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Disclose Source",
+              "description": "Software source code can be made available if a distribution is made, but you are not required to do so",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/15ddc775-ea16-40bd-9d16-2ea940d71763/versions/84ca4cae-09d7-4a76-98f1-22f5feb29cad/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/6e989334-b1cb-42c3-862c-c4b4f6d6b47d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Warranty",
+              "description": "You are required to place a warranty on the code or derivatives of the code, though you may need to limit the liability of the original software owners and contributors",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/15ddc775-ea16-40bd-9d16-2ea940d71763/versions/84ca4cae-09d7-4a76-98f1-22f5feb29cad/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/926b120d-156a-489c-87eb-6f7c193fb84a"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include License",
+              "description": "You are required to include the software's full license text in any distributions you make",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/15ddc775-ea16-40bd-9d16-2ea940d71763/versions/84ca4cae-09d7-4a76-98f1-22f5feb29cad/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/bee5631b-9f30-40a9-963b-9a9f85a0515d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Additional Restrictions",
+              "description": "You are not entitled to place additional restrictions",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/15ddc775-ea16-40bd-9d16-2ea940d71763/versions/84ca4cae-09d7-4a76-98f1-22f5feb29cad/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/f5ef7002-db61-40df-aaf1-bd71c0739bc9"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Sub-License",
+              "description": "You may provide the software or modifications to the software under a different license",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/15ddc775-ea16-40bd-9d16-2ea940d71763/versions/84ca4cae-09d7-4a76-98f1-22f5feb29cad/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/fe53e7e9-8d75-4608-9007-abe99053d286"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "licenseDisplay": "MIT License",
+      "origins": [
+        "https://www.nuget.org/packages/Avalonia/11.1.4"
+      ],
+      "copyrights": [],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "modified": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_DIRECT"
+      ],
+      "reviewStatus": "REVIEWED",
+      "attributionStatement": null,
+      "vulnerabilities": []
+    },
+    {
+      "name": "Avalonia.Desktop",
+      "version": "11.1.4",
+      "licenses": [
+        {
+          "name": "MIT License",
+          "spdxId": "MIT",
+          "family": "Permissive",
+          "status": "APPROVED",
+          "text": "The MIT License (MIT)\n\nCopyright (c) AvaloniaUI O\u00dc All Rights Reserved\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+          "terms": [
+            {
+              "name": "Private Use",
+              "description": "You are allowed to use this software for private, non-commercial use without payment or royalty",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee8ec525-f1bb-4b6a-8b2b-4f8f686512d0/versions/f7782af4-874d-46da-8a96-1275149f8255/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/119e6233-c6d3-48cb-8f0c-70c4033eabe1"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Commercial Use",
+              "description": "License permits software to be used commercially",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee8ec525-f1bb-4b6a-8b2b-4f8f686512d0/versions/f7782af4-874d-46da-8a96-1275149f8255/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/1d95b4b7-0e66-4e35-bf86-5aca2df97cb2"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include Copyright",
+              "description": "You are required to include copyright notices of the original owners and contributors for the work with the software you distribute",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee8ec525-f1bb-4b6a-8b2b-4f8f686512d0/versions/f7782af4-874d-46da-8a96-1275149f8255/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/27cbca33-ccd0-4a01-a4e2-32880858aa8c"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Hold Liable",
+              "description": "A disclaimer of warranty prevents you from holding the original owner and/or contributors liable for any damages due to the use of this software",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee8ec525-f1bb-4b6a-8b2b-4f8f686512d0/versions/f7782af4-874d-46da-8a96-1275149f8255/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/30d6a37a-b9e4-4fa5-bb88-acc39adb8f98"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Distribute",
+              "description": "This software may be distributed in original form or modified works",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee8ec525-f1bb-4b6a-8b2b-4f8f686512d0/versions/f7782af4-874d-46da-8a96-1275149f8255/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/39203a61-9913-4629-838d-2361ab526011"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Modify",
+              "description": "You are allowed to modify the software and make derivative bodies of work",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee8ec525-f1bb-4b6a-8b2b-4f8f686512d0/versions/f7782af4-874d-46da-8a96-1275149f8255/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/4e2eac42-5dfa-40ee-aac7-d5717a8766bd"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Disclose Source",
+              "description": "Software source code can be made available if a distribution is made, but you are not required to do so",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee8ec525-f1bb-4b6a-8b2b-4f8f686512d0/versions/f7782af4-874d-46da-8a96-1275149f8255/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/6e989334-b1cb-42c3-862c-c4b4f6d6b47d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Warranty",
+              "description": "You are required to place a warranty on the code or derivatives of the code, though you may need to limit the liability of the original software owners and contributors",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee8ec525-f1bb-4b6a-8b2b-4f8f686512d0/versions/f7782af4-874d-46da-8a96-1275149f8255/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/926b120d-156a-489c-87eb-6f7c193fb84a"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include License",
+              "description": "You are required to include the software's full license text in any distributions you make",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee8ec525-f1bb-4b6a-8b2b-4f8f686512d0/versions/f7782af4-874d-46da-8a96-1275149f8255/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/bee5631b-9f30-40a9-963b-9a9f85a0515d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Additional Restrictions",
+              "description": "You are not entitled to place additional restrictions",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee8ec525-f1bb-4b6a-8b2b-4f8f686512d0/versions/f7782af4-874d-46da-8a96-1275149f8255/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/f5ef7002-db61-40df-aaf1-bd71c0739bc9"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Sub-License",
+              "description": "You may provide the software or modifications to the software under a different license",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee8ec525-f1bb-4b6a-8b2b-4f8f686512d0/versions/f7782af4-874d-46da-8a96-1275149f8255/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/fe53e7e9-8d75-4608-9007-abe99053d286"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "licenseDisplay": "MIT License",
+      "origins": [
+        "https://www.nuget.org/packages/Avalonia.Desktop/11.1.4"
+      ],
+      "copyrights": [],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "modified": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_DIRECT"
+      ],
+      "reviewStatus": "REVIEWED",
+      "attributionStatement": null,
+      "vulnerabilities": []
+    },
+    {
+      "name": "Avalonia.Diagnostics",
+      "version": "11.1.4",
+      "licenses": [
+        {
+          "name": "MIT License",
+          "spdxId": "MIT",
+          "family": "Permissive",
+          "status": "APPROVED",
+          "text": "The MIT License\n===============\n\nCopyright (c) <year> <copyright holders>\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of\nthis software and associated documentation files (the \"Software\"), to deal in the\nSoftware without restriction, including without limitation the rights to use,\ncopy, modify, merge, publish, distribute, sublicense, and/or sell copies of the\nSoftware, and to permit persons to whom the Software is furnished to do so,\nsubject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS\nFOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR\nCOPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN\nAN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION\nWITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+          "terms": [
+            {
+              "name": "Private Use",
+              "description": "You are allowed to use this software for private, non-commercial use without payment or royalty",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c729dfca-c8ae-458b-bd00-c869cf676dd8/versions/115c677e-ed0b-4431-9398-41c097f18473/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/119e6233-c6d3-48cb-8f0c-70c4033eabe1"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Commercial Use",
+              "description": "License permits software to be used commercially",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c729dfca-c8ae-458b-bd00-c869cf676dd8/versions/115c677e-ed0b-4431-9398-41c097f18473/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/1d95b4b7-0e66-4e35-bf86-5aca2df97cb2"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include Copyright",
+              "description": "You are required to include copyright notices of the original owners and contributors for the work with the software you distribute",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c729dfca-c8ae-458b-bd00-c869cf676dd8/versions/115c677e-ed0b-4431-9398-41c097f18473/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/27cbca33-ccd0-4a01-a4e2-32880858aa8c"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Hold Liable",
+              "description": "A disclaimer of warranty prevents you from holding the original owner and/or contributors liable for any damages due to the use of this software",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c729dfca-c8ae-458b-bd00-c869cf676dd8/versions/115c677e-ed0b-4431-9398-41c097f18473/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/30d6a37a-b9e4-4fa5-bb88-acc39adb8f98"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Distribute",
+              "description": "This software may be distributed in original form or modified works",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c729dfca-c8ae-458b-bd00-c869cf676dd8/versions/115c677e-ed0b-4431-9398-41c097f18473/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/39203a61-9913-4629-838d-2361ab526011"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Modify",
+              "description": "You are allowed to modify the software and make derivative bodies of work",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c729dfca-c8ae-458b-bd00-c869cf676dd8/versions/115c677e-ed0b-4431-9398-41c097f18473/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/4e2eac42-5dfa-40ee-aac7-d5717a8766bd"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Disclose Source",
+              "description": "Software source code can be made available if a distribution is made, but you are not required to do so",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c729dfca-c8ae-458b-bd00-c869cf676dd8/versions/115c677e-ed0b-4431-9398-41c097f18473/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/6e989334-b1cb-42c3-862c-c4b4f6d6b47d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Warranty",
+              "description": "You are required to place a warranty on the code or derivatives of the code, though you may need to limit the liability of the original software owners and contributors",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c729dfca-c8ae-458b-bd00-c869cf676dd8/versions/115c677e-ed0b-4431-9398-41c097f18473/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/926b120d-156a-489c-87eb-6f7c193fb84a"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include License",
+              "description": "You are required to include the software's full license text in any distributions you make",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c729dfca-c8ae-458b-bd00-c869cf676dd8/versions/115c677e-ed0b-4431-9398-41c097f18473/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/bee5631b-9f30-40a9-963b-9a9f85a0515d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Additional Restrictions",
+              "description": "You are not entitled to place additional restrictions",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c729dfca-c8ae-458b-bd00-c869cf676dd8/versions/115c677e-ed0b-4431-9398-41c097f18473/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/f5ef7002-db61-40df-aaf1-bd71c0739bc9"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Sub-License",
+              "description": "You may provide the software or modifications to the software under a different license",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c729dfca-c8ae-458b-bd00-c869cf676dd8/versions/115c677e-ed0b-4431-9398-41c097f18473/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/fe53e7e9-8d75-4608-9007-abe99053d286"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "licenseDisplay": "MIT License",
+      "origins": [
+        "https://www.nuget.org/packages/Avalonia.Diagnostics/11.1.4"
+      ],
+      "copyrights": [],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "modified": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_DIRECT"
+      ],
+      "reviewStatus": "REVIEWED",
+      "attributionStatement": null,
+      "vulnerabilities": []
+    },
+    {
+      "name": "Avalonia.Fonts.Inter",
+      "version": "11.1.4",
+      "licenses": [
+        {
+          "name": "MIT License",
+          "spdxId": "MIT",
+          "family": "Permissive",
+          "status": "APPROVED",
+          "text": "The MIT License\n===============\n\nCopyright (c) <year> <copyright holders>\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of\nthis software and associated documentation files (the \"Software\"), to deal in the\nSoftware without restriction, including without limitation the rights to use,\ncopy, modify, merge, publish, distribute, sublicense, and/or sell copies of the\nSoftware, and to permit persons to whom the Software is furnished to do so,\nsubject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS\nFOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR\nCOPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN\nAN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION\nWITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+          "terms": [
+            {
+              "name": "Private Use",
+              "description": "You are allowed to use this software for private, non-commercial use without payment or royalty",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/898aed69-6874-4e66-ac94-243034decb5c/versions/53473f4e-ac13-41ca-ae82-662d56d29d8a/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/119e6233-c6d3-48cb-8f0c-70c4033eabe1"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Commercial Use",
+              "description": "License permits software to be used commercially",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/898aed69-6874-4e66-ac94-243034decb5c/versions/53473f4e-ac13-41ca-ae82-662d56d29d8a/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/1d95b4b7-0e66-4e35-bf86-5aca2df97cb2"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include Copyright",
+              "description": "You are required to include copyright notices of the original owners and contributors for the work with the software you distribute",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/898aed69-6874-4e66-ac94-243034decb5c/versions/53473f4e-ac13-41ca-ae82-662d56d29d8a/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/27cbca33-ccd0-4a01-a4e2-32880858aa8c"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Hold Liable",
+              "description": "A disclaimer of warranty prevents you from holding the original owner and/or contributors liable for any damages due to the use of this software",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/898aed69-6874-4e66-ac94-243034decb5c/versions/53473f4e-ac13-41ca-ae82-662d56d29d8a/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/30d6a37a-b9e4-4fa5-bb88-acc39adb8f98"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Distribute",
+              "description": "This software may be distributed in original form or modified works",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/898aed69-6874-4e66-ac94-243034decb5c/versions/53473f4e-ac13-41ca-ae82-662d56d29d8a/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/39203a61-9913-4629-838d-2361ab526011"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Modify",
+              "description": "You are allowed to modify the software and make derivative bodies of work",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/898aed69-6874-4e66-ac94-243034decb5c/versions/53473f4e-ac13-41ca-ae82-662d56d29d8a/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/4e2eac42-5dfa-40ee-aac7-d5717a8766bd"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Disclose Source",
+              "description": "Software source code can be made available if a distribution is made, but you are not required to do so",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/898aed69-6874-4e66-ac94-243034decb5c/versions/53473f4e-ac13-41ca-ae82-662d56d29d8a/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/6e989334-b1cb-42c3-862c-c4b4f6d6b47d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Warranty",
+              "description": "You are required to place a warranty on the code or derivatives of the code, though you may need to limit the liability of the original software owners and contributors",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/898aed69-6874-4e66-ac94-243034decb5c/versions/53473f4e-ac13-41ca-ae82-662d56d29d8a/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/926b120d-156a-489c-87eb-6f7c193fb84a"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include License",
+              "description": "You are required to include the software's full license text in any distributions you make",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/898aed69-6874-4e66-ac94-243034decb5c/versions/53473f4e-ac13-41ca-ae82-662d56d29d8a/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/bee5631b-9f30-40a9-963b-9a9f85a0515d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Additional Restrictions",
+              "description": "You are not entitled to place additional restrictions",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/898aed69-6874-4e66-ac94-243034decb5c/versions/53473f4e-ac13-41ca-ae82-662d56d29d8a/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/f5ef7002-db61-40df-aaf1-bd71c0739bc9"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Sub-License",
+              "description": "You may provide the software or modifications to the software under a different license",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/898aed69-6874-4e66-ac94-243034decb5c/versions/53473f4e-ac13-41ca-ae82-662d56d29d8a/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/fe53e7e9-8d75-4608-9007-abe99053d286"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "licenseDisplay": "MIT License",
+      "origins": [
+        "https://www.nuget.org/packages/Avalonia.Fonts.Inter/11.1.4"
+      ],
+      "copyrights": [],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "modified": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_DIRECT"
+      ],
+      "reviewStatus": "REVIEWED",
+      "attributionStatement": null,
+      "vulnerabilities": []
+    },
+    {
+      "name": "Avalonia.Themes.Fluent",
+      "version": "11.1.4",
+      "licenses": [
+        {
+          "name": "MIT License",
+          "spdxId": "MIT",
+          "family": "Permissive",
+          "status": "APPROVED",
+          "text": "The MIT License\n===============\n\nCopyright (c) <year> <copyright holders>\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of\nthis software and associated documentation files (the \"Software\"), to deal in the\nSoftware without restriction, including without limitation the rights to use,\ncopy, modify, merge, publish, distribute, sublicense, and/or sell copies of the\nSoftware, and to permit persons to whom the Software is furnished to do so,\nsubject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS\nFOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR\nCOPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN\nAN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION\nWITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+          "terms": [
+            {
+              "name": "Private Use",
+              "description": "You are allowed to use this software for private, non-commercial use without payment or royalty",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/a2729b07-6698-49d1-b40d-cc08ac80b916/versions/ad38a25b-5896-4b2d-b133-c78af3f06235/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/119e6233-c6d3-48cb-8f0c-70c4033eabe1"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Commercial Use",
+              "description": "License permits software to be used commercially",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/a2729b07-6698-49d1-b40d-cc08ac80b916/versions/ad38a25b-5896-4b2d-b133-c78af3f06235/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/1d95b4b7-0e66-4e35-bf86-5aca2df97cb2"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include Copyright",
+              "description": "You are required to include copyright notices of the original owners and contributors for the work with the software you distribute",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/a2729b07-6698-49d1-b40d-cc08ac80b916/versions/ad38a25b-5896-4b2d-b133-c78af3f06235/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/27cbca33-ccd0-4a01-a4e2-32880858aa8c"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Hold Liable",
+              "description": "A disclaimer of warranty prevents you from holding the original owner and/or contributors liable for any damages due to the use of this software",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/a2729b07-6698-49d1-b40d-cc08ac80b916/versions/ad38a25b-5896-4b2d-b133-c78af3f06235/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/30d6a37a-b9e4-4fa5-bb88-acc39adb8f98"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Distribute",
+              "description": "This software may be distributed in original form or modified works",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/a2729b07-6698-49d1-b40d-cc08ac80b916/versions/ad38a25b-5896-4b2d-b133-c78af3f06235/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/39203a61-9913-4629-838d-2361ab526011"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Modify",
+              "description": "You are allowed to modify the software and make derivative bodies of work",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/a2729b07-6698-49d1-b40d-cc08ac80b916/versions/ad38a25b-5896-4b2d-b133-c78af3f06235/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/4e2eac42-5dfa-40ee-aac7-d5717a8766bd"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Disclose Source",
+              "description": "Software source code can be made available if a distribution is made, but you are not required to do so",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/a2729b07-6698-49d1-b40d-cc08ac80b916/versions/ad38a25b-5896-4b2d-b133-c78af3f06235/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/6e989334-b1cb-42c3-862c-c4b4f6d6b47d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Warranty",
+              "description": "You are required to place a warranty on the code or derivatives of the code, though you may need to limit the liability of the original software owners and contributors",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/a2729b07-6698-49d1-b40d-cc08ac80b916/versions/ad38a25b-5896-4b2d-b133-c78af3f06235/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/926b120d-156a-489c-87eb-6f7c193fb84a"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include License",
+              "description": "You are required to include the software's full license text in any distributions you make",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/a2729b07-6698-49d1-b40d-cc08ac80b916/versions/ad38a25b-5896-4b2d-b133-c78af3f06235/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/bee5631b-9f30-40a9-963b-9a9f85a0515d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Additional Restrictions",
+              "description": "You are not entitled to place additional restrictions",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/a2729b07-6698-49d1-b40d-cc08ac80b916/versions/ad38a25b-5896-4b2d-b133-c78af3f06235/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/f5ef7002-db61-40df-aaf1-bd71c0739bc9"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Sub-License",
+              "description": "You may provide the software or modifications to the software under a different license",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/a2729b07-6698-49d1-b40d-cc08ac80b916/versions/ad38a25b-5896-4b2d-b133-c78af3f06235/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/fe53e7e9-8d75-4608-9007-abe99053d286"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "licenseDisplay": "MIT License",
+      "origins": [
+        "https://www.nuget.org/packages/Avalonia.Themes.Fluent/11.1.4"
+      ],
+      "copyrights": [],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "modified": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_DIRECT"
+      ],
+      "reviewStatus": "REVIEWED",
+      "attributionStatement": null,
+      "vulnerabilities": []
+    },
+    {
+      "name": "FTDI drivers for .Net",
+      "version": "1.2.1",
+      "licenses": [
+        {
+          "name": "FTDI BSD-1-Clause",
+          "spdxId": null,
+          "family": "Permissive",
+          "status": "APPROVED",
+          "text": "Copyright \u00a9 2007-2013 Future Technology Devices International Limited\n\nFTDI FTD2XX_NET.dll may be used only in conjunction with products based\non FTDI parts.\n\nTHIS SOFTWARE IS PROVIDED BY FUTURE TECHNOLOGY DEVICES INTERNATIONAL\nLIMITED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT\nNOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\nA PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL FUTURE TECHNOLOGY\nDEVICES INTERNATIONAL LIMITED BE LIABLE FOR ANY DIRECT, INDIRECT,\nINCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,\nBUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF\nUSE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON\nANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n\nALL FTDI COMPONENTS MAY BE DISTRIBUTED IN ANY FORM AS LONG AS OUR LICENSE\nINFORMATION IS NOT MODIFIED.\n",
+          "terms": [
+            {
+              "name": "Hold Liable",
+              "description": "A disclaimer of warranty prevents you from holding the original owner and/or contributors liable for any damages due to the use of this software",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/95fb3d6c-6a76-4029-aa21-aca4ed3d2c51/versions/3fc644c9-f9a5-4823-9299-f776a58b3840/licenses/3ce7207d-13c2-4e3c-86bf-79b0d4459101/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/30d6a37a-b9e4-4fa5-bb88-acc39adb8f98"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Distribute",
+              "description": "This software may be distributed in original form or modified works",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/95fb3d6c-6a76-4029-aa21-aca4ed3d2c51/versions/3fc644c9-f9a5-4823-9299-f776a58b3840/licenses/3ce7207d-13c2-4e3c-86bf-79b0d4459101/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/39203a61-9913-4629-838d-2361ab526011"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Specific Hardware",
+              "description": "Software may only be used in conjunction with manufacturer's specific hardware.",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": true,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/95fb3d6c-6a76-4029-aa21-aca4ed3d2c51/versions/3fc644c9-f9a5-4823-9299-f776a58b3840/licenses/3ce7207d-13c2-4e3c-86bf-79b0d4459101/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/d2e17015-b4c2-4e39-af93-57abafb62e4d"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "licenseDisplay": "FTDI BSD-1-Clause",
+      "origins": [
+        "https://www.nuget.org/packages/FTD2XX.Net/1.2.1"
+      ],
+      "copyrights": [],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "modified": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_DIRECT"
+      ],
+      "reviewStatus": "REVIEWED",
+      "attributionStatement": null,
+      "vulnerabilities": []
+    },
+    {
+      "name": "JamesNK/Newtonsoft.Json",
+      "version": "13.0.3",
+      "licenses": [
+        {
+          "name": "MIT License",
+          "spdxId": "MIT",
+          "family": "Permissive",
+          "status": "APPROVED",
+          "text": "The MIT License (MIT)\n\nCopyright (c) 2007 James Newton-King\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+          "terms": [
+            {
+              "name": "Private Use",
+              "description": "You are allowed to use this software for private, non-commercial use without payment or royalty",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/971d8668-3569-4386-8043-912678d3687e/versions/da4fcd7d-46dc-45a4-85e0-0a305e8d244c/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/119e6233-c6d3-48cb-8f0c-70c4033eabe1"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Commercial Use",
+              "description": "License permits software to be used commercially",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/971d8668-3569-4386-8043-912678d3687e/versions/da4fcd7d-46dc-45a4-85e0-0a305e8d244c/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/1d95b4b7-0e66-4e35-bf86-5aca2df97cb2"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include Copyright",
+              "description": "You are required to include copyright notices of the original owners and contributors for the work with the software you distribute",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/971d8668-3569-4386-8043-912678d3687e/versions/da4fcd7d-46dc-45a4-85e0-0a305e8d244c/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/27cbca33-ccd0-4a01-a4e2-32880858aa8c"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Hold Liable",
+              "description": "A disclaimer of warranty prevents you from holding the original owner and/or contributors liable for any damages due to the use of this software",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/971d8668-3569-4386-8043-912678d3687e/versions/da4fcd7d-46dc-45a4-85e0-0a305e8d244c/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/30d6a37a-b9e4-4fa5-bb88-acc39adb8f98"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Distribute",
+              "description": "This software may be distributed in original form or modified works",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/971d8668-3569-4386-8043-912678d3687e/versions/da4fcd7d-46dc-45a4-85e0-0a305e8d244c/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/39203a61-9913-4629-838d-2361ab526011"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Modify",
+              "description": "You are allowed to modify the software and make derivative bodies of work",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/971d8668-3569-4386-8043-912678d3687e/versions/da4fcd7d-46dc-45a4-85e0-0a305e8d244c/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/4e2eac42-5dfa-40ee-aac7-d5717a8766bd"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Disclose Source",
+              "description": "Software source code can be made available if a distribution is made, but you are not required to do so",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/971d8668-3569-4386-8043-912678d3687e/versions/da4fcd7d-46dc-45a4-85e0-0a305e8d244c/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/6e989334-b1cb-42c3-862c-c4b4f6d6b47d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Warranty",
+              "description": "You are required to place a warranty on the code or derivatives of the code, though you may need to limit the liability of the original software owners and contributors",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/971d8668-3569-4386-8043-912678d3687e/versions/da4fcd7d-46dc-45a4-85e0-0a305e8d244c/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/926b120d-156a-489c-87eb-6f7c193fb84a"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include License",
+              "description": "You are required to include the software's full license text in any distributions you make",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/971d8668-3569-4386-8043-912678d3687e/versions/da4fcd7d-46dc-45a4-85e0-0a305e8d244c/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/bee5631b-9f30-40a9-963b-9a9f85a0515d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Additional Restrictions",
+              "description": "You are not entitled to place additional restrictions",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/971d8668-3569-4386-8043-912678d3687e/versions/da4fcd7d-46dc-45a4-85e0-0a305e8d244c/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/f5ef7002-db61-40df-aaf1-bd71c0739bc9"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Sub-License",
+              "description": "You may provide the software or modifications to the software under a different license",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/971d8668-3569-4386-8043-912678d3687e/versions/da4fcd7d-46dc-45a4-85e0-0a305e8d244c/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/fe53e7e9-8d75-4608-9007-abe99053d286"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "licenseDisplay": "MIT License",
+      "origins": [
+        "https://www.nuget.org/packages/Newtonsoft.Json/13.0.3"
+      ],
+      "copyrights": [],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "modified": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_DIRECT"
+      ],
+      "reviewStatus": "REVIEWED",
+      "attributionStatement": null,
+      "vulnerabilities": []
+    },
+    {
+      "name": "Microsoft.Extensions.Configuration",
+      "version": "8.0.0",
+      "licenses": [
+        {
+          "name": "MIT License",
+          "spdxId": "MIT",
+          "family": "Permissive",
+          "status": "APPROVED",
+          "text": "The MIT License\n===============\n\nCopyright (c) <year> <copyright holders>\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of\nthis software and associated documentation files (the \"Software\"), to deal in the\nSoftware without restriction, including without limitation the rights to use,\ncopy, modify, merge, publish, distribute, sublicense, and/or sell copies of the\nSoftware, and to permit persons to whom the Software is furnished to do so,\nsubject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS\nFOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR\nCOPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN\nAN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION\nWITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+          "terms": [
+            {
+              "name": "Private Use",
+              "description": "You are allowed to use this software for private, non-commercial use without payment or royalty",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/d663372b-2dad-49d4-917e-053efa986cd2/versions/3347a6c7-262d-4e00-a77c-d8296e2fb3c0/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/119e6233-c6d3-48cb-8f0c-70c4033eabe1"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Commercial Use",
+              "description": "License permits software to be used commercially",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/d663372b-2dad-49d4-917e-053efa986cd2/versions/3347a6c7-262d-4e00-a77c-d8296e2fb3c0/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/1d95b4b7-0e66-4e35-bf86-5aca2df97cb2"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include Copyright",
+              "description": "You are required to include copyright notices of the original owners and contributors for the work with the software you distribute",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/d663372b-2dad-49d4-917e-053efa986cd2/versions/3347a6c7-262d-4e00-a77c-d8296e2fb3c0/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/27cbca33-ccd0-4a01-a4e2-32880858aa8c"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Hold Liable",
+              "description": "A disclaimer of warranty prevents you from holding the original owner and/or contributors liable for any damages due to the use of this software",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/d663372b-2dad-49d4-917e-053efa986cd2/versions/3347a6c7-262d-4e00-a77c-d8296e2fb3c0/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/30d6a37a-b9e4-4fa5-bb88-acc39adb8f98"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Distribute",
+              "description": "This software may be distributed in original form or modified works",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/d663372b-2dad-49d4-917e-053efa986cd2/versions/3347a6c7-262d-4e00-a77c-d8296e2fb3c0/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/39203a61-9913-4629-838d-2361ab526011"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Modify",
+              "description": "You are allowed to modify the software and make derivative bodies of work",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/d663372b-2dad-49d4-917e-053efa986cd2/versions/3347a6c7-262d-4e00-a77c-d8296e2fb3c0/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/4e2eac42-5dfa-40ee-aac7-d5717a8766bd"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Disclose Source",
+              "description": "Software source code can be made available if a distribution is made, but you are not required to do so",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/d663372b-2dad-49d4-917e-053efa986cd2/versions/3347a6c7-262d-4e00-a77c-d8296e2fb3c0/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/6e989334-b1cb-42c3-862c-c4b4f6d6b47d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Warranty",
+              "description": "You are required to place a warranty on the code or derivatives of the code, though you may need to limit the liability of the original software owners and contributors",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/d663372b-2dad-49d4-917e-053efa986cd2/versions/3347a6c7-262d-4e00-a77c-d8296e2fb3c0/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/926b120d-156a-489c-87eb-6f7c193fb84a"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include License",
+              "description": "You are required to include the software's full license text in any distributions you make",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/d663372b-2dad-49d4-917e-053efa986cd2/versions/3347a6c7-262d-4e00-a77c-d8296e2fb3c0/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/bee5631b-9f30-40a9-963b-9a9f85a0515d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Additional Restrictions",
+              "description": "You are not entitled to place additional restrictions",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/d663372b-2dad-49d4-917e-053efa986cd2/versions/3347a6c7-262d-4e00-a77c-d8296e2fb3c0/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/f5ef7002-db61-40df-aaf1-bd71c0739bc9"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Sub-License",
+              "description": "You may provide the software or modifications to the software under a different license",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/d663372b-2dad-49d4-917e-053efa986cd2/versions/3347a6c7-262d-4e00-a77c-d8296e2fb3c0/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/fe53e7e9-8d75-4608-9007-abe99053d286"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "licenseDisplay": "MIT License",
+      "origins": [
+        "https://www.nuget.org/packages/Microsoft.Extensions.Configuration/8.0.0"
+      ],
+      "copyrights": [
+        "? Microsoft Corporation. All rights reserved."
+      ],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "modified": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_DIRECT"
+      ],
+      "reviewStatus": "REVIEWED",
+      "attributionStatement": null,
+      "vulnerabilities": []
+    },
+    {
+      "name": "Microsoft.Extensions.Configuration.Json",
+      "version": "8.0.1",
+      "licenses": [
+        {
+          "name": "MIT License",
+          "spdxId": "MIT",
+          "family": "Permissive",
+          "status": "APPROVED",
+          "text": "The MIT License\n===============\n\nCopyright (c) <year> <copyright holders>\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of\nthis software and associated documentation files (the \"Software\"), to deal in the\nSoftware without restriction, including without limitation the rights to use,\ncopy, modify, merge, publish, distribute, sublicense, and/or sell copies of the\nSoftware, and to permit persons to whom the Software is furnished to do so,\nsubject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS\nFOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR\nCOPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN\nAN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION\nWITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+          "terms": [
+            {
+              "name": "Private Use",
+              "description": "You are allowed to use this software for private, non-commercial use without payment or royalty",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c825793c-51cb-4278-b070-518c4c3504d7/versions/44144064-27e5-40ef-aca3-0204045093bd/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/119e6233-c6d3-48cb-8f0c-70c4033eabe1"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Commercial Use",
+              "description": "License permits software to be used commercially",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c825793c-51cb-4278-b070-518c4c3504d7/versions/44144064-27e5-40ef-aca3-0204045093bd/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/1d95b4b7-0e66-4e35-bf86-5aca2df97cb2"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include Copyright",
+              "description": "You are required to include copyright notices of the original owners and contributors for the work with the software you distribute",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c825793c-51cb-4278-b070-518c4c3504d7/versions/44144064-27e5-40ef-aca3-0204045093bd/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/27cbca33-ccd0-4a01-a4e2-32880858aa8c"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Hold Liable",
+              "description": "A disclaimer of warranty prevents you from holding the original owner and/or contributors liable for any damages due to the use of this software",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c825793c-51cb-4278-b070-518c4c3504d7/versions/44144064-27e5-40ef-aca3-0204045093bd/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/30d6a37a-b9e4-4fa5-bb88-acc39adb8f98"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Distribute",
+              "description": "This software may be distributed in original form or modified works",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c825793c-51cb-4278-b070-518c4c3504d7/versions/44144064-27e5-40ef-aca3-0204045093bd/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/39203a61-9913-4629-838d-2361ab526011"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Modify",
+              "description": "You are allowed to modify the software and make derivative bodies of work",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c825793c-51cb-4278-b070-518c4c3504d7/versions/44144064-27e5-40ef-aca3-0204045093bd/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/4e2eac42-5dfa-40ee-aac7-d5717a8766bd"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Disclose Source",
+              "description": "Software source code can be made available if a distribution is made, but you are not required to do so",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c825793c-51cb-4278-b070-518c4c3504d7/versions/44144064-27e5-40ef-aca3-0204045093bd/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/6e989334-b1cb-42c3-862c-c4b4f6d6b47d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Warranty",
+              "description": "You are required to place a warranty on the code or derivatives of the code, though you may need to limit the liability of the original software owners and contributors",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c825793c-51cb-4278-b070-518c4c3504d7/versions/44144064-27e5-40ef-aca3-0204045093bd/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/926b120d-156a-489c-87eb-6f7c193fb84a"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include License",
+              "description": "You are required to include the software's full license text in any distributions you make",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c825793c-51cb-4278-b070-518c4c3504d7/versions/44144064-27e5-40ef-aca3-0204045093bd/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/bee5631b-9f30-40a9-963b-9a9f85a0515d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Additional Restrictions",
+              "description": "You are not entitled to place additional restrictions",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c825793c-51cb-4278-b070-518c4c3504d7/versions/44144064-27e5-40ef-aca3-0204045093bd/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/f5ef7002-db61-40df-aaf1-bd71c0739bc9"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Sub-License",
+              "description": "You may provide the software or modifications to the software under a different license",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/c825793c-51cb-4278-b070-518c4c3504d7/versions/44144064-27e5-40ef-aca3-0204045093bd/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/fe53e7e9-8d75-4608-9007-abe99053d286"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "licenseDisplay": "MIT License",
+      "origins": [
+        "https://www.nuget.org/packages/Microsoft.Extensions.Configuration.Json/8.0.1"
+      ],
+      "copyrights": [],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "modified": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_DIRECT"
+      ],
+      "reviewStatus": "REVIEWED",
+      "attributionStatement": null,
+      "vulnerabilities": []
+    },
+    {
+      "name": "SciChart",
+      "version": "5.4.0.12119",
+      "licenses": [
+        {
+          "name": "SciChart Software License Agreement 2022",
+          "spdxId": null,
+          "family": "Restrictive Third Party Proprietary",
+          "status": "CONDITIONALLY_APPROVED",
+          "text": "SCICHART\u00ae SOFTWARE LICENSE AGREEMENT\nIMPORTANT NOTICE: \u202fPlease read this Software Licence Agreement (\"SLA\") carefully, as it sets out the terms and conditions upon which we license SciChart\u00ae\u00ae\n\nThis SLA constitutes the entire agreement and understanding of the Parties in relation to the subject matter of this SLA, and supersedes all previous agreements, arrangements and understandings between the parties relating to the subject matter of this SLA.\n\nBy using this Software, you agree to be bound by the terms and conditions of this SLA. You further agree that your employees / any person you authorise to use the Software will also be bound by the terms and conditions of this SLA. If you do not agree to this SLA, you must promptly delete the Software and all associated downloadable materials and you must not use the Software for any purpose whatsoever.\n\nDEFINITIONS\nIn this SLA:\n\n\"Build Servers\" means a computer or service compiling code & running automated tests for the purpose of continuous integration, continuous delivery;\n\n\"Computer\" means a desktop, notebook, netbook or similar computer owned by and in the control of the LICENSEE;\n\n\"Data Protection Legislation\" means all applicable data protection and privacy legislation in force from time to time in the UK including the UK GDPR; the Data Protection Act 2018 (DPA 2018) (and regulations made thereunder) and the Privacy and Electronic Communications Regulations 2003 (SI 2003/2426) as amended and all other legislation and regulatory requirements in force from time to time which apply to a party relating to the use of personal data (including, without limitation, the privacy of electronic communications;\n\n\"Developer\" an individual who compiles, debugs and develops against code which references SciChart SDKs, which may be DLLs, Frameworks or AARs, npm packages, for example any person who compiles and runs a project in Visual Studio, Android Studio, Xcode, VSCode, WebStorm or similar IDE which links to or references SciChart libraries is considered to be a developer requiring a license to use the SciChart Software;\n\n\"Documentation\" means any documentation concerning the Software supplied by the LICENSOR or by the Software supplier to the LICENSEE with the Software;\n\n\"End-Users\" means final users of the LICENSEE Application;\n\n\"Effective Date\" means the date when the LICENSEE first agrees to the terms and conditions of this SLA, as detailed in the Preamble to this SLA;\n\n\"Force Majeure Event\" means an event, or a series of related events, that is outside the reasonable control of the party affected (including failures of or problems with the internet or a part of the internet, power failures, industrial disputes affecting any third party, changes to the law, disasters, explosions, fires, floods, riots, terrorist attacks and wars);\n\n\"Intellectual Property Rights\" means all intellectual property rights wherever in the world, whether registered or unregistered, including any application or right of application for (and rights to apply for and be granted), renewals or extensions of, and rights to claim priority from, such rights and all similar or equivalent rights of forms of protection which subsist or will subsist, now or in the future (and the \"intellectual property rights\" referred to above include copyright and related rights, database rights, confidential information, trade secrets, know-how, business names, trade names, trade marks, service marks, passing off rights, unfair competition rights, patents, petty patents, rights to inventions, utility models, semi-conductor topography rights and rights in designs);\n\n\"Licence\" means the licence granted by SciChart under this SLA;\n\n\"LICENSEE\" means the licensee of the Software under this SLA;\n\n\"LICENSEE Application(s)\" means a software application developed by the LICENSEE integrating the Software distributed to End-Users in object code;\n\n\"LICENSOR\" means SciChart Ltd, a limited company incorporated in England and Wales (registration number 07430048) having its registered office at 16 Beaufort Court, Admirals Way, Docklands, London, E14 9XL, United Kingdom;\n\n\"OEM\" means Original Equipment Manufacturer;\n\n\"Rendering Engine\" means the SciChart graphics engine Trade Marked as \"Visual Xccelerator\" which is licensed for use under this SLA but not contained within Source Code as a separate entity to the Software;\n\n\"SLA\" means this end-user licence agreement (including the Preamble), and any amendments to it from time to time;\n\n\"Software\" means the SciChart Charts software component module which is licensed under this SLA including following the application of any Upgrade;\n\n\"Source Code\" means the uncompiled code which forms all of the Software but not the Rendering Engine or further components.\n\n\"Support & Updates Subscription\" means a purchased or renewed support subscription entitling the LICENSEE to technical updates & new versions of the SOFTWARE according to Articles 1, 2\n\n\"UI\" means User Interface;\n\n\"Upgrade\" an upgrade, update, enhancement, improvement or patch to the Software supplied by the LICENSOR; and\n\n\"Testers\" means a LICENSEE staff member running LICENSEE applications for the purpose of testing, quality assurance but who does not meet the definition of \"Developer\" as defined in this SLA\n\nUnless the context otherwise requires, each reference in this SLA to:\n\n(a) \"writing\", and any cognate expression, includes a reference to any communication effected by electronic or facsimile transmission or similar means;\n(b) a statute or a provision of a statute is a reference to that statute or provision as amended or re-enacted at the relevant time;\n(c) an Article or paragraph is a reference to an Article of this SLA;\n(d) the titles in the present SLA are for information purpose only. In case of contradiction in the core of an article and its title, its tile shall be ignored and only its contents shall be reputed written;\n(e) a \"Party\" or the \"Parties\" refer to the parties to this SLA;\n(f) words imparting the singular number shall include the plural and vice versa;\n(g) references to any gender shall include the other gender; and\n(h) words importing persons include firms, companies and corporations and vice versa.\nPREAMBLE\nSciChart Ltd is the entire legal and beneficial owner of, and has the exclusive right to grant licences and sub-licences, to the software known as SCICHART.\n\nLICENSEE is willing to obtain and SciChart Ltd is willing to grant a non-exclusive licence under the terms and conditions hereinafter set forth for the sole purpose of integrating the Software into an application that LICENSEE has developed, under the terms and conditions of this SLA.\n\nARTICLE 1 \u2013 LICENSING OF THE SOFTWARE\n1.1. LICENSE GRANT\n\n1.1.1 Subject to the payment by the LICENSEE of the relevant charges and fees in respect of the Software licence, and the LICENSEE's compliance with the provisions of this SLA, the LICENSOR grants to the LICENSEE a perpetual, non-licensable non-exclusive, non-transferable licence as defined below (the \"Licence\"). THE LICENCE IS NOT UNCONDITIONALLY PERPETUAL AND SHALL TERMINATE IMMEDIATELY AND AUTOMATICALLY IF THE LICENSEE OR ANY EMPLOYEE OF THE LICENSEE OR PERSON AUTHORISED BY THE LICENSEE TO USE THE SOFTWARE AND/OR DOCUMENTATION BREACHES ANY PROVISION OF THIS SLA.\n\nThe Licence is granted per-Developer. This means:\n\nThe LICENSEE will need to purchase one licence for each Developer\nthe LICENSEE does not need to purchase licences for Build Servers or Testers; and\nif the LICENSEE's team grows, the LICENSEE will need to purchase additional licences.\nThe Licence grants the right to:\n\n(a) download and store the Software and Documentation. The Licence is per-Developer, not per machine. This means that the Software can be installed on several Computers owned by the same Developer (as long as only one machine is used at a time);\n\n(b) use the Software as a component in developing LICENSEE's own desktop and/or mobile software applications, intranet sites and public websites (a \"LICENSEE Application\"); and\n\n(c) publish or redistribute the Software in compiled form only to End-Users and only as a complete Licence Application of the LICENSEE Application.\n\n(d) Unless expressly agreed otherwise, the Licence is granted solely for the Software object code.\n\n(e) The LICENSEE may purchase site-Licences that allow use of the Software for larger teams of developers at a single physical site (\"Site-Licences\"), or global licences that allow use of the Software for larger teams globally (\"Global-Licences\"), with Developer count and pricing agreed as part of the quoting and sales process.\n\n(f) Where applicable, the LICENSEE will have access to the Source Code of the Software excluding any Rendering Engine or further component not wholly part of the SciChart Charts software component module developed by the LICENSOR.\n\n(g) Develop applications pursuant to the appropriate licensing & activation being in place. With all downstream consumers of source-code compiled libraries having the relevant license type.\n\n(h) OEM and Runtime Fees. In most cases, the LICENSOR licenses the Software to the LICENSEE without runtime or OEM fees subject to compliance with the per-developer licensing model in 1.1.1. In some cases, where the LICENSEE is deriving significant commercial value from the Software, or deploying LICENSEE APPLICATIONS to very large user-bases, or certain deployment configurations such as uncapped licensing, the LICENSOR may require the LICENSEE to pay an annual runtime fee (\"OEM Fee\"), to be negotiated in good faith in line with the needs of the LICENSEE and LICENSOR. In the event that the Parties cannot agree the OEM Fee in good faith, the OEM Fee shall be determined by the LICENSOR exclusively acting reasonably. The LICENSOR reserves the right to waive the OEM Fee wholly or partially at the LICENSOR's sole and absolute discretion.\n\n(i) OEM and Runtime Fees (if applicable) confer additional benefits to enterprise customers the LICENSEE and may include items such as dedicated enhanced support, priority bug fixes, account management, and ensures the quality of the product, quality of service and longevity of service required for a world-class large-scale deployment in line with the needs of the LICENSEE entity.\n\n(j) The LICENSEE may copy and distribute the Software when embedded in LICENSEE Application so long as\n\nLICENSEE is not creating a substantially similar product or component to the Software, including but not limited to; wrapping the Software library in a wrapper for distribution to multiple developers / departments, creating a charting service, either for sale, or as part of an internal framework used by other developers in the LICENSEE's organisation; and\nEnd-Users are not Developers who will be debugging and developing against LICENSEE code.\nThese are both rare cases, but if LICENSEE is doing either of the above LICENSEE may need developer licences for each End-User, or a custom agreed licence type.\n \n\n1.1.2 The LICENSEE must not:\n\n(a) copy or reproduce the Software or Documentation or any part of the Software or Documentation other than in accordance with the licence granted in this Article 1;\n\n(b) sell, resell, rent, lease, loan, supply, distribute, redistribute, publish or re-publish the Software or Documentation or any part of the Software or Documentation, unless in accordance with Article 1.1.1 (b) and (c);\n\n(c) modify, alter, adapt, translate or edit, or create derivative works of, the Software or Documentation or any part of the Software or Documentation, for purpose of making a software product which is significantly similar to the Software;\n\n(d) reverse engineer, decompile, disassemble the Software or Documentation or any part of the Software or Documentation;\n\n(e) circumvent or remove or attempt to circumvent or remove the technological measures applied to the Software and Documentation for the purposes of preventing unauthorised use, providing that nothing in this Article 1.1.2. will prohibit or restrict the LICENSEE or any other person from doing any act expressly permitted by applicable Law (including any act expressly permitted by Section 296ZA of the Copyright, Designs and Patents Act 1988);\n\n(f) distribute any part of the Source-Code if the LICENSEE has purchased a source-code licence;\n\n(g) make any attempt to interfere with the Rendering Engine in any way including reverse engineering, decompiling, modifying or redistributing aside from LICENSEE Application(s). The Licence herein granted conveys no right to grant sub-licences, except to the End-User of the LICENSEE Application subject to the payment of the OEM Fee, is not to be deemed transferable for any purpose and is indivisible and non-assignable except to a business successor of LICENSEE or with LICENSOR prior written approval.\n\n1.1.3. All Intellectual Property Rights in the Software and Documentation are and will remain, as between the Parties, the property of the LICENSOR.\n\n1.1.4. The LICENSEE must provide to the LICENSOR, or procure for the LICENSOR, upon reasonable notice and during normal business hours, reasonable evidence of compliance with the terms of this SLA. Such information will be treated with confidentiality as per ARTICLE 8.\n\n(a) This may be in the form of written statement of compliance signed by the LICENSEE, or an electronic licence audit report, stating compliance with the terms and conditions of the SLA, including but not limited to the number of licences held and the number of Developers using the Software or the commercial value derived from LICENSEE Application(s).\n\n(b) The LICENSOR reserves the right to track usage of the Software and ensure that the LICENSEE is complying with the terms of this SLA by sending small, anonymous telemetry to the LICENSOR's servers which include an identifier for the order & whether the software is being used at design time. To be used for the purpose of license auditing and retroactive billing where usage is exceeded. Licence audit telemetry data contains no identifiable data about the LICENSEE's users, developers, organisation, location, IP address or any other way to identify the End-User of the Software. An air-gapped (no telemetry) license-type can be negotiated as part of the purchasing process.\n\n1.2. OTHER USERS\n\n1.2.1 The LICENSEE may permit any employee or subcontractor of the LICENSEE to exercise the rights granted by the LICENSOR to the LICENSEE under Article 1.1.1., subject always to the restrictions set out in Article 1.1.2.\n\n1.2.2 The LICENSEE must ensure that any person using the Software and/or Documentation is made aware of, and agrees to, the terms of this SLA.\n\n1.3. UPDATES\n\n1.3.1 The LICENSEE may apply to the Software each Upgrade released by the LICENSOR and made available by the LICENSOR to the LICENSEE from time to time. All licences come with 1+ year Support & Updates subscription. .\n\nThis means:\n\nWhile your support subscription is active, LICENSEE will be entitled to receive support via LICENSOR website as per our support policy\n\nDuring the support & updates window, LICENSEE will be entitled to receive and use the latest version(s) of the Software that match LICENSEE's product keys.\n\nLICENSOR will have no obligation to provide technical support or bug fixes to LICENSEE who have not purchased support, or whose support has expired.\n\n1.3.2 The LICENSOR will have no obligation to provide support for the Software under Article 2 or repair or replace the Software under Article 2 in relation to any version of the Software that does not incorporate the most recent Upgrade to the Software.\n\n1.4. TERM OF SLA.\n\nThis SLA will come into force once the Software has been downloaded and will continue in force indefinitely, unless and until terminated in accordance with Article 11 \"Termination\".\n\nARTICLE 2 \u2013 SUPPORT\n2.1 THE LICENSOR WILL PROVIDE TO THE LICENSEE\n\nTechnical support as per our support policy for the purpose of resolving issues with the Software raised by the LICENSEE acting reasonably, during the Support & Updates Subscription period.\n\nThe LICENSOR has no obligation to provide technical support for \"Trial\" or \"Community\" editions (Unpaid Editions) but for the purpose of onboarding and evaluation, the LICENSOR is able to answer technical queries and demonstrate the use of the SOFTWARE to the LICENSEE.\n\n2.2 The LICENSEE acknowledges that:\n\n(a) the LICENSOR's obligation under Article 2.1 is subject to such limits (as to time spent in relation to an issue and in relation to the LICENSEE in aggregate) as the LICENSOR may determine from time to time;\n\n(b) the LICENSOR's sole obligation under Article 2.1 is to make reasonable endeavours to resolve issues raised by the LICENSEE;\n\n(c) the LICENSOR does not warrant or represent that issues raised will be solved by means of the support services; and\n\n(d) the LICENSOR will not provide any on-site support under this SLA.\n\n2.3 THE LICENSOR MAY SUBCONTRACT ANY OF ITS OBLIGATIONS UNDER THIS ARTICLE 2 TO ANY THIRD PARTY.\n\nARTICLE 3. LIMITED WARRANTIES\n3.1. LICENSOR warrants that the Software delivered pursuant to this Licence shall perform substantially in accordance with the accompanying reference manuals for a period of 365 days from the delivery date to LICENSEE, depending on the package purchased (\"Limited Warranty\").\n\n3.2. LICENSEE Remedies. LICENSOR's entire liability and LICENSEE exclusive remedy shall be, at LICENSOR's option, either repair or replacement of the Software that does not meet LICENSOR's Limited Warranty during the warranty period. The Limited Warranty is void if failure of the Software has resulted from accident, abuse or misapplication or use in a manner not contemplated in the Software accompanying reference manuals and the present SLA. Any replacement of the Software shall be warranted for the remainder of the original warranty period.\n\n3.3. The LICENSOR warrants to the LICENSEE that the LICENSOR has tested the Software for computer virus and other malicious third party software infections in accordance with standard industry practice.\n\n3.4. The LICENSEE acknowledges that:\n\n(a) Trial, Community or Beta Editions of the Software (Unpaid Editions) are made available free of charge on an \"AS IS\" basis. To the maximum extent permitted by law, the LICENSOR disclaims all express or implied warranties, including but not limited to implied warranties of satisfactory quality, fitness for a particular purpose and non-infringement. The LICENSEE understands and agrees that Unpaid Editions of the Software are made available free of charge \"AS IS\" and use of the Software is at the LICENSEE's own discretion and risk.\n\n(b) the Software may not be error-free and that non-material errors in the Software will not constitute a breach of this SLA;\n\n(c) the Software has not been developed to meet the specific requirements of the LICENSEE, and accordingly the LICENSEE will be responsible for ensuring that the Software is suitable to meet the LICENSEE's requirements.\n\n3.5. All of the Parties' liabilities and obligations in respect of the subject matter of this SLA are expressly set out herein. To the maximum extent permitted by applicable law, no other terms concerning the subject matter of this SLA will be implied into this SLA or any related contract.\n\n3.6. NO OTHER WARRANTIES. LICENSOR DISCLAIMS ALL OTHER WARRANTIES NOT EXPRESSLY STATED HEREIN, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, QUALITY, FITNESS FOR A PARTICULAR PURPOSE. LICENSOR DOES NOT WARRANT THAT THE OPERATION OF THE SOFTWARE WILL MEET LICENSEE'S REQUIREMENTS OR BE FREE FROM ERRORS, OR THAT LICENSEE WILL BE ABLE TO DESIGN, DEVELOP, MANUFACTURE, MARKET OR SELL PRODUCTS INCORPORATING THE SOFTWARE.\n\nARTICLE 4. LIMITATIONS AND EXCLUSIONS OF LIABILITY\n4.1 NOTHING IN THE SLA WILL:\n\n(a) LIMIT OR EXCLUDE THE LIABILITY OF A PARTY FOR DEATH OR PERSONAL INJURY RESULTING FROM NEGLIGENCE;\n\n(b) LIMIT OR EXCLUDE THE LIABILITY OF A PARTY FOR FRAUD OR FRAUDULENT MISREPRESENTATION BY THAT PARTY;\n\n(c) LIMIT ANY LIABILITY OF A PARTY IN ANY WAY THAT IS NOT PERMITTED UNDER APPLICABLE LAW; OR\n\n(d) EXCLUDE ANY LIABILITY OF A PARTY THAT MAY NOT BE EXCLUDED UNDER APPLICABLE LAW, AND, IF THE LICENSEE IS A CONSUMER, ANY STATUTORY RIGHTS WHICH THE LICENSEE HAS, WHICH CANNOT BE EXCLUDED OR LIMITED, WILL NOT BE AFFECTED BY THE SLA.\n\n4.2. LIMITED LIABILITY. IN NO EVENT SHALL THE LICENSOR, ITS EMPLOYEES, DIRECTORS OR SUPPLIERS BE LIABLE TO THE LICENSEE IN RESPECT OF ANY LOSS OR CORRUPTION OF ANY DATA, DATABASE OR SOFTWARE. LICENSOR AND ITS SUPPLIERS SHALL UNDER NO CIRCUMSTANCES BE HELD LIABLE WHETHER IN CONTRACT, IN TORT, UNDER ANY WARRANTY OR ANY OTHER THEORY OF LIABILITY, OR OTHERWISE, FOR ANY INDIRECT, INCIDENTAL OR CONSEQUENTIAL DAMAGES, SUCH AS, WITHOUT LIMITATION, LOSS OF REVENUE, LOSS OF OPPORTUNITY, BUSINESS DISRUPTION OR OTHER PECUNARY LOSS ARISING OUT OF THE USE OF OR INABILITY TO USE THIS SOFTWARE, EVEN IF LICENSOR HAS BEEN INFORMED BY LICENSEE OF THE POSSIBILITY THAT LICENSEE COULD SUFFER SUCH DAMAGES. IN ANY CASE, LICENSOR' AGGREGATE LIABILITY FOR ANY CLAIM, WHETHER IN CONTRACT, TORT, UNDER ANY WARRANTY OR ANY OTHER THEORY OF LIABILITY OR OTHERWISE, SHALL BE LIMITED TO THE AMOUNT ACTUALLY PAID BY LICENSEE UNDER THIS LICENCE.\n\n4.3. INDEMNITY. LICENSEE AGREES TO INDEMNIFY AND HOLD LICENSOR, AND ITS SUBSIDIARIES, AFFILIATES, OFFICERS, AGENTS, CO-BRANDERS, ALLIANCE MEMBERS, OR OTHER PARTNERS, AND EMPLOYEES, HARMLESS FROM ANY CLAIM OR DEMAND, INCLUDING REASONABLE ATTORNEYS' FEES, MADE BY ANY THIRD PARTY DUE TO OR ARISING OUT OF ANY LICENSEE APPLICATION, LICENSEE'S USE OF THE LICENSOR' SOFTWARE, INCLUDING ANY USE BY LICENSEE'S EMPLOYEES, LICENSEE'S VIOLATION OF THE PRESENT LICENSE AGREEMENT, OR LICENSEE'S VIOLATION OF ANY RIGHTS OF A THIRD PARTY.\n\nARTICLE 5 \u2013 INTELLECTUAL PROPERTY RIGHTS\nThe LICENSEE shall\n\n(a) follow all reasonable instructions that LICENSOR gives from time to time with regard to the use of the Intellectual Property Rights or other notice of ownership rights of LICENSOR or its suppliers; and\n\n(b) notify the LICENSOR immediately if the LICENSEE becomes aware of any unauthorised use of the whole or any part of the Software by any person.\n\nARTICLE 6 \u2013 TECHNICAL SUPPORT\nLICENSEE may subscribe technical support services at such charges and upon such terms and conditions as provided from time to time by LICENSOR to LICENSEE upon request.\n\nARTICLE 7 \u2013 EXPORT CONTROL\nThe following information is provided to LICENSEE for information purpose only. The LICENSOR shall bear no responsibility if the following information becomes inaccurate. Should LICENSEE desire to ship, transfer or export into any country the Software and/or the LICENSEE Application and its accompanying reference manuals, it shall be the responsibility of LICENSEE to obtain all consents and licences as may be required from time to time under the relevant laws, restrictions or regulations that may regulate such export.\n\nThe Software does not enter into any restricted categories (there is no Export Control Classification Number). The Export Classification Number for the Software is \"NLR\" which means \"No license requirement\". U.S. based LICENSEES of the Software distributing the LICENSEE Application worldwide should therefore use the acronym \"NLR\" to re-export the Software if the LICENSEE Application does not embed any other restricted technology. International embargo rules that apply to all products shall apply to re-export of the Software and export of LICENSEE Applications.\n\nARTICLE 8. CONFIDENTIALITY AND PUBLICITY\n8.1 Each Party shall, during the term of this SLA and thereafter, keep confidential all, and shall not use for its own purposes (other than implementation of this SLA) nor without the prior written consent of the other disclose to any third party (except its professional advisors or as may be required by any law or any legal or regulatory authority) any, information of a confidential nature (including trade secrets and information of commercial value) which may become known to such Party from the other Party and which relates to the other Party or any of its Affiliates, unless that information is public knowledge or already known to such Party at the time of disclosure, or subsequently becomes public knowledge other than by breach of this Licence, or subsequently comes lawfully into the possession of such Party from a third party. Each Party shall use its reasonable endeavours to prevent the unauthorised disclosure of any such information.\n\n8.2 SciChart shall have the right to disclose the existence and terms of this Agreement: (a) in any prospectus, offering memorandum, or other document required by law or securities regulations, (b) to any current or prospective investors, acquirers or collaborators (provided that any recipient of a disclosure under this subclause (b) shall be subject to appropriate obligations of confidentiality and non-use), or (c) as otherwise required by applicable law or regulation. SciChart shall have the right to use on its website the LICENSEE's logo, provided such use of the LICENSEE's logo is limited to statements of fact and the LICENSEE shall have the right to revoke permission of such use of the LICENSEE's logo at any time.\n\n8.3 Except as expressly stated in clause 8.2, neither Party, its employees or representatives shall use the name or logo of the other Party in any advertisement, press release, or other publicity without prior written consent of the other Party (such consent not to be unreasonably withheld or delayed).\n\nARTICLE 9. VARIATION\nSciChart has the right to vary the terms of this SLA and the relevant charges and fees in respect of the Licence from time to time. Existing LICENSEES with active subscriptions and existing commitments will be honoured by SciChart on existing terms for the duration of such LICENSEES' active subscriptions.\n\nARTICLE 10. DATA PROTECTION\nThe Parties undertake to comply with the provisions of the Data Protection Legislation and any related legislation in so far as the same relates to the provisions and obligations of this SLA.\n\nARTICLE 11. TERMINATION\n11.1 This SLA will terminate immediately and automatically if:\n\n(a) the LICENSEE: (i) is dissolved; (ii) ceases to conduct all (or substantially all) of its business; (iii) is or becomes unable to pay its debts as they fall due; (iv) is or becomes insolvent or is declared insolvent; or (v) convenes a meeting or makes or proposes to make any arrangement or composition with its creditors;\n\n(b) an administrator, administrative receiver, liquidator, receiver, trustee, manager or similar is appointed over any of the assets of the LICENSEE;\n\n(c) an order is made for the winding up of the LICENSEE, or the LICENSEE passes a resolution for its winding up.\n\nARTICLE 12. EFFECTS OF TERMINATION\n12.1 In the event that this SLA is terminated pursuant to clause 1.1.1 (breach by the LICENSEE), the LICENSEE will no longer be licensed to use the Software in LICENSEE Application(s) and must remove the Software from all version(s) of LICENSEE Applications(s) in a reasonable timescale. In this event, failure to cease using the Software shall make the LICENSEE liable to the LICENSOR for compensation (\"Additional Fee\") for using unlicensed Software, without prejudice to any other rights provided for by law or under this agreement, such as the right to claim damages in lieu of the Additional Fee.\n\n12.2 Upon termination any provision of this agreement that expressly or by implication is intended to come into or continue in force on or after termination or expiry of this agreement shall remain in full force and effect.\n\n12.3 Termination of this SLA will not affect either party's accrued rights and liabilities.\n\n12.4 Save as expressly provided in this SLA, the LICENSEE will not be entitled to a refund upon the termination of this SLA.\n\nARTICLE 13. GENERAL\n13.1 NO WAIVER. No breach of any provision of this SLA will be waived except with the express written consent of the party not in breach.\n\n13.2. SEVERABILITY. If a provision of this SLA is determined by any court to be unlawful and/or unenforceable, the other provisions of this SLA will continue in effect. If any unlawful and/or unenforceable provision would be lawful or enforceable if part of it were deleted, that part will be deemed to be deleted, and the rest of the provision will continue in effect (unless that would contradict the clear intention of the Parties, in which case the entirety of the relevant provisions will be deemed to be deleted).\n\n13.3 The LICENSOR may freely assign this SLA and/or its rights and/or obligations under this SLA without the LICENSEE's consent. Save as expressly provided in this SLA, the LICENSEE must not assign, transfer, charge, license or otherwise dispose of or deal in this SLA and/or any its rights and/or obligations under this SLA.\n\n13.4 NO THIRD PARTY BENEFICIARIES. This SLA is made for the benefit of the Parties, and is not intended to benefit any third party or be enforceable by any third party. The rights of the Parties to terminate, rescind, or agree any amendment, waiver, variation or settlement under or relating to this SLA are not subject to the consent of any third party.\n\n13.5. FORCE MAJEURE. Under no circumstances shall either Party be held liable for failure to perform its obligations under this Agreement in case such failure is due to a Force Majeure event as defined in Preamble. The Party prevented by Force Majeure shall inform the other Party of the occurrence of the Force Majeure event within fifteen (15) days by written notice. Except as defined below, the Parties shall have no right to assert Force Majeure in order to terminate this Agreement.\n\nIf Force Majeure continues for a period of more than three (3) months from the date of the Force Majeure Declaration and has prevented either of the Parties from performing its obligations in whole or in part during that period, then either Party shall be entitled to terminate the SLA by written notice to the other Party.\n\nThe Parties shall have no right to claim for any compensation of liquidated damages to the other Party for delays or non-performance of the SLA by such Party in case of Force Majeure, even if the Force Majeure results in the termination of the SLA.\n\n13.6. RETROACTIVE BILLING. Through the use of Telemetry data, or licence audit, the LICENSOR generates usage reports. Where a LICENSEE exceeds the usage of their developer licenses or OEM license Fees (if applicable), the LICENSOR will provide a custom quote at renewal time for the subsequent year support subscription. Excessive mismatch between licenses purchased and usage may result in retroactive billing.\n\n13.7 NO AGENCY OR PARTNERSHIP. SUCCESSORS AND ASSIGNEES. This SLA shall be binding upon, and inure to the benefit of the Parties and their respective successors and permitted assignees, and references to a Party in this SLA shall include its successors and permitted assignees.\n\n13.8. SUCCESSORS AND ASSIGNEES. . This SLA shall be binding upon, and inure to the benefit of the Parties and their respective successors and permitted assignees, and references to a Party in this SLA shall include its successors and permitted assignees.\n\n13.9. APPLICABLE LAW AND JURISDICTION. This SLA will be governed by and construed in accordance with the laws of England and Wales to the exclusion of its conflict of laws rules. The courts of England will have exclusive jurisdiction to adjudicate any dispute arising under or in connection with this SLA, including in case of injunctive relief, provisional orders or other interim matters.\n\n13.10. THIRD PARTY COMPONENTS, USAGE & RESTRICTIONS The SOFTWARE may include certain third party components licensed under the Microsoft Permissive License \"MS-Pl\" found at http://opensource.org/licenses/MS-PL, Modified Berkeley Software Distribution License \"Modified BSD\" found at http://opensource.org/licenses/BSD-3-Clause\" and MIT License found at http://opensource.org/licenses/MIT. A list of included third party components and their licenses can be provided upon request.",
+          "terms": []
+        }
+      ],
+      "licenseDisplay": "SciChart Software License Agreement 2022",
+      "origins": [
+        "http://www.scichart.com/"
+      ],
+      "copyrights": [],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "modified": false,
+      "matchTypes": [
+        "MANUAL_BOM_COMPONENT"
+      ],
+      "reviewStatus": "REVIEWED",
+      "attributionStatement": null,
+      "vulnerabilities": []
+    },
+    {
+      "name": "System.Management",
+      "version": "8.0.0",
+      "licenses": [
+        {
+          "name": "MIT License",
+          "spdxId": "MIT",
+          "family": "Permissive",
+          "status": "APPROVED",
+          "text": "The MIT License\n===============\n\nCopyright (c) <year> <copyright holders>\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of\nthis software and associated documentation files (the \"Software\"), to deal in the\nSoftware without restriction, including without limitation the rights to use,\ncopy, modify, merge, publish, distribute, sublicense, and/or sell copies of the\nSoftware, and to permit persons to whom the Software is furnished to do so,\nsubject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS\nFOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR\nCOPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN\nAN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION\nWITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+          "terms": [
+            {
+              "name": "Private Use",
+              "description": "You are allowed to use this software for private, non-commercial use without payment or royalty",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee05e7f2-15d7-4de1-9578-91c38bda4de3/versions/10149871-f737-4c8a-8d7b-9108da40b7c2/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/119e6233-c6d3-48cb-8f0c-70c4033eabe1"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Commercial Use",
+              "description": "License permits software to be used commercially",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee05e7f2-15d7-4de1-9578-91c38bda4de3/versions/10149871-f737-4c8a-8d7b-9108da40b7c2/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/1d95b4b7-0e66-4e35-bf86-5aca2df97cb2"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include Copyright",
+              "description": "You are required to include copyright notices of the original owners and contributors for the work with the software you distribute",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee05e7f2-15d7-4de1-9578-91c38bda4de3/versions/10149871-f737-4c8a-8d7b-9108da40b7c2/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/27cbca33-ccd0-4a01-a4e2-32880858aa8c"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Hold Liable",
+              "description": "A disclaimer of warranty prevents you from holding the original owner and/or contributors liable for any damages due to the use of this software",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee05e7f2-15d7-4de1-9578-91c38bda4de3/versions/10149871-f737-4c8a-8d7b-9108da40b7c2/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/30d6a37a-b9e4-4fa5-bb88-acc39adb8f98"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Distribute",
+              "description": "This software may be distributed in original form or modified works",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee05e7f2-15d7-4de1-9578-91c38bda4de3/versions/10149871-f737-4c8a-8d7b-9108da40b7c2/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/39203a61-9913-4629-838d-2361ab526011"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Modify",
+              "description": "You are allowed to modify the software and make derivative bodies of work",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee05e7f2-15d7-4de1-9578-91c38bda4de3/versions/10149871-f737-4c8a-8d7b-9108da40b7c2/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/4e2eac42-5dfa-40ee-aac7-d5717a8766bd"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Disclose Source",
+              "description": "Software source code can be made available if a distribution is made, but you are not required to do so",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee05e7f2-15d7-4de1-9578-91c38bda4de3/versions/10149871-f737-4c8a-8d7b-9108da40b7c2/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/6e989334-b1cb-42c3-862c-c4b4f6d6b47d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Warranty",
+              "description": "You are required to place a warranty on the code or derivatives of the code, though you may need to limit the liability of the original software owners and contributors",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee05e7f2-15d7-4de1-9578-91c38bda4de3/versions/10149871-f737-4c8a-8d7b-9108da40b7c2/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/926b120d-156a-489c-87eb-6f7c193fb84a"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Include License",
+              "description": "You are required to include the software's full license text in any distributions you make",
+              "responsibility": "REQUIRED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee05e7f2-15d7-4de1-9578-91c38bda4de3/versions/10149871-f737-4c8a-8d7b-9108da40b7c2/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/bee5631b-9f30-40a9-963b-9a9f85a0515d"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Place Additional Restrictions",
+              "description": "You are not entitled to place additional restrictions",
+              "responsibility": "FORBIDDEN",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee05e7f2-15d7-4de1-9578-91c38bda4de3/versions/10149871-f737-4c8a-8d7b-9108da40b7c2/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/f5ef7002-db61-40df-aaf1-bd71c0739bc9"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "Sub-License",
+              "description": "You may provide the software or modifications to the software under a different license",
+              "responsibility": "PERMITTED",
+              "deactivated": false,
+              "deprecated": false,
+              "fulfillmentRequired": false,
+              "fulfilled": false,
+              "_meta": {
+                "allow": [
+                  "GET"
+                ],
+                "href": "https://analog.app.blackduck.com/api/projects/e75705c7-332e-4b88-b310-7858b35dd685/versions/65f4fb39-2b7d-4821-9ffd-690681a87c6d/components/ee05e7f2-15d7-4de1-9578-91c38bda4de3/versions/10149871-f737-4c8a-8d7b-9108da40b7c2/licenses/ad705c59-6893-4980-bdbf-0837f1823cc4/license-terms",
+                "links": [
+                  {
+                    "rel": "license-term",
+                    "href": "https://analog.app.blackduck.com/api/license-terms/fe53e7e9-8d75-4608-9007-abe99053d286"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "licenseDisplay": "MIT License",
+      "origins": [
+        "https://www.nuget.org/packages/System.Management/8.0.0"
+      ],
+      "copyrights": [
+        "? Microsoft Corporation. All rights reserved."
+      ],
+      "usages": [
+        "DYNAMICALLY_LINKED"
+      ],
+      "modified": false,
+      "matchTypes": [
+        "FILE_DEPENDENCY_DIRECT"
+      ],
+      "reviewStatus": "REVIEWED",
+      "attributionStatement": null,
+      "vulnerabilities": []
+    }
+  ],
+  "build": "release"
+}

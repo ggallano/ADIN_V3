@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="800"
+             x:Class="ADIN.Avalonia.Views.DeviceStatusView"
+			 x:CompileBindings="False">
+	<StackPanel Margin="8">
+		<Grid ColumnDefinitions="*,*">
+			<HmcCard Grid.Column="0" Density="High" Margin="8">
+				<HmcCard.Header>
+					<HmcContainerHeader Heading="{Binding BoardName}" Subtitle="{Binding SerialNumber}" Density="Medium"/>
+				</HmcCard.Header>
+				<Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,24,Auto,Auto">
+					<TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding DeviceType}" Classes="subtitle m"/>
+					<TextBlock Grid.Column="0" Grid.Row="1" Text="Device Type" Classes="body xs"/>
+					<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding PhyAddress}" Classes="subtitle m"/>
+					<TextBlock Grid.Column="1" Grid.Row="1" Text="Phy Address" Classes="body xs"/>
+					<TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding LinkStatus}" Classes="subtitle m"/>
+					<TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Text="Link Status" Classes="body xs"/>
+				</Grid>
+			</HmcCard>
+			<HmcCard Grid.Column="1" Density="High" Header="Speed" Margin="8" IsVisible="{Binding IsCopperMedia}">
+				<Grid RowDefinitions="Auto,Auto,24,Auto,Auto">
+					<TextBlock Grid.Row="0" Text="{Binding SpeedMode}" Classes="subtitle m"/>
+					<TextBlock Grid.Row="1" Text="Speed Mode" Classes="body xs"/>
+					<TextBlock Grid.Row="3" Text="{Binding AdvertisedSpeed}" Classes="subtitle m"/>
+					<TextBlock Grid.Row="4" Text="Advertised Speed" Classes="body xs"/>
+				</Grid>
+			</HmcCard>
+			<HmcCard Grid.Column="1" Density="High" Header="Speed" Margin="8" IsVisible="{Binding IsFiberMedia}">
+				<Grid RowDefinitions="Auto,Auto">
+					<TextBlock Grid.Row="0" Text="1000BASE-LX/SX HD&amp;FD" Classes="subtitle m"/>
+					<TextBlock Grid.Row="1" Text="Fiber Speed" Classes="body xs"/>
+				</Grid>
+			</HmcCard>
+			<HmcCard Grid.Column="1" Density="High" Header="Speed" Margin="8" IsVisible="{Binding IsMediaConverter}">
+				<Grid RowDefinitions="Auto,Auto">
+					<TextBlock Grid.Row="0" Text="1000 BASE" Classes="subtitle xl"/>
+					<TextBlock Grid.Row="1" Text="Media Converter Speed" Classes="body xs"/>
+				</Grid>
+			</HmcCard>
+		</Grid>
+		<Grid ColumnDefinitions="*,*" IsVisible="{Binding IsCopperMedia}">
+			<HmcCard Grid.Column="0" Density="High" Header="Autoneg Advertisement" Margin="8">
+				<Grid RowDefinitions="24,24,24,24,24,24,24,24">
+					<TextBlock Grid.Row="0" Classes="body m" Margin="4" Text="1000BASE-T FD" IsVisible=""/>
+					<TextBlock Grid.Row="1" Classes="body m" Margin="4" Text="1000BASE-T HD"/>
+					<TextBlock Grid.Row="2" Classes="body m" Margin="4" Text="1000BASE-T EEE"/>
+					<TextBlock Grid.Row="3" Classes="body m" Margin="4" Text="100BASE-TX FD"/>
+					<TextBlock Grid.Row="4" Classes="body m" Margin="4" Text="100BASE-TX HD"/>
+					<TextBlock Grid.Row="5" Classes="body m" Margin="4" Text="1000BASE-T EEE"/>
+					<TextBlock Grid.Row="6" Classes="body m" Margin="4" Text="10BASE-T FD"/>
+					<TextBlock Grid.Row="7" Classes="body m" Margin="4" Text="10BASE-T HD"/>
+				</Grid>
+			</HmcCard>
+			<HmcCard Grid.Column="1" Density="High" Header="Autoneg Link Partner" Margin="8">
+				<Grid RowDefinitions="24,24,24,24,24,24,24,24">
+					<TextBlock Grid.Row="0" Classes="body m" Margin="4" Text="1000BASE-T FD" IsVisible=""/>
+					<TextBlock Grid.Row="1" Classes="body m" Margin="4" Text="1000BASE-T HD"/>
+					<TextBlock Grid.Row="2" Classes="body m" Margin="4" Text="1000BASE-T EEE"/>
+					<TextBlock Grid.Row="3" Classes="body m" Margin="4" Text="100BASE-TX FD"/>
+					<TextBlock Grid.Row="4" Classes="body m" Margin="4" Text="100BASE-TX HD"/>
+					<TextBlock Grid.Row="5" Classes="body m" Margin="4" Text="1000BASE-T EEE"/>
+					<TextBlock Grid.Row="6" Classes="body m" Margin="4" Text="10BASE-T FD"/>
+					<TextBlock Grid.Row="7" Classes="body m" Margin="4" Text="10BASE-T HD"/>
+				</Grid>
+			</HmcCard>
+		</Grid>
+	</StackPanel>
+</UserControl>

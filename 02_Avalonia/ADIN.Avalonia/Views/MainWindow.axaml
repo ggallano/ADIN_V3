@@ -1,0 +1,60 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ADIN.Avalonia.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:view="using:ADIN.Avalonia.Views"
+        mc:Ignorable="d" d:DesignHeight="880" d:DesignWidth="1410"
+		MinHeight="880"
+		MinWidth="1410"
+        x:Class="ADIN.Avalonia.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+		x:CompileBindings="False"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="ADIN.Avalonia"
+        SystemDecorations="{OnPlatform BorderOnly, Linux=Full}">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+		<vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+	<ContentControl.DataTemplates>
+		<DataTemplate DataType="{x:Type vm:LinkPropertiesViewModel}">
+			<view:LinkPropertiesView/>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type vm:LoopbackFrameGenViewModel}">
+			<view:LoopbackFrameGenView/>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type vm:RegisterListingViewModel}">
+			<view:RegisterListingView/>
+		</DataTemplate>
+	</ContentControl.DataTemplates>
+
+	<Grid RowDefinitions="Auto,11*,3*">
+
+		<HmcNavigationBar Grid.Row="0" Size="sm" AppName="ADIN Ethernet Phy" ReplaceAppBar="True">
+			<HmcNavigationLink Size="sm" HasIcon="False" Content="Link Properties" Command="{Binding NavigateLinkPropertiesCommand}"/>
+			<HmcNavigationLink Size="sm" HasIcon="False" Content="Loopback &amp; Frame Generator" Command="{Binding NavigateLoopbackFrameGenCommand}"/>
+			<HmcNavigationLink Size="sm" HasIcon="False" Content="Register Access" Command="{Binding NavigateRegisterAccessCommand}"/>
+		</HmcNavigationBar>
+
+		<Grid Grid.Row="1" ColumnDefinitions="210,6*,5*">
+			<ContentControl Grid.Column="0" Background="White">
+				<Grid RowDefinitions="2*,3*">
+					<view:DeviceListingView DataContext="{Binding DeviceListingVM}" Grid.Row="0" Margin="-1 -1 0 0"/>
+					<view:ExtraCommandsView DataContext="{Binding ExtraCommandsVM}" Grid.Row="1" Margin="-1 -1 0 -1"/>
+				</Grid>
+			</ContentControl>
+			<ContentControl Grid.Column="1" Grid.ColumnSpan="{Binding ColumnSpan}" Content="{Binding CurrentViewModel, Mode=TwoWay}"/>
+			<ContentControl Grid.Column="2" Margin="-16 0 0 0" Content="{Binding CurrentStatusView}"/>
+		</Grid>
+
+		<Grid Grid.Row="2" ColumnDefinitions="Auto,*">
+			<view:RegisterReadWriteView DataContext="{Binding RegisterAccessVM}" Grid.Column="0"/>
+			<view:LogActivityView DataContext="{Binding LogActivityVM}" Grid.Column="1" Grid.ColumnSpan="2" Margin="-1 0 0 0"/>
+		</Grid>
+	</Grid>
+
+</Window>
