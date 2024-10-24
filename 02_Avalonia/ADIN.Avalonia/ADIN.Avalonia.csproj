@@ -39,16 +39,16 @@
 
   <ItemGroup>
     <Reference Include="SciChart.Charting">
-      <HintPath>..\SciChartLibraries\SciChart.Charting.dll</HintPath>
+      <HintPath>..\..\..\ADIN_V3_BlackDuckScan\02_Avalonia\SciChartLibraries\SciChart.Charting.dll</HintPath>
     </Reference>
     <Reference Include="SciChart.Core">
-      <HintPath>..\SciChartLibraries\SciChart.Core.dll</HintPath>
+      <HintPath>..\..\..\ADIN_V3_BlackDuckScan\02_Avalonia\SciChartLibraries\SciChart.Core.dll</HintPath>
     </Reference>
     <Reference Include="SciChart.Data">
-      <HintPath>..\SciChartLibraries\SciChart.Data.dll</HintPath>
+      <HintPath>..\..\..\ADIN_V3_BlackDuckScan\02_Avalonia\SciChartLibraries\SciChart.Data.dll</HintPath>
     </Reference>
     <Reference Include="SciChart.Drawing">
-      <HintPath>..\SciChartLibraries\SciChart.Drawing.dll</HintPath>
+      <HintPath>..\..\..\ADIN_V3_BlackDuckScan\02_Avalonia\SciChartLibraries\SciChart.Drawing.dll</HintPath>
     </Reference>
   </ItemGroup>
 

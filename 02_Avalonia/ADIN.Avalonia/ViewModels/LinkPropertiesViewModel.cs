@@ -826,9 +826,24 @@ namespace ADIN.Avalonia.ViewModels
                         OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
                         OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
                         _linkProperties.MDIX = fwAPI.GetLinkProp_MDIX();
-                        OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
-                        OnPropertyChanged(nameof(IsMDIX_FixedMDI));
-                        OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
+                        switch (_linkProperties.MDIX)
+                        {
+                            case "Auto MDIX":
+                                OnPropertyChanged(nameof(IsMDIX_FixedMDI));
+                                OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
+                                OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
+                                break;
+                            case "Fixed MDI":
+                                OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
+                                OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
+                                OnPropertyChanged(nameof(IsMDIX_FixedMDI));
+                                break;
+                            case "Fixed MDIX":
+                                OnPropertyChanged(nameof(IsMDIX_FixedMDI));
+                                OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
+                                OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
+                                break;
+                        }
                         _linkProperties.MasterSlaveAdvertise = fwAPI.GetLinkProp_LeadFollow();
                         OnPropertyChanged(nameof(IsLeaderFollower_Leader));
                         OnPropertyChanged(nameof(IsLeaderFollower_Follower));
