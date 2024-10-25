@@ -47,7 +47,7 @@ commandList_t aux_commands[] =
 //  {"adin1100framegen",    CMDAUX_frameGenACheck,        1,    "* Frame Generator and Checker.\n  'adin1100frameGen'<newLine>\n"},
 //  {"adin1200loopback",    CMDAUX_adin1200RemLoopback,   1,    "* ADIN1200 Remote Loopback. \n  'adin1200loopback'<newLine>\n"},
 
-  {"getfwversion",        CMDAUX_getfwVersion,          1,    "* Get Firmware Version.  \n  'getfwversion'<newLine>\n" },
+//  {"getfwversion",        CMDAUX_getfwVersion,          1,    "* Get Firmware Version.  \n  'getfwversion'<newLine>\n" },
 //  {"listmodes",           CMDAUX_printModes,            1,    "* Show list of implemented modes.\n  'listmodes'<newLine>\n"},
 //  {"mode",                CMDAUX_changeConfig,          1,    "* Mode change, overwrites HW CFG, until next Reset.\n  'mode <number>'<newLine>\n"},
   {"info",                CMDAUX_printGreetings,        1,    "* Show board information.\n  'info'<newLine>\n"},
