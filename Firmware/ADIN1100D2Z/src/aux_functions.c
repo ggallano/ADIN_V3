@@ -192,85 +192,85 @@ void printGreetings(board_t *_boardDetails)
     /* board config */
     switch(_boardDetails->fwMode)
     {
-		case SPOE_CLASS10:
+		case PHY_TESTMODE_0:
 		{
-		  label = "Media converter PSE class 10";
+			  // Do nothing
 		}
 		break;
-		case SPOE_CLASS11:
+		case PHY_TESTMODE_1:
 		{
-		  label = "Media converter PSE class 11";
+			  // Do nothing
 		}
 		break;
-		case SPOE_CLASS12:
+		case PHY_TESTMODE_2:
 		{
-		  label = "Media converter PSE class 12";
+			  // Do nothing
 		}
 		break;
-		case SPOE_CLASS13:
+		case PHY_TESTMODE_3:
 		{
-		  label = "Media converter PSE class 13";
+			  // Do nothing
 		}
 		break;
-		case SPOE_CLASS14:
+		case RESERVED_4:
 		{
-		  label = "Media converter PSE class 14";
+			  // Do nothing
 		}
 		break;
-		case SPOE_CLASS15:
+		case RESERVED_5:
 		{
-		  label = "Media converter PSE class 15";
+			  // Do nothing
 		}
 		break;
-		case APL_CLASSA:
+		case RESERVED_6:
 		{
-		  label = "Media converter APL class A";
+			  // Do nothing
 		}
 		break;
-		case APL_CLASSA_NOAUTONEG:
+		case INTERACTIVEMODE:
 		{
-		  label = "Media converter APL class A NoAutoneg";
+			label = "GUI Mode";
 		}
 		break;
 
-		case APL_CLASSC:
+		case MAC_REMOTELB:
 		{
-		  label = "Media converter APL class C";
+			  // Do nothing
 		}
 		break;
-		case APL_CLASS3:
+		case FRAMEGENCHECK:
 		{
-		  label = "Media converter APL class 3";
+			  // Do nothing
 		}
 		break;
-		case PRODUCTION_POWER_TEST:
+		case RESERVED_A:
 		{
-		  label = "Production Power Test";
+			  // Do nothing
 		}
 		break;
-		case APL_CLASSA_OLD_DEMO:
+		case RESERVED_B:
 		{
-		  label = "Media converter APL class A old Demo";
+			  // Do nothing
 		}
 		break;
-		case SPOE_OFF:
+		case RESERVED_C:
 		{
-		  label = "Media converter SPOE off";
+			  // Do nothing
 		}
 		break;
-		case PRODUCTION_DATA_TEST:
+		case MEDCONV_CU_SGMII:
 		{
-		  label = "Production Data Test";
+			  // Do nothing
 		}
 		break;
-		case RESERVED:
+		case MEDCONV_CU_FI:
 		{
-		  label = "Reserved";
+			  // Do nothing
 		}
 		break;
-		case DEBUGMODE:
+		case MEDCONV_CU_CU:
 		{
-		  label = "Debug";
+		  // Do nothing
 		}
 		break;
 
@@ -306,58 +306,112 @@ void readBoardConfigPins(board_t *_boardDetails)
     uint8_t val8 = 0;
 
     val8 = BSP_getConfigPins();
+//    switch(val8)
+//    {
+//        case 0:
+//            _boardDetails->fwMode = SPOE_CLASS10;
+//        break;
+//        case 0x0001:
+//            _boardDetails->fwMode = SPOE_CLASS11;
+//        break;
+//        case 0x2:
+//            _boardDetails->fwMode = SPOE_CLASS12;
+//        break;
+//        case 0x3:
+//            _boardDetails->fwMode = SPOE_CLASS13;
+//        break;
+//        case 0x4:
+//            _boardDetails->fwMode = SPOE_CLASS14;
+//        break;
+//        case 0x5:
+//            _boardDetails->fwMode = SPOE_CLASS15;
+//        break;
+//        case 0x6:
+//            _boardDetails->fwMode = APL_CLASSA;
+//        break;
+//        case 0x7:
+//            _boardDetails->fwMode = APL_CLASSA_NOAUTONEG;
+//        break;
+//        case 0x8:
+//            _boardDetails->fwMode = APL_CLASSC;
+//        break;
+//        case 0x9:
+//            _boardDetails->fwMode = APL_CLASS3;
+//        break;
+//        case 0xA:
+//            _boardDetails->fwMode = PRODUCTION_POWER_TEST;
+//        break;
+//        case 0xB:
+//            _boardDetails->fwMode = APL_CLASSA_OLD_DEMO;
+//        break;
+//        case 0xC:
+//            _boardDetails->fwMode = SPOE_OFF;
+//        break;
+//        case 0xD:
+//            _boardDetails->fwMode = PRODUCTION_DATA_TEST;
+//        break;
+//        case 0xE:
+//            _boardDetails->fwMode = RESERVED;
+//        break;
+//        case 0xF:
+//            _boardDetails->fwMode = DEBUGMODE;
+//        break;
+//        default:
+//            _boardDetails->fwMode = DEBUGMODE;
+//        break;
+//    }
     switch(val8)
     {
         case 0:
-            _boardDetails->fwMode = SPOE_CLASS10;
+            _boardDetails->fwMode = PHY_TESTMODE_0;
         break;
         case 0x0001:
-            _boardDetails->fwMode = SPOE_CLASS11;
+            _boardDetails->fwMode = PHY_TESTMODE_1;
         break;
         case 0x2:
-            _boardDetails->fwMode = SPOE_CLASS12;
+            _boardDetails->fwMode = PHY_TESTMODE_2;
         break;
         case 0x3:
-            _boardDetails->fwMode = SPOE_CLASS13;
+            _boardDetails->fwMode = PHY_TESTMODE_3;
         break;
         case 0x4:
-            _boardDetails->fwMode = SPOE_CLASS14;
+            _boardDetails->fwMode = RESERVED_4;
         break;
         case 0x5:
-            _boardDetails->fwMode = SPOE_CLASS15;
+            _boardDetails->fwMode = RESERVED_5;
         break;
         case 0x6:
-            _boardDetails->fwMode = APL_CLASSA;
+            _boardDetails->fwMode = RESERVED_6;
         break;
         case 0x7:
-            _boardDetails->fwMode = APL_CLASSA_NOAUTONEG;
+            _boardDetails->fwMode = INTERACTIVEMODE;
         break;
         case 0x8:
-            _boardDetails->fwMode = APL_CLASSC;
+            _boardDetails->fwMode = MAC_REMOTELB;
         break;
         case 0x9:
-            _boardDetails->fwMode = APL_CLASS3;
+            _boardDetails->fwMode = FRAMEGENCHECK;
         break;
         case 0xA:
-            _boardDetails->fwMode = PRODUCTION_POWER_TEST;
+            _boardDetails->fwMode = RESERVED_A;
         break;
         case 0xB:
-            _boardDetails->fwMode = APL_CLASSA_OLD_DEMO;
+            _boardDetails->fwMode = RESERVED_B;
         break;
         case 0xC:
-            _boardDetails->fwMode = SPOE_OFF;
+            _boardDetails->fwMode = RESERVED_C;
         break;
         case 0xD:
-            _boardDetails->fwMode = PRODUCTION_DATA_TEST;
+            _boardDetails->fwMode = MEDCONV_CU_SGMII;
         break;
         case 0xE:
-            _boardDetails->fwMode = RESERVED;
+            _boardDetails->fwMode = MEDCONV_CU_FI;
         break;
         case 0xF:
-            _boardDetails->fwMode = DEBUGMODE;
+            _boardDetails->fwMode = MEDCONV_CU_CU;
         break;
         default:
-            _boardDetails->fwMode = DEBUGMODE;
+            _boardDetails->fwMode = MEDCONV_CU_CU;
         break;
     }
 }
@@ -966,15 +1020,6 @@ adi_eth_Result_e adin1100_sp_cfg(board_t *_boardDetails, adi_phy_Device_t *hDevi
 		result = ADI_ETH_COMM_ERROR;
     }
 
-    if(cfgType == APL_CLASSA_OLD_DEMO)
-    {
-        printf("ADIN1100 HW Config: old demo,");
-    }
-    else
-    {
-        printf("ADIN1100 HW Config: no autoneg,");
-    }
-
     /* Check if ADIN1100 is in RGMII MAC mode */
     /* CRSM_MAC_IF_CFG, reads 0x0001 in RGMII */
     result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_CRSM_MAC_IF_CFG, &val16);
@@ -996,19 +1041,6 @@ adi_eth_Result_e adin1100_sp_cfg(board_t *_boardDetails, adi_phy_Device_t *hDevi
 	{
     	printf(" ADIN1100 is not in SWPD\n\r");
 	}
-
-    if(cfgType == APL_CLASSA_OLD_DEMO)
-    {
-    	/* Disable ADIN1100 delimiter randomization
-    	 * TxDelimRandEn clear bit 0 TxDelimRandEn = 0
-    	 *  Disable delimiter randomization  */
-        result = adi_MdioWrite_Cl45(hDevice->phyAddr, 0x038000, 0x0000);
-        if(result != ADI_ETH_SUCCESS)
-    	{
-        	printf("Error - adi_MdioRead_Cl45 failed \n\r");
-    		result = ADI_ETH_COMM_ERROR;
-    	}
-    }
 
     /* Disable ADIN1100 auto-negotiation */
     /* The only other bit in this register is AN_RESTART, need to write 0 to it */
@@ -1302,33 +1334,6 @@ adi_eth_Result_e adin1300_cfg(board_t *_boardDetails)
 	{
 		result = ADI_ETH_COMM_ERROR;
     }
-
-    /**********************************/
-	/* AUTONEG_ADV=FD_10_ADV | SELECTOR_ADV - Autoneg 10Mb FD  */
-	/* 0x0041 = (BITM_AUTONEG_ADV_FD_10_ADV|0x01)
-	 * BITP_AUTONEG_ADV_HD_100_ADV is set as 0
-	 * BITP_AUTONEG_ADV_HD_10_ADV is set as 0 */
-//    val16 = 0x0041;
-//	result = adi_MdioWrite(_boardDetails->adin1300PhyAddr, ADDR_AUTONEG_ADV, val16);
-//	if(result != ADI_ETH_SUCCESS)
-//	{
-//		result = ADI_ETH_COMM_ERROR;
-//    }
-
-    /*******************************************/
-    /* MII_CONTROL=DPLX_MODE|RESTART_ANEG|AUTONEG_EN */
-//    val16 = 0;
-//    result = adi_MdioRead(_boardDetails->adin1300PhyAddr, ADDR_MII_CONTROL, &val16);
-//    if(result != ADI_ETH_SUCCESS)
-//    {
-//        return ADI_ETH_COMM_ERROR;
-//    }
-//    val16 |= (BITM_MII_CONTROL_AUTONEG_EN | BITM_MII_CONTROL_RESTART_ANEG | BITM_MII_CONTROL_DPLX_MODE);
-//    result = adi_MdioWrite(_boardDetails->adin1300PhyAddr, ADDR_MII_CONTROL, val16);
-//    if(result != ADI_ETH_SUCCESS)
-//    {
-//        result = ADI_ETH_COMM_ERROR;
-//    }
 
 	if(result == ADI_ETH_SUCCESS)
         printf("ADIN1200 SW CFG: autoneg 10Mbit Full Duplex Only ");
@@ -2125,621 +2130,103 @@ adi_eth_Result_e applyBoardConfig(board_t *_boardDetails, adi_phy_Device_t *hDev
 	adi_eth_Result_e result = ADI_ETH_SUCCESS;
     uint16_t val16 = 0;
 
-    /* Configuration of LTC4296-1 in different FW modes
-     * Production PWR test is handled in this section  */
-    switch(_boardDetails->fwMode)
+
+	result = ltc4296_1_cfg(_boardDetails, LTC_CFG_SCCP_MODE, LTC_PORT1);
+	if (result != ADI_ETH_SUCCESS)
 	{
-        case SPOE_CLASS10:
-        {
-            result = ltc4296_1_cfg(_boardDetails, LTC_CFG_SCCP_MODE, LTC_PORT1);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("LTC4296-1 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = true;
-            }
-        }
-        break;
+		printf("LTC4296-1 Error - %s \n\r", adi_eth_result_string[result]);
+		_boardDetails->errorLed = true;
+	}
 
-        case SPOE_CLASS11:
-        {
-            result = ltc4296_1_cfg(_boardDetails, LTC_CFG_SCCP_MODE, LTC_PORT2);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("LTC4296-1 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = true;
-            }
-        }
-        break;
+//	result = adin1100_cfg(_boardDetails, hDevice);
+//	if (result != ADI_ETH_SUCCESS)
+//	{
+//		printf("ADIN1100 Error - %s \n\r", adi_eth_result_string[result]);
+//		_boardDetails->errorLed = TRUE;
+//		/* Fatal error - reset the board to clear the flag */
+//	}
 
-        case SPOE_CLASS12:
-        {
-            result = ltc4296_1_cfg(_boardDetails,LTC_CFG_SCCP_MODE, LTC_PORT3);
-            if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("LTC4296-1 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = true;
-            }
-        }
-        break;
+	result = adin1300_cfg(_boardDetails);
+	if (result != ADI_ETH_SUCCESS)
+	{
+		printf("ADIN1300 Error - %s \n\r", adi_eth_result_string[result]);
+		_boardDetails->errorLed = TRUE;
+	}
 
-        case SPOE_CLASS13:
-        {
-            result = ltc4296_1_cfg(_boardDetails,LTC_CFG_SCCP_MODE,LTC_PORT2);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("LTC4296-1 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = true;
-            }
-        }
-        break;
-
-        case SPOE_CLASS14:
-        {
-            result = ltc4296_1_cfg(_boardDetails,LTC_CFG_SCCP_MODE,LTC_PORT3);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("LTC4296-1 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = true;
-            }
-        }
-        break;
-
-        case SPOE_CLASS15:
-        {
-            result = ltc4296_1_cfg(_boardDetails,LTC_CFG_SCCP_MODE,LTC_PORT4);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("LTC4296-1 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = true;
-            }
-        }
-        break;
-
-        case APL_CLASSA:
-        {
-            result = ltc4296_1_cfg(_boardDetails,LTC_CFG_APL_MODE,LTC_PORT0);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("LTC4296-1 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = true;
-            }
-        }
-        break;
-
-        case APL_CLASSA_NOAUTONEG:
-        {
-           	ltc4296_1_cfg(_boardDetails,LTC_CFG_APL_MODE, LTC_PORT0);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("LTC4296-1 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = true;
-            }
-        }
-        break;
-
-        case APL_CLASSC:
-        {
-            result = ltc4296_1_cfg(_boardDetails,LTC_CFG_APL_MODE,LTC_PORT1);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("LTC4296-1 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = true;
-            }
-        }
-        break;
-
-        case APL_CLASS3:
-        {
-           	result = ltc4296_1_cfg(_boardDetails,LTC_CFG_APL_MODE,LTC_PORT4);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("LTC4296-1 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = true;
-            }
-        }
-        break;
-
-        case PRODUCTION_POWER_TEST:
-        {
-        	printf("\nBoard Production Power Test\n");
-
-        	printf("Power from USB, J651 PWR 12V (APL) jumper in\n");
-            printf("Connect 200ohm test load to P101 10BASE-T1L \n");
-           	result = ltc4296_1_cfg(_boardDetails,LTC_CFG_RESET,LTC_NO_PORT);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("LTC4296-1 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = true;
-            }
-        }
-        break;
-
-        case APL_CLASSA_OLD_DEMO:
-        {
-            result = ltc4296_1_cfg(_boardDetails,LTC_CFG_APL_MODE,LTC_PORT0);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("LTC4296-1 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = true;
-            }
-        }
-        break;
-
-        case SPOE_OFF: /* No Power Mode*/
-        {
-        	/* reset the LTC - */
-            result = ltc4296_1_cfg(_boardDetails,LTC_CFG_RESET, LTC_NO_PORT);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("LTC4296-1 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = true;
-            }
-        }
-        break;
-
-        case PRODUCTION_DATA_TEST:
-        {
-        	/* No Power config for this mode */
-        }
-        break;
-
-        case RESERVED:
-        {
-        	printf("The board is in reserved mode \n\r");
-        }
-        break;
-
-        case DEBUGMODE:
-        {
-        	printf("The board is in debug mode \n\r");
-        }
-        break;
-
-        default:
-            _boardDetails->fwMode = DEBUGMODE;
-        break;
-    }
-
-    /* Configuration of ADIN1100 and ADIN1200 in different FW modes
-     * Product Data test is handled in this section */
 	switch(_boardDetails->fwMode)
 	{
-		case SPOE_CLASS10:
-        case SPOE_CLASS11:
-        case SPOE_CLASS12:
-        case SPOE_CLASS13:
-        case SPOE_CLASS14:
-        case SPOE_CLASS15:
-        case APL_CLASSA:
-        case APL_CLASSC:
-        case APL_CLASS3:
-        case SPOE_OFF:
+		case PHY_TESTMODE_0:
 		{
-//			result = adin1100_cfg(_boardDetails, hDevice);
-//			if (result != ADI_ETH_SUCCESS)
+			/* Template for register write */
+//			result = adi_MdioWrite_Cl45(hDevice->phyAddr, <insert reg address of testmode>, <macro to testmode 0>, &val16);
+//			if(result != ADI_ETH_SUCCESS)
 //			{
-//				printf("ADIN1100 Error - %s \n\r", adi_eth_result_string[result]);
-//				_boardDetails->errorLed = TRUE;
-//				/* Fatal error - reset the board to clear the flag */
+//				printf("Error - adi_MdioRead_Cl45 failed \n\r");
+//				result = ADI_ETH_COMM_ERROR;
 //			}
 
-			result = adin1300_cfg(_boardDetails);
-			if (result != ADI_ETH_SUCCESS)
-			{
-				printf("ADIN1300 Error - %s \n\r", adi_eth_result_string[result]);
-				_boardDetails->errorLed = TRUE;
-			}
+			// insert reg write testmode 0
 		}
-        break;
+		break;
 
-        case PRODUCTION_POWER_TEST:
-        {
-           	printf("ADIN1100 Config");
-            /* Check the ADIN1100 HW CFG setting Master/Slave
-             * AN_ADV_ABILITY_M, check bit AN_ADV_MST */
-            result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_AN_ADV_ABILITY_M, &val16);
-            if(result != ADI_ETH_SUCCESS)
-        	{
-            	printf("Error - adi_MdioRead_Cl45 failed \n\r");
-        		result = ADI_ETH_COMM_ERROR;
-        	}
-
-            if( (val16 & BITM_AN_ADV_ABILITY_M_AN_ADV_MST) == BITM_AN_ADV_ABILITY_M_AN_ADV_MST)
-            {
-            	printf(" prefer Master, Error - expected preferred Slave \n");
-            	_boardDetails->errorLed = TRUE;
-            }
-            else
-            {
-            	printf(" prefer Slave,");
-            }
-
-            /* Check the ADIN1100 HW CFG setting amplitude
-             * B10L_PMA_CNTRL, check bit B10L_TX_LVL_HI_ABLE */
-            result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_B10L_PMA_CNTRL, &val16);
-            if(result != ADI_ETH_SUCCESS)
-        	{
-            	printf("Error - adi_MdioRead_Cl45 failed \n\r");
-        		result = ADI_ETH_COMM_ERROR;
-        	}
-
-            if( (val16 & BITM_B10L_PMA_CNTRL_B10L_TX_LVL_HI) == BITM_B10L_PMA_CNTRL_B10L_TX_LVL_HI)
-            {
-            	printf(" Tx 2.4V\n");
-            }
-            else
-            {
-            	printf(" Enabled 1.0V, Error - expected Enabled 2.4V \n");
-            	_boardDetails->errorLed = TRUE;
-            }
-        }
-        break;
-
-        case APL_CLASSA_NOAUTONEG:
-        {
-        	result = adin1100_sp_cfg(_boardDetails, hDevice, APL_CLASSA_NOAUTONEG);
-        	if (result != ADI_ETH_SUCCESS)
-        	{
-        		printf("ADIN1100 Error - %s \n\r", adi_eth_result_string[result]);
-        		_boardDetails->errorLed = TRUE;
-        		/* Fatal error - reset the board to clear the flag */
-        	}
-
-            result = adin1300_cfg(_boardDetails);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("ADIN1200 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = TRUE;
-            }
-        }
-        break;
-
-        case APL_CLASSA_OLD_DEMO:
-        {
-        	result = adin1100_sp_cfg(_boardDetails, hDevice, APL_CLASSA_OLD_DEMO);
-        	if (result != ADI_ETH_SUCCESS)
-        	{
-        		printf("ADIN1100 Error - %s \n\r", adi_eth_result_string[result]);
-        		_boardDetails->errorLed = TRUE;
-        		/* Fatal error - reset the board to clear the flag */
-        	}
-
-            result = adin1300_cfg(_boardDetails);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("ADIN1200 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = TRUE;
-            }
-        }
-        break;
-
-        case PRODUCTION_DATA_TEST:
-        {
-            printf("Board Production Data Mode ..... Begin Test\n");
-        	result = adin1100_cfg(_boardDetails, hDevice);
-        	if (result != ADI_ETH_SUCCESS)
-        	{
-        		printf("ADIN1100 Error - %s \n\r", adi_eth_result_string[result]);
-        		_boardDetails->errorLed = TRUE;
-        		/* Fatal error - reset the board to clear the flag */
-        	}
-
-            result = adin1300_cfg(_boardDetails);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("ADIN1200 Error - %s \n\r", adi_eth_result_string[result]);
-            	_boardDetails->errorLed = TRUE;
-            }
-
-            result = adin1200_remLoopback(_boardDetails);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("\n\rADIN1200 Error - %s \n\r", adi_eth_result_string[result]);
-            }
-
-           	/* Delay for ADIN1200 to comeup */
-           	TimerDelay_ms(ADIN1200_LINK_UP_DELAY);
-
-            adin1100_checkLinkPartner(_boardDetails,hDevice);
-
-           	result = adin1100_frameGenACheck(_boardDetails,hDevice);
-           	if (result != ADI_ETH_SUCCESS)
-           	{
-                printf("ADIN1200 Error - %s \n\r", adi_eth_result_string[result]);
-            }
-        }
-        break;
-
-        default:
-            _boardDetails->fwMode = DEBUGMODE;
-        break;
-	}
-    return result;
-}
-
-/*
- * @brief           cyclicReadBoard
- *
- * @param [in]      boardDetails  pointer to board_t structure
- * @param [in]      hDevice  pointer to PHY address of ADIN1100
- *
- * @details         This function reports on UART PHY related data depending on flags
- *
- */
-adi_eth_Result_e cyclicReadBoard(board_t *_boardDetails, adi_phy_Device_t *hDevice)
-{
-    adi_eth_Result_e result = ADI_ETH_SUCCESS;
-    uint32_t frmGenDone = 0;
-    uint32_t temprxErr = 0;
-    uint32_t temprxCnt = 0;
-    uint16_t val16 = 0;
-
-    if( (_boardDetails->fwMode != RESERVED) && (_boardDetails->fwMode != DEBUGMODE) )
-    {
-		adin1100_ReadErrPackets(hDevice, &temprxErr, &temprxCnt);
-		_boardDetails->rxErr += temprxErr;
-		_boardDetails->rxCnt += temprxCnt;
-    }
-
-	if(_boardDetails->frameGenEnabled == TRUE)
-	{
-		/* FG_EN Disable Frame Generator (to restart it) */
-		val16 = 0x0;
-		result = adi_MdioWrite_Cl45(hDevice->phyAddr, ADDR_FG_EN, val16);
-		adin1100_checkFrameGen(hDevice, &frmGenDone);
-		if(frmGenDone == 1)
+		case PHY_TESTMODE_1:
 		{
-			_boardDetails->txCnt += ADIN1100_FRAME_COUNT;//increment TX Number
+			// insert reg write testmode 1
 		}
-		/* FG_EN Enable Frame Generator */
-		val16 = 0x1;
-		result = adi_MdioWrite_Cl45(hDevice->phyAddr, ADDR_FG_EN, val16);
+		break;
 
-		if(_boardDetails->fwMode == PRODUCTION_DATA_TEST)
+		case PHY_TESTMODE_2:
 		{
-			if( (_boardDetails->rxErr > 0) || (_boardDetails->txCnt - _boardDetails->rxCnt ))
-			{
-				_boardDetails->tempErrorLed = TRUE; //RED LED
-				_boardDetails->blueLed = FALSE; //BLUE LED
-			}
-
-			if(_boardDetails->rxCnt >= 5000)
-			{
-				_boardDetails->blueLed = TRUE; //BLUE LED
-			}
-			if( (_boardDetails->rxCnt < 5000) || (_boardDetails->errorLed == TRUE) )
-			{
-				_boardDetails->blueLed = FALSE; //BLUE LED
-			}
+			// insert reg write testmode 2
 		}
+		break;
+
+		case PHY_TESTMODE_3:
+		{
+			// insert reg write testmode 3
+		}
+		break;
+
+		case INTERACTIVEMODE:
+		{
+			// possibly insert here to enable AllowInput at GUI
+			// possibly use interrupt
+		}
+		break;
+
+		case MAC_REMOTELB:
+		{
+			// insert sequence
+		}
+		break;
+
+		case FRAMEGENCHECK:
+		{
+			// insert sequence to enable frame generator
+			// do frame checker at cyclic tasks
+		}
+		break;
+
+		case MEDCONV_CU_SGMII:
+		{
+			// insert reg writes to set MEDIA CONVERTER for COPPER to SGMII
+		}
+		break;
+
+		case MEDCONV_CU_FI:
+		{
+			// insert reg writes to set MEDIA CONVERTER for COPPER to FIBER
+		}
+		break;
+
+		case MEDCONV_CU_CU: // default configuration
+		default:
+		{
+			// insert reg writes to set MEDIA CONVERTER for COPPER to COPPER
+		}
+		break;
 	}
 
-	if(_boardDetails->clrFrameErrors == TRUE)
-	{
-		_boardDetails->rxErr = 0;
-		_boardDetails->rxCnt = 0;
-		_boardDetails->txCnt = 0;
-		_boardDetails->clrFrameErrors = 0;
-		_boardDetails->tempErrorLed = FALSE;
-		/* read to clear errors */
-		adin1100_ReadErrPackets(hDevice, &temprxErr, &temprxCnt);
-    }
-
-	if(_boardDetails->uartReport == TRUE)
-	{
-		if(_boardDetails->readMSE == TRUE)
-		{
-			result = adin1100_getMseLinkQuality(hDevice, &mseLinkQuality);
-			if(result != ADI_ETH_SUCCESS)
-			{
-				result = ADI_ETH_COMM_ERROR;
-			}
-			_boardDetails->adin1100_mseVal = calcMseDb(mseLinkQuality.mseVal);
-
-			result = GetSlicerError(_boardDetails,hDevice);
-			if(result != ADI_ETH_SUCCESS)
-			{
-				result = ADI_ETH_COMM_ERROR;
-			}
-
-			if(_boardDetails->adin1100LinkIsUp == TRUE)
-			{
-				printf("MSE %.2f dB, SLCRERR %.3f, ",(double)_boardDetails->adin1100_mseVal, (double)_boardDetails->adin1100_slcrErrMaxAbsErr);
-			}
-			else
-			{
-				printf("MSE N/A, SLCRERR N/A, ");
-			}
-		}
-		if(_boardDetails->frameGenEnabled == TRUE)
-		{
-			printf("Tx %d, Rx %d, Diff %d, Err %d, ", _boardDetails->txCnt, _boardDetails->rxCnt,
-				   (_boardDetails->txCnt - _boardDetails->rxCnt), _boardDetails->rxErr);
-		}
-		else
-		{
-			printf("Rx %d, Err %d, ", _boardDetails->rxCnt, _boardDetails->rxErr);
-		}
-
-        if(_boardDetails->ltc4296_1_pdPresent == TRUE)
-        {
-			/* Prints Voltage and Current read from LTC4296_1 ADC*/
-			printf("Vout %3.1fV, ",(double)_boardDetails->ltc4296_1_VoutIout.ltc4296_1_Vout);
-			printf("Iout %3.1fmA \n",(double)_boardDetails->ltc4296_1_VoutIout.ltc4296_1_Iout);
-        }
-        else
-        {
-        	if(_boardDetails->fwMode == SPOE_OFF)
-        	{
-			    printf("PSE Disabled\n");
-        	}
-        	else if( (_boardDetails->fwMode == SPOE_CLASS10) || (_boardDetails->fwMode == SPOE_CLASS11) || (_boardDetails->fwMode == SPOE_CLASS12)
-        		|| (_boardDetails->fwMode == SPOE_CLASS13) || (_boardDetails->fwMode == SPOE_CLASS14) || (_boardDetails->fwMode == SPOE_CLASS15) 	)
-         	{
-        		printf("No PD\n");
-        	}
-        	else
-         	{
-        		printf("PSE N/A\n");
-        	}
-        }
-	}
-    return result;
-}
-
-
-/*
- * @brief           cyclicLinkStatus
- *
- * @param [in]      boardDetails    pointer to board_t structure
- * @param [in]      hDevice         Device handle having PHY address of ADIN1100
- *
- * @details         This function collects the PHY link status in the one second loop
- *
- */
-adi_eth_Result_e cyclicLinkStatus(board_t *_boardDetails, adi_phy_Device_t *hDevice)
-{
-    adi_eth_Result_e  result = ADI_ETH_SUCCESS;
-    uint16_t val16 = 0;
-
-    if((_boardDetails->fwMode == RESERVED) || (_boardDetails->fwMode == DEBUGMODE) )
-    {
-    	/* No MDIO Reads in this mode*/
-        return ADI_ETH_NOT_IMPLEMENTED_SOFTWARE;
-    }
-    else
-    {
-	    /* ADIN1100 PHY Link Status */
-
-		adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_AN_PHY_INST_STATUS, &val16);
-		if(result != ADI_ETH_SUCCESS)
-		{
-			result = ADI_ETH_COMM_ERROR;
-		}
-		if((val16 & 0x80) == 0x80)//Link OK - bit 7 IS_LINK_STATUS_OK (Not in the data sheet!!)
-		{
-			_boardDetails->adin1100LinkIsUp = TRUE;
-		}
-		else
-		{
-			_boardDetails->adin1100LinkIsUp = FALSE;
-		}
-
-		adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_PMA_PMD_STAT1, &val16);
-		if(result != ADI_ETH_SUCCESS)
-		{
-			result = ADI_ETH_COMM_ERROR;
-		}
-
-		if( (val16 & BITM_PMA_PMD_STAT1_PMA_LINK_STAT_OK_LL) == BITM_PMA_PMD_STAT1_PMA_LINK_STAT_OK_LL)
-		{
-			/* Dont do anything */
-		}
-		else
-		{
-			_boardDetails->adin1100LinkWasDown = TRUE;
-			_boardDetails->adin1100LinkIsUp = FALSE;
-		}
-
-		val16 = 0;
-		adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_AN_PHY_INST_STATUS, &val16);
-		if(result != ADI_ETH_SUCCESS)
-		{
-			result = ADI_ETH_COMM_ERROR;
-		}
-		if((_boardDetails->adin1100LinkIsUp == TRUE))
-		{
-			if((val16 & 0x40) == 0x40)//An Enabled - bit 6 IS_AN_EN (Not in the datasheet!!)
-			{
-				_boardDetails->adin1100AnEn = TRUE;//An Enabled
-			}
-			else
-			{
-				_boardDetails->adin1100AnEn = FALSE;//An Disabled
-			}
-
-			/* bit 5 IS_FRC_LINK_CFG_MODE (Not in the datasheet!!)  */
-			if((val16 & 0x20) == 0x20)
-			{
-				_boardDetails->adin1100LinkForced = TRUE;
-			}
-			else
-			{
-				_boardDetails->adin1100LinkForced = FALSE;
-			}
-
-			if((val16 & BITM_AN_PHY_INST_STATUS_IS_CFG_MST) == BITM_AN_PHY_INST_STATUS_IS_CFG_MST)//Master
-			{
-				_boardDetails->adin1100MasterEn = TRUE;//Master Enabled
-			}
-			else
-			{
-				_boardDetails->adin1100MasterEn = FALSE;//Master Disabled
-			}
-
-			if((val16 & BITM_AN_PHY_INST_STATUS_IS_CFG_SLV) == BITM_AN_PHY_INST_STATUS_IS_CFG_SLV)//Slave
-			{
-				_boardDetails->adin1100SlaveEn = TRUE;//Slave Enabled
-			}
-			else
-			{
-				_boardDetails->adin1100SlaveEn = FALSE;//Slave Disabled
-			}
-
-			if((val16 & BITM_AN_PHY_INST_STATUS_IS_TX_LVL_HI) == BITM_AN_PHY_INST_STATUS_IS_TX_LVL_HI)//TxLevel High
-			{
-				_boardDetails->adin1100TxVHi = TRUE;//TxLevel 2.4V
-			}
-			else
-			{
-				_boardDetails->adin1100TxVHi = FALSE;//TxLevel 2.4V
-			}
-
-			if((val16 & BITM_AN_PHY_INST_STATUS_IS_TX_LVL_LO) == BITM_AN_PHY_INST_STATUS_IS_TX_LVL_LO)//TxLevel Low
-			{
-				_boardDetails->adin1100TxVLow = TRUE;//TxLevel 1.0 V
-			}
-			else
-			{
-				_boardDetails->adin1100TxVLow = FALSE;//TxLevel 1.0 V
-			}
-		}
-
-		/* ADIN1200 PHY Link Status */
-
-		/* Read the Latched data bit2 (LINK_STAT_LAT) in MII_STATUS register */
-		val16 = 0;
-
-		/* Read the current link status data bit6 (LINK_STAT) in PHY_STATUS_1 register */
-		adi_MdioRead(_boardDetails->adin1300PhyAddr,  ADDR_PHY_STATUS_1, &val16);
-		if(result != ADI_ETH_SUCCESS)
-		{
-			result = ADI_ETH_COMM_ERROR;
-		}
-		if((val16 & BITM_PHY_STATUS_1_LINK_STAT) == BITM_PHY_STATUS_1_LINK_STAT)
-		{
-			_boardDetails->adin1300LinkIsUp = TRUE;
-		}
-		else
-		{
-			_boardDetails->adin1300LinkIsUp = FALSE;
-		}
-
-		val16 = 0;
-		adi_MdioRead(_boardDetails->adin1300PhyAddr,  ADDR_MII_STATUS, &val16);
-		if(result != ADI_ETH_SUCCESS)
-		{
-			result = ADI_ETH_COMM_ERROR;
-		}
-		if((val16 & BITM_MII_STATUS_LINK_STAT_LAT) == BITM_MII_STATUS_LINK_STAT_LAT)
-		{
-			/* Dont do anything */
-		}
-		else
-		{
-			_boardDetails->adin1300LinkWasDown = TRUE;
-		}
-    }
     return result;
 }
 
@@ -2748,7 +2235,7 @@ adi_eth_Result_e cyclicLinkStatus(board_t *_boardDetails, adi_phy_Device_t *hDev
  *
  * @param [in]      boardDetails    pointer to board_t structure
  * @param [in]      ltcCfgClass     LTC4296-1 class
- * @param [in]      ltcCfgClass     LTC4296-1 port number (0-4)
+ * @param [in]      ltcCfgClass     LTC4296-1 port num\ber (0-4)
  *
  * @details         This function resets LTC4296-1 and sets the class and port parameters
  *
@@ -2771,376 +2258,6 @@ adi_ltc_Result_e ltc4296_1_cfg(board_t *_boardDetails, ltc4296_1_config_e ltcCfg
 
     return ADI_LTC_SUCCESS;
 }
-
-/*
- * @brief           cyclicSPOEControl
- *
- * @param [in]      boardDetails     pointer to board_t structure
- *
- * @details         This function performs SPOE/SCCP or APL work flow depending on the firmware mode
- *
- */
-adi_eth_Result_e cyclicSPOEControl(board_t *_boardDetails)
-{
-	adi_ltc_Result_e result = ADI_LTC_SUCCESS;
-	uint8_t i=0;
-	adi_eth_Result_e ret = ADI_ETH_SUCCESS;
-
-    switch(_boardDetails->fwMode)
-	{
-        case SPOE_CLASS10:
-        {
-        	result = ltc4296_1_chkGlobalEvents();
-        	if(result == ADI_LTC_DISCONTINUE_SCCP)
-        	{
-        		break;
-        	}
-
-        	result = ltc4296_1_chkPortEvents(_boardDetails->ltc4296_1_Port);
-        	if(result == ADI_LTC_DISCONTINUE_SCCP)
-        	{
-        		break;
-        	}
-    		result = ltc4296_1_doSpoeSccp(_boardDetails->fwMode, _boardDetails->ltc4296_1_Port,&(_boardDetails->ltc4296_1_VoutIout));
-    		if( (result == ADI_LTC_SUCCESS) || (result == ADI_LTC_SCCP_COMPLETE) )
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = TRUE;
-    		}
-    		else if(result == ADI_LTC_DISCONTINUE_SCCP)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    			_boardDetails->tempErrorLed = TRUE;
-    		}
-    		else if(result == ADI_LTC_SCCP_PD_NOT_PRESENT)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    		}
-        }
-        break;
-
-        case SPOE_CLASS11:
-        {
-        	result = ltc4296_1_chkGlobalEvents();
-        	if(result == ADI_LTC_DISCONTINUE_SCCP)
-        	{
-        		break;
-        	}
-
-        	result = ltc4296_1_chkPortEvents(_boardDetails->ltc4296_1_Port);
-        	if(result == ADI_LTC_DISCONTINUE_SCCP)
-        	{
-        		break;
-        	}
-    		result = ltc4296_1_doSpoeSccp(_boardDetails->fwMode, _boardDetails->ltc4296_1_Port,&(_boardDetails->ltc4296_1_VoutIout));
-    		if( (result == ADI_LTC_SUCCESS) || (result == ADI_LTC_SCCP_COMPLETE) )
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = TRUE;
-    		}
-    		else if(result == ADI_LTC_DISCONTINUE_SCCP)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    			_boardDetails->tempErrorLed = TRUE;
-    		}
-    		else if(result == ADI_LTC_SCCP_PD_NOT_PRESENT)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    		}
-        }
-        break;
-
-        case SPOE_CLASS12:
-        {
-        	result = ltc4296_1_chkGlobalEvents();
-        	if(result == ADI_LTC_DISCONTINUE_SCCP)
-        	{
-        		break;
-        	}
-
-        	result = ltc4296_1_chkPortEvents(_boardDetails->ltc4296_1_Port);
-        	if(result == ADI_LTC_DISCONTINUE_SCCP)
-        	{
-        		break;
-        	}
-    		result = ltc4296_1_doSpoeSccp(_boardDetails->fwMode, _boardDetails->ltc4296_1_Port,&(_boardDetails->ltc4296_1_VoutIout));
-    		if( (result == ADI_LTC_SUCCESS) || (result == ADI_LTC_SCCP_COMPLETE) )
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = TRUE;
-    		}
-    		else if(result == ADI_LTC_DISCONTINUE_SCCP)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    			_boardDetails->tempErrorLed = TRUE;
-    		}
-    		else if(result == ADI_LTC_SCCP_PD_NOT_PRESENT)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    		}
-        }
-        break;
-
-        case SPOE_CLASS13:
-        {
-        	result = ltc4296_1_chkGlobalEvents();
-        	if(result == ADI_LTC_DISCONTINUE_SCCP)
-        	{
-        		break;
-        	}
-
-        	result = ltc4296_1_chkPortEvents(_boardDetails->ltc4296_1_Port);
-        	if(result == ADI_LTC_DISCONTINUE_SCCP)
-        	{
-        		break;
-        	}
-    		result = ltc4296_1_doSpoeSccp(_boardDetails->fwMode, _boardDetails->ltc4296_1_Port,&(_boardDetails->ltc4296_1_VoutIout));
-    		if( (result == ADI_LTC_SUCCESS) || (result == ADI_LTC_SCCP_COMPLETE) )
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = TRUE;
-    		}
-    		else if(result == ADI_LTC_DISCONTINUE_SCCP)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    			_boardDetails->tempErrorLed = TRUE;
-    		}
-    		else if(result == ADI_LTC_SCCP_PD_NOT_PRESENT)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    		}
-        }
-        break;
-        case SPOE_CLASS14:
-        {
-        	result = ltc4296_1_chkGlobalEvents();
-        	if(result == ADI_LTC_DISCONTINUE_SCCP)
-        	{
-        		break;
-        	}
-
-        	result = ltc4296_1_chkPortEvents(_boardDetails->ltc4296_1_Port);
-        	if(result == ADI_LTC_DISCONTINUE_SCCP)
-        	{
-        		break;
-        	}
-    		result = ltc4296_1_doSpoeSccp(_boardDetails->fwMode, _boardDetails->ltc4296_1_Port,&(_boardDetails->ltc4296_1_VoutIout));
-    		if( (result == ADI_LTC_SUCCESS) || (result == ADI_LTC_SCCP_COMPLETE) )
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = TRUE;
-    		}
-    		else if(result == ADI_LTC_DISCONTINUE_SCCP)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    			_boardDetails->tempErrorLed = TRUE;
-    		}
-    		else if(result == ADI_LTC_SCCP_PD_NOT_PRESENT)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    		}
-        }
-        break;
-        case SPOE_CLASS15:
-        {
-        	result = ltc4296_1_chkGlobalEvents();
-        	if(result == ADI_LTC_DISCONTINUE_SCCP)
-        	{
-        		break;
-        	}
-
-        	result = ltc4296_1_chkPortEvents(_boardDetails->ltc4296_1_Port);
-        	if(result == ADI_LTC_DISCONTINUE_SCCP)
-        	{
-        		break;
-        	}
-    		result = ltc4296_1_doSpoeSccp(_boardDetails->fwMode, _boardDetails->ltc4296_1_Port,&(_boardDetails->ltc4296_1_VoutIout));
-    		if( (result == ADI_LTC_SUCCESS) || (result == ADI_LTC_SCCP_COMPLETE) )
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = TRUE;
-    		}
-    		else if(result == ADI_LTC_DISCONTINUE_SCCP)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    			_boardDetails->tempErrorLed = TRUE;
-    		}
-    		else if(result == ADI_LTC_SCCP_PD_NOT_PRESENT)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    		}
-        }
-        break;
-        case APL_CLASSA:
-        {
-        	result = ltc4296_1_chkGlobalEvents();
-        	if(result == ADI_LTC_DISCONTINUE_APL)
-        	{
-        		break;
-        	}
-
-        	result = ltc4296_1_chkPortEvents(_boardDetails->ltc4296_1_Port);
-        	if(result == ADI_LTC_DISCONTINUE_APL)
-        	{
-        		break;
-        	}
-    		result = ltc4296_1_doAPL(_boardDetails->fwMode, _boardDetails->ltc4296_1_Port, &(_boardDetails->ltc4296_1_VoutIout));
-    		if( (result == ADI_LTC_SUCCESS) || (result == ADI_LTC_APL_COMPLETE) )
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = TRUE;
-    		}
-    		else if(result == ADI_LTC_DISCONTINUE_APL)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    			_boardDetails->tempErrorLed = TRUE;
-    		}
-        }
-        break;
-        case APL_CLASSA_NOAUTONEG:
-        {
-        	result = ltc4296_1_chkGlobalEvents();
-        	if(result == ADI_LTC_DISCONTINUE_APL)
-        	{
-        		break;
-        	}
-
-        	result = ltc4296_1_chkPortEvents(_boardDetails->ltc4296_1_Port);
-        	if(result == ADI_LTC_DISCONTINUE_APL)
-        	{
-        		break;
-        	}
-    		result = ltc4296_1_doAPL(_boardDetails->fwMode, _boardDetails->ltc4296_1_Port, &(_boardDetails->ltc4296_1_VoutIout));
-    		if( (result == ADI_LTC_SUCCESS) || (result == ADI_LTC_APL_COMPLETE) )
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = TRUE;
-    		}
-    		else if(result == ADI_LTC_DISCONTINUE_APL)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    			_boardDetails->tempErrorLed = TRUE;
-    		}
-        }
-        break;
-
-        case APL_CLASSC:
-        {
-        	result = ltc4296_1_chkGlobalEvents();
-        	if(result == ADI_LTC_DISCONTINUE_APL)
-        	{
-        		break;
-        	}
-
-        	result = ltc4296_1_chkPortEvents(_boardDetails->ltc4296_1_Port);
-        	if(result == ADI_LTC_DISCONTINUE_APL)
-        	{
-        		break;
-        	}
-    		result = ltc4296_1_doAPL(_boardDetails->fwMode, _boardDetails->ltc4296_1_Port, &(_boardDetails->ltc4296_1_VoutIout));
-    		if( (result == ADI_LTC_SUCCESS) || (result == ADI_LTC_APL_COMPLETE) )
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = TRUE;
-    		}
-    		else if(result == ADI_LTC_DISCONTINUE_APL)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    			_boardDetails->tempErrorLed = TRUE;
-    		}
-        }
-        break;
-
-        case APL_CLASS3:
-        {
-        	result = ltc4296_1_chkGlobalEvents();
-        	if(result == ADI_LTC_DISCONTINUE_APL)
-        	{
-        		break;
-        	}
-
-        	result = ltc4296_1_chkPortEvents(_boardDetails->ltc4296_1_Port);
-        	if(result == ADI_LTC_DISCONTINUE_APL)
-        	{
-        		break;
-        	}
-    		result = ltc4296_1_doAPL(_boardDetails->fwMode, _boardDetails->ltc4296_1_Port, &(_boardDetails->ltc4296_1_VoutIout));
-    		if( (result == ADI_LTC_SUCCESS) || (result == ADI_LTC_APL_COMPLETE) )
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = TRUE;
-    		}
-    		else if(result == ADI_LTC_DISCONTINUE_APL)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    			_boardDetails->tempErrorLed = TRUE;
-    		}
-        }
-        break;
-
-        case PRODUCTION_POWER_TEST:
-        {
-        	result = ltc4296_1_chkGlobalEvents();
-        	if(result == ADI_LTC_DISCONTINUE_APL)
-        	{
-        		break;
-        	}
-
-        	for(i=0; i<LTC_NO_PORT; i++)
-        	{
-				result = ltc4296_1_chkPortEvents(LTC_PORT0+i);
-				if(result == ADI_LTC_DISCONTINUE_APL)
-				{
-					break;
-				}
-        	}
-
-        	/* Test is done for all the ports 0-4*/
-    		result = ltc4296_1_pwr_test(_boardDetails->fwMode);
-    		if(result == ADI_LTC_DISCONTINUE_TEST)
-    		{
-    			printf("LTC4296-1 Production PWR TEST Discontinued...    Failed\n\r");
-    			_boardDetails->errorLed = TRUE;
-    		}
-    		else if(result == ADI_LTC_TEST_FAILED)
-    		{
-    			_boardDetails->errorLed = TRUE;
-    		}
-    		else if(result == ADI_LTC_TEST_COMPLETE)
-    		{
-    			_boardDetails->blueLed = TRUE;
-    		}
-        }
-        break;
-
-        case APL_CLASSA_OLD_DEMO:
-        {
-        	result = ltc4296_1_chkGlobalEvents();
-        	if(result == ADI_LTC_DISCONTINUE_APL)
-        	{
-        		break;
-        	}
-
-        	result = ltc4296_1_chkPortEvents(_boardDetails->ltc4296_1_Port);
-        	if(result == ADI_LTC_DISCONTINUE_APL)
-        	{
-        		break;
-        	}
-
-    		/* SPOE SCCP FLOW */
-    		result = ltc4296_1_doAPL(_boardDetails->fwMode, _boardDetails->ltc4296_1_Port, &(_boardDetails->ltc4296_1_VoutIout));
-    		if( (result == ADI_LTC_SUCCESS) || (result == ADI_LTC_APL_COMPLETE) )
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = TRUE;
-    		}
-    		else if(result == ADI_LTC_DISCONTINUE_APL)
-    		{
-    			_boardDetails->ltc4296_1_pdPresent = FALSE;
-    			_boardDetails->tempErrorLed = TRUE;
-    		}
-        }
-        break;
-        case SPOE_OFF: /* No Power Mode*/
-        case PRODUCTION_DATA_TEST: /* Frames are monitored in the cyclicReadBoard() function */
-        case RESERVED: /* For future use */
-        case DEBUGMODE:
-        default:
-        	/* Do not do anything just return */
-        break;
-    }
-    return ret;
-}
-
 
 /*
  * @brief           adin_phyPrintLinkStatus

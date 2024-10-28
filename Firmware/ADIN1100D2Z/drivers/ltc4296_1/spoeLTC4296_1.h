@@ -32,24 +32,44 @@
 
 #define RTESTLOAD              200 /*(ohm)*/
 
+//typedef enum
+//{
+//  SPOE_CLASS10 = 0,
+//  SPOE_CLASS11,
+//  SPOE_CLASS12,
+//  SPOE_CLASS13,
+//  SPOE_CLASS14,
+//  SPOE_CLASS15,
+//  APL_CLASSA,
+//  APL_CLASSA_NOAUTONEG,
+//  APL_CLASSC,
+//  APL_CLASS3,
+//  PRODUCTION_POWER_TEST,
+//  APL_CLASSA_OLD_DEMO,
+//  SPOE_OFF,
+//  PRODUCTION_DATA_TEST,
+//  RESERVED,
+//  DEBUGMODE
+//}ltc4296_1_boardClass_e;
+
 typedef enum
 {
-  SPOE_CLASS10 = 0,
-  SPOE_CLASS11,
-  SPOE_CLASS12,
-  SPOE_CLASS13,
-  SPOE_CLASS14,
-  SPOE_CLASS15,
-  APL_CLASSA,
-  APL_CLASSA_NOAUTONEG,
-  APL_CLASSC,
-  APL_CLASS3,
-  PRODUCTION_POWER_TEST,
-  APL_CLASSA_OLD_DEMO,
-  SPOE_OFF,
-  PRODUCTION_DATA_TEST,
-  RESERVED,
-  DEBUGMODE
+  PHY_TESTMODE_0 = 0,
+  PHY_TESTMODE_1,
+  PHY_TESTMODE_2,
+  PHY_TESTMODE_3,
+  RESERVED_4,
+  RESERVED_5,
+  RESERVED_6,
+  INTERACTIVEMODE,
+  MAC_REMOTELB,
+  FRAMEGENCHECK,
+  RESERVED_A,
+  RESERVED_B,
+  RESERVED_C,
+  MEDCONV_CU_SGMII,
+  MEDCONV_CU_FI,
+  MEDCONV_CU_CU
 }ltc4296_1_boardClass_e;
 
 
@@ -131,14 +151,14 @@ typedef enum
 
 /* PSE status decoded as below */
 typedef enum {
-	LTC_PSE_STATUS_DISABLED = 0,      /*  000b – Port is disabled                */
-	LTC_PSE_STATUS_SLEEPING,          /*  001b – Port is in sleeping             */
-	LTC_PSE_STATUS_DELIVERING,        /*  010b – Port is delivering power        */
-	LTC_PSE_STATUS_SEARCHING,         /*  011b – Port is searching               */
-	LTC_PSE_STATUS_ERROR,             /*  100b – Port is in error                */
-	LTC_PSE_STATUS_IDLE,              /*  101b – Port is idle                    */
- 	LTC_PSE_STATUS_PREPDET,           /*  110b – Port is preparing for detection */
-	LTC_PSE_STATUS_UNKNOWN            /*  111b – Port is in an unknown state     */
+	LTC_PSE_STATUS_DISABLED = 0,      /*  000b ï¿½ Port is disabled                */
+	LTC_PSE_STATUS_SLEEPING,          /*  001b ï¿½ Port is in sleeping             */
+	LTC_PSE_STATUS_DELIVERING,        /*  010b ï¿½ Port is delivering power        */
+	LTC_PSE_STATUS_SEARCHING,         /*  011b ï¿½ Port is searching               */
+	LTC_PSE_STATUS_ERROR,             /*  100b ï¿½ Port is in error                */
+	LTC_PSE_STATUS_IDLE,              /*  101b ï¿½ Port is idle                    */
+ 	LTC_PSE_STATUS_PREPDET,           /*  110b ï¿½ Port is preparing for detection */
+	LTC_PSE_STATUS_UNKNOWN            /*  111b ï¿½ Port is in an unknown state     */
 } ltc4296_1_PSEStatus_e;
 
 /*!

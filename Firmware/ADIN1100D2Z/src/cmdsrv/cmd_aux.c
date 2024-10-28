@@ -341,70 +341,6 @@ int CMDAUX_systemReset(char *arga, char *argb, int fd)
     return 0;
 }
 
-
-/*!
- * @brief           CMDAUX_changeConfig
- *
- * @param [in]      arga   Input arguments
- * @param [in]      argb   Input arguments
- * @param [in]      fd     takes newline char
- * @return
- *                  - #CMD_ERROR.
- *                  - #CMD_SUCCESS.
- *
- * @details         This function sets the firmware to the mode set by the user through command line
- *
- */
-int CMDAUX_changeConfig(char *arga, char *argb, int fd)
-{
-    char *token, *saveptr1;
-    int mode = 0;
-    saveptr1 = arga;
-
-    token = strtok_r(NULL, "\r\n", &saveptr1);
-    if (token == NULL )
-    {
-        sprintf(argb, "\r\nERROR: Invalid # of params\r\nType '<?><new line>' for the list of commands\r\n");
-        return 0;
-    }
-    if (sscanf(token, "%d",  &mode) != 1)
-    {
-        sprintf(argb, "\r\nERROR: Invalid # of params\r\nType '<?><new line>' for the list of commands\r\n");
-        return 0;
-    }
-    if(mode <0 || mode > 15)
-    {
-         sprintf(argb, "\r\nERROR: Mode not implemented\r\n");
-         return 0;
-    }
-
-    configFirmware();
-
-    boardDetails.fwMode = mode;
-    if( (boardDetails.fwMode != RESERVED) && (boardDetails.fwMode != DEBUGMODE) )
-    {
-    	adin_phyReset(&boardDetails,hDevice->pPhyDevice);
-    }
-
-    BSP_StopTimer();
-
-    setBoardLED(ON);
-    TimerDelay_ms(1000);
-    printGreetings(&boardDetails);
-    setBoardLED(OFF);
-
-	boardDetails.readMSE = FALSE;
-	boardDetails.frameGenEnabled = FALSE;
-
-    applyBoardConfig(&boardDetails, hDevice->pPhyDevice);
-
-    BSP_StartTimer();
-
-    sprintf(argb, "\r\n");
-    return 0;
-}
-
-
 /*!
  * @brief           CMDAUX_phyStatus
  *
@@ -423,33 +359,6 @@ int CMDAUX_phyStatus(char *arga, char *argb, int fd)
 	/* Read the PHY latched data only when user requests */
 	adin_phyPrintLinkStatus(&boardDetails);
     return 0;
-}
-
-/*!
- * @brief           CMDAUX_phytxdisabled
- *
- * @param [in]      arga   Input arguments
- * @param [in]      argb   Input arguments
- * @param [in]      fd     takes newline char
- * @return
- *                  - #CMD_ERROR.
- *                  - #CMD_SUCCESS.
- *
- * @details         This function performs the test PHY TX Disabled
- *
- */
-int CMDAUX_phytxdisabled(char *arga, char *argb, int fd)
-{
-    uint32_t result = 0;
-	result  = phyTest_TxDisabled(hDevice);
-	if (result != ADI_ETH_SUCCESS)
-	{
-	    sprintf(argb, "\r\nADIN1100 is not configured for Test TX disabled \r\n ");
-	    sprintf(argb, "ADIN1100 Error - %s \r\n ", adi_eth_result_string[result]);
-		boardDetails.errorLed = true;
-		/* Fatal error - reset the board to clear the flag */
-	}
-	return 0;
 }
 
 /*!
@@ -668,34 +577,6 @@ int CMDAUX_getfwVersion(char *arga, char *argb, int fd)
   sprintf(argb, "\r\n%d.%d.%x\r\n", tmp1, tmp2, tmp3);
 
   return 0;
-}
-
-/*
- * @brief           CMDAUX_startUartReport
- *
- * @param [in]      arga   Input arguments
- * @param [in]      argb   Input arguments
- * @param [in]      fd     takes newline char
- * @return
- *                  - #Execute the command successfully
- *
- * @details         The function sets the flag to report on UART.
- *
- */
-int CMDAUX_startUartReport(char *arga, char *argb, int fd)
-{
-    if ((boardDetails.fwMode == RESERVED) || (boardDetails.fwMode == DEBUGMODE) )
-    {
-      sprintf(argb, "ERROR: Board is in RESERVED MODE \r\n");
-      return 1;
-    }
-    else
-    {
-    	boardDetails.uartReport = TRUE;
-        boardDetails.readMSE = TRUE;
-    }
-    sprintf(argb, "\r\nOK\r\n");
-    return 0;
 }
 
 /*

@@ -22,7 +22,6 @@
 adin1100_DeviceStruct_t              dev;
 adin1100_DeviceHandle_t              hDevice = &dev;
 board_t                              boardDetails;
-extern volatile uint8_t              gOneSecTFlag;
 
 
 /*!
@@ -57,16 +56,6 @@ int main(void)
 
     while(run)
     {
-//        if(gOneSecTFlag == TRUE) /* This runs once every second */
-//        {
-//        	BSP_HeartBeat();
-//            cyclicReadBoard(&boardDetails,hDevice->pPhyDevice);
-//            cyclicLinkStatus(&boardDetails,hDevice->pPhyDevice);
-//            cyclicSPOEControl(&boardDetails);
-//            cyclicBoardLedControl(&boardDetails);
-//            gOneSecTFlag = FALSE;
-//        	boardDetails.tempErrorLed = FALSE; /* Error LED is cleared only once */
-//        }
         processUartData();
         processUartCommand();
     }
@@ -84,7 +73,7 @@ void configFirmware(void)
     memset(&boardDetails, 0x00, sizeof(boardDetails));
     int size = sizeof(boardDetails);
     boardDetails.structsize = size;
-    boardDetails.adin1300PhyAddr = ADIN1300_PHY_ADDRESS;
+    boardDetails.adin1300PhyAddr = ADIN1320_PHY_ADDRESS;
     hDevice->pPhyDevice->phyAddr = ADIN1300_PHY_ADDRESS;
     boardDetails.ltc4296_1_VoutIout.ltc4296_1_printVin = TRUE;
     readBoardDetails(&boardDetails);
