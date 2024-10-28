@@ -19,23 +19,23 @@
 #include "adi_phy.h"
 
 /*! ADIN1100 driver major version. */
-#define ADIN1100_VERSION_MAJOR      (0)
-/*! ADIN1100 driver minor version. */
-#define ADIN1100_VERSION_MINOR      (4)
-/*! ADIN1100 driver patch version. */
-#define ADIN1100_VERSION_PATCH      (0)
-/*! ADIN1100 driver extra version. */
-#define ADIN1100_VERSION_EXTRA      (0)
+#define ADIN1320_VERSION_MAJOR      (0)
+/*! ADIN1320 driver minor version. */
+#define ADIN1320_VERSION_MINOR      (0)
+/*! ADIN1320 driver patch version. */
+#define ADIN1320_VERSION_PATCH      (0)
+/*! ADIN1320 driver extra version. */
+#define ADIN1320_VERSION_EXTRA      (0)
 
-/*! ADIN1100 driver version. */
-#define ADIN1100_VERSION            ((ADIN1100_VERSION_MAJOR << 24) | \
-                                     (ADIN1100_VERSION_MINOR << 16) | \
-                                     (ADIN1100_VERSION_PATCH << 8) | \
-                                     (ADIN1100_VERSION_EXTRA))
+/*! ADIN1320 driver version. */
+#define ADIN1320_VERSION            ((ADIN1320_VERSION_MAJOR << 24) | \
+                                     (ADIN1320_VERSION_MINOR << 16) | \
+                                     (ADIN1320_VERSION_PATCH << 8) | \
+                                     (ADIN1320_VERSION_EXTRA))
 
 
 /*!
-* @brief ADIN1100 device identification.
+* @brief ADIN1320 device identification.
 */
 typedef struct
 {
@@ -49,25 +49,25 @@ typedef struct
     };
     uint16_t        digRevNum;              /*!< Digital revision number.   */
     uint8_t         pkgType;                /*!< Package type.              */
-} adin1100_DeviceId_t;
+} adin1320_DeviceId_t;
 
 /*!
-* @brief ADIN1100 device structure.
+* @brief ADIN1320 device structure.
 */
 typedef struct
 {
     adi_phy_Device_t    *pPhyDevice;    /*!< Pointer to the PHY device structure.   */
-} adin1100_DeviceStruct_t;
+} adin1320_DeviceStruct_t;
 
 
 /*!
-* @brief ADIN1100 device structure handle.
+* @brief ADIN1320 device structure handle.
 */
-typedef adin1100_DeviceStruct_t*    adin1100_DeviceHandle_t;
+typedef adin1320_DeviceStruct_t*    adin1320_DeviceHandle_t;
 
 /**@}*/
 
-#endif /* ADIN1100_H */
+#endif /* ADIN1320_H */
 
 
 

@@ -30,22 +30,6 @@ adi_phy_DriverConfig_t phyDrvConfig = {
     .enableIrq  = true,
 };
 
-#define ADIN1100_PHY_ADDR 0x0
-#define ADIN1200_PHY_ADDR 0x04
-
-#define ADIN1200_PHYID1_REG_ADDR 0x02
-#define ADIN1200_PHYID2_REG_ADDR 0x03
-
-/*! Hardware reset value of ADDR_PHY_ID_1 register, used for device identification. */
-#define ADIN1200_PHYID1               (0x0283)
-/*! Hardware reset value of ADDR_PHY_ID_2 register (OUI field), used for device identification. */
-#define ADIN1200_PHYID2_OUI           (0xBC20)
-
-/*! Hardware reset value of ADDR_PHY_ID_1 register, used for device identification. */
-#define ADIN1100_PHYID1               (0x0283)
-/*! Hardware reset value of ADDR_PHY_ID_2 register (OUI field), used for device identification. */
-#define ADIN1100_PHYID2_OUI           (0xBC81)
-
 #define MAX32670_FW_MAJOR_VERSION (1)    /* Major version*/
 #define MAX32670_FW_MINOR_VERSION (0)    /* Minor version*/
 #define MAX32670_FW_BUILD_VERSION (0)    /* Build version*/
@@ -55,13 +39,6 @@ static const max32670_fw_version FirmwareVersion =
    MAX32670_FW_MAJOR_VERSION,
    MAX32670_FW_MINOR_VERSION,
    MAX32670_FW_BUILD_VERSION
-};
-
-#define ADIN1100_FRAME_COUNT  (500)
-
-adi_phy_MSELinkQuality_t mseLinkQuality;
-static const uint16_t convMseToSqi[ADI_PHY_SQI_NUM_ENTRIES - 1] = {
-    0x0A74, 0x084E, 0x0698, 0x053D, 0x0429, 0x034E, 0x02A0
 };
 
 /* UART Data receive flags */
@@ -77,8 +54,8 @@ char commandBuffer [100];
 uint8_t nBufferRx0[SIZE_OF_BUFFER];
 dataQueue_t dataQueue[1];
 
-/*
- * @brief        getFWLibVersion
+/*!
+ * @brief        	getFWLibVersion
  *
  * @param [in]      none
  * @param [out]     none
@@ -363,20 +340,56 @@ void readBoardConfigPins(board_t *_boardDetails)
 }
 
 /*!
- * @brief           systemReset
+ * @brief           adin1320_checkIdentity
  *
- * @details         This function performs the system reset
+ * @param [in]      hDevice     Device handle having PHY address of ADIN1320
+ * @return
+ *                  - #ADI_ETH_SUCCESS.
+ *                  - #ADI_ETH_COMM_ERROR.
  *
+ * @details         This function is called after a reset event and before the
+ *                  initialization of the device is performed.
+ *                  It reads the MMD1_DEV_ID1/MMD1_DEV_ID2 registers and compares
+ *                  them with expected values. If comparison is not successful,
+ *                  return ADIN_PHY_UNSUPPORTED_DEVID
  */
-void systemReset(void)
+static adi_eth_Result_e adin1320_checkIdentity(adi_phy_Device_t *hDevice)
 {
-	bsp_sysReset();
+    adi_eth_Result_e    result = ADI_ETH_SUCCESS;
+    unsigned short      val16;
+
+    result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_MMD1_DEV_ID1, &val16);
+    if (result != ADI_ETH_SUCCESS)
+    {
+    	printf("SPI adi_MdioRead Failed! (0x%X)\n", result);
+    	result = ADI_ETH_COMM_ERROR;
+    }
+    if (val16 != ADI_PHY_DEVID1)
+    {
+    	printf("Error- ADIN1320 ID1 value read = 0x%x", val16);
+        result = ADI_ETH_UNSUPPORTED_DEVICE;
+    }
+
+    result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_MMD1_DEV_ID2, &val16);
+    if (result != ADI_ETH_SUCCESS)
+    {
+    	printf("SPI adi_MdioRead Failed! (0x%X)\n", result);
+    	result = ADI_ETH_COMM_ERROR;
+    }
+
+    /* Check if the value of MMD1_DEV_ID2.OUI matches expected value */
+    if ((val16 & BITM_MMD1_DEV_ID2_MMD1_DEV_ID2_OUI) != (ADI_PHY_DEVID2_OUI << BITP_MMD1_DEV_ID2_MMD1_DEV_ID2_OUI))
+    {
+    	printf("sError- ADIN1320 ID value not matching = 0x%x", val16);
+        result = ADI_ETH_UNSUPPORTED_DEVICE;
+    }
+    return result;
 }
 
 /*!
  * @brief           adin1300_checkIdentity
  *
- * @param [in]      phyAddr     PHY address of ADIN1200
+ * @param [in]      phyAddr     PHY address of ADIN1300
  * @return
  *                  - #ADI_ETH_SUCCESS.
  *                  - #ADI_ETH_COMM_ERROR.
@@ -401,7 +414,7 @@ static adi_eth_Result_e adin1300_checkIdentity(uint8_t phyAddr)
     }
     if (val16 != ADI_PHY_DEV_ID1)
     {
-    	printf("Error ADIN1200 ID1 value read = 0x%x", val16);
+    	printf("Error ADIN1300 ID1 value read = 0x%x", val16);
         result = ADI_ETH_UNSUPPORTED_DEVICE;
     }
 
@@ -415,54 +428,7 @@ static adi_eth_Result_e adin1300_checkIdentity(uint8_t phyAddr)
     /*Check if the value of PHY_ID_2.OUI matches expected value */
     if((val16 & BITM_PHY_ID_2_PHY_ID_2_OUI) != (ADI_PHY_DEV_ID2_OUI << BITP_PHY_ID_2_PHY_ID_2_OUI))
     {
-    	printf("Error ADIN1200 ID2 value read = 0x%x", val16);
-        result = ADI_ETH_UNSUPPORTED_DEVICE;
-    }
-    return result;
-}
-
-/*!
- * @brief           adin1100_checkIdentity
- *
- * @param [in]      hDevice     Device handle having PHY address of ADIN1100
- * @return
- *                  - #ADI_ETH_SUCCESS.
- *                  - #ADI_ETH_COMM_ERROR.
- *
- * @details         This function is called after a reset event and before the
- *                  initialization of the device is performed.
- *                  It reads the MMD1_DEV_ID1/MMD1_DEV_ID2 registers and compares
- *                  them with expected values. If comparison is not successful,
- *                  return ADIN_PHY_UNSUPPORTED_DEVID
- */
-static adi_eth_Result_e adin1100_checkIdentity(adi_phy_Device_t *hDevice)
-{
-    adi_eth_Result_e    result = ADI_ETH_SUCCESS;
-    unsigned short      val16;
-
-    result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_MMD1_DEV_ID1, &val16);
-    if (result != ADI_ETH_SUCCESS)
-    {
-    	printf("SPI adi_MdioRead Failed! (0x%X)\n", result);
-    	result = ADI_ETH_COMM_ERROR;
-    }
-    if (val16 != ADI_PHY_DEVID1)
-    {
-    	printf("Error- ADIN1100 ID1 value read = 0x%x", val16);
-        result = ADI_ETH_UNSUPPORTED_DEVICE;
-    }
-
-    result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_MMD1_DEV_ID2, &val16);
-    if (result != ADI_ETH_SUCCESS)
-    {
-    	printf("SPI adi_MdioRead Failed! (0x%X)\n", result);
-    	result = ADI_ETH_COMM_ERROR;
-    }
-
-    /* Check if the value of MMD1_DEV_ID2.OUI matches expected value */
-    if ((val16 & BITM_MMD1_DEV_ID2_MMD1_DEV_ID2_OUI) != (ADI_PHY_DEVID2_OUI << BITP_MMD1_DEV_ID2_MMD1_DEV_ID2_OUI))
-    {
-    	printf("sError- ADIN1100 ID value not matching = 0x%x", val16);
+    	printf("Error ADIN1300 ID2 value read = 0x%x", val16);
         result = ADI_ETH_UNSUPPORTED_DEVICE;
     }
     return result;
@@ -470,7 +436,7 @@ static adi_eth_Result_e adin1100_checkIdentity(adi_phy_Device_t *hDevice)
 
 /*
  *
- * @details     waits for the MDIO interface to come up
+ * @details     	waits for the MDIO interface to come up
  *
  */
 static adi_eth_Result_e waitMdio(uint8_t phyAddr)
@@ -497,22 +463,22 @@ static adi_eth_Result_e waitMdio(uint8_t phyAddr)
 }
 
 /*!
- * @brief           adin1100_discoverPhy
+ * @brief           adin1320_discoverPhy
  *
- * @param [in]      hDevice     Device handle having PHY address of ADIN1100
+ * @param [in]      hDevice     Device handle having PHY address of ADIN1320
  * @return
  *                  - #ADI_ETH_SUCCESS.
  *                  - #ADI_ETH_COMM_ERROR.
  *
- * @details         This function reads the device ID of ADIN1100 and verifies.
+ * @details         This function reads the device ID of ADIN1320 and verifies.
  */
-adi_eth_Result_e adin1100_discoverPhy(adi_phy_Device_t *hDevice)
+adi_eth_Result_e adin1320_discoverPhy(adi_phy_Device_t *hDevice)
 {
     adi_eth_Result_e result = ADI_ETH_SUCCESS;
 
-    /* If both the MCU and the ADIN1100 are reset simultaneously */
+    /* If both the MCU and the ADIN1320 are reset simultaneously */
     /* using the RESET button on the board, the MCU may start    */
-    /* scanning for ADIN1100 devices before the ADIN1100 has     */
+    /* scanning for ADIN1320 devices before the ADIN1320 has     */
     /* powered up. This is worse if PHY address is configured as */
     /* 0 (default configuration of the board).                   */
     /* This is taken care of by iterating more than once over    */
@@ -527,27 +493,27 @@ adi_eth_Result_e adin1100_discoverPhy(adi_phy_Device_t *hDevice)
 
 	/* Checks the identity of the device based on reading of hardware ID registers */
 	/* Ensures the device is supported by the driver, otherwise an error is reported. */
-    result = adin1100_checkIdentity(hDevice);
+    result = adin1320_checkIdentity(hDevice);
 	return result;
 }
 
 /*!
  * @brief           adin1300_discoverPhy
  *
- * @param [in]      _boardDetails     Device handle having PHY address of ADIN1200
+ * @param [in]      _boardDetails     Device handle having PHY address of ADIN1300
  * @return
  *                  - #ADI_ETH_SUCCESS.
  *                  - #ADI_ETH_COMM_ERROR.
  *
- * @details         This function reads the device ID of ADIN1200 and verifies.
+ * @details         This function reads the device ID of ADIN1300 and verifies.
  */
 adi_eth_Result_e adin1300_discoverPhy(board_t *_boardDetails)
 {
     adi_eth_Result_e result = ADI_ETH_SUCCESS;
 
-    /* If both the MCU and the ADIN1100 are reset simultaneously */
+    /* If both the MCU and the ADIN1320 are reset simultaneously */
     /* using the RESET button on the board, the MCU may start    */
-    /* scanning for ADIN1100 devices before the ADIN1100 has     */
+    /* scanning for ADIN1320 devices before the ADIN1320 has     */
     /* powered up. This is worse if PHY address is configured as */
     /* 0 (default configuration of the board).                   */
     /* This is taken care of by iterating more than once over    */
@@ -567,16 +533,16 @@ adi_eth_Result_e adin1300_discoverPhy(board_t *_boardDetails)
 }
 
 /*!
- * @brief           adin1100_phyReset
+ * @brief           adin1320_phyReset
  *
- * @param [in]      hDevice     Device handle having PHY address of ADIN1100
+ * @param [in]      hDevice     Device handle having PHY address of ADIN1320
  * @return
  *                  - #ADI_ETH_SUCCESS.
  *                  - #ADI_ETH_COMM_ERROR.
  *
- * @details         This function resets the ADIN1100 device.
+ * @details         This function resets the ADIN1320 device.
  */
-adi_eth_Result_e adin1100_phyReset(adi_phy_Device_t *hDevice)
+adi_eth_Result_e adin1320_phyReset(adi_phy_Device_t *hDevice)
 {
     adi_eth_Result_e result = ADI_ETH_SUCCESS;
     unsigned short      val16;
@@ -601,7 +567,7 @@ adi_eth_Result_e adin1100_phyReset(adi_phy_Device_t *hDevice)
         goto end;
     }
 
-	TimerDelay_ms(ADIN1100_SW_RESET_DELAY);
+	TimerDelay_ms(ADIN1320_SW_RESET_DELAY);
 
     do{
         result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_CRSM_STAT, &val16);
@@ -619,67 +585,51 @@ end:
 }
 
 /*!
- * @brief           adin1100_exitSWPD
+ * @brief           adin1300_phyReset
  *
- * @param [in]      hDevice   Device handle having PHY address of ADIN1100
+ * @param [in]      phyAddr PHY HW address of ADIN1300
  * @return
  *                  - #ADI_ETH_SUCCESS.
  *                  - #ADI_ETH_COMM_ERROR.
  *
- * @details         Disable the Software power down of ADIN1100
+ * @details         This function resets the ADIN1300
  *
  */
-adi_eth_Result_e adin1100_exitSWPD(adi_phy_Device_t *hDevice)
+adi_eth_Result_e adin1300_phyReset(uint8_t phyAddr)
 {
-    unsigned short val16 = 0, swpd = 0;
-    uint32_t result = ADI_ETH_SUCCESS;
-    int32_t  iter = ADI_PHY_SOFT_PD_ITER;
+    adi_eth_Result_e result = ADI_ETH_SUCCESS;
 
-    /* Clear the CRSM_SFT_PD bit */
-    val16 &= ~BITM_CRSM_SFT_PD_CNTRL_CRSM_SFT_PD;
-    result = adi_MdioWrite_Cl45(hDevice->phyAddr, ADDR_CRSM_SFT_PD_CNTRL, val16);
-    if (result != ADI_ETH_SUCCESS)
-    {
-	    result = ADI_ETH_COMM_ERROR;
-	    goto end;
+	adi_MdioWrite(phyAddr,ADDR_EXT_REG_PTR, ADDR_GE_SFT_RST_CFG_EN);
+	adi_MdioWrite(phyAddr,ADDR_EXT_REG_DATA, BITM_GE_SFT_RST_CFG_EN_GE_SFT_RST_CFG_EN);
+
+	adi_MdioWrite(phyAddr,ADDR_EXT_REG_PTR, ADDR_GE_SFT_RST);
+	adi_MdioWrite(phyAddr,ADDR_EXT_REG_DATA, BITM_GE_SFT_RST_GE_SFT_RST);
+
+	TimerDelay_ms(ADIN1300_SW_RESET_DELAY);
+
+	/* Wait until MDIO interface is up. */
+	result = waitMdio(phyAddr);
+	if(result != ADI_ETH_SUCCESS)
+	{
+		result = ADI_ETH_COMM_ERROR;
     }
 
-    /* Wait with timeout for the PHY device to enter the desired state before returning. */
-    do
-    {
-        val16 = 0;
-        result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_CRSM_STAT, &swpd);
-    	if (result != ADI_ETH_SUCCESS)
-    	{
-    	    result = ADI_ETH_COMM_ERROR;
-    	}
-    	if( (swpd & BITM_CRSM_STAT_CRSM_SFT_PD_RDY ) == 0)
-    	    break;
-    }while(--iter);
-
-    if (iter <= 0)
-    {
-         result = ADI_ETH_READ_STATUS_TIMEOUT;
-    }
-
-end:
-	return result;
+    return result;
 }
 
-
 /*!
- * @brief           adin1100_getSWPD
+ * @brief           adin1320_getSWPD
  *
- * @param [in]      hDevice   Device handle having PHY address of ADIN1100
+ * @param [in]      hDevice   Device handle having PHY address of ADIN1320
  * @param [out]     enable    status of SWPD of adin100
  * @return
  *                  - #ADI_ETH_SUCCESS.
  *                  - #ADI_ETH_COMM_ERROR.
  *
- * @details         This function gets the status of the ADIN1100 SWPD
+ * @details         This function gets the status of the ADIN1320 SWPD
  *
  */
-adi_eth_Result_e adin1100_getSWPD(adi_phy_Device_t *hDevice, unsigned short *enable)
+adi_eth_Result_e adin1320_getSWPD(adi_phy_Device_t *hDevice, unsigned short *enable)
 {
     adi_eth_Result_e    result = ADI_ETH_SUCCESS;
     unsigned short      val16 = 0;
@@ -705,18 +655,18 @@ end:
 }
 
 /*!
- * @brief           adin1100_setSWPD
+ * @brief           adin1320_setSWPD
  *
- * @param [in]      hDevice  Device handle having PHY address of ADIN1100
- * @param [out]     enable    enables or disables the SWPD in ADIN1100
+ * @param [in]      hDevice  Device handle having PHY address of ADIN1320
+ * @param [out]     enable    enables or disables the SWPD in ADIN1320
  * @return
  *                  - #ADI_ETH_SUCCESS.
  *                  - #ADI_ETH_COMM_ERROR.
  *
- * @details         This function enables or disables the SWPD in ADIN1100
+ * @details         This function enables or disables the SWPD in ADIN1320
  *
  */
-adi_eth_Result_e adin1100_setSWPD(adi_phy_Device_t *hDevice, unsigned short enable)
+adi_eth_Result_e adin1320_setSWPD(adi_phy_Device_t *hDevice, unsigned short enable)
 {
     adi_eth_Result_e    result = ADI_ETH_SUCCESS;
     unsigned short      val16 = 0, swpd = 0;
@@ -733,7 +683,7 @@ adi_eth_Result_e adin1100_setSWPD(adi_phy_Device_t *hDevice, unsigned short enab
     /* Wait with timeout for the PHY device to enter the desired state before returning. */
     do
     {
-        result = adin1100_getSWPD(hDevice, &swpd);
+        result = adin1320_getSWPD(hDevice, &swpd);
         if(val16 == swpd)
         	break;
     } while(--iter);
@@ -750,48 +700,15 @@ end:
 }
 
 /*!
- * @brief           adin1300_phyReset
- *
- * @param [in]      phyAddr PHY HW address of ADIN1200
- * @return
- *                  - #ADI_ETH_SUCCESS.
- *                  - #ADI_ETH_COMM_ERROR.
- *
- * @details         This function resets the ADIN1200
- *
- */
-adi_eth_Result_e adin1300_phyReset(uint8_t phyAddr)
-{
-    adi_eth_Result_e result = ADI_ETH_SUCCESS;
-
-	adi_MdioWrite(phyAddr,ADDR_EXT_REG_PTR, ADDR_GE_SFT_RST_CFG_EN);
-	adi_MdioWrite(phyAddr,ADDR_EXT_REG_DATA, BITM_GE_SFT_RST_CFG_EN_GE_SFT_RST_CFG_EN);
-
-	adi_MdioWrite(phyAddr,ADDR_EXT_REG_PTR, ADDR_GE_SFT_RST);
-	adi_MdioWrite(phyAddr,ADDR_EXT_REG_DATA, BITM_GE_SFT_RST_GE_SFT_RST);
-
-	TimerDelay_ms(ADIN1200_SW_RESET_DELAY);
-
-	/* Wait until MDIO interface is up. */
-	result = waitMdio(phyAddr);
-	if(result != ADI_ETH_SUCCESS)
-	{
-		result = ADI_ETH_COMM_ERROR;
-    }
-
-    return result;
-}
-
-/*!
  * @brief           adin1300_getSWPD
  *
- * @param [in]      phyAddr PHY HW address of ADIN1200
+ * @param [in]      phyAddr PHY HW address of ADIN1300
  * @param [out]     enable  status of the SWPD
  * @return
  *                  - #ADI_ETH_SUCCESS.
  *                  - #ADI_ETH_COMM_ERROR.
  *
- * @details         This function gives status of SWPD in ADIN1200
+ * @details         This function gives status of SWPD in ADIN1300
  *
  */
 adi_eth_Result_e adin1300_getSWPD(uint8_t phyAddr, unsigned short *enable)
@@ -815,17 +732,16 @@ adi_eth_Result_e adin1300_getSWPD(uint8_t phyAddr, unsigned short *enable)
     return result;
 }
 
-
 /*!
  * @brief           adin1300_setSWPD
  *
- * @param [in]      phyAddr PHY HW address of ADIN1200
+ * @param [in]      phyAddr PHY HW address of ADIN1300
  * @param [out]     enable  enables or disables SWPD
  * @return
  *                  - #ADI_ETH_SUCCESS.
  *                  - #ADI_ETH_COMM_ERROR.
  *
- * @details         This function enables or disables SWPD in ADIN1200
+ * @details         This function enables or disables SWPD in ADIN1300
  *
  */
 adi_eth_Result_e adin1300_setSWPD(uint8_t phyAddr, unsigned short enable)
@@ -867,46 +783,46 @@ adi_eth_Result_e adin1300_setSWPD(uint8_t phyAddr, unsigned short enable)
 }
 
 /*!
- * @brief           adin1100_cfg
+ * @brief           adin1320_cfg
  *
  * @param [in]      _boardDetails pointer to board_t structure
- * @param [in]      hDevice  Device handle having PHY address of ADIN1100
+ * @param [in]      hDevice  Device handle having PHY address of ADIN1320
  * @return
  *                  - #ADI_ETH_SUCCESS.
  *                  - #ADI_ETH_COMM_ERROR.
  *
- * @details         This function configures the ADIN1100
+ * @details         This function configures the ADIN1320
  *
  */
-adi_eth_Result_e adin1100_cfg(board_t *_boardDetails, adi_phy_Device_t *hDevice)
+adi_eth_Result_e adin1320_cfg(board_t *_boardDetails, adi_phy_Device_t *hDevice)
 {
 	adi_eth_Result_e result = ADI_ETH_SUCCESS;
     unsigned short val16 = 0;
 
-	/* Discover ADIN1100 PHY*/
-	result = adin1100_discoverPhy(hDevice);
+	/* Discover ADIN1320 PHY*/
+	result = adin1320_discoverPhy(hDevice);
     if(result != ADI_ETH_SUCCESS)
     {
     	_boardDetails->errorLed = TRUE;
-        printf("Error - ADIN1100 discover PHY - %s \n\r", adi_eth_result_string[result]);
+        printf("Error - ADIN1320 discover PHY - %s \n\r", adi_eth_result_string[result]);
         goto end;
     }
     else
     {
-    	printf("ADIN1100 MDIO address %x \n\r",hDevice->phyAddr);
+    	printf("ADIN1320 MDIO address %x \n\r",hDevice->phyAddr);
     }
 
-	/* Software Reset ADIN1100 */
-    result = adin1100_phyReset(hDevice);
+	/* Software Reset ADIN1320 */
+    result = adin1320_phyReset(hDevice);
     if(result != ADI_ETH_SUCCESS)
     {
-        printf("Error - ADIN1100 PHY reset - %s \n\r", adi_eth_result_string[result]);
+        printf("Error - ADIN1320 PHY reset - %s \n\r", adi_eth_result_string[result]);
 		result = ADI_ETH_COMM_ERROR;
     }
 
-    printf("ADIN1100 HW CFG: autoneg,");
+    printf("ADIN1320 HW CFG: autoneg,");
 
-    /* Check if ADIN1100 is in RGMII MAC mode */
+    /* Check if ADIN1320 is in RGMII MAC mode */
     /* CRSM_MAC_IF_CFG, reads 0x0001 in RGMII */
     result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_CRSM_MAC_IF_CFG, &val16);
     if(result != ADI_ETH_SUCCESS)
@@ -918,11 +834,11 @@ adi_eth_Result_e adin1100_cfg(board_t *_boardDetails, adi_phy_Device_t *hDevice)
     /* Check if ONLY CRSM_RGMII_EN bit is enabled */
     if(val16 != BITM_CRSM_MAC_IF_CFG_CRSM_RGMII_EN)
     {
-    	printf("\n\r Error - ADIN1100 is not in RGMII mode \n\r");
+    	printf("\n\r Error - ADIN1320 is not in RGMII mode \n\r");
     	_boardDetails->errorLed = true; /* Flag the RED LED when PHY not in RGMII Mode */
     }
 
-    /* Check the ADIN1100 HW CFG setting Master/Slave
+    /* Check the ADIN1320 HW CFG setting Master/Slave
      * AN_ADV_ABILITY_M, check bit AN_ADV_MST */
     result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_AN_ADV_ABILITY_M, &val16);
     if(result != ADI_ETH_SUCCESS)
@@ -938,7 +854,7 @@ adi_eth_Result_e adin1100_cfg(board_t *_boardDetails, adi_phy_Device_t *hDevice)
     else
     	printf(" prefer Slave,");
 
-    /* Check the ADIN1100 HW CFG setting amplitude
+    /* Check the ADIN1320 HW CFG setting amplitude
      * B10L_PMA_CNTRL, check bit B10L_TX_LVL_HI_ABLE */
     result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_B10L_PMA_CNTRL, &val16);
     if(result != ADI_ETH_SUCCESS)
@@ -955,14 +871,14 @@ adi_eth_Result_e adin1100_cfg(board_t *_boardDetails, adi_phy_Device_t *hDevice)
     {
     	printf(" Tx 1.0V");
     }
-    /* Put ADIN1100 in SW power down mode */
-    result = adin1100_setSWPD(hDevice, TRUE);
+    /* Put ADIN1320 in SW power down mode */
+    result = adin1320_setSWPD(hDevice, TRUE);
     if(result != ADI_ETH_SUCCESS)
 	{
-    	printf(" ADIN1100 is not in SWPD\n\r");
+    	printf(" ADIN1320 is not in SWPD\n\r");
 	}
 
-    /* Set ADIN1100 LED0 [Green LED for Link UP] and LED1[Yellow LED for TX/RX Activity] behavior */
+    /* Set ADIN1320 LED0 [Green LED for Link UP] and LED1[Yellow LED for TX/RX Activity] behavior */
     result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_DIGIO_PINMUX, &val16);
     if(result != ADI_ETH_SUCCESS)
 	{
@@ -985,11 +901,11 @@ adi_eth_Result_e adin1100_cfg(board_t *_boardDetails, adi_phy_Device_t *hDevice)
 		result = ADI_ETH_COMM_ERROR;
 	}
 
-    /* Bring ADIN1100 out of SW power down mode */
-    result = adin1100_setSWPD(hDevice, FALSE);
+    /* Bring ADIN1320 out of SW power down mode */
+    result = adin1320_setSWPD(hDevice, FALSE);
     if(result != ADI_ETH_SUCCESS)
 	{
-    	printf("Error adin1100 is not out of SWPD\n");
+    	printf("Error adin1320 is not out of SWPD\n");
 	}
     printf("\n================================================\n");
 
@@ -1000,12 +916,12 @@ end:
 /*!
  * @brief           adin1300_cfg
  *
- * @param [in]      _boardDetails PHY HW address of ADIN1200
+ * @param [in]      _boardDetails PHY HW address of ADIN1300
  * @return
  *                  - #ADI_ETH_SUCCESS.
  *                  - #ADI_ETH_COMM_ERROR.
  *
- * @details         This function configures the ADIN1200
+ * @details         This function configures the ADIN1300
  *
  */
 adi_eth_Result_e adin1300_cfg(board_t *_boardDetails)
@@ -1018,17 +934,17 @@ adi_eth_Result_e adin1300_cfg(board_t *_boardDetails)
     if(result != ADI_ETH_SUCCESS)
     {
     	_boardDetails->errorLed = TRUE;
-    	printf("Error ADIN1200 PHY discovery - %s \n\r", adi_eth_result_string[result]);
+    	printf("Error ADIN1300 PHY discovery - %s \n\r", adi_eth_result_string[result]);
         goto end;
     }
     else
-    	printf("ADIN1200 MDIO address %d \n\r",_boardDetails->adin1300PhyAddr);
+    	printf("ADIN1300 MDIO address %d \n\r",_boardDetails->adin1300PhyAddr);
 
 	/* Software Reset ADIN1300 */
     result = adin1300_phyReset(_boardDetails->adin1300PhyAddr);
     if(result != ADI_ETH_SUCCESS)
     {
-        printf("Error ADIN1200 PHY reset - %s \n\r", adi_eth_result_string[result]);
+        printf("Error ADIN1300 PHY reset - %s \n\r", adi_eth_result_string[result]);
         result = ADI_ETH_COMM_ERROR;
     }
 
@@ -1036,7 +952,7 @@ adi_eth_Result_e adin1300_cfg(board_t *_boardDetails)
     result = adin1300_setSWPD(_boardDetails->adin1300PhyAddr,TRUE);
     if(result != ADI_ETH_SUCCESS)
 	{
-    	printf("Error ADIN1200 is not in SWPD\n\r");
+    	printf("Error ADIN1300 is not in SWPD\n\r");
 	}
 
     /**********************************/
@@ -1054,7 +970,7 @@ adi_eth_Result_e adin1300_cfg(board_t *_boardDetails)
 		result = ADI_ETH_COMM_ERROR;
     }
 
-	//11001: blink on activity
+	//13201: blink on activity
 	val16 = 0x2109;
 	result = adi_MdioWrite(_boardDetails->adin1300PhyAddr, ADDR_LED_CTRL_2, val16);
 	if(result != ADI_ETH_SUCCESS)
@@ -1082,9 +998,9 @@ adi_eth_Result_e adin1300_cfg(board_t *_boardDetails)
     }
 
 	if(result == ADI_ETH_SUCCESS)
-        printf("ADIN1200 SW CFG: autoneg 10Mbit Full Duplex Only ");
+        printf("ADIN1300 SW CFG: autoneg 10Mbit Full Duplex Only ");
 	else
-		printf("Error ADIN1200 SW CFG \r\n");
+		printf("Error ADIN1300 SW CFG \r\n");
 
     /*******************************************/
 
@@ -1092,7 +1008,7 @@ adi_eth_Result_e adin1300_cfg(board_t *_boardDetails)
     result = adin1300_setSWPD(_boardDetails->adin1300PhyAddr,FALSE);
     if(result != ADI_ETH_SUCCESS)
 	{
-    	printf("Error adin1200 is not out of SWPD\n\r");
+    	printf("Error adin1300 is not out of SWPD\n\r");
 	}
     printf("\n================================================\n");
 end:
@@ -1103,7 +1019,7 @@ end:
  * @brief           applyBoardConfig
  *
  * @param [in]      _boardDetails  pointer to board_t structure
- * @param [in]      hDevice  pointer to PHY address of ADIN1100
+ * @param [in]      hDevice  pointer to PHY address of ADIN1320
  *
  * @details         This function configures the firmware according to the HW Config pins
  *
@@ -1122,10 +1038,10 @@ adi_eth_Result_e applyBoardConfig(board_t *_boardDetails, adi_phy_Device_t *hDev
 		_boardDetails->errorLed = true;
 	}
 
-	result = adin1100_cfg(_boardDetails, hDevice);
+	result = adin1320_cfg(_boardDetails, hDevice);
 	if (result != ADI_ETH_SUCCESS)
 	{
-		printf("ADIN1100 Error - %s \n\r", adi_eth_result_string[result]);
+		printf("ADIN1320 Error - %s \n\r", adi_eth_result_string[result]);
 		_boardDetails->errorLed = TRUE;
 		/* Fatal error - reset the board to clear the flag */
 	}
@@ -1263,7 +1179,7 @@ void setBoardLED(bool en)
 }
 
 /**
- * @brief        setBoardLED
+ * @brief        	setUartDataAvailable
  *
  * @param        set value to set UART data availability
  *
@@ -1276,7 +1192,7 @@ void setUartDataAvailable(uint32_t set)
 }
 
 /**
- * @brief        getUartDataAvailable
+ * @brief        	getUartDataAvailable
  *
  * @details      UART receive buffer full flag getter, use this function to check for
  *               flag change
@@ -1290,7 +1206,7 @@ uint32_t getUartDataAvailable(void)
 }
 
 /**
- * @brief        setUartCmdAvailable
+ * @brief        	setUartCmdAvailable
  *
  * @param        set value to set UART command availability
  *
@@ -1303,7 +1219,7 @@ void setUartCmdAvailable(uint32_t set)
 }
 
 /**
- * @brief        getUartCmdAvailable
+ * @brief        	getUartCmdAvailable
  *
  * @details      Command Available flag getter, use this function to check for
  *               flag change

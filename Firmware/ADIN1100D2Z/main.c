@@ -19,8 +19,8 @@
 #include "cmdsrv\cmd_srv.h"
 #include "adi_common.h"
 
-adin1100_DeviceStruct_t              dev;
-adin1100_DeviceHandle_t              hDevice = &dev;
+adin1320_DeviceStruct_t              dev;
+adin1320_DeviceHandle_t              hDevice = &dev;
 board_t                              boardDetails;
 
 
