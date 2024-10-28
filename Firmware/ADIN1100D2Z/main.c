@@ -73,8 +73,8 @@ void configFirmware(void)
     memset(&boardDetails, 0x00, sizeof(boardDetails));
     int size = sizeof(boardDetails);
     boardDetails.structsize = size;
-    boardDetails.adin1300PhyAddr = ADIN1320_PHY_ADDRESS;
-    hDevice->pPhyDevice->phyAddr = ADIN1300_PHY_ADDRESS;
+    boardDetails.adin1300PhyAddr = ADIN1300_PHY_ADDRESS;
+    hDevice->pPhyDevice->phyAddr = ADIN1320_PHY_ADDRESS;
     boardDetails.ltc4296_1_VoutIout.ltc4296_1_printVin = TRUE;
     readBoardDetails(&boardDetails);
 }

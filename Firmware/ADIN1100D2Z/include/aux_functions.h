@@ -69,31 +69,6 @@ typedef struct
     uint8_t   blueLed;                            /* Blue Led flag set when production power test is passed. */
     uint8_t   linkled;                            /* Green led to show link is up */
 
-    uint8_t   adin1100LinkWasDown;                /* Indicates the Link was down */
-    uint8_t   adin1100LinkIsUp;                   /* Indicates the Link is up */
-
-    uint8_t   adin1300LinkWasDown;                /* Indicates the Link was down */
-    uint8_t   adin1300LinkIsUp;                   /* Indicates the Link is up */
-
-    uint8_t   adin1100MasterEn;                   /* Master enabled/disabled */
-    uint8_t   adin1100SlaveEn;                    /* Slave enabled/disabled */
-    uint8_t   adin1100TxVLow;                     /* Tx Level Low Status   */
-    uint8_t   adin1100TxVHi;                      /* Tx Level High Status */
-
-    uint8_t   adin1100LinkForced;                 /* Link is Forced */
-    uint8_t   adin1100AnEn;                       /* Auto negotiation Enable/Disable */
-
-    uint32_t  readMSE;                            /* Read RX MSE on time basis*/
-    float     adin1100_mseVal;                    /* MSE Value read */
-    float     adin1100_slcrErrMaxAbsErr;          /* Slicer input maximum absolute error */
-
-    uint32_t  frameGenEnabled;                    /* Frame generation enabled */
-    uint32_t  uartReport;                         /* Report to UART */
-    uint32_t  rxCnt;                              /* Frame count during RX */
-    uint32_t  txCnt;                              /* Frame count during TX */
-    uint32_t  rxErr;                              /* Error Frame count during RX */
-    uint8_t   clrFrameErrors;                     /* Clear running frame err counters */
-    uint32_t  startFrameCheck;                    /* Start Frame check*/
     int       uartCommand;                        /* there is UART command*/
 
     ltc4296_1_boardClass_e fwMode;                /* Config Switches on board */
@@ -125,38 +100,21 @@ void setUartCmdAvailable(uint32_t set);
 uint32_t getUartCmdAvailable(void);
 
 adi_eth_Result_e adin1100_discoverPhy(adi_phy_Device_t *hDevice);
-adi_eth_Result_e adin1100_phyReset(adi_phy_Device_t *hDevice);
 adi_eth_Result_e adin1100_exitSWPD(adi_phy_Device_t *hDevice);
 adi_eth_Result_e adin1100_getSWPD(adi_phy_Device_t *hDevice, unsigned short *enable);
 adi_eth_Result_e adin1100_setSWPD(adi_phy_Device_t *hDevice, unsigned short enable);
 adi_eth_Result_e adin1100_cfg(board_t *_boardDetails, adi_phy_Device_t *hDevice);
 adi_eth_Result_e adin1100_sp_cfg(board_t *_boardDetails, adi_phy_Device_t *hDevice, ltc4296_1_boardClass_e cfgType);
-adi_eth_Result_e adin1100_remLoopback(board_t *boardDetails, adi_phy_Device_t *hDevice);
-adi_eth_Result_e adin1100_frameGenACheck(board_t *boardDetails, adi_phy_Device_t *hDevice);
-adi_eth_Result_e adin1100_StartFrameGen(adi_phy_Device_t *hDevice);
-adi_eth_Result_e adin1100_initFrameGen(adi_phy_Device_t *hDevice);
-adi_eth_Result_e adin1100_restartFramegen(adi_phy_Device_t *hDevice);
-adi_eth_Result_e adin1100_ReadErrPackets(adi_phy_Device_t *hDevice, uint32_t *rxErr, uint32_t *rxCnt);
-adi_eth_Result_e adin1100_checkFrameGen(adi_phy_Device_t *hDevice, uint32_t *frmGenDone);
-adi_eth_Result_e adin1100_getMseLinkQuality(adi_phy_Device_t *hDevice, adi_phy_MSELinkQuality_t *mseLinkQuality);
 adi_eth_Result_e adin1200_cfg(board_t *_boardDetails);
 adi_eth_Result_e adin1200_getSWPD(uint8_t phyAddr, unsigned short *enable);
 adi_eth_Result_e adin1200_setSWPD(uint8_t phyAddr, unsigned short enable);
-adi_eth_Result_e adin1200_phyReset(uint8_t phyAddr);
 adi_eth_Result_e adin1200_discoverPhy(board_t *_boardDetails);
-adi_eth_Result_e adin1200_remLoopback(board_t *boardDetails);
-adi_eth_Result_e adin_phyReset(board_t * boardDetails,adi_phy_Device_t *hDevice);
 void adin_phyPrintLinkStatus(board_t *_boardDetails);
 
 adi_eth_Result_e adin1100_EnterSoftwarePowerdown(adin1100_DeviceHandle_t hDevice);
 adi_eth_Result_e adin1100_ExitSoftwarePowerdown(adin1100_DeviceHandle_t hDevice);
 adi_eth_Result_e adin1100_PhyWrite(adin1100_DeviceHandle_t hDevice, uint32_t regAddr, uint16_t regData);
 adi_eth_Result_e adin1100_PhyRead(adin1100_DeviceHandle_t hDevice, uint32_t regAddr, uint16_t *regData);
-
-adi_eth_Result_e phyTest_TxDisabled(adin1100_DeviceHandle_t hDevice);
-adi_eth_Result_e phyTest_mode1(adin1100_DeviceHandle_t hDevice);
-adi_eth_Result_e phyTest_mode2(adin1100_DeviceHandle_t hDevice);
-adi_eth_Result_e phyTest_mode3(adin1100_DeviceHandle_t hDevice);
 
 adi_eth_Result_e applyBoardConfig(board_t *_boardDetails,adi_phy_Device_t *hDevice);
 void cyclicBoardLedControl(board_t * boardDetails);
