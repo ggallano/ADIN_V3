@@ -356,31 +356,31 @@ void readBoardConfigPins(board_t *_boardDetails)
 static adi_eth_Result_e adin1320_checkIdentity(adi_phy_Device_t *hDevice)
 {
     adi_eth_Result_e    result = ADI_ETH_SUCCESS;
-    unsigned short      val16;
+    uint16_t            val16;
 
-    result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_MMD1_DEV_ID1, &val16);
-    if (result != ADI_ETH_SUCCESS)
+    result = adi_MdioRead(hDevice->phyAddr, ADDR_PHY_ID_1, &val16);
+    if(result != ADI_ETH_SUCCESS)
     {
     	printf("SPI adi_MdioRead Failed! (0x%X)\n", result);
     	result = ADI_ETH_COMM_ERROR;
     }
-    if (val16 != ADI_PHY_DEVID1)
+    if (val16 != ADI_PHY_DEV_ID1)
     {
-    	printf("Error- ADIN1320 ID1 value read = 0x%x", val16);
+    	printf("Error ADIN1320 ID1 value read = 0x%x", val16);
         result = ADI_ETH_UNSUPPORTED_DEVICE;
     }
 
-    result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_MMD1_DEV_ID2, &val16);
-    if (result != ADI_ETH_SUCCESS)
+    result = adi_MdioRead(hDevice->phyAddr, ADDR_PHY_ID_2, &val16);
+    if(result != ADI_ETH_SUCCESS)
     {
-    	printf("SPI adi_MdioRead Failed! (0x%X)\n", result);
-    	result = ADI_ETH_COMM_ERROR;
+    	printf("SPI adi_MdioRead failed! (0x%X)\n", result);
+        result = ADI_ETH_UNSUPPORTED_DEVICE;
     }
 
-    /* Check if the value of MMD1_DEV_ID2.OUI matches expected value */
-    if ((val16 & BITM_MMD1_DEV_ID2_MMD1_DEV_ID2_OUI) != (ADI_PHY_DEVID2_OUI << BITP_MMD1_DEV_ID2_MMD1_DEV_ID2_OUI))
+    /*Check if the value of PHY_ID_2.OUI matches expected value */
+    if((val16 & BITM_PHY_ID_2_PHY_ID_2_OUI) != (ADI_PHY_DEV_ID2_OUI << BITP_PHY_ID_2_PHY_ID_2_OUI))
     {
-    	printf("sError- ADIN1320 ID value not matching = 0x%x", val16);
+    	printf("Error ADIN1320 ID2 value read = 0x%x", val16);
         result = ADI_ETH_UNSUPPORTED_DEVICE;
     }
     return result;
@@ -545,42 +545,22 @@ adi_eth_Result_e adin1300_discoverPhy(board_t *_boardDetails)
 adi_eth_Result_e adin1320_phyReset(adi_phy_Device_t *hDevice)
 {
     adi_eth_Result_e result = ADI_ETH_SUCCESS;
-    unsigned short      val16;
-    int32_t             iter = ADI_PHY_MDIO_POWERUP_ITER;
 
-    /* A full chip software reset is initiated by setting the software reset bit (CRSM_SFT_RST).
-     * The system ready bit (CRSM_SYS_RDY) indicates that the start-up sequence is
-     * complete and the system is ready for normal operation.
-     */
-    result = adi_MdioRead_Cl45(hDevice->phyAddr , ADDR_CRSM_SFT_RST, &val16);
-    if (result != ADI_ETH_SUCCESS)
-    {
-        result = ADI_ETH_COMM_ERROR;
-        goto end;
-    }
+	adi_MdioWrite(hDevice->phyAddr,ADDR_EXT_REG_PTR, ADDR_GE_SFT_RST_CFG_EN);
+	adi_MdioWrite(hDevice->phyAddr,ADDR_EXT_REG_DATA, BITM_GE_SFT_RST_CFG_EN_GE_SFT_RST_CFG_EN);
 
-    val16 |= (1 << BITP_CRSM_SFT_RST_CRSM_SFT_RST);
-    result = adi_MdioWrite_Cl45(hDevice->phyAddr, ADDR_CRSM_SFT_RST, val16);
-    if (result != ADI_ETH_SUCCESS)
-    {
-        result = ADI_ETH_COMM_ERROR;
-        goto end;
-    }
+	adi_MdioWrite(hDevice->phyAddr,ADDR_EXT_REG_PTR, ADDR_GE_SFT_RST);
+	adi_MdioWrite(hDevice->phyAddr,ADDR_EXT_REG_DATA, BITM_GE_SFT_RST_GE_SFT_RST);
 
 	TimerDelay_ms(ADIN1320_SW_RESET_DELAY);
 
-    do{
-        result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_CRSM_STAT, &val16);
-        if (result != ADI_ETH_SUCCESS)
-        {
-            result = ADI_ETH_COMM_ERROR;
-            break;
-        }
-        if( (val16 & BITM_CRSM_STAT_CRSM_SYS_RDY) == BITM_CRSM_STAT_CRSM_SYS_RDY)
-        	break;
-    }while(--iter);
+	/* Wait until MDIO interface is up. */
+	result = waitMdio(hDevice->phyAddr);
+	if(result != ADI_ETH_SUCCESS)
+	{
+		result = ADI_ETH_COMM_ERROR;
+    }
 
-end:
     return result;
 }
 
@@ -634,14 +614,13 @@ adi_eth_Result_e adin1320_getSWPD(adi_phy_Device_t *hDevice, unsigned short *ena
     adi_eth_Result_e    result = ADI_ETH_SUCCESS;
     unsigned short      val16 = 0;
 
-    result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_CRSM_STAT, &val16);
+	result = adi_MdioRead(hDevice->phyAddr, ADDR_MII_CONTROL, &val16);
     if (result != ADI_ETH_SUCCESS)
     {
         result = ADI_ETH_COMM_ERROR;
-        goto end;
     }
 
-    if( (val16 & BITM_CRSM_STAT_CRSM_SFT_PD_RDY) == BITM_CRSM_STAT_CRSM_SFT_PD_RDY )
+	if( (val16 & BITM_MII_CONTROL_SFT_PD) == BITM_MII_CONTROL_SFT_PD)
     {
         *enable = true;
     }
@@ -649,8 +628,6 @@ adi_eth_Result_e adin1320_getSWPD(adi_phy_Device_t *hDevice, unsigned short *ena
     {
 	    *enable = false;
 	}
-
-end:
     return result;
 }
 
@@ -672,30 +649,35 @@ adi_eth_Result_e adin1320_setSWPD(adi_phy_Device_t *hDevice, unsigned short enab
     unsigned short      val16 = 0, swpd = 0;
     uint16_t             iter = ADI_PHY_SOFT_PD_ITER;
 
-    val16 = (enable)? 1:0;
-    result = adi_MdioWrite_Cl45(hDevice->phyAddr, ADDR_CRSM_SFT_PD_CNTRL, val16);
-    if (result != ADI_ETH_SUCCESS)
+    result = adi_MdioRead(hDevice->phyAddr, ADDR_MII_CONTROL, &val16);
+    if(result != ADI_ETH_SUCCESS)
     {
-	    result = ADI_ETH_COMM_ERROR;
-	    goto end;
+        return ADI_ETH_COMM_ERROR;
+    }
+
+    if(enable)
+         val16 |= BITM_MII_CONTROL_SFT_PD;
+     else
+         val16 &= ~BITM_MII_CONTROL_SFT_PD;
+    result = adi_MdioWrite(hDevice->phyAddr, ADDR_MII_CONTROL, val16);
+    if(result != ADI_ETH_SUCCESS)
+    {
+        result = ADI_ETH_COMM_ERROR;
     }
 
     /* Wait with timeout for the PHY device to enter the desired state before returning. */
     do
     {
         result = adin1320_getSWPD(hDevice, &swpd);
-        if(val16 == swpd)
+        if(enable == swpd)
         	break;
     } while(--iter);
 
     if (iter <= 0)
     {
-    	printf("Error SWPD settings \n\r");
         result = ADI_ETH_READ_STATUS_TIMEOUT;
-        goto end;
     }
 
-end:
     return result;
 }
 
@@ -820,57 +802,6 @@ adi_eth_Result_e adin1320_cfg(board_t *_boardDetails, adi_phy_Device_t *hDevice)
 		result = ADI_ETH_COMM_ERROR;
     }
 
-    printf("ADIN1320 HW CFG: autoneg,");
-
-    /* Check if ADIN1320 is in RGMII MAC mode */
-    /* CRSM_MAC_IF_CFG, reads 0x0001 in RGMII */
-    result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_CRSM_MAC_IF_CFG, &val16);
-    if(result != ADI_ETH_SUCCESS)
-	{
-    	printf("Error - adi_MdioRead_Cl45 failed \n\r");
-		result = ADI_ETH_COMM_ERROR;
-	}
-
-    /* Check if ONLY CRSM_RGMII_EN bit is enabled */
-    if(val16 != BITM_CRSM_MAC_IF_CFG_CRSM_RGMII_EN)
-    {
-    	printf("\n\r Error - ADIN1320 is not in RGMII mode \n\r");
-    	_boardDetails->errorLed = true; /* Flag the RED LED when PHY not in RGMII Mode */
-    }
-
-    /* Check the ADIN1320 HW CFG setting Master/Slave
-     * AN_ADV_ABILITY_M, check bit AN_ADV_MST */
-    result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_AN_ADV_ABILITY_M, &val16);
-    if(result != ADI_ETH_SUCCESS)
-	{
-    	printf("Error - adi_MdioRead_Cl45 failed \n\r");
-		result = ADI_ETH_COMM_ERROR;
-	}
-
-    if( (val16 & BITM_AN_ADV_ABILITY_M_AN_ADV_MST) == BITM_AN_ADV_ABILITY_M_AN_ADV_MST)
-    {
-    	printf(" prefer Master,");
-    }
-    else
-    	printf(" prefer Slave,");
-
-    /* Check the ADIN1320 HW CFG setting amplitude
-     * B10L_PMA_CNTRL, check bit B10L_TX_LVL_HI_ABLE */
-    result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_B10L_PMA_CNTRL, &val16);
-    if(result != ADI_ETH_SUCCESS)
-	{
-    	printf("Error - adi_MdioRead_Cl45 failed \n\r");
-		result = ADI_ETH_COMM_ERROR;
-	}
-
-    if( (val16 & BITM_B10L_PMA_CNTRL_B10L_TX_LVL_HI) == BITM_B10L_PMA_CNTRL_B10L_TX_LVL_HI)
-    {
-    	printf(" Tx 2.4V");
-    }
-    else
-    {
-    	printf(" Tx 1.0V");
-    }
     /* Put ADIN1320 in SW power down mode */
     result = adin1320_setSWPD(hDevice, TRUE);
     if(result != ADI_ETH_SUCCESS)
@@ -879,27 +810,51 @@ adi_eth_Result_e adin1320_cfg(board_t *_boardDetails, adi_phy_Device_t *hDevice)
 	}
 
     /* Set ADIN1320 LED0 [Green LED for Link UP] and LED1[Yellow LED for TX/RX Activity] behavior */
-    result = adi_MdioRead_Cl45(hDevice->phyAddr, ADDR_DIGIO_PINMUX, &val16);
+    val16 = 0;
+    result = adi_MdioWrite(hDevice->phyAddr, ADDR_LED_CTRL_1, &val16);
     if(result != ADI_ETH_SUCCESS)
 	{
     	printf("Error - adi_MdioRead_Cl45 failed \n\r");
 		result = ADI_ETH_COMM_ERROR;
 	}
-    val16 &= !(BITM_DIGIO_PINMUX_DIGIO_LED1_PINMUX);
-    result = adi_MdioWrite_Cl45(hDevice->phyAddr, ADDR_DIGIO_PINMUX, val16);
-    if(result != ADI_ETH_SUCCESS)
+    val16 |= (BITM_LED_CTRL_1_LED_A_EXT_CFG_EN|BITM_LED_CTRL_1_LED_PUL_STR_EN);// Enable Extended LED Configuration
+	result = adi_MdioWrite(hDevice->phyAddr, ADDR_LED_CTRL_1, val16);
+	if(result != ADI_ETH_SUCCESS)
 	{
-    	printf("Error - adi_MdioWrite_Cl45 failed \n");
+		result = ADI_ETH_COMM_ERROR;
+    }
+	//13201: blink on activity
+	val16 = 0x2109;
+	result = adi_MdioWrite(hDevice->phyAddr, ADDR_LED_CTRL_2, val16);
+	if(result != ADI_ETH_SUCCESS)
+	{
 		result = ADI_ETH_COMM_ERROR;
 	}
+    /**********************************/
+    /* EXT_REG_PTR = 0xFF38 - Preamble recovery register */
+	/* FF38 register address is not available in the Data sheet */
 
-    val16 = 0x8487;
-    result = adi_MdioWrite_Cl45(hDevice->phyAddr, ADDR_LED_CNTRL, val16);
-    if(result != ADI_ETH_SUCCESS)
+    val16 = 0xFF38;
+	result = adi_MdioWrite(hDevice->phyAddr, ADDR_EXT_REG_PTR, val16);
+	if(result != ADI_ETH_SUCCESS)
 	{
-    	printf("Error - adi_MdioWrite_Cl45 failed \n");
 		result = ADI_ETH_COMM_ERROR;
-	}
+    }
+
+    /* EXT_REG_DATA = 0x0001 // Enable preamble recovery */
+    val16 = 0x0001;
+	result = adi_MdioWrite(hDevice->phyAddr, ADDR_EXT_REG_DATA, val16);
+	if(result != ADI_ETH_SUCCESS)
+	{
+		result = ADI_ETH_COMM_ERROR;
+    }
+
+	if(result == ADI_ETH_SUCCESS)
+        printf("ADIN1320 SW CFG: Autoneg Reset Configuration ");
+	else
+		printf("Error ADIN1320 SW CFG \r\n");
+
+    /*******************************************/
 
     /* Bring ADIN1320 out of SW power down mode */
     result = adin1320_setSWPD(hDevice, FALSE);
@@ -998,7 +953,7 @@ adi_eth_Result_e adin1300_cfg(board_t *_boardDetails)
     }
 
 	if(result == ADI_ETH_SUCCESS)
-        printf("ADIN1300 SW CFG: autoneg 10Mbit Full Duplex Only ");
+        printf("ADIN1300 SW CFG: Autoneg Reset Configuration ");
 	else
 		printf("Error ADIN1300 SW CFG \r\n");
 

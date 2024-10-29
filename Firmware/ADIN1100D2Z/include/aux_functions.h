@@ -28,7 +28,7 @@
 */
 #define ADIN1320_INIT_ITER   (5)
 #define ADIN1320_PHY_ADDRESS (0)
-#define ADIN1300_PHY_ADDRESS (0)
+#define ADIN1300_PHY_ADDRESS (4)
 
 /*! Size of the PHY device structure, in bytes. Needs to be a multiple of 4. */
 #define ADI_PHY_DEVICE_SIZE                (48)
