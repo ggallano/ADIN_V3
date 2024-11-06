@@ -1,0 +1,31 @@
+{
+  "project": {
+    "schema": 3,
+    "name": "ADIN1320 Firmware Source",
+    "version": "1.0",
+    "url": "https://analog.app.blackduck.com/api/projects/207ffe5f-af12-4fef-b91f-a654cc14bb9a/versions/8c45e5e0-4ee9-408c-9992-3bbda1edd2a0/components",
+    "phase": "DEVELOPMENT",
+    "distribution": "EXTERNAL",
+    "owner_email": "Johnsonralph.Perez@analog.com",
+    "description": "Project \u201dADIN1320 Firmware Source\u201d consists of ADIN1320 board\u2019s firmware project files, header files and source files. This project has the ADI developed Command Line interface, ADI developed ADIN1320 and ADIN1300 files.",
+    "tags": [
+      "adi_commercial_and_permissive"
+    ],
+    "tag_error": null,
+    "violations": null,
+    "violations_overridden": null,
+    "license": {
+      "name": "Unknown License",
+      "spdxId": null,
+      "family": "Unknown",
+      "status": "UNREVIEWED",
+      "text": "The license has not been identified.",
+      "terms": []
+    },
+    "num_snippets": 1,
+    "unreviewed": 0,
+    "modified": 0
+  },
+  "components": [],
+  "build": "release"
+}
