@@ -30,5 +30,14 @@ namespace ADIN.Device.Services
         string GetLinkProp_ForcedSpeed();
         string GetLinkProp_MDIX();
         string GetLinkProp_LeadFollow();
+
+        LoopBackMode GetLoopback_Loopback();
+        bool GetLoopback_TxSupp();
+        bool GetLoopback_RxSupp();
+
+        bool GetFrameGen_EnContMode();
+        uint GetFrameGen_FrameBurst();
+        uint GetFrameGen_FrameLength();
+        FrameType GetFrameGen_FrameContent();
     }
 }

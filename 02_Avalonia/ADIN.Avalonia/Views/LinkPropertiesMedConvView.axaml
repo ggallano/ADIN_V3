@@ -1,0 +1,46 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="2000"
+             x:Class="ADIN.Avalonia.Views.LinkPropertiesMedConvView"
+			 x:CompileBindings="False">
+	<ScrollViewer VerticalScrollBarVisibility="Hidden">
+		<StackPanel Margin="8">
+			<Grid ColumnDefinitions="Auto,*" IsVisible="{Binding HasActivePhyMode}">
+				<HmcCard Grid.Column="0" Margin="8" Density="High" Header="Active Phy Mode">
+					<TextBlock Text="{Binding ActivePhyMode}" Classes="title xs"/>
+				</HmcCard>
+				<HmcCard Grid.Column="1" Margin="8" Density="High" Header="Speed Mode">
+					<StackPanel Orientation="Horizontal">
+						<HmcSegmentedButton IsHitTestVisible="{Binding AllowInput}" Size="sm" GroupName="ConvertSpeedMode" IsEnabled="{Binding HasLoadedValues}" IsChecked="{Binding }" Content="1000BASE"/>
+						<HmcSegmentedButton IsHitTestVisible="{Binding AllowInput}" Size="sm" GroupName="ConvertSpeedMode" IsEnabled="{Binding HasLoadedValues}" IsChecked="{Binding }" Content="100BASE"/>
+						<HmcSegmentedButton IsHitTestVisible="{Binding AllowInput}" Size="sm" GroupName="ConvertSpeedMode" IsEnabled="{Binding HasLoadedValues}" IsChecked="{Binding }" Content="100BASE (Autoneg Disabled)"/>
+					</StackPanel>
+				</HmcCard>
+			</Grid>
+			<HmcCard Grid.Column="2" Margin="8" Density="High" Header="Energy Detect Power-down Mode">
+				<StackPanel Orientation="Horizontal">
+					<HmcSegmentedButton IsHitTestVisible="{Binding AllowInput}" Size="sm" GroupName="EDPD" IsEnabled="{Binding HasLoadedValues}" IsChecked="{Binding IsEDPD_Disabled}" Content="Disabled"/>
+					<HmcSegmentedButton IsHitTestVisible="{Binding AllowInput}" Size="sm" GroupName="EDPD" IsEnabled="{Binding HasLoadedValues}" IsChecked="{Binding IsEDPD_Enabled}" Content="Enabled"/>
+					<HmcSegmentedButton IsHitTestVisible="{Binding AllowInput}" Size="sm" GroupName="EDPD" IsEnabled="{Binding HasLoadedValues}" IsChecked="{Binding IsEDPD_EnabledWithPeriodicPulseTx}" Content="Enabled with Periodic Pulse TX"/>
+				</StackPanel>
+			</HmcCard>
+			<Grid ColumnDefinitions="*,Auto">
+				<HmcCard Grid.Column="0" Margin="8" Density="High" Header="MDIX">
+					<StackPanel Orientation="Horizontal">
+						<HmcSegmentedButton IsHitTestVisible="{Binding AllowInput}" Size="sm" GroupName="MDIX" IsEnabled="{Binding HasLoadedValues}" IsChecked="{Binding IsMDIX_AutoMDIX}" Content="Auto MDIX"/>
+						<HmcSegmentedButton IsHitTestVisible="{Binding AllowInput}" Size="sm" GroupName="MDIX" IsEnabled="{Binding HasLoadedValues}" IsChecked="{Binding IsMDIX_FixedMDI}" Content="Fixed MDI"/>
+						<HmcSegmentedButton IsHitTestVisible="{Binding AllowInput}" Size="sm" GroupName="MDIX" IsEnabled="{Binding HasLoadedValues}" IsChecked="{Binding IsMDIX_FixedMDIX}" Content="Fixed MDIX"/>
+					</StackPanel>
+				</HmcCard>
+				<HmcCard Grid.Column="1" Margin="8" Density="High" Header="Leader/Follower" IsVisible="{Binding IsLeaderFollowerVisible}">
+					<StackPanel Orientation="Horizontal">
+						<HmcSegmentedButton IsHitTestVisible="{Binding AllowInput}" Size="sm" GroupName="LeaderFollower" IsEnabled="{Binding HasLoadedValues}" IsChecked="{Binding IsLeaderFollower_Leader}" Content="Leader"/>
+						<HmcSegmentedButton IsHitTestVisible="{Binding AllowInput}" Size="sm" GroupName="LeaderFollower" IsEnabled="{Binding HasLoadedValues}" IsChecked="{Binding IsLeaderFollower_Follower}" Content="Follower"/>
+					</StackPanel>
+				</HmcCard>
+			</Grid>
+		</StackPanel>
+	</ScrollViewer>
+</UserControl>

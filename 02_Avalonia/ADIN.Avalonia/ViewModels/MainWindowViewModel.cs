@@ -7,10 +7,19 @@ using ADIN.Avalonia.Commands;
 using ADIN.Avalonia.Services;
 using ADIN.Avalonia.Stores;
 using ADIN.Avalonia.Views;
+using ADIN.Device.Models;
 using ADIN.Device.Services;
 using ADIN.Register.Models;
 using ADIN.Register.Services;
+using AnalogDevices.Desktop.Harmonic.Controls;
+using AnalogDevices.Desktop.Harmonic.Extensions;
+using AnalogDevices.Desktop.Harmonic.Windows;
+using Avalonia.Controls;
+using Avalonia.Threading;
 using FTDIChip.Driver.Services;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace ADIN.Avalonia.ViewModels;
@@ -36,14 +45,58 @@ public class MainWindowViewModel : ViewModelBase
         DeviceStatusVM = new DeviceStatusViewModel(_selectedDeviceStore, _ftdiService, mainLock);
         ExtraCommandsVM = new ExtraCommandsViewModel(_selectedDeviceStore, _ftdiService, _navigationStore);
 
-        NavigateLinkPropertiesCommand = new NavigateCommand<LinkPropertiesViewModel>(new NavigationService<LinkPropertiesViewModel>(_navigationStore, () => new LinkPropertiesViewModel(_selectedDeviceStore, _ftdiService)));
-        NavigateLoopbackFrameGenCommand = new NavigateCommand<LoopbackFrameGenViewModel>(new NavigationService<LoopbackFrameGenViewModel>(_navigationStore, () => new LoopbackFrameGenViewModel(_selectedDeviceStore, _ftdiService)));
-        NavigateRegisterAccessCommand = new NavigateCommand<RegisterListingViewModel>(new NavigationService<RegisterListingViewModel>(_navigationStore, () => new RegisterListingViewModel(_navigationStore)));
+        LinkPropertiesVM = new LinkPropertiesViewModel(_selectedDeviceStore, _ftdiService, appConfigService);
+        LoopbackFrameGenVM = new LoopbackFrameGenViewModel(_selectedDeviceStore, _ftdiService, appConfigService);
+        RegisterListingVM = new RegisterListingViewModel(_selectedDeviceStore, _ftdiService);
 
-        _navigationStore.CurrentStatusView = new DeviceStatusView { DataContext = DeviceStatusVM };
-        _navigationStore.CurrentViewModel = new LinkPropertiesViewModel(_selectedDeviceStore, _ftdiService);
+        NavigateLinkPropertiesCommand = new NavigateCommand<LinkPropertiesViewModel>(new NavigationService<LinkPropertiesViewModel>(_navigationStore, () => LinkPropertiesVM));
+        NavigateLoopbackFrameGenCommand = new NavigateCommand<LoopbackFrameGenViewModel>(new NavigationService<LoopbackFrameGenViewModel>(_navigationStore, () => LoopbackFrameGenVM));
+        NavigateRegisterAccessCommand = new NavigateCommand<RegisterListingViewModel>(new NavigationService<RegisterListingViewModel>(_navigationStore, () => RegisterListingVM));
 
-        _navigationStore.CurrentViewModelChanged += _navigationStore_CurrentViewModelChanged;
+        _navigationStore.CurrentViewModel = new RegisterListingViewModel(_selectedDeviceStore, _ftdiService);
+        _navigationStore.CurrentViewModel = new LoopbackFrameGenViewModel(_selectedDeviceStore, _ftdiService, appConfigService);
+        _navigationStore.CurrentViewModel = new LinkPropertiesViewModel(_selectedDeviceStore, _ftdiService, appConfigService);
+
+        _navigationStore.CurrentViewModelChanged += UpdateViewViewModel;
+        _selectedDeviceStore.PhyModeChanged += UpdateViewViewModel;
+        _selectedDeviceStore.LoadingStatusChanged += UpdateLoadingStatus;
+    }
+
+    public object CurrentView
+    {
+        get
+        {
+            if (_navigationStore.CurrentViewModel is LinkPropertiesViewModel && IsFiberMedia)
+            {
+                _navigationStore.CurrentView = new LinkPropertiesFiberView { DataContext = LinkPropertiesVM };
+                return _navigationStore.CurrentView;
+            }
+            else if (_navigationStore.CurrentViewModel is LinkPropertiesViewModel && IsMediaConverter)
+            {
+                _navigationStore.CurrentView = new LinkPropertiesMedConvView { DataContext = LinkPropertiesVM };
+                return _navigationStore.CurrentView;
+            }
+            else if (_navigationStore.CurrentViewModel is LinkPropertiesViewModel && IsCopperMedia)
+            {
+                _navigationStore.CurrentView = new LinkPropertiesView { DataContext = LinkPropertiesVM };
+                return _navigationStore.CurrentView;
+            }
+            else if (_navigationStore.CurrentViewModel is LoopbackFrameGenViewModel)
+            {
+                _navigationStore.CurrentView = new LoopbackFrameGenView { DataContext = LoopbackFrameGenVM };
+                return _navigationStore.CurrentView;
+            }
+            else if (_navigationStore.CurrentViewModel is RegisterListingViewModel)
+            {
+                _navigationStore.CurrentView = new RegisterListingView { DataContext = RegisterListingVM };
+                return _navigationStore.CurrentView;
+            }
+            else
+            {
+                _navigationStore.CurrentView = null;
+                return _navigationStore.CurrentView;
+            }
+        }
     }
 
     public object CurrentStatusView
@@ -71,6 +124,14 @@ public class MainWindowViewModel : ViewModelBase
     public int ColumnSpan => (_navigationStore.CurrentViewModel is RegisterListingViewModel) ? 2 : 1;
 
     public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
+    public string _activePhyMode => _selectedDeviceStore.SelectedDevice?.PhyMode.ActivePhyMode;
+    public bool IsCopperMedia => (_activePhyMode == null)
+        || (_activePhyMode == "Copper Media Only")
+        || (_activePhyMode == "Auto Media Detect_Cu");
+    public bool IsFiberMedia => (_activePhyMode == "Fiber Media Only")
+        || (_activePhyMode == "Backplane")
+        || (_activePhyMode == "Auto Media Detect_Fi");
+    public bool IsMediaConverter => _activePhyMode == "Media Converter";
 
     public DeviceListingViewModel DeviceListingVM { get; }
     public LogActivityViewModel LogActivityVM { get; set; }
@@ -78,14 +139,28 @@ public class MainWindowViewModel : ViewModelBase
     public DeviceStatusViewModel DeviceStatusVM { get; set; }
     public ExtraCommandsViewModel ExtraCommandsVM { get; set; }
 
+    public LinkPropertiesViewModel LinkPropertiesVM { get; set; }
+    public LoopbackFrameGenViewModel LoopbackFrameGenVM { get; set; }
+    public RegisterListingViewModel RegisterListingVM { get; set; }
+
     public ICommand NavigateLinkPropertiesCommand { get; }
     public ICommand NavigateLoopbackFrameGenCommand { get; }
     public ICommand NavigateRegisterAccessCommand { get; }
 
-    private void _navigationStore_CurrentViewModelChanged()
+    private void UpdateViewViewModel()
     {
         OnPropertyChanged(nameof(CurrentViewModel));
+        OnPropertyChanged(nameof(CurrentView));
         OnPropertyChanged(nameof(CurrentStatusView));
         OnPropertyChanged(nameof(ColumnSpan));
+        OnPropertyChanged(nameof(IsLoading));
+    }
+
+    public bool IsLoading { get; set; }
+
+    private void UpdateLoadingStatus(bool isLoading)
+    {
+        IsLoading = isLoading;
+        OnPropertyChanged(nameof(IsLoading));
     }
 }

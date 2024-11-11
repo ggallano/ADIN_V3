@@ -19,7 +19,7 @@
 				</ListBox.ContextMenu>
 				<ListBox.ItemTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding}" Margin="-5"/>
+						<TextBlock Text="{Binding}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}" Margin="-5"/>
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>

@@ -44,8 +44,8 @@ namespace ADIN.Device.Models
 
             //GetInitialValuesLinkProperties();
             GetInitialValuesClockPinControl();
-            GetInitialValuesLoopback();
-            GetInitialValuesFrameGenChecker();
+            //GetInitialValuesLoopback();
+            //GetInitialValuesFrameGenChecker();
             GetInitialValuesTestMode();
         }
 

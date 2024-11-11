@@ -53,7 +53,7 @@ namespace ADIN.Avalonia.Commands
             frameGenChecker.FrameLength = loopbackFrameGenChecker.FrameLength;
             frameGenChecker.SelectedFrameContent = loopbackFrameGenChecker.SelectedFrameContent;
 
-            ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
+            IFrameGenCheckerAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IFrameGenCheckerAPI;
             fwAPI.SetFrameCheckerSetting(frameGenChecker);
         }
 

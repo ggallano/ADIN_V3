@@ -78,6 +78,11 @@ namespace ADIN.Avalonia.Commands
                 ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
                 fwAPI.RegisterWrite(register, value);
             }
+            else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1320FirmwareAPI)
+            {
+                ADIN1320FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1320FirmwareAPI;
+                fwAPI.RegisterWrite(register, value);
+            }
             else { } //Do nothing
 #endif
             _selectedDeviceStore.OnViewModelErrorOccured($"[Register Write] Register Address: 0x{_viewModel.WriteInput.ToUpper()}, Value: 0x{_viewModel.WriteValue.ToUpper()}", Helper.Feedback.FeedbackType.Info);

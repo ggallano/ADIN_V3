@@ -37,7 +37,7 @@ namespace ADIN.Device.Models.ADIN1320
             {
                 "Disabled",
                 "Enabled",
-                "Enabled With Periodic Pulse TX"
+                "Enabled with Periodic Pulse TX"
             };
 
             MasterSlaveAdvertises = new List<string>()

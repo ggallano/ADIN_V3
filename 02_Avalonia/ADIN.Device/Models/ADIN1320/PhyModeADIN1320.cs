@@ -11,10 +11,6 @@ namespace ADIN.Device.Models.ADIN1320
     {
         public PhyModeADIN1320()
         {
-            //ActivePhyMode = "Copper Media Only";
-            //ActivePhyMode = "Fiber Media Only";
-            //ActivePhyMode = "Media Converter";
-
             PhyModes = new ObservableCollection<string>()
             {
                 "Copper Media Only",

@@ -3,9 +3,11 @@
 //     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
 // </copyright>
 
+using ADIN.Avalonia.Services;
 using ADIN.Avalonia.Stores;
 using ADIN.Device.Models;
 using ADIN.Device.Services;
+using Avalonia.Threading;
 using FTDIChip.Driver.Services;
 using Newtonsoft.Json.Linq;
 using System;
@@ -15,6 +17,7 @@ using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Reflection.Emit;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ADIN.Avalonia.ViewModels
 {
@@ -22,28 +25,23 @@ namespace ADIN.Avalonia.ViewModels
     {
         private SelectedDeviceStore _selectedDeviceStore;
         private IFTDIServices _ftdiServices;
+        private readonly ApplicationConfigService _applicationConfigService;
         private BackgroundWorker _backgroundWorker;
+        private bool _isLoading = false;
         private List<uint> _downSpeedRetries = new List<uint>(){ 0, 1, 2, 3, 4, 5, 6, 7 };
 
-        public LinkPropertiesViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiServices)
+        public LinkPropertiesViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiServices, ApplicationConfigService appConfigService)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiServices = ftdiServices;
-
-            SetBgWorker_LinkProperties();
+            _applicationConfigService = appConfigService;
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.FtdiComOpened += LoadChanges;
+            _selectedDeviceStore.PhyModeChanged += LoadChanges;
         }
 
-        public bool AllowInput
-        {
-            get
-            {
-                if (IsDeviceSelected)
-                    return _selectedDeviceStore.SelectedDevice.AllowInput;
-                return false;
-            }
-        }
+        public bool AllowInput => bool.Parse(_applicationConfigService.GetConfigValue("AllowGuiControl"));
 
         public List<string> AdvertisedSpeeds => _linkProperties.AdvertisedSpeeds;
 
@@ -235,11 +233,6 @@ namespace ADIN.Avalonia.ViewModels
             get { return (_linkProperties?.SpeedMode != "Forced") && (_linkProperties?.IsSpeedCapable1G != false); }
         }
 
-        public bool IsANAdvertisedSpeedVisible
-        {
-            get { return _linkProperties?.SpeedMode != "Forced"; }
-        }
-
         public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
         public bool IsComOpen => _ftdiServices.IsComOpen == true;
 
@@ -374,7 +367,14 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsEDPD_Disabled
         {
-            get { return _linkProperties?.EnergyDetectPowerDownMode == "Disabled"; }
+            get 
+            {
+                if (_linkProperties?.EnergyDetectPowerDownMode != "Disabled")
+                    return false;
+                OnPropertyChanged(nameof(IsEDPD_Enabled));
+                OnPropertyChanged(nameof(IsEDPD_EnabledWithPeriodicPulseTx));
+                return true;
+            }
             set
             {
                 if (IsDeviceSelected && IsComOpen && _linkProperties?.EnergyDetectPowerDownMode != "Disabled")
@@ -382,8 +382,6 @@ namespace ADIN.Avalonia.ViewModels
                     _linkProperties.EnergyDetectPowerDownMode = "Disabled";
                     IEnergyDetectAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IEnergyDetectAPI;
                     fwAPI.EnableEnergyDetectPowerDown("Disabled");
-                    OnPropertyChanged(nameof(IsEDPD_Enabled));
-                    OnPropertyChanged(nameof(IsEDPD_EnabledWithPeriodicPulseTx));
                     OnPropertyChanged(nameof(IsEDPD_Disabled));
                 }
             }
@@ -391,7 +389,14 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsEDPD_Enabled
         {
-            get { return _linkProperties?.EnergyDetectPowerDownMode == "Enabled"; }
+            get
+            {
+                if (_linkProperties?.EnergyDetectPowerDownMode != "Enabled")
+                    return false;
+                OnPropertyChanged(nameof(IsEDPD_Disabled));
+                OnPropertyChanged(nameof(IsEDPD_EnabledWithPeriodicPulseTx));
+                return true;
+            }
             set
             {
                 if (IsDeviceSelected && IsComOpen && _linkProperties?.EnergyDetectPowerDownMode != "Enabled")
@@ -408,7 +413,14 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsEDPD_EnabledWithPeriodicPulseTx
         {
-            get { return _linkProperties?.EnergyDetectPowerDownMode == "Enabled with Periodic Pulse TX"; }
+            get
+            {
+                if (_linkProperties?.EnergyDetectPowerDownMode != "Enabled with Periodic Pulse TX")
+                    return false;
+                OnPropertyChanged(nameof(IsEDPD_Disabled));
+                OnPropertyChanged(nameof(IsEDPD_Enabled));
+                return true;
+            }
             set
             {
                 if (IsDeviceSelected && IsComOpen && _linkProperties?.EnergyDetectPowerDownMode != "Enabled with Periodic Pulse TX")
@@ -425,7 +437,15 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsForcedSpeed_100BASE_TX_FD
         {
-            get { return _linkProperties?.ForcedSpeed == "SPEED_100BASE_TX_FD"; }
+            get 
+            {
+                if (_linkProperties?.ForcedSpeed != "SPEED_100BASE_TX_FD")
+                    return false;
+                OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
+                OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
+                OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
+                return true;
+            }
             set
             {
                 if (IsDeviceSelected && IsComOpen && _linkProperties?.ForcedSpeed != "SPEED_100BASE_TX_FD")
@@ -433,9 +453,6 @@ namespace ADIN.Avalonia.ViewModels
                     _linkProperties.ForcedSpeed = "SPEED_100BASE_TX_FD";
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
                     fwAPI.SetForcedSpeed("SPEED_100BASE_TX_FD");
-                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
                     OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
                 }
             }
@@ -443,7 +460,15 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsForcedSpeed_100BASE_TX_HD
         {
-            get { return _linkProperties?.ForcedSpeed == "SPEED_100BASE_TX_HD"; }
+            get
+            {
+                if (_linkProperties?.ForcedSpeed != "SPEED_100BASE_TX_HD")
+                    return false;
+                OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
+                OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
+                OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
+                return true;
+            }
             set
             {
                 if (IsDeviceSelected && IsComOpen && _linkProperties?.ForcedSpeed != "SPEED_100BASE_TX_HD")
@@ -451,9 +476,6 @@ namespace ADIN.Avalonia.ViewModels
                     _linkProperties.ForcedSpeed = "SPEED_100BASE_TX_HD";
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
                     fwAPI.SetForcedSpeed("SPEED_100BASE_TX_HD");
-                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
                     OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
                 }
             }
@@ -461,7 +483,15 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsForcedSpeed_10BASE_T_FD
         {
-            get { return _linkProperties?.ForcedSpeed == "SPEED_10BASE_T_FD"; }
+            get
+            {
+                if (_linkProperties?.ForcedSpeed != "SPEED_10BASE_T_FD")
+                    return false;
+                OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
+                OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
+                OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
+                return true;
+            }
             set
             {
                 if (IsDeviceSelected && IsComOpen && _linkProperties?.ForcedSpeed != "SPEED_10BASE_T_FD")
@@ -469,9 +499,6 @@ namespace ADIN.Avalonia.ViewModels
                     _linkProperties.ForcedSpeed = "SPEED_10BASE_T_FD";
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
                     fwAPI.SetForcedSpeed("SPEED_10BASE_T_FD");
-                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
                     OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
                 }
             }
@@ -479,7 +506,15 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsForcedSpeed_10BASE_T_HD
         {
-            get { return _linkProperties?.ForcedSpeed == "SPEED_10BASE_T_HD"; }
+            get
+            {
+                if (_linkProperties?.ForcedSpeed != "SPEED_10BASE_T_HD")
+                    return false;
+                OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
+                OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
+                OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
+                return true;
+            }
             set
             {
                 if (IsDeviceSelected && IsComOpen && _linkProperties?.ForcedSpeed != "SPEED_10BASE_T_HD")
@@ -487,9 +522,6 @@ namespace ADIN.Avalonia.ViewModels
                     _linkProperties.ForcedSpeed = "SPEED_10BASE_T_HD";
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
                     fwAPI.SetForcedSpeed("SPEED_10BASE_T_HD");
-                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
-                    OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
                     OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
                 }
             }
@@ -497,20 +529,23 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsLeaderFollower_Leader
         {
-            get { return _linkProperties?.MasterSlaveAdvertise == "Leader"; }
+            get 
+            {
+                if (_linkProperties?.MasterSlaveAdvertise != "Leader")
+                    return false;
+                OnPropertyChanged(nameof(IsLeaderFollower_Follower));
+                return true;
+            }
             set
             {
                 if (IsDeviceSelected && IsComOpen && _linkProperties?.MasterSlaveAdvertise != "Leader")
                 {
                     _linkProperties.MasterSlaveAdvertise = "Leader";
                     IMasterSlaveSettingsAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IMasterSlaveSettingsAPI;
-
                     if (_linkProperties.SpeedMode == "Advertised")
                         fwAPI.SetMasterSlave("Prefer_Master");
                     else
                         fwAPI.SetMasterSlave("Forced_Master");
-
-                    OnPropertyChanged(nameof(IsLeaderFollower_Follower));
                     OnPropertyChanged(nameof(IsLeaderFollower_Leader));
                 }
             }
@@ -518,20 +553,23 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsLeaderFollower_Follower
         {
-            get { return _linkProperties?.MasterSlaveAdvertise == "Follower"; }
+            get
+            {
+                if (_linkProperties?.MasterSlaveAdvertise != "Follower")
+                    return false;
+                OnPropertyChanged(nameof(IsLeaderFollower_Leader));
+                return true;
+            }
             set
             {
                 if (IsDeviceSelected && IsComOpen && _linkProperties?.MasterSlaveAdvertise != "Follower")
                 {
                     _linkProperties.MasterSlaveAdvertise = "Follower";
                     IMasterSlaveSettingsAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IMasterSlaveSettingsAPI;
-
                     if (_linkProperties.SpeedMode == "Advertised")
                         fwAPI.SetMasterSlave("Prefer_Slave");
                     else
                         fwAPI.SetMasterSlave("Forced_Slave");
-
-                    OnPropertyChanged(nameof(IsLeaderFollower_Leader));
                     OnPropertyChanged(nameof(IsLeaderFollower_Follower));
                 }
             }
@@ -539,7 +577,14 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsMDIX_AutoMDIX
         {
-            get { return _linkProperties?.MDIX == "Auto MDIX"; }
+            get 
+            {
+                if (_linkProperties?.MDIX != "Auto MDIX")
+                    return false;
+                OnPropertyChanged(nameof(IsMDIX_FixedMDI));
+                OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
+                return true;
+            }
             set
             {
                 if (IsDeviceSelected && IsComOpen && _linkProperties?.MDIX != "Auto MDIX")
@@ -547,8 +592,6 @@ namespace ADIN.Avalonia.ViewModels
                     _linkProperties.MDIX = "Auto MDIX";
                     IAutoMDIXAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAutoMDIXAPI;
                     fwAPI.AutoMDIXMode("Auto MDIX");
-                    OnPropertyChanged(nameof(IsMDIX_FixedMDI));
-                    OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
                     OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
                 }
             }
@@ -556,7 +599,14 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsMDIX_FixedMDI
         {
-            get { return _linkProperties?.MDIX == "Fixed MDI"; }
+            get
+            {
+                if (_linkProperties?.MDIX != "Fixed MDI")
+                    return false;
+                OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
+                OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
+                return true;
+            }
             set
             {
                 if (IsDeviceSelected && IsComOpen && _linkProperties?.MDIX != "Fixed MDI")
@@ -564,8 +614,6 @@ namespace ADIN.Avalonia.ViewModels
                     _linkProperties.MDIX = "Fixed MDI";
                     IAutoMDIXAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAutoMDIXAPI;
                     fwAPI.AutoMDIXMode("Fixed MDI");
-                    OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
-                    OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
                     OnPropertyChanged(nameof(IsMDIX_FixedMDI));
                 }
             }
@@ -573,7 +621,14 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsMDIX_FixedMDIX
         {
-            get { return _linkProperties?.MDIX == "Fixed MDIX"; }
+            get
+            {
+                if (_linkProperties?.MDIX != "Fixed MDIX")
+                    return false;
+                OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
+                OnPropertyChanged(nameof(IsMDIX_FixedMDI));
+                return true;
+            }
             set
             {
                 if (IsDeviceSelected && IsComOpen && _linkProperties.MDIX != "Fixed MDIX")
@@ -581,8 +636,6 @@ namespace ADIN.Avalonia.ViewModels
                     _linkProperties.MDIX = "Fixed MDIX";
                     IAutoMDIXAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAutoMDIXAPI;
                     fwAPI.AutoMDIXMode("Fixed MDIX");
-                    OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
-                    OnPropertyChanged(nameof(IsMDIX_FixedMDI));
                     OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
                 }
             }
@@ -590,7 +643,13 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsSpeedMode_Advertised
         {
-            get { return _linkProperties?.SpeedMode != "Forced"; }
+            get
+            {
+                if (_linkProperties?.SpeedMode == "Forced")
+                    return false;
+                OnPropertyChanged(nameof(IsSpeedMode_Forced));
+                return true;
+            }
             set
             {
                 if (IsDeviceSelected && IsComOpen && _linkProperties?.SpeedMode != "Advertised")
@@ -598,8 +657,6 @@ namespace ADIN.Avalonia.ViewModels
                     _linkProperties.SpeedMode = "Advertised";
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
                     fwAPI.AdvertisedForcedSpeed("Advertised");
-
-                    OnPropertyChanged(nameof(IsSpeedMode_Forced));
                     OnPropertyChanged(nameof(IsSpeedMode_Advertised));
                     OnPropertyChanged(nameof(IsSpeedCapable1G));
                     OnPropertyChanged(nameof(IsLeaderFollowerVisible));
@@ -610,7 +667,13 @@ namespace ADIN.Avalonia.ViewModels
 
         public bool IsSpeedMode_Forced
         {
-            get { return _linkProperties?.SpeedMode == "Forced"; }
+            get 
+            {
+                if (_linkProperties?.SpeedMode != "Forced")
+                    return false;
+                OnPropertyChanged(nameof(IsSpeedMode_Advertised));
+                return true;
+            }
             set
             {
                 if (IsDeviceSelected && IsComOpen && _linkProperties?.SpeedMode != "Forced")
@@ -618,8 +681,6 @@ namespace ADIN.Avalonia.ViewModels
                     _linkProperties.SpeedMode = "Forced";
                     IAdvertisedSpeedAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IAdvertisedSpeedAPI;
                     fwAPI.AdvertisedForcedSpeed("Forced");
-
-                    OnPropertyChanged(nameof(IsSpeedMode_Advertised));
                     OnPropertyChanged(nameof(IsSpeedMode_Forced));
                     OnPropertyChanged(nameof(IsSpeedCapable1G));
                     OnPropertyChanged(nameof(IsLeaderFollowerVisible));
@@ -733,35 +794,13 @@ namespace ADIN.Avalonia.ViewModels
             }
         }
 
-        public bool IsCopperMedia
+        public bool HasLoadedValues
         {
-            get
+            get => !_isLoading && IsDeviceSelected;
+            set
             {
-                return (_phyMode?.ActivePhyMode == null)
-                    || (_phyMode?.ActivePhyMode == "Copper Media Only")
-                    || (_phyMode?.ActivePhyMode == "Auto Media Detect_Cu");
-            }
-        }
-
-        public bool IsFiberMedia
-        {
-            get 
-            {
-                return (_phyMode?.ActivePhyMode == "Fiber Media Only")
-                    || (_phyMode?.ActivePhyMode == "Backplane")
-                    || (_phyMode?.ActivePhyMode == "Auto Media Detect_Fi");
-            }
-        }
-
-        public bool IsCopperFiberMedia => IsDeviceSelected && (IsCopperMedia || IsFiberMedia == true);
-
-        public bool IsCopperMediaConv => IsDeviceSelected && (IsCopperMedia || IsMediaConverter == true);
-
-        public bool IsMediaConverter
-        {
-            get
-            {
-                return _phyMode?.ActivePhyMode == "Media Converter";
+                _isLoading = !value;
+                OnPropertyChanged(nameof(HasLoadedValues));
             }
         }
 
@@ -770,130 +809,150 @@ namespace ADIN.Avalonia.ViewModels
 
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
-            OnPropertyChanged(nameof(IsComOpen));
             OnPropertyChanged(nameof(IsDeviceSelected));
+            OnPropertyChanged(nameof(HasLoadedValues));
 
-            if (_selectedDeviceStore.SelectedDevice == null)
+            if (!IsDeviceSelected)
                 return;
+
             OnPropertyChanged(nameof(AllowInput));
-            OnPropertyChanged(nameof(IsSpeedCapable1G));
-            OnPropertyChanged(nameof(IsANAdvertisedSpeedVisible));
             OnPropertyChanged(nameof(IsGigabitBoard));
             OnPropertyChanged(nameof(IsT1LBoard));
         }
 
-        private void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        private async void LoadChanges()
         {
-            while (!_backgroundWorker.CancellationPending)
+            HasLoadedValues = false;
+            await Task.Run(() => _selectedDeviceStore.OnLoadingStatusChanged(this, true));
+            await Task.Run(() => UpdateValues());
+        }
+
+        private void UpdateValues()
+        {
+            IValueUpdate fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IValueUpdate;
+
+            if (IsGigabitBoard)
             {
-                try
+                _linkProperties.SpeedMode = fwAPI.GetLinkProp_SpeedMode();
+                switch (_linkProperties.SpeedMode)
                 {
-                    if (IsDeviceSelected && IsComOpen)
-                    {
-                        IValueUpdate fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IValueUpdate;
-                        _linkProperties.DownSpeedRetries = fwAPI.GetLinkProp_DownspeedRetries();
-                        OnPropertyChanged(nameof(DownSpeedRetries));
-                        _linkProperties.IsAdvertise_1000BASE_T_FD = fwAPI.GetLinkProp_IsAdv1000BaseTFd();
-                        OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
-                        _linkProperties.IsAdvertise_1000BASE_T_HD = fwAPI.GetLinkProp_IsAdv1000BaseTHd();
-                        OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
-                        _linkProperties.IsAdvertise_100BASE_TX_FD = fwAPI.GetLinkProp_IsAdv100BaseTxFd();
-                        OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
-                        _linkProperties.IsAdvertise_100BASE_TX_HD = fwAPI.GetLinkProp_IsAdv100BaseTxHd();
-                        OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
-                        _linkProperties.IsAdvertise_10BASE_T_FD = fwAPI.GetLinkProp_IsAdv10BaseTFd();
-                        OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
-                        _linkProperties.IsAdvertise_10BASE_T_HD = fwAPI.GetLinkProp_IsAdv10BaseTHd();
-                        OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
-                        _linkProperties.IsAdvertise_EEE_1000BASE_T = fwAPI.GetLinkProp_IsAdvEee1000();
-                        OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
-                        _linkProperties.IsAdvertise_EEE_100BASE_TX = fwAPI.GetLinkProp_IsAdvEee100();
-                        OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
-                        _linkProperties.IsDownSpeed_100BASE_TX_HD = fwAPI.GetLinkProp_IsDwnspd100TxHd();
-                        OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
-                        _linkProperties.IsDownSpeed_10BASE_T_HD = fwAPI.GetLinkProp_IsDwnspd10THd();
-                        OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
-                        _linkProperties.SpeedMode = fwAPI.GetLinkProp_SpeedMode();
+                    case "Advertised":
                         OnPropertyChanged(nameof(IsSpeedMode_Advertised));
+                        break;
+                    case "Forced":
                         OnPropertyChanged(nameof(IsSpeedMode_Forced));
-                        _linkProperties.EnergyDetectPowerDownMode = fwAPI.GetLinkProp_EDPD();
-                        OnPropertyChanged(nameof(IsEDPD_Disabled));
-                        OnPropertyChanged(nameof(IsEDPD_Enabled));
-                        OnPropertyChanged(nameof(IsEDPD_EnabledWithPeriodicPulseTx));
-                        _linkProperties.ForcedSpeed = fwAPI.GetLinkProp_ForcedSpeed();
-                        OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
-                        OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
-                        OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
-                        OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
-                        _linkProperties.MDIX = fwAPI.GetLinkProp_MDIX();
-                        switch (_linkProperties.MDIX)
-                        {
-                            case "Auto MDIX":
-                                OnPropertyChanged(nameof(IsMDIX_FixedMDI));
-                                OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
-                                OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
-                                break;
-                            case "Fixed MDI":
-                                OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
-                                OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
-                                OnPropertyChanged(nameof(IsMDIX_FixedMDI));
-                                break;
-                            case "Fixed MDIX":
-                                OnPropertyChanged(nameof(IsMDIX_FixedMDI));
-                                OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
-                                OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
-                                break;
-                        }
-                        _linkProperties.MasterSlaveAdvertise = fwAPI.GetLinkProp_LeadFollow();
-                        OnPropertyChanged(nameof(IsLeaderFollower_Leader));
-                        OnPropertyChanged(nameof(IsLeaderFollower_Follower));
-
-                        OnPropertyChanged(nameof(IsDownspeed100Enabled));
-                        OnPropertyChanged(nameof(IsDownspeed10Enabled));
-                        OnPropertyChanged(nameof(IsEEE1000Enabled));
-                        OnPropertyChanged(nameof(IsEEE100Enabled));
-                        OnPropertyChanged(nameof(IsLeaderFollowerVisible));
-
-                        OnPropertyChanged(nameof(HasActivePhyMode));
-                        OnPropertyChanged(nameof(ActivePhyMode));
-                        OnPropertyChanged(nameof(IsCopperMedia));
-                        OnPropertyChanged(nameof(IsFiberMedia));
-                        OnPropertyChanged(nameof(IsCopperFiberMedia));
-                        OnPropertyChanged(nameof(IsMediaConverter));
-                        OnPropertyChanged(nameof(IsCopperMediaConv));
-                    }
-                    Thread.Sleep(10);
+                        break;
+                    default:
+                        // Do nothing
+                        break;
                 }
-                catch (Exception ex)
+
+                OnPropertyChanged(nameof(IsSpeedCapable1G));
+                _linkProperties.IsAdvertise_1000BASE_T_FD = fwAPI.GetLinkProp_IsAdv1000BaseTFd();
+                OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_FD));
+                _linkProperties.IsAdvertise_1000BASE_T_HD = fwAPI.GetLinkProp_IsAdv1000BaseTHd();
+                OnPropertyChanged(nameof(IsAdvertise_1000BASE_T_HD));
+                _linkProperties.IsAdvertise_100BASE_TX_FD = fwAPI.GetLinkProp_IsAdv100BaseTxFd();
+                OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_FD));
+                _linkProperties.IsAdvertise_100BASE_TX_HD = fwAPI.GetLinkProp_IsAdv100BaseTxHd();
+                OnPropertyChanged(nameof(IsAdvertise_100BASE_TX_HD));
+                _linkProperties.IsAdvertise_10BASE_T_FD = fwAPI.GetLinkProp_IsAdv10BaseTFd();
+                OnPropertyChanged(nameof(IsAdvertise_10BASE_T_FD));
+                _linkProperties.IsAdvertise_10BASE_T_HD = fwAPI.GetLinkProp_IsAdv10BaseTHd();
+                OnPropertyChanged(nameof(IsAdvertise_10BASE_T_HD));
+
+                _linkProperties.IsAdvertise_EEE_1000BASE_T = fwAPI.GetLinkProp_IsAdvEee1000();
+                OnPropertyChanged(nameof(IsAdvertise_EEE_1000BASE_T));
+                _linkProperties.IsAdvertise_EEE_100BASE_TX = fwAPI.GetLinkProp_IsAdvEee100();
+                OnPropertyChanged(nameof(IsAdvertise_EEE_100BASE_TX));
+
+                _linkProperties.IsDownSpeed_100BASE_TX_HD = fwAPI.GetLinkProp_IsDwnspd100TxHd();
+                OnPropertyChanged(nameof(IsDownSpeed_100BASE_TX_HD));
+                _linkProperties.IsDownSpeed_10BASE_T_HD = fwAPI.GetLinkProp_IsDwnspd10THd();
+                OnPropertyChanged(nameof(IsDownSpeed_10BASE_T_HD));
+                _linkProperties.DownSpeedRetries = fwAPI.GetLinkProp_DownspeedRetries();
+                OnPropertyChanged(nameof(DownSpeedRetries));
+
+                _linkProperties.ForcedSpeed = fwAPI.GetLinkProp_ForcedSpeed();
+                switch (_linkProperties.ForcedSpeed)
                 {
-                    //Do nothing
+                    case "SPEED_100BASE_TX_FD":
+                        OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_FD));
+                        break;
+                    case "SPEED_100BASE_TX_HD":
+                        OnPropertyChanged(nameof(IsForcedSpeed_100BASE_TX_HD));
+                        break;
+                    case "SPEED_10BASE_T_FD":
+                        OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_FD));
+                        break;
+                    case "SPEED_10BASE_T_HD":
+                        OnPropertyChanged(nameof(IsForcedSpeed_10BASE_T_HD));
+                        break;
+                    default:
+                        // Do nothing
+                        break;
                 }
 
-                e.Result = "Done";
+                _linkProperties.MDIX = fwAPI.GetLinkProp_MDIX();
+                switch (_linkProperties.MDIX)
+                {
+                    case "Auto MDIX":
+                        OnPropertyChanged(nameof(IsMDIX_AutoMDIX));
+                        break;
+                    case "Fixed MDI":
+                        OnPropertyChanged(nameof(IsMDIX_FixedMDI));
+                        break;
+                    case "Fixed MDIX":
+                        OnPropertyChanged(nameof(IsMDIX_FixedMDIX));
+                        break;
+                    default:
+                        // Do nothing
+                        break;
+                }
+
+                _linkProperties.EnergyDetectPowerDownMode = fwAPI.GetLinkProp_EDPD();
+                switch (_linkProperties.EnergyDetectPowerDownMode)
+                {
+                    case "Disabled":
+                        OnPropertyChanged(nameof(IsEDPD_Disabled));
+                        break;
+                    case "Enabled":
+                        OnPropertyChanged(nameof(IsEDPD_Enabled));
+                        break;
+                    case "Enabled with Periodic Pulse TX":
+                        OnPropertyChanged(nameof(IsEDPD_EnabledWithPeriodicPulseTx));
+                        break;
+                    default:
+                        // Do nothing
+                        break;
+                }
+
+                _linkProperties.MasterSlaveAdvertise = fwAPI.GetLinkProp_LeadFollow();
+                switch (_linkProperties.MasterSlaveAdvertise)
+                {
+                    case "Leader":
+                        OnPropertyChanged(nameof(IsLeaderFollower_Leader));
+                        break;
+                    case "Follower":
+                        OnPropertyChanged(nameof(IsLeaderFollower_Follower));
+                        break;
+                    default:
+                        // Do nothing
+                        break;
+                }
+
+                OnPropertyChanged(nameof(IsDownspeed100Enabled));
+                OnPropertyChanged(nameof(IsDownspeed10Enabled));
+                OnPropertyChanged(nameof(IsEEE1000Enabled));
+                OnPropertyChanged(nameof(IsEEE100Enabled));
+                OnPropertyChanged(nameof(IsLeaderFollowerVisible));
+
+                OnPropertyChanged(nameof(HasActivePhyMode));
+                OnPropertyChanged(nameof(ActivePhyMode));
+
+                _selectedDeviceStore.OnLoadingStatusChanged(this, false);
+                HasLoadedValues = true;
             }
-        }
-
-        private void _backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            Debug.WriteLine("Progress Changed");
-        }
-
-        private void _backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            Debug.WriteLine("_backgroundWorker Completed");
-        }
-
-        private void SetBgWorker_LinkProperties()
-        {
-            _backgroundWorker = new BackgroundWorker();
-            _backgroundWorker.WorkerReportsProgress = true;
-            _backgroundWorker.WorkerSupportsCancellation = true;
-
-            _backgroundWorker.DoWork += _backgroundWorker_DoWork;
-            _backgroundWorker.RunWorkerCompleted += _backgroundWorker_RunWorkerCompleted;
-            _backgroundWorker.ProgressChanged += _backgroundWorker_ProgressChanged;
-
-            _backgroundWorker.RunWorkerAsync();
         }
     }
 }

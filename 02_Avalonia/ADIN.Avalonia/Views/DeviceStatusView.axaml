@@ -43,27 +43,57 @@
 		</Grid>
 		<Grid ColumnDefinitions="*,*" IsVisible="{Binding IsCopperMedia}">
 			<HmcCard Grid.Column="0" Density="High" Header="Autoneg Advertisement" Margin="8">
-				<Grid RowDefinitions="24,24,24,24,24,24,24,24">
-					<TextBlock Grid.Row="0" Classes="body m" Margin="4" Text="1000BASE-T FD" IsVisible=""/>
-					<TextBlock Grid.Row="1" Classes="body m" Margin="4" Text="1000BASE-T HD"/>
-					<TextBlock Grid.Row="2" Classes="body m" Margin="4" Text="1000BASE-T EEE"/>
-					<TextBlock Grid.Row="3" Classes="body m" Margin="4" Text="100BASE-TX FD"/>
-					<TextBlock Grid.Row="4" Classes="body m" Margin="4" Text="100BASE-TX HD"/>
-					<TextBlock Grid.Row="5" Classes="body m" Margin="4" Text="1000BASE-T EEE"/>
-					<TextBlock Grid.Row="6" Classes="body m" Margin="4" Text="10BASE-T FD"/>
-					<TextBlock Grid.Row="7" Classes="body m" Margin="4" Text="10BASE-T HD"/>
+				<ListBox ItemsSource="{Binding LocalAdvertisedSpeeds}" Background="White" Margin="0" Padding="0" IsHitTestVisible="False">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding}" Classes="body m" Margin="-8" Padding="0"/>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</HmcCard>
+			<HmcCard Grid.Column="1" Density="High" Header="Autoneg Link Partner" Margin="8">
+				<ListBox ItemsSource="{Binding RemoteAdvertisedSpeeds}" Background="White" Margin="0" Padding="0" IsHitTestVisible="False">
+					<ListBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding}" Classes="body m" Margin="-8" Padding="0"/>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+			</HmcCard>
+		</Grid>
+		<Grid ColumnDefinitions="*,*" IsVisible="{Binding IsFiberMedia}">
+			<HmcCard Grid.Column="0" Density="High" Header="Autoneg Advertisement" Margin="8">
+				<Grid RowDefinitions="24,24,24,24,24,24">
+					<TextBlock Grid.Row="0" Classes="body m" Margin="4" Text="1000BASE-LX/SX HD&amp;FD"/>
+					<TextBlock Grid.Row="1" Classes="body m" Margin="4" Text="1000BASE-LX/SX HD"/>
+					<TextBlock Grid.Row="2" Classes="body m" Margin="4" Text="1000BASE-LX/SX FD"/>
+					<TextBlock Grid.Row="3" Classes="body m" Margin="4" Text="1000BASE-KX"/>
+					<TextBlock Grid.Row="4" Classes="body m" Margin="4" Text="100BASE-FX FD"/>
+					<TextBlock Grid.Row="5" Classes="body m" Margin="4" Text="100BASE-FX HD"/>
 				</Grid>
 			</HmcCard>
 			<HmcCard Grid.Column="1" Density="High" Header="Autoneg Link Partner" Margin="8">
-				<Grid RowDefinitions="24,24,24,24,24,24,24,24">
-					<TextBlock Grid.Row="0" Classes="body m" Margin="4" Text="1000BASE-T FD" IsVisible=""/>
-					<TextBlock Grid.Row="1" Classes="body m" Margin="4" Text="1000BASE-T HD"/>
-					<TextBlock Grid.Row="2" Classes="body m" Margin="4" Text="1000BASE-T EEE"/>
-					<TextBlock Grid.Row="3" Classes="body m" Margin="4" Text="100BASE-TX FD"/>
-					<TextBlock Grid.Row="4" Classes="body m" Margin="4" Text="100BASE-TX HD"/>
-					<TextBlock Grid.Row="5" Classes="body m" Margin="4" Text="1000BASE-T EEE"/>
-					<TextBlock Grid.Row="6" Classes="body m" Margin="4" Text="10BASE-T FD"/>
-					<TextBlock Grid.Row="7" Classes="body m" Margin="4" Text="10BASE-T HD"/>
+				<Grid RowDefinitions="24,24,24,24,24,24">
+					<TextBlock Grid.Row="0" Classes="body m" Margin="4" Text="1000BASE-LX/SX HD&amp;FD"/>
+					<TextBlock Grid.Row="1" Classes="body m" Margin="4" Text="1000BASE-LX/SX HD"/>
+					<TextBlock Grid.Row="2" Classes="body m" Margin="4" Text="1000BASE-LX/SX FD"/>
+					<TextBlock Grid.Row="3" Classes="body m" Margin="4" Text="1000BASE-KX"/>
+					<TextBlock Grid.Row="4" Classes="body m" Margin="4" Text="100BASE-FX FD"/>
+					<TextBlock Grid.Row="5" Classes="body m" Margin="4" Text="100BASE-FX HD"/>
+				</Grid>
+			</HmcCard>
+		</Grid>
+		<Grid ColumnDefinitions="*,*" IsVisible="{Binding IsMediaConverter}">
+			<HmcCard Grid.Column="0" Density="High" Header="Autoneg Advertisement" Margin="8">
+				<Grid RowDefinitions="24,24">
+					<TextBlock Grid.Row="0" Classes="body m" Margin="4" Text="1000BASE"/>
+					<TextBlock Grid.Row="1" Classes="body m" Margin="4" Text="100BASE"/>
+				</Grid>
+			</HmcCard>
+			<HmcCard Grid.Column="1" Density="High" Header="Autoneg Link Partner" Margin="8">
+				<Grid RowDefinitions="24,24">
+					<TextBlock Grid.Row="0" Classes="body m" Margin="4" Text="1000BASE"/>
+					<TextBlock Grid.Row="1" Classes="body m" Margin="4" Text="100BASE"/>
 				</Grid>
 			</HmcCard>
 		</Grid>

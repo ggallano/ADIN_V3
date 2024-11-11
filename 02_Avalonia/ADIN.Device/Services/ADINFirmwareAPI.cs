@@ -120,7 +120,7 @@ namespace ADIN.Device.Services
         {
             for (int phyAddress = 0; phyAddress < 7; phyAddress++)
             {
-                var command2 = $"mdioread {phyAddress},0x1e0003\n";
+                var command2 = $"mdioread {phyAddress},3\n";
 
                 _ftdiService.Purge();
                 _ftdiService.SendData(command2);

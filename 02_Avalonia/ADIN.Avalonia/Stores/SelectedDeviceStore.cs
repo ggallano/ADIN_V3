@@ -3,10 +3,12 @@
 //     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
 // </copyright>
 
+using ADIN.Avalonia.ViewModels;
 using ADIN.Device.Models;
 using ADIN.Helper.Feedback;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ADIN.Avalonia.Stores
 {
@@ -14,7 +16,11 @@ namespace ADIN.Avalonia.Stores
     {
         private ADINDevice _selectedDevice;
 
+        private List<ViewModelBase> _loadingViewModels = new List<ViewModelBase>();
+
         public event Action<string> BusyStateChanged;
+
+        public event Action FtdiComOpened;
 
         public event Action<FrameType> FrameContentChanged;
 
@@ -27,6 +33,8 @@ namespace ADIN.Avalonia.Stores
         //public event Action<FeedbackModel> ErrorOccured;
 
         public event Action<List<string>> GigabitCableDiagCompleted;
+
+        public event Action<bool> LoadingStatusChanged;
 
         public event Action<EthPhyState> LinkStatusChanged;
 
@@ -85,14 +93,37 @@ namespace ADIN.Avalonia.Stores
             }
         }
 
+        public bool IsLoadingViewModels => _loadingViewModels.Count > 0;
+
         public void OnBusyStateChanged(string busyContent)
         {
             BusyStateChanged?.Invoke(busyContent);
         }
 
+        public void OnFtdiComOpened()
+        {
+            FtdiComOpened?.Invoke();
+        }
+
         public void OnLinkStatusChanged(EthPhyState linkStatus)
         {
             LinkStatusChanged?.Invoke(linkStatus);
+        }
+
+        public void OnLoadingStatusChanged(ViewModelBase viewModel, bool isLoading)
+        {
+            if (isLoading)
+            {
+                _loadingViewModels.Add(viewModel);
+                if (_loadingViewModels.Count == 1)
+                    LoadingStatusChanged?.Invoke(true);
+            }
+            else
+            {
+                _loadingViewModels.Remove(viewModel);
+                if (_loadingViewModels.Count == 0)
+                    LoadingStatusChanged?.Invoke(false);
+            }
         }
 
         public void OnOngoingCalibrationStatusChanged(bool OnGoingCalibrationStatus)

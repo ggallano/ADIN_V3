@@ -56,12 +56,10 @@ namespace ADIN.Avalonia.ViewModels
             {
                 _phyMode.ActivePhyMode = value;
 
-                _selectedDeviceStore.OnPhyModeChanged();
                 OnPropertyChanged(nameof(ActivePhyMode));
+                _selectedDeviceStore.OnPhyModeChanged();
             }
         }
-
-
 
         public ICommand AutoNegCommand { get; set; }
 

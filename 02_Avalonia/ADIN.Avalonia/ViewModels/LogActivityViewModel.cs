@@ -14,6 +14,36 @@ using System.Windows.Input;
 
 namespace ADIN.Avalonia.ViewModels
 {
+    public class LogMessage
+    {
+        public LogMessage(string logMessage, FeedbackType feedbackType)
+        {
+            LogString = logMessage;
+
+            switch (feedbackType)
+            {
+                case FeedbackType.Info:
+                    LogFontColor = new SolidColorBrush(AnalogDevices.Desktop.Harmonic.Resources.Colors.light_system_info);
+                break;
+
+                case FeedbackType.Verbose:
+                    LogFontColor = new SolidColorBrush(AnalogDevices.Desktop.Harmonic.Resources.Colors.light_system_success);
+                break;
+
+                case FeedbackType.Warning:
+                    LogFontColor = new SolidColorBrush(AnalogDevices.Desktop.Harmonic.Resources.Colors.light_system_warning);
+                break;
+
+                case FeedbackType.Error:
+                    LogFontColor = new SolidColorBrush(AnalogDevices.Desktop.Harmonic.Resources.Colors.light_system_danger);
+                break;
+
+            }
+        }
+        public string LogString { get; set; }
+        public SolidColorBrush LogFontColor { get; set; }
+    }
+
     public class LogActivityViewModel : ViewModelBase
     {
         private static object _syncLock = new object();
@@ -95,7 +125,7 @@ namespace ADIN.Avalonia.ViewModels
 
             FeedbackType = type;
             LogMessage = message;
-            OnPropertyChanged(nameof(FeedbackColor));
+            //OnPropertyChanged(nameof(FeedbackColor));
 
             if (seconds > 0)
             {

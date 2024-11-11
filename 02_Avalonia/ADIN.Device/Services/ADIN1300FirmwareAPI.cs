@@ -410,15 +410,6 @@ namespace ADIN.Device.Services
                 localSpeeds.Add(string.Empty);
             }
 
-            if (this.ReadYodaRg("EeeAdv") == "1")
-            {
-                localSpeeds.Add("SPEED_100BASE_EEE_SPEED");
-            }
-            else
-            {
-                localSpeeds.Add(string.Empty);
-            }
-
             return localSpeeds;
         }
 
@@ -1722,6 +1713,229 @@ namespace ADIN.Device.Services
                     break;
                 default:
                     break;
+            }
+        }
+
+        public uint GetLinkProp_DownspeedRetries()
+        {
+            return Convert.ToUInt32(this.RegisterRead("NumSpeedRetry"));
+        }
+
+        public bool GetLinkProp_IsAdv1000BaseTFd()
+        {
+            return this.RegisterRead("Fd1000Adv") == "1" ? true : false;
+        }
+
+        public bool GetLinkProp_IsAdv1000BaseTHd()
+        {
+            return this.RegisterRead("Hd1000Adv") == "1" ? true : false;
+        }
+
+        public bool GetLinkProp_IsAdv100BaseTxFd()
+        {
+            return this.RegisterRead("Fd100Adv") == "1" ? true : false;
+        }
+
+        public bool GetLinkProp_IsAdv100BaseTxHd()
+        {
+            return this.RegisterRead("Hd100Adv") == "1" ? true : false;
+        }
+
+        public bool GetLinkProp_IsAdv10BaseTFd()
+        {
+            return this.RegisterRead("Fd10Adv") == "1" ? true : false;
+        }
+
+        public bool GetLinkProp_IsAdv10BaseTHd()
+        {
+            return this.RegisterRead("Hd10Adv") == "1" ? true : false;
+        }
+
+        public bool GetLinkProp_IsAdvEee1000()
+        {
+            return this.RegisterRead("Eee1000Adv") == "1" ? true : false;
+        }
+
+        public bool GetLinkProp_IsAdvEee100()
+        {
+            return this.RegisterRead("Eee100Adv") == "1" ? true : false;
+        }
+
+        public bool GetLinkProp_IsDwnspd100TxHd()
+        {
+            return this.RegisterRead("DnSpeedTo100En") == "1" ? true : false;
+        }
+
+        public bool GetLinkProp_IsDwnspd10THd()
+        {
+            return this.RegisterRead("DnSpeedTo10En") == "1" ? true : false;
+        }
+
+        public string GetLinkProp_SpeedMode()
+        {
+            return this.RegisterRead("AutonegEn") == "1" ? "Advertised" : "Forced";
+        }
+
+        public string GetLinkProp_EDPD()
+        {
+            var NrgPdEn = this.RegisterRead("NrgPdEn") == "1" ? true : false;
+            var NrgPdTxEn = this.RegisterRead("NrgPdTxEn") == "1" ? true : false;
+
+            if (!NrgPdEn)
+                return "Disabled";
+
+            if (NrgPdEn)
+                if (!NrgPdTxEn)
+                    return "Enabled";
+
+            if (NrgPdEn)
+                if (NrgPdTxEn)
+                    return "Enabled with Periodic Pulse TX";
+
+            return null;
+        }
+
+        public string GetLinkProp_ForcedSpeed()
+        {
+            var SpeedSelLsb = this.RegisterRead("SpeedSelLsb");
+            var SpeedSelMsb = this.RegisterRead("SpeedSelMsb");
+            var DplxMode = this.RegisterRead("DplxMode") == "1" ? true : false;
+
+            //if (SpeedSelLsb == "0")
+            //    if (SpeedSelMsb == "1")
+            //        if (DplxMode)
+            //            return "SPEED_1000BASE_T_FD";
+
+            if (SpeedSelLsb == "1")
+                if (SpeedSelMsb == "0")
+                    if (DplxMode)
+                        return "SPEED_100BASE_TX_FD";
+
+            if (SpeedSelLsb == "1")
+                if (SpeedSelMsb == "0")
+                    if (!DplxMode)
+                        return "SPEED_100BASE_TX_HD";
+
+            if (SpeedSelLsb == "0")
+                if (SpeedSelMsb == "0")
+                    if (DplxMode)
+                        return "SPEED_10BASE_T_FD";
+
+            if (SpeedSelLsb == "0")
+                if (SpeedSelMsb == "0")
+                    if (!DplxMode)
+                        return "SPEED_10BASE_T_HD";
+
+            return string.Empty;
+        }
+
+        public string GetLinkProp_MDIX()
+        {
+            var AutoMdiEn = this.RegisterRead("AutoMdiEn") == "1" ? true : false;
+            var ManMdix = this.RegisterRead("ManMdix") == "1" ? true : false;
+
+            if (AutoMdiEn)
+                return "Auto MDIX";
+
+            if (!AutoMdiEn)
+                if (!ManMdix)
+                    return "Fixed MDI";
+
+            if (!AutoMdiEn)
+                if (ManMdix)
+                    return "Fixed MDIX";
+
+            return string.Empty;
+        }
+
+        public string GetLinkProp_LeadFollow()
+        {
+            var PrefMstrAdv = this.RegisterRead("PrefMstrAdv") == "1" ? true : false;
+
+            if (PrefMstrAdv)
+                return "Leader";
+
+            if (!PrefMstrAdv)
+                return "Follower";
+
+            return string.Empty;
+        }
+
+        public LoopBackMode GetLoopback_Loopback()
+        {
+            var LoopbackEn = this.RegisterRead("Loopback") == "1" ? true : false;
+
+            if (LoopbackEn)
+                if (this.RegisterRead("LbAllDigSel") == "1")
+                    return LoopBackMode.Digital;
+
+            if (LoopbackEn)
+                if (this.RegisterRead("LbLdSel") == "1")
+                    return LoopBackMode.LineDriver;
+
+            if (LoopbackEn)
+                if (this.RegisterRead("LbExtEn") == "1")
+                    return LoopBackMode.ExtCable;
+
+            if (LoopbackEn)
+                if (this.RegisterRead("LbRemoteEn") == "1")
+                    return LoopBackMode.MacRemote;
+
+            return LoopBackMode.OFF;
+        }
+
+        public bool GetLoopback_TxSupp()
+        {
+            if (this.RegisterRead("LbTxSup") == "1")
+                return true;
+            return false;
+        }
+
+        public bool GetLoopback_RxSupp()
+        {
+            if (this.RegisterRead("IsolateRx") == "1")
+                return true;
+            return false;
+        }
+
+        public bool GetFrameGen_EnContMode()
+        {
+            if (this.ReadYodaRg("FgContModeEn") == "1")
+                return true;
+            return false;
+        }
+
+        public uint GetFrameGen_FrameBurst()
+        {
+            return Convert.ToUInt32(this.ReadYodaRg("FgNfrmH")) * 65536 + Convert.ToUInt32(this.ReadYodaRg("FgNfrmL"));
+        }
+
+        public uint GetFrameGen_FrameLength()
+        {
+            return Convert.ToUInt32(this.ReadYodaRg("FgFrmLen"));
+        }
+
+        public FrameType GetFrameGen_FrameContent()
+        {
+            switch (this.ReadYodaRg("FgCntrl"))
+            {
+                case "1":
+                    return FrameType.Random;
+
+                case "2":
+                    return FrameType.All0s;
+
+                case "3":
+                    return FrameType.All1s;
+
+                case "4":
+                    return FrameType.Alt10s;
+
+                case "5":
+                    return FrameType.Decrement;
+
+                default:
+                    return FrameType.Random;
             }
         }
     }

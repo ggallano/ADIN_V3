@@ -44,6 +44,8 @@ int main(void)
     if(result != ADI_ETH_SUCCESS)
         printf("BSP_InitSystem Error no - %d\n", result);
 
+    toggleLeds();
+
     configFirmware();
     readBoardConfigPins(&boardDetails);
 

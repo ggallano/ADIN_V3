@@ -22,6 +22,8 @@ namespace ADIN.Avalonia.Stores
             }
         }
 
+        public object CurrentView { get; set; }
+
         public object CurrentStatusView { get; set; }
 
         public event Action CurrentViewModelChanged;

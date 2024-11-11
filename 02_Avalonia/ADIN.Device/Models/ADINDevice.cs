@@ -54,8 +54,5 @@ namespace ADIN.Device.Models
         /// Gets or sets ADIN1300/12000 Cable Diag.
         /// </summary>
         public bool IsCrossPair { get; set; } = true;
-
-
-        public bool AllowInput { get; set; } = false;
     }
 }

@@ -267,4 +267,24 @@ namespace ADIN.Device.Models
         Load,
         Save
     }
+
+    public enum SpeedModeType
+    {
+        Advertised,
+        Forced
+    }
+
+    public enum MdixType
+    {
+        AutoMdix,
+        FixedMdi,
+        FixedMdix
+    }
+
+    public enum EdpdType
+    {
+        Disabled,
+        Enabled,
+        EnabledWithPeriodicPulseTx
+    }
 }

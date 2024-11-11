@@ -340,85 +340,44 @@ namespace ADIN.Device.Services
             List<string> localSpeeds = new List<string>();
 
             if (this.ReadYodaRg("Fd1000Adv") == "1")
-            {
-                localSpeeds.Add("SPEED_1000BASE_T_FD_SPEED");
-            }
+                localSpeeds.Add("1000BASE-T FD");
             else
-            {
                 localSpeeds.Add(string.Empty);
-            }
 
             if (this.ReadYodaRg("Hd1000Adv") == "1")
-            {
-                localSpeeds.Add("SPEED_1000BASE_T_HD_SPEED");
-            }
+                localSpeeds.Add("1000BASE-T HD");
             else
-            {
                 localSpeeds.Add(string.Empty);
-            }
 
             if (this.ReadYodaRg("Eee1000Adv") == "1")
-            {
-                localSpeeds.Add("SPEED_1000BASE_EEE_SPEED");
-            }
+                localSpeeds.Add("1000BASE-T EEE");
             else
-            {
                 localSpeeds.Add(string.Empty);
-            }
 
             if (this.ReadYodaRg("Fd100Adv") == "1")
-            {
-                localSpeeds.Add("SPEED_100BASE_TX_FD_SPEED");
-            }
+                localSpeeds.Add("100BASE-TX FD");
             else
-            {
                 localSpeeds.Add(string.Empty);
-            }
 
             if (this.ReadYodaRg("Hd100Adv") == "1")
-            {
-                localSpeeds.Add("SPEED_100BASE_TX_HD_SPEED");
-            }
+                localSpeeds.Add("100BASE-TX HD");
             else
-            {
                 localSpeeds.Add(string.Empty);
-            }
 
             if (this.ReadYodaRg("Eee100Adv") == "1")
-            {
-                localSpeeds.Add("SPEED_100BASE_EEE_SPEED");
-            }
+                localSpeeds.Add("100BASE-TX EEE");
             else
-            {
                 localSpeeds.Add(string.Empty);
-            }
 
             if (this.ReadYodaRg("Fd10Adv") == "1")
-            {
-                localSpeeds.Add("SPEED_10BASE_T_FD_SPEED");
-            }
+                localSpeeds.Add("10BASE-T FD");
             else
-            {
                 localSpeeds.Add(string.Empty);
-            }
 
             if (this.ReadYodaRg("Hd10Adv") == "1")
-            {
-                localSpeeds.Add("SPEED_10BASE_T_HD_SPEED");
-            }
+                localSpeeds.Add("10BASE-T HD");
             else
-            {
                 localSpeeds.Add(string.Empty);
-            }
-
-            if (this.ReadYodaRg("EeeAdv") == "1")
-            {
-                localSpeeds.Add("SPEED_100BASE_EEE_SPEED");
-            }
-            else
-            {
-                localSpeeds.Add(string.Empty);
-            }
 
             return localSpeeds;
         }
@@ -649,7 +608,7 @@ namespace ADIN.Device.Services
 
             if (this.ReadYodaRg("LpFd1000Able") == "1")
             {
-                remoteSpeeds.Add("SPEED_1000BASE_T_FD_SPEED");
+                remoteSpeeds.Add("1000BASE-T FD");
             }
             else
             {
@@ -658,7 +617,7 @@ namespace ADIN.Device.Services
 
             if (this.ReadYodaRg("LpHd1000Able") == "1")
             {
-                remoteSpeeds.Add("SPEED_1000BASE_T_HD_SPEED");
+                remoteSpeeds.Add("1000BASE-T HD");
             }
             else
             {
@@ -667,7 +626,7 @@ namespace ADIN.Device.Services
 
             if (this.ReadYodaRg("LpEee1000Able") == "1")
             {
-                remoteSpeeds.Add("SPEED_1000BASE_EEE_SPEED");
+                remoteSpeeds.Add("1000BASE-T EEE");
             }
             else
             {
@@ -676,7 +635,7 @@ namespace ADIN.Device.Services
 
             if (this.ReadYodaRg("LpFd100Able") == "1")
             {
-                remoteSpeeds.Add("SPEED_100BASE_TX_FD_SPEED");
+                remoteSpeeds.Add("100BASE-TX FD");
             }
             else
             {
@@ -685,7 +644,7 @@ namespace ADIN.Device.Services
 
             if (this.ReadYodaRg("LpHd100Able") == "1")
             {
-                remoteSpeeds.Add("SPEED_100BASE_TX_HD_SPEED");
+                remoteSpeeds.Add("100BASE-TX HD");
             }
             else
             {
@@ -694,7 +653,7 @@ namespace ADIN.Device.Services
 
             if (this.ReadYodaRg("LpEee100Able") == "1")
             {
-                remoteSpeeds.Add("SPEED_100BASE_EEE_SPEED");
+                remoteSpeeds.Add("100BASE-TX EEE");
             }
             else
             {
@@ -703,7 +662,7 @@ namespace ADIN.Device.Services
 
             if (this.ReadYodaRg("LpFd10Able") == "1")
             {
-                remoteSpeeds.Add("SPEED_10BASE_T_FD_SPEED");
+                remoteSpeeds.Add("10BASE-T HD");
             }
             else
             {
@@ -712,7 +671,7 @@ namespace ADIN.Device.Services
 
             if (this.ReadYodaRg("LpHd10Able") == "1")
             {
-                remoteSpeeds.Add("SPEED_10BASE_T_HD_SPEED");
+                remoteSpeeds.Add("10BASE-T HD");
             }
             else
             {
@@ -1800,7 +1759,7 @@ namespace ADIN.Device.Services
 
             if (NrgPdEn)
                 if (NrgPdTxEn)
-                    return "Enabled With Periodic Pulse TX";
+                    return "Enabled with Periodic Pulse TX";
 
             return null;
         }
@@ -1811,18 +1770,18 @@ namespace ADIN.Device.Services
             var SpeedSelMsb = this.RegisterRead("SpeedSelMsb");
             var DplxMode = this.RegisterRead("DplxMode") == "1" ? true : false;
 
-            //if (SpeedSelLsb == "2")
-            //    if (SpeedSelMsb == "2")
+            //if (SpeedSelLsb == "0")
+            //    if (SpeedSelMsb == "1")
             //        if (DplxMode)
             //            return "SPEED_1000BASE_T_FD";
 
             if (SpeedSelLsb == "1")
-                if (SpeedSelMsb == "1")
+                if (SpeedSelMsb == "0")
                     if (DplxMode)
                         return "SPEED_100BASE_TX_FD";
 
             if (SpeedSelLsb == "1")
-                if (SpeedSelMsb == "1")
+                if (SpeedSelMsb == "0")
                     if (!DplxMode)
                         return "SPEED_100BASE_TX_HD";
 
@@ -1863,12 +1822,90 @@ namespace ADIN.Device.Services
             var PrefMstrAdv = this.RegisterRead("PrefMstrAdv") == "1" ? true : false;
 
             if (PrefMstrAdv)
-                return "Master";
+                return "Leader";
 
             if (!PrefMstrAdv)
-                return "Slave";
+                return "Follower";
 
             return string.Empty;
+        }
+
+        public LoopBackMode GetLoopback_Loopback()
+        {
+            var LoopbackEn = this.RegisterRead("Loopback") == "1" ? true : false;
+
+            if (LoopbackEn)
+                if (this.RegisterRead("LbAllDigSel") == "1")
+                    return LoopBackMode.Digital;
+
+            if (LoopbackEn)
+                if (this.RegisterRead("LbLdSel") == "1")
+                    return LoopBackMode.LineDriver;
+
+            if (LoopbackEn)
+                if (this.RegisterRead("LbExtEn") == "1")
+                    return LoopBackMode.ExtCable;
+
+            if (LoopbackEn)
+                if (this.RegisterRead("LbRemoteEn") == "1")
+                    return LoopBackMode.MacRemote;
+
+            return LoopBackMode.OFF;
+        }
+
+        public bool GetLoopback_TxSupp()
+        {
+            if (this.RegisterRead("LbTxSup") == "1")
+                return true;
+            return false;
+        }
+
+        public bool GetLoopback_RxSupp()
+        {
+            if (this.RegisterRead("IsolateRx") == "1")
+                return true;
+            return false;
+        }
+
+        public bool GetFrameGen_EnContMode()
+        {
+            if (this.ReadYodaRg("FgContModeEn") == "1")
+                return true;
+            return false;
+        }
+
+        public uint GetFrameGen_FrameBurst()
+        {
+            return Convert.ToUInt32(this.ReadYodaRg("FgNfrmH")) * 65536 + Convert.ToUInt32(this.ReadYodaRg("FgNfrmL"));
+        }
+
+        public uint GetFrameGen_FrameLength()
+        {
+            return Convert.ToUInt32(this.ReadYodaRg("FgFrmLen"));
+        }
+
+        public FrameType GetFrameGen_FrameContent()
+        {
+            switch (this.ReadYodaRg("FgCntrl"))
+            {
+                case "1":
+                    return FrameType.Random;
+
+                case "2":
+                    return FrameType.All0s;
+
+                case "3":
+                    return FrameType.All1s;
+
+                case "4":
+                    return FrameType.Alt10s;
+
+                case "5":
+                    return FrameType.Decrement;
+
+                default:
+                    return FrameType.Random;
+            }
         }
     }
 }

@@ -9,7 +9,7 @@
     "owner_email": "Johnsonralph.Perez@analog.com",
     "description": "Project \u201dADIN1320 Firmware Source\u201d consists of ADIN1320 board\u2019s firmware project files, header files and source files. This project has the ADI developed Command Line interface, ADI developed ADIN1320 and ADIN1300 files.",
     "tags": [
-      "adi_commercial_and_permissive"
+      "all_adi_code"
     ],
     "tag_error": null,
     "violations": null,

@@ -5,7 +5,7 @@
 
 namespace ADIN.Device.Services
 {
-    public interface IADIN1300API : IFirmwareAPI, IMDIOAPI, IAdvertisedSpeedAPI, IAdvertisedGbSpeedAPI, IClockPinControlAPI, IDownSpeedAPI, IAutoMDIXAPI, IEnergyDetectAPI, ITestModeAPI, ILoopbackAPI, IMasterSlaveSettingsAPI, IFrameGenCheckerAPI, ICableDiagAPI
+    public interface IADIN1300API : IFirmwareAPI, IMDIOAPI, IAdvertisedSpeedAPI, IAdvertisedGbSpeedAPI, IClockPinControlAPI, IDownSpeedAPI, IAutoMDIXAPI, IEnergyDetectAPI, ITestModeAPI, ILoopbackAPI, IMasterSlaveSettingsAPI, IFrameGenCheckerAPI, ICableDiagAPI, IValueUpdate
     {
     }
 }

@@ -40,10 +40,10 @@ namespace ADIN.Device.Models
             ClockPinControl = new ClockPinControlADIN1300();
             TestMode = new TestModeADIN1300();
 
-            GetInitialValuesLinkProperties();
+            //GetInitialValuesLinkProperties();
             GetInitialValuesClockPinControl();
-            GetInitialValuesLoopback();
-            GetInitialValuesFrameGenChecker();
+            //GetInitialValuesLoopback();
+            //GetInitialValuesFrameGenChecker();
             GetInitialValuesTestMode();
         }
 

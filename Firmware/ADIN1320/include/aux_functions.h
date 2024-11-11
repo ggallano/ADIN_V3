@@ -107,6 +107,7 @@ void setBoardLED(bool en);
 //void setGpio_LedBlue(bool en);
 //uint8_t readGpio_ConfigPins(void);
 void read_ConfigToLed(void);
+void toggleLeds(void);
 void setUartDataAvailable(uint32_t set);
 uint32_t getUartDataAvailable(void);
 void setUartCmdAvailable(uint32_t set);

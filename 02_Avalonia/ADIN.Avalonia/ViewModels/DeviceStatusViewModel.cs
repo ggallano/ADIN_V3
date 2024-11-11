@@ -501,7 +501,7 @@ namespace ADIN.Avalonia.ViewModels
                 try
                 {
                     //lock (_mainLock)
-                    if (_selectedDevice != null && _ftdiService.IsComOpen)
+                    if (_selectedDevice != null && _ftdiService.IsComOpen && !_selectedDeviceStore.IsLoadingViewModels)
                     {
 
                         //_selectedDevice.FwAPI.ReadRegsiters();
@@ -563,7 +563,7 @@ namespace ADIN.Avalonia.ViewModels
                         }
 #endif
 #if !DISABLE_TSN
-                        if (_selectedDevice.FwAPI is ADIN1200FirmwareAPI || _selectedDevice.FwAPI is ADIN1300FirmwareAPI)
+                        if (_selectedDevice.FwAPI is ADIN1200FirmwareAPI || _selectedDevice.FwAPI is ADIN1300FirmwareAPI || _selectedDevice.FwAPI is ADIN1320FirmwareAPI)
                         {
                             MseValue = _selectedDevice.FwAPI.GetMseValue();
                             SpeedMode = _selectedDevice.FwAPI.GetSpeedMode();
@@ -581,6 +581,13 @@ namespace ADIN.Avalonia.ViewModels
                         {
                             var fwAPI = _selectedDevice.FwAPI as ADIN1300FirmwareAPI;
                             fwAPI.CableDiagnosticsStatus();
+                        }
+
+                        if (_selectedDeviceStore.SelectedDevice.DeviceType == BoardType.ADIN1320)
+                        {
+                            OnPropertyChanged(nameof(IsCopperMedia));
+                            OnPropertyChanged(nameof(IsFiberMedia));
+                            OnPropertyChanged(nameof(IsMediaConverter));
                         }
 #endif
                     }

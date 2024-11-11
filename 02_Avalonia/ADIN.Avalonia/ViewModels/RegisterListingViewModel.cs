@@ -4,13 +4,162 @@
 // </copyright>
 
 using ADIN.Avalonia.Stores;
+using ADIN.Device.Models;
+using ADIN.Register.Models;
+using ADIN.Register.Services;
+using FTDIChip.Driver.Services;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Threading;
+using System.Windows.Input;
+using System;
+using System.Collections.Generic;
 
 namespace ADIN.Avalonia.ViewModels
 {
     public class RegisterListingViewModel : ViewModelBase
     {
-        public RegisterListingViewModel(NavigationStore navigationStore)
+        private readonly RegisterService _registerService = new RegisterService();
+        private IFTDIServices _ftdiService;
+        private string _imagePath;
+        private bool _loggedOneError = false;
+        private BackgroundWorker _readRegisterWorker;
+        private SelectedDeviceStore _selectedDeviceStore;
+        private RegisterModel _selectedRegister;
+
+        public RegisterListingViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiService)
         {
+            _selectedDeviceStore = selectedDeviceStore;
+            _ftdiService = ftdiService;
+
+            SetRegsiterWorker();
+            //SaveRegisterDataCommand = new RegisterSaveDataCommand(this);
+            //SaveBitFielddataCommand = new RegisterSaveDataCommand(this);
+
+            _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+            //_selectedDeviceStore.RegistersValueChanged += _selectedDeviceStore_RegistersValueChanged;
+        }
+
+        public string ImagePath
+        {
+            get
+            {
+                return _imagePath;
+            }
+
+            set
+            {
+                _imagePath = "../Images/" + value;
+                OnPropertyChanged(nameof(ImagePath));
+            }
+        }
+
+        //public ObservableCollection<RegisterModel> Registers => new ObservableCollection<RegisterModel>(_selectedDevice?.Registers);
+        //public ObservableCollection<RegisterModel> Registers => _selectedDevice?.Registers;
+        public ObservableCollection<RegisterModel> Registers
+        {
+            get
+            {
+                return _selectedDevice?.Registers;
+            }
+            //set
+            //{
+            //    //OnPropertyChanged(nameof(Registers));
+            //}
+        }
+
+        public ICommand SaveBitFielddataCommand { get; set; }
+
+        public ICommand SaveRegisterDataCommand { get; set; }
+
+        //public List<RegisterModel> Registers => _selectedDevice?.Registers;
+        public RegisterModel SelectedRegister
+        {
+            get
+            {
+                return _selectedRegister;
+            }
+
+            set
+            {
+                _selectedRegister = value;
+                ImagePath = _selectedRegister?.Image;
+                OnPropertyChanged(nameof(SelectedRegister));
+            }
+        }
+
+        private ADINDevice _selectedDevice => _selectedDeviceStore.SelectedDevice;
+
+        public void WriteRegister(string name, uint value)
+        {
+            return;
+        }
+
+        protected override void Dispose()
+        {
+            _selectedDeviceStore.SelectedDeviceChanged -= _selectedDeviceStore_SelectedDeviceChanged;
+            //_selectedDeviceStore.RegistersValueChanged -= _selectedDeviceStore_RegistersValueChanged;
+            base.Dispose();
+        }
+
+        private void _readRegisterWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            while (!_readRegisterWorker.CancellationPending)
+            {
+                try
+                {
+                    //lock (_thisLock)
+                    {
+                        if (_selectedDevice != null && _ftdiService.IsComOpen && !_selectedDeviceStore.IsLoadingViewModels)
+                            _selectedDevice.FwAPI.ReadRegsiters();
+                    }
+                    _loggedOneError = false;
+                    Thread.Sleep(100);
+                }
+                catch (Exception ex)
+                {
+                    // Do nothing
+                }
+
+                e.Result = "Done";
+            }
+        }
+
+        private void _readRegisterWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            Debug.WriteLine("Progress Changed");
+        }
+
+        private void _readRegisterWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            Debug.WriteLine("_readRegisterWorker Completed");
+        }
+
+        private void _selectedDeviceStore_RegistersValueChanged()
+        {
+            OnPropertyChanged(nameof(Registers));
+        }
+
+        private void _selectedDeviceStore_SelectedDeviceChanged()
+        {
+            if (_selectedDeviceStore.SelectedDevice == null)
+                return;
+
+            OnPropertyChanged(nameof(Registers));
+        }
+
+        private void SetRegsiterWorker()
+        {
+            _readRegisterWorker = new BackgroundWorker();
+            _readRegisterWorker.WorkerReportsProgress = true;
+            _readRegisterWorker.WorkerSupportsCancellation = true;
+
+            _readRegisterWorker.DoWork += _readRegisterWorker_DoWork;
+            _readRegisterWorker.RunWorkerCompleted += _readRegisterWorker_RunWorkerCompleted;
+            _readRegisterWorker.ProgressChanged += _readRegisterWorker_ProgressChanged;
+
+            _readRegisterWorker.RunWorkerAsync();
         }
     }
 }

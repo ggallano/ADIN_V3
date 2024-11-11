@@ -3,17 +3,29 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:CompileBindings="False"
              x:Class="ADIN.Avalonia.Views.RegisterListingView">
 	<Grid>
 		<HmcCard Density="High" Margin="16">
-			<HmcDataGrid>
+			<HmcDataGrid ItemsSource="{Binding Registers}">
 				<DataGrid.Columns>
-					<DataGridTextColumn Binding="{}" Header="Address"/>
-					<DataGridTextColumn Binding="{}" Header="Name"/>
-					<DataGridTextColumn Binding="{}" Header="Value"/>
-					<DataGridTextColumn Binding="{}" Header="Access"/>
-					<DataGridTextColumn Binding="{}" Header="Group"/>
-					<DataGridTextColumn Binding="{}" Header="Documentation"/>
+					<DataGridTextColumn IsReadOnly="True" Binding="{Binding Address, StringFormat={}0x{0:X6}}" Header="Address"/>
+					<DataGridTextColumn IsReadOnly="True" Binding="{Binding Name}" Header="Name"/>
+					<DataGridTemplateColumn>
+						<DataGridTemplateColumn.HeaderTemplate>
+							<DataTemplate>
+								<TextBlock Text="Value" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.HeaderTemplate>
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Value}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTextColumn IsReadOnly="True" Binding="{Binding Access}" Header="Access"/>
+					<DataGridTextColumn IsReadOnly="True" Binding="{Binding Group}" Header="Group"/>
+					<DataGridTextColumn IsReadOnly="True" Binding="{Binding Documentation}" Header="Documentation"/>
 				</DataGrid.Columns>
 			</HmcDataGrid>
 		</HmcCard>

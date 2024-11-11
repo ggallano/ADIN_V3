@@ -892,6 +892,25 @@ void read_ConfigToLed(void)
 		setGpio_LedBlue(false);
 	}
 }
+
+void toggleLeds(void)
+{
+	setGpio_LedGreen(true);
+	TimerDelay_ms(1000);
+	setGpio_LedGreen(false);
+
+	setGpio_LedRed(true);
+	TimerDelay_ms(1000);
+	setGpio_LedRed(false);
+
+	setGpio_LedYellow(true);
+	TimerDelay_ms(1000);
+	setGpio_LedYellow(false);
+
+	setGpio_LedBlue(true);
+	TimerDelay_ms(1000);
+	setGpio_LedBlue(false);
+}
 /**@}*/
 
 

@@ -15,6 +15,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Avalonia.Platform;
+using ADIN.Avalonia.Services;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Threading;
+using System.Xml.Linq;
+using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
 
 namespace ADIN.Avalonia.ViewModels
 {
@@ -27,24 +34,31 @@ namespace ADIN.Avalonia.ViewModels
         private uint _frameLength;
         private SelectedDeviceStore _selectedDeviceStore;
         private IFTDIServices _ftdiServices;
+        private readonly ApplicationConfigService _applicationConfigService;
+        private BackgroundWorker _backgroundWorker;
+        private bool _isLoading = false;
         private FrameContentModel _selectedFrameContent;
         private string _srcMacAddress;
         private bool _isFrameGenOn;
         private EthPhyState _linkStatus = EthPhyState.Powerdown;
 
-        public LoopbackFrameGenViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiServices)
+        public LoopbackFrameGenViewModel(SelectedDeviceStore selectedDeviceStore, IFTDIServices ftdiServices, ApplicationConfigService appConfigService)
         {
             _selectedDeviceStore = selectedDeviceStore;
             _ftdiServices = ftdiServices;
+            _applicationConfigService = appConfigService;
 
             ResetFrameCheckerCommnad = new ResetFrameDeviceCheckerCommnad(this, selectedDeviceStore);
             ExecuteFrameCheckerCommand = new ExecuteFrameCheckerCommand(this, selectedDeviceStore);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
+            _selectedDeviceStore.FtdiComOpened += UpdateValues;
+            _selectedDeviceStore.PhyModeChanged += UpdateValues;
             _selectedDeviceStore.FrameGenCheckerStatusChanged += _selectedDeviceStore_FrameGenCheckerStatusChanged;
             _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStatusChanged;
-            _selectedDeviceStore.PhyModeChanged += _selectedDeviceStore_PhyModeChanged;
         }
+
+        public bool AllowInput => bool.Parse(_applicationConfigService.GetConfigValue("AllowGuiControl"));
 
         public bool IsDeviceSelected => _selectedDeviceStore.SelectedDevice != null;
         public string ButtonKind_Generate
@@ -80,6 +94,16 @@ namespace ADIN.Avalonia.ViewModels
                     return _phyMode?.ActivePhyMode;
                 else
                     return string.Empty;
+            }
+        }
+
+        public bool HasLoadedValues
+        {
+            get => !_isLoading && IsDeviceSelected;
+            set
+            {
+                _isLoading = !value;
+                OnPropertyChanged(nameof(HasLoadedValues));
             }
         }
 
@@ -374,56 +398,66 @@ namespace ADIN.Avalonia.ViewModels
         private void _selectedDeviceStore_SelectedDeviceChanged()
         {
             OnPropertyChanged(nameof(IsDeviceSelected));
+            OnPropertyChanged(nameof(HasLoadedValues));
 
             if (!IsDeviceSelected)
                 return;
 
-            OnPropertyChanged(nameof(HasActivePhyMode));
-            OnPropertyChanged(nameof(ActivePhyMode));
-            OnPropertyChanged(nameof(Loopbacks));
-            OnPropertyChanged(nameof(SelectedLoopback));
-            OnPropertyChanged(nameof(IsTxSuppression));
-            OnPropertyChanged(nameof(IsRxSuppression));
-            OnPropertyChanged(nameof(ImagePath));
-            OnPropertyChanged(nameof(ImagePath_TxSuppression));
-            OnPropertyChanged(nameof(ImagePath_RxSuppression));
-
-            OnPropertyChanged(nameof(EnableContinuousMode));
-            OnPropertyChanged(nameof(EnableFrameBurst));
-            OnPropertyChanged(nameof(FrameBurst));
-            OnPropertyChanged(nameof(FrameLength));
-            OnPropertyChanged(nameof(FrameContents));
-            OnPropertyChanged(nameof(SelectedFrameContent));
+            OnPropertyChanged(nameof(AllowInput));
             OnPropertyChanged(nameof(ButtonKind_Generate));
             OnPropertyChanged(nameof(ButtonKind_Clear));
             OnPropertyChanged(nameof(FrameGeneratorButtonText));
             OnPropertyChanged(nameof(FrameGenRunning));
         }
 
-        private void _selectedDeviceStore_PhyModeChanged()
+        private async void LoadChanges()
         {
-            OnPropertyChanged(nameof(ActivePhyMode));
+            HasLoadedValues = false;
+            await Task.Run(() => _selectedDeviceStore.OnLoadingStatusChanged(this, true));
+            await Task.Run(() => UpdateValues());
+        }
 
-            OnPropertyChanged(nameof(Loopbacks));
-            if (_loopback.SelectedLoopback.DisabledModes != null 
-                && _loopback.SelectedLoopback.DisabledModes.Contains(_phyMode.ActivePhyMode))
-                SelectedLoopback = _loopback.Loopbacks.Where(x => x.EnumLoopbackType == LoopBackMode.OFF).ToList()[0];
-            OnPropertyChanged(nameof(IsTxSuppression));
-            OnPropertyChanged(nameof(IsRxSuppression));
+        private void UpdateValues()
+        {
+            IValueUpdate fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IValueUpdate;
+
+            LoopBackMode loopBackMode = fwAPI.GetLoopback_Loopback();
+            foreach (var loopback in _loopback.Loopbacks)
+            {
+                if (loopback.EnumLoopbackType == loopBackMode)
+                    _loopback.SelectedLoopback = loopback;
+            }
+            OnPropertyChanged(nameof(SelectedLoopback));
             OnPropertyChanged(nameof(ImagePath));
+
+            _loopback.TxSuppression = fwAPI.GetLoopback_TxSupp();
+            OnPropertyChanged(nameof(IsTxSuppression));
             OnPropertyChanged(nameof(ImagePath_TxSuppression));
+
+            _loopback.RxSuppression = fwAPI.GetLoopback_RxSupp();
+            OnPropertyChanged(nameof(IsRxSuppression));
             OnPropertyChanged(nameof(ImagePath_RxSuppression));
 
+            OnPropertyChanged(nameof(FrameContents));
+            FrameType frametype = fwAPI.GetFrameGen_FrameContent();
+            foreach (var framecontent in _frameGenChecker.FrameContents)
+            {
+                if (framecontent.FrameContentType == frametype)
+                    _frameGenChecker.FrameContent = framecontent;
+            }
+            OnPropertyChanged(nameof(SelectedFrameContent));
+
+            _frameGenChecker.EnableContinuousMode = fwAPI.GetFrameGen_EnContMode();
             OnPropertyChanged(nameof(EnableContinuousMode));
             OnPropertyChanged(nameof(EnableFrameBurst));
+            _frameGenChecker.FrameBurst = fwAPI.GetFrameGen_FrameBurst();
             OnPropertyChanged(nameof(FrameBurst));
+            _frameGenChecker.FrameLength = fwAPI.GetFrameGen_FrameLength();
             OnPropertyChanged(nameof(FrameLength));
-            OnPropertyChanged(nameof(FrameContents));
-            OnPropertyChanged(nameof(SelectedFrameContent));
-            OnPropertyChanged(nameof(ButtonKind_Generate));
-            OnPropertyChanged(nameof(ButtonKind_Clear));
-            OnPropertyChanged(nameof(FrameGeneratorButtonText));
-            OnPropertyChanged(nameof(FrameGenRunning));
+
+            OnPropertyChanged(nameof(HasActivePhyMode));
+            OnPropertyChanged(nameof(ActivePhyMode));
+            OnPropertyChanged(nameof(Loopbacks));
         }
     }
 }

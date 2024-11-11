@@ -20,41 +20,46 @@
 		<vm:MainWindowViewModel/>
     </Design.DataContext>
 
-	<ContentControl.DataTemplates>
-		<DataTemplate DataType="{x:Type vm:LinkPropertiesViewModel}">
-			<view:LinkPropertiesView/>
-		</DataTemplate>
-		<DataTemplate DataType="{x:Type vm:LoopbackFrameGenViewModel}">
-			<view:LoopbackFrameGenView/>
-		</DataTemplate>
-		<DataTemplate DataType="{x:Type vm:RegisterListingViewModel}">
-			<view:RegisterListingView/>
-		</DataTemplate>
-	</ContentControl.DataTemplates>
-
 	<Grid RowDefinitions="Auto,11*,3*">
 
+		<!--Navigation Bar-->
 		<HmcNavigationBar Grid.Row="0" Size="sm" AppName="ADIN Ethernet Phy" ReplaceAppBar="True">
 			<HmcNavigationLink Size="sm" HasIcon="False" Content="Link Properties" Command="{Binding NavigateLinkPropertiesCommand}"/>
 			<HmcNavigationLink Size="sm" HasIcon="False" Content="Loopback &amp; Frame Generator" Command="{Binding NavigateLoopbackFrameGenCommand}"/>
 			<HmcNavigationLink Size="sm" HasIcon="False" Content="Register Access" Command="{Binding NavigateRegisterAccessCommand}"/>
 		</HmcNavigationBar>
 
-		<Grid Grid.Row="1" ColumnDefinitions="210,6*,5*">
+		<Grid Grid.Row="1" ColumnDefinitions="210,6*,5*">			
+			<!--Left Side UI-->
 			<ContentControl Grid.Column="0" Background="White">
 				<Grid RowDefinitions="2*,3*">
 					<view:DeviceListingView DataContext="{Binding DeviceListingVM}" Grid.Row="0" Margin="-1 -1 0 0"/>
 					<view:ExtraCommandsView DataContext="{Binding ExtraCommandsVM}" Grid.Row="1" Margin="-1 -1 0 -1"/>
 				</Grid>
 			</ContentControl>
-			<ContentControl Grid.Column="1" Grid.ColumnSpan="{Binding ColumnSpan}" Content="{Binding CurrentViewModel, Mode=TwoWay}"/>
-			<ContentControl Grid.Column="2" Margin="-16 0 0 0" Content="{Binding CurrentStatusView}"/>
+			<!--Main UI-->
+			<ContentControl Grid.Column="1" Grid.ColumnSpan="{Binding ColumnSpan}" Content="{Binding CurrentView}"/>
+			<ContentControl Grid.Column="2" Margin="-16 0 0 0" Content="{Binding CurrentStatusView}" IsEnabled="{Binding HasLoadedDevice}"/>
 		</Grid>
 
+		<!--Bottom Side UI-->
 		<Grid Grid.Row="2" ColumnDefinitions="Auto,*">
 			<view:RegisterReadWriteView DataContext="{Binding RegisterAccessVM}" Grid.Column="0"/>
 			<view:LogActivityView DataContext="{Binding LogActivityVM}" Grid.Column="1" Grid.ColumnSpan="2" Margin="-1 0 0 0"/>
 		</Grid>
+
+		<!--Loading Mask-->
+		<Border Grid.Row="1" Grid.RowSpan="2" Background="Black" Opacity="80" IsVisible="{Binding IsLoading}"/>
+		<HmcCard Grid.Row="1" Grid.RowSpan="2" IsVisible="{Binding IsLoading}" VerticalAlignment="Center" HorizontalAlignment="Center" HideSeparators="True">
+			<HmcCard.Header>
+				<HmcContainerHeader Heading="Loading values" Margin="0 0 16 0"/>
+			</HmcCard.Header>
+			<HmcCard.HeaderAction>
+				<HmcSpinner Size="md" Kind="primary"/>
+			</HmcCard.HeaderAction>
+			<TextBlock Text="Please wait..."/>
+		</HmcCard>
+		
 	</Grid>
 
 </Window>

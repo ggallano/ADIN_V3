@@ -63,7 +63,7 @@ namespace ADIN.Device.Services
                         //devices.Add(new ADINDevice(new ADIN1300Model(ftdtService, _registerService, mainLock, chip.PhyAddress)));
                         //break;
                     case 0x6: // ADIN1320
-                        devices.Add(new ADINDevice(new ADIN1320Model(ftdtService, _registerService, mainLock, chip.PhyAddress)));
+                        devices.Add(new ADINDevice(new ADIN1320Model(ftdtService, _registerService, mainLock, chip.PhyAddress), isMultiChipSupported));
                         break;
                     case 0x8: // ADIN1100
                         devices.Add(new ADINDevice(new ADIN1100Model(ftdtService, _registerService, chip.PhyAddress, mainLock), isMultiChipSupported));

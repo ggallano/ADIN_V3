@@ -36,7 +36,7 @@ namespace ADIN.Device.Models.ADIN1200
             {
                 "Disabled",
                 "Enabled",
-                "Enabled With Periodic Pulse TX"
+                "Enabled with Periodic Pulse TX"
             };
 
             AdvertisedSpeeds = new List<string>() { };

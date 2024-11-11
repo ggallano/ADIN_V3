@@ -35,7 +35,6 @@ namespace ADIN.Avalonia.ViewModels
         private bool _enableSelectDevice = true;
         private FeedbackModel _feedback;
         private IFTDIServices _ftdiService;
-
         private WqlEventQuery _insertQuery;
         private ManagementEventWatcher _insertWatcher;
         private LogActivityViewModel _logActivityViewModel;
@@ -43,7 +42,6 @@ namespace ADIN.Avalonia.ViewModels
         private WqlEventQuery _removeQuery;
         private ManagementEventWatcher _removeWatcher;
         private DeviceListingItemViewModel _selectedDeviceListingItemViewModel;
-        private bool _isMultiChipSupport = true;
         private SelectedDeviceStore selectedDeviceStore;
         private IFTDIServices ftdiService;
         private IRegisterService registerService;
@@ -145,7 +143,7 @@ namespace ADIN.Avalonia.ViewModels
 
             set
             {
-                lock (_mainLock)
+                //lock (_mainLock)
                 {
                     _ftdiService.Close();
                     _selectedDeviceListingItemViewModel = value;
@@ -154,6 +152,7 @@ namespace ADIN.Avalonia.ViewModels
                         _selectedDeviceStore.SelectedDevice = _selectedDeviceListingItemViewModel.Device;
                         CheckCableDiagT1L();
                         _ftdiService.Open(_selectedDeviceStore.SelectedDevice.SerialNumber);
+                        _selectedDeviceStore.OnFtdiComOpened();
                     }
                     else
                     {

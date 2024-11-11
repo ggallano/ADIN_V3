@@ -38,18 +38,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="SciChart.Charting">
-      <HintPath>..\..\..\ADIN_V3_BlackDuckScan\02_Avalonia\SciChartLibraries\SciChart.Charting.dll</HintPath>
-    </Reference>
-    <Reference Include="SciChart.Core">
-      <HintPath>..\..\..\ADIN_V3_BlackDuckScan\02_Avalonia\SciChartLibraries\SciChart.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="SciChart.Data">
-      <HintPath>..\..\..\ADIN_V3_BlackDuckScan\02_Avalonia\SciChartLibraries\SciChart.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="SciChart.Drawing">
-      <HintPath>..\..\..\ADIN_V3_BlackDuckScan\02_Avalonia\SciChartLibraries\SciChart.Drawing.dll</HintPath>
-    </Reference>
+    <AvaloniaXaml Update="Views\LinkPropertiesFiberView.axaml">
+      <SubType>Designer</SubType>
+    </AvaloniaXaml>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\LinkPropertiesMedConvView.axaml.cs">
+      <DependentUpon>LinkPropertiesMedConvView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\LinkPropertiesFiberView.axaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>LinkPropertiesFiberView.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
