@@ -5,23 +5,12 @@
              mc:Ignorable="d" d:DesignWidth="210" d:DesignHeight="300"
              x:Class="ADIN.Avalonia.Views.DeviceListingView"
 			 x:CompileBindings="False">
-	<Border BorderThickness="1" BorderBrush="#b7bbc3">
-		<StackPanel Background="White">
-			
+	<Border BorderThickness="1" BorderBrush="{DynamicResource layout-divider}">
+		<StackPanel Background="{DynamicResource layout-container}">
 			<TextBlock Text="Local Devices" Margin="16 16 0 0" Classes="subtitle m"/>
-			<!--<ListBox ItemsSource="{Binding DeviceListingItemViewModels}">
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<StackPanel>
-							<TextBlock Text="{Binding DeviceHeader}" Classes="body m"/>
-							<TextBlock Text="{Binding Name}" Classes="body s"/>
-						</StackPanel>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>-->
 			<HmcCard Margin="16" Height="190" Padding="0 6">
 				<ScrollViewer VerticalScrollBarVisibility="Hidden">
-					<ListBox Background="White" ItemsSource="{Binding DeviceListingItemViewModels}" SelectedItem="{Binding SelectedDeviceListingItemViewModel}">
+					<ListBox Background="Transparent" ItemsSource="{Binding DeviceListingItemViewModels}" SelectedItem="{Binding SelectedDeviceListingItemViewModel}">
 						<ListBox.ItemTemplate>
 							<DataTemplate>
 								<Border>

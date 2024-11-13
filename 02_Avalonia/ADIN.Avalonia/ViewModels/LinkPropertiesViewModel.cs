@@ -822,13 +822,14 @@ namespace ADIN.Avalonia.ViewModels
 
         private async void LoadChanges()
         {
-            HasLoadedValues = false;
-            await Task.Run(() => _selectedDeviceStore.OnLoadingStatusChanged(this, true));
+            await Task.Run(() => _selectedDeviceStore.OnLoadingStatusChanged(this, true, "Loading values..."));
             await Task.Run(() => UpdateValues());
         }
 
         private void UpdateValues()
         {
+            HasLoadedValues = false;
+
             IValueUpdate fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IValueUpdate;
 
             if (IsGigabitBoard)
@@ -950,7 +951,7 @@ namespace ADIN.Avalonia.ViewModels
                 OnPropertyChanged(nameof(HasActivePhyMode));
                 OnPropertyChanged(nameof(ActivePhyMode));
 
-                _selectedDeviceStore.OnLoadingStatusChanged(this, false);
+                _selectedDeviceStore.OnLoadingStatusChanged(this, false, "Values loaded");
                 HasLoadedValues = true;
             }
         }

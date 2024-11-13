@@ -34,7 +34,7 @@ namespace ADIN.Avalonia.Stores
 
         public event Action<List<string>> GigabitCableDiagCompleted;
 
-        public event Action<bool> LoadingStatusChanged;
+        public event Action<bool, string> LoadingStatusChanged;
 
         public event Action<EthPhyState> LinkStatusChanged;
 
@@ -110,19 +110,19 @@ namespace ADIN.Avalonia.Stores
             LinkStatusChanged?.Invoke(linkStatus);
         }
 
-        public void OnLoadingStatusChanged(ViewModelBase viewModel, bool isLoading)
+        public void OnLoadingStatusChanged(ViewModelBase viewModel, bool isLoading, string loadingString)
         {
             if (isLoading)
             {
                 _loadingViewModels.Add(viewModel);
                 if (_loadingViewModels.Count == 1)
-                    LoadingStatusChanged?.Invoke(true);
+                    LoadingStatusChanged?.Invoke(true, loadingString);
             }
             else
             {
                 _loadingViewModels.Remove(viewModel);
                 if (_loadingViewModels.Count == 0)
-                    LoadingStatusChanged?.Invoke(false);
+                    LoadingStatusChanged?.Invoke(false, loadingString);
             }
         }
 

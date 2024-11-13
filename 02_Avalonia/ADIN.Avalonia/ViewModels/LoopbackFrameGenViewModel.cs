@@ -413,7 +413,7 @@ namespace ADIN.Avalonia.ViewModels
         private async void LoadChanges()
         {
             HasLoadedValues = false;
-            await Task.Run(() => _selectedDeviceStore.OnLoadingStatusChanged(this, true));
+            await Task.Run(() => _selectedDeviceStore.OnLoadingStatusChanged(this, true, "Loading values..."));
             await Task.Run(() => UpdateValues());
         }
 
@@ -458,6 +458,8 @@ namespace ADIN.Avalonia.ViewModels
             OnPropertyChanged(nameof(HasActivePhyMode));
             OnPropertyChanged(nameof(ActivePhyMode));
             OnPropertyChanged(nameof(Loopbacks));
+
+            _selectedDeviceStore.OnLoadingStatusChanged(this, false, "Values loaded");
         }
     }
 }

@@ -11,8 +11,11 @@ using ADIN.Helper.Feedback;
 using ADIN.Helper.FileToLoad;
 using ADIN.Helper.SaveToFile;
 using ADIN.Register.Models;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -50,11 +53,11 @@ namespace ADIN.Avalonia.Commands
             switch (typeAction)
             {
                 case RegisterActionType.Load:
-                    //LoadXmlFile();
+                    LoadXmlFile();
                     break;
 
                 case RegisterActionType.Save:
-                    //SaveXmlFile();
+                    SaveXmlFile();
                     break;
 
                 default:
@@ -62,139 +65,124 @@ namespace ADIN.Avalonia.Commands
             }
         }
 
-        //        private void _selectedDeviceStore_SelectedDeviceChanged()
-        //        {
-        //            OnCanExecuteChanged();
-        //        }
-        //        private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //        {
-        //            OnCanExecuteChanged();
-        //        }
+        private void _selectedDeviceStore_SelectedDeviceChanged()
+        {
+            OnCanExecuteChanged();
+        }
+        private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            OnCanExecuteChanged();
+        }
 
-        //        private async Task<string> OpenXmlFileAsync(Window window)
-        //        {
-        //            var files = await window.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
-        //            {
-        //                Title = "Open XML File",
-        //                FileTypeFilter = new List<FilePickerFileType>
-        //                {
-        //                    new FilePickerFileType("XML Files")
-        //                    {
-        //                        Patterns = new[] { "*.xml" }
-        //                    }
-        //                },
-        //                AllowMultiple = false
-        //            });
+        private async void LoadXmlFile()
+        {
+            XmlFileLoader loader = new XmlFileLoader();
+            var currentPath = Environment.CurrentDirectory;
+            var lifetime = Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+            var window = lifetime?.MainWindow;
+            var currentFolder = await window.StorageProvider.TryGetFolderFromPathAsync(currentPath);
 
-        //            if (files.Count > 0)
-        //            {
-        //                return files[0].Path.LocalPath;
-        //            }
 
-        //            return null;
-        //        }
+            var openFileOptions = new FilePickerOpenOptions
+            {
+                Title = "Open File",
+                SuggestedStartLocation = currentFolder,
+                FileTypeFilter = new List<FilePickerFileType>
+                {
+                    new FilePickerFileType("Text Files") { Patterns = new[] { "*.xml" } },
+                    new FilePickerFileType("All Files") { Patterns = new[] { "*" } }
+                }
+            };
 
-        //        private void LoadXmlFile()
-        //        {
-        //            XmlFileLoader loader = new XmlFileLoader();
-        //            ObservableCollection<RegisterModel> register_temp = new ObservableCollection<RegisterModel>();
+            var file = await window.StorageProvider.OpenFilePickerAsync(openFileOptions);
+            if (file == null)
+                return;
 
-        //            //var ofd = new Microsoft.Win32.OpenFileDialog() { Filter = "XML Files (*.xml)|*.xml" };
-        //            //var ofdResult = ofd.ShowDialog();
+            ObservableCollection<RegisterModel> register_temp = new ObservableCollection<RegisterModel>();
 
-        //            //if (ofdResult == false)
-        //            //    return;
+            _viewModel.IsLoadingRegisters = true;
+            _selectedDeviceStore.OnLoadingStatusChanged(_viewModel, true, "Loading registers...");
+            try
+            {
+                register_temp = loader.XmlFileLoadContent(file[0].Name);
 
-        //            //FindControl<Button>("OpenFileButton").Click += async (sender, e) => await ShowOpenFileDialog(this);
+                await Task.Run(() =>
+                {
+                    foreach (var register in register_temp)
+                    {
+                        string response = string.Empty;
 
-        //            _viewModel.IsLoadingRegisters = true;
+                        IMDIOAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as IMDIOAPI;
+                        response = fwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
 
-        //            Task.Run(() =>
-        //            {
-        //                try
-        //                {
-        //                    //_selectedDeviceStore.OnViewModelFeedbackLog($"Load Register....", FeedbackType.Verbose);
-        //                    register_temp = loader.XmlFileLoadContent(ofd.FileName);
-        //                    foreach (var register in register_temp)
-        //                    {
-        //                        string response = string.Empty;
-        //#if !DISABLE_T1L
-        //                        if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1100FirmwareAPI)
-        //                        {
-        //                            ADIN1100FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1100FirmwareAPI;
-        //                            response = fwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
-        //                        }
-        //#endif
-        //#if !DISABLE_TSN
-        //                        if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1200FirmwareAPI)
-        //                        {
-        //                            ADIN1200FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1200FirmwareAPI;
-        //                            response = fwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
-        //                        }
-        //                        else if (_selectedDeviceStore.SelectedDevice.FwAPI is ADIN1300FirmwareAPI)
-        //                        {
-        //                            ADIN1300FirmwareAPI fwAPI = _selectedDeviceStore.SelectedDevice.FwAPI as ADIN1300FirmwareAPI;
-        //                            response = fwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
-        //                        }
-        //                        else { } //Do nothing
-        //#endif
-        //                        //var response = _selectedDevice.FwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
-        //                        if (!response.Contains("OK"))
-        //                        {
-        //                            _selectedDeviceStore.OnViewModelErrorOccured($"[Load Register] Error in writing the register[{register.Name}]");
-        //                            continue;
-        //                        }
-        //                        _selectedDeviceStore.OnViewModelFeedbackLog($"Loading the register: {register.Name}, value: {register.Value}", FeedbackType.Verbose);
-        //                    }
+                        //var response = _selectedDevice.FwAPI.RegisterWrite(register.Address, Convert.ToUInt32(register.Value, 16));
+                        if (!response.Contains("OK"))
+                        {
+                            _selectedDeviceStore.OnViewModelErrorOccured($"[Load Register] Error in writing the register[{register.Name}]");
+                            continue;
+                        }
+                        _selectedDeviceStore.OnViewModelFeedbackLog($"Loading the register: {register.Name}, value: {register.Value}", FeedbackType.Verbose);
+                    }
 
-        //                    _selectedDeviceStore.OnViewModelFeedbackLog($"Registers load from {ofd.FileName}.", FeedbackType.Verbose);
-        //                }
-        //                catch (InvalidOperationException ex)
-        //                {
-        //                    _selectedDeviceStore.OnViewModelErrorOccured("[Load Registers] Invalid operation occurred while attempting to load the XML");
-        //                    throw;
-        //                }
+                    _selectedDeviceStore.OnViewModelFeedbackLog($"Registers load from {file[0].Name}.", FeedbackType.Verbose);
+                });
+            }
+            catch (InvalidOperationException ex)
+            {
+                _selectedDeviceStore.OnViewModelErrorOccured("[Load Registers] Invalid operation occurred while attempting to load the XML");
+                throw;
+            }
 
-        //                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-        //                {
-        //                    _viewModel.IsLoadingRegisters = false;
-        //                }));
-        //            });
-        //        }
+            _viewModel.IsLoadingRegisters = false;
+            _selectedDeviceStore.OnLoadingStatusChanged(_viewModel, false, "Registers loaded");
+        }
 
-        //        private void SaveXmlFile()
-        //        {
-        //            AbstractFileWriter writer = new XmlFileWriter();
+        private async void SaveXmlFile()
+        {
+            AbstractFileWriter writer = new XmlFileWriter();
+            var currentPath = Environment.CurrentDirectory;
+            var lifetime = Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+            var window = lifetime?.MainWindow;
+            var currentFolder = await window.StorageProvider.TryGetFolderFromPathAsync(currentPath);
 
-        //            var sfd = new Microsoft.Win32.SaveFileDialog() { Filter = "XML Files (*.xml)|*.xml" };
-        //            var sfdResult = sfd.ShowDialog();
+            var saveFileOptions = new FilePickerSaveOptions
+            {
+                Title = "Save File",
+                SuggestedStartLocation = currentFolder,
+                FileTypeChoices = new List<FilePickerFileType>
+                {
+                    new FilePickerFileType("Text Files") { Patterns = new[] { "*.xml" } },
+                    new FilePickerFileType("All Files") { Patterns = new[] { "*" } }
+                }
+            };
 
-        //            if (sfdResult == false)
-        //                return;
+            var file = await window.StorageProvider.SaveFilePickerAsync(saveFileOptions);
+            if (file == null)
+                return;
 
-        //            _viewModel.IsSavingRegisters = true;
+            _viewModel.IsSavingRegisters = true;
+            _selectedDeviceStore.OnViewModelFeedbackLog($"Refreshing register contents before saving to {file.Path.LocalPath}");
+            _selectedDeviceStore.OnLoadingStatusChanged(_viewModel, true, "Saving registers...");
 
-        //            Task.Run(() =>
-        //            {
-        //                _selectedDeviceStore.OnViewModelFeedbackLog($"Refreshing register contents before saving to {sfd.FileName}");
-        //                var registers = _selectedDevice.FwAPI.ReadRegsiters();
-        //                _selectedDeviceStore.OnViewModelFeedbackLog($"Refreshing register contents done.");
+            ObservableCollection<RegisterModel> registers = new ObservableCollection<RegisterModel>();
+            await Task.Run(() =>
+            {
+                registers = _selectedDeviceStore.SelectedDevice.FwAPI.ReadRegsiters();
+            });
+            _selectedDeviceStore.OnViewModelFeedbackLog($"Refreshing register contents done.");
 
-        //                try
-        //                {
-        //                    writer.WriteContent(sfd.FileName, registers);
-        //                    _selectedDeviceStore.OnViewModelFeedbackLog($"Registers saved to {sfd.FileName}");
-        //                }
-        //                catch (InvalidOperationException ex)
-        //                {
-        //                    _selectedDeviceStore.OnViewModelErrorOccured("[Save Registers] Invalid operation occurred while attempting to save the XML");
-        //                }
-
-        //                Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-        //                {
-        //                    _viewModel.IsSavingRegisters = false;
-        //                }));
-        //            });
-        //        }
+            try
+            {
+                writer.WriteContent(file.Path.LocalPath, registers);
+                _selectedDeviceStore.OnViewModelFeedbackLog($"Registers saved to {file.Path.LocalPath}");
+            }
+            catch (InvalidOperationException ex)
+            {
+                _selectedDeviceStore.OnViewModelErrorOccured("[Save Registers] Invalid operation occurred while attempting to save the XML");
+            }
+            
+            _viewModel.IsSavingRegisters = false;
+            _selectedDeviceStore.OnLoadingStatusChanged(_viewModel, false, "Registers saved");
+        }
     }
 }

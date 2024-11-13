@@ -2,15 +2,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:converter="using:ADIN.Avalonia.Converters"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="ADIN.Avalonia.Views.LogActivityView"
 			 x:CompileBindings="False">
-	<Border BorderThickness="1" BorderBrush="#b7bbc3" Background="White">
+	<UserControl.Resources>
+		<converter:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+	</UserControl.Resources>
+	<Border BorderThickness="1" BorderBrush="{DynamicResource layout-divider}" Background="{DynamicResource layout-container}">
 		<DockPanel Margin="16 12 16 16">
-			<Border DockPanel.Dock="Top" BorderBrush="#b7bbc3" BorderThickness="0 0 0 1">
+			<Border DockPanel.Dock="Top" BorderBrush="{DynamicResource layout-divider}" BorderThickness="0 0 0 1">
 				<TextBlock Text="Activity Log" Classes="subtitle m"/>
 			</Border>
-			<ListBox Background="White" ItemsSource="{Binding LogMessages}" BorderThickness="0">
+			<ListBox Background="{DynamicResource layout-container}" ItemsSource="{Binding LogMessages}" BorderThickness="0">
 				<ListBox.ContextMenu>
 					<ContextMenu>
 						<MenuItem Command="{Binding LogWindowClearCommand}" Header="Clear"/>
@@ -19,10 +23,11 @@
 				</ListBox.ContextMenu>
 				<ListBox.ItemTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}" Margin="-5"/>
+						<TextBlock Text="{Binding}" Foreground="{Binding Path=Text, RelativeSource={RelativeSource Self},Converter={StaticResource ColorToBrushConverter}}" Margin="-5" TextWrapping="Wrap"/>
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>
 		</DockPanel>
 	</Border>
+	
 </UserControl>

@@ -20,13 +20,15 @@
 					<TextBlock Text="{Binding ActivePhyMode}" Classes="title xs"/>
 				</HmcCard>
 			</Grid>
-			<HmcCard Margin="8" MinHeight="200" IsEnabled="{Binding IsDeviceSelected}">
-				<Grid ColumnDefinitions="*" RowDefinitions="*">
-					<Image Source="{Binding ImagePath}"/>
-					<Image Source="{Binding ImagePath_TxSuppression}" IsVisible="{Binding IsTxSuppression}"/>
-					<Image Source="{Binding ImagePath_RxSuppression}" IsVisible="{Binding IsRxSuppression}"/>
-				</Grid>
-			</HmcCard>
+			<ThemeVariantScope RequestedThemeVariant="Light">
+				<HmcCard Margin="8" MinHeight="200" IsEnabled="{Binding IsDeviceSelected}">
+					<Grid ColumnDefinitions="*" RowDefinitions="*">
+						<Image Source="{Binding ImagePath}"/>
+						<Image Source="{Binding ImagePath_TxSuppression}" IsVisible="{Binding IsTxSuppression}"/>
+						<Image Source="{Binding ImagePath_RxSuppression}" IsVisible="{Binding IsRxSuppression}"/>
+					</Grid>
+				</HmcCard>
+			</ThemeVariantScope>
 			<HmcCard Margin="8" Density="High" Header="Frame Generator" IsEnabled="{Binding IsDeviceSelected}">
 				<Grid ColumnDefinitions="*,24,Auto">
 					<Grid Grid.Column="0" ColumnDefinitions="*,Auto" RowDefinitions="Auto,8,Auto,Auto,Auto,Auto">

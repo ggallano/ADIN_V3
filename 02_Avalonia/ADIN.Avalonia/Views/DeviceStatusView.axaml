@@ -2,9 +2,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:converter="using:ADIN.Avalonia.Converters"
              mc:Ignorable="d" d:DesignWidth="540" d:DesignHeight="800"
              x:Class="ADIN.Avalonia.Views.DeviceStatusView"
 			 x:CompileBindings="False">
+	<UserControl.Resources>
+		<converter:LinkStateForegroundConverter x:Key="LinkStateForegroundConverter"/>
+	</UserControl.Resources>
 	<StackPanel Margin="8">
 		<Grid ColumnDefinitions="*,*">
 			<HmcCard Grid.Column="0" Density="High" Margin="8">
@@ -16,7 +20,7 @@
 					<TextBlock Grid.Column="0" Grid.Row="1" Text="Device Type" Classes="body xs"/>
 					<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding PhyAddress}" Classes="subtitle m"/>
 					<TextBlock Grid.Column="1" Grid.Row="1" Text="Phy Address" Classes="body xs"/>
-					<TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding LinkStatus}" Classes="subtitle m"/>
+					<TextBlock Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Text="{Binding LinkStatus}" Classes="subtitle m" Foreground="{Binding RelativeSource={RelativeSource Self}, Path=Text, Converter={StaticResource LinkStateForegroundConverter}}"/>
 					<TextBlock Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Text="Link Status" Classes="body xs"/>
 				</Grid>
 			</HmcCard>
@@ -43,7 +47,7 @@
 		</Grid>
 		<Grid ColumnDefinitions="*,*" IsVisible="{Binding IsCopperMedia}">
 			<HmcCard Grid.Column="0" Density="High" Header="Autoneg Advertisement" Margin="8">
-				<ListBox ItemsSource="{Binding LocalAdvertisedSpeeds}" Background="White" Margin="0" Padding="0" IsHitTestVisible="False">
+				<ListBox ItemsSource="{Binding LocalAdvertisedSpeeds}" Background="Transparent" Margin="0" Padding="0" IsHitTestVisible="False">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding}" Classes="body m" Margin="-8" Padding="0"/>
@@ -52,7 +56,7 @@
 				</ListBox>
 			</HmcCard>
 			<HmcCard Grid.Column="1" Density="High" Header="Autoneg Link Partner" Margin="8">
-				<ListBox ItemsSource="{Binding RemoteAdvertisedSpeeds}" Background="White" Margin="0" Padding="0" IsHitTestVisible="False">
+				<ListBox ItemsSource="{Binding RemoteAdvertisedSpeeds}" Background="Transparent" Margin="0" Padding="0" IsHitTestVisible="False">
 					<ListBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding}" Classes="body m" Margin="-8" Padding="0"/>

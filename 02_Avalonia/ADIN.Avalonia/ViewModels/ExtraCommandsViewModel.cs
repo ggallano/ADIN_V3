@@ -6,6 +6,8 @@
 using ADIN.Avalonia.Commands;
 using ADIN.Avalonia.Stores;
 using ADIN.Device.Models;
+using Avalonia;
+using Avalonia.Styling;
 using Avalonia.Threading;
 using FTDIChip.Driver.Services;
 using System.Collections.ObjectModel;
@@ -36,14 +38,17 @@ namespace ADIN.Avalonia.ViewModels
             SubSysResetCommand = new ResetCommand(this, selectedDeviceStore);
             SubSysPinResetCommand = new ResetCommand(this, selectedDeviceStore);
             PhyResetCommand = new ResetCommand(this, selectedDeviceStore);
-            //RegisterActionCommand = new RegisterActionCommand(this, selectedDeviceStore);
+            RegisterActionCommand = new RegisterActionCommand(this, selectedDeviceStore);
 
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.SoftwarePowerDownChanged += _selectedDeviceStore_PowerDownStateStatusChanged;
             _selectedDeviceStore.LinkStatusChanged += _selectedDeviceStore_LinkStateStatusChanged;
             _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
-            _navigationStore.CurrentViewModelChanged += _navigationStore_CurrentViewModelChanged; 
+            _navigationStore.CurrentViewModelChanged += _navigationStore_CurrentViewModelChanged;
         }
+
+        public bool IsDarkTheme => Application.Current.RequestedThemeVariant == ThemeVariant.Dark;
+        public bool IsLightTheme => !IsDarkTheme;
 
         public IPhyMode _phyMode => _selectedDeviceStore.SelectedDevice?.PhyMode;
 

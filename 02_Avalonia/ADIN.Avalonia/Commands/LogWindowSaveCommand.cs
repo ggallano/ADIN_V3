@@ -3,9 +3,18 @@
 //     This software is proprietary and confidential to Analog Devices Inc. and its licensors.
 // </copyright>
 
+using ADIN.Avalonia.Services;
 using ADIN.Avalonia.Stores;
 using ADIN.Avalonia.ViewModels;
+using ADIN.Helper.Feedback;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Data;
+using Avalonia.Metadata;
+using Avalonia.Platform.Storage;
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace ADIN.Avalonia.Commands
 {
@@ -20,36 +29,51 @@ namespace ADIN.Avalonia.Commands
             _selectedDeviceStore = selectedDeviceStore;
         }
 
-        public override void Execute(object parameter)
+        public override async void Execute(object parameter)
         {
             DateTime timeNow = DateTime.Now;
-            string filePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "ActivityLog_" + timeNow.ToLongDateString() + "_" + timeNow.Hour + "_ " + timeNow.Minute + "_" + timeNow.Second);
+            string fileName = "ActivityLog_" + timeNow.ToLongDateString() + "_" + timeNow.Hour + "_ " + timeNow.Minute + "_" + timeNow.Second;
 
-            //SaveFileDialog saveFileDialog = new SaveFileDialog { Filters = "LOG | *.log", FileName = filePath, InitialDirectory = System.IO.Directory.GetCurrentDirectory() };
-            //if (saveFileDialog.ShowDialog() != true)
-            //{
-            //    _selectedDeviceStore.OnViewModelErrorOccured("Activity log NOT saved", FeedbackType.Verbose);
-            //    return;
-            //}
+            var currentPath = Environment.CurrentDirectory;
+            var lifetime = Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+            var window = lifetime?.MainWindow;
+            var currentFolder = await window.StorageProvider.TryGetFolderFromPathAsync(currentPath);
 
-            //try
-            //{
-            //    filePath = saveFileDialog.FileName;
-            //    using (System.IO.StreamWriter file =
-            //    new System.IO.StreamWriter(filePath, false))
-            //    {
-            //        foreach (string line in _viewModel.LogMessages)
-            //        {
-            //            file.WriteLine(line);
-            //        }
-            //    }
+            var saveFileOptions = new FilePickerSaveOptions
+            {
+                Title = "Save File",
+                SuggestedFileName = fileName,
+                SuggestedStartLocation = currentFolder,
+                FileTypeChoices = new List<FilePickerFileType>
+                {
+                    new FilePickerFileType("Text Files") { Patterns = new[] { "*.log" } },
+                    new FilePickerFileType("All Files") { Patterns = new[] { "*" } }
+                }
+            };
 
-            //    _selectedDeviceStore.OnViewModelErrorOccured($"Activity log saved to {filePath}", FeedbackType.Verbose);
-            //}
-            //catch (System.IO.IOException e)
-            //{
-            //    _selectedDeviceStore.OnViewModelErrorOccured($"Activity log NOT saved to {filePath} due to {e.Message}", FeedbackType.Error);
-            //}
+            var file = await window.StorageProvider.SaveFilePickerAsync(saveFileOptions);
+            if (file == null)
+            {
+                _selectedDeviceStore.OnViewModelErrorOccured("Activity log NOT saved", FeedbackType.Error);
+                return;
+            }
+            
+            try
+            {
+                await using var stream = await file.OpenWriteAsync();
+                using var writer = new StreamWriter(stream);
+
+                foreach (string logMessage in _viewModel.LogMessages)
+                {
+                    await writer.WriteLineAsync(logMessage);
+                }
+
+                _selectedDeviceStore.OnViewModelErrorOccured($"Activity log saved at {file.Path.LocalPath}", FeedbackType.Verbose);
+            }
+            catch (IOException e)
+            {
+                _selectedDeviceStore.OnViewModelErrorOccured($"Activity log NOT saved at {file.Path.LocalPath} due to {e.Message}", FeedbackType.Error);
+            }
         }
     }
 }

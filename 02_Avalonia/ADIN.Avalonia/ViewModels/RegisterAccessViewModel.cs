@@ -5,6 +5,8 @@
 
 using ADIN.Avalonia.Commands;
 using ADIN.Avalonia.Stores;
+using Avalonia;
+using Avalonia.Styling;
 using Avalonia.Threading;
 using System.Windows.Input;
 
@@ -31,6 +33,9 @@ namespace ADIN.Avalonia.ViewModels
             _selectedDeviceStore.SelectedDeviceChanged += _selectedDeviceStore_SelectedDeviceChanged;
             _selectedDeviceStore.OnGoingCalibrationStatusChanged += _selectedDeviceStore_OnGoingCalibrationStatusChanged;
         }
+
+        public bool IsDarkTheme => Application.Current.RequestedThemeVariant == ThemeVariant.Dark;
+        public bool IsLightTheme => !IsDarkTheme;
 
         public bool IsEnable
         {

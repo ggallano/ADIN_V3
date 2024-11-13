@@ -2,24 +2,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:enum="using:ADIN.Device.Models"
              mc:Ignorable="d" d:DesignWidth="210" d:DesignHeight="450"
              x:Class="ADIN.Avalonia.Views.ExtraCommandsView"
 			 x:CompileBindings="False">
-	<Border Background="White" BorderThickness="1" BorderBrush="#b7bbc3">
-		<StackPanel Background="White" Margin="8">
-			<!--<TextBlock Text="Device Control" Classes="subtitle m" Margin="8"/>-->
-			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="{Binding PowerDownStatus, Mode=TwoWay}" Command="{Binding SoftwarePowerDownCommand}"/>
-			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="{Binding LinkStatus}" Command="{Binding DisableLinkCommand}"/>
-			<HmcButton Classes="extraCommandsSec" Kind="secondary" Content="Restart Linking" Command="{Binding AutoNegCommand}"/>
-			<HmcButton Classes="extraCommandsPri" Kind="primary" Content="Reset: Subsys (Pin)" Command="{Binding SubSysPinResetCommand}"/>
-			<HmcButton Classes="extraCommandsPri" Kind="primary" Content="Reset: Subsys" Command="{Binding SubSysResetCommand}"/>
-			<HmcButton Classes="extraCommandsPri" Kind="primary" Content="Reset: PHY" Command="{Binding PhyResetCommand}"/>
-			<TextBlock Text="Save/Load Registers" Classes="body s" IsVisible="{Binding ShowSaveLoad}" Margin="8 24 8 8"/>
-			<HmcButton Classes="extraCommandsSec" Kind="secondary" IsVisible="{Binding ShowSaveLoad}" Content="Save Registers"/>
-			<HmcButton Classes="extraCommandsSec" Kind="secondary" IsVisible="{Binding ShowSaveLoad}" Content="Load Registers"/>
-			
-			<HmcComboBox Size="sm" Label="Active Phy Mode" ItemsSource="{Binding PhyModes}" SelectedItem="{Binding ActivePhyMode}" IsRequired="True" Margin="8 24 8 8"/>
-			
-		</StackPanel>
-	</Border>
+	<Grid>
+		<ThemeVariantScope RequestedThemeVariant="Dark" IsVisible="{Binding IsDarkTheme}">
+			<Border Background="{StaticResource layout-container}" BorderThickness="1" BorderBrush="{StaticResource layout-divider}">
+				<StackPanel Background="{StaticResource layout-container}" Margin="8">
+					<!--<TextBlock Text="Device Control" Classes="subtitle m" Margin="8"/>-->
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="secondary" Content="{Binding PowerDownStatus, Mode=TwoWay}" Command="{Binding SoftwarePowerDownCommand}"/>
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="secondary" Content="{Binding LinkStatus}" Command="{Binding DisableLinkCommand}"/>
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="secondary" Content="Restart Linking" Command="{Binding AutoNegCommand}"/>
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="primary" Content="Reset: Subsys (Pin)" Command="{Binding SubSysPinResetCommand}"/>
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="primary" Content="Reset: Subsys" Command="{Binding SubSysResetCommand}"/>
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="primary" Content="Reset: PHY" Command="{Binding PhyResetCommand}"/>
+					<TextBlock Text="Save/Load Registers" Classes="body s" IsVisible="{Binding ShowSaveLoad}" Margin="8 24 8 8"/>
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="secondary" IsVisible="{Binding ShowSaveLoad}" Content="Save Registers" Command="{Binding RegisterActionCommand}" CommandParameter="{x:Static enum:RegisterActionType.Save}"/>
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="secondary" IsVisible="{Binding ShowSaveLoad}" Content="Load Registers" Command="{Binding RegisterActionCommand}" CommandParameter="{x:Static enum:RegisterActionType.Load}"/>
+					<HmcComboBox Size="sm" Label="Active Phy Mode" ItemsSource="{Binding PhyModes}" SelectedItem="{Binding ActivePhyMode}" IsRequired="True" Margin="8 24 8 8"/>
+				</StackPanel>
+			</Border>
+		</ThemeVariantScope>
+		<ThemeVariantScope IsVisible="{Binding IsLightTheme}">
+			<Border Background="{StaticResource layout-container}" BorderThickness="1" BorderBrush="{StaticResource layout-divider}">
+				<StackPanel Background="{StaticResource layout-container}" Margin="8">
+					<!--<TextBlock Text="Device Control" Classes="subtitle m" Margin="8"/>-->
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="secondary" Content="{Binding PowerDownStatus, Mode=TwoWay}" Command="{Binding SoftwarePowerDownCommand}"/>
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="secondary" Content="{Binding LinkStatus}" Command="{Binding DisableLinkCommand}"/>
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="secondary" Content="Restart Linking" Command="{Binding AutoNegCommand}"/>
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="primary" Content="Reset: Subsys (Pin)" Command="{Binding SubSysPinResetCommand}"/>
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="primary" Content="Reset: Subsys" Command="{Binding SubSysResetCommand}"/>
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="primary" Content="Reset: PHY" Command="{Binding PhyResetCommand}"/>
+					<TextBlock Text="Save/Load Registers" Classes="body s" IsVisible="{Binding ShowSaveLoad}" Margin="8 24 8 8"/>
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="secondary" IsVisible="{Binding ShowSaveLoad}" Content="Save Registers" Command="{Binding RegisterActionCommand}" CommandParameter="{x:Static enum:RegisterActionType.Save}"/>
+					<HmcButton Width="176" Size="xs" Margin="8" Kind="secondary" IsVisible="{Binding ShowSaveLoad}" Content="Load Registers" Command="{Binding RegisterActionCommand}" CommandParameter="{x:Static enum:RegisterActionType.Load}"/>
+					<HmcComboBox Size="sm" Label="Active Phy Mode" ItemsSource="{Binding PhyModes}" SelectedItem="{Binding ActivePhyMode}" IsRequired="True" Margin="8 24 8 8"/>
+				</StackPanel>
+			</Border>
+		</ThemeVariantScope>
+	</Grid>
 </UserControl>

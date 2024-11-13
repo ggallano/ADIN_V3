@@ -10,6 +10,7 @@ using ADIN.Register.Services;
 using ADIN.Device.Services;
 using FTDIChip.Driver.Services;
 using ADIN.Avalonia.Services;
+using Avalonia.Styling;
 
 namespace ADIN.Avalonia;
 
@@ -45,7 +46,8 @@ public partial class App : Application
             // Line below is needed to remove Avalonia data validation.
             // Without this line you will get duplicate validations from both Avalonia and CT
             BindingPlugins.DataValidators.RemoveAt(0);
-            desktop.MainWindow = new MainWindow
+            RequestedThemeVariant = ThemeVariant.Dark;
+            desktop.MainWindow = new MainWindow()
             {
                 DataContext = new MainWindowViewModel(_selectedDeviceStore, _ftdiService, _navigationStore, _registerService, _scriptService, _applicationConfigService, _mainLock),
             };

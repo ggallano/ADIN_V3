@@ -14,7 +14,9 @@ using ADIN.Register.Services;
 using AnalogDevices.Desktop.Harmonic.Controls;
 using AnalogDevices.Desktop.Harmonic.Extensions;
 using AnalogDevices.Desktop.Harmonic.Windows;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Styling;
 using Avalonia.Threading;
 using FTDIChip.Driver.Services;
 using Newtonsoft.Json.Linq;
@@ -61,6 +63,8 @@ public class MainWindowViewModel : ViewModelBase
         _selectedDeviceStore.PhyModeChanged += UpdateViewViewModel;
         _selectedDeviceStore.LoadingStatusChanged += UpdateLoadingStatus;
     }
+
+    public ThemeVariant CurrentTheme => Application.Current.RequestedThemeVariant;
 
     public object CurrentView
     {
@@ -157,10 +161,13 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     public bool IsLoading { get; set; }
+    public string LoadingString { get; set; }
 
-    private void UpdateLoadingStatus(bool isLoading)
+    private void UpdateLoadingStatus(bool isLoading, string loadingString)
     {
         IsLoading = isLoading;
+        LoadingString = loadingString;
         OnPropertyChanged(nameof(IsLoading));
+        OnPropertyChanged(nameof(LoadingString));
     }
 }

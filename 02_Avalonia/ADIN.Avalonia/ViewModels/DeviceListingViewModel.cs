@@ -19,6 +19,8 @@ using System.Linq;
 using System.Management;
 using System.Windows.Input;
 using ADIN.Avalonia.Services;
+using Avalonia.Styling;
+using Avalonia;
 
 namespace ADIN.Avalonia.ViewModels
 {
